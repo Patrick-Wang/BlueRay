@@ -18,8 +18,7 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="app.css" />
-    <Content Include="index.html" />
+    <Content Include="cycle.js" />
     <Content Include="jqgrid\jqassist.js" />
     <Content Include="jqgrid\js\i18n\grid.locale-cn.js" />
     <Content Include="jqgrid\js\i18n\grid.locale-en.js" />
@@ -74,13 +73,16 @@
     <Content Include="jqgrid\themes\ui.jqgrid.css" />
     <Content Include="jqgrid\themes\ui.multiselect.css" />
     <Content Include="jqgrid\vector.js" />
+    <Content Include="json.js" />
+    <Content Include="json2.js" />
+    <Content Include="json_parse.js" />
+    <Content Include="json_parse_state.js" />
     <Content Include="web.config" />
     <Content Include="www2\echart.js" />
     <Content Include="www2\js\echarts-plain-2-0-0.js" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="app.ts" />
-    <TypeScriptCompile Include="cqk.ts" />
+    <TypeScriptCompile Include="sale.ts" />
     <TypeScriptCompile Include="jqgrid\jqassist.ts" />
     <TypeScriptCompile Include="jqgrid\vector.ts" />
     <TypeScriptCompile Include="util.ts" />
@@ -88,7 +90,7 @@
   <ItemGroup>
     <Content Include="jqgrid\jqassist.js.map" />
     <Content Include="jqgrid\vector.js.map" />
-    <Content Include="cqk.html" />
+    <Content Include="sale.html" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

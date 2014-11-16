@@ -3,10 +3,11 @@
 //
 
 #pragma once
-#include "UILib/BSButton.h"
+#include "BPButton.h"
 #include "UILib/BSStatic.h"
 #include "webview.h"
 #include "afxwin.h"
+#include "JSExecutor.h"
 // CBlueDlg dialog
 class CBlueDlg : public CDialogEx, public IJSMediator::IJSFunction
 {
@@ -31,33 +32,37 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
+
 	DECLARE_MESSAGE_MAP()
-	void CreatePageButton(CBSButton& pb, UINT id, int n, LPCTSTR text);
+	void CreatePageButton(CBPButton& pb, UINT id, int n, LPCTSTR text);
 	CBSStatic m_bsVersion;
 	CBSStatic m_bsDate;
 	CBSStatic m_bsPersion;
 	CBSStatic m_bsIcon;
-	CBSButton m_bsSalePage;
-	CBSButton m_bsPlanPage;
-	CBSButton m_bsProductionScanPage;
-	CBSButton m_bsNotification;
-	CBSButton m_bsProductionDataAnalyst;
-	CBSButton m_bsSettingPage;
+	CBPButton m_btnSalePage;
+	CBPButton m_btnPlanPage;
+	CBPButton m_btnProductionScanPage;
+	CBPButton m_btnNotification;
+	CBPButton m_btnProductionDataAnalyst;
+	CBPButton m_btnSettingPage;
 	
-	CBSButton m_bsAdd;
-	CBSButton m_bsSearch;
-	CBSButton m_bsModify;
-	CBSButton m_bsDelete;
-	CBSButton m_bsMore;
+	CBPButton m_btnAdd;
+	CBPButton m_btnSearch;
+	CBPButton m_btnModify;
+	CBPButton m_btnDelete;
+	CBPButton m_btnMore;
 	CBSStatic m_bsMoreWord;
 
 
 public:
 	CWebView m_webView;
+	std::auto_ptr<CJSExecutor> m_lpJsExector;
 	IJSMediator* m_lpJsMediator;
 	afx_msg void OnBnClickedTest();
 	afx_msg void OnBnClickedAdd();
+	afx_msg void OnBnClickedDelete();
 	afx_msg void OnBnClickedModify();
+	
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	CEdit m_editSearch;

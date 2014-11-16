@@ -8,7 +8,9 @@
 #include "afxdialogex.h"
 #include "resource_ids.h"
 #include "Util.h"
-#include "ItemDlg.h"
+#include "AddDlg.h"
+#include "SaleAddDlg.h"
+#include "colors.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -23,6 +25,7 @@ CBlueDlg::CBlueDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CBlueDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	
 }
 
 void CBlueDlg::DoDataExchange(CDataExchange* pDX)
@@ -38,6 +41,7 @@ BEGIN_MESSAGE_MAP(CBlueDlg, CDialogEx)
 	ON_BN_CLICKED(IDB_SETTINGPAGE, &CBlueDlg::OnBnClickedTest)
 	ON_BN_CLICKED(IDB_BLUE_ADD, &CBlueDlg::OnBnClickedAdd)
 	ON_BN_CLICKED(IDB_BLUE_MODIFY, &CBlueDlg::OnBnClickedModify)
+	ON_BN_CLICKED(IDB_BLUE_DELETE, &CBlueDlg::OnBnClickedDelete)
 	ON_WM_ERASEBKGND()
 	ON_WM_CREATE()
 END_MESSAGE_MAP()
@@ -46,19 +50,20 @@ END_MESSAGE_MAP()
 
 
 
-void CBlueDlg::CreatePageButton(CBSButton& pb, UINT id, int n, LPCTSTR text)
+void CBlueDlg::CreatePageButton(CBPButton& btn, UINT id, int n, LPCTSTR text)
 {
-	pb.Create(this, id);
-	pb.SetTextAlign(DT_VCENTER | DT_SINGLELINE);
-	pb.SetTextColor(enumBSBtnState::BS_NORMAL, COL_BLACK);
-	pb.SetTextColor(enumBSBtnState::BS_HOVER, COL_BLACK);
-	pb.SetTextColor(enumBSBtnState::BS_CLICK, COL_WHITE);
-	pb.SetColorInside(enumBSBtnState::BS_NORMAL, COL_WHITE);
-	pb.SetColorInside(enumBSBtnState::BS_HOVER, COL_GRAY);
-	pb.SetColorInside(enumBSBtnState::BS_CLICK, COL_DARK_GRAY);
-	pb.MoveWindow(CRect(2, 104 + 36 * n, 235, 140 + 36 * n));
-	pb.SetWindowText(text);
-	pb.SetBSFont(_T("Segoe UI"), 14, FALSE, TRUE);
+	btn.Create(this, id);
+	btn.SetTextAlign(DT_VCENTER | DT_SINGLELINE);
+	btn.SetWindowText(text);
+	btn.SetBSFont(14, FALSE, TRUE);
+	btn.EnableBorder(false);
+	btn.SetTextColor(enumBSBtnState::BS_NORMAL, COL_BLACK);
+	btn.SetTextColor(enumBSBtnState::BS_HOVER, COL_BLACK);
+	btn.SetTextColor(enumBSBtnState::BS_CLICK, COL_WHITE);
+	btn.SetColorInside(enumBSBtnState::BS_NORMAL, COL_WHITE);
+	btn.SetColorInside(enumBSBtnState::BS_HOVER, COL_GRAY);
+	btn.SetColorInside(enumBSBtnState::BS_CLICK, COL_DARK_GRAY);
+	btn.MoveWindow(CRect(2, 104 + 36 * n, 235, 140 + 36 * n));
 }
 
 BOOL CBlueDlg::OnInitDialog()
@@ -72,12 +77,12 @@ BOOL CBlueDlg::OnInitDialog()
 	
 	Util::SetWindowSize(m_hWnd, 1024, 728);
 
-	CreatePageButton(m_bsSalePage, IDB_SALEPAGE, 0, _T("Sale Page >>"));
-	CreatePageButton(m_bsPlanPage, IDB_PLANPAGE, 1, _T("Plan Page"));
-	CreatePageButton(m_bsProductionScanPage, IDB_PRODUCTIONSCANPAGE, 2, _T("Production Scan Page"));
-	CreatePageButton(m_bsNotification, IDB_NOTIFICATION, 3, _T("Notification"));
-	CreatePageButton(m_bsProductionDataAnalyst, IDB_PRODUCTIONDATAANALYST, 4, _T("Production Data Analyst"));
-	CreatePageButton(m_bsSettingPage, IDB_SETTINGPAGE, 5, _T("Setting Page"));
+	CreatePageButton(m_btnSalePage, IDB_SALEPAGE, 0, _T("Sale Page >>"));
+	CreatePageButton(m_btnPlanPage, IDB_PLANPAGE, 1, _T("Plan Page"));
+	CreatePageButton(m_btnProductionScanPage, IDB_PRODUCTIONSCANPAGE, 2, _T("Production Scan Page"));
+	CreatePageButton(m_btnNotification, IDB_NOTIFICATION, 3, _T("Notification"));
+	CreatePageButton(m_btnProductionDataAnalyst, IDB_PRODUCTIONDATAANALYST, 4, _T("Production Data Analyst"));
+	CreatePageButton(m_btnSettingPage, IDB_SETTINGPAGE, 5, _T("Setting Page"));
 
 	m_bsVersion.Create(this, IDS_SOFTWARE_VERSION);
 	m_bsDate.Create(this, IDS_DATA_DATE);
@@ -108,60 +113,26 @@ BOOL CBlueDlg::OnInitDialog()
 	
 	m_editSearch.MoveWindow(CRect(503, 128, 741, 152));
 
-	m_bsAdd.Create(this, IDB_BLUE_ADD);
-	m_bsAdd.SetColorBorder(BS_NORMAL, COL_BLACK);
-	m_bsAdd.SetColorBorder(BS_CLICK, COL_BLACK);
-	m_bsAdd.SetColorBorder(BS_HOVER, COL_BLACK);
-	m_bsAdd.SetColorInside(BS_NORMAL, COL_WHITE);
-	m_bsAdd.SetColorInside(BS_CLICK, COL_WHITE);
-	m_bsAdd.SetColorInside(BS_HOVER, COL_GRAY);
-	m_bsAdd.SetWindowText(_T("Add"));
-	m_bsAdd.SetBSFont(_T("Segoe UI"), 12);
-	m_bsAdd.MoveWindow(CRect(277, 128, 376, 152));
+	m_btnAdd.Create(this, IDB_BLUE_ADD);
+	m_btnAdd.SetWindowText(_T("Add"));
+	m_btnAdd.SetBSFont(12);
+	m_btnAdd.MoveWindow(CRect(277, 128, 376, 152));
 
-	m_bsDelete.Create(this, IDB_BLUE_DELETE);
-	m_bsDelete.SetColorBorder(BS_NORMAL, COL_BLACK);
-	m_bsDelete.SetColorBorder(BS_CLICK, COL_BLACK);
-	m_bsDelete.SetColorBorder(BS_HOVER, COL_BLACK);
-	m_bsDelete.SetColorInside(BS_NORMAL, COL_WHITE);
-	m_bsDelete.SetColorInside(BS_CLICK, COL_WHITE);
-	m_bsDelete.SetColorInside(BS_HOVER, COL_GRAY);
-	m_bsDelete.SetWindowText(_T("Delete"));
-	m_bsDelete.SetBSFont(_T("Segoe UI"), 12);
-	m_bsDelete.MoveWindow(CRect(398, 172, 493, 198));
+	m_btnDelete.Create(this, IDB_BLUE_DELETE);
+	m_btnDelete.SetWindowText(_T("Delete"));
+	m_btnDelete.MoveWindow(CRect(398, 172, 493, 198));
 
-	m_bsModify.Create(this, IDB_BLUE_MODIFY);
-	m_bsModify.SetColorBorder(BS_NORMAL, COL_BLACK);
-	m_bsModify.SetColorBorder(BS_CLICK, COL_BLACK);
-	m_bsModify.SetColorBorder(BS_HOVER, COL_BLACK);
-	m_bsModify.SetColorInside(BS_NORMAL, COL_WHITE);
-	m_bsModify.SetColorInside(BS_CLICK, COL_WHITE);
-	m_bsModify.SetColorInside(BS_HOVER, COL_GRAY);
-	m_bsModify.SetWindowText(_T("Modify"));
-	m_bsModify.SetBSFont(_T("Segoe UI"), 12);
-	m_bsModify.MoveWindow(CRect(278, 172, 373, 198));
+	m_btnModify.Create(this, IDB_BLUE_MODIFY);
+	m_btnModify.SetWindowText(_T("Modify"));
+	m_btnModify.MoveWindow(CRect(278, 172, 373, 198));
 
-	m_bsSearch.Create(this, IDB_BLUE_SEARCH);
-	m_bsSearch.SetColorBorder(BS_NORMAL, COL_BLACK);
-	m_bsSearch.SetColorBorder(BS_CLICK, COL_BLACK);
-	m_bsSearch.SetColorBorder(BS_HOVER, COL_BLACK);
-	m_bsSearch.SetColorInside(BS_NORMAL, COL_WHITE);
-	m_bsSearch.SetColorInside(BS_CLICK, COL_WHITE);
-	m_bsSearch.SetColorInside(BS_HOVER, COL_GRAY);
-	m_bsSearch.SetWindowText(_T("Search"));
-	m_bsSearch.SetBSFont(_T("Segoe UI"), 12);
-	m_bsSearch.MoveWindow(CRect(398, 128, 493, 152));
+	m_btnSearch.Create(this, IDB_BLUE_SEARCH);
+	m_btnSearch.SetWindowText(_T("Search"));
+	m_btnSearch.MoveWindow(CRect(398, 128, 493, 152));
 
-	m_bsMore.Create(this, IDB_BLUE_MORE);
-	m_bsMore.SetColorBorder(BS_NORMAL, COL_BLACK);
-	m_bsMore.SetColorBorder(BS_CLICK, COL_BLACK);
-	m_bsMore.SetColorBorder(BS_HOVER, COL_BLACK);
-	m_bsMore.SetColorInside(BS_NORMAL, COL_WHITE);
-	m_bsMore.SetColorInside(BS_CLICK, COL_WHITE);
-	m_bsMore.SetColorInside(BS_HOVER, COL_GRAY);
-	m_bsMore.SetWindowText(_T(">"));
-	m_bsMore.SetBSFont(_T("Segoe UI"), 12);
-	m_bsMore.MoveWindow(CRect(841, 128, 871, 152));
+	m_btnMore.Create(this, IDB_BLUE_MORE);
+	m_btnMore.SetWindowText(_T(">"));
+	m_btnMore.MoveWindow(CRect(841, 128, 871, 152));
 
 	m_bsMoreWord.Create(this, IDB_BLUE_MOREWORD);
 	m_bsMoreWord.SetWindowText(_T("More filter >>"));
@@ -180,17 +151,20 @@ BOOL CBlueDlg::OnInitDialog()
 	//m_webView.OpenWebBrowser();
 	m_lpJsMediator = static_cast<IJSMediator*>(&m_webView);
 	m_lpJsMediator->RegisterJsFunction(this);
+	m_lpJsExector.reset(new CJSExecutor(m_lpJsMediator));
 	CString path;
 
 	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
 	path.ReleaseBuffer();
-	path.Replace(_T("Blue.exe"), _T(""));
-	path += L"cqk.html";
+#ifdef _DEBUG
+	path.Replace(_T("Debug\\Blue.exe"), _T("BlueTable\\sale.html"));
+#else
+	path.Replace(_T("Blue.exe"), _T("sale.html"));
+#endif
 	VARIANT url;
 	url.vt = VT_BSTR;
 	url.bstrVal = (BSTR)::SysAllocString(path);
 	m_webView.OpenURL(&url);
-	m_webView.BringWindowToTop();
 
 	//m_webBrowser.Navigate(_T("C:\\Users\\SUN\\Desktop\\WebBrowser加载本地资源 - Games - 博客园.html"), NULL, NULL, NULL, NULL);
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -291,12 +265,30 @@ int CBlueDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 void CBlueDlg::OnBnClickedAdd()
 {
-	CItemDlg dlg(_T("Add new item"));
-	dlg.DoModal();
+	CSaleAddDlg dlg(_T("Add new item"));
+	if (IDOK == dlg.DoModal()){
+		const std::vector<CString>& ret = dlg.GetResult();
+		CString strArray;
+		for (int i = 0, len = ret.size(); i < len; ++i)
+		{
+			strArray += ret[i];
+			if (i + 1 < len)
+			{
+				strArray += _T(",");
+			}
+		}
+		m_lpJsExector->Execute(L"sale_addRowData", strArray);
+	}
+	
 }
 
 void CBlueDlg::OnBnClickedModify()
 {
-	CItemDlg dlg(_T("Modify item"));
+	CAddDlg dlg(_T("Modify item"));
 	dlg.DoModal();
+}
+
+void CBlueDlg::OnBnClickedDelete()
+{
+	m_lpJsExector->Execute(L"sale_delCurRow");
 }

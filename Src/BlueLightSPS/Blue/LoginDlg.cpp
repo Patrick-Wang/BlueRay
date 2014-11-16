@@ -7,13 +7,15 @@
 #include "afxdialogex.h"
 #include "resource_ids.h"
 #include "Util.h"
-
+#include "colors.h"
 // CLoginDlg dialog
 
 IMPLEMENT_DYNAMIC(CLoginDlg, CDialogEx)
 
 CLoginDlg::CLoginDlg(CWnd* pParent /*=NULL*/)
-	: CDialogEx(CLoginDlg::IDD, pParent)
+: CDialogEx(CLoginDlg::IDD, pParent)
+, m_btnVPN(TRUE)
+, m_btnForgetPassword(TRUE)
 {
 
 }
@@ -66,31 +68,17 @@ BOOL CLoginDlg::OnInitDialog()
 	Util::SetWindowSize(m_hWnd, 1024, 728);
 	m_btnVPN.Create(this, IDB_VPN); 
 	m_btnVPN.SetWindowText(_T("VPN/proxy setting >>"));
-	m_btnVPN.SetTextColor(enumBSBtnState::BS_NORMAL, COL_BLUE);
-	m_btnVPN.SetTextColor(enumBSBtnState::BS_HOVER, COL_BLUE);
-	m_btnVPN.SetTextColor(enumBSBtnState::BS_CLICK, COL_BLUE);
-	m_btnVPN.SetBSFont(_T("Segoe UI"), 12);
 	m_btnVPN.MoveWindow(695, 452, 130, 24);
 	m_btnVPN.SetBackgroundColor(COL_GRAY);
 
 	m_btnForgetPassword.Create(this, IDB_FORGET_PSW);
 	m_btnForgetPassword.SetWindowText(_T("Forgot password >>"));
-	m_btnForgetPassword.SetTextColor(enumBSBtnState::BS_NORMAL, COL_BLUE);
-	m_btnForgetPassword.SetTextColor(enumBSBtnState::BS_HOVER, COL_BLUE);
-	m_btnForgetPassword.SetTextColor(enumBSBtnState::BS_CLICK, COL_BLUE);
-	m_btnForgetPassword.SetBSFont(_T("Segoe UI"), 12);
 	m_btnForgetPassword.MoveWindow(835, 452, 130, 24);
 	m_btnForgetPassword.SetBackgroundColor(COL_GRAY);
 
 	m_btnLogin.Create(this, IDB_LOGIN);
 	m_btnLogin.SetWindowText(_T("Login"));
-	m_btnLogin.SetColorInside(enumBSBtnState::BS_NORMAL, COL_WHITE);
-	m_btnLogin.SetColorInside(enumBSBtnState::BS_HOVER, COL_GRAY);
-	m_btnLogin.SetColorInside(enumBSBtnState::BS_CLICK, COL_WHITE);
-	m_btnLogin.SetColorBorder(enumBSBtnState::BS_NORMAL, COL_BLACK, 2);
-	m_btnLogin.SetColorBorder(enumBSBtnState::BS_HOVER, COL_BLACK, 2);
-	m_btnLogin.SetColorBorder(enumBSBtnState::BS_CLICK, COL_BLACK, 2);
-	m_btnLogin.SetBSFont(_T("Segoe UI"), 12, FALSE, TRUE);
+	m_btnLogin.SetBSFont(12, FALSE, TRUE);
 	m_btnLogin.MoveWindow(893, 361, 97, 67);
 
 

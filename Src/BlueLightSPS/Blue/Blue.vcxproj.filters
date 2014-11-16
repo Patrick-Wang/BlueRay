@@ -16,6 +16,12 @@
     <Filter Include="UILib">
       <UniqueIdentifier>{6080376d-7592-408b-9937-b2965f9fb945}</UniqueIdentifier>
     </Filter>
+    <Filter Include="UILib\core">
+      <UniqueIdentifier>{997c31d3-427a-45c6-894f-62da9123b631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UILib\standard">
+      <UniqueIdentifier>{433318a9-3685-4fc1-9694-ae6b035d066c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -51,42 +57,6 @@
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="UILib\SwitchButton.h">
-      <Filter>UILib</Filter>
-    </ClInclude>
-    <ClInclude Include="UILib\MenuManager.h">
-      <Filter>UILib</Filter>
-    </ClInclude>
-    <ClInclude Include="UILib\BSStatic.h">
-      <Filter>UILib</Filter>
-    </ClInclude>
-    <ClInclude Include="UILib\BSSliderbar.h">
-      <Filter>UILib</Filter>
-    </ClInclude>
-    <ClInclude Include="UILib\BSSeparator.h">
-      <Filter>UILib</Filter>
-    </ClInclude>
-    <ClInclude Include="UILib\BSScrollbar.h">
-      <Filter>UILib</Filter>
-    </ClInclude>
-    <ClInclude Include="UILib\BSPopupMenu.h">
-      <Filter>UILib</Filter>
-    </ClInclude>
-    <ClInclude Include="UILib\BSObject.h">
-      <Filter>UILib</Filter>
-    </ClInclude>
-    <ClInclude Include="UILib\BSCheckBox.h">
-      <Filter>UILib</Filter>
-    </ClInclude>
-    <ClInclude Include="UILib\BSButton.h">
-      <Filter>UILib</Filter>
-    </ClInclude>
-    <ClInclude Include="UILib\DelegateTemplate.h">
-      <Filter>UILib</Filter>
-    </ClInclude>
-    <ClInclude Include="UILib\Delegate.h">
-      <Filter>UILib</Filter>
-    </ClInclude>
     <ClInclude Include="resource_ids.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -105,7 +75,58 @@
     <ClInclude Include="Util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ItemDlg.h">
+    <ClInclude Include="SaleAddDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AddDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UILib\BSButton.h">
+      <Filter>UILib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="UILib\BSCheckBox.h">
+      <Filter>UILib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="UILib\BSObject.h">
+      <Filter>UILib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="UILib\BSPopupMenu.h">
+      <Filter>UILib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="UILib\BSScrollbar.h">
+      <Filter>UILib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="UILib\BSSeparator.h">
+      <Filter>UILib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="UILib\BSSliderbar.h">
+      <Filter>UILib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="UILib\BSStatic.h">
+      <Filter>UILib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="UILib\Delegate.h">
+      <Filter>UILib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="UILib\DelegateTemplate.h">
+      <Filter>UILib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="UILib\MenuManager.h">
+      <Filter>UILib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="UILib\SwitchButton.h">
+      <Filter>UILib\core</Filter>
+    </ClInclude>
+    <ClInclude Include="colors.h">
+      <Filter>UILib\standard</Filter>
+    </ClInclude>
+    <ClInclude Include="BPButton.h">
+      <Filter>UILib\standard</Filter>
+    </ClInclude>
+    <ClInclude Include="BPComboBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JSExecutor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -119,36 +140,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="UILib\SwitchButton.cpp">
-      <Filter>UILib</Filter>
-    </ClCompile>
-    <ClCompile Include="UILib\MenuManager.cpp">
-      <Filter>UILib</Filter>
-    </ClCompile>
-    <ClCompile Include="UILib\BSStatic.cpp">
-      <Filter>UILib</Filter>
-    </ClCompile>
-    <ClCompile Include="UILib\BSSliderbar.cpp">
-      <Filter>UILib</Filter>
-    </ClCompile>
-    <ClCompile Include="UILib\BSSeparator.cpp">
-      <Filter>UILib</Filter>
-    </ClCompile>
-    <ClCompile Include="UILib\BSScrollbar.cpp">
-      <Filter>UILib</Filter>
-    </ClCompile>
-    <ClCompile Include="UILib\BSPopupMenu.cpp">
-      <Filter>UILib</Filter>
-    </ClCompile>
-    <ClCompile Include="UILib\BSObject.cpp">
-      <Filter>UILib</Filter>
-    </ClCompile>
-    <ClCompile Include="UILib\BSCheckBox.cpp">
-      <Filter>UILib</Filter>
-    </ClCompile>
-    <ClCompile Include="UILib\BSButton.cpp">
-      <Filter>UILib</Filter>
-    </ClCompile>
     <ClCompile Include="WebBrowser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -161,7 +152,49 @@
     <ClCompile Include="Util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ItemDlg.cpp">
+    <ClCompile Include="SaleAddDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AddDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UILib\BSButton.cpp">
+      <Filter>UILib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="UILib\BSCheckBox.cpp">
+      <Filter>UILib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="UILib\BSObject.cpp">
+      <Filter>UILib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="UILib\BSPopupMenu.cpp">
+      <Filter>UILib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="UILib\BSScrollbar.cpp">
+      <Filter>UILib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="UILib\BSSeparator.cpp">
+      <Filter>UILib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="UILib\BSSliderbar.cpp">
+      <Filter>UILib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="UILib\BSStatic.cpp">
+      <Filter>UILib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="UILib\MenuManager.cpp">
+      <Filter>UILib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="UILib\SwitchButton.cpp">
+      <Filter>UILib\core</Filter>
+    </ClCompile>
+    <ClCompile Include="BPButton.cpp">
+      <Filter>UILib\standard</Filter>
+    </ClCompile>
+    <ClCompile Include="BPComboBox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JSExecutor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -10,25 +10,14 @@ var cqk;
     var JQGridAssistantFactory = (function () {
         function JQGridAssistantFactory() {
         }
-        JQGridAssistantFactory.createTable = function (gridName, year) {
-            return new JQTable.JQGridAssistant([
-                new JQTable.Node("订单日期", "ddrq"),
-                new JQTable.Node("合同号", "ID"),
-                new JQTable.Node("客户ID", "clientID"),
-                new JQTable.Node("规格型号ID", "ggxhID"),
-                new JQTable.Node("数量", "sl"),
-                new JQTable.Node("轴承ID", "zcID"),
-                new JQTable.Node("单复绕", "dfr"),
-                new JQTable.Node("制动器电压ID", "zdqdyID"),
-                new JQTable.Node("曳引轮规格ID", "yylggID"),
-                new JQTable.Node("是否机房", "sfjf"),
-                new JQTable.Node("变频器型号ID", "bpqxhID"),
-                new JQTable.Node("编码器型号ID", "bmqxhID"),
-                new JQTable.Node("电缆长度", "dlcd"),
-                new JQTable.Node("闸线长度", "zxcd"),
-                new JQTable.Node("铭牌等资料", "mpzl"),
-                new JQTable.Node("备注", "bz")
-            ], gridName);
+        JQGridAssistantFactory.createSaleTable = function (gridName, year) {
+            var cols = ["合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "审核-业务", "审核-计划"];
+            var nodes = [];
+            for (var i = 0; i < cols.length; ++i) {
+                nodes.push(new JQTable.Node(cols[i], "sale_col_" + i));
+            }
+
+            return new JQTable.JQGridAssistant(nodes, gridName);
         };
         return JQGridAssistantFactory;
     })();
@@ -282,7 +271,7 @@ var cqk;
         };
 
         View.prototype.updateTable = function (name) {
-            var tableAssist = JQGridAssistantFactory.createTable(name, this.mYear);
+            var tableAssist = JQGridAssistantFactory.createSaleTable(name, this.mYear);
             tableAssist.mergeTitle();
 
             //tableAssist.mergeRow(0);

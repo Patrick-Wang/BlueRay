@@ -5,7 +5,7 @@
 
   Author:       zhang.xu 2011.06.01
 
-  Classes:      CBSButton
+  Classes:      CBPButton
 
   Functions:    None
 
@@ -23,8 +23,8 @@ class CBSButton :
     public CBSObject
 {
 public:
-    CBSButton(void);
-    ~CBSButton(void);
+	CBSButton(void);
+	~CBSButton(void);
     BOOL Create(CWnd* pParentWnd, UINT nID);
 	void RePaintDC(RECT rect, BOOL bRShow = TRUE);
 	CDelegate<void(void)> d_OnMoveLeave;
