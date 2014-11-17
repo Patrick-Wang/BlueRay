@@ -1,19 +1,3 @@
-/*!
- * Copyright (c) 2009 by Sony Corporation.
- * 
- * @file delegate.h
- * 
- * Declaration of template class CDelegate.
- * 
- * !!CAUTION: DO NOT APPLY +, -, +=, -=, ==, != OPERATIONS ON TWO DELEGATES.
- *            DOING THAT WILL RESULT IN INCORRECT OR EVEN DISASTROUS BEHAVIORS.
- * 
- * =========================================================================
- * Revision       Revision History               Author             Date    
- * =========================================================================
- * 0.1                 Create                    zhuangqg           2009-1-6
- * =========================================================================
- */
 #ifndef __DELEGATE_H__
 #define __DELEGATE_H__
 

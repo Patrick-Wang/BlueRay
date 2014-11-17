@@ -1,18 +1,3 @@
-/*+===================================================================
-  File:         BSSliderBar.h
-
-  Summary:      
-
-  Author:       zhang.xu 2011.06.01
-
-  Classes:      
-
-  Functions:    
-
-  Origin:       BlackSkin
-----------------------------------------------------------------------
-===================================================================+*/
-
 #ifndef BSSLIDERBAR_H__
 #define BSSLIDERBAR_H__
 #include "bsobject.h"

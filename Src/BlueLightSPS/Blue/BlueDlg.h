@@ -3,11 +3,11 @@
 //
 
 #pragma once
-#include "BPButton.h"
+#include "BRButton.h"
 #include "UILib/BSStatic.h"
 #include "webview.h"
 #include "afxwin.h"
-#include "JSExecutor.h"
+#include "JQGridAPI.h"
 // CBlueDlg dialog
 class CBlueDlg : public CDialogEx, public IJSMediator::IJSFunction
 {
@@ -34,29 +34,29 @@ protected:
 	afx_msg HCURSOR OnQueryDragIcon();
 
 	DECLARE_MESSAGE_MAP()
-	void CreatePageButton(CBPButton& pb, UINT id, int n, LPCTSTR text);
+	void CreatePageButton(CBRButton& pb, UINT id, int n, LPCTSTR text);
 	CBSStatic m_bsVersion;
 	CBSStatic m_bsDate;
 	CBSStatic m_bsPersion;
 	CBSStatic m_bsIcon;
-	CBPButton m_btnSalePage;
-	CBPButton m_btnPlanPage;
-	CBPButton m_btnProductionScanPage;
-	CBPButton m_btnNotification;
-	CBPButton m_btnProductionDataAnalyst;
-	CBPButton m_btnSettingPage;
+	CBRButton m_btnSalePage;
+	CBRButton m_btnPlanPage;
+	CBRButton m_btnProductionScanPage;
+	CBRButton m_btnNotification;
+	CBRButton m_btnProductionDataAnalyst;
+	CBRButton m_btnSettingPage;
 	
-	CBPButton m_btnAdd;
-	CBPButton m_btnSearch;
-	CBPButton m_btnModify;
-	CBPButton m_btnDelete;
-	CBPButton m_btnMore;
+	CBRButton m_btnAdd;
+	CBRButton m_btnSearch;
+	CBRButton m_btnModify;
+	CBRButton m_btnDelete;
+	CBRButton m_btnMore;
 	CBSStatic m_bsMoreWord;
 
 
 public:
 	CWebView m_webView;
-	std::auto_ptr<CJSExecutor> m_lpJsExector;
+	std::auto_ptr<CJQGridAPI> m_pJqGridAPI;
 	IJSMediator* m_lpJsMediator;
 	afx_msg void OnBnClickedTest();
 	afx_msg void OnBnClickedAdd();

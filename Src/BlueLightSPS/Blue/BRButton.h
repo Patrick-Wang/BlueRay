@@ -1,10 +1,10 @@
 #pragma once
 #include "UILib\BSButton.h"
-class CBPButton :	public CBSButton
+class CBRButton :	public CBSButton
 {
 public:
-	CBPButton(BOOL bLink = FALSE);
-	~CBPButton();
+	CBRButton(BOOL bLink = FALSE);
+	~CBRButton();
 	void EnableBorder(bool bEnable);
 	void SetBSFont(int fontSize, BOOL bUnderLine = FALSE, BOOL bBold = FALSE, BOOL bItalic = FALSE);
 	DECLARE_MESSAGE_MAP()

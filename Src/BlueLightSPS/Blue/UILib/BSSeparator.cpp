@@ -1,18 +1,3 @@
-/*+===================================================================
-  File:         BSSeparator.cpp
-
-  Summary:      Custom button control
-
-  Author:       w_x 2011.06.19
-
-  Classes:      CBSSeparator
-
-  Functions:    None
-
-  Origin:       BlackSkin
-----------------------------------------------------------------------
-===================================================================+*/
-
 #include "StdAfx.h"
 #include "BSSeparator.h"
 

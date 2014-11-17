@@ -77,3 +77,8 @@ void CSaleAddDlg::OnOKClicked()
 	}
 	CAddDlg::OnOKClicked();
 }
+
+void CSaleAddDlg::SetOption(Option_t* lpOpt)
+{
+	m_lpOption = lpOpt;
+}

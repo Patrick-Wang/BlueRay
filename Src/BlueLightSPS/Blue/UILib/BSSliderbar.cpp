@@ -1,18 +1,3 @@
-/*+===================================================================
-  File:         BSSliderbar.cpp
-
-  Summary:      Custom sliderbar control
-
-  Author:       zhang.xu 2011.06.01
-
-  Classes:      CBSSliderbar
-
-  Functions:    None
-
-  Origin:       BlackSkin
-----------------------------------------------------------------------
-===================================================================+*/
-
 #include "StdAfx.h"
 #include "BSSliderbar.h"
 

@@ -22,6 +22,9 @@
     <Filter Include="UILib\standard">
       <UniqueIdentifier>{433318a9-3685-4fc1-9694-ae6b035d066c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Web">
+      <UniqueIdentifier>{96c7acfc-c146-4d86-aec1-2996505d68a7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -58,15 +61,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource_ids.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WebBrowser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WebView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IJSMediator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LoginDlg.h">
@@ -120,14 +114,23 @@
     <ClInclude Include="colors.h">
       <Filter>UILib\standard</Filter>
     </ClInclude>
-    <ClInclude Include="BPButton.h">
-      <Filter>UILib\standard</Filter>
-    </ClInclude>
     <ClInclude Include="BPComboBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="JSExecutor.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="BRButton.h">
+      <Filter>UILib\standard</Filter>
+    </ClInclude>
+    <ClInclude Include="IJSMediator.h">
+      <Filter>Web</Filter>
+    </ClInclude>
+    <ClInclude Include="WebBrowser.h">
+      <Filter>Web</Filter>
+    </ClInclude>
+    <ClInclude Include="WebView.h">
+      <Filter>Web</Filter>
+    </ClInclude>
+    <ClInclude Include="JQGridAPI.h">
+      <Filter>Web</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -138,12 +141,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WebBrowser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WebView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LoginDlg.cpp">
@@ -188,14 +185,20 @@
     <ClCompile Include="UILib\SwitchButton.cpp">
       <Filter>UILib\core</Filter>
     </ClCompile>
-    <ClCompile Include="BPButton.cpp">
-      <Filter>UILib\standard</Filter>
-    </ClCompile>
     <ClCompile Include="BPComboBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="JSExecutor.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="BRButton.cpp">
+      <Filter>UILib\standard</Filter>
+    </ClCompile>
+    <ClCompile Include="WebBrowser.cpp">
+      <Filter>Web</Filter>
+    </ClCompile>
+    <ClCompile Include="WebView.cpp">
+      <Filter>Web</Filter>
+    </ClCompile>
+    <ClCompile Include="JQGridAPI.cpp">
+      <Filter>Web</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

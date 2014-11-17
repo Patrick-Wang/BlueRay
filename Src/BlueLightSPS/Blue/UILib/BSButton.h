@@ -1,18 +1,3 @@
-/*+===================================================================
-  File:         BSButton.h
-
-  Summary:      Custom button control
-
-  Author:       zhang.xu 2011.06.01
-
-  Classes:      CBPButton
-
-  Functions:    None
-
-  Origin:       BlackSkin
-----------------------------------------------------------------------
-===================================================================+*/
-
 #ifndef BSBUTTON_H__
 #define BSBUTTON_H__
 

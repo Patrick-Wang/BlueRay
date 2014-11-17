@@ -110,11 +110,11 @@
     <ClInclude Include="AddDlg.h" />
     <ClInclude Include="Blue.h" />
     <ClInclude Include="BlueDlg.h" />
-    <ClInclude Include="BPButton.h" />
+    <ClInclude Include="BRButton.h" />
     <ClInclude Include="BPComboBox.h" />
     <ClInclude Include="colors.h" />
     <ClInclude Include="IJSMediator.h" />
-    <ClInclude Include="JSExecutor.h" />
+    <ClInclude Include="JQGridAPI.h" />
     <ClInclude Include="LoginDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="resource_ids.h" />
@@ -141,9 +141,9 @@
     <ClCompile Include="AddDlg.cpp" />
     <ClCompile Include="Blue.cpp" />
     <ClCompile Include="BlueDlg.cpp" />
-    <ClCompile Include="BPButton.cpp" />
+    <ClCompile Include="BRButton.cpp" />
     <ClCompile Include="BPComboBox.cpp" />
-    <ClCompile Include="JSExecutor.cpp" />
+    <ClCompile Include="JQGridAPI.cpp" />
     <ClCompile Include="LoginDlg.cpp" />
     <ClCompile Include="SaleAddDlg.cpp" />
     <ClCompile Include="stdafx.cpp">

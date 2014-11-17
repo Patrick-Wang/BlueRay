@@ -1,18 +1,3 @@
-/*+===================================================================
-  File:         BSScrollbar.cpp
-
-  Summary:      Custom scroll bar
-
-  Author:       zhang.xu 2011.06.01
-
-  Classes:      CBSScrollbar
-
-  Functions:    None
-
-  Origin:       BlackSkin
-----------------------------------------------------------------------
-===================================================================+*/
-
 #include "StdAfx.h"
 #include "BSScrollbar.h"
 

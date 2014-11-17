@@ -1,6 +1,6 @@
 #pragma once
 #include "resource.h"
-#include "BPButton.h"
+#include "BRButton.h"
 #include <vector>
 // CAddDlg dialog
 
@@ -25,8 +25,8 @@ public:
 	virtual BOOL OnInitDialog();
 private:
 	CString m_Title;
-	CBPButton m_btnOK;
-	CBPButton m_btnCancel;
+	CBRButton m_btnOK;
+	CBRButton m_btnCancel;
 protected:
 	std::vector<CString> m_vecResult;
 	

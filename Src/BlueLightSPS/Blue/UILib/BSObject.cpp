@@ -1,18 +1,3 @@
-/*+===================================================================
-  File:         BSObject.cpp
-
-  Summary:      Base class for all BlackSkin objects
-
-  Author:       zhang.xu 2011.06.02
-
-  Classes:      CBSObject
-
-  Functions:    None
-
-  Origin:       BlackSkin
-----------------------------------------------------------------------
-===================================================================+*/
-
 #include "StdAfx.h"
 #include "BSObject.h"
 

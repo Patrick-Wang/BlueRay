@@ -1,21 +1,3 @@
-/*!
- * Copyright (c) 2009 by Sony Corporation.
- * 
- * @file delegatetemplate.h
- * 
- * Implementation of template class CDelegate.
- * 
- * =========================================================================
- * Revision       Revision History               Author             Date    
- * =========================================================================
- * 0.1                 Create                    zhuangqg           2009-1-6
- * =========================================================================
- */
-//
-// DO NOT perform multiple-inclusion protection here!!!
-//
-
-
 // Used as template parameters:
 //		/*typename T0*/; typename T1, typename T2, ..., typename Tn
 #define DELEGATE_TEMPLATE_PARAMS	MAKE_PARAMS1(DELEGATE_NUM_ARGS, typename T)

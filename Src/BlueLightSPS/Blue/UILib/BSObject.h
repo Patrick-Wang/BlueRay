@@ -1,18 +1,3 @@
-/*+===================================================================
-  File:         BSObject.h
-
-  Summary:      Base class for blackskin objects
-
-  Author:       zhang.xu 2011.06.01
-
-  Classes:      CBSObject
-
-  Functions:    None
-
-  Origin:       BlackSkin
-----------------------------------------------------------------------
-===================================================================+*/
-
 #ifndef BSOBJECT_H__
 #define BSOBJECT_H__
 

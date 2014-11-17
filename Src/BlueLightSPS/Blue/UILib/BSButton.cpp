@@ -1,18 +1,3 @@
-/*+===================================================================
-  File:         BSButton.cpp
-
-  Summary:      Custom button control
-
-  Author:       zhang.xu 2011.06.01
-
-  Classes:      CBSButton
-
-  Functions:    None
-
-  Origin:       BlackSkin
-----------------------------------------------------------------------
-===================================================================+*/
-
 #include "StdAfx.h"
 #include "BSButton.h"
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "BPButton.h"
+#include "BRButton.h"
 #include "UILib/BSStatic.h"
 #include "afxwin.h"
 
@@ -20,9 +20,9 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
-	CBPButton m_btnVPN;
-	CBPButton m_btnForgetPassword;
-	CBPButton m_btnLogin;
+	CBRButton m_btnVPN;
+	CBRButton m_btnForgetPassword;
+	CBRButton m_btnLogin;
 	CBSStatic m_bsVersion;
 	CBSStatic m_bsUserName;
 	CBSStatic m_bsPassword;

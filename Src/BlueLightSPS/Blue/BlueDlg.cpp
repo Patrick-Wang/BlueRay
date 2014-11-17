@@ -25,7 +25,7 @@ CBlueDlg::CBlueDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CBlueDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	
+
 }
 
 void CBlueDlg::DoDataExchange(CDataExchange* pDX)
@@ -50,7 +50,7 @@ END_MESSAGE_MAP()
 
 
 
-void CBlueDlg::CreatePageButton(CBPButton& btn, UINT id, int n, LPCTSTR text)
+void CBlueDlg::CreatePageButton(CBRButton& btn, UINT id, int n, LPCTSTR text)
 {
 	btn.Create(this, id);
 	btn.SetTextAlign(DT_VCENTER | DT_SINGLELINE);
@@ -74,7 +74,7 @@ BOOL CBlueDlg::OnInitDialog()
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
-	
+
 	Util::SetWindowSize(m_hWnd, 1024, 728);
 
 	CreatePageButton(m_btnSalePage, IDB_SALEPAGE, 0, _T("œ˙ €∂©µ•"));
@@ -110,7 +110,7 @@ BOOL CBlueDlg::OnInitDialog()
 	m_bsDate.SetWindowText(_T("Date: 2014/10/30"));
 	m_bsPersion.MoveWindow(730, 59, 1015 - 725, 77 - 59);
 	m_bsPersion.SetWindowText(_T("Name: Patrick  Role: Manager  Department: D1"));
-	
+
 	m_editSearch.MoveWindow(CRect(503, 128, 741, 152));
 
 	m_btnAdd.Create(this, IDB_BLUE_ADD);
@@ -139,7 +139,7 @@ BOOL CBlueDlg::OnInitDialog()
 	m_bsMoreWord.SetBSFont(_T("Segoe UI"), 12);
 	m_bsMoreWord.MoveWindow(CRect(754, 128, 838, 151));
 
-	
+
 
 	CRect rt;
 	rt.left = 254;
@@ -151,7 +151,7 @@ BOOL CBlueDlg::OnInitDialog()
 	//m_webView.OpenWebBrowser();
 	m_lpJsMediator = static_cast<IJSMediator*>(&m_webView);
 	m_lpJsMediator->RegisterJsFunction(this);
-	m_lpJsExector.reset(new CJSExecutor(m_lpJsMediator));
+	m_pJqGridAPI.reset(new CJQGridAPI(m_lpJsMediator));
 	CString path;
 
 	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
@@ -176,7 +176,7 @@ BOOL CBlueDlg::OnInitDialog()
 
 void CBlueDlg::OnPaint()
 {
-	
+
 	if (IsIconic())
 	{
 		CPaintDC dc(this); // device context for painting
@@ -199,8 +199,8 @@ void CBlueDlg::OnPaint()
 		CDialogEx::OnPaint();
 	}
 
-	
-	
+
+
 }
 
 // The system calls this function to obtain the cursor to display while the user drags
@@ -243,9 +243,9 @@ int CBlueDlg::Id()
 
 BOOL CBlueDlg::OnEraseBkgnd(CDC* pDC)
 {
-	
+
 	// TODO: Add your message handler code here and/or call default
-	BOOL ret =  __super::OnEraseBkgnd(pDC);
+	BOOL ret = __super::OnEraseBkgnd(pDC);
 	CBSObject::FillRect(pDC->m_hDC, CRect(0, 0, 1024, 728), COL_WHITE);
 	CBSObject::FillRect(pDC->m_hDC, CRect(0, 0, 1024, 84), COL_GRAY);
 	CBSObject::DrawRect(pDC->m_hDC, CRect(254, 102, 995, 218), COL_BLACK, 2);
@@ -267,28 +267,52 @@ void CBlueDlg::OnBnClickedAdd()
 {
 	CSaleAddDlg dlg(_T("Add new item"));
 	if (IDOK == dlg.DoModal()){
-		const std::vector<CString>& ret = dlg.GetResult();
-		CString strArray;
-		for (int i = 0, len = ret.size(); i < len; ++i)
-		{
-			strArray += ret[i];
-			if (i + 1 < len)
-			{
-				strArray += _T(",");
-			}
-		}
-		m_lpJsExector->Execute(L"sale_addRowData", strArray);
+		m_pJqGridAPI->AddRow(dlg.GetResult());
 	}
-	
+
 }
 
 void CBlueDlg::OnBnClickedModify()
 {
-	CAddDlg dlg(_T("Modify item"));
-	dlg.DoModal();
+	std::auto_ptr<CSaleAddDlg::Option_t> pstOpt;
+	CSaleAddDlg dlg(_T("Modify item"));
+	std::vector<int> checkedRows;
+	std::vector<CString> rowData;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+	for (int i = checkedRows.size() - 1; i >= 0; --i)
+	{
+		m_pJqGridAPI->GetRow(i, rowData);
+		if (pstOpt.get() == NULL)
+		{
+			pstOpt.reset(new CSaleAddDlg::Option_t(rowData));
+		}
+		else
+		{
+			pstOpt->Merge(rowData);
+		}
+	}
+	dlg.SetOption(pstOpt.get());
+	if (IDOK == dlg.DoModal()){
+		const std::vector<CString>& result = dlg.GetResult();
+		for (int j = result.size() - 1; j >= 0; --j)
+		{
+			if (result[j] != OPT_FALSE)
+			{
+				for (int i = checkedRows.size() - 1; i >= 0; --i)
+				{
+					m_pJqGridAPI->SetCell(i, j, result[j]);
+				}
+			}
+		}
+	}
 }
 
 void CBlueDlg::OnBnClickedDelete()
 {
-	m_lpJsExector->Execute(L"sale_delCurRow");
+	std::vector<int> checkedRows;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+	for (int i = checkedRows.size() - 1; i >= 0; --i)
+	{
+		m_pJqGridAPI->DelRow(i);
+	}
 }

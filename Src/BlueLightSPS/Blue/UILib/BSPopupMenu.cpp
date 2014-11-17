@@ -1,5 +1,3 @@
-// BSPopupMenu.cpp : implementation file
-//
 
 #include "StdAfx.h"
 #include "BSPopupMenu.h"

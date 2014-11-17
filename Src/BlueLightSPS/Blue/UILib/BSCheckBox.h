@@ -1,18 +1,3 @@
-/*+===================================================================
-  File:         BSCheckBox.h
-
-  Summary:      Custom checkbox control
-
-  Author:       zhang.xu 2011.06.01
-
-  Classes:      CBSCheckBox
-
-  Functions:    None
-
-  Origin:       BlackSkin
-----------------------------------------------------------------------
-===================================================================+*/
-
 #ifndef BSCHECKBOX_H__
 #define BSCHECKBOX_H__
 

@@ -1,18 +1,3 @@
-/*+===================================================================
-  File:         BSStatic.cpp
-
-  Summary:      Custom static control
-
-  Author:       zhang.xu 2011.06.01
-
-  Classes:      CBSStatic
-
-  Functions:    None
-
-  Origin:       BlackSkin
-----------------------------------------------------------------------
-===================================================================+*/
-
 #include "StdAfx.h"
 #include "BSStatic.h"
 

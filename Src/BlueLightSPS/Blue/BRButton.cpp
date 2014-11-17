@@ -1,23 +1,23 @@
 #include "stdafx.h"
-#include "BPButton.h"
+#include "BRButton.h"
 #include "colors.h"
 
-CBPButton::CBPButton(BOOL bLink /*= FALSE*/)
+CBRButton::CBRButton(BOOL bLink /*= FALSE*/)
 	: m_bLink(bLink)
 {
 
 }
 
 
-CBPButton::~CBPButton()
+CBRButton::~CBRButton()
 {
 }
-BEGIN_MESSAGE_MAP(CBPButton, CBSButton)
+BEGIN_MESSAGE_MAP(CBRButton, CBSButton)
 	ON_WM_CREATE()
 END_MESSAGE_MAP()
 
 
-int CBPButton::OnCreate(LPCREATESTRUCT lpCreateStruct)
+int CBRButton::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CBSButton::OnCreate(lpCreateStruct) == -1)
 		return -1;
@@ -40,12 +40,12 @@ int CBPButton::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	return 0;
 }
 
-void CBPButton::SetBSFont(int fontSize, BOOL bUnderLine /*= FALSE*/, BOOL bBold /*= FALSE*/, BOOL bItalic /*= FALSE*/)
+void CBRButton::SetBSFont(int fontSize, BOOL bUnderLine /*= FALSE*/, BOOL bBold /*= FALSE*/, BOOL bItalic /*= FALSE*/)
 {
 	CBSButton::SetBSFont(_T("Segoe UI"), fontSize, bUnderLine, bBold, bItalic);
 }
 
-void CBPButton::EnableBorder(bool bEnable)
+void CBRButton::EnableBorder(bool bEnable)
 {
 	m_bHasBorderColor = bEnable;
 }
