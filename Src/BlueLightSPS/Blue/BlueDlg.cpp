@@ -77,12 +77,12 @@ BOOL CBlueDlg::OnInitDialog()
 	
 	Util::SetWindowSize(m_hWnd, 1024, 728);
 
-	CreatePageButton(m_btnSalePage, IDB_SALEPAGE, 0, _T("Sale Page >>"));
-	CreatePageButton(m_btnPlanPage, IDB_PLANPAGE, 1, _T("Plan Page"));
-	CreatePageButton(m_btnProductionScanPage, IDB_PRODUCTIONSCANPAGE, 2, _T("Production Scan Page"));
-	CreatePageButton(m_btnNotification, IDB_NOTIFICATION, 3, _T("Notification"));
-	CreatePageButton(m_btnProductionDataAnalyst, IDB_PRODUCTIONDATAANALYST, 4, _T("Production Data Analyst"));
-	CreatePageButton(m_btnSettingPage, IDB_SETTINGPAGE, 5, _T("Setting Page"));
+	CreatePageButton(m_btnSalePage, IDB_SALEPAGE, 0, _T("销售订单"));
+	CreatePageButton(m_btnPlanPage, IDB_PLANPAGE, 1, _T("计划排产"));
+	CreatePageButton(m_btnProductionScanPage, IDB_PRODUCTIONSCANPAGE, 2, _T("生产录入"));
+	CreatePageButton(m_btnNotification, IDB_NOTIFICATION, 3, _T("待办事项"));
+	CreatePageButton(m_btnProductionDataAnalyst, IDB_PRODUCTIONDATAANALYST, 4, _T("报表展示"));
+	CreatePageButton(m_btnSettingPage, IDB_SETTINGPAGE, 5, _T("设置"));
 
 	m_bsVersion.Create(this, IDS_SOFTWARE_VERSION);
 	m_bsDate.Create(this, IDS_DATA_DATE);
@@ -114,20 +114,20 @@ BOOL CBlueDlg::OnInitDialog()
 	m_editSearch.MoveWindow(CRect(503, 128, 741, 152));
 
 	m_btnAdd.Create(this, IDB_BLUE_ADD);
-	m_btnAdd.SetWindowText(_T("Add"));
+	m_btnAdd.SetWindowText(_T("添加"));
 	m_btnAdd.SetBSFont(12);
 	m_btnAdd.MoveWindow(CRect(277, 128, 376, 152));
 
 	m_btnDelete.Create(this, IDB_BLUE_DELETE);
-	m_btnDelete.SetWindowText(_T("Delete"));
+	m_btnDelete.SetWindowText(_T("删除"));
 	m_btnDelete.MoveWindow(CRect(398, 172, 493, 198));
 
 	m_btnModify.Create(this, IDB_BLUE_MODIFY);
-	m_btnModify.SetWindowText(_T("Modify"));
+	m_btnModify.SetWindowText(_T("修改"));
 	m_btnModify.MoveWindow(CRect(278, 172, 373, 198));
 
 	m_btnSearch.Create(this, IDB_BLUE_SEARCH);
-	m_btnSearch.SetWindowText(_T("Search"));
+	m_btnSearch.SetWindowText(_T("查询"));
 	m_btnSearch.MoveWindow(CRect(398, 128, 493, 152));
 
 	m_btnMore.Create(this, IDB_BLUE_MORE);
@@ -135,7 +135,7 @@ BOOL CBlueDlg::OnInitDialog()
 	m_btnMore.MoveWindow(CRect(841, 128, 871, 152));
 
 	m_bsMoreWord.Create(this, IDB_BLUE_MOREWORD);
-	m_bsMoreWord.SetWindowText(_T("More filter >>"));
+	m_bsMoreWord.SetWindowText(_T("更多筛选"));
 	m_bsMoreWord.SetBSFont(_T("Segoe UI"), 12);
 	m_bsMoreWord.MoveWindow(CRect(754, 128, 838, 151));
 

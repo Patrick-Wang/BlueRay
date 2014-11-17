@@ -1,0 +1,11 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Src/BlueLightSPS/Blue/Debug
+/Src/BlueLightSPS/Debug
+/Src/BlueLightSPS/ipch/blue-674c2bea
+/Src/BlueLightSPS/BlueTable/obj/Debug
+/Src/BlueLightSPS/Blue.v12.suo
+/Src/BlueLightSPS/Blue.opensdf
+/Src/BlueLightSPS/Blue.sdf
