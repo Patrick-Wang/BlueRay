@@ -22,10 +22,11 @@ void Util::SetWindowSize(HWND hWnd, int iWheight, int iHeight)
 	MoveWindow(hWnd, WindowRect.left, WindowRect.top, iWheight + deltaW, iHeight + deltaH, true);
 }
 
-CComboBox* Util::CreateComboBox(CWnd* pParent, UINT Id)
+CComboBox* Util::CreateComboBox(CWnd* pParent, UINT Id, CFont* pFont)
 {
-	CBRComboBox* pComb = new CBRComboBox();
-	pComb->Create(pParent, Id);
+	CComboBox* pComb = new CComboBox();
+	pComb->Create(WS_CHILD | WS_VISIBLE | CBS_DROPDOWN | CBS_HASSTRINGS | WS_VSCROLL, CRect(0, 0, 0, 0), pParent, Id);
+	pComb->SetFont(pFont);
 	return pComb;
 }
 

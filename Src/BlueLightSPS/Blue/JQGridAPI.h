@@ -33,8 +33,11 @@ class CJQGridAPI
 public:
 	CJQGridAPI(IJSMediator* pMedia);
 	~CJQGridAPI();
+	void ShowRow(int row);
+	void HideRow(int row);
 	void AddRow(const std::vector<CString>& rowData);
 	void DelRow(int index);
+	void DelRowById(int id);
 	int GetCurRow();
 	int GetRowCount();
 	void GetRow(int index, std::vector<CString>& rowData);
@@ -46,10 +49,10 @@ public:
 	CDelegate<void(void)> d_OnGridComplete;
 
 	VARIANT JSCall(int id, const std::vector<VARIANT>& params);
-private:
-	void Split(CString& src, TCHAR split, std::vector<CString>& retData);
-	void Split(CString& src, TCHAR split, std::vector<int>& retData);
-	void Join(const std::vector<CString>& retData, CString& dest);
+
+	static void Split(CString& src, TCHAR split, std::vector<CString>& retData);
+	static void Split(CString& src, TCHAR split, std::vector<int>& retData);
+	static void Join(const std::vector<CString>& retData, CString& dest);
 private:
 	IJSMediator* m_pMedia;
 	std::auto_ptr<CJsFun> m_lpJsfOnChecked;

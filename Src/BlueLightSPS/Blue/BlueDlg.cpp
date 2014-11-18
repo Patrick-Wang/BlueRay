@@ -54,6 +54,7 @@ BEGIN_MESSAGE_MAP(CBlueDlg, CDialogEx)
 	ON_BN_CLICKED(IDB_BLUE_MODIFY, &CBlueDlg::OnBnClickedModify)
 	ON_BN_CLICKED(IDB_BLUE_DELETE, &CBlueDlg::OnBnClickedDelete)
 	ON_BN_CLICKED(IDB_BLUE_SEARCH, &CBlueDlg::OnBnClickedSearch)
+	ON_BN_CLICKED(IDB_BLUE_MORE, &CBlueDlg::OnBnClickedMore)
 	ON_WM_ERASEBKGND()
 	ON_WM_CREATE()
 END_MESSAGE_MAP()
@@ -258,7 +259,7 @@ int CBlueDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 void CBlueDlg::OnBnClickedAdd()
 {
-	CSaleAddDlg dlg(_T("Add new item"));
+	CSaleAddDlg dlg(_T("添加"));
 	if (IDOK == dlg.DoModal()){
 		m_pJqGridAPI->AddRow(dlg.GetResult());
 	}
@@ -268,7 +269,7 @@ void CBlueDlg::OnBnClickedAdd()
 void CBlueDlg::OnBnClickedModify()
 {
 	std::auto_ptr<CSaleAddDlg::Option_t> pstOpt;
-	CSaleAddDlg dlg(_T("Modify item"));
+	CSaleAddDlg dlg(_T("修改"));
 	std::vector<int> checkedRows;
 	std::vector<CString> rowData;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
@@ -307,7 +308,7 @@ void CBlueDlg::OnBnClickedDelete()
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
-		m_pJqGridAPI->DelRow(checkedRows[i]);
+		m_pJqGridAPI->DelRowById(checkedRows[i]);
 	}
 	OnRowChecked();
 }
@@ -331,14 +332,26 @@ void CBlueDlg::OnBnClickedSearch()
 {
 	CString searchText;
 	m_editSearch.GetWindowText(searchText);
-	int size = m_pJqGridAPI->GetRowCount();
 	CString rowData;
-	for (int i = 1; i <= size; ++i)
+	bool bMatch = false;
+	for (int i = 0; i < m_table.size(); ++i)
 	{
-		m_pJqGridAPI->GetRow(i, rowData);
-		if (-1 != rowData.Find(searchText))
+		bMatch = false;
+		for (int j = 0; j < m_table[i].size(); ++j)
 		{
-
+			if (searchText.IsEmpty() || m_table[i][j].Find(searchText) >= 0)
+			{
+				bMatch = true;
+				break;
+			}	
+		}
+		if (!bMatch)
+		{
+			m_pJqGridAPI->HideRow(i + 1);
+		}
+		else
+		{
+			m_pJqGridAPI->ShowRow(i + 1);
 		}
 	}
 }
@@ -351,6 +364,36 @@ void CBlueDlg::OnGridComplete()
 		for (int j = 0; j < m_table.size(); ++j)
 		{
 			m_pJqGridAPI->AddRow(m_table[j]);
+		}
+	}
+}
+
+void CBlueDlg::OnBnClickedMore()
+{
+	CSaleAddDlg dlg(_T("高级搜索"));
+	if (IDOK == dlg.DoModal()){
+		const std::vector<CString>& searchVals = dlg.GetResult();
+		bool bMatch = true;
+		for (int i = 0; i < m_table.size(); ++i)
+		{
+			bMatch = true;
+			for (int j = 0; j < searchVals.size(); ++j)
+			{
+				if (!searchVals[i].IsEmpty() && m_table[i][j].Compare(searchVals[i]) != 0)
+				{
+					bMatch = false;
+					break;
+				}
+			}
+
+			if (!bMatch)
+			{
+				m_pJqGridAPI->HideRow(i + 1);
+			}
+			else
+			{
+				m_pJqGridAPI->ShowRow(i + 1);
+			}
 		}
 	}
 }

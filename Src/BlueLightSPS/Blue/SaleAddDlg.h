@@ -44,7 +44,7 @@ public:
 		int khmc;		//客户名称
 		int ggbh;		//规格型号
 		CString sl;			//数量
-		//轴承
+						//轴承
 		int dfr;		//单复绕
 		int zdqdy;		//制动器电压
 		int zylgg;		//曳引轮规格
@@ -55,7 +55,7 @@ public:
 		int zxcd;		//闸线长度
 		CString mpzl;	//铭牌等资料
 		CString bz;		//备注
-		//订单日期
+						//订单日期
 
 		tagOption_t(std::vector<CString>& data){
 			do
@@ -153,7 +153,7 @@ private:
 	CEdit m_slEdit;
 	CEdit m_mpzlEdit;
 	CEdit m_bzEdit;
-
+	CFont* m_lpFont;
 	virtual void PostNcDestroy();
 };
 

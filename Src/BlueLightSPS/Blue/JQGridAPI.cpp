@@ -187,3 +187,40 @@ int CJQGridAPI::GetRowCount()
 	}
 	return -1;
 }
+
+void CJQGridAPI::ShowRow(int row)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_I4;
+	vt.intVal = row;
+	params.push_back(vt);
+	vt.vt = VT_BSTR;
+	vt.bstrVal = ::SysAllocString(_T("true"));
+	params.push_back(vt);
+	vt = m_pMedia->CallJsFunction(_T("showHideRow"), params);
+}
+
+void CJQGridAPI::HideRow(int row)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_I4;
+	vt.intVal = row;
+	params.push_back(vt);
+	vt.vt = VT_BSTR;
+	vt.bstrVal = ::SysAllocString(_T("false"));
+	params.push_back(vt);
+	vt = m_pMedia->CallJsFunction(_T("showHideRow"), params);
+
+}
+
+void CJQGridAPI::DelRowById(int id)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_I4;
+	vt.intVal = id;
+	params.push_back(vt);
+	vt = m_pMedia->CallJsFunction(_T("delRowDataById"), params);
+}

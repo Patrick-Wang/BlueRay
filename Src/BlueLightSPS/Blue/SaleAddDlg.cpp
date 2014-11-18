@@ -107,27 +107,32 @@ static int g_StaticPos[][4] = {
 BOOL CSaleAddDlg::OnInitDialog()
 {
 	CAddDlg::OnInitDialog();
+	m_lpFont = CBSObject::GetFontPtr(_T("Segoe UI"), 12, FALSE, FALSE, FALSE);
+
 	m_htbhEdit.CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), NULL,
 		WS_CHILD | WS_VISIBLE/* | WS_BORDER | WS_HSCROLL |
 							 WS_VSCROLL | ES_MULTILINE */ | ES_WANTRETURN,
-							 CRect(120, 0, 400, 30), this, IDC_EDIT_BASE);
+							 CRect(100, 158, 100 + 100, 158 + 20), this, IDC_EDIT_BASE);
+	m_htbhEdit.SetFont(m_lpFont);
 	m_slEdit.CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), NULL,
 		WS_CHILD | WS_VISIBLE/* | WS_BORDER | WS_HSCROLL |
 							 WS_VSCROLL | ES_MULTILINE */ | ES_WANTRETURN,
-							 CRect(120, 30, 400, 60), this, IDC_EDIT_BASE + 1);
+							 CRect(300, 158, 300 + 100, 158 + 20), this, IDC_EDIT_BASE + 1);
+	m_slEdit.SetFont(m_lpFont);
 	m_mpzlEdit.CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), NULL,
 		WS_CHILD | WS_VISIBLE/* | WS_BORDER | WS_HSCROLL |
 							 WS_VSCROLL | ES_MULTILINE*/ | ES_WANTRETURN,
-							 CRect(120, 60, 400, 90), this, IDC_EDIT_BASE + 2);
+							 CRect(500, 158, 500 + 100, 158 + 20), this, IDC_EDIT_BASE + 2);
+	m_mpzlEdit.SetFont(m_lpFont);
 	m_bzEdit.CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), NULL,
 		WS_CHILD | WS_VISIBLE/* | WS_BORDER | WS_HSCROLL |
 							 WS_VSCROLL | ES_MULTILINE*/ | ES_WANTRETURN,
-							 CRect(120, 90, 400, 120), this, IDC_EDIT_BASE + 3);
-
+							 CRect(700, 158, 700 + 100, 158 + 20), this, IDC_EDIT_BASE + 3);
+	m_bzEdit.SetFont(m_lpFont);
 
 	for (int i = 0; i < _countof(g_CombItems); ++i)
 	{
-		m_aCombs[i] = Util::CreateComboBox(this, IDC_COMBO_BASE + i);
+		m_aCombs[i] = Util::CreateComboBox(this, IDC_COMBO_BASE + i, m_lpFont);
 		m_aCombs[i]->MoveWindow(g_CombPos[i][0], g_CombPos[i][1], g_CombPos[i][2], g_CombPos[i][3]);
 		for (int j = 0; j < _countof(g_CombItems[i]); ++j)
 		{
@@ -183,6 +188,28 @@ BOOL CSaleAddDlg::OnInitDialog()
 void CSaleAddDlg::PostNcDestroy()
 {
 	// TODO: Add your specialized code here and/or call the base class
+
+	for (int i = 0; i < _countof(m_aCombs); ++i)
+	{
+		if (NULL != m_aCombs[i])
+		{
+			delete m_aCombs[i];
+		}
+	}
+
+	for (int i = 0; i < _countof(m_aStatics); ++i)
+	{
+		if (NULL != m_aStatics[i])
+		{
+			delete m_aStatics[i];
+		}
+	}
+
+	if (NULL != m_lpFont)
+	{
+		m_lpFont->DeleteObject();
+		delete m_lpFont;
+	}
 
 	CAddDlg::PostNcDestroy();
 }

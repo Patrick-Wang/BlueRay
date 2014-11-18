@@ -62,6 +62,7 @@ public:
 	afx_msg void OnBnClickedDelete();
 	afx_msg void OnBnClickedModify();
 	afx_msg void OnBnClickedSearch();
+	afx_msg void OnBnClickedMore();
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

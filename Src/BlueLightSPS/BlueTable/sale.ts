@@ -11,6 +11,14 @@ function addRowData(rdata: string) {
     sale.View.newInstance().addRowData(targetData);
 }
 
+function getRowId(row: number) {
+    return sale.View.newInstance().getRowId(row - 1);
+}
+
+function showHideRow(row: number, show: string) {
+    sale.View.newInstance().showHideRow(getRowId(row), show == "true");
+}
+
 function getSelectedRows() {
     return sale.View.newInstance().getSelectedRowData().toString();
 }
@@ -20,12 +28,18 @@ function getRowCount() {
 }
 
 
-function delRowData(index : number) : void {
-    sale.View.newInstance().delRowData(index);
+function delRowData(row: number): void {
+    //alert("delRow" + row);
+    sale.View.newInstance().delRowData(getRowId(row));
+}
+
+function delRowDataById(rowId: number): void {
+    //alert("delRow" + rowId);
+    sale.View.newInstance().delRowData(rowId);
 }
 
 function getRowData(row: number): string {
-    var rw : any = sale.View.newInstance().getRowData(row);
+    var rw: any = sale.View.newInstance().getRowData(getRowId(row));
     var ret: string = "";
     for (var i in rw) {
         ret += rw[i] + ',';
@@ -34,7 +48,7 @@ function getRowData(row: number): string {
 }
 
 function setCellData(row: number, col: number, data: string) {
-    sale.View.newInstance().setCellData(row, col, data);
+    sale.View.newInstance().setCellData(getRowId(row - 1), col, data);
 }
 
 function testCall(arg) {
@@ -323,6 +337,23 @@ module sale {
 
         }
 
+        public showHideRow(row: number, show: boolean): void {
+            if (show) {
+                //alert("show " + row);
+                $("#" + row).css("display", "");
+            }
+            else {
+               // alert("hide " + row);
+                $("#" + row).css("display", "none");
+            }
+        }
+
+        public getRowId(row: number) : number {
+            var table = $("#" + this.mTableName);
+            var ids = table.jqGrid('getDataIDs');
+            return parseInt(ids[row]);
+        }
+
         public addRowData(rdata: any): void{
             var table = $("#" + this.mTableName);
             var ids = table.jqGrid('getDataIDs');
@@ -333,10 +364,13 @@ module sale {
             }   
             table.jqGrid('addRowData', rowid, rdata, 'last');
         }
-        public delRowData(index : number): void {
+        public delRowData(rowId: number): void {
+            //alert("delRow index" + rowId);
             var table = $("#" + this.mTableName);
-            //var cur = table.jqGrid('getGridParam', "selrow");
-            table.jqGrid('delRowData', index)
+            table.jqGrid('setSelection', rowId, false);
+            table.jqGrid('delRowData', rowId)
+            //var ids = table.jqGrid('getDataIDs');
+            //alert(ids);
         }
   
         public getRowData(row: number): void {
