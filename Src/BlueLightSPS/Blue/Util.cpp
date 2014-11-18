@@ -28,3 +28,15 @@ CComboBox* Util::CreateComboBox(CWnd* pParent, UINT Id)
 	pComb->Create(pParent, Id);
 	return pComb;
 }
+
+CBSStatic* Util::CreateStatic(CWnd* pParent, UINT Id, CString csWindowText, CString csFont, int iFSize)
+{
+	CBSStatic* pStatic = new CBSStatic();
+	pStatic->Create(pParent, Id);
+
+	pStatic->SetWindowText(csWindowText);
+	
+	pStatic->SetBSFont(csFont, iFSize);
+
+	return pStatic;
+}
