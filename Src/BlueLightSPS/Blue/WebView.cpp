@@ -34,7 +34,7 @@ VARIANT CWebView::CallJsFunction(LPCWSTR lpFun, std::vector<VARIANT>& params)
 {
 	LPCWSTR lpObjName = L"window";
 	VARIANT* pps = new VARIANT[params.size()];
-	VARIANT ret;
+	VARIANT ret = {};
 	std::copy_n(params.rbegin(), params.size(), pps);
 
 	//ªÒ»°window

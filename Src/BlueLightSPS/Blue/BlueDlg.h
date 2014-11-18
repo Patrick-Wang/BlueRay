@@ -9,7 +9,7 @@
 #include "afxwin.h"
 #include "JQGridAPI.h"
 // CBlueDlg dialog
-class CBlueDlg : public CDialogEx, public IJSMediator::IJSFunction
+class CBlueDlg : public CDialogEx
 {
 // Construction
 public:
@@ -20,10 +20,7 @@ public:
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
-
-	virtual VARIANT Call(std::vector<VARIANT>& params);
-	virtual LPCTSTR Name();
-	virtual int Id();
+	void OnRowChecked();
 // Implementation
 protected:
 	HICON m_hIcon;
@@ -58,7 +55,7 @@ public:
 	CWebView m_webView;
 	std::auto_ptr<CJQGridAPI> m_pJqGridAPI;
 	IJSMediator* m_lpJsMediator;
-	afx_msg void OnBnClickedTest();
+	afx_msg void OnBnClickedSetting();
 	afx_msg void OnBnClickedAdd();
 	afx_msg void OnBnClickedDelete();
 	afx_msg void OnBnClickedModify();

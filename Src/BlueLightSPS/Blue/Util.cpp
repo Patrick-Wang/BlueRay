@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Util.h"
-#include "BPComboBox.h"
+#include "BRComboBox.h"
 
 Util::Util()
 {
@@ -24,7 +24,7 @@ void Util::SetWindowSize(HWND hWnd, int iWheight, int iHeight)
 
 CComboBox* Util::CreateComboBox(CWnd* pParent, UINT Id)
 {
-	CBPComboBox* pComb = new CBPComboBox();
+	CBRComboBox* pComb = new CBRComboBox();
 	pComb->Create(pParent, Id);
 	return pComb;
 }

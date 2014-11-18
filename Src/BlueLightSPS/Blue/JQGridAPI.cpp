@@ -127,9 +127,11 @@ void CJQGridAPI::GetCheckedRows(std::vector<int>& checkedRows)
 {
 	std::vector<VARIANT> params;
 
-	VARIANT ret = m_pMedia->CallJsFunction(_T("getCheckedRows"), params);
+	VARIANT ret = m_pMedia->CallJsFunction(_T("getSelectedRows"), params);
 	if (VT_BSTR == ret.vt)
 	{
+		//IDispatch* pdisp =  ret.pdispVal;
+		
 		CString result = ret.bstrVal;
 		Split(result, _T(','), checkedRows);
 	}
@@ -154,7 +156,7 @@ void CJQGridAPI::SetCell(int row, int col, const CString& data)
 
 VARIANT CJQGridAPI::JSCall(int id, const std::vector<VARIANT>& params)
 {
-	VARIANT ret;
+	VARIANT ret = {};
 	if (ONROWCHECKED == id)
 	{
 		d_OnRowChecked();

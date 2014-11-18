@@ -114,9 +114,6 @@
     <ClInclude Include="colors.h">
       <Filter>UILib\standard</Filter>
     </ClInclude>
-    <ClInclude Include="BPComboBox.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BRButton.h">
       <Filter>UILib\standard</Filter>
     </ClInclude>
@@ -131,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="JQGridAPI.h">
       <Filter>Web</Filter>
+    </ClInclude>
+    <ClInclude Include="BRComboBox.h">
+      <Filter>UILib\standard</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -185,9 +185,6 @@
     <ClCompile Include="UILib\SwitchButton.cpp">
       <Filter>UILib\core</Filter>
     </ClCompile>
-    <ClCompile Include="BPComboBox.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BRButton.cpp">
       <Filter>UILib\standard</Filter>
     </ClCompile>
@@ -199,6 +196,9 @@
     </ClCompile>
     <ClCompile Include="JQGridAPI.cpp">
       <Filter>Web</Filter>
+    </ClCompile>
+    <ClCompile Include="BRComboBox.cpp">
+      <Filter>UILib\standard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
