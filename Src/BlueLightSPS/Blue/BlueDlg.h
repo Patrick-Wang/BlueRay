@@ -8,6 +8,7 @@
 #include "webview.h"
 #include "afxwin.h"
 #include "JQGridAPI.h"
+#define UM_GRID_COMPLETE WM_APP + 1
 // CBlueDlg dialog
 class CBlueDlg : public CDialogEx
 {
@@ -21,6 +22,7 @@ public:
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 	void OnRowChecked();
+	void OnGridComplete();
 // Implementation
 protected:
 	HICON m_hIcon;
@@ -59,8 +61,12 @@ public:
 	afx_msg void OnBnClickedAdd();
 	afx_msg void OnBnClickedDelete();
 	afx_msg void OnBnClickedModify();
-	
+	afx_msg void OnBnClickedSearch();
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	CEdit m_editSearch;
+	bool m_bInit;
+	std::vector<std::vector<CString>> m_table;
+	std::vector<BOOL> m_rowShow;
 };

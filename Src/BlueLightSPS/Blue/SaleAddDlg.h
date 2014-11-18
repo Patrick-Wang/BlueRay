@@ -28,7 +28,7 @@ break;\
 }
 
 #define do_get_int_merge(data, it, dest) \
-if (dest != OPT_FALSE_INT && dest != *it)\
+if (dest != OPT_FALSE_INT && dest != _tstoi(*it))\
 {\
 	dest = OPT_FALSE_INT;\
 }\

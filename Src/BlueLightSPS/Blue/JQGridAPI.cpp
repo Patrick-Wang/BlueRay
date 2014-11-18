@@ -1,14 +1,18 @@
 #include "stdafx.h"
 #include "JQGridAPI.h"
 #define ONROWCHECKED 12345
-
+#define ONGRIDCOMPLETE 12346
 
 CJQGridAPI::CJQGridAPI(IJSMediator* pMedia)
 	: m_pMedia(pMedia)
 {
-	m_lpJsf.reset(new CJsFun(_T("onRowChecked"), ONROWCHECKED));
-	m_pMedia->RegisterJsFunction(m_lpJsf.get());
-	m_lpJsf->m_dFun += std::make_pair(this, &CJQGridAPI::JSCall);
+	m_lpJsfOnChecked.reset(new CJsFun(_T("onRowChecked"), ONROWCHECKED));
+	m_pMedia->RegisterJsFunction(m_lpJsfOnChecked.get());
+	m_lpJsfOnChecked->m_dFun += std::make_pair(this, &CJQGridAPI::JSCall);
+
+	m_lpJsfOnComplete.reset(new CJsFun(_T("onGridComplete"), ONGRIDCOMPLETE));
+	m_pMedia->RegisterJsFunction(m_lpJsfOnComplete.get());
+	m_lpJsfOnComplete->m_dFun += std::make_pair(this, &CJQGridAPI::JSCall);
 }
 
 
@@ -51,6 +55,13 @@ int CJQGridAPI::GetCurRow()
 
 void CJQGridAPI::GetRow(int index, std::vector<CString>& rowData)
 {
+	CString result;
+	GetRow(index, result);
+	Split(result, _T(','), rowData);
+}
+
+void CJQGridAPI::GetRow(int index, CString& rowData)
+{
 	std::vector<VARIANT> params;
 	VARIANT vt;
 	vt.vt = VT_I4;
@@ -59,8 +70,7 @@ void CJQGridAPI::GetRow(int index, std::vector<CString>& rowData)
 	VARIANT ret = m_pMedia->CallJsFunction(_T("getRowData"), params);
 	if (VT_BSTR == ret.vt)
 	{
-		CString result = ret.bstrVal;
-		Split(result, _T(','), rowData);
+		rowData = ret.bstrVal;
 	}
 }
 
@@ -129,9 +139,7 @@ void CJQGridAPI::GetCheckedRows(std::vector<int>& checkedRows)
 
 	VARIANT ret = m_pMedia->CallJsFunction(_T("getSelectedRows"), params);
 	if (VT_BSTR == ret.vt)
-	{
-		//IDispatch* pdisp =  ret.pdispVal;
-		
+	{		
 		CString result = ret.bstrVal;
 		Split(result, _T(','), checkedRows);
 	}
@@ -161,5 +169,21 @@ VARIANT CJQGridAPI::JSCall(int id, const std::vector<VARIANT>& params)
 	{
 		d_OnRowChecked();
 	}
+	else if (ONGRIDCOMPLETE == id)
+	{
+		d_OnGridComplete();
+	}
 	return ret;
+}
+
+int CJQGridAPI::GetRowCount()
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt = m_pMedia->CallJsFunction(_T("getRowCount"), params);
+	if (VT_I4 == vt.vt)
+	{
+		return vt.intVal;
+	}
+	return -1;
 }

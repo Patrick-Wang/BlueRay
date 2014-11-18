@@ -36,11 +36,14 @@ public:
 	void AddRow(const std::vector<CString>& rowData);
 	void DelRow(int index);
 	int GetCurRow();
+	int GetRowCount();
 	void GetRow(int index, std::vector<CString>& rowData);
+	void GetRow(int index, CString& rowData);
 	void SetRow(int index, const std::vector<CString>& rowData);
 	void SetCell(int row, int col, const CString& data);
 	void GetCheckedRows(std::vector<int>& checkedRows);
 	CDelegate<void(void)> d_OnRowChecked;
+	CDelegate<void(void)> d_OnGridComplete;
 
 	VARIANT JSCall(int id, const std::vector<VARIANT>& params);
 private:
@@ -49,6 +52,7 @@ private:
 	void Join(const std::vector<CString>& retData, CString& dest);
 private:
 	IJSMediator* m_pMedia;
-	std::auto_ptr<CJsFun> m_lpJsf;
+	std::auto_ptr<CJsFun> m_lpJsfOnChecked;
+	std::auto_ptr<CJsFun> m_lpJsfOnComplete;
 };
 

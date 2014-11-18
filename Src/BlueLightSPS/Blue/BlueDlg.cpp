@@ -23,9 +23,20 @@
 
 CBlueDlg::CBlueDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CBlueDlg::IDD, pParent)
+	, m_bInit(true)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-
+	m_rowShow.resize(10, TRUE);
+	for (int i = 0; i < m_rowShow.size(); ++i)
+	{
+		m_table.push_back(std::vector<CString>());
+		for (int j = 0; j < 14; ++j)
+		{
+			CString str;
+			str.Format(_T("%d"), rand());
+			m_table.back().push_back(str);
+		}
+	}
 }
 
 void CBlueDlg::DoDataExchange(CDataExchange* pDX)
@@ -42,6 +53,7 @@ BEGIN_MESSAGE_MAP(CBlueDlg, CDialogEx)
 	ON_BN_CLICKED(IDB_BLUE_ADD, &CBlueDlg::OnBnClickedAdd)
 	ON_BN_CLICKED(IDB_BLUE_MODIFY, &CBlueDlg::OnBnClickedModify)
 	ON_BN_CLICKED(IDB_BLUE_DELETE, &CBlueDlg::OnBnClickedDelete)
+	ON_BN_CLICKED(IDB_BLUE_SEARCH, &CBlueDlg::OnBnClickedSearch)
 	ON_WM_ERASEBKGND()
 	ON_WM_CREATE()
 END_MESSAGE_MAP()
@@ -150,9 +162,9 @@ BOOL CBlueDlg::OnInitDialog()
 	m_webView.ShowWindow(SW_SHOW);
 	//m_webView.OpenWebBrowser();
 	m_lpJsMediator = static_cast<IJSMediator*>(&m_webView);
-	m_lpJsMediator->RegisterJsFunction(this);
 	m_pJqGridAPI.reset(new CJQGridAPI(m_lpJsMediator));
 	m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CBlueDlg::OnRowChecked);
+	m_pJqGridAPI->d_OnGridComplete += std::make_pair(this, &CBlueDlg::OnGridComplete);
 	CString path;
 
 	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
@@ -168,6 +180,8 @@ BOOL CBlueDlg::OnInitDialog()
 	m_webView.OpenURL(&url);
 	m_btnDelete.EnableWindow(FALSE);
 	m_btnModify.EnableWindow(FALSE);
+
+
 	//m_webBrowser.Navigate(_T("C:\\Users\\SUN\\Desktop\\WebBrowser加载本地资源 - Games - 博客园.html"), NULL, NULL, NULL, NULL);
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -260,6 +274,7 @@ void CBlueDlg::OnBnClickedModify()
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
+		rowData.clear();
 		m_pJqGridAPI->GetRow(checkedRows[i], rowData);
 		if (pstOpt.get() == NULL)
 		{
@@ -309,5 +324,33 @@ void CBlueDlg::OnRowChecked()
 	else{
 		m_btnDelete.EnableWindow(TRUE);
 		m_btnModify.EnableWindow(TRUE);
+	}
+}
+
+void CBlueDlg::OnBnClickedSearch()
+{
+	CString searchText;
+	m_editSearch.GetWindowText(searchText);
+	int size = m_pJqGridAPI->GetRowCount();
+	CString rowData;
+	for (int i = 1; i <= size; ++i)
+	{
+		m_pJqGridAPI->GetRow(i, rowData);
+		if (-1 != rowData.Find(searchText))
+		{
+
+		}
+	}
+}
+
+void CBlueDlg::OnGridComplete()
+{
+	if (m_bInit)
+	{
+		m_bInit = false;
+		for (int j = 0; j < m_table.size(); ++j)
+		{
+			m_pJqGridAPI->AddRow(m_table[j]);
+		}
 	}
 }

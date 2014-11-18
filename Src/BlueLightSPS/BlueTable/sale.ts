@@ -15,6 +15,10 @@ function getSelectedRows() {
     return sale.View.newInstance().getSelectedRowData().toString();
 }
 
+function getRowCount() {
+    return sale.View.newInstance().getRowCount();
+}
+
 
 function delRowData(index : number) : void {
     sale.View.newInstance().delRowData(index);
@@ -80,7 +84,6 @@ module sale {
             this.mEchartIdPie = echartIdPie;
             this.mEchartIdSquire = echartIdSquire;
             this.updateTable(tableId);
-            window.external.ready("first arg from js", "sec arg from js");
             //this.updatePieEchart(this.mEchartIdPie);
             //this.updateLineEchart(this.mEchartIdLine);
             //this.updateSquareEchart(this.mEchartIdSquire);
@@ -324,7 +327,10 @@ module sale {
             var table = $("#" + this.mTableName);
             var ids = table.jqGrid('getDataIDs');
             //获得当前最大行号（数据编号）
-            var rowid = Math.max.apply(Math, ids);
+            var rowid = 1; 
+            if (ids != "") {
+                rowid = parseInt(Math.max.apply(Math, ids)) + 1;
+            }   
             table.jqGrid('addRowData', rowid, rdata, 'last');
         }
         public delRowData(index : number): void {
@@ -343,6 +349,10 @@ module sale {
         public getSelectedRowData(): void {
             return $("#" + this.mTableName).jqGrid('getGridParam', 'selarrrow');
         }
+
+        public getRowCount(): number {
+            return $("#" + this.mTableName).jqGrid("getRowData").length;
+        }
         
         public setCellData(row, col, data): void {
             $("#" + this.mTableName).jqGrid('setCell', row, col, data);
@@ -358,17 +368,7 @@ module sale {
 	        //   tableAssist.mergeColum(0, 6);
 	        //   tableAssist.mergeColum(0, 7);
 	        //   tableAssist.mergeColum(0, 8);
-            var data = [
-               	["电力及配套","国网、南网"],
-				["电力及配套","省、市电力系统"],
-				["电力及配套","五大发电"],
-				["电力及配套","其它"],
-				["石油","石化"],
-				["轨道","交通"],
-				["出口","合同"],
-				["其","他"],
-				["合","计"],
-			];
+            var data = [];
 
 //			for (var i = 0; i < data.length; ++i){
 //				data[i] = data[i].concat(this.mTableData[i]);
@@ -405,6 +405,9 @@ module sale {
                     },
                     onSelectAll: (a, b, c) => {
                         window.external.onRowChecked();
+                    },
+                    gridComplete: () => {
+                        window.external.onGridComplete();
                     }
                 }));
         }
