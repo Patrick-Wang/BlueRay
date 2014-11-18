@@ -18,7 +18,6 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="cycle.js" />
     <Content Include="jqgrid\jqassist.js" />
     <Content Include="jqgrid\js\i18n\grid.locale-cn.js" />
     <Content Include="jqgrid\js\i18n\grid.locale-en.js" />
@@ -73,10 +72,6 @@
     <Content Include="jqgrid\themes\ui.jqgrid.css" />
     <Content Include="jqgrid\themes\ui.multiselect.css" />
     <Content Include="jqgrid\vector.js" />
-    <Content Include="json.js" />
-    <Content Include="json2.js" />
-    <Content Include="json_parse.js" />
-    <Content Include="json_parse_state.js" />
     <Content Include="web.config" />
     <Content Include="www2\echart.js" />
     <Content Include="www2\js\echarts-plain-2-0-0.js" />

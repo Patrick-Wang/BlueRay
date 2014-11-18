@@ -2,10 +2,8 @@
 /// <reference path="util.ts" />
 declare var echarts;
 
-function sale_addRowData(rdata: string) {
-    //alert(rdata);
+function addRowData(rdata: string) {
     var ardata: string[] = rdata.split(',');
-    //alert(ardata)
     var targetData = {};
     for (var i = 0; i < ardata.length; ++i) {
         targetData["sale_col_" + i] = ardata[i];
@@ -13,10 +11,27 @@ function sale_addRowData(rdata: string) {
     sale.View.newInstance().addRowData(targetData);
 }
 
-function sale_delCurRow() : void {
-    sale.View.newInstance().delRowData();
+function getSelectedRows() {
+    return sale.View.newInstance().getSelectedRowData().toString();
 }
 
+
+function delRowData(index : number) : void {
+    sale.View.newInstance().delRowData(index);
+}
+
+function getRowData(row: number): string {
+    var rw : any = sale.View.newInstance().getRowData(row);
+    var ret: string = "";
+    for (var i in rw) {
+        ret += rw[i] + ',';
+    }
+    return ret.substring(0, ret.length - 1);
+}
+
+function setCellData(row: number, col: number, data: string) {
+    sale.View.newInstance().setCellData(row, col, data);
+}
 
 function testCall(arg) {
     alert(arg);
@@ -312,16 +327,26 @@ module sale {
             var rowid = Math.max.apply(Math, ids);
             table.jqGrid('addRowData', rowid, rdata, 'last');
         }
-        public delRowData(): void {
+        public delRowData(index : number): void {
             var table = $("#" + this.mTableName);
-            var cur = table.jqGrid('getGridParam', "selrow");
-            table.jqGrid('delRowData', cur)
+            //var cur = table.jqGrid('getGridParam', "selrow");
+            table.jqGrid('delRowData', index)
         }
   
-        public modifyRowData(): void {
-            //$('#table').jqGrid('setCell', 1, 1, 12)
+        public getRowData(row: number): void {
+            var table = $("#" + this.mTableName);
+            //var cur = table.jqGrid('getGridParam', "selrow");
+            return table.jqGrid('getRowData', row);
         }
         
+
+        public getSelectedRowData(): void {
+            return $("#" + this.mTableName).jqGrid('getGridParam', 'selarrrow');
+        }
+        
+        public setCellData(row, col, data): void {
+            $("#" + this.mTableName).jqGrid('setCell', row, col, data);
+        }
 
         private updateTable(name: string): void {
             var tableAssist: JQTable.JQGridAssistant = JQGridAssistantFactory.createSaleTable(name, this.mYear);
@@ -364,7 +389,8 @@ module sale {
                     // datatype: "json",
                     data: tableAssist.getData(data),
                     datatype: "local",
-                    multiselect: false,
+                    multiselect: true,
+                    multikey: "ctrlKey",
                     drag: false,
                     resize: false,
                     //autowidth : false,
@@ -373,8 +399,13 @@ module sale {
                     height: document.documentElement.clientHeight - 22 - 3,
                     width: document.documentElement.clientWidth - 3,
                     shrinkToFit: false,
-                    autoScroll: true
-                    
+                    autoScroll: true,
+                    onSelectRow: (a, b, c) => {
+                        window.external.onRowChecked();
+                    },
+                    onSelectAll: (a, b, c) => {
+                        window.external.onRowChecked();
+                    }
                 }));
         }
     }

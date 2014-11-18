@@ -29,10 +29,12 @@ int CBRButton::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	else{
 		SetColorInside(enumBSBtnState::BS_NORMAL, COL_WHITE);
 		SetColorInside(enumBSBtnState::BS_HOVER, COL_GRAY);
+		SetColorInside(enumBSBtnState::BS_DISABLE, COL_GRAY);
 		SetColorInside(enumBSBtnState::BS_CLICK, COL_WHITE);
 		SetColorBorder(enumBSBtnState::BS_NORMAL, COL_BLACK, 2);
 		SetColorBorder(enumBSBtnState::BS_HOVER, COL_BLACK, 2);
 		SetColorBorder(enumBSBtnState::BS_CLICK, COL_BLACK, 2);
+		SetColorBorder(enumBSBtnState::BS_DISABLE, COL_BLACK, 2);
 	}
 
 	CBSButton::SetBSFont(_T("Segoe UI"), 12, FALSE, FALSE);

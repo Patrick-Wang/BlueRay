@@ -38,7 +38,7 @@ void CBlueDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CBlueDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
-	ON_BN_CLICKED(IDB_SETTINGPAGE, &CBlueDlg::OnBnClickedTest)
+	ON_BN_CLICKED(IDB_SETTINGPAGE, &CBlueDlg::OnBnClickedSetting)
 	ON_BN_CLICKED(IDB_BLUE_ADD, &CBlueDlg::OnBnClickedAdd)
 	ON_BN_CLICKED(IDB_BLUE_MODIFY, &CBlueDlg::OnBnClickedModify)
 	ON_BN_CLICKED(IDB_BLUE_DELETE, &CBlueDlg::OnBnClickedDelete)
@@ -152,6 +152,7 @@ BOOL CBlueDlg::OnInitDialog()
 	m_lpJsMediator = static_cast<IJSMediator*>(&m_webView);
 	m_lpJsMediator->RegisterJsFunction(this);
 	m_pJqGridAPI.reset(new CJQGridAPI(m_lpJsMediator));
+	m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CBlueDlg::OnRowChecked);
 	CString path;
 
 	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
@@ -165,7 +166,8 @@ BOOL CBlueDlg::OnInitDialog()
 	url.vt = VT_BSTR;
 	url.bstrVal = (BSTR)::SysAllocString(path);
 	m_webView.OpenURL(&url);
-
+	m_btnDelete.EnableWindow(FALSE);
+	m_btnModify.EnableWindow(FALSE);
 	//m_webBrowser.Navigate(_T("C:\\Users\\SUN\\Desktop\\WebBrowser加载本地资源 - Games - 博客园.html"), NULL, NULL, NULL, NULL);
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -212,32 +214,9 @@ HCURSOR CBlueDlg::OnQueryDragIcon()
 
 
 
-void CBlueDlg::OnBnClickedTest()
+void CBlueDlg::OnBnClickedSetting()
 {
-	std::vector<VARIANT> par;
-	VARIANT vt;
-	vt.vt = VT_BSTR;
-	vt.bstrVal = ::SysAllocString(L"asdfsdf");
-	par.push_back(vt);
-	m_lpJsMediator->CallJsFunction(L"testCall", par);
-}
 
-VARIANT CBlueDlg::Call(std::vector<VARIANT>& params)
-{
-	AfxMessageBox(params[0].bstrVal);
-	AfxMessageBox(params[1].bstrVal);
-
-	return VARIANT();
-}
-
-LPCTSTR CBlueDlg::Name()
-{
-	return L"ready";
-}
-
-int CBlueDlg::Id()
-{
-	return 1000;
 }
 
 
@@ -281,7 +260,7 @@ void CBlueDlg::OnBnClickedModify()
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
-		m_pJqGridAPI->GetRow(i, rowData);
+		m_pJqGridAPI->GetRow(checkedRows[i], rowData);
 		if (pstOpt.get() == NULL)
 		{
 			pstOpt.reset(new CSaleAddDlg::Option_t(rowData));
@@ -313,6 +292,22 @@ void CBlueDlg::OnBnClickedDelete()
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
-		m_pJqGridAPI->DelRow(i);
+		m_pJqGridAPI->DelRow(checkedRows[i]);
+	}
+	OnRowChecked();
+}
+
+void CBlueDlg::OnRowChecked()
+{
+	std::vector<int> checkedRows;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+	if (checkedRows.empty())
+	{
+		m_btnDelete.EnableWindow(FALSE);
+		m_btnModify.EnableWindow(FALSE);
+	}
+	else{
+		m_btnDelete.EnableWindow(TRUE);
+		m_btnModify.EnableWindow(TRUE);
 	}
 }

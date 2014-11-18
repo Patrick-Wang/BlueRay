@@ -43,7 +43,7 @@ public:
 		CString htbh;	//合同号
 		int khmc;		//客户名称
 		int ggbh;		//规格型号
-		int sl;			//数量
+		CString sl;			//数量
 		int dfr;		//单复绕
 		int zdqdy;		//制动器电压
 		int zylgg;		//曳引轮规格
@@ -61,7 +61,7 @@ public:
 				do_get(data, it, htbh);
 				do_get_int(data, it, khmc);
 				do_get_int(data, it, ggbh);
-				do_get_int(data, it, sl);
+				do_get(data, it, sl);
 				do_get_int(data, it, dfr);
 				do_get_int(data, it, zdqdy);
 				do_get_int(data, it, zylgg);
@@ -82,7 +82,7 @@ public:
 				do_get_merge(data, it, htbh);
 				do_get_int_merge(data, it, khmc);
 				do_get_int_merge(data, it, ggbh);
-				do_get_int_merge(data, it, sl);
+				do_get_merge(data, it, sl);
 				do_get_int_merge(data, it, dfr);
 				do_get_int_merge(data, it, zdqdy);
 				do_get_int_merge(data, it, zylgg);
@@ -123,6 +123,10 @@ private:
 	Option_t* m_lpOption;
 	CFont* m_pfont;
 	CComboBox* m_aCombs[CombId::END];
+	CEdit m_htbhEdit;
+	CEdit m_slEdit;
+	CEdit m_mpzlEdit;
+	CEdit m_bzEdit;
 	virtual void PostNcDestroy();
 };
 

@@ -1,11 +1,11 @@
 #pragma once
 #include "afxwin.h"
-class CBPComboBox :
+class CBRComboBox :
 	public CComboBox
 {
 public:
-	CBPComboBox();
-	~CBPComboBox();
+	CBRComboBox();
+	~CBRComboBox();
 	void Create(CWnd* pParent, UINT id);
 	DECLARE_MESSAGE_MAP()
 	afx_msg void OnDestroy();
