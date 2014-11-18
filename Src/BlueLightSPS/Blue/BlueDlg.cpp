@@ -150,7 +150,6 @@ BOOL CBlueDlg::OnInitDialog()
 	m_webView.ShowWindow(SW_SHOW);
 	//m_webView.OpenWebBrowser();
 	m_lpJsMediator = static_cast<IJSMediator*>(&m_webView);
-	m_lpJsMediator->RegisterJsFunction(this);
 	m_pJqGridAPI.reset(new CJQGridAPI(m_lpJsMediator));
 	m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CBlueDlg::OnRowChecked);
 	CString path;
