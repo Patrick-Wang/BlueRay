@@ -11,12 +11,12 @@ function addRowData(rdata: string) {
     sale.View.newInstance().addRowData(targetData);
 }
 
-function getRowId(row: number) {
-    return sale.View.newInstance().getRowId(row - 1);
+function getRowId(rowIndex: number) {
+    return sale.View.newInstance().getRowId(rowIndex);
 }
 
-function showHideRow(row: number, show: string) {
-    sale.View.newInstance().showHideRow(getRowId(row), show == "true");
+function showHideRow(rowId: number, show: string) {
+    sale.View.newInstance().showHideRow(rowId, show == "true");
 }
 
 function getSelectedRows() {
@@ -28,18 +28,14 @@ function getRowCount() {
 }
 
 
-function delRowData(row: number): void {
+function delRowData(rowId: number): void {
     //alert("delRow" + row);
-    sale.View.newInstance().delRowData(getRowId(row));
-}
-
-function delRowDataById(rowId: number): void {
-    //alert("delRow" + rowId);
     sale.View.newInstance().delRowData(rowId);
 }
 
-function getRowData(row: number): string {
-    var rw: any = sale.View.newInstance().getRowData(getRowId(row));
+
+function getRowData(rowId: number): string {
+    var rw: any = sale.View.newInstance().getRowData(rowId);
     var ret: string = "";
     for (var i in rw) {
         ret += rw[i] + ',';
@@ -79,322 +75,69 @@ module sale {
             }
             return View.ins;
         }
-        private currentSelected : number = 0;
-        private mEchartIdPie: string;
-        private mMonth: number;
-        private mEchartIdSquire: string;
-        private mEchartIdLine: string;
-        private mYear: number;
-        private mLineData: Array<string[]>;
-        private mTableData: Array<string[]>;
-        private mTableName : string;
-        public init(echartIdPie: string, echartIdSquire: string, echartIdLine: string, tableId: string, args: any[]): void {
-            //this.mMonth = args[0];
-            //this.mYear = args[1];
-            //this.mLineData = args[2];
-            //this.mTableData = args[3];
+
+        private mTableName: string;
+        private mTable: any;
+        public init(tableId: string): void {
             this.mTableName = tableId;
-            this.mEchartIdLine = echartIdLine;
-            this.mEchartIdPie = echartIdPie;
-            this.mEchartIdSquire = echartIdSquire;
-            this.updateTable(tableId);
-            //this.updatePieEchart(this.mEchartIdPie);
-            //this.updateLineEchart(this.mEchartIdLine);
-            //this.updateSquareEchart(this.mEchartIdSquire);
-            
+            this.mTable = $('#' + tableId);
+            this.updateTable(tableId);            
         }
 
-        public onSelected(i: number) {
-        	this.currentSelected = i;
-            this.updateLineEchart(this.mEchartIdLine);
-            this.updateSquareEchart(this.mEchartIdSquire);
-        }
 
-        private updateSquareEchart(echart: string): void {
-			var data = [];
-            var month: string[] = [];
-            if (data == null) {
-                data = [];
-                data.push([]);
-                data.push([]);
-                data.push([]);
-                for (var i = 1; i <= this.mMonth; ++i) {
-                    month.push(i + "月");
-                    data[0].push(Math.floor(Math.random() * (1000 + 1)) + "");
-                    data[1].push(Math.floor(Math.random() * (1000 + 1)) + "");
-                    data[2].push(Math.floor(Math.random() * (1000 + 1)) + "");
-                }
-            }
-            else {
-            	data.push(this.mLineData[this.currentSelected * 5 + 2]);
-            	data.push(this.mLineData[this.currentSelected * 5 + 3]);
-            	data.push(this.mLineData[this.currentSelected * 5 + 4]);
-                for (var i = 1; i <= this.mMonth; ++i) {
-                    month.push(i + "月");
-                }
-            }
-
-      
-            var legend = ["陈欠4年及以上", "陈欠3年", "陈欠2年"];
-            var ser = [];
-            for (var i = 0; i < legend.length; ++i) {
-                ser.push({
-                    name: legend[i],
-                    type: 'line',
-                    smooth: true,
-                    stack: "金额",
-                    itemStyle: { normal: { areaStyle: { type: 'default' } } },
-                    data: data[i]
-                })
-            }
-
-            var option = {
-				title : {
-        			text: '行业陈欠款趋势'
-    			},
-                tooltip: {
-                    trigger: 'axis'
-                },
-                legend: {
-                    data: legend
-                },
-                toolbox: {
-                    show: true,
-                },
-                calculable: false,
-                xAxis: [
-                    {
-                        type: 'category',
-                        boundaryGap: false,
-                        data: month
-                    }
-                ],
-                yAxis: [
-                    {
-                        type: 'value'
-                    }
-                ],
-                series: ser
-            }
-
-            echarts.init($('#' + echart)[0]).setOption(option);
-
-        }
-
-        private updateLineEchart(echart: string): void {
-			var data = [];
-            var month: string[] = [];
-            if (data == null) {
-                data = [];
-                data.push([]);
-                data.push([]);
-
-                for (var i = 1; i <= this.mMonth; ++i) {
-                    month.push(i + "月");
-                    data[0].push(Math.floor(Math.random() * (1000 + 1)) + "");
-                    data[1].push(Math.floor(Math.random() * (1000 + 1)) + "");
-                }
-            }
-            else {
-            	data.push(this.mLineData[this.currentSelected * 5]);
-            	data.push(this.mLineData[this.currentSelected * 5 + 1]);
-                for (var i = 1; i <= this.mMonth; ++i) {
-                    month.push(i + "月");
-                }
-            }
-            var legend = [this.mYear - 1 + "年", this.mYear + "年"];
-            //var chart: ECharts.Chart = new ECharts.Chart(new ECharts.XAxis(month), new ECharts.YAxis());
-           // chart.setLegend(new ECharts.Legend([this.mYear - 1 + "年", this.mYear + "年"], ECharts.LegendX.center));
-
-            //var ser: ECharts.Line.SeriesImpl = new ECharts.Line.SeriesImpl(this.mYear - 1 + '年', data[0]);
-            //chart.addSeries(ser);
-
-            //ser = new ECharts.Line.SeriesImpl(this.mYear + '年', data[1]);
-            //chart.addSeries(ser);
-
-            //chart.update(echart);
-
-            var ser = [];
-            for (var i = 0; i < legend.length; ++i) {
-                ser.push({
-                    name: legend[i],
-                    type: 'line',
-                    smooth: true,
-                    data: data[i]
-                })
-            }
-
-
-            var option = {
-				title : {
-        			text: '行业陈欠款同期对比'
-    			},
-                tooltip: {
-                    trigger: 'axis'
-                },
-                legend: {
-                    data: legend
-                },
-                toolbox: {
-                    show: true,
-                },
-                calculable: false,
-                xAxis: [
-                    {
-                        type: 'category',
-                        boundaryGap: false,
-                        data: month
-                    }
-                ],
-                yAxis: [
-                    {
-                        type: 'value'
-                    }
-                ],
-                series: ser
-            }
-
-            echarts.init($('#' + echart)[0]).setOption(option);
-
-        }
-        private updatePieEchart(echart: string): void {
-       	 	var data = this.mTableData;
-
-            var legend = ["国网、南网", "省、市电力公司", "五大发电", "其他电源", "石油石化", "轨道交通","出口合同", "其他"];
-   			var dljpt = 0;
-    		for (var i = 0; i < 4; ++i) {
-                	dljpt += parseInt(this.mTableData[i][3])
-            }
-   			var dataIn = [
-                { name: "电力 \r\n及配套",  value: dljpt},
-                { name: "", value: parseInt(this.mTableData[4][3]) },
-                { name: " ", value: parseInt(this.mTableData[5][3]) },
-                { name: "  ", value: parseInt(this.mTableData[6][3]) },
-                { name: "   ",  value: parseInt(this.mTableData[7][3]) }
-            ];
-//            var dataIn = [
-//                { name: " 电力 \r\n及配套", value: Math.random() * (1000 + 1) },
-//                { name: "石油\r\n石化", value: Math.random() * (1000 + 1) },
-//                { name: "制造\r\n行业", value: Math.random() * (1000 + 1) },
-//                { name: "    铁路    \r\n（轨道交通）", value: Math.random() * (1000 + 1) },
-//                { name: " 出口\r\n合同", value: Math.random() * (1000 + 1) },
-//                { name: "其它", value: Math.random() * (1000 + 1) }
-//            ];
-
-            var dataOut = [];
-            for (var i = 0; i < legend.length; ++i) {
-                //dataOut.push({ name: legend[i], value: Math.random() * (1000 + 1) });
-                dataOut.push({ name: legend[i], value: this.mTableData[i][3] });
-            }
-
-            //var dataIn = [{ name: "  电力\r\n及配套", value: Math.random() * (1000 + 1) },
-            //    { name: "出口\r\n合同", value: Math.random() * (1000 + 1) },
-            //    { name: "其它", value: Math.random() * (1000 + 1) }];
-
-            var option = {
-            	title : {
-        			text: '行业占比'
-    			},
-                tooltip: {
-                    trigger: 'axis'
-                },
-                legend: {
-                    x: "left",
-                    y: '40',
-                    data: legend,
-                    orient: "vertical"
-                },
-                toolbox: {
-                    show: true,
-                },
-                calculable: false,
-                series: [
-                    {
-                        name: "1",
-                        type: 'pie',
-                        radius: [100, 130],
-                        data: dataOut
-                    }, {
-                        name: "2",
-                        type: 'pie',
-                        radius: [0, 60],
-                        itemStyle : {
-			                normal : {
-			                    label : {
-			                        position : 'inner'
-			                    },
-			                    labelLine : {
-			                        show : false
-			                    }
-			                }
-		                },
-                        data: dataIn
-                    }
-                ]
-            }
-
-            echarts.init($('#' + echart)[0]).setOption(option);
-
-        }
-
-        public showHideRow(row: number, show: boolean): void {
+        public showHideRow(rowId: number, show: boolean): void {
             if (show) {
-                //alert("show " + row);
-                $("#" + row).css("display", "");
+                $("#" + rowId).css("display", "");
             }
             else {
-               // alert("hide " + row);
-                $("#" + row).css("display", "none");
+                $("#" + rowId).css("display", "none");
             }
         }
 
         public getRowId(row: number) : number {
-            var table = $("#" + this.mTableName);
-            var ids = table.jqGrid('getDataIDs');
+            var ids = this.mTable.jqGrid('getDataIDs');
+            if (ids.length <= row) {
+                return -1;
+            }
             return parseInt(ids[row]);
         }
 
         public addRowData(rdata: any): void{
-            var table = $("#" + this.mTableName);
-            var ids = table.jqGrid('getDataIDs');
+            var ids = this.mTable.jqGrid('getDataIDs');
             //获得当前最大行号（数据编号）
-            var rowid = 1; 
+            var rowid = 0; 
             if (ids != "") {
                 rowid = parseInt(Math.max.apply(Math, ids)) + 1;
-            }   
-            table.jqGrid('addRowData', rowid, rdata, 'last');
+            } 
+           // alert(rowid);  
+            this.mTable.jqGrid('addRowData', rowid, rdata, 'last');
         }
         public delRowData(rowId: number): void {
-            //alert("delRow index" + rowId);
-            var table = $("#" + this.mTableName);
-            table.jqGrid('setSelection', rowId, false);
-            table.jqGrid('delRowData', rowId)
-            //var ids = table.jqGrid('getDataIDs');
-            //alert(ids);
+            this.mTable.jqGrid('setSelection', rowId, false);
+            this.mTable.jqGrid('delRowData', rowId)
         }
   
-        public getRowData(row: number): void {
-            var table = $("#" + this.mTableName);
+        public getRowData(rowId: number): void {
             //var cur = table.jqGrid('getGridParam', "selrow");
-            return table.jqGrid('getRowData', row);
+            return this.mTable.jqGrid('getRowData', rowId);
         }
         
 
         public getSelectedRowData(): void {
-            return $("#" + this.mTableName).jqGrid('getGridParam', 'selarrrow');
+            return this.mTable.jqGrid('getGridParam', 'selarrrow');
         }
 
         public getRowCount(): number {
-            return $("#" + this.mTableName).jqGrid("getRowData").length;
+            return this.mTable.jqGrid("getRowData").length;
         }
         
-        public setCellData(row, col, data): void {
-            $("#" + this.mTableName).jqGrid('setCell', row, col, data);
+        public setCellData(rowId, colId, data): void {
+            this.mTable.jqGrid('setCell', rowId, colId, data);
         }
 
         private updateTable(name: string): void {
             var tableAssist: JQTable.JQGridAssistant = JQGridAssistantFactory.createSaleTable(name, this.mYear);
-            tableAssist.mergeTitle();
+            // tableAssist.mergeTitle();
          
             //tableAssist.mergeRow(0);
 	        //   tableAssist.mergeColum(0, 4);

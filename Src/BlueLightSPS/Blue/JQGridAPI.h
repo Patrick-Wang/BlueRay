@@ -33,17 +33,17 @@ class CJQGridAPI
 public:
 	CJQGridAPI(IJSMediator* pMedia);
 	~CJQGridAPI();
-	void ShowRow(int row);
-	void HideRow(int row);
+	void ShowRow(int rowId);
+	void HideRow(int rowId);
 	void AddRow(const std::vector<CString>& rowData);
-	void DelRow(int index);
-	void DelRowById(int id);
+	void DelRow(int rowId);
 	int GetCurRow();
 	int GetRowCount();
-	void GetRow(int index, std::vector<CString>& rowData);
-	void GetRow(int index, CString& rowData);
-	void SetRow(int index, const std::vector<CString>& rowData);
-	void SetCell(int row, int col, const CString& data);
+	int GetRowId(int index);
+	void GetRow(int rowId, std::vector<CString>& rowData);
+	void GetRow(int rowId, CString& rowData);
+	void SetRow(int rowId, const std::vector<CString>& rowData);
+	void SetCell(int rowId, int colIndex, const CString& data);
 	void GetCheckedRows(std::vector<int>& checkedRows);
 	CDelegate<void(void)> d_OnRowChecked;
 	CDelegate<void(void)> d_OnGridComplete;

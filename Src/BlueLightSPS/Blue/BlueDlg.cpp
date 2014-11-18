@@ -308,7 +308,7 @@ void CBlueDlg::OnBnClickedDelete()
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
-		m_pJqGridAPI->DelRowById(checkedRows[i]);
+		m_pJqGridAPI->DelRow(checkedRows[i]);
 	}
 	OnRowChecked();
 }
@@ -347,11 +347,11 @@ void CBlueDlg::OnBnClickedSearch()
 		}
 		if (!bMatch)
 		{
-			m_pJqGridAPI->HideRow(i + 1);
+			m_pJqGridAPI->HideRow(m_pJqGridAPI->GetRowId(i));
 		}
 		else
 		{
-			m_pJqGridAPI->ShowRow(i + 1);
+			m_pJqGridAPI->ShowRow(m_pJqGridAPI->GetRowId(i));
 		}
 	}
 }
@@ -390,11 +390,11 @@ void CBlueDlg::OnBnClickedMore()
 
 			if (!bMatch)
 			{
-				m_pJqGridAPI->HideRow(i + 1);
+				m_pJqGridAPI->HideRow(m_pJqGridAPI->GetRowId(i));
 			}
 			else
 			{
-				m_pJqGridAPI->ShowRow(i + 1);
+				m_pJqGridAPI->ShowRow(m_pJqGridAPI->GetRowId(i));
 			}
 		}
 	}

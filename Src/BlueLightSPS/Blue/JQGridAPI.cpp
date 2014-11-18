@@ -32,11 +32,11 @@ void CJQGridAPI::AddRow(const std::vector<CString>& rowData)
 		m_pMedia->CallJsFunction(_T("addRowData"), params);
 }
 
-void CJQGridAPI::DelRow(int index)
+void CJQGridAPI::DelRow(int rowId)
 {
 	VARIANT vt;
 	vt.vt = VT_I4;
-	vt.intVal = index;
+	vt.intVal = rowId;
 	std::vector<VARIANT> params;
 	params.push_back(vt);
 	m_pMedia->CallJsFunction(_T("delRowData"), params);
@@ -53,19 +53,19 @@ int CJQGridAPI::GetCurRow()
 	return -1;
 }
 
-void CJQGridAPI::GetRow(int index, std::vector<CString>& rowData)
+void CJQGridAPI::GetRow(int rowId, std::vector<CString>& rowData)
 {
 	CString result;
-	GetRow(index, result);
+	GetRow(rowId, result);
 	Split(result, _T(','), rowData);
 }
 
-void CJQGridAPI::GetRow(int index, CString& rowData)
+void CJQGridAPI::GetRow(int rowId, CString& rowData)
 {
 	std::vector<VARIANT> params;
 	VARIANT vt;
 	vt.vt = VT_I4;
-	vt.intVal = index;
+	vt.intVal = rowId;
 	params.push_back(vt);
 	VARIANT ret = m_pMedia->CallJsFunction(_T("getRowData"), params);
 	if (VT_BSTR == ret.vt)
@@ -118,12 +118,12 @@ void CJQGridAPI::Join(const std::vector<CString>& data, CString& dest)
 	}
 }
 
-void CJQGridAPI::SetRow(int index, const std::vector<CString>& rowData)
+void CJQGridAPI::SetRow(int rowId, const std::vector<CString>& rowData)
 {
 	std::vector<VARIANT> params;
 	VARIANT vt;
 	vt.vt = VT_I4;
-	vt.intVal = index;
+	vt.intVal = rowId;
 	params.push_back(vt);
 	CString strArray;
 	Join(rowData, strArray);
@@ -146,15 +146,15 @@ void CJQGridAPI::GetCheckedRows(std::vector<int>& checkedRows)
 
 }
 
-void CJQGridAPI::SetCell(int row, int col, const CString& data)
+void CJQGridAPI::SetCell(int rowId, int colIndex, const CString& data)
 {
 	std::vector<VARIANT> params;
 	VARIANT vt;
 	vt.vt = VT_I4;
-	vt.intVal = row;
+	vt.intVal = rowId;
 	params.push_back(vt);
 	vt.vt = VT_I4;
-	vt.intVal = col;
+	vt.intVal = colIndex;
 	params.push_back(vt);
 	vt.vt = VT_BSTR;
 	vt.bstrVal = data.AllocSysString();
@@ -188,12 +188,12 @@ int CJQGridAPI::GetRowCount()
 	return -1;
 }
 
-void CJQGridAPI::ShowRow(int row)
+void CJQGridAPI::ShowRow(int rowId)
 {
 	std::vector<VARIANT> params;
 	VARIANT vt = {};
 	vt.vt = VT_I4;
-	vt.intVal = row;
+	vt.intVal = rowId;
 	params.push_back(vt);
 	vt.vt = VT_BSTR;
 	vt.bstrVal = ::SysAllocString(_T("true"));
@@ -201,12 +201,12 @@ void CJQGridAPI::ShowRow(int row)
 	vt = m_pMedia->CallJsFunction(_T("showHideRow"), params);
 }
 
-void CJQGridAPI::HideRow(int row)
+void CJQGridAPI::HideRow(int rowId)
 {
 	std::vector<VARIANT> params;
 	VARIANT vt = {};
 	vt.vt = VT_I4;
-	vt.intVal = row;
+	vt.intVal = rowId;
 	params.push_back(vt);
 	vt.vt = VT_BSTR;
 	vt.bstrVal = ::SysAllocString(_T("false"));
@@ -215,12 +215,17 @@ void CJQGridAPI::HideRow(int row)
 
 }
 
-void CJQGridAPI::DelRowById(int id)
+int CJQGridAPI::GetRowId(int index)
 {
 	std::vector<VARIANT> params;
 	VARIANT vt = {};
 	vt.vt = VT_I4;
-	vt.intVal = id;
+	vt.intVal = index;
 	params.push_back(vt);
-	vt = m_pMedia->CallJsFunction(_T("delRowDataById"), params);
+	vt = m_pMedia->CallJsFunction(_T("getRowId"), params);
+	if (vt.vt == VT_I4)
+	{
+		return vt.intVal;
+	}
+	return -1;
 }
