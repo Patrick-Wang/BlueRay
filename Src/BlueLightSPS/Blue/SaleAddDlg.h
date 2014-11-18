@@ -44,6 +44,7 @@ public:
 		int khmc;		//客户名称
 		int ggbh;		//规格型号
 		int sl;			//数量
+		//轴承
 		int dfr;		//单复绕
 		int zdqdy;		//制动器电压
 		int zylgg;		//曳引轮规格
@@ -54,6 +55,8 @@ public:
 		int zxcd;		//闸线长度
 		CString mpzl;	//铭牌等资料
 		CString bz;		//备注
+		//订单日期
+
 		tagOption_t(std::vector<CString>& data){
 			do
 			{
@@ -102,19 +105,40 @@ public:
 	~CSaleAddDlg();
 	void SetOption(Option_t* lpOpt);
 private:
-	enum CombId{
-		KHMC,
-		GGBH,
-		DFR,
-		ZDQDY,
-		ZYLGG,
-		JF,
-		BPQXH,
-		BMQXH,
-		DLCD,
-		ZXCD,
-		END
+	enum ItemId{
+		Item_HTH,
+		Item_KHMC,
+		Item_GGBH,
+		Item_SL,
+		Item_ZC,
+		Item_DFR,
+		Item_ZDQDY,
+		Item_YYLGG,
+		Item_JF,
+		Item_BPQXH,
+		Item_BMQXH,
+		Item_DLCD,
+		Item_ZXCD,
+		Item_MPZL,
+		Item_DDRQ,
+		Item_BZ,
+		Item_END
 	};
+
+	enum CombId{
+		Comb_KHMC,
+		Comb_GGBH,
+		Comb_DFR,
+		Comb_ZDQDY,
+		Comb_YYLGG,
+		Comb_JF,
+		Comb_BPQXH,
+		Comb_BMQXH,
+		Comb_DLCD,
+		Comb_ZXCD,
+		Comb_END
+	};
+
 public:
 	virtual BOOL OnInitDialog();
 protected:
@@ -122,7 +146,9 @@ protected:
 private:
 	Option_t* m_lpOption;
 	CFont* m_pfont;
-	CComboBox* m_aCombs[CombId::END];
+	CComboBox* m_aCombs[CombId::Comb_END];
+	CBSStatic* m_aStatics[ItemId::Item_END];
+
 	virtual void PostNcDestroy();
 };
 
