@@ -33,7 +33,7 @@ CBlueDlg::CBlueDlg(CWnd* pParent /*=NULL*/)
 		for (int j = 0; j < 14; ++j)
 		{
 			CString str;
-			str.Format(_T("%d"), rand());
+			str.Format(_T("%d"), abs(rand()) % 3);
 			m_table.back().push_back(str);
 		}
 	}
@@ -291,11 +291,11 @@ void CBlueDlg::OnBnClickedModify()
 		const std::vector<CString>& result = dlg.GetResult();
 		for (int j = result.size() - 1; j >= 0; --j)
 		{
-			if (result[j] != OPT_FALSE)
+			if (OPT_FALSE != result[j])
 			{
 				for (int i = checkedRows.size() - 1; i >= 0; --i)
 				{
-					m_pJqGridAPI->SetCell(i, j, result[j]);
+					m_pJqGridAPI->SetCell(checkedRows[i], j + 1, result[j]);
 				}
 			}
 		}
@@ -371,6 +371,8 @@ void CBlueDlg::OnGridComplete()
 void CBlueDlg::OnBnClickedMore()
 {
 	CSaleAddDlg dlg(_T("¸ß¼¶ËÑË÷"));
+	std::auto_ptr<CSaleAddDlg::Option_t> pstOpt(new CSaleAddDlg::Option_t());
+	dlg.SetOption(pstOpt.get());
 	if (IDOK == dlg.DoModal()){
 		const std::vector<CString>& searchVals = dlg.GetResult();
 		bool bMatch = true;
@@ -379,7 +381,7 @@ void CBlueDlg::OnBnClickedMore()
 			bMatch = true;
 			for (int j = 0; j < searchVals.size(); ++j)
 			{
-				if (!searchVals[i].IsEmpty() && m_table[i][j].Compare(searchVals[i]) != 0)
+				if (OPT_FALSE != searchVals[j] && m_table[i][j].Compare(searchVals[j]) != 0)
 				{
 					bMatch = false;
 					break;

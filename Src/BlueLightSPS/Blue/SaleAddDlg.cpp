@@ -20,8 +20,16 @@ inline void init(CComboBox* comb, int val){
 	}
 }
 
-inline CString& CompareWithOptFalse(CString& text){
-	if (text.IsEmpty())
+inline CString& CompareWithOptFalse(CString& text, int opt){
+	if (opt == OPT_FALSE_INT && text.IsEmpty())
+	{
+		text = OPT_FALSE;
+	}
+	return text;
+}
+
+inline CString& CompareWithOptFalse(CString& text, CString& opt){
+	if (opt == OPT_FALSE && text.IsEmpty())
 	{
 		text = OPT_FALSE;
 	}
@@ -40,18 +48,6 @@ CSaleAddDlg::~CSaleAddDlg()
 {
 }
 
-static LPCTSTR g_CombItems[][10] = {
-		{ _T("1"), _T("2") },
-		{ _T("1"), _T("2") },
-		{ _T("1"), _T("2") },
-		{ _T("1"), _T("2") },
-		{ _T("1"), _T("2") },
-		{ _T("1"), _T("2") },
-		{ _T("1"), _T("2") },
-		{ _T("1"), _T("2") },
-		{ _T("1"), _T("2") },
-		{ _T("1"), _T("2") }
-};
 
 static int g_CombPos[][4] = {
 		{ 100 * 1 + 100 * 0, 40 * 1, 100, 20 },
@@ -130,13 +126,13 @@ BOOL CSaleAddDlg::OnInitDialog()
 							 CRect(700, 158, 700 + 100, 158 + 20), this, IDC_EDIT_BASE + 3);
 	m_bzEdit.SetFont(m_lpFont);
 
-	for (int i = 0; i < _countof(g_CombItems); ++i)
+	for (int i = _countof(g_CombPos) - 1; i >= 0; --i)
 	{
 		m_aCombs[i] = Util::CreateComboBox(this, IDC_COMBO_BASE + i, m_lpFont);
 		m_aCombs[i]->MoveWindow(g_CombPos[i][0], g_CombPos[i][1], g_CombPos[i][2], g_CombPos[i][3]);
-		for (int j = 0; j < _countof(g_CombItems[i]); ++j)
+		for (int j = GetDropList()[i].size() - 1; j >= 0; --j)
 		{
-			m_aCombs[i]->InsertString(j, g_CombItems[i][j]);
+			m_aCombs[i]->InsertString(0, GetDropList()[i][j]);
 		}
 	}
 
@@ -159,7 +155,7 @@ BOOL CSaleAddDlg::OnInitDialog()
 		init(m_aCombs[CombId::Comb_GGBH], m_lpOption->ggbh);
 		init(m_aCombs[CombId::Comb_DFR], m_lpOption->dfr);
 		init(m_aCombs[CombId::Comb_ZDQDY], m_lpOption->zdqdy);
-		init(m_aCombs[CombId::Comb_YYLGG], m_lpOption->zylgg);
+		init(m_aCombs[CombId::Comb_YYLGG], m_lpOption->yylgg);
 		init(m_aCombs[CombId::Comb_JF], m_lpOption->jf);
 		init(m_aCombs[CombId::Comb_BPQXH], m_lpOption->bpqxh);
 		init(m_aCombs[CombId::Comb_BMQXH], m_lpOption->bmqxh);
@@ -218,33 +214,33 @@ void CSaleAddDlg::OnOKClicked()
 {
 	CString strTmp;
 	m_aCombs[CombId::Comb_KHMC]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp));
+	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->khmc : 0));
 	m_aCombs[CombId::Comb_GGBH]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp));
+	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->ggbh : 0));
 	m_aCombs[CombId::Comb_DFR]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp));
+	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->dfr : 0));
 	m_aCombs[CombId::Comb_ZDQDY]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp));
+	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->zdqdy : 0));
 	m_aCombs[CombId::Comb_YYLGG]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp));
+	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->yylgg : 0));
 	m_aCombs[CombId::Comb_JF]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp));
+	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->jf : 0));
 	m_aCombs[CombId::Comb_BPQXH]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp));
+	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bpqxh : 0));
 	m_aCombs[CombId::Comb_BMQXH]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp));
+	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bmqxh : 0));
 	m_aCombs[CombId::Comb_DLCD]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp));
+	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->dlcd : 0));
 	m_aCombs[CombId::Comb_ZXCD]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp));
+	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->zxcd : 0));
 	m_htbhEdit.GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp));
+	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->htbh : _T("")));
 	m_slEdit.GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp));
+	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->sl : _T("")));
 	m_mpzlEdit.GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp));
+	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->mpzl : _T("")));
 	m_bzEdit.GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp));
+	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bz : _T("")));
 
 	CAddDlg::OnOKClicked();
 }
@@ -253,3 +249,44 @@ void CSaleAddDlg::SetOption(Option_t* lpOpt)
 {
 	m_lpOption = lpOpt;
 }
+
+const std::vector<std::vector<CString>>& CSaleAddDlg::GetDropList()
+{
+	if (m_DropList.empty())
+	{
+		m_DropList.resize(CombId::Comb_END);
+		m_DropList[Comb_KHMC].push_back(_T("0"));
+		m_DropList[Comb_KHMC].push_back(_T("1"));
+		m_DropList[Comb_KHMC].push_back(_T("2"));
+		m_DropList[Comb_GGBH].push_back(_T("0"));
+		m_DropList[Comb_GGBH].push_back(_T("1"));
+		m_DropList[Comb_GGBH].push_back(_T("2"));
+		m_DropList[Comb_DFR].push_back(_T("0"));
+		m_DropList[Comb_DFR].push_back(_T("1"));
+		m_DropList[Comb_DFR].push_back(_T("2"));
+		m_DropList[Comb_ZDQDY].push_back(_T("0"));
+		m_DropList[Comb_ZDQDY].push_back(_T("1"));
+		m_DropList[Comb_ZDQDY].push_back(_T("2"));
+		m_DropList[Comb_YYLGG].push_back(_T("0"));
+		m_DropList[Comb_YYLGG].push_back(_T("1"));
+		m_DropList[Comb_YYLGG].push_back(_T("2"));
+		m_DropList[Comb_JF].push_back(_T("0"));
+		m_DropList[Comb_JF].push_back(_T("1"));
+		m_DropList[Comb_JF].push_back(_T("2"));
+		m_DropList[Comb_BPQXH].push_back(_T("0"));
+		m_DropList[Comb_BPQXH].push_back(_T("1"));
+		m_DropList[Comb_BPQXH].push_back(_T("2"));
+		m_DropList[Comb_BMQXH].push_back(_T("0"));
+		m_DropList[Comb_BMQXH].push_back(_T("1"));
+		m_DropList[Comb_BMQXH].push_back(_T("2"));
+		m_DropList[Comb_DLCD].push_back(_T("0"));
+		m_DropList[Comb_DLCD].push_back(_T("1"));
+		m_DropList[Comb_DLCD].push_back(_T("2"));
+		m_DropList[Comb_ZXCD].push_back(_T("0"));
+		m_DropList[Comb_ZXCD].push_back(_T("1"));
+		m_DropList[Comb_ZXCD].push_back(_T("2"));
+	}
+	return m_DropList;
+}
+
+std::vector<std::vector<CString>> CSaleAddDlg::m_DropList;
