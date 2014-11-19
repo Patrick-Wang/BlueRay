@@ -159,7 +159,7 @@ BOOL CBlueDlg::OnInitDialog()
 	m_bsPersion.SetBSFont(_T("Segoe UI"), 12);
 	m_bsPersion.SetWindowText(_T("用户名: Admin    角色: 管理员    部门: 蓝光集团"));
 	m_bsPersion.SetTextAlign(DT_VCENTER | DT_SINGLELINE | DT_RIGHT | DT_WORD_ELLIPSIS);
-	m_bsPersion.MoveWindow(clientRect.right - 270, 59, 260, 20);
+	m_bsPersion.MoveWindow(clientRect.right - 400, 59, 390, 20);
 
 	m_bsIcon.Create(this, IDS_EP_LOGO);
 	m_bsIcon.SetBGPictureIDs(BS_NORMAL, IDB_LOGO);
@@ -167,33 +167,33 @@ BOOL CBlueDlg::OnInitDialog()
 
 	int delta = 277 - (RIGHT_AREA_LEFT + 15);
 
-	m_editSearch.MoveWindow(CRect(503 - delta, 128, 741 - delta, 148));
+	m_editSearch.MoveWindow(493 - delta, 130, 240, 20);
 
 	m_btnAdd.Create(this, IDB_BLUE_ADD);
 	m_btnAdd.SetWindowText(_T("添加"));
 	m_btnAdd.SetBSFont(12);
-	m_btnAdd.MoveWindow(CRect(277 - delta, 128, 376 - delta, 152));
+	m_btnAdd.MoveWindow(277 - delta, 128, 90, 25);
 
 	m_btnDelete.Create(this, IDB_BLUE_DELETE);
 	m_btnDelete.SetWindowText(_T("删除"));
-	m_btnDelete.MoveWindow(CRect(398 - delta, 172, 493 - delta, 198));
+	m_btnDelete.MoveWindow(383 - delta, 172, 90, 25);
 
 	m_btnModify.Create(this, IDB_BLUE_MODIFY);
 	m_btnModify.SetWindowText(_T("修改"));
-	m_btnModify.MoveWindow(CRect(278 - delta, 172, 373 - delta, 198));
+	m_btnModify.MoveWindow(278 - delta, 172, 90, 25);
 
 	m_btnSearch.Create(this, IDB_BLUE_SEARCH);
 	m_btnSearch.SetWindowText(_T("查询"));
-	m_btnSearch.MoveWindow(CRect(398 - delta, 128, 493 - delta, 152));
+	m_btnSearch.MoveWindow(383 - delta, 128, 90, 25);
 
 	m_btnMore.Create(this, IDB_BLUE_MORE);
 	m_btnMore.SetWindowText(_T(">"));
-	m_btnMore.MoveWindow(CRect(841 - delta, 128, 871 - delta, 152));
+	m_btnMore.MoveWindow(826 - delta, 128, 30, 25);
 
 	m_bsMoreWord.Create(this, IDB_BLUE_MOREWORD);
 	m_bsMoreWord.SetWindowText(_T("更多筛选"));
 	m_bsMoreWord.SetBSFont(_T("Segoe UI"), 12);
-	m_bsMoreWord.MoveWindow(CRect(754 - delta, 128, 838 - delta, 151));
+	m_bsMoreWord.MoveWindow(CRect(739 - delta, 128, 823 - delta, 151));
 
 	m_pJqGridAPI.reset(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView)));
 	m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CBlueDlg::OnRowChecked);
