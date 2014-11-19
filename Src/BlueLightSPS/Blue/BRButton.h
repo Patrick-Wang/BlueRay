@@ -1,5 +1,6 @@
 #pragma once
 #include "UILib\BSButton.h"
+#include "Delegate.h"
 class CBRButton :	public CBSButton
 {
 public:
@@ -9,6 +10,7 @@ public:
 	void SetBSFont(int fontSize, BOOL bUnderLine = FALSE, BOOL bBold = FALSE, BOOL bItalic = FALSE);
 	DECLARE_MESSAGE_MAP()
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+
 private:
 	BOOL m_bLink;
 

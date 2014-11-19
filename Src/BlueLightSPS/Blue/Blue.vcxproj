@@ -111,6 +111,7 @@
     <ClInclude Include="Blue.h" />
     <ClInclude Include="BlueDlg.h" />
     <ClInclude Include="BRButton.h" />
+    <ClInclude Include="BRButtonGroup.h" />
     <ClInclude Include="BRComboBox.h" />
     <ClInclude Include="colors.h" />
     <ClInclude Include="IJSMediator.h" />
@@ -142,6 +143,7 @@
     <ClCompile Include="Blue.cpp" />
     <ClCompile Include="BlueDlg.cpp" />
     <ClCompile Include="BRButton.cpp" />
+    <ClCompile Include="BRButtonGroup.cpp" />
     <ClCompile Include="BRComboBox.cpp" />
     <ClCompile Include="JQGridAPI.cpp" />
     <ClCompile Include="LoginDlg.cpp" />

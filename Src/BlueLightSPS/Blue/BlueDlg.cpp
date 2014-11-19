@@ -76,6 +76,7 @@ void CBlueDlg::CreatePageButton(CBRButton& btn, UINT id, int n, LPCTSTR text)
 	btn.SetColorInside(enumBSBtnState::BS_HOVER, COL_GRAY);
 	btn.SetColorInside(enumBSBtnState::BS_CLICK, COL_DARK_GRAY);
 	btn.MoveWindow(CRect(2, 104 + 36 * n, 235, 140 + 36 * n));
+	m_btnGroup.AddButton(&btn);
 }
 
 BOOL CBlueDlg::OnInitDialog()
@@ -88,7 +89,8 @@ BOOL CBlueDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
 	Util::SetWindowSize(m_hWnd, 1024, 728);
-
+	m_btnGroup.d_onSelected += std::make_pair(this, &CBlueDlg::OnGroupBtnSelected);
+	m_btnGroup.d_onUnSelected += std::make_pair(this, &CBlueDlg::OnGroupBtnUnSelected);
 	CreatePageButton(m_btnSalePage, IDB_SALEPAGE, 0, _T("销售订单"));
 	CreatePageButton(m_btnPlanPage, IDB_PLANPAGE, 1, _T("计划排产"));
 	CreatePageButton(m_btnProductionScanPage, IDB_PRODUCTIONSCANPAGE, 2, _T("生产录入"));
@@ -410,5 +412,39 @@ void CBlueDlg::OnBnClickedMore()
 				m_pJqGridAPI->ShowRow(m_table[i].first);
 			}
 		}
+	}
+}
+
+
+BOOL CBlueDlg::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
+{
+	// TODO: Add your specialized code here and/or call the base class
+	if (nCode == BN_CLICKED)
+	{
+		m_btnGroup.OnClicked(static_cast<CBRButton*>(GetDlgItem(nID)));
+	}
+	return CDialogEx::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
+}
+
+void CBlueDlg::OnGroupBtnSelected(CBRButton* pBrbtn)
+{
+	if (NULL != pBrbtn)
+	{
+		pBrbtn->SetColorInside(enumBSBtnState::BS_NORMAL, COL_LIGHT_GRAY);
+		CString text;
+		pBrbtn->GetWindowText(text);
+		pBrbtn->SetWindowText(text + _T(">>"));
+	}
+}
+
+void CBlueDlg::OnGroupBtnUnSelected(CBRButton* pBrbtn)
+{
+	if (NULL != pBrbtn)
+	{
+		pBrbtn->SetColorInside(enumBSBtnState::BS_NORMAL, COL_WHITE);
+		CString text;
+		pBrbtn->GetWindowText(text);
+		text.Replace(_T(">>"), _T(""));
+		pBrbtn->SetWindowText(text);
 	}
 }

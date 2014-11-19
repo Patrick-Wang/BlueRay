@@ -8,6 +8,7 @@
 #include "webview.h"
 #include "afxwin.h"
 #include "JQGridAPI.h"
+#include "BRButtonGroup.h"
 #define UM_GRID_COMPLETE WM_APP + 1
 // CBlueDlg dialog
 class CBlueDlg : public CDialogEx
@@ -54,19 +55,24 @@ protected:
 
 
 public:
-	CWebView m_webView;
-	std::auto_ptr<CJQGridAPI> m_pJqGridAPI;
-	IJSMediator* m_lpJsMediator;
+	
 	afx_msg void OnBnClickedSetting();
 	afx_msg void OnBnClickedAdd();
 	afx_msg void OnBnClickedDelete();
 	afx_msg void OnBnClickedModify();
 	afx_msg void OnBnClickedSearch();
 	afx_msg void OnBnClickedMore();
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);	
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
+	void OnGroupBtnSelected(CBRButton* pBrbtn);
+	void OnGroupBtnUnSelected(CBRButton* pBrbtn);
+private:
 	CEdit m_editSearch;
 	bool m_bInit;
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
+	CBRButtonGroup m_btnGroup;
+	CWebView m_webView;
+	std::auto_ptr<CJQGridAPI> m_pJqGridAPI;
+	IJSMediator* m_lpJsMediator;
 };
