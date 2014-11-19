@@ -201,12 +201,17 @@ module JQTable {
         private mParent: Node = null;
         private mReadOnly: boolean;
         private mWidth: number;
-
-        constructor(name: string, id: string, isReadOnly: boolean = true, width: number = 0) {
+        private mSortable: boolean;
+        constructor(name: string, id: string, sortable :boolean =true,isReadOnly: boolean = true, width: number = 0) {
             this.mWidth = width;
             this.mName = name;
             this.mId = id;
             this.mReadOnly = isReadOnly;
+            this.mSortable = sortable;
+        }
+
+        public sortable(): boolean{
+            return this.mSortable;
         }
 
         public width(): number {
@@ -416,7 +421,7 @@ module JQTable {
                     this.mColModel.push({
                         name: colId,
                         index: colId,
-                        sortable: false,
+                        sortable: nodes[j].sortable(),
                         editable: !nodes[j].isReadOnly(),
                         cellattr: function(rowId, tv, rawObject, cm, rdata) {
                             return 'id=\'' + cm.name + rowId + "\'";
