@@ -36,6 +36,7 @@ BEGIN_MESSAGE_MAP(CLoginDlg, CDialogEx)
 	ON_WM_CREATE()
 	ON_WM_ERASEBKGND()
 	ON_BN_CLICKED(IDB_LOGIN, &CLoginDlg::OnBnClickedLogin)
+	ON_WM_KEYDOWN()
 END_MESSAGE_MAP()
 
 
@@ -57,7 +58,9 @@ int CLoginDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 BOOL CLoginDlg::OnEraseBkgnd(CDC* pDC)
 {
 	BOOL bRet = CDialogEx::OnEraseBkgnd(pDC);
-	CBSObject::FillRect(pDC->m_hDC, CRect(0, 0, 1024, 728), COL_GRAY);
+	CRect rt;
+	GetClientRect(rt);
+	CBSObject::FillRect(pDC->m_hDC, rt, COL_GRAY);
 	return bRet;
 }
 
@@ -65,7 +68,11 @@ BOOL CLoginDlg::OnEraseBkgnd(CDC* pDC)
 BOOL CLoginDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-	Util::SetWindowSize(m_hWnd, 1024, 728);
+	CRect rt;
+	SystemParametersInfo(SPI_GETWORKAREA, 0, &rt, 0);   // 获得工作区大小
+	MoveWindow(rt.left, rt.top, rt.Width(), rt.Height());
+	//SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
+	//Util::SetWindowSize(m_hWnd, 1024, 728);
 	m_btnVPN.Create(this, IDB_VPN); 
 	m_btnVPN.SetWindowText(_T("VPN/proxy setting >>"));
 	m_btnVPN.MoveWindow(695, 452, 130, 24);
@@ -79,7 +86,7 @@ BOOL CLoginDlg::OnInitDialog()
 	m_btnLogin.Create(this, IDB_LOGIN);
 	m_btnLogin.SetWindowText(_T("Login"));
 	m_btnLogin.SetBSFont(12, FALSE, TRUE);
-	m_btnLogin.MoveWindow(893, 361, 97, 67);
+	m_btnLogin.MoveWindow(893, 362, 80, 63);
 
 
 	m_bsVersion.Create(this, IDB_LOGIN_VERSION);
@@ -106,13 +113,51 @@ BOOL CLoginDlg::OnInitDialog()
 	m_bsLogo.SetBGPictureID(IDB_PNG4);
 	m_bsLogo.MoveWindow(91,101, 171, 164);
 
-	m_editPsw.MoveWindow(696, 362, 181, 26);
-	m_editUserName.MoveWindow(696, 405, 181, 26);
+	m_editPsw.MoveWindow(696, 405, 181, 20);
+	m_editUserName.MoveWindow(696, 362, 181, 20);
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
 void CLoginDlg::OnBnClickedLogin()
 {
-	OnOK();
+	CString psw;
+	m_editPsw.GetWindowText(psw);
+	CString usrName;
+	m_editUserName.GetWindowText(usrName);
+	if (usrName.CompareNoCase(_T("admin")) == 0 && psw.CompareNoCase(_T("1234")) == 0)
+	{
+		OnOK();
+	}
+	else
+	{
+		MessageBox(_T("用户名或密码错误，请重新输入！"), _T("警告"), MB_OK | MB_ICONWARNING);
+	}
+	
+}
+
+
+void CLoginDlg::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	//if (VK_RETURN == nChar)
+	//{
+	//	OnBnClickedLogin();
+	//}
+
+	CDialogEx::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+
+
+BOOL CLoginDlg::PreTranslateMessage(MSG* pMsg)
+{
+	if (WM_KEYDOWN == pMsg->message && pMsg->wParam == VK_RETURN)
+	{
+		OnBnClickedLogin();
+		return FALSE;
+	}
+	else
+	{
+		return CDialogEx::PreTranslateMessage(pMsg);
+	}
+	
 }
