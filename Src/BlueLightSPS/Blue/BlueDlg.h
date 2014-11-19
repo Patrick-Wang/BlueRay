@@ -75,7 +75,6 @@ private:
 	CBRButtonGroup m_btnGroup;
 	CWebView m_webView;
 	std::auto_ptr<CJQGridAPI> m_pJqGridAPI;
-	IJSMediator* m_lpJsMediator;
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);

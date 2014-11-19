@@ -19,7 +19,8 @@
 // CBlueDlg dialog
 
 
-
+#define NAVIGATE_WIDTH	150
+#define RIGHT_AREA_LEFT	(NAVIGATE_WIDTH + 15)
 
 CBlueDlg::CBlueDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CBlueDlg::IDD, pParent)
@@ -112,7 +113,7 @@ void CBlueDlg::CreatePageButton(CBRButton& btn, UINT id, int n, LPCTSTR text)
 	btn.SetColorInside(enumBSBtnState::BS_NORMAL, COL_WHITE);
 	btn.SetColorInside(enumBSBtnState::BS_HOVER, COL_GRAY);
 	btn.SetColorInside(enumBSBtnState::BS_CLICK, COL_DARK_GRAY);
-	btn.MoveWindow(CRect(2, 104 + 36 * n, 235, 140 + 36 * n));
+	btn.MoveWindow(CRect(5, 104 + 36 * n, NAVIGATE_WIDTH - 2, 140 + 36 * n));
 	m_btnGroup.AddButton(&btn);
 }
 
@@ -131,85 +132,81 @@ BOOL CBlueDlg::OnInitDialog()
 	//Util::SetWindowSize(m_hWnd, 1024, 728);
 	m_btnGroup.d_onSelected += std::make_pair(this, &CBlueDlg::OnGroupBtnSelected);
 	m_btnGroup.d_onUnSelected += std::make_pair(this, &CBlueDlg::OnGroupBtnUnSelected);
-	CreatePageButton(m_btnSalePage, IDB_SALEPAGE, 0, _T("销售订单"));
-	CreatePageButton(m_btnPlanPage, IDB_PLANPAGE, 1, _T("计划排产"));
-	CreatePageButton(m_btnProductionScanPage, IDB_PRODUCTIONSCANPAGE, 2, _T("生产录入"));
-	CreatePageButton(m_btnNotification, IDB_NOTIFICATION, 3, _T("待办事项"));
-	CreatePageButton(m_btnProductionDataAnalyst, IDB_PRODUCTIONDATAANALYST, 4, _T("报表展示"));
-	CreatePageButton(m_btnSettingPage, IDB_SETTINGPAGE, 5, _T("设置"));
+	CreatePageButton(m_btnSalePage, IDB_SALEPAGE, 0, _T(" 销售订单"));
+	CreatePageButton(m_btnPlanPage, IDB_PLANPAGE, 1, _T(" 计划排产"));
+	CreatePageButton(m_btnProductionScanPage, IDB_PRODUCTIONSCANPAGE, 2, _T(" 生产录入"));
+	CreatePageButton(m_btnNotification, IDB_NOTIFICATION, 3, _T(" 待办事项"));
+	CreatePageButton(m_btnProductionDataAnalyst, IDB_PRODUCTIONDATAANALYST, 4, _T(" 报表展示"));
+	CreatePageButton(m_btnSettingPage, IDB_SETTINGPAGE, 5, _T(" 设置"));
 
 	m_bsVersion.Create(this, IDS_SOFTWARE_VERSION);
-	m_bsDate.Create(this, IDS_DATA_DATE);
-	m_bsPersion.Create(this, IDS_PERSION_INFO);
-	m_bsIcon.Create(this, IDS_EP_LOGO);
-
-	m_bsIcon.MoveWindow(12, 10, 64, 64);
-	m_bsIcon.SetBGPictureIDs(BS_NORMAL, IDB_LOGO);
-
-	m_bsPersion.SetBackgroundColor(COL_GRAY);
-	m_bsPersion.SetBSFont(_T("Segoe UI"), 12);
-	m_bsDate.SetBackgroundColor(COL_GRAY);
-	m_bsDate.SetBSFont(_T("Segoe UI"), 12);
 	m_bsVersion.SetBackgroundColor(COL_GRAY);
 	m_bsVersion.SetBSFont(_T("Segoe UI"), 24, FALSE, TRUE);
-
-
-	m_bsPersion.MoveWindow(2, 2, 48, 98);
-	m_bsPersion.BringWindowToTop();
-	m_bsVersion.MoveWindow(90, 25, 600 - 122, 62 - 33);
 	m_bsVersion.SetTextAlign(DT_LEFT | DT_SINGLELINE);
-	m_bsVersion.BringWindowToTop();
+	m_bsVersion.SetWindowText(_T("蓝光集团生产管控平台"));
+	m_bsVersion.MoveWindow(90, 25, 600 - 122, 62 - 33);
+
 	CRect clientRect;
 	GetClientRect(clientRect);
-	m_bsVersion.SetWindowText(_T("蓝光集团生产管控平台"));
+	m_bsDate.Create(this, IDS_DATA_DATE);
+	m_bsDate.SetBackgroundColor(COL_GRAY);
+	m_bsDate.SetBSFont(_T("Segoe UI"), 12);
 	m_bsDate.SetTextAlign(DT_VCENTER | DT_SINGLELINE | DT_RIGHT | DT_WORD_ELLIPSIS);
 	m_bsDate.MoveWindow(clientRect.right - 210, 31, 200, 20);
-	OnTimer(TM_TIME_COUNT);
-	m_bsPersion.MoveWindow(clientRect.right - 270, 59, 260, 20);
+
+	m_bsPersion.Create(this, IDS_PERSION_INFO);
+	m_bsPersion.SetBackgroundColor(COL_GRAY);
+	m_bsPersion.SetBSFont(_T("Segoe UI"), 12);
 	m_bsPersion.SetWindowText(_T("用户名: Admin    角色: 管理员    部门: 蓝光集团"));
 	m_bsPersion.SetTextAlign(DT_VCENTER | DT_SINGLELINE | DT_RIGHT | DT_WORD_ELLIPSIS);
+	m_bsPersion.MoveWindow(clientRect.right - 270, 59, 260, 20);
 
-	m_editSearch.MoveWindow(CRect(503, 128, 741, 148));
+	m_bsIcon.Create(this, IDS_EP_LOGO);
+	m_bsIcon.SetBGPictureIDs(BS_NORMAL, IDB_LOGO);
+	m_bsIcon.MoveWindow(12, 10, 64, 64);
+
+	int delta = 277 - (RIGHT_AREA_LEFT + 15);
+
+	m_editSearch.MoveWindow(CRect(503 - delta, 128, 741 - delta, 148));
 
 	m_btnAdd.Create(this, IDB_BLUE_ADD);
 	m_btnAdd.SetWindowText(_T("添加"));
 	m_btnAdd.SetBSFont(12);
-	m_btnAdd.MoveWindow(CRect(277, 128, 376, 152));
+	m_btnAdd.MoveWindow(CRect(277 - delta, 128, 376 - delta, 152));
 
 	m_btnDelete.Create(this, IDB_BLUE_DELETE);
 	m_btnDelete.SetWindowText(_T("删除"));
-	m_btnDelete.MoveWindow(CRect(398, 172, 493, 198));
+	m_btnDelete.MoveWindow(CRect(398 - delta, 172, 493 - delta, 198));
 
 	m_btnModify.Create(this, IDB_BLUE_MODIFY);
 	m_btnModify.SetWindowText(_T("修改"));
-	m_btnModify.MoveWindow(CRect(278, 172, 373, 198));
+	m_btnModify.MoveWindow(CRect(278 - delta, 172, 373 - delta, 198));
 
 	m_btnSearch.Create(this, IDB_BLUE_SEARCH);
 	m_btnSearch.SetWindowText(_T("查询"));
-	m_btnSearch.MoveWindow(CRect(398, 128, 493, 152));
+	m_btnSearch.MoveWindow(CRect(398 - delta, 128, 493 - delta, 152));
 
 	m_btnMore.Create(this, IDB_BLUE_MORE);
 	m_btnMore.SetWindowText(_T(">"));
-	m_btnMore.MoveWindow(CRect(841, 128, 871, 152));
+	m_btnMore.MoveWindow(CRect(841 - delta, 128, 871 - delta, 152));
 
 	m_bsMoreWord.Create(this, IDB_BLUE_MOREWORD);
 	m_bsMoreWord.SetWindowText(_T("更多筛选"));
 	m_bsMoreWord.SetBSFont(_T("Segoe UI"), 12);
-	m_bsMoreWord.MoveWindow(CRect(754, 128, 838, 151));
+	m_bsMoreWord.MoveWindow(CRect(754 - delta, 128, 838 - delta, 151));
 
+	m_pJqGridAPI.reset(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView)));
+	m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CBlueDlg::OnRowChecked);
+	m_pJqGridAPI->d_OnGridComplete += std::make_pair(this, &CBlueDlg::OnGridComplete);
 
 	GetClientRect(rt);
-	rt.left = 254;
+	rt.left = RIGHT_AREA_LEFT;
 	rt.top = 237;
 	rt.right -= 10;
 	rt.bottom -= 10;
 	m_webView.Create(NULL, NULL, WS_CHILD, rt, this, 10000, NULL);
 	m_webView.ShowWindow(SW_SHOW);
-	//m_webView.OpenWebBrowser();
-	m_lpJsMediator = static_cast<IJSMediator*>(&m_webView);
-	m_pJqGridAPI.reset(new CJQGridAPI(m_lpJsMediator));
-	m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CBlueDlg::OnRowChecked);
-	m_pJqGridAPI->d_OnGridComplete += std::make_pair(this, &CBlueDlg::OnGridComplete);
+
 	CString path;
 	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
 	path.ReleaseBuffer();
@@ -222,11 +219,12 @@ BOOL CBlueDlg::OnInitDialog()
 	url.vt = VT_BSTR;
 	url.bstrVal = (BSTR)::SysAllocString(path);
 	m_webView.OpenURL(&url);
+
+
 	m_btnDelete.EnableWindow(FALSE);
 	m_btnModify.EnableWindow(FALSE);
-
 	m_btnGroup.OnClicked(&m_btnSalePage);
-
+	OnTimer(TM_TIME_COUNT);
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -287,8 +285,8 @@ BOOL CBlueDlg::OnEraseBkgnd(CDC* pDC)
 	GetClientRect(rtClient);
 	CBSObject::FillRect(pDC->m_hDC, CRect(0, 84, rtClient.Width(), rtClient.Height()), COL_WHITE);
 	CBSObject::FillRect(pDC->m_hDC, CRect(0, 0, rtClient.Width(), 84), COL_GRAY);
-	CBSObject::DrawRect(pDC->m_hDC, CRect(254, 102, rtClient.Width() - 10, 218), COL_BLACK, 2);
-	CBSObject::DrawRect(pDC->m_hDC, CRect(0, 102, 237, rtClient.Height() - 10), COL_GRAY, 2);
+	CBSObject::DrawRect(pDC->m_hDC, CRect(RIGHT_AREA_LEFT, 102, rtClient.Width() - 10, 218), COL_BLACK, 2);
+	CBSObject::DrawRect(pDC->m_hDC, CRect(3, 102, NAVIGATE_WIDTH, rtClient.Height() - 10), COL_GRAY, 2);
 	CBSObject::DrawLine(pDC->m_hDC, CPoint(-1, 84), CPoint(rtClient.Width(), 84), COL_BLACK, 2);
 	return ret;
 }
