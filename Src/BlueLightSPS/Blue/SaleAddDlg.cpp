@@ -7,10 +7,10 @@
 #define IDC_COMBO_BASE (IDC_ADD_BASE + 10)
 #define IDB_STATIC_BASE (IDC_COMBO_BASE + 20)
 
-inline void init(CEdit& edit, CString& val){
+inline void init(CEdit* edit, CString& val){
 	if (val != OPT_FALSE)
 	{
-		edit.SetWindowText(val);
+		edit->SetWindowText(val);
 	}
 }
 
@@ -136,12 +136,12 @@ BOOL CSaleAddDlg::OnInitDialog()
 	if (NULL != m_lpOption)
 	{
 
-		//init(m_aEdits[EditId::Edit_HTH], m_lpOption->htbh);
-		//init(m_aEdits[EditId::Edit_SL], m_lpOption->sl);
-		//init(m_aEdits[EditId::Edit_DLCD], m_lpOption->mpzl);
-		//init(m_aEdits[EditId::Edit_ZXCD], m_lpOption->bz);
-		//init(m_aEdits[EditId::Edit_DDRQ], m_lpOption->bz);
-		//init(m_aEdits[EditId::Edit_BZ], m_lpOption->bz);
+		init(m_aEdits[EditId::Edit_HTH], m_lpOption->htbh);
+		init(m_aEdits[EditId::Edit_SL], m_lpOption->sl);
+		init(m_aEdits[EditId::Edit_DLCD], m_lpOption->dlcd);
+		init(m_aEdits[EditId::Edit_ZXCD], m_lpOption->zxcd);
+		init(m_aEdits[EditId::Edit_DDRQ], m_lpOption->ddrq);
+		init(m_aEdits[EditId::Edit_BZ], m_lpOption->bz);
 
 		init(m_aCombs[CombId::Comb_KHMC], m_lpOption->khmc);
 		init(m_aCombs[CombId::Comb_GGBH], m_lpOption->ggbh);
