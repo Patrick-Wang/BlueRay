@@ -4,16 +4,17 @@
 
 /Src/BlueLightSPS/Blue/Debug
 /Src/BlueLightSPS/Debug
-/Src/BlueLightSPS/ipch/blue-674c2bea
+/Src/BlueLightSPS/ipch
 /Src/BlueLightSPS/BlueTable/obj/Debug
 /Src/BlueLightSPS/Blue.v12.suo
 /Src/BlueLightSPS/Blue.opensdf
 /Src/BlueLightSPS/Blue.sdf
-*.js
-*.map
-*.exe
-*.exe
-*.aps
-*.ipch
-*.exe
-*.aps
+
+/Src/BlueLightSPS/Blue/Release
+/Src/BlueLightSPS/Release
+/Src/BlueLightSPS/BlueTable/obj
+/Src/BlueLightSPS/BlueTable/jqgrid/jqassist.js
+/Src/BlueLightSPS/BlueTable/sale.js
+/Src/BlueLightSPS/BlueTable/util.js
+Src/BlueLightSPS/BlueTable/jqgrid/vector.js
+
