@@ -26,8 +26,10 @@ int CWebView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (__super::OnCreate(lpCreateStruct) == -1)
 		return -1;
+#ifndef _DEBUG
+	GetWebBrowser2()->put_Silent(VARIANT_TRUE);
+#endif // !_DEBUG
 	OpenWebBrowser();
-
 	return 0;
 }
 
@@ -37,7 +39,7 @@ VARIANT CWebView::CallJsFunction(LPCWSTR lpFun, std::vector<VARIANT>& params)
 	VARIANT* pps = new VARIANT[params.size()];
 	VARIANT ret = {};
 	std::copy_n(params.rbegin(), params.size(), pps);
-
+	
 	//ªÒ»°window
 	IDispatch *pHtmlWindow = GetHtmlWindow();
 
