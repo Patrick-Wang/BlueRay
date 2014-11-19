@@ -18,3 +18,5 @@
 /Src/BlueLightSPS/BlueTable/util.js
 Src/BlueLightSPS/BlueTable/jqgrid/vector.js
 
+*.map
+*.aps

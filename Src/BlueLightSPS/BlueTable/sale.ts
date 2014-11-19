@@ -55,7 +55,7 @@ module sale {
 
     class JQGridAssistantFactory {
 
-        public static createSaleTable(gridName: string, year: number): JQTable.JQGridAssistant {
+        public static createSaleTable(gridName: string): JQTable.JQGridAssistant {
             var cols = ["合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "审核-业务", "审核-计划"];
             var nodes: JQTable.Node[] = [];
             for (var i = 0; i < cols.length; ++i) {
@@ -136,7 +136,7 @@ module sale {
         }
 
         private updateTable(name: string): void {
-            var tableAssist: JQTable.JQGridAssistant = JQGridAssistantFactory.createSaleTable(name, this.mYear);
+            var tableAssist: JQTable.JQGridAssistant = JQGridAssistantFactory.createSaleTable(name);
             // tableAssist.mergeTitle();
          
             //tableAssist.mergeRow(0);
