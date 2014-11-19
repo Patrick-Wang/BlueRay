@@ -44,7 +44,7 @@ function getRowData(rowId: number): string {
 }
 
 function setCellData(row: number, col: number, data: string) {
-    sale.View.newInstance().setCellData(row, col, data);
+    sale.View.newInstance().setCellData(row, col, data + "");
 }
 
 function testCall(arg) {
