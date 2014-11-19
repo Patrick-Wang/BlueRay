@@ -93,7 +93,8 @@ BOOL CLoginDlg::OnInitDialog()
 	m_bsVersion.SetTextColor(COL_BLACK);
 	m_bsVersion.SetWindowText(_T("蓝光集团生产管控平台"));
 	m_bsVersion.SetBSFont(_T("Segoe UI"), 32, FALSE, TRUE);
-	m_bsVersion.MoveWindow(260, 180, 450, 45);
+	m_bsVersion.SetTextAlign(DT_LEFT | DT_SINGLELINE);
+	m_bsVersion.MoveWindow(300, 180, 450, 45);
 
 
 	m_bsUserName.Create(this, IDB_LOGIN_USERNAME);

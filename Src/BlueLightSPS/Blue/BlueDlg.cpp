@@ -26,15 +26,50 @@ CBlueDlg::CBlueDlg(CWnd* pParent /*=NULL*/)
 	, m_bInit(true)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	m_table.resize(10);
+	m_table.resize(16);
 	for (int i = 0; i < m_table.size(); ++i)
 	{
-		for (int j = 0; j < 14; ++j)
+		CString csHTH;
+		csHTH.Format(_T("000000%02d"), i+1);
+		if (i%2 == 0)
 		{
-			CString str;
-			str.Format(_T("%d"), abs(rand()) % 3);
-			m_table[i].second.push_back(str);
+			m_table[i].second.push_back(csHTH);
+			m_table[i].second.push_back(_T("浙江怡达"));
+			m_table[i].second.push_back(_T("U1.0ES-H"));
+			m_table[i].second.push_back(_T("1"));
+			m_table[i].second.push_back(_T("BNN"));
+			m_table[i].second.push_back(_T("是"));
+			m_table[i].second.push_back(_T("DC110V"));
+			m_table[i].second.push_back(_T("480*6*12*18"));
+			m_table[i].second.push_back(_T("无"));
+			m_table[i].second.push_back(_T("富士"));
+			m_table[i].second.push_back(_T("海1387"));
+			m_table[i].second.push_back(_T("8米"));
+			m_table[i].second.push_back(_T("5米"));
+			m_table[i].second.push_back(_T("蓝光英文铭牌"));
+			m_table[i].second.push_back(_T("原点值"));
+			m_table[i].second.push_back(_T("2014/8/15"));
 		}
+		else
+		{
+			m_table[i].second.push_back(csHTH);
+			m_table[i].second.push_back(_T("中原智能"));
+			m_table[i].second.push_back(_T("S1.6D-H"));
+			m_table[i].second.push_back(_T("1"));
+			m_table[i].second.push_back(_T("RC"));
+			m_table[i].second.push_back(_T("否"));
+			m_table[i].second.push_back(_T("DC220V"));
+			m_table[i].second.push_back(_T("325*5*8*12"));
+			m_table[i].second.push_back(_T("有"));
+			m_table[i].second.push_back(_T("CV"));
+			m_table[i].second.push_back(_T("海1387"));
+			m_table[i].second.push_back(_T("10米配"));
+			m_table[i].second.push_back(_T("5米"));
+			m_table[i].second.push_back(_T("蓝光铭牌"));
+			m_table[i].second.push_back(_T("D型"));
+			m_table[i].second.push_back(_T("2014/11/15"));
+		}
+
 	}
 }
 
