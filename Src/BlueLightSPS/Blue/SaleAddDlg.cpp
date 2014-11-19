@@ -111,7 +111,7 @@ BOOL CSaleAddDlg::OnInitDialog()
 	//init comb
 	for (int i = _countof(g_CombPos) - 1; i >= 0; --i)
 	{
-		m_aCombs[i] = Util::CreateComboBox(this, IDC_COMBO_BASE + i, _T("Segoe UI"), 12);
+		m_aCombs[i] = Util::CreateComboBox(this, IDC_COMBO_BASE + i, _T("Microsoft YaHei"), 12);
 		m_aCombs[i]->MoveWindow(g_CombPos[i][0], g_CombPos[i][1], g_CombPos[i][2], g_CombPos[i][3]);
 		for (int j = GetDropList()[i].size() - 1; j >= 0; --j)
 		{
@@ -122,14 +122,14 @@ BOOL CSaleAddDlg::OnInitDialog()
 	//init static
 	for (int i = 0; i < _countof(g_StaticItems); ++i)
 	{
-		m_aStatics[i] = Util::CreateStatic(this, IDB_STATIC_BASE + i, g_StaticItems[i][0], _T("Segoe UI"), 12);
+		m_aStatics[i] = Util::CreateStatic(this, IDB_STATIC_BASE + i, g_StaticItems[i][0], _T("Microsoft YaHei"), 12);
 		m_aStatics[i]->MoveWindow(g_StaticPos[i][0], g_StaticPos[i][1], g_StaticPos[i][2], g_StaticPos[i][3]);
 	}
 	
 	//init edit
 	for (int i = 0; i < _countof(g_EditItems); ++i)
 	{
-		m_aEdits[i] = Util::CreateEdit(this, IDC_EDIT_BASE + i, g_EditItems[i][0], _T("Segoe UI"), 12);
+		m_aEdits[i] = Util::CreateEdit(this, IDC_EDIT_BASE + i, g_EditItems[i][0], _T("Microsoft YaHei"), 12);
 		m_aEdits[i]->MoveWindow(g_EditsPos[i][0], g_EditsPos[i][1], g_EditsPos[i][2], g_EditsPos[i][3]);
 	}
 

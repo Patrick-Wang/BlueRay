@@ -141,7 +141,7 @@ BOOL CBlueDlg::OnInitDialog()
 
 	m_bsVersion.Create(this, IDS_SOFTWARE_VERSION);
 	m_bsVersion.SetBackgroundColor(COL_GRAY);
-	m_bsVersion.SetBSFont(_T("Segoe UI"), 24, FALSE, TRUE);
+	m_bsVersion.SetBSFont(_T("Microsoft YaHei"), 24, FALSE, TRUE);
 	m_bsVersion.SetTextAlign(DT_LEFT | DT_SINGLELINE);
 	m_bsVersion.SetWindowText(_T("蓝光集团生产管控平台"));
 	m_bsVersion.MoveWindow(90, 25, 600 - 122, 62 - 33);
@@ -150,13 +150,13 @@ BOOL CBlueDlg::OnInitDialog()
 	GetClientRect(clientRect);
 	m_bsDate.Create(this, IDS_DATA_DATE);
 	m_bsDate.SetBackgroundColor(COL_GRAY);
-	m_bsDate.SetBSFont(_T("Segoe UI"), 12);
+	m_bsDate.SetBSFont(_T("Microsoft YaHei"), 12);
 	m_bsDate.SetTextAlign(DT_VCENTER | DT_SINGLELINE | DT_RIGHT | DT_WORD_ELLIPSIS);
 	m_bsDate.MoveWindow(clientRect.right - 210, 31, 200, 20);
 
 	m_bsPersion.Create(this, IDS_PERSION_INFO);
 	m_bsPersion.SetBackgroundColor(COL_GRAY);
-	m_bsPersion.SetBSFont(_T("Segoe UI"), 12);
+	m_bsPersion.SetBSFont(_T("Microsoft YaHei"), 12);
 	m_bsPersion.SetWindowText(_T("用户名: Admin    角色: 管理员    部门: 蓝光集团"));
 	m_bsPersion.SetTextAlign(DT_VCENTER | DT_SINGLELINE | DT_RIGHT | DT_WORD_ELLIPSIS);
 	m_bsPersion.MoveWindow(clientRect.right - 400, 59, 390, 20);
@@ -192,7 +192,7 @@ BOOL CBlueDlg::OnInitDialog()
 
 	m_bsMoreWord.Create(this, IDB_BLUE_MOREWORD);
 	m_bsMoreWord.SetWindowText(_T("更多筛选"));
-	m_bsMoreWord.SetBSFont(_T("Segoe UI"), 12);
+	m_bsMoreWord.SetBSFont(_T("Microsoft YaHei"), 12);
 	m_bsMoreWord.MoveWindow(CRect(739 - delta, 128, 823 - delta, 151));
 
 	m_pJqGridAPI.reset(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView)));

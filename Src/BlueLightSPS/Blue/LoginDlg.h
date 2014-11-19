@@ -27,6 +27,7 @@ protected:
 	CBSStatic m_bsUserName;
 	CBSStatic m_bsPassword;
 	CBSStatic m_bsLogo;
+	HICON m_hIcon;
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);

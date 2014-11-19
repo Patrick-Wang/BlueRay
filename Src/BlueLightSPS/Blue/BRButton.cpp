@@ -41,14 +41,14 @@ int CBRButton::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		SetTextColor(enumBSBtnState::BS_DISABLE, COL_GRAY);
 	}
 
-	CBSButton::SetBSFont(_T("Segoe UI"), 12, FALSE, FALSE);
+	CBSButton::SetBSFont(_T("Microsoft YaHei"), 12, FALSE, FALSE);
 
 	return 0;
 }
 
 void CBRButton::SetBSFont(int fontSize, BOOL bUnderLine /*= FALSE*/, BOOL bBold /*= FALSE*/, BOOL bItalic /*= FALSE*/)
 {
-	CBSButton::SetBSFont(_T("Segoe UI"), fontSize, bUnderLine, bBold, bItalic);
+	CBSButton::SetBSFont(_T("Microsoft YaHei"), fontSize, bUnderLine, bBold, bItalic);
 }
 
 void CBRButton::EnableBorder(bool bEnable)

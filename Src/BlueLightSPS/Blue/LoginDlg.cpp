@@ -17,7 +17,7 @@ CLoginDlg::CLoginDlg(CWnd* pParent /*=NULL*/)
 , m_btnVPN(TRUE)
 , m_btnForgetPassword(TRUE)
 {
-
+	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
 CLoginDlg::~CLoginDlg()
@@ -68,6 +68,9 @@ BOOL CLoginDlg::OnEraseBkgnd(CDC* pDC)
 BOOL CLoginDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
+	SetIcon(m_hIcon, TRUE);			// Set big icon
+	SetIcon(m_hIcon, FALSE);		// Set small icon
+
 	CRect rt;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rt, 0);   // 获得工作区大小
 	MoveWindow(rt.left, rt.top, rt.Width(), rt.Height());
@@ -92,21 +95,21 @@ BOOL CLoginDlg::OnInitDialog()
 	m_bsVersion.Create(this, IDB_LOGIN_VERSION);
 	m_bsVersion.SetTextColor(COL_BLACK);
 	m_bsVersion.SetWindowText(_T("蓝光集团生产管控平台"));
-	m_bsVersion.SetBSFont(_T("Segoe UI"), 32, FALSE, TRUE);
+	m_bsVersion.SetBSFont(_T("Microsoft YaHei"), 32, FALSE, TRUE);
 	m_bsVersion.SetTextAlign(DT_LEFT | DT_SINGLELINE);
 	m_bsVersion.MoveWindow(300, 180, 450, 45);
 
 
 	m_bsUserName.Create(this, IDB_LOGIN_USERNAME);
 	m_bsUserName.SetTextColor(COL_BLACK);
-	m_bsUserName.SetBSFont(_T("Segoe UI"), 12);
+	m_bsUserName.SetBSFont(_T("Microsoft YaHei"), 12);
 	m_bsUserName.MoveWindow(613, 361, 82, 24);
 	m_bsUserName.SetWindowText(_T("用户名"));
 
 
 	m_bsPassword.Create(this, IDB_LOGIN_PSW);
 	m_bsPassword.SetTextColor(COL_BLACK);
-	m_bsPassword.SetBSFont(_T("Segoe UI"), 12);
+	m_bsPassword.SetBSFont(_T("Microsoft YaHei"), 12);
 	m_bsPassword.MoveWindow(613, 404, 82, 24);
 	m_bsPassword.SetWindowText(_T("密码"));
 
