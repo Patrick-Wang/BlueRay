@@ -178,9 +178,9 @@ BOOL CBlueDlg::OnInitDialog()
 	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
 	path.ReleaseBuffer();
 #ifdef _DEBUG
-	path.Replace(_T("Debug\\Blue.exe"), _T("BlueTable\\sale.html"));
+	path.Replace(_T("Debug\\BlueLightPLM.exe"), _T("BlueTable\\sale.html"));
 #else
-	path.Replace(_T("Blue.exe"), _T("sale.html"));
+	path.Replace(_T("BlueLightPLM.exe"), _T("sale.html"));
 #endif
 	VARIANT url;
 	url.vt = VT_BSTR;

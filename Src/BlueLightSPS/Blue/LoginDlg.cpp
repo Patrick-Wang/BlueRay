@@ -125,7 +125,7 @@ void CLoginDlg::OnBnClickedLogin()
 	m_editPsw.GetWindowText(psw);
 	CString usrName;
 	m_editUserName.GetWindowText(usrName);
-	if (usrName.CompareNoCase(_T("admin")) == 0 && psw.CompareNoCase(_T("1234")) == 0)
+	if (usrName.CompareNoCase(_T("admin")) == 0 && psw.CompareNoCase(_T("123456")) == 0)
 	{
 		OnOK();
 	}
