@@ -484,7 +484,7 @@ void CBlueDlg::OnTimer(UINT_PTR nIDEvent)
 		CTime now = CTime::GetCurrentTime();
 		CString time = now.Format(_T("%Y/%m/%d %X"));
 
-		m_bsDate.SetWindowText(_T("Date: ") + time);
+		m_bsDate.SetWindowText(_T("当前时间: ") + time);
 	}
 	else
 	{

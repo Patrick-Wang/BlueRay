@@ -95,4 +95,3 @@ var std;
     })();
     std.vector = vector;
 })(std || (std = {}));
-//# sourceMappingURL=vector.js.map
