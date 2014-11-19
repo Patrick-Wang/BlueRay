@@ -30,4 +30,6 @@ private:
 protected:
 	std::vector<CString> m_vecResult;
 	
+public:
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };

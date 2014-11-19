@@ -86,3 +86,13 @@ const std::vector<CString>& CAddDlg::GetResult() const
 {
 	return m_vecResult;
 }
+
+
+BOOL CAddDlg::PreTranslateMessage(MSG* pMsg)
+{
+	if (WM_KEYDOWN == pMsg->message && VK_RETURN == pMsg->wParam)
+	{
+		return TRUE;
+	}
+	return CDialogEx::PreTranslateMessage(pMsg);
+}

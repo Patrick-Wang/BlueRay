@@ -77,4 +77,5 @@ private:
 	IJSMediator* m_lpJsMediator;
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };

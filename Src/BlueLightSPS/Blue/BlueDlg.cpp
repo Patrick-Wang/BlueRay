@@ -122,12 +122,15 @@ BOOL CBlueDlg::OnInitDialog()
 	m_bsPersion.BringWindowToTop();
 	m_bsVersion.MoveWindow(122, 33, 363 - 122, 62 - 33);
 	m_bsVersion.BringWindowToTop();
-
+	CRect clientRect;
+	GetClientRect(clientRect);
 	m_bsVersion.SetWindowText(_T("Management System V1.0"));
-	m_bsDate.MoveWindow(818, 31, 1018 - 810, 49 - 31);
+	m_bsDate.MoveWindow(clientRect.right - 210, 31, 200, 20);
+	m_bsDate.SetTextAlign(DT_VCENTER | DT_SINGLELINE | DT_RIGHT | DT_WORD_ELLIPSIS);
 	OnTimer(TM_TIME_COUNT);
-	m_bsPersion.MoveWindow(730, 59, 1015 - 725, 77 - 59);
+	m_bsPersion.MoveWindow(clientRect.right - 270, 59, 260, 20);
 	m_bsPersion.SetWindowText(_T("Name: Patrick  Role: Manager  Department: D1"));
+	m_bsPersion.SetTextAlign(DT_VCENTER | DT_SINGLELINE | DT_RIGHT | DT_WORD_ELLIPSIS);
 
 	m_editSearch.MoveWindow(CRect(503, 128, 741, 148));
 
@@ -487,4 +490,15 @@ void CBlueDlg::OnTimer(UINT_PTR nIDEvent)
 	{
 		CDialogEx::OnTimer(nIDEvent);
 	}
+}
+
+
+BOOL CBlueDlg::PreTranslateMessage(MSG* pMsg)
+{
+	if (WM_KEYDOWN == pMsg->message && VK_RETURN == pMsg->wParam)
+	{
+		return TRUE;
+	}
+
+	return CDialogEx::PreTranslateMessage(pMsg);
 }
