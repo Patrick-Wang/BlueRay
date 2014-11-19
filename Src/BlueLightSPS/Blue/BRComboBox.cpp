@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "BRComboBox.h"
-#include "bsobject.h"
+#include "UILib/bsobject.h"
 
 CBRComboBox::CBRComboBox()
 {

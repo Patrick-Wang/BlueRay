@@ -1,6 +1,6 @@
 #pragma once
 #include "UILib\BSButton.h"
-#include "Delegate.h"
+#include "UILib\Delegate.h"
 class CBRButton :	public CBSButton
 {
 public:
