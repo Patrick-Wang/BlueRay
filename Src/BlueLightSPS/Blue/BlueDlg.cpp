@@ -26,15 +26,14 @@ CBlueDlg::CBlueDlg(CWnd* pParent /*=NULL*/)
 	, m_bInit(true)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	m_rowShow.resize(10, TRUE);
-	for (int i = 0; i < m_rowShow.size(); ++i)
+	m_table.resize(10);
+	for (int i = 0; i < m_table.size(); ++i)
 	{
-		m_table.push_back(std::vector<CString>());
 		for (int j = 0; j < 14; ++j)
 		{
 			CString str;
 			str.Format(_T("%d"), abs(rand()) % 3);
-			m_table.back().push_back(str);
+			m_table[i].second.push_back(str);
 		}
 	}
 }
@@ -261,7 +260,9 @@ void CBlueDlg::OnBnClickedAdd()
 {
 	CSaleAddDlg dlg(_T("Ìí¼Ó"));
 	if (IDOK == dlg.DoModal()){
-		m_pJqGridAPI->AddRow(dlg.GetResult());
+		m_table.push_back(std::make_pair(
+			m_pJqGridAPI->AddRow(dlg.GetResult()),
+			dlg.GetResult()));
 	}
 
 }
@@ -291,7 +292,7 @@ void CBlueDlg::OnBnClickedModify()
 		const std::vector<CString>& result = dlg.GetResult();
 		for (int j = result.size() - 1; j >= 0; --j)
 		{
-			if (OPT_FALSE != result[j])
+			if (!result[j].IsEmpty())
 			{
 				for (int i = checkedRows.size() - 1; i >= 0; --i)
 				{
@@ -310,6 +311,18 @@ void CBlueDlg::OnBnClickedDelete()
 	{
 		m_pJqGridAPI->DelRow(checkedRows[i]);
 	}
+
+	for (int i = m_table.size() - 1; i >= 0; --i)
+	{
+		for (int j = checkedRows.size() - 1; j >= 0; --j)
+		{
+			if (m_table[i].first == checkedRows[j]){
+				m_table.erase(m_table.begin() + i);
+				break;
+			}
+		}
+	}
+
 	OnRowChecked();
 }
 
@@ -337,21 +350,21 @@ void CBlueDlg::OnBnClickedSearch()
 	for (int i = 0; i < m_table.size(); ++i)
 	{
 		bMatch = false;
-		for (int j = 0; j < m_table[i].size(); ++j)
+		for (int j = 0; j < m_table[i].second.size(); ++j)
 		{
-			if (searchText.IsEmpty() || m_table[i][j].Find(searchText) >= 0)
+			if (searchText.IsEmpty() || m_table[i].second[j].Find(searchText) >= 0)
 			{
 				bMatch = true;
 				break;
-			}	
+			}
 		}
 		if (!bMatch)
 		{
-			m_pJqGridAPI->HideRow(m_pJqGridAPI->GetRowId(i));
+			m_pJqGridAPI->HideRow(m_table[i].first);
 		}
 		else
 		{
-			m_pJqGridAPI->ShowRow(m_pJqGridAPI->GetRowId(i));
+			m_pJqGridAPI->ShowRow(m_table[i].first);
 		}
 	}
 }
@@ -363,7 +376,7 @@ void CBlueDlg::OnGridComplete()
 		m_bInit = false;
 		for (int j = 0; j < m_table.size(); ++j)
 		{
-			m_pJqGridAPI->AddRow(m_table[j]);
+			m_table[j].first = m_pJqGridAPI->AddRow(m_table[j].second);
 		}
 	}
 }
@@ -381,7 +394,7 @@ void CBlueDlg::OnBnClickedMore()
 			bMatch = true;
 			for (int j = 0; j < searchVals.size(); ++j)
 			{
-				if (OPT_FALSE != searchVals[j] && m_table[i][j].Compare(searchVals[j]) != 0)
+				if (!searchVals[j].IsEmpty() && m_table[i].second[j].Compare(searchVals[j]) != 0)
 				{
 					bMatch = false;
 					break;
@@ -390,11 +403,11 @@ void CBlueDlg::OnBnClickedMore()
 
 			if (!bMatch)
 			{
-				m_pJqGridAPI->HideRow(m_pJqGridAPI->GetRowId(i));
+				m_pJqGridAPI->HideRow(m_table[i].first);
 			}
 			else
 			{
-				m_pJqGridAPI->ShowRow(m_pJqGridAPI->GetRowId(i));
+				m_pJqGridAPI->ShowRow(m_table[i].first);
 			}
 		}
 	}

@@ -68,6 +68,5 @@ public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	CEdit m_editSearch;
 	bool m_bInit;
-	std::vector<std::vector<CString>> m_table;
-	std::vector<BOOL> m_rowShow;
+	std::vector<std::pair<int, std::vector<CString>>> m_table;
 };

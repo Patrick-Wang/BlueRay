@@ -35,7 +35,7 @@ public:
 	~CJQGridAPI();
 	void ShowRow(int rowId);
 	void HideRow(int rowId);
-	void AddRow(const std::vector<CString>& rowData);
+	int AddRow(const std::vector<CString>& rowData);
 	void DelRow(int rowId);
 	int GetCurRow();
 	int GetRowCount();

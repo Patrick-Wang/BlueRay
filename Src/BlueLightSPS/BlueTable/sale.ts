@@ -8,7 +8,7 @@ function addRowData(rdata: string) {
     for (var i = 0; i < ardata.length; ++i) {
         targetData["sale_col_" + i] = ardata[i];
     }
-    sale.View.newInstance().addRowData(targetData);
+    return sale.View.newInstance().addRowData(targetData);
 }
 
 function getRowId(rowIndex: number) {
@@ -102,7 +102,7 @@ module sale {
             return parseInt(ids[row]);
         }
 
-        public addRowData(rdata: any): void{
+        public addRowData(rdata: any): number{
             var ids = this.mTable.jqGrid('getDataIDs');
             //获得当前最大行号（数据编号）
             var rowid = 0; 
@@ -111,6 +111,7 @@ module sale {
             } 
            // alert(rowid);  
             this.mTable.jqGrid('addRowData', rowid, rdata, 'last');
+            return rowid;
         }
         public delRowData(rowId: number): void {
             this.mTable.jqGrid('setSelection', rowId, false);

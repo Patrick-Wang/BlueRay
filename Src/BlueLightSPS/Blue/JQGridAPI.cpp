@@ -20,7 +20,7 @@ CJQGridAPI::~CJQGridAPI()
 {
 }
 
-void CJQGridAPI::AddRow(const std::vector<CString>& rowData)
+int CJQGridAPI::AddRow(const std::vector<CString>& rowData)
 {
 		CString strArray;
 		Join(rowData, strArray);
@@ -29,7 +29,12 @@ void CJQGridAPI::AddRow(const std::vector<CString>& rowData)
 		vt.bstrVal = strArray.AllocSysString();
 		std::vector<VARIANT> params;
 		params.push_back(vt);
-		m_pMedia->CallJsFunction(_T("addRowData"), params);
+		VARIANT vtRet = m_pMedia->CallJsFunction(_T("addRowData"), params);
+		if (VT_I4 == vtRet.vt)
+		{
+			return vtRet.intVal;
+		}
+		return -1;
 }
 
 void CJQGridAPI::DelRow(int rowId)

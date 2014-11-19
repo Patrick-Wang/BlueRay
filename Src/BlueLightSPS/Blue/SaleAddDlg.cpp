@@ -214,33 +214,33 @@ void CSaleAddDlg::OnOKClicked()
 {
 	CString strTmp;
 	m_aCombs[CombId::Comb_KHMC]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->khmc : 0));
+	m_vecResult.push_back(strTmp);
 	m_aCombs[CombId::Comb_GGBH]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->ggbh : 0));
+	m_vecResult.push_back(strTmp);
 	m_aCombs[CombId::Comb_DFR]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->dfr : 0));
+	m_vecResult.push_back(strTmp);
 	m_aCombs[CombId::Comb_ZDQDY]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->zdqdy : 0));
+	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->zdqdy : 0));
 	m_aCombs[CombId::Comb_YYLGG]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->yylgg : 0));
+	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->yylgg : 0));
 	m_aCombs[CombId::Comb_JF]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->jf : 0));
+	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->jf : 0));
 	m_aCombs[CombId::Comb_BPQXH]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bpqxh : 0));
+	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bpqxh : 0));
 	m_aCombs[CombId::Comb_BMQXH]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bmqxh : 0));
+	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bmqxh : 0));
 	m_aCombs[CombId::Comb_DLCD]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->dlcd : 0));
+	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->dlcd : 0));
 	m_aCombs[CombId::Comb_ZXCD]->GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->zxcd : 0));
+	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->zxcd : 0));
 	m_htbhEdit.GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->htbh : _T("")));
+	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->htbh : _T("")));
 	m_slEdit.GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->sl : _T("")));
+	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->sl : _T("")));
 	m_mpzlEdit.GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->mpzl : _T("")));
+	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->mpzl : _T("")));
 	m_bzEdit.GetWindowText(strTmp);
-	m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bz : _T("")));
+	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bz : _T("")));
 
 	CAddDlg::OnOKClicked();
 }
