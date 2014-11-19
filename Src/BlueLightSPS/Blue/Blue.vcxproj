@@ -102,9 +102,6 @@
     <None Include="ReadMe.txt" />
     <None Include="res\Blue.ico" />
     <None Include="res\Blue.rc2" />
-    <None Include="res\RM_battery_0.png" />
-    <None Include="res\RM_battery_10.png" />
-    <None Include="res\RM_battery_20.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddDlg.h" />

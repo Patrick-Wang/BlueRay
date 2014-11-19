@@ -34,15 +34,6 @@
     <None Include="res\Blue.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="res\RM_battery_20.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\RM_battery_10.png">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\RM_battery_0.png">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Blue.h">

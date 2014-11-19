@@ -107,29 +107,30 @@ BOOL CBlueDlg::OnInitDialog()
 	m_bsPersion.Create(this, IDS_PERSION_INFO);
 	m_bsIcon.Create(this, IDS_EP_LOGO);
 
-	m_bsIcon.MoveWindow(12, 14, 84, 59);
-	m_bsIcon.SetBGPictureIDs(BS_NORMAL, IDB_PNG4);
+	m_bsIcon.MoveWindow(12, 10, 64, 64);
+	m_bsIcon.SetBGPictureIDs(BS_NORMAL, IDB_LOGO);
 
 	m_bsPersion.SetBackgroundColor(COL_GRAY);
 	m_bsPersion.SetBSFont(_T("Segoe UI"), 12);
 	m_bsDate.SetBackgroundColor(COL_GRAY);
 	m_bsDate.SetBSFont(_T("Segoe UI"), 12);
 	m_bsVersion.SetBackgroundColor(COL_GRAY);
-	m_bsVersion.SetBSFont(_T("Segoe UI"), 16, FALSE, TRUE);
+	m_bsVersion.SetBSFont(_T("Segoe UI"), 24, FALSE, TRUE);
 
 
 	m_bsPersion.MoveWindow(2, 2, 48, 98);
 	m_bsPersion.BringWindowToTop();
-	m_bsVersion.MoveWindow(122, 33, 363 - 122, 62 - 33);
+	m_bsVersion.MoveWindow(90, 25, 600 - 122, 62 - 33);
+	m_bsVersion.SetTextAlign(DT_LEFT | DT_SINGLELINE);
 	m_bsVersion.BringWindowToTop();
 	CRect clientRect;
 	GetClientRect(clientRect);
-	m_bsVersion.SetWindowText(_T("Management System V1.0"));
-	m_bsDate.MoveWindow(clientRect.right - 210, 31, 200, 20);
+	m_bsVersion.SetWindowText(_T("蓝光集团生产管控平台"));
 	m_bsDate.SetTextAlign(DT_VCENTER | DT_SINGLELINE | DT_RIGHT | DT_WORD_ELLIPSIS);
+	m_bsDate.MoveWindow(clientRect.right - 210, 31, 200, 20);
 	OnTimer(TM_TIME_COUNT);
 	m_bsPersion.MoveWindow(clientRect.right - 270, 59, 260, 20);
-	m_bsPersion.SetWindowText(_T("Name: Patrick  Role: Manager  Department: D1"));
+	m_bsPersion.SetWindowText(_T("用户名: Admin    角色: 管理员    部门: 蓝光集团"));
 	m_bsPersion.SetTextAlign(DT_VCENTER | DT_SINGLELINE | DT_RIGHT | DT_WORD_ELLIPSIS);
 
 	m_editSearch.MoveWindow(CRect(503, 128, 741, 148));
@@ -190,7 +191,6 @@ BOOL CBlueDlg::OnInitDialog()
 
 	m_btnGroup.OnClicked(&m_btnSalePage);
 
-	//m_webBrowser.Navigate(_T("C:\\Users\\SUN\\Desktop\\WebBrowser加载本地资源 - Games - 博客园.html"), NULL, NULL, NULL, NULL);
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 

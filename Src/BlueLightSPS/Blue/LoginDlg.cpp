@@ -74,44 +74,44 @@ BOOL CLoginDlg::OnInitDialog()
 	//SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
 	//Util::SetWindowSize(m_hWnd, 1024, 728);
 	m_btnVPN.Create(this, IDB_VPN); 
-	m_btnVPN.SetWindowText(_T("VPN/proxy setting >>"));
+	m_btnVPN.SetWindowText(_T("VPN/代理 设置 >>"));
 	m_btnVPN.MoveWindow(695, 452, 130, 24);
 	m_btnVPN.SetBackgroundColor(COL_GRAY);
 
 	m_btnForgetPassword.Create(this, IDB_FORGET_PSW);
-	m_btnForgetPassword.SetWindowText(_T("Forgot password >>"));
+	m_btnForgetPassword.SetWindowText(_T("忘记密码 >>"));
 	m_btnForgetPassword.MoveWindow(835, 452, 130, 24);
 	m_btnForgetPassword.SetBackgroundColor(COL_GRAY);
 
 	m_btnLogin.Create(this, IDB_LOGIN);
-	m_btnLogin.SetWindowText(_T("Login"));
+	m_btnLogin.SetWindowText(_T("登陆"));
 	m_btnLogin.SetBSFont(12, FALSE, TRUE);
 	m_btnLogin.MoveWindow(893, 362, 80, 63);
 
 
 	m_bsVersion.Create(this, IDB_LOGIN_VERSION);
 	m_bsVersion.SetTextColor(COL_BLACK);
-	m_bsVersion.SetWindowText(_T("Management System V1.0"));
-	m_bsVersion.SetBSFont(_T("Segoe UI"), 16, FALSE, TRUE);
-	m_bsVersion.MoveWindow(296, 173, 285, 45);
+	m_bsVersion.SetWindowText(_T("蓝光集团生产管控平台"));
+	m_bsVersion.SetBSFont(_T("Segoe UI"), 32, FALSE, TRUE);
+	m_bsVersion.MoveWindow(260, 180, 450, 45);
 
 
 	m_bsUserName.Create(this, IDB_LOGIN_USERNAME);
 	m_bsUserName.SetTextColor(COL_BLACK);
 	m_bsUserName.SetBSFont(_T("Segoe UI"), 12);
 	m_bsUserName.MoveWindow(613, 361, 82, 24);
-	m_bsUserName.SetWindowText(_T("User name"));
+	m_bsUserName.SetWindowText(_T("用户名"));
 
 
 	m_bsPassword.Create(this, IDB_LOGIN_PSW);
 	m_bsPassword.SetTextColor(COL_BLACK);
 	m_bsPassword.SetBSFont(_T("Segoe UI"), 12);
 	m_bsPassword.MoveWindow(613, 404, 82, 24);
-	m_bsPassword.SetWindowText(_T("Password"));
+	m_bsPassword.SetWindowText(_T("密码"));
 
 	m_bsLogo.Create(this, IDB_LOGIN_LOGO);
-	m_bsLogo.SetBGPictureID(IDB_PNG4);
-	m_bsLogo.MoveWindow(91,101, 171, 164);
+	m_bsLogo.SetBGPictureID(IDB_LOGO);
+	m_bsLogo.MoveWindow(90,120, 180, 180);
 
 	m_editPsw.MoveWindow(696, 405, 181, 20);
 	m_editUserName.MoveWindow(696, 362, 181, 20);
