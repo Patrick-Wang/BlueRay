@@ -238,3 +238,9 @@ int CJQGridAPI::GetRowId(int index)
 	}
 	return -1;
 }
+
+void CJQGridAPI::Refresh()
+{
+	std::vector<VARIANT> params;
+	m_pMedia->CallJsFunction(_T("reload"), params);
+}

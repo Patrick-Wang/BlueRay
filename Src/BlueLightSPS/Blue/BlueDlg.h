@@ -24,6 +24,7 @@ public:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 	void OnRowChecked();
 	void OnGridComplete();
+	void OnGridDataLoaded();
 // Implementation
 protected:
 	HICON m_hIcon;

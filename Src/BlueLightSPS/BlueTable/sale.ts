@@ -34,6 +34,11 @@ function delRowData(rowId: number): void {
 }
 
 
+function reload(): void {
+    //alert("delRow" + row);
+    sale.View.newInstance().reload();
+}
+
 function getRowData(rowId: number): string {
     var rw: any = sale.View.newInstance().getRowData(rowId);
     var ret: string = "";
@@ -135,6 +140,10 @@ module sale {
             this.mTable.jqGrid('setCell', rowId, colId, data);
         }
 
+        public reload() {
+            this.mTable.trigger("reloadGrid");
+        }
+
         private updateTable(name: string): void {
             var tableAssist: JQTable.JQGridAssistant = JQGridAssistantFactory.createSaleTable(name);
             // tableAssist.mergeTitle();
@@ -178,7 +187,10 @@ module sale {
                     height: document.documentElement.clientHeight - 22 - 3,
                     width: document.documentElement.clientWidth - 3,
                     shrinkToFit: false,
+                    //rowNum: 5,
+                    //rowList: [5, 10, 15],
                     autoScroll: true,
+                    //pager: $('#pager'),
                     onSelectRow: (a, b, c) => {
                         window.external.onRowChecked();
                     },
@@ -188,7 +200,8 @@ module sale {
                     gridComplete: () => {
                         window.external.onGridComplete();
                     }
-                }));
+                }))
+                //.navGrid('#pager', { search: false, reloadGrid: false, edit: false, add: false, del: false });
         }
     }
 }

@@ -40,6 +40,7 @@ public:
 	int GetCurRow();
 	int GetRowCount();
 	int GetRowId(int index);
+	void Refresh();
 	void GetRow(int rowId, std::vector<CString>& rowData);
 	void GetRow(int rowId, CString& rowData);
 	void SetRow(int rowId, const std::vector<CString>& rowData);

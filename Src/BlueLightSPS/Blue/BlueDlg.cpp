@@ -54,6 +54,7 @@ BEGIN_MESSAGE_MAP(CBlueDlg, CDialogEx)
 	ON_BN_CLICKED(IDB_BLUE_DELETE, &CBlueDlg::OnBnClickedDelete)
 	ON_BN_CLICKED(IDB_BLUE_SEARCH, &CBlueDlg::OnBnClickedSearch)
 	ON_BN_CLICKED(IDB_BLUE_MORE, &CBlueDlg::OnBnClickedMore)
+	ON_MESSAGE_VOID(UM_GRID_COMPLETE, CBlueDlg::OnGridDataLoaded)
 	ON_WM_ERASEBKGND()
 	ON_WM_CREATE()
 	ON_WM_TIMER()
@@ -407,6 +408,7 @@ void CBlueDlg::OnGridComplete()
 		{
 			m_table[j].first = m_pJqGridAPI->AddRow(m_table[j].second);
 		}
+		PostMessage(UM_GRID_COMPLETE);
 	}
 }
 
@@ -501,4 +503,9 @@ BOOL CBlueDlg::PreTranslateMessage(MSG* pMsg)
 	}
 
 	return CDialogEx::PreTranslateMessage(pMsg);
+}
+
+void CBlueDlg::OnGridDataLoaded()
+{
+	//m_pJqGridAPI->Refresh();
 }
