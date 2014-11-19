@@ -128,7 +128,7 @@ BOOL CBlueDlg::OnInitDialog()
 	m_bsPersion.MoveWindow(730, 59, 1015 - 725, 77 - 59);
 	m_bsPersion.SetWindowText(_T("Name: Patrick  Role: Manager  Department: D1"));
 
-	m_editSearch.MoveWindow(CRect(503, 128, 741, 152));
+	m_editSearch.MoveWindow(CRect(503, 128, 741, 148));
 
 	m_btnAdd.Create(this, IDB_BLUE_ADD);
 	m_btnAdd.SetWindowText(_T("Ìí¼Ó"));
