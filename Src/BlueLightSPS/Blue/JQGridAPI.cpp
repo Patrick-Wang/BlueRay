@@ -30,6 +30,7 @@ int CJQGridAPI::AddRow(const std::vector<CString>& rowData)
 		std::vector<VARIANT> params;
 		params.push_back(vt);
 		VARIANT vtRet = m_pMedia->CallJsFunction(_T("addRowData"), params);
+		::SysFreeString(vt.bstrVal);
 		if (VT_I4 == vtRet.vt)
 		{
 			return vtRet.intVal;
@@ -136,6 +137,7 @@ void CJQGridAPI::SetRow(int rowId, const std::vector<CString>& rowData)
 	vt.bstrVal = strArray.AllocSysString();
 	params.push_back(vt);
 	m_pMedia->CallJsFunction(_T("setRowData"), params);
+	::SysFreeString(vt.bstrVal);
 }
 
 void CJQGridAPI::GetCheckedRows(std::vector<int>& checkedRows)
@@ -165,6 +167,7 @@ void CJQGridAPI::SetCell(int rowId, int colIndex, const CString& data)
 	vt.bstrVal = data.AllocSysString();
 	params.push_back(vt);
 	m_pMedia->CallJsFunction(_T("setCellData"), params);
+	::SysFreeString(vt.bstrVal);
 }
 
 VARIANT CJQGridAPI::JSCall(int id, const std::vector<VARIANT>& params)
@@ -203,7 +206,8 @@ void CJQGridAPI::ShowRow(int rowId)
 	vt.vt = VT_BSTR;
 	vt.bstrVal = ::SysAllocString(_T("true"));
 	params.push_back(vt);
-	vt = m_pMedia->CallJsFunction(_T("showHideRow"), params);
+	m_pMedia->CallJsFunction(_T("showHideRow"), params);
+	::SysFreeString(vt.bstrVal);
 }
 
 void CJQGridAPI::HideRow(int rowId)
@@ -216,8 +220,8 @@ void CJQGridAPI::HideRow(int rowId)
 	vt.vt = VT_BSTR;
 	vt.bstrVal = ::SysAllocString(_T("false"));
 	params.push_back(vt);
-	vt = m_pMedia->CallJsFunction(_T("showHideRow"), params);
-
+	m_pMedia->CallJsFunction(_T("showHideRow"), params);
+	::SysFreeString(vt.bstrVal);
 }
 
 int CJQGridAPI::GetRowId(int index)

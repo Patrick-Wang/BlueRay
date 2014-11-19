@@ -44,7 +44,7 @@ function getRowData(rowId: number): string {
 }
 
 function setCellData(row: number, col: number, data: string) {
-    sale.View.newInstance().setCellData(row, col, data);
+    sale.View.newInstance().setCellData(row, col, data + "");
 }
 
 function testCall(arg) {
@@ -61,7 +61,6 @@ module sale {
             for (var i = 0; i < cols.length; ++i) {
                 nodes.push(new JQTable.Node(cols[i], "sale_col_" + i));
             }
-
             return new JQTable.JQGridAssistant(nodes, gridName);
         }
     }
@@ -168,12 +167,14 @@ module sale {
                     data: tableAssist.getData(data),
                     datatype: "local",
                     multiselect: true,
-                    multikey: "ctrlKey",
-                    drag: false,
-                    resize: false,
-                    //autowidth : false,
-                    cellsubmit: 'clientArray',
-                    cellEdit: true,
+                    //multikey: "ctrlKey",
+                    //drag: false,
+                   // resize: false,
+                   // autowidth : true,
+                    //cellsubmit: 'clientArray',
+                   // cellEdit: false,
+                    //viewrecords: true,
+                    sortorder: "desc",
                     height: document.documentElement.clientHeight - 22 - 3,
                     width: document.documentElement.clientWidth - 3,
                     shrinkToFit: false,
