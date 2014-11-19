@@ -87,8 +87,11 @@ BOOL CBlueDlg::OnInitDialog()
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
-
-	Util::SetWindowSize(m_hWnd, 1024, 728);
+	CRect rt;
+	SystemParametersInfo(SPI_GETWORKAREA, 0, &rt, 0);   // 获得工作区大小
+	MoveWindow(rt.left, rt.top, rt.Width(), rt.Height());
+	//SetWindowPos(NULL, rt.left, rt.top, rt.Width(), rt.Height(), SW_SHOW);
+	//Util::SetWindowSize(m_hWnd, 1024, 728);
 	m_btnGroup.d_onSelected += std::make_pair(this, &CBlueDlg::OnGroupBtnSelected);
 	m_btnGroup.d_onUnSelected += std::make_pair(this, &CBlueDlg::OnGroupBtnUnSelected);
 	CreatePageButton(m_btnSalePage, IDB_SALEPAGE, 0, _T("销售订单"));
@@ -154,12 +157,11 @@ BOOL CBlueDlg::OnInitDialog()
 	m_bsMoreWord.MoveWindow(CRect(754, 128, 838, 151));
 
 
-
-	CRect rt;
+	GetClientRect(rt);
 	rt.left = 254;
 	rt.top = 237;
-	rt.right = 994;
-	rt.bottom = 728;
+	rt.right -= 10;
+	rt.bottom -= 10;
 	m_webView.Create(NULL, NULL, WS_CHILD, rt, this, 10000, NULL);
 	m_webView.ShowWindow(SW_SHOW);
 	//m_webView.OpenWebBrowser();
@@ -168,7 +170,6 @@ BOOL CBlueDlg::OnInitDialog()
 	m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CBlueDlg::OnRowChecked);
 	m_pJqGridAPI->d_OnGridComplete += std::make_pair(this, &CBlueDlg::OnGridComplete);
 	CString path;
-
 	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
 	path.ReleaseBuffer();
 #ifdef _DEBUG
@@ -241,11 +242,13 @@ BOOL CBlueDlg::OnEraseBkgnd(CDC* pDC)
 
 	// TODO: Add your message handler code here and/or call default
 	BOOL ret = __super::OnEraseBkgnd(pDC);
-	CBSObject::FillRect(pDC->m_hDC, CRect(0, 0, 1024, 728), COL_WHITE);
-	CBSObject::FillRect(pDC->m_hDC, CRect(0, 0, 1024, 84), COL_GRAY);
-	CBSObject::DrawRect(pDC->m_hDC, CRect(254, 102, 995, 218), COL_BLACK, 2);
-	CBSObject::DrawRect(pDC->m_hDC, CRect(0, 102, 237, 727), COL_GRAY, 2);
-	CBSObject::DrawLine(pDC->m_hDC, CPoint(-1, 84), CPoint(1024, 84), COL_BLACK, 2);
+	CRect rtClient;
+	GetClientRect(rtClient);
+	CBSObject::FillRect(pDC->m_hDC, CRect(0, 84, rtClient.Width(), rtClient.Height()), COL_WHITE);
+	CBSObject::FillRect(pDC->m_hDC, CRect(0, 0, rtClient.Width(), 84), COL_GRAY);
+	CBSObject::DrawRect(pDC->m_hDC, CRect(254, 102, rtClient.Width() - 10, 218), COL_BLACK, 2);
+	CBSObject::DrawRect(pDC->m_hDC, CRect(0, 102, 237, rtClient.Height() - 10), COL_GRAY, 2);
+	CBSObject::DrawLine(pDC->m_hDC, CPoint(-1, 84), CPoint(rtClient.Width(), 84), COL_BLACK, 2);
 	return ret;
 }
 
