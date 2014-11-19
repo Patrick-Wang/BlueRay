@@ -27,5 +27,8 @@ public:
 private:
 	std::map<int, IJSFunction*> m_jsEventsMap;
 	std::map<CString, IJSFunction*> m_jsEventsMap2;
+public:
+//	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };
 

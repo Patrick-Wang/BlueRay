@@ -18,6 +18,7 @@ HWND CWebView::GetHWND()
 
 BEGIN_MESSAGE_MAP(CWebView, CWnd)
 	ON_WM_CREATE()
+//	ON_WM_RBUTTONUP()
 END_MESSAGE_MAP()
 
 
@@ -106,4 +107,22 @@ HRESULT STDMETHODCALLTYPE CWebView::GetExternal(IDispatch **ppDispatch)
 {
 	*ppDispatch = this;
 	return S_OK;
+}
+
+//void CWebView::OnRButtonUp(UINT nFlags, CPoint point)
+//{
+//	// TODO: Add your message handler code here and/or call default
+//
+//	__super::OnRButtonUp(nFlags, point);
+//}
+
+
+BOOL CWebView::PreTranslateMessage(MSG* pMsg)
+{
+	if (WM_RBUTTONUP == pMsg->message)
+	{
+		return TRUE;
+	}
+
+	return __super::PreTranslateMessage(pMsg);
 }
