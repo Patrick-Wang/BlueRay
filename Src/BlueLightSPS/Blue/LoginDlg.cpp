@@ -36,6 +36,7 @@ BEGIN_MESSAGE_MAP(CLoginDlg, CDialogEx)
 	ON_WM_CREATE()
 	ON_WM_ERASEBKGND()
 	ON_BN_CLICKED(IDB_LOGIN, &CLoginDlg::OnBnClickedLogin)
+	ON_WM_KEYDOWN()
 END_MESSAGE_MAP()
 
 
@@ -124,13 +125,39 @@ void CLoginDlg::OnBnClickedLogin()
 	m_editPsw.GetWindowText(psw);
 	CString usrName;
 	m_editUserName.GetWindowText(usrName);
-	if (psw.CompareNoCase(_T("admin")) == 0 && usrName.CompareNoCase(_T("1234")) == 0)
+	if (usrName.CompareNoCase(_T("admin")) == 0 && psw.CompareNoCase(_T("1234")) == 0)
 	{
 		OnOK();
 	}
 	else
 	{
 		MessageBox(_T("用户名或密码错误，请重新输入！"), _T("警告"), MB_OK | MB_ICONWARNING);
+	}
+	
+}
+
+
+void CLoginDlg::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	//if (VK_RETURN == nChar)
+	//{
+	//	OnBnClickedLogin();
+	//}
+
+	CDialogEx::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+
+
+BOOL CLoginDlg::PreTranslateMessage(MSG* pMsg)
+{
+	if (WM_KEYDOWN == pMsg->message && pMsg->wParam == VK_RETURN)
+	{
+		OnBnClickedLogin();
+		return FALSE;
+	}
+	else
+	{
+		return CDialogEx::PreTranslateMessage(pMsg);
 	}
 	
 }
