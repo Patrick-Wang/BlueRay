@@ -110,7 +110,7 @@ public:
 				std::vector<CString>::iterator it = data.begin();
 				do_get(data, it, htbh);
 				do_get_int(data, it, CombId::Comb_KHMC, khmc);
-				do_get_int(data, it, CombId::Comb_KHMC, ggbh);
+				do_get_int(data, it, CombId::Comb_GGBH, ggbh);
 				do_get(data, it, sl);
 				do_get_int(data, it, CombId::Comb_DFR, dfr);
 				do_get_int(data, it, CombId::Comb_ZDQDY, zdqdy);
@@ -131,7 +131,7 @@ public:
 				std::vector<CString>::iterator it = data.begin();
 				do_get_merge(data, it, htbh);
 				do_get_int_merge(data, it, CombId::Comb_KHMC, khmc);
-				do_get_int_merge(data, it, CombId::Comb_KHMC, ggbh);
+				do_get_int_merge(data, it, CombId::Comb_GGBH, ggbh);
 				do_get_merge(data, it, sl);
 				do_get_int_merge(data, it, CombId::Comb_DFR, dfr);
 				do_get_int_merge(data, it, CombId::Comb_ZDQDY, zdqdy);

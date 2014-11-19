@@ -133,7 +133,7 @@
       <Filter>UILib\standard</Filter>
     </ClInclude>
     <ClInclude Include="BRButtonGroup.h">
-      <Filter>Header Files</Filter>
+      <Filter>UILib\standard</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -204,7 +204,7 @@
       <Filter>UILib\standard</Filter>
     </ClCompile>
     <ClCompile Include="BRButtonGroup.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>UILib\standard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

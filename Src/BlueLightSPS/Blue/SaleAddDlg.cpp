@@ -151,7 +151,7 @@ BOOL CSaleAddDlg::OnInitDialog()
 		init(m_mpzlEdit, m_lpOption->mpzl);
 		init(m_bzEdit, m_lpOption->bz);
 		init(m_bzEdit, m_lpOption->bz);
-		init(m_aCombs[CombId::Comb_KHMC], m_lpOption->bmqxh);
+		init(m_aCombs[CombId::Comb_KHMC], m_lpOption->khmc);
 		init(m_aCombs[CombId::Comb_GGBH], m_lpOption->ggbh);
 		init(m_aCombs[CombId::Comb_DFR], m_lpOption->dfr);
 		init(m_aCombs[CombId::Comb_ZDQDY], m_lpOption->zdqdy);

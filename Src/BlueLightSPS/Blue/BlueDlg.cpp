@@ -14,7 +14,7 @@
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
+#define TM_TIME_COUNT	10
 
 // CBlueDlg dialog
 
@@ -56,6 +56,7 @@ BEGIN_MESSAGE_MAP(CBlueDlg, CDialogEx)
 	ON_BN_CLICKED(IDB_BLUE_MORE, &CBlueDlg::OnBnClickedMore)
 	ON_WM_ERASEBKGND()
 	ON_WM_CREATE()
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 
@@ -82,7 +83,7 @@ void CBlueDlg::CreatePageButton(CBRButton& btn, UINT id, int n, LPCTSTR text)
 BOOL CBlueDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-
+	SetTimer(TM_TIME_COUNT, 1000, NULL);
 	// Set the icon for this dialog.  The framework does this automatically
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
@@ -123,8 +124,8 @@ BOOL CBlueDlg::OnInitDialog()
 	m_bsVersion.BringWindowToTop();
 
 	m_bsVersion.SetWindowText(_T("Management System V1.0"));
-	m_bsDate.MoveWindow(890, 31, 1018 - 910, 49 - 31);
-	m_bsDate.SetWindowText(_T("Date: 2014/10/30"));
+	m_bsDate.MoveWindow(818, 31, 1018 - 810, 49 - 31);
+	OnTimer(TM_TIME_COUNT);
 	m_bsPersion.MoveWindow(730, 59, 1015 - 725, 77 - 59);
 	m_bsPersion.SetWindowText(_T("Name: Patrick  Role: Manager  Department: D1"));
 
@@ -184,6 +185,7 @@ BOOL CBlueDlg::OnInitDialog()
 	m_btnDelete.EnableWindow(FALSE);
 	m_btnModify.EnableWindow(FALSE);
 
+	m_btnGroup.OnClicked(&m_btnSalePage);
 
 	//m_webBrowser.Navigate(_T("C:\\Users\\SUN\\Desktop\\WebBrowser加载本地资源 - Games - 博客园.html"), NULL, NULL, NULL, NULL);
 	return TRUE;  // return TRUE  unless you set the focus to a control
@@ -277,19 +279,34 @@ void CBlueDlg::OnBnClickedModify()
 	std::auto_ptr<CSaleAddDlg::Option_t> pstOpt;
 	CSaleAddDlg dlg(_T("修改"));
 	std::vector<int> checkedRows;
-	std::vector<CString> rowData;
+	std::vector<CString>* pRowData = NULL;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
+
+	std::vector<int> checkedRowTableMap;
+	checkedRowTableMap.resize(checkedRows.size(), -1);
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
-		rowData.clear();
-		m_pJqGridAPI->GetRow(checkedRows[i], rowData);
-		if (pstOpt.get() == NULL)
+		pRowData = NULL;
+		for (int j = 0; i < m_table.size(); ++j)
 		{
-			pstOpt.reset(new CSaleAddDlg::Option_t(rowData));
+			if (m_table[j].first == checkedRows[i])
+			{
+				checkedRowTableMap[i] = j;
+				pRowData = &(m_table[j].second);
+				break;
+			}
 		}
-		else
+
+		if (NULL != pRowData)
 		{
-			pstOpt->Merge(rowData);
+			if (pstOpt.get() == NULL)
+			{
+				pstOpt.reset(new CSaleAddDlg::Option_t(*pRowData));
+			}
+			else
+			{
+				pstOpt->Merge(*pRowData);
+			}
 		}
 	}
 	dlg.SetOption(pstOpt.get());
@@ -301,6 +318,10 @@ void CBlueDlg::OnBnClickedModify()
 			{
 				for (int i = checkedRows.size() - 1; i >= 0; --i)
 				{
+					if (checkedRowTableMap[i] >= 0)
+					{
+						m_table[checkedRowTableMap[i]].second[j] = result[j];
+					}
 					m_pJqGridAPI->SetCell(checkedRows[i], j + 1, result[j]);
 				}
 			}
@@ -449,5 +470,21 @@ void CBlueDlg::OnGroupBtnUnSelected(CBRButton* pBrbtn)
 		pBrbtn->GetWindowText(text);
 		text.Replace(_T(">>"), _T(""));
 		pBrbtn->SetWindowText(text);
+	}
+}
+
+
+void CBlueDlg::OnTimer(UINT_PTR nIDEvent)
+{
+	if (TM_TIME_COUNT == nIDEvent)
+	{
+		CTime now = CTime::GetCurrentTime();
+		CString time = now.Format(_T("%Y/%m/%d %X"));
+
+		m_bsDate.SetWindowText(_T("Date: ") + time);
+	}
+	else
+	{
+		CDialogEx::OnTimer(nIDEvent);
 	}
 }
