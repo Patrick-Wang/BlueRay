@@ -1,0 +1,10 @@
+VPN:
+wangxin
+sylg23782971
+
+ip:221.203.78.184
+internal ip:192.168.104.2
+
+remote control: 679131014
+pwd: zhanglihong
+pwd2:j1yd63
