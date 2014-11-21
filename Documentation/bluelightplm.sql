@@ -1,10 +1,10 @@
 /*
 MySQL Data Transfer
 Source Host: localhost
-Source Database: test
+Source Database: bluelightplm
 Target Host: localhost
-Target Database: test
-Date: 2014/11/11 17:18:50
+Target Database: bluelightplm
+Date: 2014/11/21 10:43:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
