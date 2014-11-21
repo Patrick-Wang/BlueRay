@@ -125,8 +125,8 @@ public:
 				do_get(data, it, dlcd);
 				do_get(data, it, zxcd);
 				do_get_int(data, it, CombId::Comb_MPZL, mpzl);
-				do_get(data, it, ddrq);
 				do_get(data, it, bz);
+				do_get(data, it, ddrq);
 
 			} while (false);
 		}
@@ -148,8 +148,8 @@ public:
 				do_get_merge(data, it, dlcd);
 				do_get_merge(data, it, zxcd);
 				do_get_int_merge(data, it, CombId::Comb_MPZL, mpzl);
-				do_get_merge(data, it, ddrq);
 				do_get_merge(data, it, bz);
+				do_get_merge(data, it, ddrq);
 
 			} while (false);
 		}
@@ -186,9 +186,13 @@ private:
 		Edit_SL,
 		Edit_DLCD,
 		Edit_ZXCD,
-		Edit_DDRQ,
 		Edit_BZ,
 		Edit_END
+	};
+
+	enum DatePickerId{
+		DatePicker_DDRQ,
+		DatePicker_END
 	};
 
 public:
@@ -202,6 +206,8 @@ private:
 	CBSStatic* m_aStatics[StaticId::Static_END];
 	CComboBox* m_aCombs[CombId::Comb_END];
 	CEdit* m_aEdits[EditId::Edit_END];
+	CDateTimeCtrl* m_aDatePickers[DatePickerId::DatePicker_END];
+	
 	virtual void PostNcDestroy();
 };
 

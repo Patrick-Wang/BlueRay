@@ -28,7 +28,7 @@ CComboBox* Util::CreateComboBox(CWnd* pParent, UINT Id, CString csFont, int iFSi
 	pFont = CBSObject::GetFontPtr(csFont, iFSize, FALSE, FALSE, FALSE);
 
 	CComboBox* pComb = new CComboBox();
-	pComb->Create(WS_CHILD | WS_VISIBLE | CBS_DROPDOWN | CBS_HASSTRINGS | WS_VSCROLL, CRect(0, 0, 0, 0), pParent, Id);
+	pComb->Create(WS_CHILD | WS_TABSTOP | WS_VISIBLE | CBS_DROPDOWN | CBS_HASSTRINGS | WS_VSCROLL, CRect(0, 0, 0, 0), pParent, Id);
 	
 	pComb->SetFont(pFont);
 
@@ -55,7 +55,7 @@ CEdit* Util::CreateEdit(CWnd* pParent, UINT Id, CString csDefaultText, CString c
 	pFont = CBSObject::GetFontPtr(csFont, iFSize, FALSE, FALSE, FALSE);
 
 	pEdit->CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), NULL,
-		WS_CHILD | WS_VISIBLE/* | WS_BORDER | WS_HSCROLL |
+		WS_CHILD | WS_TABSTOP | WS_VISIBLE/* | WS_BORDER | WS_HSCROLL |
 							 WS_VSCROLL | ES_MULTILINE */ | ES_WANTRETURN,
 							 CRect(0, 0, 0, 0), pParent, Id);
 
@@ -64,3 +64,21 @@ CEdit* Util::CreateEdit(CWnd* pParent, UINT Id, CString csDefaultText, CString c
 	return pEdit;
 }
 
+
+CDateTimeCtrl* Util::CreateDateTimePicker(CWnd* pParent, UINT Id, CString csFont, int iFSize)
+{
+	CFont* pFont = NULL;
+	CDateTimeCtrl* pDateTimeCtrl = new CDateTimeCtrl();
+
+	pFont = CBSObject::GetFontPtr(csFont, iFSize, FALSE, FALSE, FALSE);
+
+	pDateTimeCtrl->Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | DTS_RIGHTALIGN, CRect(0, 0, 0, 0), pParent, Id);
+
+	pDateTimeCtrl->SetFont(pFont);
+	
+	pDateTimeCtrl->SetTime(COleDateTime::GetCurrentTime());
+
+	pDateTimeCtrl->SetFormat(_T("yyyy/MM/dd"));
+
+	return pDateTimeCtrl;
+}

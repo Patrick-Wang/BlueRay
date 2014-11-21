@@ -49,7 +49,7 @@ CBlueDlg::CBlueDlg(CWnd* pParent /*=NULL*/)
 			m_table[i].second.push_back(_T("5米"));
 			m_table[i].second.push_back(_T("蓝光英文铭牌"));
 			m_table[i].second.push_back(_T("原点值"));
-			m_table[i].second.push_back(_T("2014/8/15"));
+			m_table[i].second.push_back(_T("2014/08/15"));
 		}
 		else
 		{

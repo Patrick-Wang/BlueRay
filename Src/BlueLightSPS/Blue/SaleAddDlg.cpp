@@ -5,12 +5,25 @@
 
 #define IDC_EDIT_BASE (IDC_ADD_BASE)
 #define IDC_COMBO_BASE (IDC_ADD_BASE + 10)
-#define IDB_STATIC_BASE (IDC_COMBO_BASE + 20)
+#define IDC_STATIC_BASE (IDC_COMBO_BASE + 20)
+#define IDC_DATETIME_BASE (IDC_STATIC_BASE + 10)
 
 inline void init(CEdit* edit, CString& val){
 	if (val != OPT_FALSE)
 	{
 		edit->SetWindowText(val);
+	}
+}
+
+inline void init(CDateTimeCtrl* dateTime, CString& val){
+	if (val != OPT_FALSE)
+	{
+		COleVariant VariantTime;
+		VariantTime = val;
+		VariantTime.ChangeType(VT_DATE);
+		COleDateTime DataTime = VariantTime;
+
+		dateTime->SetTime(DataTime);
 	}
 }
 
@@ -90,8 +103,12 @@ static int g_EditsPos[][4] = {
 		{ 100 * 4 + 100 * 3, 40 * 1, 100, 20 }, //Edit_SL,
 		{ 100 * 4 + 100 * 3, 40 * 3, 100, 20 }, //Edit_DLCD,
 		{ 100 * 1 + 100 * 0, 40 * 4, 100, 20 }, //Edit_ZXCD,
-		{ 100 * 3 + 100 * 2, 40 * 4, 100, 20 }, //Edit_DDRQ,
+		//{ 100 * 3 + 100 * 2, 40 * 4, 100, 20 }, //Edit_DDRQ,
 		{ 100 * 4 + 100 * 3, 40 * 4, 100, 20 }, //Edit_BZ,
+};
+
+static int g_DatePickersPos[][4] = {
+		{ 100 * 3 + 100 * 2, 40 * 4, 100, 20 }, //Edit_DDRQ,
 };												
 
 static LPCTSTR g_EditItems[][1] = { //0: default text
@@ -122,7 +139,7 @@ BOOL CSaleAddDlg::OnInitDialog()
 	//init static
 	for (int i = 0; i < _countof(g_StaticItems); ++i)
 	{
-		m_aStatics[i] = Util::CreateStatic(this, IDB_STATIC_BASE + i, g_StaticItems[i][0], _T("Microsoft YaHei"), 12);
+		m_aStatics[i] = Util::CreateStatic(this, IDC_STATIC_BASE + i, g_StaticItems[i][0], _T("Microsoft YaHei"), 12);
 		m_aStatics[i]->MoveWindow(g_StaticPos[i][0], g_StaticPos[i][1], g_StaticPos[i][2], g_StaticPos[i][3]);
 	}
 	
@@ -133,6 +150,14 @@ BOOL CSaleAddDlg::OnInitDialog()
 		m_aEdits[i]->MoveWindow(g_EditsPos[i][0], g_EditsPos[i][1], g_EditsPos[i][2], g_EditsPos[i][3]);
 	}
 
+	//init date picker
+	for (int i = 0; i < _countof(g_DatePickersPos); ++i)
+	{
+		m_aDatePickers[i] = Util::CreateDateTimePicker(this, IDC_DATETIME_BASE + i, _T("Microsoft YaHei"), 12);
+		m_aDatePickers[i]->MoveWindow(g_DatePickersPos[i][0], g_DatePickersPos[i][1], g_DatePickersPos[i][2], g_DatePickersPos[i][3]);
+	}
+
+
 	if (NULL != m_lpOption)
 	{
 
@@ -140,7 +165,7 @@ BOOL CSaleAddDlg::OnInitDialog()
 		init(m_aEdits[EditId::Edit_SL], m_lpOption->sl);
 		init(m_aEdits[EditId::Edit_DLCD], m_lpOption->dlcd);
 		init(m_aEdits[EditId::Edit_ZXCD], m_lpOption->zxcd);
-		init(m_aEdits[EditId::Edit_DDRQ], m_lpOption->ddrq);
+		init(m_aDatePickers[DatePickerId::DatePicker_DDRQ], m_lpOption->ddrq);
 		init(m_aEdits[EditId::Edit_BZ], m_lpOption->bz);
 
 		init(m_aCombs[CombId::Comb_KHMC], m_lpOption->khmc);
@@ -153,8 +178,6 @@ BOOL CSaleAddDlg::OnInitDialog()
 		init(m_aCombs[CombId::Comb_BPQXH], m_lpOption->bpqxh);
 		init(m_aCombs[CombId::Comb_BMQXH], m_lpOption->bmqxh);
 		init(m_aCombs[CombId::Comb_MPZL], m_lpOption->mpzl);
-		//init(m_aCombs[CombId::Comb_DLCD], m_lpOption->dlcd);
-		//init(m_aCombs[CombId::Comb_ZXCD], m_lpOption->zxcd);
 	}
 	else
 	{
@@ -202,6 +225,14 @@ void CSaleAddDlg::PostNcDestroy()
 		if (NULL != m_aEdits[i])
 		{
 			delete m_aEdits[i];
+		}
+	}
+
+	for (int i = 0; i < _countof(m_aDatePickers); ++i)
+	{
+		if (NULL != m_aDatePickers[i])
+		{
+			delete m_aDatePickers[i];
 		}
 	}
 
@@ -260,11 +291,11 @@ void CSaleAddDlg::OnOKClicked()
 	m_aCombs[CombId::Comb_MPZL]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bmqxh : 0));
 
-	m_aEdits[EditId::Edit_DDRQ]->GetWindowText(strTmp);
-	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->ddrq : _T("")));
-	
 	m_aEdits[EditId::Edit_BZ]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bz : _T("")));
+
+	m_aDatePickers[DatePickerId::DatePicker_DDRQ]->GetWindowText(strTmp);
+	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->ddrq : _T("")));
 
 	CAddDlg::OnOKClicked();
 }

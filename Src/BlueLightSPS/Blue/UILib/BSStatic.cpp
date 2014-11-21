@@ -43,5 +43,5 @@ BOOL CBSStatic::Create(CWnd* pParentWnd, UINT nID)
 {
     // TODO: Add your specialized code here and/or call the base class
     CRect rt(0, 0, 0, 0);
-	return CBSObject::Create(NULL, NULL, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS, rt, pParentWnd, nID);
+	return CBSObject::Create(NULL, NULL, WS_CHILD | WS_TABSTOP | WS_VISIBLE | WS_CLIPSIBLINGS, rt, pParentWnd, nID);
 }
