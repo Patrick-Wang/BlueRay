@@ -6,6 +6,7 @@
 #include "Blue.h"
 #include "BlueDlg.h"
 #include "LoginDlg.h"
+#include "AdoDBConnector.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -56,6 +57,17 @@ CBlueApp theApp;
 
 BOOL CBlueApp::InitInstance()
 {
+	::CoInitialize(NULL);
+
+	//CAdoDBConnector::Configuration_t* pConfig = new CAdoDBConnector::Configuration_t();
+	//pConfig->strAddress = _T("localhost:3306");
+	//pConfig->strDBName = _T("test");
+	//pConfig->strUserName = _T("root");
+	//pConfig->strPassword = _T("root");
+	//pConfig->strDSName = _T("MyTest");
+	//CAdoDBConnector dbCon(pConfig);
+	//dbCon.Open();
+
 	StartGDIPlus();
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
@@ -111,7 +123,7 @@ BOOL CBlueApp::InitInstance()
 	{
 		delete pShellManager;
 	}
-	
+	::CoUninitialize();
 	// Since the dialog has been closed, return FALSE so that we exit the
 	//  application, rather than start the application's message pump.
 	return FALSE;

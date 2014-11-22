@@ -1,4 +1,10 @@
 module Util {
+    declare var jsonValue;
+
+    export function parse(jsstr: string): any {
+        eval('var jsonValue = ' + jsstr); 
+        return jsonValue;
+    }
 
 	export function formatCurrency (val: string): string{
 		

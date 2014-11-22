@@ -3,6 +3,9 @@
 declare var echarts;
 
 function addRowData(rdata: string) {
+    //var js = Util.parse('{array:[1,2,3],boolean:true}'); 
+    //alert(js);
+    //alert(js.array);
     var ardata: string[] = rdata.split(',');
     var targetData = {};
     for (var i = 0; i < ardata.length; ++i) {

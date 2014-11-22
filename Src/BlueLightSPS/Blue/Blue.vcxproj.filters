@@ -126,6 +126,9 @@
     <ClInclude Include="BRButtonGroup.h">
       <Filter>UILib\standard</Filter>
     </ClInclude>
+    <ClInclude Include="AdoDBConnector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blue.cpp">
@@ -196,6 +199,9 @@
     </ClCompile>
     <ClCompile Include="BRButtonGroup.cpp">
       <Filter>UILib\standard</Filter>
+    </ClCompile>
+    <ClCompile Include="AdoDBConnector.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AddDlg.h" />
+    <ClInclude Include="AdoDBConnector.h" />
     <ClInclude Include="Blue.h" />
     <ClInclude Include="BlueDlg.h" />
     <ClInclude Include="BRButton.h" />
@@ -139,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AddDlg.cpp" />
+    <ClCompile Include="AdoDBConnector.cpp" />
     <ClCompile Include="Blue.cpp" />
     <ClCompile Include="BlueDlg.cpp" />
     <ClCompile Include="BRButton.cpp" />
