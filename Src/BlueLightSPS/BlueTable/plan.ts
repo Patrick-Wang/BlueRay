@@ -4,7 +4,8 @@ declare var echarts;
 declare var instance;
 declare var grids: {};
 declare var mediator;
-module sale {
+
+module plan {
 
     class JQGridAssistantFactory {
 

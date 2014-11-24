@@ -17,12 +17,12 @@ CPlanPanel::~CPlanPanel()
 
 void CPlanPanel::OnWindowShow()
 {
-	//m_pJqGridAPI->ShowGrid(_T("plan"));
+	m_pJqGridAPI->ShowGrid(_T("plan"));
 }
 
 void CPlanPanel::OnWindowHide()
 {
-	//m_pJqGridAPI->HideGrid(_T("plan"));
+	m_pJqGridAPI->HideGrid(_T("plan"));
 }
 
 void CPlanPanel::OnInitChilds()

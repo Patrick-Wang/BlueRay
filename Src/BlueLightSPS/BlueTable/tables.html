@@ -28,13 +28,17 @@
     <script src="./skin/gray/jquery-ui.js" type="text/javascript"></script>
     <script src="./http.js" type="text/javascript"></script>
    	<script src="./util.js" type="text/javascript"></script>
+    <script src="./jqgridapi.js" type="text/javascript"></script>
+
     <script src="./sale.js" type="text/javascript"></script>
+    <script src="./plan.js" type="text/javascript"></script>
 
     <script type="text/javascript">
         instance = sale.View.newInstance();
         (function () {
             $(document).ready(function () {
-                instance.init("table");
+                instance.init("sale");
+                plan.View.newInstance().init("plan");
             });
         })();
     </script>
@@ -52,12 +56,12 @@
     </style>
 </head>
 <body >
-    <div align="center" id="tablep">
-        <table id="table"></table>
+    <div align="center" id="salep">
+        <table id="sale"></table>
         <div id="pager"></div>
     </div>
-    <div align="center" id="planTablep" style="display:none">
-        <table id="planTable"></table>
+    <div align="center" id="planp" style="display:none">
+        <table id="plan"></table>
         <div id="pager"></div>
     </div>
 

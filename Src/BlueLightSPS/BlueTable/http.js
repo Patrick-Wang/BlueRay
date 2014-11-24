@@ -5,12 +5,12 @@ function ajaxGet(caller, addr) {
         url: addr,
         success: function (data) {
             //alert(data);
-            window.external.onGet(caller, 1, data);
+            mediator.onGet(caller, 1, data);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
             //alert(textStatus);
             //alert(errorThrown);
-            window.external.onGet(caller, textStatus);
+            mediator.onGet(caller, textStatus);
         }
     });
 }
@@ -20,10 +20,10 @@ function ajaxPost(caller, addr, data) {
         url: addr,
         data: data,
         success: function (retData) {
-            window.external.onPost(caller, 1, retData);
+            mediator.onPost(caller, 1, retData);
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
-            window.external.onPost(caller, textStatus);
+            mediator.onPost(caller, textStatus);
         }
     });
 }

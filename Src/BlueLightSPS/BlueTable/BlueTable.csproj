@@ -172,6 +172,8 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="http.ts" />
+    <TypeScriptCompile Include="jqgridapi.ts" />
+    <TypeScriptCompile Include="plan.ts" />
     <TypeScriptCompile Include="sale.ts" />
     <TypeScriptCompile Include="jqgrid\jqassist.ts" />
     <TypeScriptCompile Include="jqgrid\vector.ts" />
@@ -180,7 +182,7 @@
   <ItemGroup>
     <Content Include="jqgrid\jqassist.js.map" />
     <Content Include="jqgrid\vector.js.map" />
-    <Content Include="sale.html" />
+    <Content Include="tables.html" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

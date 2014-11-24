@@ -26,7 +26,6 @@
 
 CBlueDlg::CBlueDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CBlueDlg::IDD, pParent)
-	//, m_bInit(true)
 	, m_pHttp(new CJsHttpImpl(&m_webView))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
@@ -127,10 +126,6 @@ BOOL CBlueDlg::OnInitDialog()
 	m_pPlanPanel->Create(this, IDP_PLAN);
 	m_pSalePanel->MoveWindow(CRect(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 218));
 
-	//m_pJqGridAPI->d_OnRowChecked += std::make_pair(m_pSalePanel.get(), &CBlueDlg::OnRowChecked);
-	//m_pJqGridAPI->d_OnGridComplete += std::make_pair(this, &CBlueDlg::OnGridComplete);
-	
-
 
 	GetClientRect(rt);
 	rt.left = RIGHT_AREA_LEFT;
@@ -144,9 +139,9 @@ BOOL CBlueDlg::OnInitDialog()
 	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
 	path.ReleaseBuffer();
 #ifdef _DEBUG
-	path.Replace(_T("Debug\\BlueLightPLM.exe"), _T("BlueTable\\sale.html"));
+	path.Replace(_T("Debug\\BlueLightPLM.exe"), _T("BlueTable\\tables.html"));
 #else
-	path.Replace(_T("BlueLightPLM.exe"), _T("sale.html"));
+	path.Replace(_T("BlueLightPLM.exe"), _T("tables.html"));
 #endif
 	VARIANT url;
 	url.vt = VT_BSTR;
@@ -230,18 +225,6 @@ int CBlueDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	return 0;
 }
-
-
-//
-//void CBlueDlg::OnGridComplete()
-//{
-//	if (m_bInit)
-//	{
-//		m_bInit = false;
-//		d_OnGridLoaded();
-//	}
-//}
-
 
 
 BOOL CBlueDlg::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
@@ -329,7 +312,7 @@ BOOL CBlueDlg::PreTranslateMessage(MSG* pMsg)
 void CBlueDlg::OnWebComplete()
 {
 	m_pSalePanel->ShowWindow(SW_SHOW);
-	m_pHttp->Get(_T("http://localhost:8080/BlueRay/sale/query"), std::map<CString, CString>());
+	m_pHttp->Post(_T("http://www.baidu.com"), std::map<CString, CString>(), _T("asdf"));
 }
 
 void CBlueDlg::OnBnClickedPlan()
