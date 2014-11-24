@@ -8,6 +8,8 @@ class CJQGridAPI
 public:
 	CJQGridAPI(IJSMediator* pMedia);
 	~CJQGridAPI();
+	void ShowGrid(LPCTSTR gridName);
+	void HideGrid(LPCTSTR gridName);
 	void ShowRow(int rowId);
 	void HideRow(int rowId);
 	int AddRow(const std::vector<CString>& rowData);

@@ -141,6 +141,15 @@
     <ClInclude Include="JsHttpImpl.h">
       <Filter>http</Filter>
     </ClInclude>
+    <ClInclude Include="ControlPanel.h">
+      <Filter>UILib\standard</Filter>
+    </ClInclude>
+    <ClInclude Include="SalePanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlanPanel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blue.cpp">
@@ -217,6 +226,15 @@
     </ClCompile>
     <ClCompile Include="JsHttpImpl.cpp">
       <Filter>http</Filter>
+    </ClCompile>
+    <ClCompile Include="ControlPanel.cpp">
+      <Filter>UILib\standard</Filter>
+    </ClCompile>
+    <ClCompile Include="SalePanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlanPanel.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

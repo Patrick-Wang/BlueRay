@@ -26,3 +26,7 @@
 #define IDC_ADD_BASE	10025
 #define IDB_ADD_OK	100300
 #define IDB_ADD_CANCEL	100301
+#define IDC_BLUE_SEARCH	100302
+//panels
+#define IDP_SALE	20001
+#define IDP_PLAN	20002

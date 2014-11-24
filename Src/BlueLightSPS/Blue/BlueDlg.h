@@ -10,6 +10,7 @@
 #include "JQGridAPI.h"
 #include "BRButtonGroup.h"
 #include "IHttp.h"
+#include "SalePanel.h"
 #define UM_GRID_COMPLETE WM_APP + 1
 // CBlueDlg dialog
 class CBlueDlg : public CDialogEx
@@ -23,9 +24,8 @@ public:
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
-	void OnRowChecked();
-	void OnGridComplete();
-	void OnGridDataLoaded();
+
+	//void OnGridDataLoaded();
 // Implementation
 protected:
 	HICON m_hIcon;
@@ -34,7 +34,6 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
-
 	DECLARE_MESSAGE_MAP()
 	void CreatePageButton(CBRButton& pb, UINT id, int n, LPCTSTR text);
 	CBSStatic m_bsVersion;
@@ -48,37 +47,33 @@ protected:
 	CBRButton m_btnProductionDataAnalyst;
 	CBRButton m_btnSettingPage;
 	
-	CBRButton m_btnAdd;
-	CBRButton m_btnSearch;
-	CBRButton m_btnModify;
-	CBRButton m_btnDelete;
-	CBRButton m_btnMore;
-	CBSStatic m_bsMoreWord;
+	
 
 
 public:
 	
 	afx_msg void OnBnClickedSetting();
-	afx_msg void OnBnClickedAdd();
-	afx_msg void OnBnClickedDelete();
-	afx_msg void OnBnClickedModify();
-	afx_msg void OnBnClickedSearch();
-	afx_msg void OnBnClickedMore();
+	afx_msg void OnBnClickedPlan();
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);	
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
 	void OnGroupBtnSelected(CBRButton* pBrbtn);
 	void OnGroupBtnUnSelected(CBRButton* pBrbtn);
 private:
-	CEdit m_editSearch;
-	bool m_bInit;
-	std::vector<std::pair<int, std::vector<CString>>> m_table;
+	
+	//bool m_bInit;
+	
 	CBRButtonGroup m_btnGroup;
 	CWebView m_webView;
 	std::auto_ptr<CJQGridAPI> m_pJqGridAPI;
+	std::auto_ptr<CControlPanel> m_pSalePanel;
+	std::auto_ptr<CControlPanel> m_pPlanPanel;
 	std::auto_ptr<IHttp> m_pHttp;
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	void OnWebComplete();
+
+private:
+	CDelegate<void(void)> d_OnGridLoaded;
 };

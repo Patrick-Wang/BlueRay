@@ -244,3 +244,25 @@ void CJQGridAPI::Refresh()
 	std::vector<VARIANT> params;
 	m_pMedia->CallJsFunction(_T("reload"), params);
 }
+
+void CJQGridAPI::HideGrid(LPCTSTR gridName)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_BSTR;
+	vt.bstrVal = ::SysAllocString(gridName);
+	params.push_back(vt);
+	m_pMedia->CallJsFunction(_T("hideGrid"), params);
+	::SysFreeString(vt.bstrVal);
+}
+
+void CJQGridAPI::ShowGrid(LPCTSTR gridName)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_BSTR;
+	vt.bstrVal = ::SysAllocString(gridName);
+	params.push_back(vt);
+	m_pMedia->CallJsFunction(_T("showGrid"), params);
+	::SysFreeString(vt.bstrVal);
+}

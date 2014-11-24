@@ -2,6 +2,19 @@
 /// <reference path="util.ts" />
 declare var echarts;
 
+var instance;
+var grids = {}
+
+function showGrid(gridName: string) {
+    $("#" + grids[gridName].getTableName() + "p").css("display", "");
+    instance = grids[gridName];
+}
+
+function hideGrid(gridName: string) {
+    $("#" + grids[gridName].getTableName() + "p").css("display", "none");
+}
+
+
 function addRowData(rdata: string) {
     //var js = Util.parse('{array:[1,2,3],boolean:true}'); 
     //alert(js);
@@ -11,39 +24,39 @@ function addRowData(rdata: string) {
     for (var i = 0; i < ardata.length; ++i) {
         targetData["sale_col_" + i] = ardata[i];
     }
-    return sale.View.newInstance().addRowData(targetData);
+    return instance.addRowData(targetData);
 }
 
 function getRowId(rowIndex: number) {
-    return sale.View.newInstance().getRowId(rowIndex);
+    return instance.getRowId(rowIndex);
 }
 
 function showHideRow(rowId: number, show: string) {
-    sale.View.newInstance().showHideRow(rowId, show == "true");
+    instance.showHideRow(rowId, show == "true");
 }
 
 function getSelectedRows() {
-    return sale.View.newInstance().getSelectedRowData().toString();
+    return instance.getSelectedRowData().toString();
 }
 
 function getRowCount() {
-    return sale.View.newInstance().getRowCount();
+    return instance.getRowCount();
 }
 
 
 function delRowData(rowId: number): void {
     //alert("delRow" + row);
-    sale.View.newInstance().delRowData(rowId);
+    instance.delRowData(rowId);
 }
 
 
 function reload(): void {
     //alert("delRow" + row);
-    sale.View.newInstance().reload();
+    instance.reload();
 }
 
 function getRowData(rowId: number): string {
-    var rw: any = sale.View.newInstance().getRowData(rowId);
+    var rw: any = instance.getRowData(rowId);
     var ret: string = "";
     for (var i in rw) {
         ret += rw[i] + ',';
@@ -52,7 +65,7 @@ function getRowData(rowId: number): string {
 }
 
 function setCellData(row: number, col: number, data: string) {
-    sale.View.newInstance().setCellData(row, col, data + "");
+    instance.setCellData(row, col, data + "");
 }
 
 function testCall(arg) {
@@ -86,11 +99,16 @@ module sale {
         private mTableName: string;
         private mTable: any;
         public init(tableId: string): void {
+            grids["sale"] = this;
             this.mTableName = tableId;
             this.mTable = $('#' + tableId);
-            this.updateTable(tableId);            
+            this.updateTable(tableId);   
+                     
         }
 
+        public getTableName() : string{
+            return this.mTableName;
+        }
 
         public showHideRow(rowId: number, show: boolean): void {
             if (show) {
@@ -112,6 +130,7 @@ module sale {
         public addRowData(rdata: any): number{
             var ids = this.mTable.jqGrid('getDataIDs');
             //获得当前最大行号（数据编号）
+            //alert("add " + rdata);
             var rowid = 0; 
             if (ids != "") {
                 rowid = parseInt(Math.max.apply(Math, ids)) + 1;
