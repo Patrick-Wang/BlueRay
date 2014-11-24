@@ -12,6 +12,9 @@ public:
 	void OnClicked(CBRButton* lpButton);
 	CDelegate<void(CBRButton*)> d_onSelected;
 	CDelegate<void(CBRButton*)> d_onUnSelected;
+	CBRButton* GetSelected(){
+		return m_lpSelectedBtn;
+	}
 private:
 	std::vector<CBRButton*> m_groupBtns;
 	CBRButton* m_lpSelectedBtn;

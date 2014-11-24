@@ -25,6 +25,9 @@
     <Filter Include="Web">
       <UniqueIdentifier>{96c7acfc-c146-4d86-aec1-2996505d68a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="http">
+      <UniqueIdentifier>{e0feba5f-d8ee-4a57-827d-e51ca32e3ecf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -129,6 +132,15 @@
     <ClInclude Include="AdoDBConnector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ComJsFun.h">
+      <Filter>Web</Filter>
+    </ClInclude>
+    <ClInclude Include="IHttp.h">
+      <Filter>http</Filter>
+    </ClInclude>
+    <ClInclude Include="JsHttpImpl.h">
+      <Filter>http</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blue.cpp">
@@ -202,6 +214,9 @@
     </ClCompile>
     <ClCompile Include="AdoDBConnector.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JsHttpImpl.cpp">
+      <Filter>http</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

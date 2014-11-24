@@ -128,3 +128,8 @@ BOOL CWebView::PreTranslateMessage(MSG* pMsg)
 
 	return __super::PreTranslateMessage(pMsg);
 }
+
+void CWebView::OnDocumentCompleted()
+{
+	d_OnDomComplete();
+}

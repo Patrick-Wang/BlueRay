@@ -114,8 +114,11 @@
     <ClInclude Include="BRButtonGroup.h" />
     <ClInclude Include="BRComboBox.h" />
     <ClInclude Include="colors.h" />
+    <ClInclude Include="ComJsFun.h" />
+    <ClInclude Include="IHttp.h" />
     <ClInclude Include="IJSMediator.h" />
     <ClInclude Include="JQGridAPI.h" />
+    <ClInclude Include="JsHttpImpl.h" />
     <ClInclude Include="LoginDlg.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="resource_ids.h" />
@@ -147,6 +150,7 @@
     <ClCompile Include="BRButtonGroup.cpp" />
     <ClCompile Include="BRComboBox.cpp" />
     <ClCompile Include="JQGridAPI.cpp" />
+    <ClCompile Include="JsHttpImpl.cpp" />
     <ClCompile Include="LoginDlg.cpp" />
     <ClCompile Include="SaleAddDlg.cpp" />
     <ClCompile Include="stdafx.cpp">

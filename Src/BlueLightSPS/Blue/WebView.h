@@ -2,7 +2,7 @@
 #include <map>
 #include "WebBrowser.h"
 #include "IJSMediator.h"
-
+#include "Delegate.h"
 
 
 class CWebView :
@@ -15,7 +15,9 @@ public:
 	~CWebView();
 protected:
 	virtual HWND GetHWND();
+	virtual void OnDocumentCompleted();
 public:
+	CDelegate<void(void)> d_OnDomComplete;
 	DECLARE_MESSAGE_MAP()
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	virtual VARIANT CallJsFunction(LPCWSTR lpFun, std::vector<VARIANT>& params);

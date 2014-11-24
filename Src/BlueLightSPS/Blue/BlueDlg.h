@@ -9,6 +9,7 @@
 #include "afxwin.h"
 #include "JQGridAPI.h"
 #include "BRButtonGroup.h"
+#include "IHttp.h"
 #define UM_GRID_COMPLETE WM_APP + 1
 // CBlueDlg dialog
 class CBlueDlg : public CDialogEx
@@ -75,7 +76,9 @@ private:
 	CBRButtonGroup m_btnGroup;
 	CWebView m_webView;
 	std::auto_ptr<CJQGridAPI> m_pJqGridAPI;
+	std::auto_ptr<IHttp> m_pHttp;
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	void OnWebComplete();
 };

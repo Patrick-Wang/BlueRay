@@ -11,6 +11,7 @@
 #include "AddDlg.h"
 #include "SaleAddDlg.h"
 #include "colors.h"
+#include "JsHttpImpl.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -25,6 +26,7 @@
 CBlueDlg::CBlueDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CBlueDlg::IDD, pParent)
 	, m_bInit(true)
+	, m_pHttp(new CJsHttpImpl(&m_webView))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 	m_table.resize(16);
@@ -206,7 +208,7 @@ BOOL CBlueDlg::OnInitDialog()
 	rt.bottom -= 10;
 	m_webView.Create(NULL, NULL, WS_CHILD, rt, this, 10000, NULL);
 	m_webView.ShowWindow(SW_SHOW);
-
+	m_webView.d_OnDomComplete += std::make_pair(this, &CBlueDlg::OnWebComplete);
 	CString path;
 	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
 	path.ReleaseBuffer();
@@ -224,6 +226,7 @@ BOOL CBlueDlg::OnInitDialog()
 	m_btnDelete.EnableWindow(FALSE);
 	m_btnModify.EnableWindow(FALSE);
 	m_btnGroup.OnClicked(&m_btnSalePage);
+	
 	OnTimer(TM_TIME_COUNT);
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
@@ -541,4 +544,9 @@ BOOL CBlueDlg::PreTranslateMessage(MSG* pMsg)
 void CBlueDlg::OnGridDataLoaded()
 {
 	//m_pJqGridAPI->Refresh();
+}
+
+void CBlueDlg::OnWebComplete()
+{
+	m_pHttp->Get(_T("http://localhost:8080/BlueRay/sale/query"), std::map<CString, CString>());
 }

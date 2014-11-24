@@ -171,6 +171,7 @@
     <Content Include="www2\js\echarts-plain-2-0-0.js" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="http.ts" />
     <TypeScriptCompile Include="sale.ts" />
     <TypeScriptCompile Include="jqgrid\jqassist.ts" />
     <TypeScriptCompile Include="jqgrid\vector.ts" />

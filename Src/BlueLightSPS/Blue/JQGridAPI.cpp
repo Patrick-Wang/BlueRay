@@ -6,13 +6,13 @@
 CJQGridAPI::CJQGridAPI(IJSMediator* pMedia)
 	: m_pMedia(pMedia)
 {
-	m_lpJsfOnChecked.reset(new CJsFun(_T("onRowChecked"), ONROWCHECKED));
+	m_lpJsfOnChecked.reset(new CComJsFun(_T("onRowChecked"), ONROWCHECKED));
 	m_pMedia->RegisterJsFunction(m_lpJsfOnChecked.get());
-	m_lpJsfOnChecked->m_dFun += std::make_pair(this, &CJQGridAPI::JSCall);
+	m_lpJsfOnChecked->d_onJsCall += std::make_pair(this, &CJQGridAPI::JSCall);
 
-	m_lpJsfOnComplete.reset(new CJsFun(_T("onGridComplete"), ONGRIDCOMPLETE));
+	m_lpJsfOnComplete.reset(new CComJsFun(_T("onGridComplete"), ONGRIDCOMPLETE));
 	m_pMedia->RegisterJsFunction(m_lpJsfOnComplete.get());
-	m_lpJsfOnComplete->m_dFun += std::make_pair(this, &CJQGridAPI::JSCall);
+	m_lpJsfOnComplete->d_onJsCall += std::make_pair(this, &CJQGridAPI::JSCall);
 }
 
 
