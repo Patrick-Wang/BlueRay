@@ -35,8 +35,8 @@ void CAddDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CAddDlg, CDialogEx)
 	ON_WM_ERASEBKGND()
 	ON_WM_CREATE()
-	ON_BN_CLICKED(IDB_ADD_CANCEL, &CAddDlg::OnCancel)
-	ON_BN_CLICKED(IDB_ADD_OK, &CAddDlg::OnOKClicked)
+	ON_BN_CLICKED(IDC_SALE_ADD_BTN_CANCEL, &CAddDlg::OnCancel)
+	ON_BN_CLICKED(IDC_SALE_ADD_BTN_OK, &CAddDlg::OnOKClicked)
 END_MESSAGE_MAP()
 
 
@@ -48,10 +48,10 @@ BOOL CAddDlg::OnInitDialog()
 	CDialogEx::OnInitDialog();
 	Util::SetWindowSize(m_hWnd, 837, 421);
 	SetWindowText(m_Title);
-	m_btnOK.Create(this, IDB_ADD_OK);
+	m_btnOK.Create(this, IDC_SALE_ADD_BTN_OK);
 	m_btnOK.MoveWindow(556, 366, 114, 30);
 	m_btnOK.SetWindowText(_T("OK"));
-	m_btnCancel.Create(this, IDB_ADD_CANCEL);
+	m_btnCancel.Create(this, IDC_SALE_ADD_BTN_CANCEL);
 	m_btnCancel.MoveWindow(690, 366, 114, 30);
 	m_btnCancel.SetWindowText(_T("Cancel"));
 	// TODO:  Add extra initialization here

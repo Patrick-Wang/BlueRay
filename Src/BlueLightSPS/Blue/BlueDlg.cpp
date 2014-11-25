@@ -41,8 +41,8 @@ BEGIN_MESSAGE_MAP(CBlueDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_WM_ERASEBKGND()
-	ON_BN_CLICKED(IDB_SETTINGPAGE, &CBlueDlg::OnBnClickedSetting)
-	ON_BN_CLICKED(IDB_PLANPAGE, &CBlueDlg::OnBnClickedPlan)
+	ON_BN_CLICKED(IDC_SETTINGPAGE, &CBlueDlg::OnBnClickedSetting)
+	ON_BN_CLICKED(IDC_PLANPAGE, &CBlueDlg::OnBnClickedPlan)
 	ON_WM_CREATE()
 	ON_WM_TIMER()
 END_MESSAGE_MAP()
@@ -83,12 +83,12 @@ BOOL CBlueDlg::OnInitDialog()
 	//Util::SetWindowSize(m_hWnd, 1024, 728);
 	m_btnGroup.d_onSelected += std::make_pair(this, &CBlueDlg::OnGroupBtnSelected);
 	m_btnGroup.d_onUnSelected += std::make_pair(this, &CBlueDlg::OnGroupBtnUnSelected);
-	CreatePageButton(m_btnSalePage, IDB_SALEPAGE, 0, _T(" 销售订单"));
-	CreatePageButton(m_btnPlanPage, IDB_PLANPAGE, 1, _T(" 计划排产"));
-	CreatePageButton(m_btnProductionScanPage, IDB_PRODUCTIONSCANPAGE, 2, _T(" 生产录入"));
-	CreatePageButton(m_btnNotification, IDB_NOTIFICATION, 3, _T(" 待办事项"));
-	CreatePageButton(m_btnProductionDataAnalyst, IDB_PRODUCTIONDATAANALYST, 4, _T(" 报表展示"));
-	CreatePageButton(m_btnSettingPage, IDB_SETTINGPAGE, 5, _T(" 设置"));
+	CreatePageButton(m_btnSalePage, IDC_SALEPAGE, 0, _T(" 销售订单"));
+	CreatePageButton(m_btnPlanPage, IDC_PLANPAGE, 1, _T(" 计划排产"));
+	CreatePageButton(m_btnProductionScanPage, IDC_PRODUCTIONSCANPAGE, 2, _T(" 生产录入"));
+	CreatePageButton(m_btnNotification, IDC_NOTIFICATION, 3, _T(" 待办事项"));
+	CreatePageButton(m_btnProductionDataAnalyst, IDC_PRODUCTIONDATAANALYST, 4, _T(" 报表展示"));
+	CreatePageButton(m_btnSettingPage, IDC_SETTINGPAGE, 5, _T(" 设置"));
 
 	m_bsVersion.Create(this, IDS_SOFTWARE_VERSION);
 	m_bsVersion.SetBackgroundColor(COL_GRAY);
@@ -124,7 +124,7 @@ BOOL CBlueDlg::OnInitDialog()
 	
 	m_pPlanPanel.reset(new CPlanPanel(m_pJqGridAPI.get()));
 	m_pPlanPanel->Create(this, IDP_PLAN);
-	m_pSalePanel->MoveWindow(CRect(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 218));
+	m_pPlanPanel->MoveWindow(CRect(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 218));
 
 
 	GetClientRect(rt);
@@ -247,10 +247,10 @@ void CBlueDlg::OnGroupBtnSelected(CBRButton* pBrbtn)
 		pBrbtn->SetWindowText(text + _T(">>"));
 		switch (pBrbtn->GetDlgCtrlID())
 		{
-		case IDB_SALEPAGE:
+		case IDC_SALEPAGE:
 			m_pSalePanel->ShowWindow(SW_SHOW);
 			break;
-		case IDB_PLANPAGE:
+		case IDC_PLANPAGE:
 			m_pPlanPanel->ShowWindow(SW_SHOW);
 			break;
 		default:
@@ -270,10 +270,10 @@ void CBlueDlg::OnGroupBtnUnSelected(CBRButton* pBrbtn)
 		pBrbtn->SetWindowText(text);
 		switch (pBrbtn->GetDlgCtrlID())
 		{
-		case IDB_SALEPAGE:
+		case IDC_SALEPAGE:
 			m_pSalePanel->ShowWindow(SW_HIDE);
 			break;
-		case IDB_PLANPAGE:
+		case IDC_PLANPAGE:
 			m_pPlanPanel->ShowWindow(SW_HIDE);
 			break;
 		default:
