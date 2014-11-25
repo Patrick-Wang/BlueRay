@@ -124,7 +124,7 @@ static LPCTSTR g_EditItems[][1] = { //0: default text
 BOOL CSaleAddDlg::OnInitDialog()
 {
 	CAddDlg::OnInitDialog();
-
+	CenterWindow();
 	//init comb
 	for (int i = _countof(g_CombPos) - 1; i >= 0; --i)
 	{

@@ -1,13 +1,12 @@
 ﻿/// <reference path="jqgrid/jqassist.ts" />
 /// <reference path="util.ts" />
 
-var plan;
-(function (plan) {
+var base;
+(function (base) {
     var JQGridAssistantFactory = (function () {
         function JQGridAssistantFactory() {
         }
-        JQGridAssistantFactory.createTable = function (gridName) {
-            var cols = ["合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "生产日期", "计划审核-业务", "计划审核-计划", "包装日期", "包装审核-业务", "包装审核-计划", "发货日期", "投产编号", "出厂编号"];
+        JQGridAssistantFactory.createTable = function (gridName, cols) {
             var nodes = [];
             for (var i = 0; i < cols.length; ++i) {
                 nodes.push(new JQTable.Node(cols[i], gridName + "_col_" + i));
@@ -17,28 +16,19 @@ var plan;
         return JQGridAssistantFactory;
     })();
 
-    var View = (function () {
-        function View() {
-        }
-        View.newInstance = function () {
-            if (View.ins == undefined) {
-                View.ins = new View();
-            }
-            return View.ins;
-        };
-
-        View.prototype.init = function (tableId) {
+    var GridView = (function () {
+        function GridView(tableId, cols) {
+            this.mCols = cols;
             grids[tableId] = this;
             this.mTableName = tableId;
             this.mTable = $('#' + tableId);
             this.updateTable(tableId);
-        };
-
-        View.prototype.getTableName = function () {
+        }
+        GridView.prototype.getTableName = function () {
             return this.mTableName;
         };
 
-        View.prototype.showHideRow = function (rowId, show) {
+        GridView.prototype.showHideRow = function (rowId, show) {
             if (show) {
                 $("#" + rowId).css("display", "");
             } else {
@@ -46,7 +36,7 @@ var plan;
             }
         };
 
-        View.prototype.getRowId = function (row) {
+        GridView.prototype.getRowId = function (row) {
             var ids = this.mTable.jqGrid('getDataIDs');
             if (ids.length <= row) {
                 return -1;
@@ -54,56 +44,42 @@ var plan;
             return parseInt(ids[row]);
         };
 
-        View.prototype.addRowData = function (rdata) {
+        GridView.prototype.addRowData = function (rdata) {
             var ids = this.mTable.jqGrid('getDataIDs');
-
-            //获得当前最大行号（数据编号）
-            //alert("add " + rdata);
             var rowid = 0;
             if (ids != "") {
                 rowid = parseInt(Math.max.apply(Math, ids)) + 1;
             }
-
-            // alert(rowid);
             this.mTable.jqGrid('addRowData', rowid, rdata, 'last');
             return rowid;
         };
-        View.prototype.delRowData = function (rowId) {
+        GridView.prototype.delRowData = function (rowId) {
             this.mTable.jqGrid('setSelection', rowId, false);
             this.mTable.jqGrid('delRowData', rowId);
         };
 
-        View.prototype.getRowData = function (rowId) {
-            //var cur = table.jqGrid('getGridParam', "selrow");
+        GridView.prototype.getRowData = function (rowId) {
             return this.mTable.jqGrid('getRowData', rowId);
         };
 
-        View.prototype.getSelectedRowData = function () {
+        GridView.prototype.getSelectedRowData = function () {
             return this.mTable.jqGrid('getGridParam', 'selarrrow');
         };
 
-        View.prototype.getRowCount = function () {
+        GridView.prototype.getRowCount = function () {
             return this.mTable.jqGrid("getRowData").length;
         };
 
-        View.prototype.setCellData = function (rowId, colId, data) {
+        GridView.prototype.setCellData = function (rowId, colId, data) {
             this.mTable.jqGrid('setCell', rowId, colId, data);
         };
 
-        View.prototype.reload = function () {
+        GridView.prototype.reload = function () {
             this.mTable.trigger("reloadGrid");
         };
 
-        View.prototype.updateTable = function (name) {
-            var tableAssist = JQGridAssistantFactory.createTable(name);
-
-            // tableAssist.mergeTitle();
-            //tableAssist.mergeRow(0);
-            //   tableAssist.mergeColum(0, 4);
-            //   tableAssist.mergeColum(0, 5);
-            //   tableAssist.mergeColum(0, 6);
-            //   tableAssist.mergeColum(0, 7);
-            //   tableAssist.mergeColum(0, 8);
+        GridView.prototype.updateTable = function (name) {
+            var tableAssist = JQGridAssistantFactory.createTable(name, this.mCols);
             var data = [];
 
             $("#" + name).jqGrid(tableAssist.decorate({
@@ -139,8 +115,8 @@ var plan;
             }));
             //.navGrid('#pager', { search: false, reloadGrid: false, edit: false, add: false, del: false });
         };
-        return View;
+        return GridView;
     })();
-    plan.View = View;
-})(plan || (plan = {}));
-//# sourceMappingURL=plan.js.map
+    base.GridView = GridView;
+})(base || (base = {}));
+//# sourceMappingURL=base.js.map

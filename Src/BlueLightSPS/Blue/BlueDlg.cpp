@@ -13,6 +13,7 @@
 #include "colors.h"
 #include "JsHttpImpl.h"
 #include "PlanPanel.h"
+#include "ProductPanel.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -41,8 +42,8 @@ BEGIN_MESSAGE_MAP(CBlueDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_WM_ERASEBKGND()
-	ON_BN_CLICKED(IDB_SETTINGPAGE, &CBlueDlg::OnBnClickedSetting)
-	ON_BN_CLICKED(IDB_PLANPAGE, &CBlueDlg::OnBnClickedPlan)
+	//ON_BN_CLICKED(IDB_SETTINGPAGE, &CBlueDlg::OnBnClickedSetting)
+	//ON_BN_CLICKED(IDB_PLANPAGE, &CBlueDlg::OnBnClickedPlan)
 	ON_WM_CREATE()
 	ON_WM_TIMER()
 END_MESSAGE_MAP()
@@ -71,18 +72,21 @@ void CBlueDlg::CreatePageButton(CBRButton& btn, UINT id, int n, LPCTSTR text)
 BOOL CBlueDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-	SetTimer(TM_TIME_COUNT, 1000, NULL);
 	// Set the icon for this dialog.  The framework does this automatically
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
+	
 	CRect rt;
-	SystemParametersInfo(SPI_GETWORKAREA, 0, &rt, 0);   // 获得工作区大小
-	MoveWindow(rt.left, rt.top, rt.Width(), rt.Height());
+	SystemParametersInfo(SPI_GETWORKAREA, 0, &rt, 0);
+	Util::SetWindowSize(m_hWnd, rt.Width(), rt.Height());
+	InitWebView();
+
 	//SetWindowPos(NULL, rt.left, rt.top, rt.Width(), rt.Height(), SW_SHOW);
-	//Util::SetWindowSize(m_hWnd, 1024, 728);
+	
 	m_btnGroup.d_onSelected += std::make_pair(this, &CBlueDlg::OnGroupBtnSelected);
 	m_btnGroup.d_onUnSelected += std::make_pair(this, &CBlueDlg::OnGroupBtnUnSelected);
+	
 	CreatePageButton(m_btnSalePage, IDB_SALEPAGE, 0, _T(" 销售订单"));
 	CreatePageButton(m_btnPlanPage, IDB_PLANPAGE, 1, _T(" 计划排产"));
 	CreatePageButton(m_btnProductionScanPage, IDB_PRODUCTIONSCANPAGE, 2, _T(" 生产录入"));
@@ -116,44 +120,41 @@ BOOL CBlueDlg::OnInitDialog()
 	m_bsIcon.SetBGPictureIDs(BS_NORMAL, IDB_LOGO);
 	m_bsIcon.MoveWindow(12, 10, 64, 64);
 
-
 	m_pJqGridAPI.reset(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView)));
-	m_pSalePanel.reset(new CSalePanel(m_pJqGridAPI.get()));
-	m_pSalePanel->Create(this, IDP_SALE);
-	m_pSalePanel->MoveWindow(CRect(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 218));
-	
-	m_pPlanPanel.reset(new CPlanPanel(m_pJqGridAPI.get()));
-	m_pPlanPanel->Create(this, IDP_PLAN);
-	m_pSalePanel->MoveWindow(CRect(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 218));
-
-
-	GetClientRect(rt);
-	rt.left = RIGHT_AREA_LEFT;
-	rt.top = 237;
-	rt.right -= 10;
-	rt.bottom -= 10;
-	m_webView.Create(NULL, NULL, WS_CHILD, rt, this, 10000, NULL);
-	m_webView.ShowWindow(SW_SHOW);
-	m_webView.d_OnDomComplete += std::make_pair(this, &CBlueDlg::OnWebComplete);
-	CString path;
-	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
-	path.ReleaseBuffer();
-#ifdef _DEBUG
-	path.Replace(_T("Debug\\BlueLightPLM.exe"), _T("BlueTable\\tables.html"));
-#else
-	path.Replace(_T("BlueLightPLM.exe"), _T("tables.html"));
-#endif
-	VARIANT url;
-	url.vt = VT_BSTR;
-	url.bstrVal = (BSTR)::SysAllocString(path);
-	m_webView.OpenURL(&url);
+	m_pJqGridAPI->d_OnGridComplete += std::make_pair(this, &CBlueDlg::OnGridDataLoaded);
 
 	m_btnGroup.OnClicked(&m_btnSalePage);
-	
+
+	SetTimer(TM_TIME_COUNT, 1000, NULL);
 	OnTimer(TM_TIME_COUNT);
+
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
+
+void CBlueDlg::OnGridDataLoaded()
+{
+	m_pJqGridAPI->d_OnGridComplete -= std::make_pair(this, &CBlueDlg::OnGridDataLoaded);
+	CRect clientRect;
+	GetClientRect(clientRect);
+	CRect rtCtrlPanel(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 218);
+	m_pPanelMap[IDB_SALEPAGE].reset(new CSalePanel(m_pJqGridAPI.get()));
+	m_pPanelMap[IDB_SALEPAGE]->Create(this, IDP_SALE);
+	m_pPanelMap[IDB_SALEPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
+	m_pPanelMap[IDB_SALEPAGE]->ShowWindow(SW_SHOW);
+
+	m_pPanelMap[IDB_PLANPAGE].reset(new CPlanPanel(m_pJqGridAPI.get()));
+	m_pPanelMap[IDB_PLANPAGE]->Create(this, IDP_PLAN);
+	m_pPanelMap[IDB_PLANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
+
+	m_pPanelMap[IDB_PRODUCTIONSCANPAGE].reset(new CProductPanel(m_pJqGridAPI.get()));
+	m_pPanelMap[IDB_PRODUCTIONSCANPAGE]->Create(this, IDP_PRODUCT);
+	m_pPanelMap[IDB_PRODUCTIONSCANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
+
+
+
+	
+}
 // If you add a minimize button to your dialog, you will need the code below
 //  to draw the icon.  For MFC applications using the document/view model,
 //  this is automatically done for you by the framework.
@@ -195,11 +196,11 @@ HCURSOR CBlueDlg::OnQueryDragIcon()
 }
 
 
-
-void CBlueDlg::OnBnClickedSetting()
-{
-
-}
+//
+//void CBlueDlg::OnBnClickedSetting()
+//{
+//
+//}
 
 
 BOOL CBlueDlg::OnEraseBkgnd(CDC* pDC)
@@ -245,16 +246,9 @@ void CBlueDlg::OnGroupBtnSelected(CBRButton* pBrbtn)
 		CString text;
 		pBrbtn->GetWindowText(text);
 		pBrbtn->SetWindowText(text + _T(">>"));
-		switch (pBrbtn->GetDlgCtrlID())
+		if (m_pPanelMap.find(pBrbtn->GetDlgCtrlID()) != m_pPanelMap.end())
 		{
-		case IDB_SALEPAGE:
-			m_pSalePanel->ShowWindow(SW_SHOW);
-			break;
-		case IDB_PLANPAGE:
-			m_pPlanPanel->ShowWindow(SW_SHOW);
-			break;
-		default:
-			break;
+			m_pPanelMap[pBrbtn->GetDlgCtrlID()]->ShowWindow(SW_SHOW);
 		}
 	}
 }
@@ -268,16 +262,9 @@ void CBlueDlg::OnGroupBtnUnSelected(CBRButton* pBrbtn)
 		pBrbtn->GetWindowText(text);
 		text.Replace(_T(">>"), _T(""));
 		pBrbtn->SetWindowText(text);
-		switch (pBrbtn->GetDlgCtrlID())
+		if (m_pPanelMap.find(pBrbtn->GetDlgCtrlID()) != m_pPanelMap.end())
 		{
-		case IDB_SALEPAGE:
-			m_pSalePanel->ShowWindow(SW_HIDE);
-			break;
-		case IDB_PLANPAGE:
-			m_pPlanPanel->ShowWindow(SW_HIDE);
-			break;
-		default:
-			break;
+			m_pPanelMap[pBrbtn->GetDlgCtrlID()]->ShowWindow(SW_HIDE);
 		}
 	}
 }
@@ -311,12 +298,37 @@ BOOL CBlueDlg::PreTranslateMessage(MSG* pMsg)
 
 void CBlueDlg::OnWebComplete()
 {
-	m_pSalePanel->ShowWindow(SW_SHOW);
+
 	m_pHttp->Post(_T("http://www.baidu.com"), std::map<CString, CString>(), _T("asdf"));
 }
 
-void CBlueDlg::OnBnClickedPlan()
-{
+//void CBlueDlg::OnBnClickedPlan()
+//{
+//
+//}
 
+void CBlueDlg::InitWebView()
+{
+	CRect rt;
+	GetClientRect(rt);
+	rt.left = RIGHT_AREA_LEFT;
+	rt.top = 237;
+	rt.right -= 10;
+	rt.bottom -= 10;
+	m_webView.Create(NULL, NULL, WS_CHILD, rt, this, 10000, NULL);
+	m_webView.ShowWindow(SW_SHOW);
+	m_webView.d_OnDomComplete += std::make_pair(this, &CBlueDlg::OnWebComplete);
+	CString path;
+	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
+	path.ReleaseBuffer();
+#ifdef _DEBUG
+	path.Replace(_T("Debug\\BlueLightPLM.exe"), _T("BlueTable\\tables.html"));
+#else
+	path.Replace(_T("BlueLightPLM.exe"), _T("tables.html"));
+#endif
+	VARIANT url;
+	url.vt = VT_BSTR;
+	url.bstrVal = (BSTR)::SysAllocString(path);
+	m_webView.OpenURL(&url);
 }
 

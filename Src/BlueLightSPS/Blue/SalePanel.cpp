@@ -22,7 +22,6 @@ CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI)
 	: m_pJqGridAPI(pJqGridAPI)
 {
 	m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CSalePanel::OnRowChecked);
-	m_pJqGridAPI->d_OnGridComplete += std::make_pair(this, &CSalePanel::OnGridDataLoaded);
 	m_table.resize(16);
 	for (int i = 0; i < m_table.size(); ++i)
 	{
@@ -275,16 +274,7 @@ void CSalePanel::OnBnClickedMore()
 	}
 }
 
-void CSalePanel::OnGridDataLoaded()
-{
-	m_pJqGridAPI->d_OnGridComplete -= std::make_pair(this, &CSalePanel::OnGridDataLoaded);
-	if (m_pJqGridAPI->GetRowCount() <= 0){
-		for (int j = 0; j < m_table.size(); ++j)
-		{
-			m_table[j].first = m_pJqGridAPI->AddRow(m_table[j].second);
-		}
-	}
-}
+
 
 
 void CSalePanel::OnNcDestroy()
@@ -299,6 +289,12 @@ void CSalePanel::OnNcDestroy()
 void CSalePanel::OnWindowShow()
 {
 	m_pJqGridAPI->ShowGrid(_T("sale"));
+	if (m_pJqGridAPI->GetRowCount() <= 0){
+		for (int j = 0; j < m_table.size(); ++j)
+		{
+			m_table[j].first = m_pJqGridAPI->AddRow(m_table[j].second);
+		}
+	}
 }
 
 void CSalePanel::OnWindowHide()

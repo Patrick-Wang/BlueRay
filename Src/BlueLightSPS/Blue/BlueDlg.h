@@ -11,6 +11,7 @@
 #include "BRButtonGroup.h"
 #include "IHttp.h"
 #include "SalePanel.h"
+#include <memory>
 #define UM_GRID_COMPLETE WM_APP + 1
 // CBlueDlg dialog
 class CBlueDlg : public CDialogEx
@@ -31,6 +32,7 @@ protected:
 	HICON m_hIcon;
 
 	// Generated message map functions
+	void InitWebView();
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
@@ -51,14 +53,14 @@ protected:
 
 
 public:
-	
-	afx_msg void OnBnClickedSetting();
-	afx_msg void OnBnClickedPlan();
+	//afx_msg void OnBnClickedSetting();
+	//afx_msg void OnBnClickedPlan();
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);	
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
 	void OnGroupBtnSelected(CBRButton* pBrbtn);
 	void OnGroupBtnUnSelected(CBRButton* pBrbtn);
+	void OnGridDataLoaded();
 private:
 	
 	//bool m_bInit;
@@ -66,8 +68,7 @@ private:
 	CBRButtonGroup m_btnGroup;
 	CWebView m_webView;
 	std::auto_ptr<CJQGridAPI> m_pJqGridAPI;
-	std::auto_ptr<CControlPanel> m_pSalePanel;
-	std::auto_ptr<CControlPanel> m_pPlanPanel;
+	std::map<UINT, std::shared_ptr<CControlPanel>> m_pPanelMap;
 	std::auto_ptr<IHttp> m_pHttp;
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);

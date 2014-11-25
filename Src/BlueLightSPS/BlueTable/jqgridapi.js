@@ -1,4 +1,5 @@
-﻿var instance;
+﻿/// <reference path="base.ts" />
+var instance;
 var grids = {};
 var mediator = window.external;
 

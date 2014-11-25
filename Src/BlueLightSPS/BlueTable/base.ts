@@ -1,15 +1,13 @@
-/// <reference path="jqgrid/jqassist.ts" />
+﻿/// <reference path="jqgrid/jqassist.ts" />
 /// <reference path="util.ts" />
-declare var echarts;
-declare var instance;
 declare var grids: {};
 declare var mediator;
-module sale {
+
+module base {
 
     class JQGridAssistantFactory {
 
-        public static createSaleTable(gridName: string): JQTable.JQGridAssistant {
-            var cols = ["合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "审核-业务", "审核-计划"];
+        public static createTable(gridName: string, cols : string[]): JQTable.JQGridAssistant {
             var nodes: JQTable.Node[] = [];
             for (var i = 0; i < cols.length; ++i) {
                 nodes.push(new JQTable.Node(cols[i], gridName + "_col_" + i));
@@ -18,27 +16,20 @@ module sale {
         }
     }
 
-    export class View {
-        private static ins: View;
-
-        public static newInstance(): View {
-            if (View.ins == undefined) {
-                View.ins = new View();
-            }
-            return View.ins;
-        }
+    export class GridView {
 
         private mTableName: string;
         private mTable: any;
-        public init(tableId: string): void {
+        private mCols: string[];
+        constructor(tableId: string, cols: string[]) {
+            this.mCols = cols;
             grids[tableId] = this;
             this.mTableName = tableId;
             this.mTable = $('#' + tableId);
-            this.updateTable(tableId);   
-                     
+            this.updateTable(tableId);
         }
 
-        public getTableName() : string{
+        public getTableName(): string {
             return this.mTableName;
         }
 
@@ -51,7 +42,7 @@ module sale {
             }
         }
 
-        public getRowId(row: number) : number {
+        public getRowId(row: number): number {
             var ids = this.mTable.jqGrid('getDataIDs');
             if (ids.length <= row) {
                 return -1;
@@ -59,15 +50,12 @@ module sale {
             return parseInt(ids[row]);
         }
 
-        public addRowData(rdata: any): number{
+        public addRowData(rdata: any): number {
             var ids = this.mTable.jqGrid('getDataIDs');
-            //获得当前最大行号（数据编号）
-            //alert("add " + rdata);
-            var rowid = 0; 
+            var rowid = 0;
             if (ids != "") {
                 rowid = parseInt(Math.max.apply(Math, ids)) + 1;
-            } 
-           // alert(rowid);  
+            }
             this.mTable.jqGrid('addRowData', rowid, rdata, 'last');
             return rowid;
         }
@@ -75,12 +63,11 @@ module sale {
             this.mTable.jqGrid('setSelection', rowId, false);
             this.mTable.jqGrid('delRowData', rowId)
         }
-  
+
         public getRowData(rowId: number): void {
-            //var cur = table.jqGrid('getGridParam', "selrow");
             return this.mTable.jqGrid('getRowData', rowId);
         }
-        
+
 
         public getSelectedRowData(): void {
             return this.mTable.jqGrid('getGridParam', 'selarrrow');
@@ -89,7 +76,7 @@ module sale {
         public getRowCount(): number {
             return this.mTable.jqGrid("getRowData").length;
         }
-        
+
         public setCellData(rowId, colId, data): void {
             this.mTable.jqGrid('setCell', rowId, colId, data);
         }
@@ -99,29 +86,8 @@ module sale {
         }
 
         private updateTable(name: string): void {
-            var tableAssist: JQTable.JQGridAssistant = JQGridAssistantFactory.createSaleTable(name);
-            // tableAssist.mergeTitle();
-         
-            //tableAssist.mergeRow(0);
-	        //   tableAssist.mergeColum(0, 4);
-	        //   tableAssist.mergeColum(0, 5);
-	        //   tableAssist.mergeColum(0, 6);
-	        //   tableAssist.mergeColum(0, 7);
-	        //   tableAssist.mergeColum(0, 8);
+            var tableAssist: JQTable.JQGridAssistant = JQGridAssistantFactory.createTable(name, this.mCols);
             var data = [];
-
-//			for (var i = 0; i < data.length; ++i){
-//				data[i] = data[i].concat(this.mTableData[i]);
-//			}
-
-            //var row = [];
-            //for (var i = 0; i < data.length; ++i) {
-            //    row = [].concat(this.mTableData[i]);
-            //    for (var col in row) {
-            //        row[col] = Util.formatCurrency(row[col]);
-            //    }
-            //    data[i] = data[i].concat(row);
-            //}
 
             $("#" + name).jqGrid(
                 tableAssist.decorate({
@@ -132,10 +98,10 @@ module sale {
                     multiselect: true,
                     //multikey: "ctrlKey",
                     //drag: false,
-                   // resize: false,
-                   // autowidth : true,
+                    // resize: false,
+                    // autowidth : true,
                     //cellsubmit: 'clientArray',
-                   // cellEdit: false,
+                    // cellEdit: false,
                     //viewrecords: true,
                     sortorder: "desc",
                     height: document.documentElement.clientHeight - 22 - 3,

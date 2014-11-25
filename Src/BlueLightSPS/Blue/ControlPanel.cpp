@@ -18,6 +18,7 @@ int CControlPanel::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	lpCreateStruct->dwExStyle |= WS_CLIPCHILDREN;
 	if (CBSObject::OnCreate(lpCreateStruct) == -1)
 		return -1;
+	ShowWindow(SW_HIDE);
 	OnInitChilds();
 	//OnInitChilds();
 	//PostMessage(UM_PANEL_CREATED);
