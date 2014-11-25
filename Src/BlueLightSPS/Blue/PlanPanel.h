@@ -31,6 +31,8 @@ private:
 	CBRButton m_btnMore;
 	CBSStatic m_bsMoreWord;
 	CEdit* m_editSearch;
+	CBSStatic* m_staticProductionStatus;
+	CComboBox* m_comboProductionStatus;
 
 	DECLARE_MESSAGE_MAP()
 

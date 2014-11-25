@@ -39,6 +39,13 @@ void CPlanPanel::OnWindowHide()
 
 void CPlanPanel::OnInitChilds()
 {
+	
+	m_staticProductionStatus = Util::CreateStatic(this, IDC_PLAN_STATIC_PROSTATUS, _T("¶©µ¥×´Ì¬"), _T("Microsoft YaHei"), 12);
+	m_staticProductionStatus->MoveWindow(235, 27, 240, 20);
+
+	m_comboProductionStatus = Util::CreateComboBox(this, IDC_PLAN_COMBO_PROSTATUS, _T("Microsoft YaHei"), 12);
+	m_comboProductionStatus->MoveWindow(235, 27, 240, 20);
+
 	int delta = 277 - (RIGHT_AREA_LEFT + 15);
 	m_editSearch = Util::CreateEdit(this, IDC_PLAN_BTN_SEARCH, _T(""), _T("Microsoft YaHei"), 12);
 	m_editSearch->MoveWindow(235, 27, 240, 20);
@@ -69,7 +76,7 @@ void CPlanPanel::OnInitChilds()
 	m_bsMoreWord.SetBSFont(_T("Microsoft YaHei"), 12);
 	m_bsMoreWord.MoveWindow(485, 27, 63, 20);
 
-	m_btnRestore.EnableWindow(TRUE);
+	m_btnRestore.EnableWindow(FALSE);
 	m_btnModify.EnableWindow(FALSE);
 }
 
