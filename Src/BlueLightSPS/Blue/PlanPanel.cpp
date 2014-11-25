@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "PlanPanel.h"
+#include "PlanAddDlg.h"
 #include "resource_ids.h"
 #include "Util.h"
 #include "colors.h"
@@ -25,7 +26,72 @@ CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI)
 		m_staticProductionStatus(NULL),
 		m_comboProductionStatus(NULL)
 {
+	m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CPlanPanel::OnRowChecked);
+	m_table.resize(13);
+	for (int i = 0; i < m_table.size(); ++i)
+	{
+		CString csHTH;
+		csHTH.Format(_T("000000%02d"), i + 1);
+		if (i % 2 != 0)
+		{
+			m_table[i].second.push_back(csHTH);
+			m_table[i].second.push_back(_T("浙江怡达"));
+			m_table[i].second.push_back(_T("U1.0ES-H"));
+			m_table[i].second.push_back(_T("1"));
+			m_table[i].second.push_back(_T("BNN"));
+			m_table[i].second.push_back(_T("是"));
+			m_table[i].second.push_back(_T("DC110V"));
+			m_table[i].second.push_back(_T("480*6*12*18"));
+			m_table[i].second.push_back(_T("无"));
+			m_table[i].second.push_back(_T("富士"));
+			m_table[i].second.push_back(_T("海1387"));
+			m_table[i].second.push_back(_T("8米"));
+			m_table[i].second.push_back(_T("5米"));
+			m_table[i].second.push_back(_T("蓝光英文铭牌"));
+			m_table[i].second.push_back(_T("原点值"));
+			m_table[i].second.push_back(_T("2014/08/15"));
 
+			m_table[i].second.push_back(_T("2014/08/20"));
+			m_table[i].second.push_back(_T("已审核"));
+			m_table[i].second.push_back(_T("已审核"));
+			m_table[i].second.push_back(_T("2014/08/25"));
+			m_table[i].second.push_back(_T("已审核"));
+			m_table[i].second.push_back(_T("已审核"));
+			m_table[i].second.push_back(_T("2014/08/26"));
+			m_table[i].second.push_back(_T("J07833"));
+			m_table[i].second.push_back(_T("1471099BCC"));
+		}
+		else
+		{
+			m_table[i].second.push_back(csHTH);
+			m_table[i].second.push_back(_T("中原智能"));
+			m_table[i].second.push_back(_T("S1.6D-H"));
+			m_table[i].second.push_back(_T("1"));
+			m_table[i].second.push_back(_T("RC"));
+			m_table[i].second.push_back(_T("否"));
+			m_table[i].second.push_back(_T("DC220V"));
+			m_table[i].second.push_back(_T("325*5*8*12"));
+			m_table[i].second.push_back(_T("有"));
+			m_table[i].second.push_back(_T("CV"));
+			m_table[i].second.push_back(_T("海1387"));
+			m_table[i].second.push_back(_T("10米配"));
+			m_table[i].second.push_back(_T("5米"));
+			m_table[i].second.push_back(_T("蓝光铭牌"));
+			m_table[i].second.push_back(_T("D型"));
+			m_table[i].second.push_back(_T("2014/11/15"));
+
+			m_table[i].second.push_back(_T("2014/11/20"));
+			m_table[i].second.push_back(_T("未审核"));
+			m_table[i].second.push_back(_T("未审核"));
+			m_table[i].second.push_back(_T("2014/11/25"));
+			m_table[i].second.push_back(_T("未审核"));
+			m_table[i].second.push_back(_T("未审核"));
+			m_table[i].second.push_back(_T("2014/11/26"));
+			m_table[i].second.push_back(_T("J07888"));
+			m_table[i].second.push_back(_T("1471088BCC"));
+		}
+
+	}
 }
 
 
@@ -37,6 +103,12 @@ CPlanPanel::~CPlanPanel()
 void CPlanPanel::OnWindowShow()
 {
 	m_pJqGridAPI->ShowGrid(_T("plan"));
+	if (m_pJqGridAPI->GetRowCount() <= 0){
+		for (int j = 0; j < m_table.size(); ++j)
+		{
+			m_table[j].first = m_pJqGridAPI->AddRow(m_table[j].second);
+		}
+	}
 }
 
 void CPlanPanel::OnWindowHide()
@@ -87,7 +159,12 @@ void CPlanPanel::OnInitChilds()
 
 void CPlanPanel::OnBnClickedPlan()
 {
-
+	CPlanAddDlg dlg(_T("排产计划"));
+	if (IDOK == dlg.DoModal()){
+		//m_table.push_back(std::make_pair(
+		//	m_pJqGridAPI->AddRow(dlg.GetResult()),
+		//	dlg.GetResult()));
+	}
 }
 
 void CPlanPanel::OnBnClickedModify()
@@ -102,7 +179,30 @@ void CPlanPanel::OnBnClickedRestore()
 
 void CPlanPanel::OnBnClickedSearch()
 {
-
+	CString searchText;
+	m_editSearch->GetWindowText(searchText);
+	CString rowData;
+	bool bMatch = false;
+	for (int i = 0; i < m_table.size(); ++i)
+	{
+		bMatch = false;
+		for (int j = 0; j < m_table[i].second.size(); ++j)
+		{
+			if (searchText.IsEmpty() || m_table[i].second[j].Find(searchText) >= 0)
+			{
+				bMatch = true;
+				break;
+			}
+		}
+		if (!bMatch)
+		{
+			m_pJqGridAPI->HideRow(m_table[i].first);
+		}
+		else
+		{
+			m_pJqGridAPI->ShowRow(m_table[i].first);
+		}
+	}
 }
 
 
@@ -154,4 +254,20 @@ void CPlanPanel::OnNcDestroy()
 	}
 
 	CControlPanel::OnNcDestroy();
+}
+
+void CPlanPanel::OnRowChecked()
+{
+	std::vector<int> checkedRows;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+	if (checkedRows.empty())
+	{
+		m_btnRestore->EnableWindow(FALSE);
+		m_btnModify->EnableWindow(FALSE);
+	}
+	else
+	{
+		m_btnRestore->EnableWindow(TRUE);
+		m_btnModify->EnableWindow(TRUE);
+	}
 }

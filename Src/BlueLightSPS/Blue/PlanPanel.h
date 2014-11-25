@@ -9,6 +9,10 @@ class CPlanPanel :
 public:
 	CPlanPanel(CJQGridAPI* pJqGridAPI);
 	~CPlanPanel();
+
+	void OnRowChecked();
+	void OnGridComplete();
+
 protected:
 	virtual void OnInitChilds();
 	virtual void OnWindowShow();
