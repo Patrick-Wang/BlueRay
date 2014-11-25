@@ -4,8 +4,6 @@
 #include "Util.h"
 #include "colors.h"
 
-#define RIGHT_AREA_LEFT	150
-
 BEGIN_MESSAGE_MAP(CPlanPanel, CControlPanel)
 	ON_BN_CLICKED(IDC_PLAN_BTN_PLAN, &CPlanPanel::OnBnClickedPlan)
 	ON_BN_CLICKED(IDC_PLAN_BTN_MODIFY, &CPlanPanel::OnBnClickedModify)
@@ -16,7 +14,16 @@ BEGIN_MESSAGE_MAP(CPlanPanel, CControlPanel)
 END_MESSAGE_MAP()
 
 CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI)
-	: m_pJqGridAPI(pJqGridAPI)
+	: m_pJqGridAPI(pJqGridAPI),
+		m_btnPlan(NULL),
+		m_btnModify(NULL),
+		m_btnRestore(NULL),
+		m_btnSearch(NULL),
+		m_btnMore(NULL),
+		m_bsMoreWord(NULL),
+		m_editSearch(NULL),
+		m_staticProductionStatus(NULL),
+		m_comboProductionStatus(NULL)
 {
 
 }
@@ -39,45 +46,43 @@ void CPlanPanel::OnWindowHide()
 
 void CPlanPanel::OnInitChilds()
 {
-	
-	m_staticProductionStatus = Util::CreateStatic(this, IDC_PLAN_STATIC_PROSTATUS, _T("订单状态"), _T("Microsoft YaHei"), 12);
-	m_staticProductionStatus->MoveWindow(235, 27, 240, 20);
+	m_staticProductionStatus = Util::CreateStatic(this, IDC_PLAN_STATIC_PROSTATUS, _T("根据订单状态筛选"), _T("Microsoft YaHei"), 12);
+	m_staticProductionStatus->MoveWindow(20, 27, 120, 20);
+	m_staticProductionStatus->SetTextAlign(DT_LEFT);
 
 	m_comboProductionStatus = Util::CreateComboBox(this, IDC_PLAN_COMBO_PROSTATUS, _T("Microsoft YaHei"), 12);
-	m_comboProductionStatus->MoveWindow(235, 27, 240, 20);
+	m_comboProductionStatus->MoveWindow(140, 25, 150, 20);
 
-	int delta = 277 - (RIGHT_AREA_LEFT + 15);
+	m_comboProductionStatus->InsertString(0, _T("全部订单"));
+	m_comboProductionStatus->InsertString(1, _T("可排产计划订单"));
+	m_comboProductionStatus->InsertString(2, _T("排产计划中订单"));
+	m_comboProductionStatus->InsertString(3, _T("已完成排产计划订单"));
+
+	m_comboProductionStatus->SetCurSel(0);
+
+	m_btnSearch = Util::CreateButton(this, IDC_PLAN_BTN_SEARCH, _T("查询"), _T("Microsoft YaHei"), 12);
+	m_btnSearch->MoveWindow(340, 25, 90, 25);
+
 	m_editSearch = Util::CreateEdit(this, IDC_PLAN_BTN_SEARCH, _T(""), _T("Microsoft YaHei"), 12);
-	m_editSearch->MoveWindow(235, 27, 240, 20);
+	m_editSearch->MoveWindow(450, 27, 240, 20);
 
-	m_btnPlan.Create(this, IDC_PLAN_BTN_PLAN);
-	m_btnPlan.SetWindowText(_T("计划"));
-	m_btnPlan.SetBSFont(12);
-	m_btnPlan.MoveWindow(20, 25, 90, 25);
+	m_bsMoreWord = Util::CreateStatic(this, IDC_PLAN_BTN_MOREWORD, _T("更多筛选"), _T("Microsoft YaHei"), 12);
+	m_bsMoreWord->MoveWindow(700, 27, 63, 20);
 
-	m_btnRestore.Create(this, IDC_PLAN_BTN_RESTORE);
-	m_btnRestore.SetWindowText(_T("重置"));
-	m_btnRestore.MoveWindow(125, 70, 90, 25);
+	m_btnMore = Util::CreateButton(this, IDC_PLAN_BTN_MORE, _T(">"), _T("Microsoft YaHei"), 12);
+	m_btnMore->MoveWindow(780, 25, 30, 25);
 
-	m_btnModify.Create(this, IDC_PLAN_BTN_MODIFY);
-	m_btnModify.SetWindowText(_T("修改"));
-	m_btnModify.MoveWindow(20, 70, 90, 25);
+	m_btnPlan = Util::CreateButton(this, IDC_PLAN_BTN_PLAN, _T("计划"), _T("Microsoft YaHei"), 12);
+	m_btnPlan->MoveWindow(20, 70, 90, 25);
 
-	m_btnSearch.Create(this, IDC_PLAN_BTN_SEARCH);
-	m_btnSearch.SetWindowText(_T("查询"));
-	m_btnSearch.MoveWindow(125, 25, 90, 25);
+	m_btnModify = Util::CreateButton(this, IDC_PLAN_BTN_MODIFY, _T("修改"), _T("Microsoft YaHei"), 12);
+	m_btnModify->MoveWindow(135, 70, 90, 25);
 
-	m_btnMore.Create(this, IDC_PLAN_BTN_MORE);
-	m_btnMore.SetWindowText(_T(">"));
-	m_btnMore.MoveWindow(566, 25, 30, 25);
+	m_btnRestore = Util::CreateButton(this, IDC_PLAN_BTN_RESTORE, _T("重置"), _T("Microsoft YaHei"), 12);
+	m_btnRestore->MoveWindow(250, 70, 90, 25);
 
-	m_bsMoreWord.Create(this, IDC_PLAN_BTN_MOREWORD);
-	m_bsMoreWord.SetWindowText(_T("更多筛选"));
-	m_bsMoreWord.SetBSFont(_T("Microsoft YaHei"), 12);
-	m_bsMoreWord.MoveWindow(485, 27, 63, 20);
-
-	m_btnRestore.EnableWindow(FALSE);
-	m_btnModify.EnableWindow(FALSE);
+	m_btnRestore->EnableWindow(FALSE);
+	m_btnModify->EnableWindow(FALSE);
 }
 
 void CPlanPanel::OnBnClickedPlan()
@@ -108,5 +113,45 @@ void CPlanPanel::OnBnClickedMore()
 
 void CPlanPanel::OnNcDestroy()
 {
+	if (NULL != m_btnPlan)
+	{
+		delete m_btnPlan;
+	}
+
+	if (NULL != m_btnModify)
+	{
+		delete m_btnModify;
+	}
+
+	if (NULL != m_btnRestore)
+	{
+		delete m_btnRestore;
+	}
+
+	if (NULL != m_btnSearch)
+	{
+		delete m_btnSearch;
+	}
+
+	if (NULL != m_btnMore)
+	{
+		delete m_btnMore;
+	}
+
+	if (NULL != m_bsMoreWord)
+	{
+		delete m_bsMoreWord;
+	}
+
+	if (NULL != m_staticProductionStatus)
+	{
+		delete m_staticProductionStatus;
+	}
+
+	if (NULL != m_comboProductionStatus)
+	{
+		delete m_comboProductionStatus;
+	}
+
 	CControlPanel::OnNcDestroy();
 }

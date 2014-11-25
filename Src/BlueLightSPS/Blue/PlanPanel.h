@@ -24,12 +24,12 @@ private:
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
 	CJQGridAPI* m_pJqGridAPI;
 
-	CBRButton m_btnPlan;
-	CBRButton m_btnModify;
-	CBRButton m_btnRestore;
-	CBRButton m_btnSearch;
-	CBRButton m_btnMore;
-	CBSStatic m_bsMoreWord;
+	CBRButton* m_btnPlan;
+	CBRButton* m_btnModify;
+	CBRButton* m_btnRestore;
+	CBRButton* m_btnSearch;
+	CBRButton* m_btnMore;
+	CBSStatic* m_bsMoreWord;
 	CEdit* m_editSearch;
 	CBSStatic* m_staticProductionStatus;
 	CComboBox* m_comboProductionStatus;

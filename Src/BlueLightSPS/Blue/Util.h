@@ -1,6 +1,6 @@
 #pragma once
 #include "UILib/BSStatic.h"
-#include "UILib/BSButton.h"
+#include "BRButton.h"
 
 class Util
 {
@@ -13,7 +13,7 @@ public:
 	static CBSStatic* CreateStatic(CWnd* pParent, UINT Id, CString csWindowText, CString csFont, int iFSize);
 	static CEdit* CreateEdit(CWnd* pParent, UINT Id, CString csDefaultText, CString csFont, int iFSize);
 	static CDateTimeCtrl* CreateDateTimePicker(CWnd* pParent, UINT Id, CString csFont, int iFSize);
-	static CBSButton* CreateButton(CWnd* pParent, UINT Id, CString csWindowText, CString csFont, int iFSize);
+	static CBRButton* CreateButton(CWnd* pParent, UINT Id, CString csWindowText, CString csFont, int iFSize);
 
 };
 

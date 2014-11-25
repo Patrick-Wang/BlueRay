@@ -95,14 +95,14 @@ CDateTimeCtrl* Util::CreateDateTimePicker(CWnd* pParent, UINT Id, CString csFont
 	return pDateTimeCtrl;
 }
 
-CBSButton* Util::CreateButton(CWnd* pParent, UINT Id, CString csButtonText, CString csFont, int iFSize)
+CBRButton* Util::CreateButton(CWnd* pParent, UINT Id, CString csButtonText, CString csFont, int iFSize)
 {
-	CBSButton* pButton = new CBSButton();
+	CBRButton* pButton = new CBRButton();
 	pButton->Create(pParent, Id);
 
 	pButton->SetWindowText(csButtonText);
 
-	pButton->SetBSFont(csFont, iFSize);
+	pButton->SetBSFont(iFSize);
 
 	return pButton;
 }
