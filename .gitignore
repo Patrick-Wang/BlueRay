@@ -22,3 +22,6 @@ Src/BlueLightSPS/BlueTable/jqgrid/vector.js
 *.aps
 /Src/BlueLightSPS/BlueTable/bin
 Src/BlueLightSPS/Blue/Blue.aps
+*.aps
+*.js
+*.aps
