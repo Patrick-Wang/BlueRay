@@ -3,8 +3,8 @@
 #include "resource_ids.h"
 #include "Util.h"
 
-#define IDC_EDIT_BASE (IDC_ADD_BASE)
-#define IDC_COMBO_BASE (IDC_ADD_BASE + 10)
+#define IDC_EDIT_BASE (IDC_SALE_ADD_Control_BASE)
+#define IDC_COMBO_BASE (IDC_SALE_ADD_Control_BASE + 10)
 #define IDC_STATIC_BASE (IDC_COMBO_BASE + 20)
 #define IDC_DATETIME_BASE (IDC_STATIC_BASE + 10)
 

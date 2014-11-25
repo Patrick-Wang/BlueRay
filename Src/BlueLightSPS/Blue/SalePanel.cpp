@@ -6,17 +6,14 @@
 #include "colors.h"
 #define RIGHT_AREA_LEFT	150
 
-
-
 BEGIN_MESSAGE_MAP(CSalePanel, CControlPanel)
-	ON_BN_CLICKED(IDB_BLUE_ADD, &CSalePanel::OnBnClickedAdd)
-	ON_BN_CLICKED(IDB_BLUE_MODIFY, &CSalePanel::OnBnClickedModify)
-	ON_BN_CLICKED(IDB_BLUE_DELETE, &CSalePanel::OnBnClickedDelete)
-	ON_BN_CLICKED(IDB_BLUE_SEARCH, &CSalePanel::OnBnClickedSearch)
-	ON_BN_CLICKED(IDB_BLUE_MORE, &CSalePanel::OnBnClickedMore)
+	ON_BN_CLICKED(IDC_SALE_BTN_ADD, &CSalePanel::OnBnClickedAdd)
+	ON_BN_CLICKED(IDC_SALE_BTN_MODIFY, &CSalePanel::OnBnClickedModify)
+	ON_BN_CLICKED(IDC_SALE_BTN_DELETE, &CSalePanel::OnBnClickedDelete)
+	ON_BN_CLICKED(IDC_SALE_BTN_SEARCH, &CSalePanel::OnBnClickedSearch)
+	ON_BN_CLICKED(IDC_SALE_BTN_MORE, &CSalePanel::OnBnClickedMore)
 	ON_WM_NCDESTROY()
 END_MESSAGE_MAP()
-
 
 CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI)
 	: m_pJqGridAPI(pJqGridAPI)
@@ -77,31 +74,31 @@ CSalePanel::~CSalePanel()
 void CSalePanel::OnInitChilds()
 {
 	int delta = 277 - (RIGHT_AREA_LEFT + 15);
-	m_editSearch = Util::CreateEdit(this, IDC_BLUE_SEARCH, _T(""), _T("Microsoft YaHei"), 12);
+	m_editSearch = Util::CreateEdit(this, IDC_SALE_BTN_SEARCH, _T(""), _T("Microsoft YaHei"), 12);
 	m_editSearch->MoveWindow(235, 27, 240, 20);
 
-	m_btnAdd.Create(this, IDB_BLUE_ADD);
+	m_btnAdd.Create(this, IDC_SALE_BTN_ADD);
 	m_btnAdd.SetWindowText(_T("添加"));
 	m_btnAdd.SetBSFont(12);
 	m_btnAdd.MoveWindow(20, 25, 90, 25);
 
-	m_btnDelete.Create(this, IDB_BLUE_DELETE);
+	m_btnDelete.Create(this, IDC_SALE_BTN_DELETE);
 	m_btnDelete.SetWindowText(_T("删除"));
 	m_btnDelete.MoveWindow(125, 70, 90, 25);
 
-	m_btnModify.Create(this, IDB_BLUE_MODIFY);
+	m_btnModify.Create(this, IDC_SALE_BTN_MODIFY);
 	m_btnModify.SetWindowText(_T("修改"));
 	m_btnModify.MoveWindow(20, 70, 90, 25);
 
-	m_btnSearch.Create(this, IDB_BLUE_SEARCH);
+	m_btnSearch.Create(this, IDC_SALE_BTN_SEARCH);
 	m_btnSearch.SetWindowText(_T("查询"));
 	m_btnSearch.MoveWindow(125, 25, 90, 25);
 
-	m_btnMore.Create(this, IDB_BLUE_MORE);
+	m_btnMore.Create(this, IDC_SALE_BTN_MORE);
 	m_btnMore.SetWindowText(_T(">"));
 	m_btnMore.MoveWindow(566, 25, 30, 25);
 
-	m_bsMoreWord.Create(this, IDB_BLUE_MOREWORD);
+	m_bsMoreWord.Create(this, IDC_SALE_BTN_MOREWORD);
 	m_bsMoreWord.SetWindowText(_T("更多筛选"));
 	m_bsMoreWord.SetBSFont(_T("Microsoft YaHei"), 12);
 	m_bsMoreWord.MoveWindow(485, 27, 63, 20);

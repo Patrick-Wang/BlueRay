@@ -149,7 +149,10 @@
     <ClCompile Include="AddDlg.cpp" />
     <ClCompile Include="AdoDBConnector.cpp" />
     <ClCompile Include="Blue.cpp" />
-    <ClCompile Include="BlueDlg.cpp" />
+    <ClCompile Include="BlueDlg.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="BRButton.cpp" />
     <ClCompile Include="BRButtonGroup.cpp" />
     <ClCompile Include="BRComboBox.cpp" />

@@ -35,7 +35,7 @@ void CLoginDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(CLoginDlg, CDialogEx)
 	ON_WM_CREATE()
 	ON_WM_ERASEBKGND()
-	ON_BN_CLICKED(IDB_LOGIN, &CLoginDlg::OnBnClickedLogin)
+	ON_BN_CLICKED(IDC_LOGIN, &CLoginDlg::OnBnClickedLogin)
 	ON_WM_KEYDOWN()
 END_MESSAGE_MAP()
 
@@ -76,23 +76,23 @@ BOOL CLoginDlg::OnInitDialog()
 	MoveWindow(rt.left, rt.top, rt.Width(), rt.Height());
 	//SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
 	//Util::SetWindowSize(m_hWnd, 1024, 728);
-	m_btnVPN.Create(this, IDB_VPN); 
+	m_btnVPN.Create(this, IDC_VPN); 
 	m_btnVPN.SetWindowText(_T("VPN/代理 设置 >>"));
 	m_btnVPN.MoveWindow(695, 452, 130, 24);
 	m_btnVPN.SetBackgroundColor(COL_GRAY);
 
-	m_btnForgetPassword.Create(this, IDB_FORGET_PSW);
+	m_btnForgetPassword.Create(this, IDC_FORGET_PSW);
 	m_btnForgetPassword.SetWindowText(_T("忘记密码 >>"));
 	m_btnForgetPassword.MoveWindow(835, 452, 130, 24);
 	m_btnForgetPassword.SetBackgroundColor(COL_GRAY);
 
-	m_btnLogin.Create(this, IDB_LOGIN);
+	m_btnLogin.Create(this, IDC_LOGIN);
 	m_btnLogin.SetWindowText(_T("登陆"));
 	m_btnLogin.SetBSFont(12, FALSE, TRUE);
 	m_btnLogin.MoveWindow(893, 362, 80, 63);
 
 
-	m_bsVersion.Create(this, IDB_LOGIN_VERSION);
+	m_bsVersion.Create(this, IDC_LOGIN_VERSION);
 	m_bsVersion.SetTextColor(COL_BLACK);
 	m_bsVersion.SetWindowText(_T("蓝光集团生产管控平台"));
 	m_bsVersion.SetBSFont(_T("Microsoft YaHei"), 32, FALSE, TRUE);
@@ -100,20 +100,20 @@ BOOL CLoginDlg::OnInitDialog()
 	m_bsVersion.MoveWindow(300, 180, 450, 45);
 
 
-	m_bsUserName.Create(this, IDB_LOGIN_USERNAME);
+	m_bsUserName.Create(this, IDC_LOGIN_USERNAME);
 	m_bsUserName.SetTextColor(COL_BLACK);
 	m_bsUserName.SetBSFont(_T("Microsoft YaHei"), 12);
 	m_bsUserName.MoveWindow(613, 361, 82, 24);
 	m_bsUserName.SetWindowText(_T("用户名"));
 
 
-	m_bsPassword.Create(this, IDB_LOGIN_PSW);
+	m_bsPassword.Create(this, IDC_LOGIN_PSW);
 	m_bsPassword.SetTextColor(COL_BLACK);
 	m_bsPassword.SetBSFont(_T("Microsoft YaHei"), 12);
 	m_bsPassword.MoveWindow(613, 404, 82, 24);
 	m_bsPassword.SetWindowText(_T("密码"));
 
-	m_bsLogo.Create(this, IDB_LOGIN_LOGO);
+	m_bsLogo.Create(this, IDC_LOGIN_LOGO);
 	m_bsLogo.SetBGPictureID(IDB_LOGO);
 	m_bsLogo.MoveWindow(90,120, 180, 180);
 

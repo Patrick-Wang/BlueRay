@@ -1,4 +1,4 @@
-
+Ôªø
 // BlueDlg.cpp : implementation file
 //
 
@@ -76,29 +76,29 @@ BOOL CBlueDlg::OnInitDialog()
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
-	
+
 	CRect rt;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rt, 0);
 	Util::SetWindowSize(m_hWnd, rt.Width(), rt.Height());
 	InitWebView();
 
 	//SetWindowPos(NULL, rt.left, rt.top, rt.Width(), rt.Height(), SW_SHOW);
-	
+
 	m_btnGroup.d_onSelected += std::make_pair(this, &CBlueDlg::OnGroupBtnSelected);
 	m_btnGroup.d_onUnSelected += std::make_pair(this, &CBlueDlg::OnGroupBtnUnSelected);
-	
-	CreatePageButton(m_btnSalePage, IDB_SALEPAGE, 0, _T(" œ˙ €∂©µ•"));
-	CreatePageButton(m_btnPlanPage, IDB_PLANPAGE, 1, _T(" º∆ªÆ≈≈≤˙"));
-	CreatePageButton(m_btnProductionScanPage, IDB_PRODUCTIONSCANPAGE, 2, _T(" …˙≤˙¬º»Î"));
-	CreatePageButton(m_btnNotification, IDB_NOTIFICATION, 3, _T(" ¥˝∞Ï ¬œÓ"));
-	CreatePageButton(m_btnProductionDataAnalyst, IDB_PRODUCTIONDATAANALYST, 4, _T(" ±®±Ì’π æ"));
-	CreatePageButton(m_btnSettingPage, IDB_SETTINGPAGE, 5, _T(" …Ë÷√"));
+
+	CreatePageButton(m_btnSalePage, IDC_SALEPAGE, 0, _T(" ÈîÄÂîÆËÆ¢Âçï"));
+	CreatePageButton(m_btnPlanPage, IDC_PLANPAGE, 1, _T(" ËÆ°ÂàíÊéí‰∫ß"));
+	CreatePageButton(m_btnProductionScanPage, IDC_PRODUCTIONSCANPAGE, 2, _T(" Áîü‰∫ßÂΩïÂÖ•"));
+	CreatePageButton(m_btnNotification, IDC_NOTIFICATION, 3, _T(" ÂæÖÂäû‰∫ãÈ°π"));
+	CreatePageButton(m_btnProductionDataAnalyst, IDC_PRODUCTIONDATAANALYST, 4, _T(" Êä•Ë°®Â±ïÁ§∫"));
+	CreatePageButton(m_btnSettingPage, IDC_SETTINGPAGE, 5, _T(" ËÆæÁΩÆ"));
 
 	m_bsVersion.Create(this, IDS_SOFTWARE_VERSION);
 	m_bsVersion.SetBackgroundColor(COL_GRAY);
 	m_bsVersion.SetBSFont(_T("Microsoft YaHei"), 24, FALSE, TRUE);
 	m_bsVersion.SetTextAlign(DT_LEFT | DT_SINGLELINE);
-	m_bsVersion.SetWindowText(_T("¿∂π‚ºØÕ≈…˙≤˙π‹øÿ∆ΩÃ®"));
+	m_bsVersion.SetWindowText(_T("ËìùÂÖâÈõÜÂõ¢Áîü‰∫ßÁÆ°ÊéßÂπ≥Âè∞"));
 	m_bsVersion.MoveWindow(90, 25, 600 - 122, 62 - 33);
 
 	CRect clientRect;
@@ -112,7 +112,7 @@ BOOL CBlueDlg::OnInitDialog()
 	m_bsPersion.Create(this, IDS_PERSION_INFO);
 	m_bsPersion.SetBackgroundColor(COL_GRAY);
 	m_bsPersion.SetBSFont(_T("Microsoft YaHei"), 12);
-	m_bsPersion.SetWindowText(_T("”√ªß√˚: Admin    Ω«…´: π‹¿Ì‘±    ≤ø√≈: ¿∂π‚ºØÕ≈"));
+	m_bsPersion.SetWindowText(_T("Áî®Êà∑Âêç: Admin    ËßíËâ≤: ÁÆ°ÁêÜÂëò    ÈÉ®Èó®: ËìùÂÖâÈõÜÂõ¢"));
 	m_bsPersion.SetTextAlign(DT_VCENTER | DT_SINGLELINE | DT_RIGHT | DT_WORD_ELLIPSIS);
 	m_bsPersion.MoveWindow(clientRect.right - 400, 59, 390, 20);
 
@@ -138,22 +138,22 @@ void CBlueDlg::OnGridDataLoaded()
 	CRect clientRect;
 	GetClientRect(clientRect);
 	CRect rtCtrlPanel(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 218);
-	m_pPanelMap[IDB_SALEPAGE].reset(new CSalePanel(m_pJqGridAPI.get()));
-	m_pPanelMap[IDB_SALEPAGE]->Create(this, IDP_SALE);
-	m_pPanelMap[IDB_SALEPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
-	m_pPanelMap[IDB_SALEPAGE]->ShowWindow(SW_SHOW);
+	m_pPanelMap[IDC_SALEPAGE].reset(new CSalePanel(m_pJqGridAPI.get()));
+	m_pPanelMap[IDC_SALEPAGE]->Create(this, IDP_SALE);
+	m_pPanelMap[IDC_SALEPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
+	m_pPanelMap[IDC_SALEPAGE]->ShowWindow(SW_SHOW);
 
-	m_pPanelMap[IDB_PLANPAGE].reset(new CPlanPanel(m_pJqGridAPI.get()));
-	m_pPanelMap[IDB_PLANPAGE]->Create(this, IDP_PLAN);
-	m_pPanelMap[IDB_PLANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
+	m_pPanelMap[IDC_PLANPAGE].reset(new CPlanPanel(m_pJqGridAPI.get()));
+	m_pPanelMap[IDC_PLANPAGE]->Create(this, IDP_PLAN);
+	m_pPanelMap[IDC_PLANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 
-	m_pPanelMap[IDB_PRODUCTIONSCANPAGE].reset(new CProductPanel(m_pJqGridAPI.get()));
-	m_pPanelMap[IDB_PRODUCTIONSCANPAGE]->Create(this, IDP_PRODUCT);
-	m_pPanelMap[IDB_PRODUCTIONSCANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
+	m_pPanelMap[IDC_PRODUCTIONSCANPAGE].reset(new CProductPanel(m_pJqGridAPI.get()));
+	m_pPanelMap[IDC_PRODUCTIONSCANPAGE]->Create(this, IDP_PRODUCT);
+	m_pPanelMap[IDC_PRODUCTIONSCANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 
 
 
-	
+
 }
 // If you add a minimize button to your dialog, you will need the code below
 //  to draw the icon.  For MFC applications using the document/view model,
@@ -277,7 +277,7 @@ void CBlueDlg::OnTimer(UINT_PTR nIDEvent)
 		CTime now = CTime::GetCurrentTime();
 		CString time = now.Format(_T("%Y/%m/%d %X"));
 
-		m_bsDate.SetWindowText(_T("µ±«∞ ±º‰: ") + time);
+		m_bsDate.SetWindowText(_T("ÂΩìÂâçÊó∂Èó¥: ") + time);
 	}
 	else
 	{
