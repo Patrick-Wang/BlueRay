@@ -9,7 +9,7 @@ class CSalePanel :
 public:
 	CSalePanel(CJQGridAPI* pJqGridAPI);
 	~CSalePanel();
-	void OnGridDataLoaded();
+
 	void OnRowChecked();
 	void OnGridComplete();
 protected:

@@ -39,3 +39,4 @@
 //panels
 #define IDP_SALE	20001
 #define IDP_PLAN	20002
+#define IDP_PRODUCT	20003

@@ -122,6 +122,7 @@
     <ClInclude Include="JsHttpImpl.h" />
     <ClInclude Include="LoginDlg.h" />
     <ClInclude Include="PlanPanel.h" />
+    <ClInclude Include="ProductPanel.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="resource_ids.h" />
     <ClInclude Include="SaleAddDlg.h" />
@@ -148,7 +149,10 @@
     <ClCompile Include="AddDlg.cpp" />
     <ClCompile Include="AdoDBConnector.cpp" />
     <ClCompile Include="Blue.cpp" />
-    <ClCompile Include="BlueDlg.cpp" />
+    <ClCompile Include="BlueDlg.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Use</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="BRButton.cpp" />
     <ClCompile Include="BRButtonGroup.cpp" />
     <ClCompile Include="BRComboBox.cpp" />
@@ -157,6 +161,7 @@
     <ClCompile Include="JsHttpImpl.cpp" />
     <ClCompile Include="LoginDlg.cpp" />
     <ClCompile Include="PlanPanel.cpp" />
+    <ClCompile Include="ProductPanel.cpp" />
     <ClCompile Include="SaleAddDlg.cpp" />
     <ClCompile Include="SalePanel.cpp" />
     <ClCompile Include="stdafx.cpp">

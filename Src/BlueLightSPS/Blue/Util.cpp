@@ -17,6 +17,18 @@ void Util::SetWindowSize(HWND hWnd, int iWheight, int iHeight)
 	CRect ClientRect;
 	GetWindowRect(hWnd, &WindowRect);
 	GetClientRect(hWnd, &ClientRect);
+	//int deltaW = WindowRect.Width() - ClientRect.Width();
+	//int deltaH = WindowRect.Height() - ClientRect.Height();
+	//SetClientSize(hWnd, iWheight - deltaW, iHeight - deltaH);
+	::SetWindowPos(hWnd, NULL, 0, 0, iWheight, iHeight, SWP_SHOWWINDOW);
+}
+
+void Util::SetClientSize(HWND hWnd, int iWheight, int iHeight)
+{
+	CRect WindowRect;
+	CRect ClientRect;
+	GetWindowRect(hWnd, &WindowRect);
+	GetClientRect(hWnd, &ClientRect);
 	int deltaW = WindowRect.Width() - ClientRect.Width();
 	int deltaH = WindowRect.Height() - ClientRect.Height();
 	MoveWindow(hWnd, WindowRect.left, WindowRect.top, iWheight + deltaW, iHeight + deltaH, true);

@@ -1,4 +1,5 @@
-﻿var instance;
+﻿/// <reference path="base.ts" />
+var instance: base.GridView;
 var grids = {}
 var mediator: any = window.external;
 
