@@ -216,7 +216,11 @@ void CSalePanel::OnBnClickedSearch()
 		bMatch = false;
 		for (int j = 0; j < m_table[i].second.size(); ++j)
 		{
-			if (searchText.IsEmpty() || m_table[i].second[j].Find(searchText) >= 0)
+			CString strSource = m_table[i].second[j];
+			strSource.MakeUpper();
+			searchText.MakeUpper();
+
+			if (searchText.IsEmpty() || strSource.Find(searchText) >= 0)
 			{
 				bMatch = true;
 				break;
