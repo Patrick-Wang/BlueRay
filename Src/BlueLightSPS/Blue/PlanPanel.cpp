@@ -301,6 +301,7 @@ void CPlanPanel::OnBnClickedRestore()
 
 void CPlanPanel::OnBnClickedSearch()
 {
+	int iCountShot = 0;
 	CString searchText;
 	m_editSearch->GetWindowText(searchText);
 	CString rowData;
@@ -327,7 +328,13 @@ void CPlanPanel::OnBnClickedSearch()
 		else
 		{
 			m_pJqGridAPI->ShowRow(m_table[i].first);
+			iCountShot++;
 		}
+	}
+
+	if (iCountShot == 0)
+	{
+		MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
 	}
 }
 
