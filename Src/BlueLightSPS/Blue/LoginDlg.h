@@ -2,7 +2,8 @@
 #include "BRButton.h"
 #include "UILib/BSStatic.h"
 #include "afxwin.h"
-
+#include "WebView.h"
+#include "IHttp.h"
 // CLoginDlg dialog
 
 class CLoginDlg : public CDialogEx
@@ -18,7 +19,7 @@ public:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-
+	void InitWebView();
 	DECLARE_MESSAGE_MAP()
 	CBRButton m_btnVPN;
 	CBRButton m_btnForgetPassword;
@@ -27,7 +28,9 @@ protected:
 	CBSStatic m_bsUserName;
 	CBSStatic m_bsPassword;
 	CBSStatic m_bsLogo;
+	CWebView m_webHttpView;
 	HICON m_hIcon;
+	std::auto_ptr<IHttp> m_pHttp;
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);

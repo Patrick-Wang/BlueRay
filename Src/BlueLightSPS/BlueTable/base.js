@@ -53,6 +53,11 @@ var base;
             this.mTable.jqGrid('addRowData', rowid, rdata, 'last');
             return rowid;
         };
+
+        GridView.prototype.addRowDataById = function (id, rdata) {
+            this.mTable.jqGrid('addRowData', id, rdata, 'last');
+        };
+
         GridView.prototype.delRowData = function (rowId) {
             this.mTable.jqGrid('setSelection', rowId, false);
             this.mTable.jqGrid('delRowData', rowId);

@@ -21,6 +21,15 @@ function addRowData(rdata) {
     return instance.addRowData(targetData);
 }
 
+function addRowDataById(id, rdata) {
+    var ardata = rdata.split(',');
+    var targetData = {};
+    for (var i = 0; i < ardata.length; ++i) {
+        targetData[instance.getTableName() + "_col_" + i] = ardata[i];
+    }
+    return instance.addRowDataById(id, targetData);
+}
+
 function getRowId(rowIndex) {
     return instance.getRowId(rowIndex);
 }

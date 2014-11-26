@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.BlueRay.mutton.model.entity.jpa.BMQXHFLXX;
+import com.BlueRay.mutton.model.entity.jpa.HTXX;
 
 @Repository
 @Transactional("transactionManager")
@@ -20,9 +21,8 @@ public class SaleDaoImpl implements SaleDao{
 	private EntityManager entityManager;
 
 	
-	public List<BMQXHFLXX> getSaleData() {
-		Query q = entityManager.createQuery(
-				"select b from BMQXHFLXX b");
+	public List<HTXX> getSaleData() {
+		Query q = entityManager.createQuery("select h from HTXX h");
 		return q.getResultList();
 	}
 

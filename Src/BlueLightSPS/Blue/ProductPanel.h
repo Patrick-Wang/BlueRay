@@ -11,10 +11,11 @@ public:
 	~CProductPanel();
 protected:
 	virtual void OnInitChilds();
-	virtual void OnWindowShow();
-	virtual void OnWindowHide();
 private:
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
 	CJQGridAPI* m_pJqGridAPI;
+public:
+	DECLARE_MESSAGE_MAP()
+	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
 };
 

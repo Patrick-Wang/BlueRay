@@ -13,6 +13,7 @@ public:
 	void ShowRow(int rowId);
 	void HideRow(int rowId);
 	int AddRow(const std::vector<CString>& rowData);
+	void AddRow(int id, const std::vector<CString>& rowData);
 	void DelRow(int rowId);
 	int GetCurRow();
 	int GetRowCount();
@@ -31,6 +32,7 @@ public:
 	static void Split(CString& src, TCHAR split, std::vector<CString>& retData);
 	static void Split(CString& src, TCHAR split, std::vector<int>& retData);
 	static void Join(const std::vector<CString>& retData, CString& dest);
+	static void Join(const std::vector<int>& retData, CString& dest);
 private:
 	IJSMediator* m_pMedia;
 	std::auto_ptr<CComJsFun> m_lpJsfOnChecked;
