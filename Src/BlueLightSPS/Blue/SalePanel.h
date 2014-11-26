@@ -13,7 +13,7 @@ public:
 
 	void OnRowChecked();
 	void OnGridComplete();
-	void OnHttpSuccess(int id, CString& resp);
+	void OnHttpSuccess(int id, LPCTSTR resp);
 	void OnHttpFailed(int id);
 
 protected:

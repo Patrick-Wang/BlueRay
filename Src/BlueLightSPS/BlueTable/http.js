@@ -5,7 +5,7 @@ function ajaxGet(caller, id, addr) {
         url: addr,
         //dataType: "json",
         success: function (data) {
-            //alert(data);
+            alert(data);
             mediator.onGet(caller, 1, id, data.toString());
         },
         error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -16,10 +16,12 @@ function ajaxGet(caller, id, addr) {
     });
 }
 
-function ajaxPost(caller, id, addr, data) {
+function ajaxPost(caller, id, addr, d) {
     $.ajax({
+        type: 'POST',
         url: addr,
-        data: data,
+        dataType: "json",
+        data: d,
         success: function (retData) {
             mediator.onPost(caller, 1, id, retData.toString());
         },

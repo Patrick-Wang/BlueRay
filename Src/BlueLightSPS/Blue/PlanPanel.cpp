@@ -11,6 +11,7 @@ BEGIN_MESSAGE_MAP(CPlanPanel, CControlPanel)
 	ON_BN_CLICKED(IDC_PLAN_BTN_RESTORE, &CPlanPanel::OnBnClickedRestore)
 	ON_BN_CLICKED(IDC_PLAN_BTN_SEARCH, &CPlanPanel::OnBnClickedSearch)
 	ON_BN_CLICKED(IDC_PLAN_BTN_MORE, &CPlanPanel::OnBnClickedMore)
+	ON_MESSAGE_VOID(UM_UI_PREPARED, CPlanPanel::OnUIPrepared)
 	ON_WM_NCDESTROY()
 	ON_WM_SHOWWINDOW()
 END_MESSAGE_MAP()
@@ -271,6 +272,14 @@ void CPlanPanel::OnRowChecked()
 	{
 		m_btnRestore->EnableWindow(TRUE);
 		m_btnModify->EnableWindow(TRUE);
+	}
+}
+
+void CPlanPanel::OnUIPrepared()
+{
+	for (int i = 0; i < m_table.size(); ++i)
+	{
+			m_table[i].first = m_pJqGridAPI->AddRow(m_table[i].second);
 	}
 }
 

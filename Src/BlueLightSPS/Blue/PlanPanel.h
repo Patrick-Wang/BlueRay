@@ -12,7 +12,7 @@ public:
 
 	void OnRowChecked();
 	void OnGridComplete();
-
+	void OnUIPrepared();
 protected:
 	virtual void OnInitChilds();
 

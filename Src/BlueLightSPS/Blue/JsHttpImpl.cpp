@@ -4,8 +4,6 @@
 CComJsFun CJsHttpImpl::m_funPost(_T("onPost"), 6001);
 CComJsFun CJsHttpImpl::m_funGet(_T("onGet"), 6002);
 
-
-
 CJsHttpImpl::CJsHttpImpl(IJSMediator* lpJsMediator)
 	: m_lpJsMediator(lpJsMediator)
 {
@@ -15,17 +13,14 @@ CJsHttpImpl::CJsHttpImpl(IJSMediator* lpJsMediator)
 	m_lpJsMediator->RegisterJsFunction(&m_funGet);
 }
 
-
 CJsHttpImpl::~CJsHttpImpl()
 {
 	m_funPost.d_onJsCall -= std::make_pair(this, &CJsHttpImpl::OnPost);
 	m_funGet.d_onJsCall -= std::make_pair(this, &CJsHttpImpl::OnGet);
 }
 
-void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, CString> mapAttr, LPCTSTR strData)
+void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr)
 {
-	CString url;
-	MakeUrl(lpAddr, mapAttr, url);
 	std::vector<VARIANT> params;
 	VARIANT param = {};
 	param.vt = VT_INT;
@@ -37,37 +32,84 @@ void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, CString> mapAtt
 	params.push_back(param);
 
 	param.vt = VT_BSTR;
-	param.bstrVal = url.AllocSysString();
+	param.bstrVal = ::SysAllocString(lpAddr);
 	params.push_back(param);
 
+	CString strData;
+	AsJson(mapAttr, strData);
 	VARIANT data = {};
 	data.vt = VT_BSTR;
-	data.bstrVal = ::SysAllocString(strData);
+	data.bstrVal = strData.AllocSysString();
 
 	params.push_back(data);
-	
+
 	m_lpJsMediator->CallJsFunction(_T("ajaxPost"), params);
-	
+
 	::SysFreeString(data.bstrVal);
 	::SysFreeString(param.bstrVal);
 }
 
-void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, CString> mapAttr, std::vector<CString>& vecData)
+void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, std::vector<int>*>& mapAttr)
 {
+	std::vector<VARIANT> params;
+	VARIANT param = {};
+	param.vt = VT_INT;
+	param.intVal = (int)this;
+	params.push_back(param);
+
+	param.vt = VT_INT;
+	param.intVal = id;
+	params.push_back(param);
+
+	param.vt = VT_BSTR;
+	param.bstrVal = ::SysAllocString(lpAddr);
+	params.push_back(param);
+
 	CString strData;
-	CJQGridAPI::Join(vecData, strData);
-	Post(lpAddr, id, mapAttr, (LPCTSTR)(_T("[") + strData + _T("]")));
+	AsJson(mapAttr, strData);
+	VARIANT data = {};
+	data.vt = VT_BSTR;
+	data.bstrVal = strData.AllocSysString();
+
+	params.push_back(data);
+
+	m_lpJsMediator->CallJsFunction(_T("ajaxPost"), params);
+
+	::SysFreeString(data.bstrVal);
+	::SysFreeString(param.bstrVal);
 }
 
-void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, CString> mapAttr, std::vector<int>& vecData)
+void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, std::vector<CString>*>& mapAttr)
 {
-	CString strData;
-	CJQGridAPI::Join(vecData, strData);
-	Post(lpAddr, id, mapAttr, (LPCTSTR)(_T("[") + strData + _T("]")));
+	std::vector<VARIANT> params;
+	VARIANT param = {};
+	param.vt = VT_INT;
+	param.intVal = (int)this;
+	params.push_back(param);
 
+	param.vt = VT_INT;
+	param.intVal = id;
+	params.push_back(param);
+
+	param.vt = VT_BSTR;
+	param.bstrVal = ::SysAllocString(lpAddr);
+	params.push_back(param);
+
+	CString strData;
+	AsJson(mapAttr, strData);
+	VARIANT data = {};
+	data.vt = VT_BSTR;
+	data.bstrVal = strData.AllocSysString();
+
+	params.push_back(data);
+
+	m_lpJsMediator->CallJsFunction(_T("ajaxPost"), params);
+
+	::SysFreeString(data.bstrVal);
+	::SysFreeString(param.bstrVal);
 }
 
-void CJsHttpImpl::Get(LPCTSTR lpAddr, int id, std::map<CString, CString> mapAttr)
+void CJsHttpImpl::Get(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr)
 {
 	CString url;
 	MakeUrl(lpAddr, mapAttr, url);
@@ -96,7 +138,7 @@ VARIANT CJsHttpImpl::OnPost(int id, const std::vector<VARIANT>& params)
 	if ((int)this == params[0].intVal){
 		if (TRUE == params[1].intVal)
 		{
-			d_OnSuccess(params[2].intVal, CString(params[3].bstrVal));
+			d_OnSuccess(params[2].intVal, (LPCTSTR)params[3].bstrVal);
 		}
 		else{
 			d_OnFailed(params[2].intVal);
@@ -110,7 +152,7 @@ VARIANT CJsHttpImpl::OnGet(int id, const std::vector<VARIANT>& params)
 	if ((int)this == params[0].intVal){
 		if (TRUE == params[1].intVal)
 		{
-			d_OnSuccess(params[2].intVal, CString(params[3].bstrVal));
+			d_OnSuccess(params[2].intVal, (LPCTSTR)params[3].bstrVal);
 		}
 		else{
 			d_OnFailed(params[2].intVal);
@@ -121,7 +163,6 @@ VARIANT CJsHttpImpl::OnGet(int id, const std::vector<VARIANT>& params)
 
 void CJsHttpImpl::MakeUrl(LPCTSTR lpAddr, std::map<CString, CString>& mapAttr, CString& url)
 {
-
 	for (std::map<CString, CString>::iterator it = mapAttr.begin(); it != mapAttr.end(); ++it)
 	{
 		if (url.IsEmpty())
@@ -134,6 +175,64 @@ void CJsHttpImpl::MakeUrl(LPCTSTR lpAddr, std::map<CString, CString>& mapAttr, C
 		}
 	}
 	url = lpAddr + url;
+}
+
+void CJsHttpImpl::AsJson(std::map<CString, CString>& mapAttr, CString& strJson)
+{
+	strJson = _T("{");
+	for (std::map<CString, CString>::iterator it = mapAttr.begin(); it != mapAttr.end();)
+	{
+		strJson += it->first;
+		strJson += _T(":\"");
+		strJson += it->second + _T("\"");
+		if ((++it) != mapAttr.end())
+		{
+			strJson += _T(",");
+		}
+	}
+	strJson += _T("}");
+}
+
+
+void CJsHttpImpl::AsJson(std::map<CString, std::vector<CString>*>& mapAttr, CString& strJson)
+{
+	strJson = _T("{");
+	CString strTmp;
+	for (std::map<CString, std::vector<CString>*>::iterator it = mapAttr.begin(); it != mapAttr.end(); )
+	{
+		strJson += it->first;
+		strJson += _T(":");
+		CJQGridAPI::Join(*(it->second), strTmp);
+		strTmp.Replace(_T(","), _T("\",\""));
+		strJson += _T("[\"") + strTmp + _T("\"]");
+		if ((++it) != mapAttr.end())
+		{
+			strJson += _T(",");
+		}
+	}
+	strJson += _T("}");
+}
+
+void CJsHttpImpl::AsJson(std::map<CString, std::vector<int>*>& mapAttr, CString& strJson)
+{
+	strJson = _T("{");
+	CString strTmp;
+	for (std::map<CString, std::vector<int>*>::iterator it = mapAttr.begin();
+		it != mapAttr.end(); 
+		)
+	{
+		strJson += it->first;
+		strJson += _T(":");
+		CJQGridAPI::Join(*(it->second), strTmp);
+		strTmp.Replace(_T(","), _T("\",\""));
+		strJson += _T("[\"") + strTmp + _T("\"]");
+		if ((++it) != mapAttr.end())
+		{
+			strJson += _T(",");
+		}
+	}
+
+	strJson += _T("}");
 }
 
 

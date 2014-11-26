@@ -129,7 +129,9 @@ void CSalePanel::OnBnClickedAdd()
 	if (IDOK == dlg.DoModal()){
 		GetParent()->EnableWindow(FALSE);
 		m_cacheRow = dlg.GetResult();
-		m_pHttp->Post(_T("http://localhost:8080/BlueRay/sale/add"), ADD_URL_ID, std::map<CString, CString>(), m_cacheRow);
+		std::map<CString, std::vector<CString>*> attr;
+		attr[_T("add")] = &m_cacheRow;
+		m_pHttp->Post(_T("http://localhost:8080/BlueRay/sale/add"), ADD_URL_ID, attr);
 	}
 }
 
@@ -168,7 +170,9 @@ void CSalePanel::OnBnClickedModify()
 	dlg.SetOption(pstOpt.get());
 	if (IDOK == dlg.DoModal()){
 		GetParent()->EnableWindow(FALSE);
-		m_pHttp->Post(_T("http://localhost:8080/BlueRay/sale/modify"), MODIFY_URL_ID, std::map<CString, CString>(), _T(""));
+		//std::map<CString, std::vector<CString&>> attr;
+		//attr[_T("add")] = m_cacheRow;
+		//m_pHttp->Post(_T("http://localhost:8080/BlueRay/sale/modify"), MODIFY_URL_ID, std::map<CString, CString>(), _T(""));
 		m_cacheRow = dlg.GetResult();
 	}
 }
@@ -178,7 +182,9 @@ void CSalePanel::OnBnClickedDelete()
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 	GetParent()->EnableWindow(FALSE);
-	m_pHttp->Post(_T("http://localhost:8080/BlueRay/sale/delete"), DEL_URL_ID, std::map<CString, CString>(), checkedRows);
+	//std::map<CString, std::vector<CString&>> attr;
+	//attr[_T("add")] = m_cacheRow;
+	//m_pHttp->Post(_T("http://localhost:8080/BlueRay/sale/delete"), DEL_URL_ID, std::map<CString, CString>(), checkedRows);
 }
 
 void CSalePanel::OnRowChecked()
@@ -279,13 +285,13 @@ void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
 }
 
 
-void CSalePanel::OnHttpSuccess(int id, CString& resp)
+void CSalePanel::OnHttpSuccess(int id, LPCTSTR resp)
 {
 	GetParent()->EnableWindow(TRUE);
 	switch (id)
 	{
 	case QUERY_URL_ID:
-		OnLoadDataSuccess(resp);
+		OnLoadDataSuccess(CString(resp));
 		break;
 	case ADD_URL_ID:
 		OnAddDataSuccess(m_cacheRow);
