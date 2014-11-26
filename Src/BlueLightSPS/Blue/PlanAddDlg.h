@@ -75,7 +75,11 @@ public:
 		CString bz;		//备注
 
 		CString scrq;	//生产日期
+		CString jhywsh;	//计划审核-业务
+		CString jhjhsh;	//计划审核-计划
 		CString bzrq;	//包装日期
+		CString bzywsh;	//包装审核-业务
+		CString bzjhsh;	//包装审核-计划
 		CString fhrq;	//发货日期
 		CString tcbh;	//投产编号
 		CString ccbh;	//出厂编号
@@ -99,7 +103,15 @@ public:
 			bz = OPT_FALSE;				//备注
 
 			scrq = OPT_FALSE;	//生产日期
+
+			jhywsh = OPT_FALSE;	//计划审核-业务
+			jhjhsh = OPT_FALSE;	//计划审核-计划
+
 			bzrq = OPT_FALSE;	//包装日期
+
+			bzywsh = OPT_FALSE;	//包装审核-业务
+			bzjhsh = OPT_FALSE;	//包装审核-计划
+
 			fhrq = OPT_FALSE;	//发货日期
 			tcbh = OPT_FALSE;	//投产编号
 			ccbh = OPT_FALSE;	//出厂编号
@@ -127,7 +139,15 @@ public:
 				do_get(data, it, ddrq);
 
 				do_get(data, it, scrq);
+				
+				do_get(data, it, jhywsh);
+				do_get(data, it, jhjhsh);
+
 				do_get(data, it, bzrq);
+
+				do_get(data, it, bzywsh);
+				do_get(data, it, bzjhsh);
+				
 				do_get(data, it, fhrq);
 				do_get(data, it, tcbh);
 				do_get(data, it, ccbh);
@@ -156,7 +176,15 @@ public:
 				do_get_merge(data, it, ddrq);
 
 				do_get_merge(data, it, scrq);
+
+				do_get_merge(data, it, jhywsh);
+				do_get_merge(data, it, jhjhsh);
+				
 				do_get_merge(data, it, bzrq);
+				
+				do_get_merge(data, it, bzywsh);
+				do_get_merge(data, it, bzjhsh);
+
 				do_get_merge(data, it, fhrq);
 				do_get_merge(data, it, tcbh);
 				do_get_merge(data, it, ccbh);

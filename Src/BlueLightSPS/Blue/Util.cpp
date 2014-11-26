@@ -34,13 +34,21 @@ void Util::SetClientSize(HWND hWnd, int iWheight, int iHeight)
 	MoveWindow(hWnd, WindowRect.left, WindowRect.top, iWheight + deltaW, iHeight + deltaH, true);
 }
 
-CComboBox* Util::CreateComboBox(CWnd* pParent, UINT Id, CString csFont, int iFSize)
+CComboBox* Util::CreateComboBox(CWnd* pParent, UINT Id, CString csFont, int iFSize, BOOL isReadOnly)
 {
 	CFont* pFont = NULL;
 	pFont = CBSObject::GetFontPtr(csFont, iFSize, FALSE, FALSE, FALSE);
 
 	CComboBox* pComb = new CComboBox();
-	pComb->Create(WS_CHILD | WS_TABSTOP | WS_VISIBLE | CBS_DROPDOWN | CBS_HASSTRINGS | WS_VSCROLL, CRect(0, 0, 0, 0), pParent, Id);
+
+	if (isReadOnly)
+	{
+		pComb->Create(WS_CHILD | WS_TABSTOP | WS_VISIBLE | CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL, CRect(0, 0, 0, 0), pParent, Id);
+	}
+	else
+	{
+		pComb->Create(WS_CHILD | WS_TABSTOP | WS_VISIBLE | CBS_DROPDOWN | CBS_HASSTRINGS | WS_VSCROLL, CRect(0, 0, 0, 0), pParent, Id);
+	}
 	
 	pComb->SetFont(pFont);
 
