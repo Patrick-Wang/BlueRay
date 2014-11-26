@@ -152,7 +152,7 @@ BOOL CPlanAddDlg::OnInitDialog()
 	for (int i = 0; i < _countof(g_StaticToShowPos); ++i)
 	{
 		m_aStaticsToShow[i] = Util::CreateStatic(this, IDC_STATIC_TOSHOW_BASE + i, _T(""), _T("Microsoft YaHei"), 12);
-		m_aStaticsToShow[i]->MoveWindow(g_StaticPos[i][0], g_StaticPos[i][1], g_StaticPos[i][2], g_StaticPos[i][3]);
+		m_aStaticsToShow[i]->MoveWindow(g_StaticToShowPos[i][0], g_StaticToShowPos[i][1], g_StaticToShowPos[i][2], g_StaticToShowPos[i][3]);
 	}
 
 	//init edit
@@ -172,22 +172,10 @@ BOOL CPlanAddDlg::OnInitDialog()
 
 	if (NULL != m_lpOption)
 	{
-
-		init(m_aEdits[EditId::Edit_CCBH], m_lpOption->ccbh);
-		init(m_aEdits[EditId::Edit_TCBH], m_lpOption->tcbh);
-
-		init(m_aDatePickers[DatePickerId::DatePicker_BZRQ], m_lpOption->bzrq);
-		init(m_aDatePickers[DatePickerId::DatePicker_FHRQ], m_lpOption->fhrq);
-		init(m_aDatePickers[DatePickerId::DatePicker_SCRQ], m_lpOption->scrq);
-
-
-		init(m_aStaticsToShow[StaticId2::Static2_SL], m_lpOption->sl);
-		init(m_aStaticsToShow[StaticId2::Static2_DLCD], m_lpOption->dlcd);
-		init(m_aStaticsToShow[StaticId2::Static2_ZXCD], m_lpOption->zxcd);
-		init(m_aStaticsToShow[StaticId2::Static2_ZXCD], m_lpOption->ddrq);
-		init(m_aStaticsToShow[StaticId2::Static2_BZ], m_lpOption->bz);
+		init(m_aStaticsToShow[StaticId2::Static2_HTH], m_lpOption->htbh);
 		init(m_aStaticsToShow[StaticId2::Static2_KHMC], m_lpOption->khmc);
 		init(m_aStaticsToShow[StaticId2::Static2_GGBH], m_lpOption->ggbh);
+		init(m_aStaticsToShow[StaticId2::Static2_SL], m_lpOption->sl);
 		init(m_aStaticsToShow[StaticId2::Static2_ZC], m_lpOption->zc);
 		init(m_aStaticsToShow[StaticId2::Static2_DFR], m_lpOption->dfr);
 		init(m_aStaticsToShow[StaticId2::Static2_ZDQDY], m_lpOption->zdqdy);
@@ -195,18 +183,26 @@ BOOL CPlanAddDlg::OnInitDialog()
 		init(m_aStaticsToShow[StaticId2::Static2_JF], m_lpOption->jf);
 		init(m_aStaticsToShow[StaticId2::Static2_BPQXH], m_lpOption->bpqxh);
 		init(m_aStaticsToShow[StaticId2::Static2_BMQXH], m_lpOption->bmqxh);
+		init(m_aStaticsToShow[StaticId2::Static2_DLCD], m_lpOption->dlcd);
+		init(m_aStaticsToShow[StaticId2::Static2_ZXCD], m_lpOption->zxcd);
 		init(m_aStaticsToShow[StaticId2::Static2_MPZL], m_lpOption->mpzl);
+		init(m_aStaticsToShow[StaticId2::Static2_DDRQ], m_lpOption->ddrq);
+		init(m_aStaticsToShow[StaticId2::Static2_BZ], m_lpOption->bz);
+	
+		init(m_aEdits[EditId::Edit_CCBH], m_lpOption->ccbh);
+		init(m_aEdits[EditId::Edit_TCBH], m_lpOption->tcbh);
+
+		init(m_aDatePickers[DatePickerId::DatePicker_BZRQ], m_lpOption->bzrq);
+		init(m_aDatePickers[DatePickerId::DatePicker_FHRQ], m_lpOption->fhrq);
+		init(m_aDatePickers[DatePickerId::DatePicker_SCRQ], m_lpOption->scrq);
 	}
 	else
 	{
-		CString val(_T("123"));
-		init(m_aStaticsToShow[StaticId2::Static2_SL], val);
-		init(m_aStaticsToShow[StaticId2::Static2_DLCD], val);
-		init(m_aStaticsToShow[StaticId2::Static2_ZXCD], val);
-		init(m_aStaticsToShow[StaticId2::Static2_ZXCD], val);
-		init(m_aStaticsToShow[StaticId2::Static2_BZ], val);
+		CString val(_T("NULL"));
+		init(m_aStaticsToShow[StaticId2::Static2_HTH], val);
 		init(m_aStaticsToShow[StaticId2::Static2_KHMC], val);
 		init(m_aStaticsToShow[StaticId2::Static2_GGBH], val);
+		init(m_aStaticsToShow[StaticId2::Static2_SL], val);
 		init(m_aStaticsToShow[StaticId2::Static2_ZC], val);
 		init(m_aStaticsToShow[StaticId2::Static2_DFR], val);
 		init(m_aStaticsToShow[StaticId2::Static2_ZDQDY], val);
@@ -214,7 +210,20 @@ BOOL CPlanAddDlg::OnInitDialog()
 		init(m_aStaticsToShow[StaticId2::Static2_JF], val);
 		init(m_aStaticsToShow[StaticId2::Static2_BPQXH], val);
 		init(m_aStaticsToShow[StaticId2::Static2_BMQXH], val);
+		init(m_aStaticsToShow[StaticId2::Static2_DLCD], val);
+		init(m_aStaticsToShow[StaticId2::Static2_ZXCD], val);
 		init(m_aStaticsToShow[StaticId2::Static2_MPZL], val);
+		init(m_aStaticsToShow[StaticId2::Static2_DDRQ], val);
+		init(m_aStaticsToShow[StaticId2::Static2_BZ], val);
+
+		init(m_aEdits[EditId::Edit_CCBH], val);
+		init(m_aEdits[EditId::Edit_TCBH], val);
+
+		val = _T("2014/01/01");
+
+		init(m_aDatePickers[DatePickerId::DatePicker_BZRQ], val);
+		init(m_aDatePickers[DatePickerId::DatePicker_FHRQ], val);
+		init(m_aDatePickers[DatePickerId::DatePicker_SCRQ], val);
 	}
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -263,61 +272,22 @@ void CPlanAddDlg::PostNcDestroy()
 
 void CPlanAddDlg::OnOKClicked()
 {
-	//CString strTmp;
+	CString strTmp;
 
-	//m_aEdits[EditId::Edit_HTH]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->htbh : _T("")));
+	m_aDatePickers[DatePickerId::DatePicker_SCRQ]->GetWindowText(strTmp);
+	m_vecResult.push_back(strTmp);
 
-	//m_aCombs[CombId::Comb_KHMC]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp);
+	m_aDatePickers[DatePickerId::DatePicker_BZRQ]->GetWindowText(strTmp);
+	m_vecResult.push_back(strTmp);
 
-	//m_aCombs[CombId::Comb_GGBH]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp);
+	m_aDatePickers[DatePickerId::DatePicker_FHRQ]->GetWindowText(strTmp);
+	m_vecResult.push_back(strTmp);
 
-	//m_aEdits[EditId::Edit_SL]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->sl : _T("")));
+	m_aEdits[EditId::Edit_TCBH]->GetWindowText(strTmp);
+	m_vecResult.push_back(strTmp);
 
-	//m_aCombs[CombId::Comb_ZC]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp);
-
-	//m_aCombs[CombId::Comb_DFR]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp);
-
-	//m_aCombs[CombId::Comb_ZDQDY]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->zdqdy : 0));
-
-	//m_aCombs[CombId::Comb_YYLGG]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->yylgg : 0));
-
-	//m_aCombs[CombId::Comb_JF]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->jf : 0));
-
-	//m_aCombs[CombId::Comb_BPQXH]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bpqxh : 0));
-
-	//m_aCombs[CombId::Comb_BMQXH]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bmqxh : 0));
-
-	////m_aCombs[CombId::Comb_DLCD]->GetWindowText(strTmp);
-	////m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->dlcd : 0));
-
-	////m_aCombs[CombId::Comb_ZXCD]->GetWindowText(strTmp);
-	////m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->zxcd : 0));
-
-	//m_aEdits[EditId::Edit_DLCD]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->dlcd : _T("")));
-
-	//m_aEdits[EditId::Edit_ZXCD]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->zxcd : _T("")));
-
-	//m_aCombs[CombId::Comb_MPZL]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bmqxh : 0));
-
-	//m_aEdits[EditId::Edit_BZ]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bz : _T("")));
-
-	//m_aDatePickers[DatePickerId::DatePicker_DDRQ]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->ddrq : _T("")));
+	m_aEdits[EditId::Edit_CCBH]->GetWindowText(strTmp);
+	m_vecResult.push_back(strTmp);
 
 	CAddDlg::OnOKClicked();
 }

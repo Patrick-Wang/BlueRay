@@ -153,28 +153,163 @@ void CPlanPanel::OnInitChilds()
 	m_btnRestore = Util::CreateButton(this, IDC_PLAN_BTN_RESTORE, _T("重置"), _T("Microsoft YaHei"), 12);
 	m_btnRestore->MoveWindow(250, 70, 90, 25);
 
+	m_btnPlan->EnableWindow(FALSE);
 	m_btnRestore->EnableWindow(FALSE);
 	m_btnModify->EnableWindow(FALSE);
 }
 
 void CPlanPanel::OnBnClickedPlan()
 {
+	std::auto_ptr<CPlanAddDlg::Option_t> pstOpt;
 	CPlanAddDlg dlg(_T("排产计划"));
-	if (IDOK == dlg.DoModal()){
-		//m_table.push_back(std::make_pair(
-		//	m_pJqGridAPI->AddRow(dlg.GetResult()),
-		//	dlg.GetResult()));
+	std::vector<int> checkedRows;
+	std::vector<CString>* pRowData = NULL;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+
+	std::vector<int> checkedRowTableMap;
+	checkedRowTableMap.resize(checkedRows.size(), -1);
+	for (int i = checkedRows.size() - 1; i >= 0; --i)
+	{
+		pRowData = NULL;
+		for (int j = 0; i < m_table.size(); ++j)
+		{
+			if (m_table[j].first == checkedRows[i])
+			{
+				checkedRowTableMap[i] = j;
+				pRowData = &(m_table[j].second);
+				break;
+			}
+		}
+
+		if (NULL != pRowData)
+		{
+			if (pstOpt.get() == NULL)
+			{
+				pstOpt.reset(new CPlanAddDlg::Option_t(*pRowData));
+			}
+			else
+			{
+				pstOpt->Merge(*pRowData);
+			}
+		}
+
+		COleDateTime dateTime;
+		dateTime = COleDateTime::GetCurrentTime();
+
+		CString strDateTime;
+		strDateTime.Format(_T("%4d/%2d/%2d"), dateTime.GetYear(), dateTime.GetMonth(), dateTime.GetDay());
+
+		pstOpt->scrq = strDateTime;
+		pstOpt->bzrq = strDateTime;
+		pstOpt->fhrq = strDateTime;
+
+		CString strTemp(_T(""));
+		pstOpt->ccbh = strTemp;
+		pstOpt->tcbh = strTemp;
+
+		strTemp = _T("未审核");
+		pstOpt->jhjhsh = strTemp;
+		pstOpt->jhywsh = strTemp;
+		pstOpt->bzjhsh = strTemp;
+		pstOpt->bzywsh = strTemp;
+
+	}
+
+	dlg.SetOption(pstOpt.get());
+
+	if (IDOK == dlg.DoModal())
+	{
+		const std::vector<CString>& result = dlg.GetResult();
+
+		for (int i = checkedRows.size() - 1; i >= 0; --i)
+		{
+			if (checkedRowTableMap[i] >= 0)
+			{
+				m_table[checkedRowTableMap[i]].second[16] = result[0];
+				m_table[checkedRowTableMap[i]].second[19] = result[1];
+				m_table[checkedRowTableMap[i]].second[22] = result[2];
+				m_table[checkedRowTableMap[i]].second[23] = result[3];
+				m_table[checkedRowTableMap[i]].second[24] = result[4];
+			}
+
+			m_pJqGridAPI->SetCell(checkedRows[i], 17, result[0]);
+			m_pJqGridAPI->SetCell(checkedRows[i], 20, result[1]);
+			m_pJqGridAPI->SetCell(checkedRows[i], 23, result[2]);
+			m_pJqGridAPI->SetCell(checkedRows[i], 24, result[3]);
+			m_pJqGridAPI->SetCell(checkedRows[i], 25, result[4]);
+		}
+
 	}
 }
 
 void CPlanPanel::OnBnClickedModify()
 {
+	std::auto_ptr<CPlanAddDlg::Option_t> pstOpt;
+	CPlanAddDlg dlg(_T("修改"));
+	std::vector<int> checkedRows;
+	std::vector<CString>* pRowData = NULL;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
 
+	std::vector<int> checkedRowTableMap;
+	checkedRowTableMap.resize(checkedRows.size(), -1);
+	for (int i = checkedRows.size() - 1; i >= 0; --i)
+	{
+		pRowData = NULL;
+		for (int j = 0; i < m_table.size(); ++j)
+		{
+			if (m_table[j].first == checkedRows[i])
+			{
+				checkedRowTableMap[i] = j;
+				pRowData = &(m_table[j].second);
+				break;
+			}
+		}
+
+		if (NULL != pRowData)
+		{
+			if (pstOpt.get() == NULL)
+			{
+				pstOpt.reset(new CPlanAddDlg::Option_t(*pRowData));
+			}
+			else
+			{
+				pstOpt->Merge(*pRowData);
+			}
+		}
+	}
+
+	dlg.SetOption(pstOpt.get());
+
+	if (IDOK == dlg.DoModal())
+	{
+		const std::vector<CString>& result = dlg.GetResult();
+
+		for (int i = checkedRows.size() - 1; i >= 0; --i)
+		{
+			if (checkedRowTableMap[i] >= 0)
+			{
+				m_table[checkedRowTableMap[i]].second[16] = result[0];
+				m_table[checkedRowTableMap[i]].second[19] = result[1];
+				m_table[checkedRowTableMap[i]].second[22] = result[2];
+				m_table[checkedRowTableMap[i]].second[23] = result[3];
+				m_table[checkedRowTableMap[i]].second[24] = result[4];
+			}
+
+			m_pJqGridAPI->SetCell(checkedRows[i], 17, result[0]);
+			m_pJqGridAPI->SetCell(checkedRows[i], 20, result[1]);
+			m_pJqGridAPI->SetCell(checkedRows[i], 23, result[2]);
+			m_pJqGridAPI->SetCell(checkedRows[i], 24, result[3]);
+			m_pJqGridAPI->SetCell(checkedRows[i], 25, result[4]);
+		}
+	}
 }
 
 void CPlanPanel::OnBnClickedRestore()
 {
-
+	if (IDOK == MessageBox(_T("是否撤销已排产的计划,并重新计划排产？"), _T("重新计划"), MB_OKCANCEL | MB_ICONQUESTION))
+	{
+		OnBnClickedPlan();
+	}
 }
 
 void CPlanPanel::OnBnClickedSearch()
@@ -262,11 +397,13 @@ void CPlanPanel::OnRowChecked()
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 	if (checkedRows.empty())
 	{
+		m_btnPlan->EnableWindow(FALSE);
 		m_btnRestore->EnableWindow(FALSE);
 		m_btnModify->EnableWindow(FALSE);
 	}
 	else
 	{
+		m_btnPlan->EnableWindow(TRUE);
 		m_btnRestore->EnableWindow(TRUE);
 		m_btnModify->EnableWindow(TRUE);
 	}
