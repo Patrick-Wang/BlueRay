@@ -49,7 +49,7 @@ void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAt
 	::SysFreeString(param.bstrVal);
 }
 
-void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, std::vector<int>*>& mapAttr)
+void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, IntArrayPtr>& mapAttr)
 {
 	std::vector<VARIANT> params;
 	VARIANT param = {};
@@ -79,7 +79,7 @@ void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, std::vector<int
 	::SysFreeString(param.bstrVal);
 }
 
-void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, std::vector<CString>*>& mapAttr)
+void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, StringArrayPtr>& mapAttr)
 {
 	std::vector<VARIANT> params;
 	VARIANT param = {};
@@ -133,6 +133,50 @@ void CJsHttpImpl::Get(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAtt
 
 }
 
+void CJsHttpImpl::Get(LPCTSTR lpAddr, int id, StringArrayPtr rest)
+{
+	CString url;
+	MakeUrl(lpAddr, rest, url);
+	std::vector<VARIANT> params;
+	VARIANT param = {};
+	param.vt = VT_INT;
+	param.intVal = (int)this;
+	params.push_back(param);
+
+	param.vt = VT_INT;
+	param.intVal = id;
+	params.push_back(param);
+
+	param.vt = VT_BSTR;
+	param.bstrVal = url.AllocSysString();
+	params.push_back(param);
+
+	m_lpJsMediator->CallJsFunction(_T("ajaxGet"), params);
+
+	::SysFreeString(param.bstrVal);
+}
+
+void CJsHttpImpl::Get(LPCTSTR lpAddr, int id)
+{
+	std::vector<VARIANT> params;
+	VARIANT param = {};
+	param.vt = VT_INT;
+	param.intVal = (int)this;
+	params.push_back(param);
+
+	param.vt = VT_INT;
+	param.intVal = id;
+	params.push_back(param);
+
+	param.vt = VT_BSTR;
+	param.bstrVal = ::SysAllocString(lpAddr);
+	params.push_back(param);
+
+	m_lpJsMediator->CallJsFunction(_T("ajaxGet"), params);
+
+	::SysFreeString(param.bstrVal);
+}
+
 VARIANT CJsHttpImpl::OnPost(int id, const std::vector<VARIANT>& params)
 {
 	if ((int)this == params[0].intVal){
@@ -177,6 +221,15 @@ void CJsHttpImpl::MakeUrl(LPCTSTR lpAddr, std::map<CString, CString>& mapAttr, C
 	url = lpAddr + url;
 }
 
+void CJsHttpImpl::MakeUrl(LPCTSTR lpAddr, StringArrayPtr rest, CString& url)
+{
+	url = lpAddr;
+	for (int i = 0; i < rest->size(); ++i)
+	{
+		url += _T("/") + (*rest)[i];
+	}
+}
+
 void CJsHttpImpl::AsJson(std::map<CString, CString>& mapAttr, CString& strJson)
 {
 	strJson = _T("{");
@@ -194,11 +247,11 @@ void CJsHttpImpl::AsJson(std::map<CString, CString>& mapAttr, CString& strJson)
 }
 
 
-void CJsHttpImpl::AsJson(std::map<CString, std::vector<CString>*>& mapAttr, CString& strJson)
+void CJsHttpImpl::AsJson(std::map<CString, StringArrayPtr>& mapAttr, CString& strJson)
 {
 	strJson = _T("{");
 	CString strTmp;
-	for (std::map<CString, std::vector<CString>*>::iterator it = mapAttr.begin(); it != mapAttr.end(); )
+	for (std::map<CString, StringArrayPtr>::iterator it = mapAttr.begin(); it != mapAttr.end();)
 	{
 		strJson += it->first;
 		strJson += _T(":");
@@ -213,11 +266,11 @@ void CJsHttpImpl::AsJson(std::map<CString, std::vector<CString>*>& mapAttr, CStr
 	strJson += _T("}");
 }
 
-void CJsHttpImpl::AsJson(std::map<CString, std::vector<int>*>& mapAttr, CString& strJson)
+void CJsHttpImpl::AsJson(std::map<CString, IntArrayPtr>& mapAttr, CString& strJson)
 {
 	strJson = _T("{");
 	CString strTmp;
-	for (std::map<CString, std::vector<int>*>::iterator it = mapAttr.begin();
+	for (std::map<CString, IntArrayPtr>::iterator it = mapAttr.begin();
 		it != mapAttr.end(); 
 		)
 	{

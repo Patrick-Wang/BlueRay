@@ -41,15 +41,21 @@ public class SaleController {
 	// return service.query();
 	// }
 
-	// @RequestMapping(value = "/{id}", method = RequestMethod.GET,
-	// produces=MediaType.APPLICATION_JSON_VALUE)
-	// public @ResponseBody String getSaleData(@PathVariable String id,
-	// HttpServletRequest request,
-	// HttpServletResponse response) {
-	//
-	//
-	// return id;
-	// }
+	@RequestMapping(value = "/map_id/{tableName}/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String getValueById(@PathVariable String tableName,
+			@PathVariable String id, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return id;
+	}
+
+	@RequestMapping(value = "/map_value/{tableName}/{value}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String getIdByValue(@PathVariable String tableName,
+			@PathVariable String value, HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return "";
+	}
 
 	@RequestMapping(value = "/query", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String getSaleQueryData(HttpServletRequest request,
@@ -72,7 +78,7 @@ public class SaleController {
 		JSONArray ja = JSONArray.fromObject(jo.get("add"));
 		return service.add(ja);
 	}
-	
+
 	@RequestMapping(value = "/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String delSaleData(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {

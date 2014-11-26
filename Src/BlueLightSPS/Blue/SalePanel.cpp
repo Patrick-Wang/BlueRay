@@ -120,7 +120,7 @@ void CSalePanel::OnInitChilds()
 	m_btnDelete.EnableWindow(FALSE);
 	m_btnModify.EnableWindow(FALSE);
 
-	m_pHttp->Get(_T("http://localhost:8080/BlueRay/sale/query"), QUERY_URL_ID, std::map<CString, CString>());
+	m_pHttp->Get(_T("http://localhost:8080/BlueRay/sale/query"), QUERY_URL_ID);
 	GetParent()->EnableWindow(FALSE);
 }
 void CSalePanel::OnBnClickedAdd()
@@ -129,7 +129,7 @@ void CSalePanel::OnBnClickedAdd()
 	if (IDOK == dlg.DoModal()){
 		GetParent()->EnableWindow(FALSE);
 		m_cacheRow = dlg.GetResult();
-		std::map<CString, std::vector<CString>*> attr;
+		std::map<CString, StringArrayPtr> attr;
 		attr[_T("add")] = &m_cacheRow;
 		m_pHttp->Post(_T("http://localhost:8080/BlueRay/sale/add"), ADD_URL_ID, attr);
 	}
@@ -179,12 +179,15 @@ void CSalePanel::OnBnClickedModify()
 
 void CSalePanel::OnBnClickedDelete()
 {
-	std::vector<int> checkedRows;
-	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	GetParent()->EnableWindow(FALSE);
-	std::map<CString, std::vector<int>*> attr;
-	attr[_T("del")] = &checkedRows;
-	m_pHttp->Post(_T("http://localhost:8080/BlueRay/sale/delete"), DEL_URL_ID, attr);
+	if (IDOK == MessageBox(_T("是否确认删除此记录？ 请注意，删除后无法恢复！"), _T("删除"), MB_OKCANCEL | MB_ICONQUESTION))
+	{
+		std::vector<int> checkedRows;
+		m_pJqGridAPI->GetCheckedRows(checkedRows);
+		GetParent()->EnableWindow(FALSE);
+		std::map<CString, IntArrayPtr> attr;
+		attr[_T("del")] = &checkedRows;
+		m_pHttp->Post(_T("http://localhost:8080/BlueRay/sale/delete"), DEL_URL_ID, attr);
+	}
 }
 
 void CSalePanel::OnRowChecked()
@@ -213,7 +216,11 @@ void CSalePanel::OnBnClickedSearch()
 		bMatch = false;
 		for (int j = 0; j < m_table[i].second.size(); ++j)
 		{
-			if (searchText.IsEmpty() || m_table[i].second[j].Find(searchText) >= 0)
+			CString strSource = m_table[i].second[j];
+			strSource.MakeUpper();
+			searchText.MakeUpper();
+
+			if (searchText.IsEmpty() || strSource.Find(searchText) >= 0)
 			{
 				bMatch = true;
 				break;
