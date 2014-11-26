@@ -184,11 +184,10 @@ void CSalePanel::OnBnClickedDelete()
 		std::vector<int> checkedRows;
 		m_pJqGridAPI->GetCheckedRows(checkedRows);
 		GetParent()->EnableWindow(FALSE);
-		//std::map<CString, std::vector<CString&>> attr;
-		//attr[_T("add")] = m_cacheRow;
-		//m_pHttp->Post(_T("http://localhost:8080/BlueRay/sale/delete"), DEL_URL_ID, std::map<CString, CString>(), checkedRows);
+		std::map<CString, std::vector<int>*> attr;
+		attr[_T("add")] = &checkedRows;
+		m_pHttp->Post(_T("http://localhost:8080/BlueRay/sale/delete"), DEL_URL_ID, attr);
 	}
-
 }
 
 void CSalePanel::OnRowChecked()
@@ -298,7 +297,7 @@ void CSalePanel::OnHttpSuccess(int id, LPCTSTR resp)
 		OnLoadDataSuccess(CString(resp));
 		break;
 	case ADD_URL_ID:
-		OnAddDataSuccess(m_cacheRow);
+		OnAddDataSuccess(_tstoi(resp), m_cacheRow);
 		break;
 	case DEL_URL_ID:
 		OnDelDataSuccess();
@@ -346,7 +345,8 @@ void CSalePanel::OnLoadDataSuccess(CString& jsondata)
 	for (int i = 0; i < vec.size(); ++i)
 	{
 		CJQGridAPI::Split(vec[i], _T(','), m_table[i].second);
-		m_table[i].first = _tstoi(*(m_table[i].second.erase(m_table[i].second.begin())));
+		m_table[i].first = _tstoi(m_table[i].second[0]);
+		m_table[i].second.erase(m_table[i].second.begin());
 	}
 	for (int j = 0; j < m_table.size(); ++j)
 	{
@@ -414,9 +414,10 @@ void CSalePanel::OnModifyDataSuccess(std::vector<CString>& newData)
 	}
 }
 
-void CSalePanel::OnAddDataSuccess(std::vector<CString>& data)
+void CSalePanel::OnAddDataSuccess(int id, std::vector<CString>& data)
 {
 	m_table.push_back(std::make_pair(
-		m_pJqGridAPI->AddRow(data),
+		id,
 		data));
+	m_pJqGridAPI->AddRow(id, data);
 }

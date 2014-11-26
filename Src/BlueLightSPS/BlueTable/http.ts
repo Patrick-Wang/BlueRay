@@ -6,7 +6,7 @@ function ajaxGet(caller: number, id: number, addr: string): void {
         url: addr,
         //dataType: "json",
         success: (data: any) => {
-           alert(data);
+           //alert(data);
             mediator.onGet(caller, 1, id, data.toString());
         },
         error: (XMLHttpRequest, textStatus, errorThrown) => {
