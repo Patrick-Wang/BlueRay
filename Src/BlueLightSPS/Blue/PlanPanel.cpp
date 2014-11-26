@@ -108,7 +108,7 @@ void CPlanPanel::OnInitChilds()
 	m_staticProductionStatus->MoveWindow(20, 27, 120, 20);
 	m_staticProductionStatus->SetTextAlign(DT_LEFT);
 
-	m_comboProductionStatus = Util::CreateComboBox(this, IDC_PLAN_COMBO_PROSTATUS, _T("Microsoft YaHei"), 12);
+	m_comboProductionStatus = Util::CreateComboBox(this, IDC_PLAN_COMBO_PROSTATUS, _T("Microsoft YaHei"), 12, TRUE);
 	m_comboProductionStatus->MoveWindow(140, 25, 150, 20);
 
 	m_comboProductionStatus->InsertString(0, _T("È«²¿¶©µ¥"));
