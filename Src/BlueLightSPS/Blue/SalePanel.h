@@ -27,7 +27,7 @@ protected:
 	void OnLoadDataSuccess(CString& data);
 	void OnDelDataSuccess();
 	void OnModifyDataSuccess(std::vector<CString>& newData);
-	void OnAddDataSuccess(std::vector<CString>& data);
+	void OnAddDataSuccess(int id, std::vector<CString>& data);
 private:
 	CBRButton m_btnAdd;
 	CBRButton m_btnSearch;

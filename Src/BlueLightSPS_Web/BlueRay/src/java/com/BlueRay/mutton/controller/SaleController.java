@@ -59,7 +59,7 @@ public class SaleController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody boolean updateSaleData(HttpServletRequest request,
+	public @ResponseBody String updateSaleData(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				request.getInputStream()));

@@ -8,5 +8,5 @@ import com.BlueRay.mutton.model.entity.jpa.HTXX;
 public interface SaleDao {
 	List<HTXX> getSaleData();
 
-	void insert(BMQXHFLXX bxx);
+	void insert(HTXX bxx);
 }

@@ -1,6 +1,9 @@
 package com.BlueRay.mutton.service;
 
+import java.sql.Date;
 import java.util.List;
+
+import net.sf.json.JSONArray;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,8 +67,41 @@ public class SaleServiceImpl implements SaleService {
 		BMQXHFLXX bxx = new BMQXHFLXX();
 		bxx.setBmqxh("asdf");
 		bxx.setBmqxhID(12);
-		saleDao.insert(bxx);
+		//saleDao.insert(bxx);
 		return false;
+	}
+
+	public String add(JSONArray ja) {
+		HTXX htxx = new HTXX();
+		
+		htxx.setHtID(ja.getString(0));
+		htxx.setClientID(ja.getString(1));
+		htxx.setGgxhID(ja.getString(2));
+		if (!"".equals(ja.getString(3))){
+			htxx.setSl(Integer.valueOf(ja.getString(3)));
+		}
+		htxx.setZcID(ja.getString(4));
+		htxx.setDfr(ja.getString(5));
+
+		htxx.setZdqdyID(ja.getString(6));
+		htxx.setYylggID(ja.getString(7));
+		htxx.setSfjf(ja.getString(8));
+
+		htxx.setBpqxhID(ja.getString(9));
+		htxx.setBmqxhID(ja.getString(10));
+		htxx.setDlcd(ja.getString(11));
+
+		htxx.setZxcd(ja.getString(12));
+		htxx.setMpzl(ja.getString(13));
+		htxx.setBz(ja.getString(14));
+		if (!"".equals(ja.getString(3))){
+			htxx.setDdrq(Date.valueOf(ja.getString(15)));
+		}
+//		htxx.setSftgywsh(ja.getString(16));
+//		htxx.setSftgjhsh(ja.getString(17));
+
+		saleDao.insert(htxx);
+		return htxx.getID() + "";
 	}
 
 }
