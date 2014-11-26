@@ -121,6 +121,7 @@
     <ClInclude Include="JQGridAPI.h" />
     <ClInclude Include="JsHttpImpl.h" />
     <ClInclude Include="LoginDlg.h" />
+    <ClInclude Include="PlanAddDlg.h" />
     <ClInclude Include="PlanPanel.h" />
     <ClInclude Include="ProductPanel.h" />
     <ClInclude Include="Resource.h" />
@@ -160,6 +161,7 @@
     <ClCompile Include="JQGridAPI.cpp" />
     <ClCompile Include="JsHttpImpl.cpp" />
     <ClCompile Include="LoginDlg.cpp" />
+    <ClCompile Include="PlanAddDlg.cpp" />
     <ClCompile Include="PlanPanel.cpp" />
     <ClCompile Include="ProductPanel.cpp" />
     <ClCompile Include="SaleAddDlg.cpp" />
