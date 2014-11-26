@@ -98,6 +98,10 @@ static int g_CombPos[][4] = {
 		{ 100 * 2 + 100 * 1, 40 * 4, 100, 20 }	//Comb_MPZL,
 };
 
+static int g_DatePickersPos[][4] = {
+		{ 100 * 3 + 100 * 2, 40 * 4, 100, 20 }, //Edit_DDRQ,
+};
+
 static int g_EditsPos[][4] = {
 		{ 100 * 1 + 100 * 0, 40 * 1, 100, 20 }, //Edit_HTH,
 		{ 100 * 4 + 100 * 3, 40 * 1, 100, 20 }, //Edit_SL,
@@ -105,11 +109,7 @@ static int g_EditsPos[][4] = {
 		{ 100 * 1 + 100 * 0, 40 * 4, 100, 20 }, //Edit_ZXCD,
 		//{ 100 * 3 + 100 * 2, 40 * 4, 100, 20 }, //Edit_DDRQ,
 		{ 100 * 4 + 100 * 3, 40 * 4, 100, 20 }, //Edit_BZ,
-};
-
-static int g_DatePickersPos[][4] = {
-		{ 100 * 3 + 100 * 2, 40 * 4, 100, 20 }, //Edit_DDRQ,
-};												
+};										
 
 static LPCTSTR g_EditItems[][1] = { //0: default text
 		{ _T("合同号") }, 
