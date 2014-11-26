@@ -32,4 +32,10 @@ public class SaleDaoImpl implements SaleDao{
 		
 	}
 
+
+	public void del(HTXX htxx) {
+		HTXX entity = entityManager.find(HTXX.class, htxx.getID());
+		entityManager.remove(entity);
+	}
+
 }

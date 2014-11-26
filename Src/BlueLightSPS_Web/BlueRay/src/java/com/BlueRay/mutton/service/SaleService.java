@@ -9,4 +9,6 @@ public interface SaleService{
 	boolean update();
 
 	String add(JSONArray ja);
+
+	String delete(JSONArray ja);
 }

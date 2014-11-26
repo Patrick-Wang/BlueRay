@@ -104,4 +104,14 @@ public class SaleServiceImpl implements SaleService {
 		return htxx.getID() + "";
 	}
 
+	public String delete(JSONArray ja) {
+		HTXX htxx = new HTXX();
+		for (int i = 0; i < ja.size(); ++i){
+			htxx.setID(Integer.valueOf(ja.getString(i)));
+			saleDao.del(htxx);
+		}
+		
+		return "";
+	}
+
 }

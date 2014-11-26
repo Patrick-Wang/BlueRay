@@ -9,4 +9,6 @@ public interface SaleDao {
 	List<HTXX> getSaleData();
 
 	void insert(HTXX bxx);
+	
+	void del(HTXX htxx);
 }

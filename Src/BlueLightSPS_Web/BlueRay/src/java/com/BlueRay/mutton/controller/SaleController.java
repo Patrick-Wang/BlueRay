@@ -59,7 +59,7 @@ public class SaleController {
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String updateSaleData(HttpServletRequest request,
+	public @ResponseBody String addSaleData(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				request.getInputStream()));
@@ -71,5 +71,20 @@ public class SaleController {
 		JSONObject jo = JSONObject.fromObject(sb.toString());
 		JSONArray ja = JSONArray.fromObject(jo.get("add"));
 		return service.add(ja);
+	}
+	
+	@RequestMapping(value = "/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String delSaleData(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				request.getInputStream()));
+		String line = null;
+		StringBuilder sb = new StringBuilder();
+		while ((line = br.readLine()) != null) {
+			sb.append(line);
+		}
+		JSONObject jo = JSONObject.fromObject(sb.toString());
+		JSONArray ja = JSONArray.fromObject(jo.get("del"));
+		return service.delete(ja);
 	}
 }

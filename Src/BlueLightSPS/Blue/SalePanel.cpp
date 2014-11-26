@@ -183,7 +183,7 @@ void CSalePanel::OnBnClickedDelete()
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 	GetParent()->EnableWindow(FALSE);
 	std::map<CString, std::vector<int>*> attr;
-	attr[_T("add")] = &checkedRows;
+	attr[_T("del")] = &checkedRows;
 	m_pHttp->Post(_T("http://localhost:8080/BlueRay/sale/delete"), DEL_URL_ID, attr);
 }
 
