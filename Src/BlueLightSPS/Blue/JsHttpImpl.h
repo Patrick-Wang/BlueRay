@@ -8,9 +8,10 @@ class CJsHttpImpl :
 public:
 	CJsHttpImpl(IJSMediator* lpJsMediator);
 	~CJsHttpImpl();
-	virtual void Post(LPCTSTR lpAddr, std::map<CString, CString> mapAttr, LPCTSTR strData);
-	virtual void Get(LPCTSTR lpAddr, std::map<CString, CString> mapAttr);
-
+	virtual void Post(LPCTSTR lpAddr, int id, std::map<CString, CString> mapAttr, LPCTSTR strData);
+	virtual void Get(LPCTSTR lpAddr, int id, std::map<CString, CString> mapAttr);
+	virtual void Post(LPCTSTR lpAddr, int id, std::map<CString, CString> mapAttr, std::vector<int>& vecData);
+	virtual void Post(LPCTSTR lpAddr, int id, std::map<CString, CString> mapAttr, std::vector<CString>& vecData);
 protected:
 	VARIANT OnPost(int id, const std::vector<VARIANT>& params);
 	VARIANT OnGet(int id, const std::vector<VARIANT>& params);

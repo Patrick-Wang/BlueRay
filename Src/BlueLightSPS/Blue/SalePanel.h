@@ -3,15 +3,19 @@
 #include "BRButton.h"
 #include "BSStatic.h"
 #include "JQGridAPI.h"
+#include "IHttp.h"
 class CSalePanel :
 	public CControlPanel
 {
 public:
-	CSalePanel(CJQGridAPI* pJqGridAPI);
+	CSalePanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp);
 	~CSalePanel();
 
 	void OnRowChecked();
 	void OnGridComplete();
+	void OnHttpSuccess(int id, CString& resp);
+	void OnHttpFailed(int id);
+
 protected:
 	virtual void OnInitChilds();
 	afx_msg void OnBnClickedAdd();
@@ -19,8 +23,11 @@ protected:
 	afx_msg void OnBnClickedModify();
 	afx_msg void OnBnClickedSearch();
 	afx_msg void OnBnClickedMore();
-	virtual void OnWindowShow();
-	virtual void OnWindowHide();
+	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
+	void OnLoadDataSuccess(CString& data);
+	void OnDelDataSuccess();
+	void OnModifyDataSuccess(std::vector<CString>& newData);
+	void OnAddDataSuccess(std::vector<CString>& data);
 private:
 	CBRButton m_btnAdd;
 	CBRButton m_btnSearch;
@@ -32,7 +39,8 @@ private:
 	DECLARE_MESSAGE_MAP()
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
 	CJQGridAPI* m_pJqGridAPI;
-
+	IHttp* m_pHttp;
+	std::vector<CString> m_cacheRow;
 public:
 	afx_msg void OnNcDestroy();
 };

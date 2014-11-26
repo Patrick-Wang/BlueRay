@@ -8,6 +8,7 @@
 #include "resource_ids.h"
 #include "Util.h"
 #include "colors.h"
+#include "JsHttpImpl.h"
 // CLoginDlg dialog
 
 IMPLEMENT_DYNAMIC(CLoginDlg, CDialogEx)
@@ -16,6 +17,7 @@ CLoginDlg::CLoginDlg(CWnd* pParent /*=NULL*/)
 : CDialogEx(CLoginDlg::IDD, pParent)
 , m_btnVPN(TRUE)
 , m_btnForgetPassword(TRUE)
+, m_pHttp(new CJsHttpImpl(&m_webHttpView))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -119,6 +121,8 @@ BOOL CLoginDlg::OnInitDialog()
 
 	m_editPsw.MoveWindow(696, 405, 181, 20);
 	m_editUserName.MoveWindow(696, 362, 181, 20);
+
+	InitWebView();
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -129,6 +133,7 @@ void CLoginDlg::OnBnClickedLogin()
 	m_editPsw.GetWindowText(psw);
 	CString usrName;
 	m_editUserName.GetWindowText(usrName);
+	//m_pHttp->Get(_T("http://www.baidu.com"), std::map<CString, CString>());
 	if (usrName.CompareNoCase(_T("admin")) == 0 && psw.CompareNoCase(_T("123456")) == 0)
 	{
 		OnOK();
@@ -165,3 +170,21 @@ BOOL CLoginDlg::PreTranslateMessage(MSG* pMsg)
 	}
 	
 }
+
+void CLoginDlg::InitWebView()
+{
+	m_webHttpView.Create(NULL, NULL, WS_CHILD, CRect(0, 0, 0, 0), this, 10000, NULL);
+	CString path;
+	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
+	path.ReleaseBuffer();
+#ifdef _DEBUG
+	path.Replace(_T("Debug\\BlueLightPLM.exe"), _T("BlueTable\\http.html"));
+#else
+	path.Replace(_T("BlueLightPLM.exe"), _T("http.html"));
+#endif
+	VARIANT url;
+	url.vt = VT_BSTR;
+	url.bstrVal = (BSTR)::SysAllocString(path);
+	m_webHttpView.OpenURL(&url);
+}
+

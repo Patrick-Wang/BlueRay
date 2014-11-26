@@ -15,8 +15,6 @@ public:
 
 protected:
 	virtual void OnInitChilds();
-	virtual void OnWindowShow();
-	virtual void OnWindowHide();
 
 	afx_msg void OnBnClickedPlan();
 	afx_msg void OnBnClickedRestore();
@@ -42,5 +40,6 @@ private:
 
 public:
 	afx_msg void OnNcDestroy();
+	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
 };
 

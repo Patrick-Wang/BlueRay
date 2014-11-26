@@ -59,6 +59,11 @@ module base {
             this.mTable.jqGrid('addRowData', rowid, rdata, 'last');
             return rowid;
         }
+
+        public addRowDataById(id: number, rdata: any) {
+            this.mTable.jqGrid('addRowData', id, rdata, 'last');
+        }
+
         public delRowData(rowId: number): void {
             this.mTable.jqGrid('setSelection', rowId, false);
             this.mTable.jqGrid('delRowData', rowId)

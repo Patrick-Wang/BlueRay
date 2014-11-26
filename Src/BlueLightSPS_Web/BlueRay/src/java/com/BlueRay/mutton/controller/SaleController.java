@@ -3,6 +3,8 @@ package com.BlueRay.mutton.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -40,10 +42,10 @@ public class SaleController {
 //	}
 	
 	@RequestMapping(value = "/query", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String[][] getSaleQueryData(HttpServletRequest request,
+	public @ResponseBody String getSaleQueryData(HttpServletRequest request,
 			HttpServletResponse response) {
 		
-		return service.query();
+		return JSONArray.fromObject(service.query()).toString();
 	}
 	
 	@RequestMapping(value = "/update", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)

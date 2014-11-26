@@ -48,8 +48,6 @@ protected:
 	CBRButton m_btnNotification;
 	CBRButton m_btnProductionDataAnalyst;
 	CBRButton m_btnSettingPage;
-	
-	
 
 
 public:

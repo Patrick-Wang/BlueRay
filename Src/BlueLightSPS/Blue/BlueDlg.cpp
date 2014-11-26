@@ -138,7 +138,7 @@ void CBlueDlg::OnGridDataLoaded()
 	CRect clientRect;
 	GetClientRect(clientRect);
 	CRect rtCtrlPanel(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 218);
-	m_pPanelMap[IDC_SALEPAGE].reset(new CSalePanel(m_pJqGridAPI.get()));
+	m_pPanelMap[IDC_SALEPAGE].reset(new CSalePanel(m_pJqGridAPI.get(), m_pHttp.get()));
 	m_pPanelMap[IDC_SALEPAGE]->Create(this, IDP_SALE);
 	m_pPanelMap[IDC_SALEPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 	m_pPanelMap[IDC_SALEPAGE]->ShowWindow(SW_SHOW);
@@ -150,10 +150,6 @@ void CBlueDlg::OnGridDataLoaded()
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE].reset(new CProductPanel(m_pJqGridAPI.get()));
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE]->Create(this, IDP_PRODUCT);
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
-
-
-
-
 }
 // If you add a minimize button to your dialog, you will need the code below
 //  to draw the icon.  For MFC applications using the document/view model,
@@ -299,7 +295,7 @@ BOOL CBlueDlg::PreTranslateMessage(MSG* pMsg)
 void CBlueDlg::OnWebComplete()
 {
 
-	m_pHttp->Post(_T("http://www.baidu.com"), std::map<CString, CString>(), _T("asdf"));
+	//m_pHttp->Post(_T("http://www.baidu.com"), std::map<CString, CString>(), _T("asdf"));
 }
 
 //void CBlueDlg::OnBnClickedPlan()

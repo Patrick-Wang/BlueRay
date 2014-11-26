@@ -18,6 +18,7 @@
     <IISExpressUseClassicPipelineMode />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="http.html" />
     <Content Include="jqgrid\jqassist.js" />
     <Content Include="jqgrid\js\i18n\grid.locale-cn.js" />
     <Content Include="jqgrid\js\i18n\grid.locale-en.js" />
@@ -72,6 +73,7 @@
     <Content Include="jqgrid\themes\ui.jqgrid.css" />
     <Content Include="jqgrid\themes\ui.multiselect.css" />
     <Content Include="jqgrid\vector.js" />
+    <Content Include="loading.gif" />
     <Content Include="skin\black\images\ui-bg_diagonals-thick_8_333333_40x40.png" />
     <Content Include="skin\black\images\ui-bg_flat_65_ffffff_40x100.png" />
     <Content Include="skin\black\images\ui-bg_glass_40_111111_1x400.png" />

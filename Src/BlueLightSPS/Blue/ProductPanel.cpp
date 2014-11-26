@@ -12,18 +12,24 @@ CProductPanel::~CProductPanel()
 {
 }
 
-
-void CProductPanel::OnWindowShow()
-{
-	m_pJqGridAPI->ShowGrid(_T("product"));
-}
-
-void CProductPanel::OnWindowHide()
-{
-	m_pJqGridAPI->HideGrid(_T("product"));
-}
-
 void CProductPanel::OnInitChilds()
 {
 
+}
+BEGIN_MESSAGE_MAP(CProductPanel, CControlPanel)
+	ON_WM_SHOWWINDOW()
+END_MESSAGE_MAP()
+
+
+void CProductPanel::OnShowWindow(BOOL bShow, UINT nStatus)
+{
+	CControlPanel::OnShowWindow(bShow, nStatus);
+	if (bShow)
+	{
+		m_pJqGridAPI->ShowGrid(_T("product"));
+	}
+	else
+	{
+		m_pJqGridAPI->HideGrid(_T("product"));
+	}
 }

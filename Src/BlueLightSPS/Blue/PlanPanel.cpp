@@ -12,6 +12,7 @@ BEGIN_MESSAGE_MAP(CPlanPanel, CControlPanel)
 	ON_BN_CLICKED(IDC_PLAN_BTN_SEARCH, &CPlanPanel::OnBnClickedSearch)
 	ON_BN_CLICKED(IDC_PLAN_BTN_MORE, &CPlanPanel::OnBnClickedMore)
 	ON_WM_NCDESTROY()
+	ON_WM_SHOWWINDOW()
 END_MESSAGE_MAP()
 
 CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI)
@@ -100,21 +101,6 @@ CPlanPanel::~CPlanPanel()
 }
 
 
-void CPlanPanel::OnWindowShow()
-{
-	m_pJqGridAPI->ShowGrid(_T("plan"));
-	if (m_pJqGridAPI->GetRowCount() <= 0){
-		for (int j = 0; j < m_table.size(); ++j)
-		{
-			m_table[j].first = m_pJqGridAPI->AddRow(m_table[j].second);
-		}
-	}
-}
-
-void CPlanPanel::OnWindowHide()
-{
-	m_pJqGridAPI->HideGrid(_T("plan"));
-}
 
 void CPlanPanel::OnInitChilds()
 {
@@ -391,6 +377,22 @@ void CPlanPanel::OnNcDestroy()
 	CControlPanel::OnNcDestroy();
 }
 
+
+
+void CPlanPanel::OnShowWindow(BOOL bShow, UINT nStatus)
+{
+	CControlPanel::OnShowWindow(bShow, nStatus);
+	if (bShow)
+	{
+		m_pJqGridAPI->ShowGrid(_T("plan"));
+	}
+	else
+	{
+		m_pJqGridAPI->HideGrid(_T("plan"));
+	}
+
+}
+
 void CPlanPanel::OnRowChecked()
 {
 	std::vector<int> checkedRows;
@@ -408,3 +410,4 @@ void CPlanPanel::OnRowChecked()
 		m_btnModify->EnableWindow(TRUE);
 	}
 }
+
