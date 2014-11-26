@@ -179,12 +179,16 @@ void CSalePanel::OnBnClickedModify()
 
 void CSalePanel::OnBnClickedDelete()
 {
-	std::vector<int> checkedRows;
-	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	GetParent()->EnableWindow(FALSE);
-	//std::map<CString, std::vector<CString&>> attr;
-	//attr[_T("add")] = m_cacheRow;
-	//m_pHttp->Post(_T("http://localhost:8080/BlueRay/sale/delete"), DEL_URL_ID, std::map<CString, CString>(), checkedRows);
+	if (IDOK == MessageBox(_T("是否确认删除此记录？ 请注意，删除后无法恢复！"), _T("删除"), MB_OKCANCEL | MB_ICONQUESTION))
+	{
+		std::vector<int> checkedRows;
+		m_pJqGridAPI->GetCheckedRows(checkedRows);
+		GetParent()->EnableWindow(FALSE);
+		//std::map<CString, std::vector<CString&>> attr;
+		//attr[_T("add")] = m_cacheRow;
+		//m_pHttp->Post(_T("http://localhost:8080/BlueRay/sale/delete"), DEL_URL_ID, std::map<CString, CString>(), checkedRows);
+	}
+
 }
 
 void CSalePanel::OnRowChecked()
