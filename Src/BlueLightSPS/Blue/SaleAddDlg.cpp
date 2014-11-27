@@ -191,7 +191,7 @@ void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
 			//m_DropList[Comb_YYLGG].push_back(_T("325 * 5 * 8 * 12")); 
 			//m_DropList[Comb_YYLGG].push_back(_T("400 * 5 * 10 * 16 - 2(SB)"));
 
-			url.Format(_T("http://%s:8080/BlueRay/itemquery/zdqdyflxx"), IDS_HOST_NAME);
+			url.Format(_T("http://%s:8080/BlueRay/itemquery/yylggflxx"), IDS_HOST_NAME);
 			m_pHttp->Get(url, QUERY_COMBO_VALUE_YYLGG_URL_ID);
 			++m_iRef;
 			//机房

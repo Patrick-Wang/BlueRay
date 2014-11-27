@@ -151,7 +151,7 @@ public class SaleServiceImpl implements SaleService {
 	
 	private void setDdrq(HTXX htxx, String value) {
 		if (!"".equals(value)){
-			htxx.setDdrq(Date.valueOf(value));
+			htxx.setDdrq(Date.valueOf(value.replace("/", "-")));
 		}		
 	}
 
