@@ -143,7 +143,7 @@ public class SaleServiceImpl implements SaleService {
 				item.setMpzl(value);
 				itemDao.insert(item);
 			}
-			htxx.setZcID(item.getId());
+			htxx.setMpzl(item.getId());
 		}
 	}
 
@@ -167,7 +167,7 @@ public class SaleServiceImpl implements SaleService {
 				item.setBmqxh(value);
 				itemDao.insert(item);
 			}
-			htxx.setZcID(item.getBmqxhID());
+			htxx.setBmqxhID(item.getBmqxhID());
 		}
 	}
 
@@ -179,7 +179,7 @@ public class SaleServiceImpl implements SaleService {
 				item.setBpqxh(value);
 				itemDao.insert(item);
 			}
-			htxx.setZcID(item.getBpqxhID());
+			htxx.setBpqxhID(item.getBpqxhID());
 		}
 	}
 
@@ -197,7 +197,7 @@ public class SaleServiceImpl implements SaleService {
 				item.setYylgg(value);
 				itemDao.insert(item);
 			}
-			htxx.setZcID(item.getYylggID());
+			htxx.setYylggID(item.getYylggID());
 		}
 	}
 
@@ -209,7 +209,7 @@ public class SaleServiceImpl implements SaleService {
 				item.setZdqdy(value);
 				itemDao.insert(item);
 			}
-			htxx.setZcID(item.getZdqdyID());
+			htxx.setZdqdyID(item.getZdqdyID());
 		}
 	}
 
