@@ -153,7 +153,9 @@ void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
 			//m_DropList[Comb_KHMC].push_back(_T("天津奥斯达"));
 			//m_DropList[Comb_KHMC].push_back(_T("预投"));
 
-			m_pHttp->Get(_T("http://10.1.4.107:8080/BlueRay/itemquery/khxx"), QUERY_COMBO_VALUE_KHMC_URL_ID);
+			CString url;
+			url.Format(_T("http://%s:8080/BlueRay/itemquery/khxx"), IDS_HOST_NAME);
+			m_pHttp->Get(url, QUERY_COMBO_VALUE_KHMC_URL_ID);
 
 			//规格型号
 			//m_DropList[Comb_GGBH].push_back(_T("U1.0ES-H"));
@@ -161,13 +163,15 @@ void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
 			//m_DropList[Comb_GGBH].push_back(_T("TA1.5C-H"));
 			//m_DropList[Comb_GGBH].push_back(_T("TA1.0CZ - H"));
 
-			m_pHttp->Get(_T("http://10.1.4.107:8080/BlueRay/itemquery/cpggxhxx"), QUERY_COMBO_VALUE_GGBH_URL_ID);
+			url.Format(_T("http://%s:8080/BlueRay/itemquery/cpggxhxx"), IDS_HOST_NAME);
+			m_pHttp->Get(url, QUERY_COMBO_VALUE_GGBH_URL_ID);
 
 			//轴承
 			//m_DropList[Comb_ZC].push_back(_T("BNN"));
 			//m_DropList[Comb_ZC].push_back(_T("RC"));
 
-			m_pHttp->Get(_T("http://10.1.4.107:8080/BlueRay/itemquery/zcxx"), QUERY_COMBO_VALUE_ZC_URL_ID);
+			url.Format(_T("http://%s:8080/BlueRay/itemquery/zcxx"), IDS_HOST_NAME);
+			m_pHttp->Get(url, QUERY_COMBO_VALUE_ZC_URL_ID);
 
 			//单复绕
 			m_DropList[Comb_DFR].push_back(_T("是"));
@@ -178,7 +182,8 @@ void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
 			//m_DropList[Comb_ZDQDY].push_back(_T("AC220V"));
 			//m_DropList[Comb_ZDQDY].push_back(_T("DC220V"));
 
-			m_pHttp->Get(_T("http://10.1.4.107:8080/BlueRay/itemquery/zdqdyflxx"), QUERY_COMBO_VALUE_ZDQDY_URL_ID);
+			url.Format(_T("http://%s:8080/BlueRay/itemquery/zdqdyflxx"), IDS_HOST_NAME);
+			m_pHttp->Get(url, QUERY_COMBO_VALUE_ZDQDY_URL_ID);
 
 			//曳引轮规格
 			//m_DropList[Comb_YYLGG].push_back(_T("480 * 6 * 12 * 18"));
@@ -186,7 +191,8 @@ void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
 			//m_DropList[Comb_YYLGG].push_back(_T("325 * 5 * 8 * 12")); 
 			//m_DropList[Comb_YYLGG].push_back(_T("400 * 5 * 10 * 16 - 2(SB)"));
 
-			m_pHttp->Get(_T("http://10.1.4.107:8080/BlueRay/itemquery/yylggflxx"), QUERY_COMBO_VALUE_YYLGG_URL_ID);
+			url.Format(_T("http://%s:8080/BlueRay/itemquery/zdqdyflxx"), IDS_HOST_NAME);
+			m_pHttp->Get(url, QUERY_COMBO_VALUE_YYLGG_URL_ID);
 
 			//机房
 			m_DropList[Comb_JF].push_back(_T("有"));
@@ -198,13 +204,15 @@ void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
 			//m_DropList[Comb_BPQXH].push_back(_T("CV"));
 			//m_DropList[Comb_BPQXH].push_back(_T("蓝光一体化"));
 
-			m_pHttp->Get(_T("http://10.1.4.107:8080/BlueRay/itemquery/bpqxhflxx"), QUERY_COMBO_VALUE_BPQXH_URL_ID);
+			url.Format(_T("http://%s:8080/BlueRay/itemquery/bpqxhflxx"), IDS_HOST_NAME);
+			m_pHttp->Get(url, QUERY_COMBO_VALUE_BPQXH_URL_ID);
 
 			//编码器型号
 			//m_DropList[Comb_BMQXH].push_back(_T("海1387"));
 			//m_DropList[Comb_BMQXH].push_back(_T("其他"));
 
-			m_pHttp->Get(_T("http://10.1.4.107:8080/BlueRay/itemquery/bmqxhflxx"), QUERY_COMBO_VALUE_BMQXH_URL_ID);
+			url.Format(_T("http://%s:8080/BlueRay/itemquery/bmqxhflxx"), IDS_HOST_NAME);
+			m_pHttp->Get(url, QUERY_COMBO_VALUE_BMQXH_URL_ID);
 
 			//铭牌等资料
 			m_DropList[Comb_MPZL].push_back(_T("蓝光英文铭牌"));
@@ -212,7 +220,8 @@ void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
 			m_DropList[Comb_MPZL].push_back(_T("蓝光英文西门子监制"));
 			m_DropList[Comb_MPZL].push_back(_T("主机用西德英文铭牌，制动器和上行超速铭牌用蓝光英文"));
 
-			//m_pHttp->Get(_T("http://10.1.4.107:8080/BlueRay/itemquery/"), QUERY_COMBO_VALUE_MPZL_URL_ID);
+			//url.Format(_T("http://%s:8080/BlueRay/itemquery/bmqxhflxx"), IDS_HOST_NAME);
+			//m_pHttp->Get(url, QUERY_COMBO_VALUE_MPZL_URL_ID);
 		}
 	}
 }
