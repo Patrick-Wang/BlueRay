@@ -153,82 +153,53 @@ void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
 			m_DropList.resize(CombId::Comb_END);
 
 			//客户名称
-			//m_DropList[Comb_KHMC].push_back(_T("浙江怡达")); 
-			//m_DropList[Comb_KHMC].push_back(_T("中原智能"));
-			//m_DropList[Comb_KHMC].push_back(_T("恒达富士"));
-			//m_DropList[Comb_KHMC].push_back(_T("天津奥斯达"));
-			//m_DropList[Comb_KHMC].push_back(_T("预投"));
-
 			CString url;
 			url.Format(_T("http://%s:8080/BlueRay/itemquery/khxx"), IDS_HOST_NAME);
 			m_pHttp->Get(url, QUERY_COMBO_VALUE_KHMC_URL_ID);
 			++m_iRef;
-			//规格型号
-			//m_DropList[Comb_GGBH].push_back(_T("U1.0ES-H"));
-			//m_DropList[Comb_GGBH].push_back(_T("S1.6C-H"));
-			//m_DropList[Comb_GGBH].push_back(_T("TA1.5C-H"));
-			//m_DropList[Comb_GGBH].push_back(_T("TA1.0CZ - H"));
 
+			//规格型号
 			url.Format(_T("http://%s:8080/BlueRay/itemquery/cpggxhxx"), IDS_HOST_NAME);
 			m_pHttp->Get(url, QUERY_COMBO_VALUE_GGBH_URL_ID);
 			++m_iRef;
-			//轴承
-			//m_DropList[Comb_ZC].push_back(_T("BNN"));
-			//m_DropList[Comb_ZC].push_back(_T("RC"));
 
+			//轴承
 			url.Format(_T("http://%s:8080/BlueRay/itemquery/zcxx"), IDS_HOST_NAME);
 			m_pHttp->Get(url, QUERY_COMBO_VALUE_ZC_URL_ID);
 			++m_iRef;
+
 			//单复绕
 			m_DropList[Comb_DFR].push_back(_T("是"));
 			m_DropList[Comb_DFR].push_back(_T("否"));
 
 			//制动器电压
-			//m_DropList[Comb_ZDQDY].push_back(_T("DC110V"));
-			//m_DropList[Comb_ZDQDY].push_back(_T("AC220V"));
-			//m_DropList[Comb_ZDQDY].push_back(_T("DC220V"));
-
 			url.Format(_T("http://%s:8080/BlueRay/itemquery/zdqdyflxx"), IDS_HOST_NAME);
 			m_pHttp->Get(url, QUERY_COMBO_VALUE_ZDQDY_URL_ID);
 			++m_iRef;
-			//曳引轮规格
-			//m_DropList[Comb_YYLGG].push_back(_T("480 * 6 * 12 * 18"));
-			//m_DropList[Comb_YYLGG].push_back(_T("400 * 5 * 10 * 16"));
-			//m_DropList[Comb_YYLGG].push_back(_T("325 * 5 * 8 * 12")); 
-			//m_DropList[Comb_YYLGG].push_back(_T("400 * 5 * 10 * 16 - 2(SB)"));
 
+			//曳引轮规格
 			url.Format(_T("http://%s:8080/BlueRay/itemquery/yylggflxx"), IDS_HOST_NAME);
 			m_pHttp->Get(url, QUERY_COMBO_VALUE_YYLGG_URL_ID);
 			++m_iRef;
+
 			//机房
 			m_DropList[Comb_JF].push_back(_T("是"));
 			m_DropList[Comb_JF].push_back(_T("否"));
 
 			//变频器型号
-			//m_DropList[Comb_BPQXH].push_back(_T("富士"));
-			//m_DropList[Comb_BPQXH].push_back(_T("默纳克"));
-			//m_DropList[Comb_BPQXH].push_back(_T("CV"));
-			//m_DropList[Comb_BPQXH].push_back(_T("蓝光一体化"));
-
 			url.Format(_T("http://%s:8080/BlueRay/itemquery/bpqxhflxx"), IDS_HOST_NAME);
 			m_pHttp->Get(url, QUERY_COMBO_VALUE_BPQXH_URL_ID);
 			++m_iRef;
-			//编码器型号
-			//m_DropList[Comb_BMQXH].push_back(_T("海1387"));
-			//m_DropList[Comb_BMQXH].push_back(_T("其他"));
 
+			//编码器型号
 			url.Format(_T("http://%s:8080/BlueRay/itemquery/bmqxhflxx"), IDS_HOST_NAME);
 			m_pHttp->Get(url, QUERY_COMBO_VALUE_BMQXH_URL_ID);
 			++m_iRef;
+
 			//铭牌等资料
-			m_DropList[Comb_MPZL].push_back(_T("蓝光英文铭牌"));
-			m_DropList[Comb_MPZL].push_back(_T("蓝光铭牌"));
-			m_DropList[Comb_MPZL].push_back(_T("蓝光英文西门子监制"));
-			m_DropList[Comb_MPZL].push_back(_T("主机用西德英文铭牌，制动器和上行超速铭牌用蓝光英文"));
-
-			//url.Format(_T("http://%s:8080/BlueRay/itemquery/bmqxhflxx"), IDS_HOST_NAME);
-			//m_pHttp->Get(url, QUERY_COMBO_VALUE_MPZL_URL_ID);
-
+			url.Format(_T("http://%s:8080/BlueRay/itemquery/mpzlxx"), IDS_HOST_NAME);
+			m_pHttp->Get(url, QUERY_COMBO_VALUE_MPZL_URL_ID);
+			++m_iRef;
 
 			//EnableWindow(FALSE);
 		}
@@ -250,18 +221,18 @@ void CSaleAddDlg::OnHttpSuccess(int id, LPCTSTR resp)
 	case QUERY_COMBO_VALUE_ZC_URL_ID:	  
 		OnLoadComboDataSuccess(Comb_ZC, CString(resp));
 		break;
-	case QUERY_COMBO_VALUE_DFR_URL_ID:	  
-		OnLoadComboDataSuccess(Comb_DFR, CString(resp));
-		break;
+	//case QUERY_COMBO_VALUE_DFR_URL_ID:	  
+	//	OnLoadComboDataSuccess(Comb_DFR, CString(resp));
+	//	break;
 	case QUERY_COMBO_VALUE_ZDQDY_URL_ID:  
 		OnLoadComboDataSuccess(Comb_ZDQDY, CString(resp));
 		break;
 	case QUERY_COMBO_VALUE_YYLGG_URL_ID:  
 		OnLoadComboDataSuccess(Comb_YYLGG, CString(resp));
 		break;
-	case QUERY_COMBO_VALUE_JF_URL_ID:	  
-		OnLoadComboDataSuccess(Comb_JF, CString(resp));
-		break;
+	//case QUERY_COMBO_VALUE_JF_URL_ID:	  
+	//	OnLoadComboDataSuccess(Comb_JF, CString(resp));
+	//	break;
 	case QUERY_COMBO_VALUE_BPQXH_URL_ID:  
 		OnLoadComboDataSuccess(Comb_BPQXH, CString(resp));
 		break;
@@ -284,10 +255,10 @@ void CSaleAddDlg::OnHttpFailed(int id)
 	case QUERY_COMBO_VALUE_KHMC_URL_ID:
 	case QUERY_COMBO_VALUE_GGBH_URL_ID:
 	case QUERY_COMBO_VALUE_ZC_URL_ID:
-	case QUERY_COMBO_VALUE_DFR_URL_ID:
+	//case QUERY_COMBO_VALUE_DFR_URL_ID:
 	case QUERY_COMBO_VALUE_ZDQDY_URL_ID:
 	case QUERY_COMBO_VALUE_YYLGG_URL_ID:
-	case QUERY_COMBO_VALUE_JF_URL_ID:
+	//case QUERY_COMBO_VALUE_JF_URL_ID:
 	case QUERY_COMBO_VALUE_BPQXH_URL_ID:
 	case QUERY_COMBO_VALUE_BMQXH_URL_ID:
 	case QUERY_COMBO_VALUE_MPZL_URL_ID:
