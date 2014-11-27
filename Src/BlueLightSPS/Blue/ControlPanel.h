@@ -1,5 +1,5 @@
 #pragma once
-#include "BSObject.h"
+#include "UILib/BSObject.h"
 
 #define UM_UI_PREPARED	WM_APP + 11021
 
