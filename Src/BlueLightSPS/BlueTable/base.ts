@@ -35,10 +35,10 @@ module base {
 
         public showHideRow(rowId: number, show: boolean): void {
             if (show) {
-                $("#" + rowId).css("display", "");
+                $("#" + this.mTableName + "p #" + rowId).css("display", "");
             }
             else {
-                $("#" + rowId).css("display", "none");
+                $("#" + this.mTableName + "p #" + rowId).css("display", "none");
             }
         }
 

@@ -461,9 +461,12 @@ void CPlanPanel::OnRowChecked()
 
 void CPlanPanel::OnUIPrepared()
 {
-	for (int i = 0; i < m_table.size(); ++i)
+	if (m_pJqGridAPI->GetRowCount() == 0)
 	{
+		for (int i = 0; i < m_table.size(); ++i)
+		{
 			m_table[i].first = m_pJqGridAPI->AddRow(m_table[i].second);
+		}
 	}
 }
 

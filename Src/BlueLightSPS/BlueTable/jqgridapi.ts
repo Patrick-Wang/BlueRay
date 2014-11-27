@@ -7,10 +7,12 @@ var mediator: any = window.external;
 function showGrid(gridName: string) {
     $("#" + grids[gridName].getTableName() + "p").css("display", "");
     instance = grids[gridName];
+    //alert("show" + instance.getTableName());
 }
 
 function hideGrid(gridName: string) {
     $("#" + grids[gridName].getTableName() + "p").css("display", "none");
+    //alert("hide" + gridName);
 }
 
 function addRowData(rdata: string) {
@@ -36,6 +38,7 @@ function getRowId(rowIndex: number) {
 }
 
 function showHideRow(rowId: number, show: string) {
+    //alert(show + instance.getTableName());
     instance.showHideRow(rowId, show == "true");
 }
 
