@@ -195,8 +195,8 @@ void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
 			m_pHttp->Get(url, QUERY_COMBO_VALUE_YYLGG_URL_ID);
 			++m_iRef;
 			//机房
-			m_DropList[Comb_JF].push_back(_T("有"));
-			m_DropList[Comb_JF].push_back(_T("无"));
+			m_DropList[Comb_JF].push_back(_T("是"));
+			m_DropList[Comb_JF].push_back(_T("否"));
 
 			//变频器型号
 			//m_DropList[Comb_BPQXH].push_back(_T("富士"));
