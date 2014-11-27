@@ -20,6 +20,7 @@ public class BMQXHFLXX implements Serializable {
 	 * @return the bmqxhID
 	 */
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Integer getBmqxhID() {
 		return bmqxhID;
 	}

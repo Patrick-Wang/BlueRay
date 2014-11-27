@@ -27,6 +27,9 @@ public class SaleController {
 	@Autowired
 	SaleService service;
 
+//	@Autowired
+//	MapQueryService mqService;
+	
 	// @RequestMapping(value = "syhkjhzxqk.do", method = RequestMethod.GET,
 	// produces=MediaType.APPLICATION_JSON_VALUE)
 	// public @ResponseBody Response getSyhkjhzxqkData(
@@ -41,21 +44,21 @@ public class SaleController {
 	// return service.query();
 	// }
 
-	@RequestMapping(value = "/map_id/{tableName}/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String getValueById(@PathVariable String tableName,
-			@PathVariable String id, HttpServletRequest request,
-			HttpServletResponse response) {
-
-		return id;
-	}
-
-	@RequestMapping(value = "/map_value/{tableName}/{value}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String getIdByValue(@PathVariable String tableName,
-			@PathVariable String value, HttpServletRequest request,
-			HttpServletResponse response) {
-
-		return "";
-	}
+//	@RequestMapping(value = "/map_id/{tableName}/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//	public @ResponseBody String getValueById(@PathVariable String tableName,
+//			@PathVariable String id, HttpServletRequest request,
+//			HttpServletResponse response) {
+//
+//		return id;
+//	}
+//
+//	@RequestMapping(value = "/map_value/{tableName}/{value}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//	public @ResponseBody String getIdByValue(@PathVariable String tableName,
+//			@PathVariable String value, HttpServletRequest request,
+//			HttpServletResponse response) {
+//
+//		return "";
+//	}
 
 	@RequestMapping(value = "/query", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String getSaleQueryData(HttpServletRequest request,
@@ -66,7 +69,7 @@ public class SaleController {
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String addSaleData(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
+			HttpServletResponse response) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				request.getInputStream()));
 		String line = null;

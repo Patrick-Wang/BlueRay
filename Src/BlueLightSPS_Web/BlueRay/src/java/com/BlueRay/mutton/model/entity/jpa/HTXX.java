@@ -17,17 +17,17 @@ public class HTXX implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer ID;
-	private String htID;
-	private String clientID;
-	private String ggxhID;
+	private Integer htID;
+	private Integer clientID;
+	private Integer ggxhID;
 	private Integer sl;
-	private String zcID;
+	private Integer zcID;
 	private String dfr;
-	private String zdqdyID;
-	private String yylggID;
+	private Integer zdqdyID;
+	private Integer yylggID;
 	private String sfjf;
-	private String bpqxhID;
-	private String bmqxhID;
+	private Integer bpqxhID;
+	private Integer bmqxhID;
 	private String dlcd;
 	private String zxcd;
 	private String mpzl;
@@ -41,26 +41,25 @@ public class HTXX implements Serializable {
 	 */
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "ID")
 	public Integer getID() {
 		return ID;
 	}
 	/**
 	 * @return the htID
 	 */
-	public String getHtID() {
+	public Integer getHtID() {
 		return htID;
 	}
 	/**
 	 * @return the clientID
 	 */
-	public String getClientID() {
+	public Integer getClientID() {
 		return clientID;
 	}
 	/**
 	 * @return the ggxhID
 	 */
-	public String getGgxhID() {
+	public Integer getGgxhID() {
 		return ggxhID;
 	}
 	/**
@@ -72,7 +71,7 @@ public class HTXX implements Serializable {
 	/**
 	 * @return the zcID
 	 */
-	public String getZcID() {
+	public Integer getZcID() {
 		return zcID;
 	}
 	/**
@@ -84,13 +83,13 @@ public class HTXX implements Serializable {
 	/**
 	 * @return the zdqdyID
 	 */
-	public String getZdqdyID() {
+	public Integer getZdqdyID() {
 		return zdqdyID;
 	}
 	/**
 	 * @return the yylggID
 	 */
-	public String getYylggID() {
+	public Integer getYylggID() {
 		return yylggID;
 	}
 	/**
@@ -102,13 +101,13 @@ public class HTXX implements Serializable {
 	/**
 	 * @return the bpqxhID
 	 */
-	public String getBpqxhID() {
+	public Integer getBpqxhID() {
 		return bpqxhID;
 	}
 	/**
 	 * @return the bmqxhID
 	 */
-	public String getBmqxhID() {
+	public Integer getBmqxhID() {
 		return bmqxhID;
 	}
 	/**
@@ -168,19 +167,19 @@ public class HTXX implements Serializable {
 	/**
 	 * @param htID the htID to set
 	 */
-	public void setHtID(String htID) {
+	public void setHtID(Integer htID) {
 		this.htID = htID;
 	}
 	/**
 	 * @param clientID the clientID to set
 	 */
-	public void setClientID(String clientID) {
+	public void setClientID(Integer clientID) {
 		this.clientID = clientID;
 	}
 	/**
 	 * @param ggxhID the ggxhID to set
 	 */
-	public void setGgxhID(String ggxhID) {
+	public void setGgxhID(Integer ggxhID) {
 		this.ggxhID = ggxhID;
 	}
 	/**
@@ -192,7 +191,7 @@ public class HTXX implements Serializable {
 	/**
 	 * @param zcID the zcID to set
 	 */
-	public void setZcID(String zcID) {
+	public void setZcID(Integer zcID) {
 		this.zcID = zcID;
 	}
 	/**
@@ -204,13 +203,13 @@ public class HTXX implements Serializable {
 	/**
 	 * @param zdqdyID the zdqdyID to set
 	 */
-	public void setZdqdyID(String zdqdyID) {
+	public void setZdqdyID(Integer zdqdyID) {
 		this.zdqdyID = zdqdyID;
 	}
 	/**
 	 * @param yylggID the yylggID to set
 	 */
-	public void setYylggID(String yylggID) {
+	public void setYylggID(Integer yylggID) {
 		this.yylggID = yylggID;
 	}
 	/**
@@ -222,13 +221,13 @@ public class HTXX implements Serializable {
 	/**
 	 * @param bpqxhID the bpqxhID to set
 	 */
-	public void setBpqxhID(String bpqxhID) {
+	public void setBpqxhID(Integer bpqxhID) {
 		this.bpqxhID = bpqxhID;
 	}
 	/**
 	 * @param bmqxhID the bmqxhID to set
 	 */
-	public void setBmqxhID(String bmqxhID) {
+	public void setBmqxhID(Integer bmqxhID) {
 		this.bmqxhID = bmqxhID;
 	}
 	/**
@@ -279,5 +278,6 @@ public class HTXX implements Serializable {
 	public void setSftgjhsh(String sftgjhsh) {
 		this.sftgjhsh = sftgjhsh;
 	}
+	
 
 }

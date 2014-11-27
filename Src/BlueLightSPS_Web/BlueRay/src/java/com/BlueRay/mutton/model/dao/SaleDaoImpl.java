@@ -29,7 +29,6 @@ public class SaleDaoImpl implements SaleDao{
 
 	public void insert(HTXX bxx) {
 		entityManager.persist(bxx);
-		
 	}
 
 

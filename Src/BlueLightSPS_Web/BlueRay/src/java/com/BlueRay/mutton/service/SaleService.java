@@ -8,7 +8,7 @@ public interface SaleService{
 
 	boolean update();
 
-	String add(JSONArray ja);
+	String add(JSONArray ja) throws Exception;
 
 	String delete(JSONArray ja);
 }
