@@ -372,6 +372,11 @@ BOOL CSaleAddDlg::OnInitDialog()
 
 void CSaleAddDlg::PostNcDestroy()
 {
+	if (NULL != m_pHttp)
+	{
+		m_pHttp->d_OnSuccess -= std::make_pair(this, &CSaleAddDlg::OnHttpSuccess);
+		m_pHttp->d_OnFailed -= std::make_pair(this, &CSaleAddDlg::OnHttpFailed);
+	}
 	// TODO: Add your specialized code here and/or call the base class
 	CFont* pFont = NULL;
 	for (int i = 0; i < _countof(m_aCombs); ++i)

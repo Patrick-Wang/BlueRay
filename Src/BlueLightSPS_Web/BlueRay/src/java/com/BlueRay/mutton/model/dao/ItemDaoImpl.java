@@ -187,8 +187,8 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public BMQXHFLXX queryBmqxhflxxByValue(String colName, Object val) {
-		Query q = entityManager.createQuery("select t from BMQXHFLXX t where t.:name = :val");
-		q.setParameter("name", colName);
+		Query q = entityManager.createQuery("select t from BMQXHFLXX t where t." + colName + "  = :val");
+		
 		q.setParameter("val", val);
 		List<BMQXHFLXX> list = q.getResultList();
 		if (list != null && !list.isEmpty()){
@@ -198,8 +198,8 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public ZDQDYFLXX queryZdqdyflxxByValue(String colName, Object val) {
-		Query q = entityManager.createQuery("select t from ZDQDYFLXX t where t.:name = :val");
-		q.setParameter("name", colName);
+		Query q = entityManager.createQuery("select t from ZDQDYFLXX t where t." + colName + "  = :val");
+		
 		q.setParameter("val", val);
 		List<ZDQDYFLXX> list = q.getResultList();
 		if (list != null && !list.isEmpty()){
@@ -209,8 +209,8 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public ZCXX queryZcxxByValue(String colName, Object val) {
-		Query q = entityManager.createQuery("select t from ZCXX t where t.:name = :val");
-		q.setParameter("name", colName);
+		Query q = entityManager.createQuery("select t from ZCXX t where t." + colName + "  = :val");
+		
 		q.setParameter("val", val);
 		List<ZCXX> list = q.getResultList();
 		if (list != null && !list.isEmpty()){
@@ -220,8 +220,8 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public YYLGGFLXX queryYylggflxxByValue(String colName, Object val) {
-		Query q = entityManager.createQuery("select t from YYLGGFLXX t where t.:name = :val");
-		q.setParameter("name", colName);
+		Query q = entityManager.createQuery("select t from YYLGGFLXX t where t." + colName + "  = :val");
+		
 		q.setParameter("val", val);
 		List<YYLGGFLXX> list = q.getResultList();
 		if (list != null && !list.isEmpty()){
@@ -232,7 +232,7 @@ public class ItemDaoImpl implements ItemDao{
 
 	public KHXX queryKhxxByValue(String colName, Object val) {
 		Query q = entityManager.createQuery("select t from KHXX t where t." + colName + " = :val");
-		//q.setParameter("name", colName);
+		//
 		q.setParameter("val", val);
 		List<KHXX> list = q.getResultList();
 		if (list != null && !list.isEmpty()){
@@ -242,8 +242,8 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public DDZTB queryDdztbByValue(String colName, Object val) {
-		Query q = entityManager.createQuery("select t from DDZTB t where t.:name = :val");
-		q.setParameter("name", colName);
+		Query q = entityManager.createQuery("select t from DDZTB t where t." + colName + "  = :val");
+		
 		q.setParameter("val", val);
 		List<DDZTB> list = q.getResultList();
 		if (list != null && !list.isEmpty()){
@@ -253,8 +253,8 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public BPQXHFLXX queryBpqxhflxxByValue(String colName, Object val) {
-		Query q = entityManager.createQuery("select t from BPQXHFLXX t where t.:name = :val");
-		q.setParameter("name", colName);
+		Query q = entityManager.createQuery("select t from BPQXHFLXX t where t." + colName + "  = :val");
+		
 		q.setParameter("val", val);
 		List<BPQXHFLXX> list = q.getResultList();
 		if (list != null && !list.isEmpty()){
@@ -264,8 +264,8 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public CPGGXHXX queryCpggxhxxByValue(String colName, Object val) {
-		Query q = entityManager.createQuery("select t from CPGGXHXX t where t.:name = :val");
-		q.setParameter("name", colName);
+		Query q = entityManager.createQuery("select t from CPGGXHXX t where t." + colName + "  = :val");
+		
 		q.setParameter("val", val);
 		List<CPGGXHXX> list = q.getResultList();
 		if (list != null && !list.isEmpty()){
