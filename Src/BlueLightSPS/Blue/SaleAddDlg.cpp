@@ -491,6 +491,7 @@ void CSaleAddDlg::InitCtrlData()
 	{
 		d_GetOption(*this);
 	}
+
 	for (int i = _countof(g_CombPos) - 1; i >= 0; --i)
 	{
 		//m_aCombs[i] = Util::CreateComboBox(this, IDC_COMBO_BASE + i, _T("Microsoft YaHei"), 12);

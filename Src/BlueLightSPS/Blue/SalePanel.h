@@ -16,7 +16,7 @@ public:
 	void OnGridComplete();
 	void OnHttpSuccess(int id, LPCTSTR resp);
 	void OnHttpFailed(int id);
-	void OnSaleDlgGetOption(CSaleAddDlg& dlg);
+	void OnSaleDlgGetModifyOption(CSaleAddDlg& dlg);
 protected:
 	virtual void OnInitChilds();
 	afx_msg void OnBnClickedAdd();

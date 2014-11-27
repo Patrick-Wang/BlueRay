@@ -144,7 +144,7 @@ void CSalePanel::OnBnClickedAdd()
 void CSalePanel::OnBnClickedModify()
 {
 	CSaleAddDlg dlg(_T("ÐÞ¸Ä"));
-	dlg.d_GetOption += std::make_pair(this, &CSalePanel::OnSaleDlgGetOption);
+	dlg.d_GetOption += std::make_pair(this, &CSalePanel::OnSaleDlgGetModifyOption);
 	dlg.InitHttpInstance(m_pHttp);
 	
 	if (IDOK == dlg.DoModal()){
@@ -244,8 +244,8 @@ void CSalePanel::OnBnClickedMore()
 {
 	int iCountShot = 0;
 	CSaleAddDlg dlg(_T("¸ß¼¶ËÑË÷"));
-	std::auto_ptr<CSaleAddDlg::Option_t> pstOpt(new CSaleAddDlg::Option_t());
-	dlg.SetOption(pstOpt.get());
+	dlg.InitHttpInstance(m_pHttp);
+	dlg.SetOption(new CSaleAddDlg::Option_t());
 	if (IDOK == dlg.DoModal()){
 		const std::vector<CString>& searchVals = dlg.GetResult();
 		bool bMatch = true;
@@ -435,7 +435,7 @@ void CSalePanel::OnAddDataSuccess(int id, std::vector<CString>& data)
 	m_pJqGridAPI->AddRow(id, data);
 }
 
-void CSalePanel::OnSaleDlgGetOption(CSaleAddDlg& dlg)
+void CSalePanel::OnSaleDlgGetModifyOption(CSaleAddDlg& dlg)
 {
 	CSaleAddDlg::Option_t* pstOpt = NULL;
 	std::vector<int> checkedRows;
