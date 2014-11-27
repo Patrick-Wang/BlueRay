@@ -247,6 +247,7 @@ void CSalePanel::OnBnClickedSearch()
 
 void CSalePanel::OnBnClickedMore()
 {
+	int iCountShot = 0;
 	CSaleAddDlg dlg(_T("高级搜索"));
 	std::auto_ptr<CSaleAddDlg::Option_t> pstOpt(new CSaleAddDlg::Option_t());
 	dlg.SetOption(pstOpt.get());
@@ -258,7 +259,7 @@ void CSalePanel::OnBnClickedMore()
 			bMatch = true;
 			for (int j = 0; j < searchVals.size(); ++j)
 			{
-				if (!searchVals[j].IsEmpty() && m_table[i].second[j].Compare(searchVals[j]) != 0)
+				if (!searchVals[j].IsEmpty() && m_table[i].second[j].CompareNoCase(searchVals[j]) != 0)
 				{
 					bMatch = false;
 					break;
@@ -272,7 +273,13 @@ void CSalePanel::OnBnClickedMore()
 			else
 			{
 				m_pJqGridAPI->ShowRow(m_table[i].first);
+				iCountShot++;
 			}
+		}
+
+		if (iCountShot == 0)
+		{
+			MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
 		}
 	}
 }

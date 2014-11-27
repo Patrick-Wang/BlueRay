@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "PlanPanel.h"
 #include "PlanAddDlg.h"
+#include "SaleAddDlg.h"
 #include "resource_ids.h"
 #include "Util.h"
 #include "colors.h"
@@ -341,6 +342,41 @@ void CPlanPanel::OnBnClickedSearch()
 
 void CPlanPanel::OnBnClickedMore()
 {
+	int iCountShot = 0;
+	CSaleAddDlg dlg(_T("高级搜索"));
+	std::auto_ptr<CSaleAddDlg::Option_t> pstOpt(new CSaleAddDlg::Option_t());
+	dlg.SetOption(pstOpt.get());
+	if (IDOK == dlg.DoModal()){
+		const std::vector<CString>& searchVals = dlg.GetResult();
+		bool bMatch = true;
+		for (int i = 0; i < m_table.size(); ++i)
+		{
+			bMatch = true;
+			for (int j = 0; j < searchVals.size(); ++j)
+			{
+				if (!searchVals[j].IsEmpty() && m_table[i].second[j].CompareNoCase(searchVals[j]) != 0)
+				{
+					bMatch = false;
+					break;
+				}
+			}
+
+			if (!bMatch)
+			{
+				m_pJqGridAPI->HideRow(m_table[i].first);
+			}
+			else
+			{
+				m_pJqGridAPI->ShowRow(m_table[i].first);
+				iCountShot++;
+			}
+		}
+
+		if (iCountShot == 0)
+		{
+			MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
+		}
+	}
 
 }
 
