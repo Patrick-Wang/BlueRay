@@ -255,6 +255,7 @@ void CJsHttpImpl::AsJson(std::map<CString, StringArrayPtr>& mapAttr, CString& st
 	{
 		strJson += it->first;
 		strJson += _T(":");
+		strTmp.Empty();
 		CJQGridAPI::Join(*(it->second), strTmp);
 		strTmp.Replace(_T(","), _T("\",\""));
 		strJson += _T("[\"") + strTmp + _T("\"]");
@@ -276,6 +277,7 @@ void CJsHttpImpl::AsJson(std::map<CString, IntArrayPtr>& mapAttr, CString& strJs
 	{
 		strJson += it->first;
 		strJson += _T(":");
+		strTmp.Empty();
 		CJQGridAPI::Join(*(it->second), strTmp);
 		strTmp.Replace(_T(","), _T("\",\""));
 		strJson += _T("[\"") + strTmp + _T("\"]");

@@ -143,47 +143,29 @@ void CSalePanel::OnBnClickedAdd()
 
 void CSalePanel::OnBnClickedModify()
 {
-	std::auto_ptr<CSaleAddDlg::Option_t> pstOpt;
 	CSaleAddDlg dlg(_T("ÐÞ¸Ä"));
-	std::vector<int> checkedRows;
-	std::vector<CString>* pRowData = NULL;
-	m_pJqGridAPI->GetCheckedRows(checkedRows);
-
-	for (int i = checkedRows.size() - 1; i >= 0; --i)
-	{
-		pRowData = NULL;
-		for (int j = 0; i < m_table.size(); ++j)
-		{
-			if (m_table[j].first == checkedRows[i])
-			{
-				pRowData = &(m_table[j].second);
-				break;
-			}
-		}
-
-		if (NULL != pRowData)
-		{
-			if (pstOpt.get() == NULL)
-			{
-				pstOpt.reset(new CSaleAddDlg::Option_t(*pRowData));
-			}
-			else
-			{
-				pstOpt->Merge(*pRowData);
-			}
-		}
-	}
-	dlg.SetOption(pstOpt.get());
+	dlg.d_GetOption += std::make_pair(this, &CSalePanel::OnSaleDlgGetOption);
+	dlg.InitHttpInstance(m_pHttp);
+	
 	if (IDOK == dlg.DoModal()){
 		GetParent()->EnableWindow(FALSE);
-		//std::map<CString, std::vector<CString&>> attr;
-		//attr[_T("add")] = m_cacheRow;
-		
-		//CString url;
-		//url.Format(_T("http://%s:8080/BlueRay/sale/modify"), IDS_HOST_NAME);
-		//m_pHttp->Post(url, MODIFY_URL_ID, std::map<CString, CString>(), _T(""));
-
 		m_cacheRow = dlg.GetResult();
+		std::map<CString, StringArrayPtr> attr;
+		StringArray tmpCheckRows;
+		CString strTmp;
+		std::vector<int> checkedRows;
+		m_pJqGridAPI->GetCheckedRows(checkedRows);
+		for (int i = 0; i < checkedRows.size(); ++i)
+		{
+			strTmp.Format(_T("%d"), checkedRows[i]);
+			tmpCheckRows.push_back(strTmp);
+		}
+
+		attr[_T("rows")] = &tmpCheckRows;
+		attr[_T("data")] = &m_cacheRow;
+		CString url;
+		url.Format(_T("http://%s:8080/BlueRay/sale/modify"), IDS_HOST_NAME);
+		m_pHttp->Post(url, MODIFY_URL_ID, attr);
 	}
 }
 
@@ -451,4 +433,39 @@ void CSalePanel::OnAddDataSuccess(int id, std::vector<CString>& data)
 		id,
 		data));
 	m_pJqGridAPI->AddRow(id, data);
+}
+
+void CSalePanel::OnSaleDlgGetOption(CSaleAddDlg& dlg)
+{
+	CSaleAddDlg::Option_t* pstOpt = NULL;
+	std::vector<int> checkedRows;
+	std::vector<CString>* pRowData = NULL;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+
+	for (int i = checkedRows.size() - 1; i >= 0; --i)
+	{
+		pRowData = NULL;
+		for (int j = 0; i < m_table.size(); ++j)
+		{
+			if (m_table[j].first == checkedRows[i])
+			{
+				pRowData = &(m_table[j].second);
+				break;
+			}
+		}
+
+		if (NULL != pRowData)
+		{
+			if (pstOpt == NULL)
+			{
+				pstOpt = new CSaleAddDlg::Option_t(*pRowData);
+			}
+			else
+			{
+				pstOpt->Merge(*pRowData);
+			}
+		}
+	}
+
+	dlg.SetOption(pstOpt);
 }

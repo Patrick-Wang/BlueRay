@@ -37,4 +37,21 @@ public class SaleDaoImpl implements SaleDao{
 		entityManager.remove(entity);
 	}
 
+
+	public void update(HTXX htxx) {
+		entityManager.merge(htxx);
+		
+	}
+
+
+	public HTXX getSaleDataById(int id) {
+		Query q = entityManager.createQuery("select h from HTXX h where h.ID = :id");
+		q.setParameter("id", id);
+		List<HTXX> htxxs = q.getResultList();
+		if (htxxs != null && !htxxs.isEmpty()){
+			return htxxs.get(0);
+		}
+		return null;
+	}
+
 }

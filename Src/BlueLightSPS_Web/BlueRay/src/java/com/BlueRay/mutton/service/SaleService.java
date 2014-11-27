@@ -11,4 +11,6 @@ public interface SaleService{
 	String add(JSONArray ja) throws Exception;
 
 	String delete(JSONArray ja);
+
+	String update(JSONArray rows, JSONArray data);
 }

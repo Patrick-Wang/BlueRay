@@ -204,12 +204,12 @@ public:
 	void OnHttpFailed(int id);
 	static const std::vector<std::vector<CString>>& GetDropList();
 	void InitHttpInstance(IHttp* pHttp);
-
+	CDelegate<void(CSaleAddDlg&)> d_GetOption;
 protected:
 	virtual void OnOKClicked();
 	void InitCtrlData();
 private:
-	Option_t* m_lpOption;
+	std::auto_ptr<Option_t> m_lpOption;
 	static std::vector<std::vector<CString>> m_DropList;
 	static int m_iRef;
 	CBSStatic* m_aStatics[StaticId::Static_END];

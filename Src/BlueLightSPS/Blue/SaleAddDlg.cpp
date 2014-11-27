@@ -477,7 +477,7 @@ void CSaleAddDlg::OnOKClicked()
 
 void CSaleAddDlg::SetOption(Option_t* lpOpt)
 {
-	m_lpOption = lpOpt;
+	m_lpOption.reset(lpOpt);
 }
 
 const std::vector<std::vector<CString>>& CSaleAddDlg::GetDropList()
@@ -487,7 +487,10 @@ const std::vector<std::vector<CString>>& CSaleAddDlg::GetDropList()
 
 void CSaleAddDlg::InitCtrlData()
 {
-
+	if (NULL == m_lpOption.get())
+	{
+		d_GetOption(*this);
+	}
 	for (int i = _countof(g_CombPos) - 1; i >= 0; --i)
 	{
 		//m_aCombs[i] = Util::CreateComboBox(this, IDC_COMBO_BASE + i, _T("Microsoft YaHei"), 12);
@@ -498,7 +501,7 @@ void CSaleAddDlg::InitCtrlData()
 		}
 	}
 
-	if (NULL != m_lpOption)
+	if (NULL != m_lpOption.get())
 	{
 		init(m_aEdits[EditId::Edit_HTH], m_lpOption->htbh);
 		init(m_aEdits[EditId::Edit_SL], m_lpOption->sl);

@@ -4,6 +4,7 @@
 #include "BSStatic.h"
 #include "JQGridAPI.h"
 #include "IHttp.h"
+#include "SaleAddDlg.h"
 class CSalePanel :
 	public CControlPanel
 {
@@ -15,7 +16,7 @@ public:
 	void OnGridComplete();
 	void OnHttpSuccess(int id, LPCTSTR resp);
 	void OnHttpFailed(int id);
-
+	void OnSaleDlgGetOption(CSaleAddDlg& dlg);
 protected:
 	virtual void OnInitChilds();
 	afx_msg void OnBnClickedAdd();

@@ -96,4 +96,20 @@ public class SaleController {
 		JSONArray ja = JSONArray.fromObject(jo.get("del"));
 		return service.delete(ja);
 	}
+	
+	@RequestMapping(value = "/modify", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String modifySaleData(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				request.getInputStream()));
+		String line = null;
+		StringBuilder sb = new StringBuilder();
+		while ((line = br.readLine()) != null) {
+			sb.append(line);
+		}
+		JSONObject jo = JSONObject.fromObject(sb.toString());
+		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
+		JSONArray data = JSONArray.fromObject(jo.get("data"));
+		return service.update(rows, data);
+	}
 }
