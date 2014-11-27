@@ -215,18 +215,18 @@ void CSaleAddDlg::OnHttpSuccess(int id, LPCTSTR resp)
 	case QUERY_COMBO_VALUE_ZC_URL_ID:	  
 		OnLoadComboDataSuccess(Comb_ZC, CString(resp));
 		break;
-	case QUERY_COMBO_VALUE_DFR_URL_ID:	  
-		OnLoadComboDataSuccess(Comb_DFR, CString(resp));
-		break;
+	//case QUERY_COMBO_VALUE_DFR_URL_ID:	  
+	//	OnLoadComboDataSuccess(Comb_DFR, CString(resp));
+	//	break;
 	case QUERY_COMBO_VALUE_ZDQDY_URL_ID:  
 		OnLoadComboDataSuccess(Comb_ZDQDY, CString(resp));
 		break;
 	case QUERY_COMBO_VALUE_YYLGG_URL_ID:  
 		OnLoadComboDataSuccess(Comb_YYLGG, CString(resp));
 		break;
-	case QUERY_COMBO_VALUE_JF_URL_ID:	  
-		OnLoadComboDataSuccess(Comb_JF, CString(resp));
-		break;
+	//case QUERY_COMBO_VALUE_JF_URL_ID:	  
+	//	OnLoadComboDataSuccess(Comb_JF, CString(resp));
+	//	break;
 	case QUERY_COMBO_VALUE_BPQXH_URL_ID:  
 		OnLoadComboDataSuccess(Comb_BPQXH, CString(resp));
 		break;
@@ -249,10 +249,10 @@ void CSaleAddDlg::OnHttpFailed(int id)
 	case QUERY_COMBO_VALUE_KHMC_URL_ID:
 	case QUERY_COMBO_VALUE_GGBH_URL_ID:
 	case QUERY_COMBO_VALUE_ZC_URL_ID:
-	case QUERY_COMBO_VALUE_DFR_URL_ID:
+	//case QUERY_COMBO_VALUE_DFR_URL_ID:
 	case QUERY_COMBO_VALUE_ZDQDY_URL_ID:
 	case QUERY_COMBO_VALUE_YYLGG_URL_ID:
-	case QUERY_COMBO_VALUE_JF_URL_ID:
+	//case QUERY_COMBO_VALUE_JF_URL_ID:
 	case QUERY_COMBO_VALUE_BPQXH_URL_ID:
 	case QUERY_COMBO_VALUE_BMQXH_URL_ID:
 	case QUERY_COMBO_VALUE_MPZL_URL_ID:
