@@ -120,17 +120,23 @@ inline void init(CComboBox* comb, int val){
 	}
 }
 
-CSaleAddDlg::CSaleAddDlg(LPCTSTR title, CWnd* pParent /*= NULL*/)
+CSaleAddDlg::CSaleAddDlg(LPCTSTR title, IHttp* pHttp, CWnd* pParent /*= NULL*/)
 	: CAddDlg(title, pParent)
 	, m_lpOption(NULL)
 	, m_pHttp(NULL)
 {
-
+	InitHttpInstance(pHttp);
 }
+
+
 
 CSaleAddDlg::~CSaleAddDlg()
 {
-
+	if (NULL != m_pHttp)
+	{
+		m_pHttp->d_OnSuccess -= std::make_pair(this, &CSaleAddDlg::OnHttpSuccess);
+		m_pHttp->d_OnFailed -= std::make_pair(this, &CSaleAddDlg::OnHttpFailed);
+	}
 }
 
 void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
@@ -372,11 +378,6 @@ BOOL CSaleAddDlg::OnInitDialog()
 
 void CSaleAddDlg::PostNcDestroy()
 {
-	if (NULL != m_pHttp)
-	{
-		m_pHttp->d_OnSuccess -= std::make_pair(this, &CSaleAddDlg::OnHttpSuccess);
-		m_pHttp->d_OnFailed -= std::make_pair(this, &CSaleAddDlg::OnHttpFailed);
-	}
 	// TODO: Add your specialized code here and/or call the base class
 	CFont* pFont = NULL;
 	for (int i = 0; i < _countof(m_aCombs); ++i)

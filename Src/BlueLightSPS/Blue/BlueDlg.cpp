@@ -143,7 +143,7 @@ void CBlueDlg::OnGridDataLoaded()
 	m_pPanelMap[IDC_SALEPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 	m_pPanelMap[IDC_SALEPAGE]->ShowWindow(SW_SHOW);
 
-	m_pPanelMap[IDC_PLANPAGE].reset(new CPlanPanel(m_pJqGridAPI.get()));
+	m_pPanelMap[IDC_PLANPAGE].reset(new CPlanPanel(m_pJqGridAPI.get(), m_pHttp.get()));
 	m_pPanelMap[IDC_PLANPAGE]->Create(this, IDP_PLAN);
 	m_pPanelMap[IDC_PLANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 

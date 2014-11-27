@@ -17,7 +17,7 @@ BEGIN_MESSAGE_MAP(CPlanPanel, CControlPanel)
 	ON_WM_SHOWWINDOW()
 END_MESSAGE_MAP()
 
-CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI)
+CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
 	: m_pJqGridAPI(pJqGridAPI),
 		m_btnPlan(NULL),
 		m_btnModify(NULL),
@@ -27,7 +27,8 @@ CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI)
 		m_bsMoreWord(NULL),
 		m_editSearch(NULL),
 		m_staticProductionStatus(NULL),
-		m_comboProductionStatus(NULL)
+		m_comboProductionStatus(NULL),
+		m_pHttp(pHttp)
 {
 	m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CPlanPanel::OnRowChecked);
 	m_table.resize(13);
@@ -343,9 +344,9 @@ void CPlanPanel::OnBnClickedSearch()
 void CPlanPanel::OnBnClickedMore()
 {
 	int iCountShot = 0;
-	CSaleAddDlg dlg(_T("高级搜索"));
-	std::auto_ptr<CSaleAddDlg::Option_t> pstOpt(new CSaleAddDlg::Option_t());
-	dlg.SetOption(pstOpt.get());
+	CSaleAddDlg dlg(_T("高级搜索"), m_pHttp);
+	CSaleAddDlg::Option_t* pstOpt(new CSaleAddDlg::Option_t());
+	dlg.SetOption(pstOpt);
 	if (IDOK == dlg.DoModal()){
 		const std::vector<CString>& searchVals = dlg.GetResult();
 		bool bMatch = true;

@@ -3,11 +3,12 @@
 #include "BRButton.h"
 #include "BSStatic.h"
 #include "JQGridAPI.h"
+#include "IHttp.h"
 class CPlanPanel :
 	public CControlPanel
 {
 public:
-	CPlanPanel(CJQGridAPI* pJqGridAPI);
+	CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp);
 	~CPlanPanel();
 
 	void OnRowChecked();
@@ -35,7 +36,7 @@ private:
 	CEdit* m_editSearch;
 	CBSStatic* m_staticProductionStatus;
 	CComboBox* m_comboProductionStatus;
-
+	IHttp* m_pHttp;
 	DECLARE_MESSAGE_MAP()
 
 public:

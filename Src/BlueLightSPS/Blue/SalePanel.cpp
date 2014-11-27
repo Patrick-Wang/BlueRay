@@ -127,8 +127,7 @@ void CSalePanel::OnInitChilds()
 
 void CSalePanel::OnBnClickedAdd()
 {
-	CSaleAddDlg dlg(_T("添加"));
-	dlg.InitHttpInstance(m_pHttp);
+	CSaleAddDlg dlg(_T("添加"), m_pHttp);
 	if (IDOK == dlg.DoModal()){
 		GetParent()->EnableWindow(FALSE);
 		m_cacheRow = dlg.GetResult();
@@ -143,9 +142,8 @@ void CSalePanel::OnBnClickedAdd()
 
 void CSalePanel::OnBnClickedModify()
 {
-	CSaleAddDlg dlg(_T("修改"));
+	CSaleAddDlg dlg(_T("修改"), m_pHttp);
 	dlg.d_GetOption += std::make_pair(this, &CSalePanel::OnSaleDlgGetModifyOption);
-	dlg.InitHttpInstance(m_pHttp);
 	
 	if (IDOK == dlg.DoModal()){
 		GetParent()->EnableWindow(FALSE);
@@ -243,8 +241,8 @@ void CSalePanel::OnBnClickedSearch()
 void CSalePanel::OnBnClickedMore()
 {
 	int iCountShot = 0;
-	CSaleAddDlg dlg(_T("高级搜索"));
-	dlg.InitHttpInstance(m_pHttp);
+	CSaleAddDlg dlg(_T("高级搜索"), m_pHttp);
+
 	dlg.SetOption(new CSaleAddDlg::Option_t());
 	if (IDOK == dlg.DoModal()){
 		const std::vector<CString>& searchVals = dlg.GetResult();

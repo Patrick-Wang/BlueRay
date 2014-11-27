@@ -159,7 +159,7 @@ public:
 	}Option_t;
 
 
-	CSaleAddDlg(LPCTSTR title, CWnd* pParent = NULL);
+	CSaleAddDlg(LPCTSTR title, IHttp* pHttp, CWnd* pParent = NULL);
 	~CSaleAddDlg();
 	void SetOption(Option_t* lpOpt);
 
@@ -203,9 +203,9 @@ public:
 	void OnHttpSuccess(int id, LPCTSTR resp);
 	void OnHttpFailed(int id);
 	static const std::vector<std::vector<CString>>& GetDropList();
-	void InitHttpInstance(IHttp* pHttp);
 	CDelegate<void(CSaleAddDlg&)> d_GetOption;
 protected:
+	void InitHttpInstance(IHttp* pHttp);
 	virtual void OnOKClicked();
 	void InitCtrlData();
 private:
