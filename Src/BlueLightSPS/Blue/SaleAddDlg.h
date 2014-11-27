@@ -1,6 +1,9 @@
 #pragma once
 #include "AddDlg.h"
 #include "UILib/BSStatic.h"
+#include "IHttp.h"
+
+
 #define OPT_FALSE _T("-1")
 #define OPT_FALSE_INT -1
 #define do_get(data, it, dest) \
@@ -197,9 +200,14 @@ private:
 
 public:
 	virtual BOOL OnInitDialog();
+	void OnHttpSuccess(int id, LPCTSTR resp);
+	void OnHttpFailed(int id);
 	static const std::vector<std::vector<CString>>& GetDropList();
+	void InitHttpInstance(IHttp* pHttp);
+
 protected:
 	virtual void OnOKClicked();
+
 private:
 	Option_t* m_lpOption;
 	static std::vector<std::vector<CString>> m_DropList;
@@ -208,6 +216,10 @@ private:
 	CEdit* m_aEdits[EditId::Edit_END];
 	CDateTimeCtrl* m_aDatePickers[DatePickerId::DatePicker_END];
 	
+	IHttp* m_pHttp;
+
+private:
 	virtual void PostNcDestroy();
+	void OnLoadComboDataSuccess(int id, CString strValList);
 };
 

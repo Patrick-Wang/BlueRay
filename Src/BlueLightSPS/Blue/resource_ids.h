@@ -40,6 +40,7 @@
 #define IDC_PLAN_ADD_Control_BASE	11300
 
 //panels
-#define IDP_SALE	20001
-#define IDP_PLAN	20002
-#define IDP_PRODUCT	20003
+#define IDP_SALE	20100
+#define IDP_SALE_ADD	20200
+#define IDP_PLAN	20300
+#define IDP_PRODUCT	20400

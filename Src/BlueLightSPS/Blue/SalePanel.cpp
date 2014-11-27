@@ -120,18 +120,19 @@ void CSalePanel::OnInitChilds()
 	m_btnDelete.EnableWindow(FALSE);
 	m_btnModify.EnableWindow(FALSE);
 
-	m_pHttp->Get(_T("http://localhost:8080/BlueRay/sale/query"), QUERY_URL_ID);
+	m_pHttp->Get(_T("http://10.1.4.107:8080/BlueRay/sale/query"), QUERY_URL_ID);
 	GetParent()->EnableWindow(FALSE);
 }
 void CSalePanel::OnBnClickedAdd()
 {
 	CSaleAddDlg dlg(_T("Ìí¼Ó"));
+	dlg.InitHttpInstance(m_pHttp);
 	if (IDOK == dlg.DoModal()){
 		GetParent()->EnableWindow(FALSE);
 		m_cacheRow = dlg.GetResult();
 		std::map<CString, StringArrayPtr> attr;
 		attr[_T("add")] = &m_cacheRow;
-		m_pHttp->Post(_T("http://localhost:8080/BlueRay/sale/add"), ADD_URL_ID, attr);
+		m_pHttp->Post(_T("http://10.1.4.107:8080/BlueRay/sale/add"), ADD_URL_ID, attr);
 	}
 }
 
@@ -172,7 +173,7 @@ void CSalePanel::OnBnClickedModify()
 		GetParent()->EnableWindow(FALSE);
 		//std::map<CString, std::vector<CString&>> attr;
 		//attr[_T("add")] = m_cacheRow;
-		//m_pHttp->Post(_T("http://localhost:8080/BlueRay/sale/modify"), MODIFY_URL_ID, std::map<CString, CString>(), _T(""));
+		//m_pHttp->Post(_T("http://10.1.4.107:8080/BlueRay/sale/modify"), MODIFY_URL_ID, std::map<CString, CString>(), _T(""));
 		m_cacheRow = dlg.GetResult();
 	}
 }
@@ -186,7 +187,7 @@ void CSalePanel::OnBnClickedDelete()
 		GetParent()->EnableWindow(FALSE);
 		std::map<CString, IntArrayPtr> attr;
 		attr[_T("del")] = &checkedRows;
-		m_pHttp->Post(_T("http://localhost:8080/BlueRay/sale/delete"), DEL_URL_ID, attr);
+		m_pHttp->Post(_T("http://10.1.4.107:8080/BlueRay/sale/delete"), DEL_URL_ID, attr);
 	}
 }
 

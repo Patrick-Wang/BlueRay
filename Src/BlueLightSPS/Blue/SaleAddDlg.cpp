@@ -2,49 +2,23 @@
 #include "SaleAddDlg.h"
 #include "resource_ids.h"
 #include "Util.h"
+#include "JQGridAPI.h"
 
 #define IDC_EDIT_BASE (IDC_SALE_ADD_Control_BASE)
 #define IDC_COMBO_BASE (IDC_SALE_ADD_Control_BASE + 10)
 #define IDC_STATIC_BASE (IDC_COMBO_BASE + 20)
 #define IDC_DATETIME_BASE (IDC_STATIC_BASE + 10)
 
-inline void init(CEdit* edit, CString& val){
-	if (val != OPT_FALSE)
-	{
-		edit->SetWindowText(val);
-	}
-}
-
-inline void init(CDateTimeCtrl* dateTime, CString& val){
-	if (val != OPT_FALSE)
-	{
-		COleVariant VariantTime;
-		VariantTime = val;
-		VariantTime.ChangeType(VT_DATE);
-		COleDateTime DataTime = VariantTime;
-
-		dateTime->SetTime(DataTime);
-	}
-}
-
-inline void init(CComboBox* comb, int val){
-	if (val != OPT_FALSE_INT)
-	{
-		comb->SetCurSel(val);
-	}
-}
-
-CSaleAddDlg::CSaleAddDlg(LPCTSTR title, CWnd* pParent /*= NULL*/)
-	: CAddDlg(title, pParent)
-	, m_lpOption(NULL)
-{
-
-}
-
-
-CSaleAddDlg::~CSaleAddDlg()
-{
-}
+#define QUERY_COMBO_VALUE_KHMC_URL_ID		IDP_SALE_ADD + 1
+#define QUERY_COMBO_VALUE_GGBH_URL_ID		IDP_SALE_ADD + 2
+#define QUERY_COMBO_VALUE_ZC_URL_ID			IDP_SALE_ADD + 3
+#define QUERY_COMBO_VALUE_DFR_URL_ID		IDP_SALE_ADD + 4
+#define QUERY_COMBO_VALUE_ZDQDY_URL_ID		IDP_SALE_ADD + 5
+#define QUERY_COMBO_VALUE_YYLGG_URL_ID		IDP_SALE_ADD + 6
+#define QUERY_COMBO_VALUE_JF_URL_ID			IDP_SALE_ADD + 7
+#define QUERY_COMBO_VALUE_BPQXH_URL_ID		IDP_SALE_ADD + 8
+#define QUERY_COMBO_VALUE_BMQXH_URL_ID		IDP_SALE_ADD + 9
+#define QUERY_COMBO_VALUE_MPZL_URL_ID		IDP_SALE_ADD + 10
 
 
 static LPCTSTR g_StaticItems[][1] = { //0: default text
@@ -83,7 +57,7 @@ static int g_StaticPos[][4] = {
 		{ 100 * 1 + 100 * 1, 40 * 4, 100, 20 }, //Static_MPZL,
 		{ 100 * 2 + 100 * 2, 40 * 4, 100, 20 }, //Static_DDRQ,
 		{ 100 * 3 + 100 * 3, 40 * 4, 100, 20 }  //Static_BZ,
-};											   
+};
 
 static int g_CombPos[][4] = {
 		{ 100 * 2 + 100 * 1, 40 * 1, 100, 20 }, //Comb_KHMC,
@@ -109,10 +83,10 @@ static int g_EditsPos[][4] = {
 		{ 100 * 1 + 100 * 0, 40 * 4, 100, 20 }, //Edit_ZXCD,
 		//{ 100 * 3 + 100 * 2, 40 * 4, 100, 20 }, //Edit_DDRQ,
 		{ 100 * 4 + 100 * 3, 40 * 4, 100, 20 }, //Edit_BZ,
-};										
+};
 
 static LPCTSTR g_EditItems[][1] = { //0: default text
-		{ _T("合同号") }, 
+		{ _T("合同号") },
 		{ _T("数量") },
 		{ _T("电缆长度") },
 		{ _T("闸线长度") },
@@ -120,11 +94,207 @@ static LPCTSTR g_EditItems[][1] = { //0: default text
 		{ _T("备注") }
 };
 
+inline void init(CEdit* edit, CString& val){
+	if (val != OPT_FALSE)
+	{
+		edit->SetWindowText(val);
+	}
+}
+
+inline void init(CDateTimeCtrl* dateTime, CString& val){
+	if (val != OPT_FALSE)
+	{
+		COleVariant VariantTime;
+		VariantTime = val;
+		VariantTime.ChangeType(VT_DATE);
+		COleDateTime DataTime = VariantTime;
+
+		dateTime->SetTime(DataTime);
+	}
+}
+
+inline void init(CComboBox* comb, int val){
+	if (val != OPT_FALSE_INT)
+	{
+		comb->SetCurSel(val);
+	}
+}
+
+CSaleAddDlg::CSaleAddDlg(LPCTSTR title, CWnd* pParent /*= NULL*/)
+	: CAddDlg(title, pParent)
+	, m_lpOption(NULL)
+	, m_pHttp(NULL)
+{
+
+}
+
+CSaleAddDlg::~CSaleAddDlg()
+{
+
+}
+
+void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
+{
+	if (NULL != pHttp)
+	{
+		m_pHttp = pHttp;
+
+		m_pHttp->d_OnSuccess += std::make_pair(this, &CSaleAddDlg::OnHttpSuccess);
+		m_pHttp->d_OnFailed += std::make_pair(this, &CSaleAddDlg::OnHttpFailed);
+	
+		if (m_DropList.empty())
+		{
+			m_DropList.resize(CombId::Comb_END);
+
+			//客户名称
+			//m_DropList[Comb_KHMC].push_back(_T("浙江怡达")); 
+			//m_DropList[Comb_KHMC].push_back(_T("中原智能"));
+			//m_DropList[Comb_KHMC].push_back(_T("恒达富士"));
+			//m_DropList[Comb_KHMC].push_back(_T("天津奥斯达"));
+			//m_DropList[Comb_KHMC].push_back(_T("预投"));
+
+			m_pHttp->Get(_T("http://10.1.4.107:8080/BlueRay/itemquery/khxx"), QUERY_COMBO_VALUE_KHMC_URL_ID);
+
+			//规格型号
+			//m_DropList[Comb_GGBH].push_back(_T("U1.0ES-H"));
+			//m_DropList[Comb_GGBH].push_back(_T("S1.6C-H"));
+			//m_DropList[Comb_GGBH].push_back(_T("TA1.5C-H"));
+			//m_DropList[Comb_GGBH].push_back(_T("TA1.0CZ - H"));
+
+			m_pHttp->Get(_T("http://10.1.4.107:8080/BlueRay/itemquery/cpggxhxx"), QUERY_COMBO_VALUE_GGBH_URL_ID);
+
+			//轴承
+			//m_DropList[Comb_ZC].push_back(_T("BNN"));
+			//m_DropList[Comb_ZC].push_back(_T("RC"));
+
+			m_pHttp->Get(_T("http://10.1.4.107:8080/BlueRay/itemquery/zcxx"), QUERY_COMBO_VALUE_ZC_URL_ID);
+
+			//单复绕
+			m_DropList[Comb_DFR].push_back(_T("是"));
+			m_DropList[Comb_DFR].push_back(_T("否"));
+
+			//制动器电压
+			//m_DropList[Comb_ZDQDY].push_back(_T("DC110V"));
+			//m_DropList[Comb_ZDQDY].push_back(_T("AC220V"));
+			//m_DropList[Comb_ZDQDY].push_back(_T("DC220V"));
+
+			m_pHttp->Get(_T("http://10.1.4.107:8080/BlueRay/itemquery/zdqdyflxx"), QUERY_COMBO_VALUE_ZDQDY_URL_ID);
+
+			//曳引轮规格
+			//m_DropList[Comb_YYLGG].push_back(_T("480 * 6 * 12 * 18"));
+			//m_DropList[Comb_YYLGG].push_back(_T("400 * 5 * 10 * 16"));
+			//m_DropList[Comb_YYLGG].push_back(_T("325 * 5 * 8 * 12")); 
+			//m_DropList[Comb_YYLGG].push_back(_T("400 * 5 * 10 * 16 - 2(SB)"));
+
+			m_pHttp->Get(_T("http://10.1.4.107:8080/BlueRay/itemquery/yylggflxx"), QUERY_COMBO_VALUE_YYLGG_URL_ID);
+
+			//机房
+			m_DropList[Comb_JF].push_back(_T("有"));
+			m_DropList[Comb_JF].push_back(_T("无"));
+
+			//变频器型号
+			//m_DropList[Comb_BPQXH].push_back(_T("富士"));
+			//m_DropList[Comb_BPQXH].push_back(_T("默纳克"));
+			//m_DropList[Comb_BPQXH].push_back(_T("CV"));
+			//m_DropList[Comb_BPQXH].push_back(_T("蓝光一体化"));
+
+			m_pHttp->Get(_T("http://10.1.4.107:8080/BlueRay/itemquery/bpqxhflxx"), QUERY_COMBO_VALUE_BPQXH_URL_ID);
+
+			//编码器型号
+			//m_DropList[Comb_BMQXH].push_back(_T("海1387"));
+			//m_DropList[Comb_BMQXH].push_back(_T("其他"));
+
+			m_pHttp->Get(_T("http://10.1.4.107:8080/BlueRay/itemquery/bmqxhflxx"), QUERY_COMBO_VALUE_BMQXH_URL_ID);
+
+			//铭牌等资料
+			m_DropList[Comb_MPZL].push_back(_T("蓝光英文铭牌"));
+			m_DropList[Comb_MPZL].push_back(_T("蓝光铭牌"));
+			m_DropList[Comb_MPZL].push_back(_T("蓝光英文西门子监制"));
+			m_DropList[Comb_MPZL].push_back(_T("主机用西德英文铭牌，制动器和上行超速铭牌用蓝光英文"));
+
+			//m_pHttp->Get(_T("http://10.1.4.107:8080/BlueRay/itemquery/"), QUERY_COMBO_VALUE_MPZL_URL_ID);
+		}
+	}
+}
+
+void CSaleAddDlg::OnHttpSuccess(int id, LPCTSTR resp)
+{
+	GetParent()->EnableWindow(TRUE);
+
+	switch (id)
+	{
+	case QUERY_COMBO_VALUE_KHMC_URL_ID:
+		OnLoadComboDataSuccess(Comb_KHMC, CString(resp));
+		break;
+	case QUERY_COMBO_VALUE_GGBH_URL_ID:	  
+		OnLoadComboDataSuccess(Comb_GGBH, CString(resp));
+		break;
+	case QUERY_COMBO_VALUE_ZC_URL_ID:	  
+		OnLoadComboDataSuccess(Comb_ZC, CString(resp));
+		break;
+	case QUERY_COMBO_VALUE_DFR_URL_ID:	  
+		OnLoadComboDataSuccess(Comb_DFR, CString(resp));
+		break;
+	case QUERY_COMBO_VALUE_ZDQDY_URL_ID:  
+		OnLoadComboDataSuccess(Comb_ZDQDY, CString(resp));
+		break;
+	case QUERY_COMBO_VALUE_YYLGG_URL_ID:  
+		OnLoadComboDataSuccess(Comb_YYLGG, CString(resp));
+		break;
+	case QUERY_COMBO_VALUE_JF_URL_ID:	  
+		OnLoadComboDataSuccess(Comb_JF, CString(resp));
+		break;
+	case QUERY_COMBO_VALUE_BPQXH_URL_ID:  
+		OnLoadComboDataSuccess(Comb_BPQXH, CString(resp));
+		break;
+	case QUERY_COMBO_VALUE_BMQXH_URL_ID:  
+		OnLoadComboDataSuccess(Comb_BMQXH, CString(resp));
+		break;
+	case QUERY_COMBO_VALUE_MPZL_URL_ID:	  
+		OnLoadComboDataSuccess(Comb_MPZL, CString(resp));
+		break;
+	default:
+		break;
+	}
+}
+
+void CSaleAddDlg::OnHttpFailed(int id)
+{
+	GetParent()->EnableWindow(TRUE);
+	switch (id)
+	{
+	case QUERY_COMBO_VALUE_KHMC_URL_ID:
+	case QUERY_COMBO_VALUE_GGBH_URL_ID:
+	case QUERY_COMBO_VALUE_ZC_URL_ID:
+	case QUERY_COMBO_VALUE_DFR_URL_ID:
+	case QUERY_COMBO_VALUE_ZDQDY_URL_ID:
+	case QUERY_COMBO_VALUE_YYLGG_URL_ID:
+	case QUERY_COMBO_VALUE_JF_URL_ID:
+	case QUERY_COMBO_VALUE_BPQXH_URL_ID:
+	case QUERY_COMBO_VALUE_BMQXH_URL_ID:
+	case QUERY_COMBO_VALUE_MPZL_URL_ID:
+		break;
+	default:
+		break;
+	}
+}
+
+void CSaleAddDlg::OnLoadComboDataSuccess(int id, CString strValList)
+{
+	std::vector<CString> vec;
+	CJQGridAPI::Split(strValList, _T(','), vec);
+
+	for (int i = 0; i < vec.size(); i++)
+	{
+		m_DropList[id].push_back(vec[i]);
+	}
+}
 
 BOOL CSaleAddDlg::OnInitDialog()
 {
 	CAddDlg::OnInitDialog();
 	CenterWindow();
+
 	//init comb
 	for (int i = _countof(g_CombPos) - 1; i >= 0; --i)
 	{
@@ -160,7 +330,6 @@ BOOL CSaleAddDlg::OnInitDialog()
 
 	if (NULL != m_lpOption)
 	{
-
 		init(m_aEdits[EditId::Edit_HTH], m_lpOption->htbh);
 		init(m_aEdits[EditId::Edit_SL], m_lpOption->sl);
 		init(m_aEdits[EditId::Edit_DLCD], m_lpOption->dlcd);
@@ -307,69 +476,6 @@ void CSaleAddDlg::SetOption(Option_t* lpOpt)
 
 const std::vector<std::vector<CString>>& CSaleAddDlg::GetDropList()
 {
-	if (m_DropList.empty())
-	{
-		m_DropList.resize(CombId::Comb_END);
-
-		//客户名称
-		m_DropList[Comb_KHMC].push_back(_T("浙江怡达")); 
-		m_DropList[Comb_KHMC].push_back(_T("中原智能"));
-		m_DropList[Comb_KHMC].push_back(_T("恒达富士"));
-		m_DropList[Comb_KHMC].push_back(_T("天津奥斯达"));
-		m_DropList[Comb_KHMC].push_back(_T("预投"));
-
-		//规格型号
-		m_DropList[Comb_GGBH].push_back(_T("U1.0ES-H"));
-		m_DropList[Comb_GGBH].push_back(_T("S1.6C-H"));
-		m_DropList[Comb_GGBH].push_back(_T("TA1.5C-H"));
-		m_DropList[Comb_GGBH].push_back(_T("TA1.0CZ - H"));
-
-		//轴承
-		m_DropList[Comb_ZC].push_back(_T("BNN"));
-		m_DropList[Comb_ZC].push_back(_T("RC"));
-
-		//单复绕
-		m_DropList[Comb_DFR].push_back(_T("是"));
-		m_DropList[Comb_DFR].push_back(_T("否"));
-
-		//制动器电压
-		m_DropList[Comb_ZDQDY].push_back(_T("DC110V"));
-		m_DropList[Comb_ZDQDY].push_back(_T("AC220V"));
-		m_DropList[Comb_ZDQDY].push_back(_T("DC220V"));
-
-		//曳引轮规格
-		m_DropList[Comb_YYLGG].push_back(_T("480 * 6 * 12 * 18"));
-		m_DropList[Comb_YYLGG].push_back(_T("400 * 5 * 10 * 16"));
-		m_DropList[Comb_YYLGG].push_back(_T("325 * 5 * 8 * 12")); 
-		m_DropList[Comb_YYLGG].push_back(_T("400 * 5 * 10 * 16 - 2(SB)"));
-
-		//机房
-		m_DropList[Comb_JF].push_back(_T("有"));
-		m_DropList[Comb_JF].push_back(_T("无"));
-
-		//变频器型号
-		m_DropList[Comb_BPQXH].push_back(_T("富士"));
-		m_DropList[Comb_BPQXH].push_back(_T("默纳克"));
-		m_DropList[Comb_BPQXH].push_back(_T("CV"));
-		m_DropList[Comb_BPQXH].push_back(_T("蓝光一体化"));
-
-		//编码器型号
-		m_DropList[Comb_BMQXH].push_back(_T("海1387"));
-		m_DropList[Comb_BMQXH].push_back(_T("其他"));
-
-		//铭牌等资料
-		m_DropList[Comb_MPZL].push_back(_T("蓝光英文铭牌"));
-		m_DropList[Comb_MPZL].push_back(_T("蓝光铭牌"));
-		m_DropList[Comb_MPZL].push_back(_T("蓝光英文西门子监制"));
-		m_DropList[Comb_MPZL].push_back(_T("主机用西德英文铭牌，制动器和上行超速铭牌用蓝光英文"));
-
-		//电缆长度
-		//m_DropList[Comb_DLCD].push_back(_T("0"));
-
-		//闸线长度
-		//m_DropList[Comb_ZXCD].push_back(_T("0"));
-
-	}
 	return m_DropList;
 }
 
