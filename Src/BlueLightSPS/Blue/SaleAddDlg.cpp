@@ -156,7 +156,7 @@ void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
 			CString url;
 			url.Format(_T("http://%s:8080/BlueRay/itemquery/khxx"), IDS_HOST_NAME);
 			m_pHttp->Get(url, QUERY_COMBO_VALUE_KHMC_URL_ID);
-
+			++m_iRef;
 			//规格型号
 			//m_DropList[Comb_GGBH].push_back(_T("U1.0ES-H"));
 			//m_DropList[Comb_GGBH].push_back(_T("S1.6C-H"));
@@ -165,14 +165,14 @@ void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
 
 			url.Format(_T("http://%s:8080/BlueRay/itemquery/cpggxhxx"), IDS_HOST_NAME);
 			m_pHttp->Get(url, QUERY_COMBO_VALUE_GGBH_URL_ID);
-
+			++m_iRef;
 			//轴承
 			//m_DropList[Comb_ZC].push_back(_T("BNN"));
 			//m_DropList[Comb_ZC].push_back(_T("RC"));
 
 			url.Format(_T("http://%s:8080/BlueRay/itemquery/zcxx"), IDS_HOST_NAME);
 			m_pHttp->Get(url, QUERY_COMBO_VALUE_ZC_URL_ID);
-
+			++m_iRef;
 			//单复绕
 			m_DropList[Comb_DFR].push_back(_T("是"));
 			m_DropList[Comb_DFR].push_back(_T("否"));
@@ -184,7 +184,7 @@ void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
 
 			url.Format(_T("http://%s:8080/BlueRay/itemquery/zdqdyflxx"), IDS_HOST_NAME);
 			m_pHttp->Get(url, QUERY_COMBO_VALUE_ZDQDY_URL_ID);
-
+			++m_iRef;
 			//曳引轮规格
 			//m_DropList[Comb_YYLGG].push_back(_T("480 * 6 * 12 * 18"));
 			//m_DropList[Comb_YYLGG].push_back(_T("400 * 5 * 10 * 16"));
@@ -193,7 +193,7 @@ void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
 
 			url.Format(_T("http://%s:8080/BlueRay/itemquery/zdqdyflxx"), IDS_HOST_NAME);
 			m_pHttp->Get(url, QUERY_COMBO_VALUE_YYLGG_URL_ID);
-
+			++m_iRef;
 			//机房
 			m_DropList[Comb_JF].push_back(_T("有"));
 			m_DropList[Comb_JF].push_back(_T("无"));
@@ -206,14 +206,14 @@ void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
 
 			url.Format(_T("http://%s:8080/BlueRay/itemquery/bpqxhflxx"), IDS_HOST_NAME);
 			m_pHttp->Get(url, QUERY_COMBO_VALUE_BPQXH_URL_ID);
-
+			++m_iRef;
 			//编码器型号
 			//m_DropList[Comb_BMQXH].push_back(_T("海1387"));
 			//m_DropList[Comb_BMQXH].push_back(_T("其他"));
 
 			url.Format(_T("http://%s:8080/BlueRay/itemquery/bmqxhflxx"), IDS_HOST_NAME);
 			m_pHttp->Get(url, QUERY_COMBO_VALUE_BMQXH_URL_ID);
-
+			++m_iRef;
 			//铭牌等资料
 			m_DropList[Comb_MPZL].push_back(_T("蓝光英文铭牌"));
 			m_DropList[Comb_MPZL].push_back(_T("蓝光铭牌"));
@@ -222,13 +222,16 @@ void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
 
 			//url.Format(_T("http://%s:8080/BlueRay/itemquery/bmqxhflxx"), IDS_HOST_NAME);
 			//m_pHttp->Get(url, QUERY_COMBO_VALUE_MPZL_URL_ID);
+
+
+			//EnableWindow(FALSE);
 		}
 	}
 }
 
 void CSaleAddDlg::OnHttpSuccess(int id, LPCTSTR resp)
 {
-	GetParent()->EnableWindow(TRUE);
+	//GetParent()->EnableWindow(TRUE);
 
 	switch (id)
 	{
@@ -269,7 +272,7 @@ void CSaleAddDlg::OnHttpSuccess(int id, LPCTSTR resp)
 
 void CSaleAddDlg::OnHttpFailed(int id)
 {
-	GetParent()->EnableWindow(TRUE);
+	//GetParent()->EnableWindow(TRUE);
 	switch (id)
 	{
 	case QUERY_COMBO_VALUE_KHMC_URL_ID:
@@ -282,20 +285,36 @@ void CSaleAddDlg::OnHttpFailed(int id)
 	case QUERY_COMBO_VALUE_BPQXH_URL_ID:
 	case QUERY_COMBO_VALUE_BMQXH_URL_ID:
 	case QUERY_COMBO_VALUE_MPZL_URL_ID:
+	{
+		--m_iRef;
+		if (0 == m_iRef)
+		{
+			EnableWindow(TRUE);
+			InitCtrlData();
+		}
+	}
 		break;
 	default:
 		break;
 	}
+	
 }
 
 void CSaleAddDlg::OnLoadComboDataSuccess(int id, CString strValList)
 {
+	--m_iRef;
 	std::vector<CString> vec;
 	CJQGridAPI::Split(strValList, _T(','), vec);
 
 	for (int i = 0; i < vec.size(); i++)
 	{
 		m_DropList[id].push_back(vec[i]);
+	}
+
+	if (0 == m_iRef)
+	{
+		EnableWindow(TRUE);
+		InitCtrlData();
 	}
 }
 
@@ -309,10 +328,10 @@ BOOL CSaleAddDlg::OnInitDialog()
 	{
 		m_aCombs[i] = Util::CreateComboBox(this, IDC_COMBO_BASE + i, _T("Microsoft YaHei"), 12);
 		m_aCombs[i]->MoveWindow(g_CombPos[i][0], g_CombPos[i][1], g_CombPos[i][2], g_CombPos[i][3]);
-		for (int j = GetDropList()[i].size() - 1; j >= 0; --j)
-		{
-			m_aCombs[i]->InsertString(0, GetDropList()[i][j]);
-		}
+		//for (int j = GetDropList()[i].size() - 1; j >= 0; --j)
+		//{
+		//	m_aCombs[i]->InsertString(0, GetDropList()[i][j]);
+		//}
 	}
 
 	//init static
@@ -337,42 +356,15 @@ BOOL CSaleAddDlg::OnInitDialog()
 	}
 
 
-	if (NULL != m_lpOption)
-	{
-		init(m_aEdits[EditId::Edit_HTH], m_lpOption->htbh);
-		init(m_aEdits[EditId::Edit_SL], m_lpOption->sl);
-		init(m_aEdits[EditId::Edit_DLCD], m_lpOption->dlcd);
-		init(m_aEdits[EditId::Edit_ZXCD], m_lpOption->zxcd);
-		init(m_aDatePickers[DatePickerId::DatePicker_DDRQ], m_lpOption->ddrq);
-		init(m_aEdits[EditId::Edit_BZ], m_lpOption->bz);
 
-		init(m_aCombs[CombId::Comb_KHMC], m_lpOption->khmc);
-		init(m_aCombs[CombId::Comb_GGBH], m_lpOption->ggbh);
-		init(m_aCombs[CombId::Comb_ZC], m_lpOption->zc);
-		init(m_aCombs[CombId::Comb_DFR], m_lpOption->dfr);
-		init(m_aCombs[CombId::Comb_ZDQDY], m_lpOption->zdqdy);
-		init(m_aCombs[CombId::Comb_YYLGG], m_lpOption->yylgg);
-		init(m_aCombs[CombId::Comb_JF], m_lpOption->jf);
-		init(m_aCombs[CombId::Comb_BPQXH], m_lpOption->bpqxh);
-		init(m_aCombs[CombId::Comb_BMQXH], m_lpOption->bmqxh);
-		init(m_aCombs[CombId::Comb_MPZL], m_lpOption->mpzl);
+	if (m_iRef > 0)
+	{
+		EnableWindow(FALSE);
 	}
 	else
 	{
-		init(m_aCombs[CombId::Comb_KHMC], 0);
-		init(m_aCombs[CombId::Comb_GGBH], 0);
-		init(m_aCombs[CombId::Comb_ZC], 0);
-		init(m_aCombs[CombId::Comb_DFR], 0);
-		init(m_aCombs[CombId::Comb_ZDQDY], 0);
-		init(m_aCombs[CombId::Comb_YYLGG], 0);
-		init(m_aCombs[CombId::Comb_JF], 0);
-		init(m_aCombs[CombId::Comb_BPQXH], 0);
-		init(m_aCombs[CombId::Comb_BMQXH], 0);
-		init(m_aCombs[CombId::Comb_MPZL], 0);
-		//init(m_aCombs[CombId::Comb_DLCD], 0);
-		//init(m_aCombs[CombId::Comb_ZXCD], 0);
+		InitCtrlData();
 	}
-
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -487,5 +479,57 @@ const std::vector<std::vector<CString>>& CSaleAddDlg::GetDropList()
 {
 	return m_DropList;
 }
+
+void CSaleAddDlg::InitCtrlData()
+{
+
+	for (int i = _countof(g_CombPos) - 1; i >= 0; --i)
+	{
+		//m_aCombs[i] = Util::CreateComboBox(this, IDC_COMBO_BASE + i, _T("Microsoft YaHei"), 12);
+		//m_aCombs[i]->MoveWindow(g_CombPos[i][0], g_CombPos[i][1], g_CombPos[i][2], g_CombPos[i][3]);
+		for (int j = GetDropList()[i].size() - 1; j >= 0; --j)
+		{
+			m_aCombs[i]->InsertString(0, GetDropList()[i][j]);
+		}
+	}
+
+	if (NULL != m_lpOption)
+	{
+		init(m_aEdits[EditId::Edit_HTH], m_lpOption->htbh);
+		init(m_aEdits[EditId::Edit_SL], m_lpOption->sl);
+		init(m_aEdits[EditId::Edit_DLCD], m_lpOption->dlcd);
+		init(m_aEdits[EditId::Edit_ZXCD], m_lpOption->zxcd);
+		init(m_aDatePickers[DatePickerId::DatePicker_DDRQ], m_lpOption->ddrq);
+		init(m_aEdits[EditId::Edit_BZ], m_lpOption->bz);
+
+		init(m_aCombs[CombId::Comb_KHMC], m_lpOption->khmc);
+		init(m_aCombs[CombId::Comb_GGBH], m_lpOption->ggbh);
+		init(m_aCombs[CombId::Comb_ZC], m_lpOption->zc);
+		init(m_aCombs[CombId::Comb_DFR], m_lpOption->dfr);
+		init(m_aCombs[CombId::Comb_ZDQDY], m_lpOption->zdqdy);
+		init(m_aCombs[CombId::Comb_YYLGG], m_lpOption->yylgg);
+		init(m_aCombs[CombId::Comb_JF], m_lpOption->jf);
+		init(m_aCombs[CombId::Comb_BPQXH], m_lpOption->bpqxh);
+		init(m_aCombs[CombId::Comb_BMQXH], m_lpOption->bmqxh);
+		init(m_aCombs[CombId::Comb_MPZL], m_lpOption->mpzl);
+	}
+	else
+	{
+		init(m_aCombs[CombId::Comb_KHMC], 0);
+		init(m_aCombs[CombId::Comb_GGBH], 0);
+		init(m_aCombs[CombId::Comb_ZC], 0);
+		init(m_aCombs[CombId::Comb_DFR], 0);
+		init(m_aCombs[CombId::Comb_ZDQDY], 0);
+		init(m_aCombs[CombId::Comb_YYLGG], 0);
+		init(m_aCombs[CombId::Comb_JF], 0);
+		init(m_aCombs[CombId::Comb_BPQXH], 0);
+		init(m_aCombs[CombId::Comb_BMQXH], 0);
+		init(m_aCombs[CombId::Comb_MPZL], 0);
+		//init(m_aCombs[CombId::Comb_DLCD], 0);
+		//init(m_aCombs[CombId::Comb_ZXCD], 0);
+	}
+}
+
+int CSaleAddDlg::m_iRef = 0;
 
 std::vector<std::vector<CString>> CSaleAddDlg::m_DropList;

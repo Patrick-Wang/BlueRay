@@ -207,10 +207,11 @@ public:
 
 protected:
 	virtual void OnOKClicked();
-
+	void InitCtrlData();
 private:
 	Option_t* m_lpOption;
 	static std::vector<std::vector<CString>> m_DropList;
+	static int m_iRef;
 	CBSStatic* m_aStatics[StaticId::Static_END];
 	CComboBox* m_aCombs[CombId::Comb_END];
 	CEdit* m_aEdits[EditId::Edit_END];

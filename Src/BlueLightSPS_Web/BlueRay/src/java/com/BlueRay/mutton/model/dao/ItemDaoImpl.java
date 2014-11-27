@@ -231,8 +231,8 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public KHXX queryKhxxByValue(String colName, Object val) {
-		Query q = entityManager.createQuery("select t from KHXX t where t.:name = :val");
-		q.setParameter("name", colName);
+		Query q = entityManager.createQuery("select t from KHXX t where t." + colName + " = :val");
+		//q.setParameter("name", colName);
 		q.setParameter("val", val);
 		List<KHXX> list = q.getResultList();
 		if (list != null && !list.isEmpty()){
