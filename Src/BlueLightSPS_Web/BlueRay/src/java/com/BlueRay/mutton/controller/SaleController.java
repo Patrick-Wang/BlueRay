@@ -71,7 +71,7 @@ public class SaleController {
 	public @ResponseBody String addSaleData(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
-				request.getInputStream()));
+				request.getInputStream(), "UTF-8"));
 		String line = null;
 		StringBuilder sb = new StringBuilder();
 		while ((line = br.readLine()) != null) {
@@ -86,7 +86,7 @@ public class SaleController {
 	public @ResponseBody String delSaleData(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
-				request.getInputStream()));
+				request.getInputStream(), "UTF-8"));
 		String line = null;
 		StringBuilder sb = new StringBuilder();
 		while ((line = br.readLine()) != null) {
@@ -101,7 +101,7 @@ public class SaleController {
 	public @ResponseBody String modifySaleData(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(
-				request.getInputStream()));
+				request.getInputStream(), "UTF-8"));
 		String line = null;
 		StringBuilder sb = new StringBuilder();
 		while ((line = br.readLine()) != null) {
