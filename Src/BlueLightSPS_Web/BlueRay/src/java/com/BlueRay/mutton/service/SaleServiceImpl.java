@@ -16,6 +16,7 @@ import com.BlueRay.mutton.model.entity.jpa.BPQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.CPGGXHXX;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.KHXX;
+import com.BlueRay.mutton.model.entity.jpa.MPZLXX;
 import com.BlueRay.mutton.model.entity.jpa.YYLGGFLXX;
 import com.BlueRay.mutton.model.entity.jpa.ZCXX;
 import com.BlueRay.mutton.model.entity.jpa.ZDQDYFLXX;
@@ -62,7 +63,7 @@ public class SaleServiceImpl implements SaleService {
 				ret[i][12] = htxx.getDlcd();
 				
 				ret[i][13] = htxx.getZxcd();
-				ret[i][14] = htxx.getMpzl();
+				ret[i][14] = itemDao.queryMpzlxxById(htxx.getMpzl()).getMpzl();
 				ret[i][15] = htxx.getBz();
 				
 				ret[i][16] = htxx.getDdrq() + "";
@@ -106,33 +107,6 @@ public class SaleServiceImpl implements SaleService {
 		setMpzl(htxx,ja.getString(13));
 		setBz(htxx,ja.getString(14));
 		setDdrq(htxx, ja.getString(15));
-		
-		
-//		
-//		
-//		
-//		
-//		
-//		
-//		htxx.setZcID(ja.getString(4));
-//		htxx.setDfr(ja.getString(5));
-//
-//		htxx.setZdqdyID(ja.getString(6));
-//		htxx.setYylggID(ja.getString(7));
-//		htxx.setSfjf(ja.getString(8));
-//
-//		htxx.setBpqxhID(ja.getString(9));
-//		htxx.setBmqxhID(ja.getString(10));
-//		htxx.setDlcd(ja.getString(11));
-//
-//		htxx.setZxcd(ja.getString(12));
-//		htxx.setMpzl(ja.getString(13));
-//		htxx.setBz(ja.getString(14));
-//		if (!"".equals(ja.getString(3))){
-//			htxx.setDdrq(Date.valueOf(ja.getString(15)));
-//		}
-//		htxx.setSftgywsh(ja.getString(16));
-//		htxx.setSftgjhsh(ja.getString(17));
 
 		saleDao.insert(htxx);
 		return htxx.getID() + "";
@@ -163,7 +137,13 @@ public class SaleServiceImpl implements SaleService {
 
 	private void setMpzl(HTXX htxx, String value) {
 		if (!"".equals(value)) {
-			htxx.setMpzl(value);
+			MPZLXX item = itemDao.queryMpzlxxByValue("mpzl", value);
+			if (null == item){
+				item = new MPZLXX();
+				item.setMpzl(value);
+				itemDao.insert(item);
+			}
+			htxx.setZcID(item.getId());
 		}
 	}
 

@@ -7,6 +7,7 @@ import java.util.List;
 
 
 
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -19,6 +20,7 @@ import com.BlueRay.mutton.model.entity.jpa.BPQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.CPGGXHXX;
 import com.BlueRay.mutton.model.entity.jpa.DDZTB;
 import com.BlueRay.mutton.model.entity.jpa.KHXX;
+import com.BlueRay.mutton.model.entity.jpa.MPZLXX;
 import com.BlueRay.mutton.model.entity.jpa.YYLGGFLXX;
 import com.BlueRay.mutton.model.entity.jpa.ZCXX;
 import com.BlueRay.mutton.model.entity.jpa.ZDQDYFLXX;
@@ -272,6 +274,36 @@ public class ItemDaoImpl implements ItemDao{
 			return list.get(0);
 		}
 		return null;
+	}
+
+	public List<MPZLXX> queryMpzlxx() {
+		Query q = entityManager.createQuery("select t from MPZLXX t");
+		return q.getResultList();
+	}
+
+	public MPZLXX queryMpzlxxById(int id) {
+		Query q = entityManager.createQuery("select t from MPZLXX t where t.id = :id");
+		q.setParameter("id", id);
+		List<MPZLXX> list = q.getResultList();
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	public MPZLXX queryMpzlxxByValue(String colName, Object val) {
+		Query q = entityManager.createQuery("select t from MPZLXX t where t." + colName + "  = :val");
+		
+		q.setParameter("val", val);
+		List<MPZLXX> list = q.getResultList();
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	public void insert(MPZLXX item) {
+		entityManager.persist(item);
 	}
 
 }

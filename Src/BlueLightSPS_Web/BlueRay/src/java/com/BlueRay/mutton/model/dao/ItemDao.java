@@ -7,6 +7,7 @@ import com.BlueRay.mutton.model.entity.jpa.BPQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.CPGGXHXX;
 import com.BlueRay.mutton.model.entity.jpa.DDZTB;
 import com.BlueRay.mutton.model.entity.jpa.KHXX;
+import com.BlueRay.mutton.model.entity.jpa.MPZLXX;
 import com.BlueRay.mutton.model.entity.jpa.YYLGGFLXX;
 import com.BlueRay.mutton.model.entity.jpa.ZCXX;
 import com.BlueRay.mutton.model.entity.jpa.ZDQDYFLXX;
@@ -68,4 +69,9 @@ public interface ItemDao {
 
 	void insert(CPGGXHXX item);
 
+	List<MPZLXX> queryMpzlxx();
+	MPZLXX queryMpzlxxById(int id);
+	MPZLXX queryMpzlxxByValue(String colName, Object val);
+	
+	void insert(MPZLXX item);
 }

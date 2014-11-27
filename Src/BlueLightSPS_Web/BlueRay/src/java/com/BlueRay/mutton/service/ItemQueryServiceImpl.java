@@ -13,6 +13,7 @@ import com.BlueRay.mutton.model.entity.jpa.BPQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.CPGGXHXX;
 import com.BlueRay.mutton.model.entity.jpa.DDZTB;
 import com.BlueRay.mutton.model.entity.jpa.KHXX;
+import com.BlueRay.mutton.model.entity.jpa.MPZLXX;
 import com.BlueRay.mutton.model.entity.jpa.YYLGGFLXX;
 import com.BlueRay.mutton.model.entity.jpa.ZCXX;
 import com.BlueRay.mutton.model.entity.jpa.ZDQDYFLXX;
@@ -42,8 +43,19 @@ public class ItemQueryServiceImpl implements ItemQueryService {
 			ret = queryZdqdyflxx();
 		} else if ("cpggxhxx".equals(tableName)) {
 			ret = queryCpggxhxx();
+		} else if ("mpzlxx".equals(tableName)) {
+			ret = queryMpzlxx();
 		} 
 		
+		return ret;
+	}
+
+	private List<String> queryMpzlxx() {
+		List<MPZLXX> items = itemDao.queryMpzlxx();
+		List<String> ret = new ArrayList<String>();
+		for (int i = 0; i < items.size(); ++i) {
+			ret.add(items.get(i).getMpzl());
+		}
 		return ret;
 	}
 

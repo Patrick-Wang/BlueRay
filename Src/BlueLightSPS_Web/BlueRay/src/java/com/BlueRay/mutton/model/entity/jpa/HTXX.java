@@ -30,7 +30,7 @@ public class HTXX implements Serializable {
 	private Integer bmqxhID;
 	private String dlcd;
 	private String zxcd;
-	private String mpzl;
+	private Integer mpzl;
 	private Date ddrq;
 	private String bz;
 	private String ddzt;
@@ -125,7 +125,7 @@ public class HTXX implements Serializable {
 	/**
 	 * @return the mpzl
 	 */
-	public String getMpzl() {
+	public Integer getMpzl() {
 		return mpzl;
 	}
 	/**
@@ -245,7 +245,7 @@ public class HTXX implements Serializable {
 	/**
 	 * @param mpzl the mpzl to set
 	 */
-	public void setMpzl(String mpzl) {
+	public void setMpzl(Integer mpzl) {
 		this.mpzl = mpzl;
 	}
 	/**
