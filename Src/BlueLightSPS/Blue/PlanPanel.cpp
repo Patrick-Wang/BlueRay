@@ -145,6 +145,9 @@ void CPlanPanel::OnInitChilds()
 	m_btnPlan->EnableWindow(FALSE);
 	m_btnRestore->EnableWindow(FALSE);
 	m_btnModify->EnableWindow(FALSE);
+
+	m_btnModify->ShowWindow(FALSE);
+	m_btnRestore->ShowWindow(FALSE);
 }
 
 void CPlanPanel::OnBnClickedPlan()
@@ -182,26 +185,28 @@ void CPlanPanel::OnBnClickedPlan()
 			}
 		}
 
-		COleDateTime dateTime;
-		dateTime = COleDateTime::GetCurrentTime();
+		//if (/*To be planned order*/)
+		//{
+			COleDateTime dateTime;
+			dateTime = COleDateTime::GetCurrentTime();
 
-		CString strDateTime;
-		strDateTime.Format(_T("%4d/%2d/%2d"), dateTime.GetYear(), dateTime.GetMonth(), dateTime.GetDay());
+			CString strDateTime;
+			strDateTime.Format(_T("%4d/%2d/%2d"), dateTime.GetYear(), dateTime.GetMonth(), dateTime.GetDay());
 
-		pstOpt->scrq = strDateTime;
-		pstOpt->bzrq = strDateTime;
-		pstOpt->fhrq = strDateTime;
+			pstOpt->scrq = strDateTime;
+			pstOpt->bzrq = strDateTime;
+			pstOpt->fhrq = strDateTime;
 
-		CString strTemp(_T(""));
-		pstOpt->ccbh = strTemp;
-		pstOpt->tcbh = strTemp;
+			CString strTemp(_T(""));
+			pstOpt->ccbh = strTemp;
+			pstOpt->tcbh = strTemp;
 
-		strTemp = _T("Î´ÉóºË");
-		pstOpt->jhjhsh = strTemp;
-		pstOpt->jhywsh = strTemp;
-		pstOpt->bzjhsh = strTemp;
-		pstOpt->bzywsh = strTemp;
-
+			strTemp = _T("Î´ÉóºË");
+			pstOpt->jhjhsh = strTemp;
+			pstOpt->jhywsh = strTemp;
+			pstOpt->bzjhsh = strTemp;
+			pstOpt->bzywsh = strTemp;
+		//}
 	}
 
 	dlg.SetOption(pstOpt.get());
