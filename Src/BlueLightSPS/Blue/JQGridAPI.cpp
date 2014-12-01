@@ -296,3 +296,23 @@ void CJQGridAPI::ShowGrid(LPCTSTR gridName)
 	m_pMedia->CallJsFunction(_T("showGrid"), params);
 	::SysFreeString(vt.bstrVal);
 }
+
+void CJQGridAPI::ShowCol(int colId)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_I4;
+	vt.intVal = colId;
+	params.push_back(vt);
+	m_pMedia->CallJsFunction(_T("showCol"), params);
+}
+
+void CJQGridAPI::HideCol(int colId)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_I4;
+	vt.intVal = colId;
+	params.push_back(vt);
+	m_pMedia->CallJsFunction(_T("hideCol"), params);
+}

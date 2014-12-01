@@ -10,6 +10,8 @@ public:
 	~CJQGridAPI();
 	void ShowGrid(LPCTSTR gridName);
 	void HideGrid(LPCTSTR gridName);
+	void ShowCol(int colId);
+	void HideCol(int colId);
 	void ShowRow(int rowId);
 	void HideRow(int rowId);
 	int AddRow(const std::vector<CString>& rowData);

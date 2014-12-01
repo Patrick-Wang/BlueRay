@@ -7,7 +7,7 @@ module base {
 
     class JQGridAssistantFactory {
 
-        public static createTable(gridName: string, cols : string[]): JQTable.JQGridAssistant {
+        public static createTable(gridName: string, cols: string[]): JQTable.JQGridAssistant {
             var nodes: JQTable.Node[] = [];
             for (var i = 0; i < cols.length; ++i) {
                 nodes.push(new JQTable.Node(cols[i], gridName + "_col_" + i));
@@ -88,6 +88,16 @@ module base {
 
         public reload() {
             this.mTable.trigger("reloadGrid");
+        }
+
+        public showHideCol(colId: string, show: boolean) {
+            if (show) {
+                $("#" + this.mTableName).setGridParam().showCol(colId).trigger("reloadGrid");
+            }
+            else {
+                $("#" + this.mTableName).setGridParam().hideCol(colId).trigger("reloadGrid");
+            }
+
         }
 
         private updateTable(name: string): void {

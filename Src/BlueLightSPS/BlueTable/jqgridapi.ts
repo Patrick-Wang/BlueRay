@@ -3,6 +3,15 @@ var instance: base.GridView;
 var grids = {}
 var mediator: any = window.external;
 
+function showCol(id: string) {
+    var colId: string = instance.getTableName() + "_col_" + id;
+    instance.showHideCol(colId, true);
+}
+
+function hideCol(id: string) {
+    var colId: string = instance.getTableName() + "_col_" + id;
+    instance.showHideCol(colId, false);
+}
 
 function showGrid(gridName: string) {
     $("#" + grids[gridName].getTableName() + "p").css("display", "");
