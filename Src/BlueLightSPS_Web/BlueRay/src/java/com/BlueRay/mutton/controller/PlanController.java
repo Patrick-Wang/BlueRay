@@ -18,15 +18,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.BlueRay.mutton.service.PlanService;
 import com.BlueRay.mutton.service.SaleService;
 
 @Controller
-@RequestMapping(value = "/sale")
-public class SaleController {
+@RequestMapping(value = "/plan")
+public class PlanController {
 
 	@Autowired
-	SaleService service;
+	PlanService planService;
 
+	@Autowired
+	SaleService saleService;
+	
 //	@Autowired
 //	MapQueryService mqService;
 	
@@ -63,53 +67,53 @@ public class SaleController {
 	@RequestMapping(value = "/query", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String getSaleQueryData(HttpServletRequest request,
 			HttpServletResponse response) {
-
-		return JSONArray.fromObject(service.query()).toString().replace("null", "");
+		String[][] saleHts = saleService.query();
+		return JSONArray.fromObject(planService.query(saleHts)).toString();
 	}
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String addSaleData(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				request.getInputStream(), "UTF-8"));
-		String line = null;
-		StringBuilder sb = new StringBuilder();
-		while ((line = br.readLine()) != null) {
-			sb.append(line);
-		}
-		JSONObject jo = JSONObject.fromObject(sb.toString());
-		JSONArray ja = JSONArray.fromObject(jo.get("add"));
-		return service.add(ja);
-	}
-
-	@RequestMapping(value = "/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String delSaleData(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				request.getInputStream(), "UTF-8"));
-		String line = null;
-		StringBuilder sb = new StringBuilder();
-		while ((line = br.readLine()) != null) {
-			sb.append(line);
-		}
-		JSONObject jo = JSONObject.fromObject(sb.toString());
-		JSONArray ja = JSONArray.fromObject(jo.get("del"));
-		return service.delete(ja);
-	}
+//	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+//	public @ResponseBody String addSaleData(HttpServletRequest request,
+//			HttpServletResponse response) throws Exception {
+//		BufferedReader br = new BufferedReader(new InputStreamReader(
+//				request.getInputStream(), "UTF-8"));
+//		String line = null;
+//		StringBuilder sb = new StringBuilder();
+//		while ((line = br.readLine()) != null) {
+//			sb.append(line);
+//		}
+//		JSONObject jo = JSONObject.fromObject(sb.toString());
+//		JSONArray ja = JSONArray.fromObject(jo.get("add"));
+//		return service.add(ja);
+//	}
+//
+//	@RequestMapping(value = "/delete", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+//	public @ResponseBody String delSaleData(HttpServletRequest request,
+//			HttpServletResponse response) throws IOException {
+//		BufferedReader br = new BufferedReader(new InputStreamReader(
+//				request.getInputStream(), "UTF-8"));
+//		String line = null;
+//		StringBuilder sb = new StringBuilder();
+//		while ((line = br.readLine()) != null) {
+//			sb.append(line);
+//		}
+//		JSONObject jo = JSONObject.fromObject(sb.toString());
+//		JSONArray ja = JSONArray.fromObject(jo.get("del"));
+//		return service.delete(ja);
+//	}
 	
-	@RequestMapping(value = "/modify", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String modifySaleData(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				request.getInputStream(), "UTF-8"));
-		String line = null;
-		StringBuilder sb = new StringBuilder();
-		while ((line = br.readLine()) != null) {
-			sb.append(line);
-		}
-		JSONObject jo = JSONObject.fromObject(sb.toString());
-		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
-		JSONArray data = JSONArray.fromObject(jo.get("data"));
-		return service.update(rows, data);
-	}
+//	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+//	public @ResponseBody String modifySaleData(HttpServletRequest request,
+//			HttpServletResponse response) throws IOException {
+//		BufferedReader br = new BufferedReader(new InputStreamReader(
+//				request.getInputStream(), "UTF-8"));
+//		String line = null;
+//		StringBuilder sb = new StringBuilder();
+//		while ((line = br.readLine()) != null) {
+//			sb.append(line);
+//		}
+//		JSONObject jo = JSONObject.fromObject(sb.toString());
+//		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
+//		JSONArray data = JSONArray.fromObject(jo.get("data"));
+//		return service.update(rows, data);
+//	}
 }
