@@ -21,6 +21,7 @@ protected:
 	afx_msg void OnBnClickedRestore();
 	afx_msg void OnBnClickedModify();
 	afx_msg void OnBnClickedSearch();
+	afx_msg void OnBnClickedTableFilter();
 	afx_msg void OnBnClickedMore();
 
 private:
@@ -33,6 +34,7 @@ private:
 	CBRButton* m_btnSearch;
 	CBRButton* m_btnMore;
 	CBSStatic* m_bsMoreWord;
+	CBRButton m_btnTableFilter;
 	CEdit* m_editSearch;
 	CBSStatic* m_staticProductionStatus;
 	CComboBox* m_comboProductionStatus;

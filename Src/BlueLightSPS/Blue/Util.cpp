@@ -114,3 +114,17 @@ CBRButton* Util::CreateButton(CWnd* pParent, UINT Id, CString csButtonText, CStr
 
 	return pButton;
 }
+
+CButton* Util::CreateCheckBox(CWnd* pParent, UINT Id, CString csWindowText, CString csFont, int iFSize)
+{
+	CFont* pFont = NULL;
+	CButton* pButton = new CButton();
+	pButton->Create(csWindowText, WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_AUTOCHECKBOX, CRect(0, 0, 0, 0), pParent, Id);;
+
+	pButton->SetWindowText(csWindowText);
+
+	pFont = CBSObject::GetFontPtr(csFont, iFSize, FALSE, FALSE, FALSE);
+	pButton->SetFont(pFont);
+
+	return pButton;
+}

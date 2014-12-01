@@ -23,6 +23,7 @@ protected:
 	afx_msg void OnBnClickedDelete();
 	afx_msg void OnBnClickedModify();
 	afx_msg void OnBnClickedSearch();
+	afx_msg void OnBnClickedTableFilter();
 	afx_msg void OnBnClickedMore();
 	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
 	void OnLoadDataSuccess(CString& data);
@@ -35,6 +36,7 @@ private:
 	CBRButton m_btnModify;
 	CBRButton m_btnDelete;
 	CBRButton m_btnMore;
+	CBRButton m_btnTableFilter;
 	CBSStatic m_bsMoreWord;
 	CEdit* m_editSearch;
 	DECLARE_MESSAGE_MAP()

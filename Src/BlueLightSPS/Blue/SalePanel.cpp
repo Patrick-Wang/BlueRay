@@ -5,6 +5,7 @@
 #include "SaleAddDlg.h"
 #include "colors.h"
 #include "JQGridAPI.h"
+#include "TableFilterDlg.h"
 #define UM_REQUEST_RESULT
 
 #define RIGHT_AREA_LEFT	150
@@ -20,6 +21,7 @@ BEGIN_MESSAGE_MAP(CSalePanel, CControlPanel)
 	ON_BN_CLICKED(IDC_SALE_BTN_DELETE, &CSalePanel::OnBnClickedDelete)
 	ON_BN_CLICKED(IDC_SALE_BTN_SEARCH, &CSalePanel::OnBnClickedSearch)
 	ON_BN_CLICKED(IDC_SALE_BTN_MORE, &CSalePanel::OnBnClickedMore)
+	ON_BN_CLICKED(IDC_SALE_BTN_TABLEFILTER, &CSalePanel::OnBnClickedTableFilter)
 	ON_WM_SHOWWINDOW()
 	ON_WM_NCDESTROY()
 END_MESSAGE_MAP()
@@ -31,52 +33,6 @@ CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
 	m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CSalePanel::OnRowChecked);
 	m_pHttp->d_OnSuccess += std::make_pair(this, &CSalePanel::OnHttpSuccess);
 	m_pHttp->d_OnFailed += std::make_pair(this, &CSalePanel::OnHttpFailed);
-
-	//m_table.resize(16);
-	//for (int i = 0; i < m_table.size(); ++i)
-	//{
-	//	CString csHTH;
-	//	csHTH.Format(_T("000000%02d"), i + 1);
-	//	if (i % 2 == 0)
-	//	{
-	//		m_table[i].second.push_back(csHTH);
-	//		m_table[i].second.push_back(_T("浙江怡达"));
-	//		m_table[i].second.push_back(_T("U1.0ES-H"));
-	//		m_table[i].second.push_back(_T("1"));
-	//		m_table[i].second.push_back(_T("BNN"));
-	//		m_table[i].second.push_back(_T("是"));
-	//		m_table[i].second.push_back(_T("DC110V"));
-	//		m_table[i].second.push_back(_T("480*6*12*18"));
-	//		m_table[i].second.push_back(_T("无"));
-	//		m_table[i].second.push_back(_T("富士"));
-	//		m_table[i].second.push_back(_T("海1387"));
-	//		m_table[i].second.push_back(_T("8米"));
-	//		m_table[i].second.push_back(_T("5米"));
-	//		m_table[i].second.push_back(_T("蓝光英文铭牌"));
-	//		m_table[i].second.push_back(_T("原点值"));
-	//		m_table[i].second.push_back(_T("2014/08/15"));
-	//	}
-	//	else
-	//	{
-	//		m_table[i].second.push_back(csHTH);
-	//		m_table[i].second.push_back(_T("中原智能"));
-	//		m_table[i].second.push_back(_T("S1.6D-H"));
-	//		m_table[i].second.push_back(_T("1"));
-	//		m_table[i].second.push_back(_T("RC"));
-	//		m_table[i].second.push_back(_T("否"));
-	//		m_table[i].second.push_back(_T("DC220V"));
-	//		m_table[i].second.push_back(_T("325*5*8*12"));
-	//		m_table[i].second.push_back(_T("有"));
-	//		m_table[i].second.push_back(_T("CV"));
-	//		m_table[i].second.push_back(_T("海1387"));
-	//		m_table[i].second.push_back(_T("10米配"));
-	//		m_table[i].second.push_back(_T("5米"));
-	//		m_table[i].second.push_back(_T("蓝光铭牌"));
-	//		m_table[i].second.push_back(_T("D型"));
-	//		m_table[i].second.push_back(_T("2014/11/15"));
-	//	}
-
-	//}
 }
 
 CSalePanel::~CSalePanel()
@@ -110,6 +66,10 @@ void CSalePanel::OnInitChilds()
 	m_btnMore.SetWindowText(_T(">"));
 	m_btnMore.MoveWindow(566, 25, 30, 25);
 
+	m_btnTableFilter.Create(this, IDC_SALE_BTN_TABLEFILTER);
+	m_btnTableFilter.SetWindowText(_T("表格设置"));
+	m_btnTableFilter.MoveWindow(640, 25, 90, 25);
+
 	m_bsMoreWord.Create(this, IDC_SALE_BTN_MOREWORD);
 	m_bsMoreWord.SetWindowText(_T("更多筛选"));
 	m_bsMoreWord.SetBSFont(_T("Microsoft YaHei"), 12);
@@ -137,6 +97,13 @@ void CSalePanel::OnBnClickedAdd()
 		CString url;
 		url.Format(_T("http://%s:8080/BlueRay/sale/add"), IDS_HOST_NAME);
 		m_pHttp->Post(url, ADD_URL_ID, attr);
+	}
+}
+
+void CSalePanel::OnBnClickedTableFilter()
+{
+	CTableFilterDlg dlg(_T("表格设置"));
+	if (IDOK == dlg.DoModal()){
 	}
 }
 

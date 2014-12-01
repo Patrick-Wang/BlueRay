@@ -4,6 +4,7 @@
 #include "SaleAddDlg.h"
 #include "resource_ids.h"
 #include "Util.h"
+#include "TableFilterDlg.h"
 #include "colors.h"
 
 BEGIN_MESSAGE_MAP(CPlanPanel, CControlPanel)
@@ -12,6 +13,7 @@ BEGIN_MESSAGE_MAP(CPlanPanel, CControlPanel)
 	ON_BN_CLICKED(IDC_PLAN_BTN_RESTORE, &CPlanPanel::OnBnClickedRestore)
 	ON_BN_CLICKED(IDC_PLAN_BTN_SEARCH, &CPlanPanel::OnBnClickedSearch)
 	ON_BN_CLICKED(IDC_PLAN_BTN_MORE, &CPlanPanel::OnBnClickedMore)
+	ON_BN_CLICKED(IDC_PLAN_BTN_TABLEFILTER, &CPlanPanel::OnBnClickedTableFilter)
 	ON_MESSAGE_VOID(UM_UI_PREPARED, CPlanPanel::OnUIPrepared)
 	ON_WM_NCDESTROY()
 	ON_WM_SHOWWINDOW()
@@ -142,6 +144,11 @@ void CPlanPanel::OnInitChilds()
 	m_btnRestore = Util::CreateButton(this, IDC_PLAN_BTN_RESTORE, _T("重置"), _T("Microsoft YaHei"), 12);
 	m_btnRestore->MoveWindow(250, 70, 90, 25);
 
+
+	m_btnTableFilter.Create(this, IDC_PLAN_BTN_TABLEFILTER);
+	m_btnTableFilter.SetWindowText(_T("表格设置"));
+	m_btnTableFilter.MoveWindow(860, 25, 90, 25);
+
 	m_btnPlan->EnableWindow(FALSE);
 	m_btnRestore->EnableWindow(FALSE);
 	m_btnModify->EnableWindow(FALSE);
@@ -233,6 +240,14 @@ void CPlanPanel::OnBnClickedPlan()
 			m_pJqGridAPI->SetCell(checkedRows[i], 25, result[4]);
 		}
 
+	}
+}
+
+void CPlanPanel::OnBnClickedTableFilter()
+{
+	CTableFilterDlg dlg(_T("表格设置"));
+	dlg.InitPageOwner(Page_Plan);
+	if (IDOK == dlg.DoModal()){
 	}
 }
 
