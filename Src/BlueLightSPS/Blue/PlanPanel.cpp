@@ -245,8 +245,7 @@ void CPlanPanel::OnBnClickedPlan()
 
 void CPlanPanel::OnBnClickedTableFilter()
 {
-	CTableFilterDlg dlg(_T("表格设置"));
-	dlg.InitPageOwner(Page_Plan);
+	CTableFilterDlg dlg(_T("表格设置"), m_pJqGridAPI, Page_Plan);
 	if (IDOK == dlg.DoModal()){
 	}
 }

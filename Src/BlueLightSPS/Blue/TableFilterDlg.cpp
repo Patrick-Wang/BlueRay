@@ -3,12 +3,14 @@
 
 #include "stdafx.h"
 #include "Blue.h"
+#include "JQGridAPI.h"
 #include "TableFilterDlg.h"
 #include "resource_ids.h"
 #include "afxdialogex.h"
 #include "Util.h"
 
 #define IDC_CHECKBOX_BASE (IDC_TABLEFILTER_BASE + 1)
+
 
 static LPCTSTR g_CheckBoxCaptions[][1] = { //0: default text
 		{ _T("ºÏÍ¬ºÅ") },
@@ -64,10 +66,11 @@ static int g_CheckBoxPos[][4] = {
 
 IMPLEMENT_DYNAMIC(CTableFilterDlg, CDialogEx)
 
-CTableFilterDlg::CTableFilterDlg(LPCTSTR title, CWnd* pParent /*=NULL*/)
+CTableFilterDlg::CTableFilterDlg(LPCTSTR title, CJQGridAPI* pJqGridAPI, PageIDEnum pageID, CWnd* pParent /*=NULL*/)
 	: CDialogEx(CTableFilterDlg::IDD, pParent)
-	, m_enumPage(Page_Sale)
+	, m_enumPage(pageID)
 	, m_Title(title)
+	, m_pJqGridAPI(pJqGridAPI)
 {
 
 }
@@ -92,11 +95,6 @@ END_MESSAGE_MAP()
 
 // CTableFilterDlg message handlers
 
-void CTableFilterDlg::InitPageOwner(PageIDEnum iPageID)
-{
-	m_enumPage = iPageID;
-}
-
 BOOL CTableFilterDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
@@ -112,53 +110,26 @@ BOOL CTableFilterDlg::OnInitDialog()
 	
 	CenterWindow();
 
-	//init checkbox
+	//init check box according to user setting
 	for (int i = 0; i < _countof(g_CheckBoxPos); ++i)
 	{
 		m_aCheckBoxs[i] = Util::CreateCheckBox(this, IDC_CHECKBOX_BASE + i, g_CheckBoxCaptions[i][0], _T("Microsoft YaHei"), 12);
 		m_aCheckBoxs[i]->MoveWindow(g_CheckBoxPos[i][0], g_CheckBoxPos[i][1], g_CheckBoxPos[i][2], g_CheckBoxPos[i][3]);
-	}
 
-	//init checkbox status according to the user setting
+		m_aCheckBoxs[i]->SetCheck(TRUE);
 
-	m_aCheckBoxs[CheckBox_HTH]->SetCheck(TRUE);
-	m_aCheckBoxs[CheckBox_KHMC]->SetCheck(TRUE);
-	m_aCheckBoxs[CheckBox_GGBH]->SetCheck(TRUE);
-	m_aCheckBoxs[CheckBox_SL]->SetCheck(TRUE);
-	m_aCheckBoxs[CheckBox_ZC]->SetCheck(TRUE);
-	m_aCheckBoxs[CheckBox_DFR]->SetCheck(TRUE);
-	m_aCheckBoxs[CheckBox_ZDQDY]->SetCheck(TRUE);
-	m_aCheckBoxs[CheckBox_YYLGG]->SetCheck(TRUE);
-	m_aCheckBoxs[CheckBox_JF]->SetCheck(TRUE);
-	m_aCheckBoxs[CheckBox_BPQXH]->SetCheck(TRUE);
-	m_aCheckBoxs[CheckBox_BMQXH]->SetCheck(TRUE);
-	m_aCheckBoxs[CheckBox_DLCD]->SetCheck(TRUE);
-	m_aCheckBoxs[CheckBox_ZXCD]->SetCheck(TRUE);
-	m_aCheckBoxs[CheckBox_MPZL]->SetCheck(TRUE);
-	m_aCheckBoxs[CheckBox_DDRQ]->SetCheck(TRUE);
-	m_aCheckBoxs[CheckBox_BZ]->SetCheck(TRUE);
+		//if ( setting false )
+		//{
+		//	m_aCheckBoxs[i]->ShowWindow(FALSE);
+		//}
 
-	if (Page_Plan == m_enumPage)
-	{
-		m_aCheckBoxs[CheckBox_SCRQ]->SetCheck(TRUE);
-		m_aCheckBoxs[CheckBox_BZRQ]->SetCheck(TRUE);
-		m_aCheckBoxs[CheckBox_FHRQ]->SetCheck(TRUE);
-		m_aCheckBoxs[CheckBox_TCBH]->SetCheck(TRUE);
-		m_aCheckBoxs[CheckBox_CCBH]->SetCheck(TRUE);
-	}
-	else
-	{
-		m_aCheckBoxs[CheckBox_SCRQ]->SetCheck(FALSE);
-		m_aCheckBoxs[CheckBox_BZRQ]->SetCheck(FALSE);
-		m_aCheckBoxs[CheckBox_FHRQ]->SetCheck(FALSE);
-		m_aCheckBoxs[CheckBox_TCBH]->SetCheck(FALSE);
-		m_aCheckBoxs[CheckBox_CCBH]->SetCheck(FALSE);
-
-		m_aCheckBoxs[CheckBox_SCRQ]->ShowWindow(FALSE);
-		m_aCheckBoxs[CheckBox_BZRQ]->ShowWindow(FALSE);
-		m_aCheckBoxs[CheckBox_FHRQ]->ShowWindow(FALSE);
-		m_aCheckBoxs[CheckBox_TCBH]->ShowWindow(FALSE);
-		m_aCheckBoxs[CheckBox_CCBH]->ShowWindow(FALSE);
+		if (Page_Sale == m_enumPage)
+		{
+			if (i == m_breakPointOfPlanPage)
+			{
+				break;
+			}
+		}
 	}
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -184,6 +155,28 @@ void CTableFilterDlg::PostNcDestroy()
 void CTableFilterDlg::OnBnClickedOk()
 {
 	//save user settings
+
+	//update table
+
+	for (int i = 0; i < _countof(m_aCheckBoxs); ++i)
+	{
+		if (!m_aCheckBoxs[i]->GetCheck())
+		{
+			m_pJqGridAPI->HideCol(i);
+		}
+		else
+		{
+			m_pJqGridAPI->ShowCol(i);
+		}
+
+		if (Page_Sale == m_enumPage)
+		{
+			if (i == m_breakPointOfPlanPage)
+			{
+				break;
+			}
+		}
+	}
 
 	CDialogEx::OnOK();
 }

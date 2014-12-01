@@ -102,7 +102,7 @@ void CSalePanel::OnBnClickedAdd()
 
 void CSalePanel::OnBnClickedTableFilter()
 {
-	CTableFilterDlg dlg(_T("表格设置"));
+	CTableFilterDlg dlg(_T("表格设置"), m_pJqGridAPI, Page_Sale);
 	if (IDOK == dlg.DoModal()){
 	}
 }

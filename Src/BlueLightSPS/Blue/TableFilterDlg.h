@@ -1,5 +1,6 @@
 #pragma once
 #include "afxwin.h"
+#include <map>
 
 enum PageIDEnum
 {
@@ -15,14 +16,13 @@ class CTableFilterDlg : public CDialogEx
 	DECLARE_DYNAMIC(CTableFilterDlg)
 
 public:
-	CTableFilterDlg(LPCTSTR title, CWnd* pParent = NULL);   // standard constructor
+	CTableFilterDlg(LPCTSTR title, CJQGridAPI* pJqGridAPI, PageIDEnum pageID, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CTableFilterDlg();
 
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedCancel();
 
 	virtual BOOL OnInitDialog();
-	void InitPageOwner(PageIDEnum iPageID);
 
 	// Dialog Data
 	enum { IDD = IDD_DIALOG_TABLEFILTER };
@@ -66,7 +66,10 @@ private:
 	PageIDEnum m_enumPage;
 
 	CString m_Title;
+	CJQGridAPI* m_pJqGridAPI;
 
+	static const int m_breakPointOfPlanPage = CheckBox_BZ;
+	
 public:
 	CButton m_btnOK;
 	CButton m_btnCancel;
