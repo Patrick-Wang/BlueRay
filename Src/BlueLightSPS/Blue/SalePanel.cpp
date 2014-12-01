@@ -30,9 +30,7 @@ CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
 	: m_pJqGridAPI(pJqGridAPI)
 	, m_pHttp(pHttp)
 {
-	m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CSalePanel::OnRowChecked);
-	m_pHttp->d_OnSuccess += std::make_pair(this, &CSalePanel::OnHttpSuccess);
-	m_pHttp->d_OnFailed += std::make_pair(this, &CSalePanel::OnHttpFailed);
+
 }
 
 CSalePanel::~CSalePanel()
@@ -258,10 +256,16 @@ void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
 	if (bShow)
 	{
 		m_pJqGridAPI->ShowGrid(_T("sale"));
+		m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CSalePanel::OnRowChecked);
+		m_pHttp->d_OnSuccess += std::make_pair(this, &CSalePanel::OnHttpSuccess);
+		m_pHttp->d_OnFailed += std::make_pair(this, &CSalePanel::OnHttpFailed);
 	}
 	else
 	{
 		m_pJqGridAPI->HideGrid(_T("sale"));
+		m_pJqGridAPI->d_OnRowChecked -= std::make_pair(this, &CSalePanel::OnRowChecked);
+		m_pHttp->d_OnSuccess -= std::make_pair(this, &CSalePanel::OnHttpSuccess);
+		m_pHttp->d_OnFailed -= std::make_pair(this, &CSalePanel::OnHttpFailed);
 	}
 
 }
