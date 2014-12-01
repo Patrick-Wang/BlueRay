@@ -242,6 +242,7 @@ void CSalePanel::OnBnClickedMore()
 			MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
 		}
 	}
+
 }
 
 

@@ -3,6 +3,16 @@ var instance;
 var grids = {};
 var mediator = window.external;
 
+function showCol(id) {
+    var colId = instance.getTableName() + "_col_" + id;
+    instance.showHideCol(colId, true);
+}
+
+function hideCol(id) {
+    var colId = instance.getTableName() + "_col_" + id;
+    instance.showHideCol(colId, false);
+}
+
 function showGrid(gridName) {
     $("#" + grids[gridName].getTableName() + "p").css("display", "");
     instance = grids[gridName];
