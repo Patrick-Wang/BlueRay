@@ -54,13 +54,21 @@ private:
 		CheckBox_DLCD,
 		CheckBox_ZXCD,
 		CheckBox_MPZL,
-		CheckBox_DDRQ,
 		CheckBox_BZ,
+		CheckBox_DDRQ,
+		CheckBox_SHYW,
+		CheckBox_SHJH,
+
 		CheckBox_SCRQ,
+		CheckBox_JHSHYW,
+		CheckBox_JHSHJH,
 		CheckBox_BZRQ,
+		CheckBox_BZSHYW,
+		CheckBox_BZSHJH,
 		CheckBox_FHRQ,
 		CheckBox_TCBH,
 		CheckBox_CCBH,
+
 		CheckBox_END
 	};
 
@@ -70,7 +78,7 @@ private:
 	//CString m_Title;
 	CJQGridAPI* m_pJqGridAPI;
 
-	static const int m_breakPointOfPlanPage = CheckBox_BZ;
+	static const int m_breakPointOfPlanPage = CheckBox_SHJH;
 	
 //public:
 //	CButton m_btnOK;
