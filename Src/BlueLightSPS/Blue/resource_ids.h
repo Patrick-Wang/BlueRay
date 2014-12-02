@@ -42,7 +42,8 @@
 #define IDC_PLAN_ADD_Control_BASE	11300
 
 //Table filter
-#define IDC_TABLEFILTER_BASE	12000
+#define IDC_CHECKBOX_SELECTALL	12000
+#define IDC_TABLEFILTER_BASE	12010
 
 //panels
 #define IDP_SALE	20100

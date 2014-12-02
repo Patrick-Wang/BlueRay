@@ -131,6 +131,7 @@ CTableFilterDlg::~CTableFilterDlg()
 
 
 BEGIN_MESSAGE_MAP(CTableFilterDlg, CPopupDlg)
+	ON_BN_CLICKED(IDC_CHECKBOX_SELECTALL, &CTableFilterDlg::OnBnClickedSelectAll)
 END_MESSAGE_MAP()
 
 
@@ -141,6 +142,9 @@ BOOL CTableFilterDlg::OnInitDialog()
 	__super::OnInitDialog();
 
 	CenterWindow();
+
+	m_checkboxSelectAll = Util::CreateCheckBox(this, IDC_CHECKBOX_SELECTALL, _T("ȫѡ"), _T("Microsoft YaHei"), 12);
+	m_checkboxSelectAll->MoveWindow(80 * 1 + 80 * 0, 40 * 9, 100, 20);
 
 	//const std::set<int>& hiddenCols = m_pJqGridAPI->getHiddenCols();
 
@@ -287,4 +291,35 @@ void CTableFilterDlg::OnOK(){
 void CTableFilterDlg::OnCancel(){
 
 	__super::OnCancel();
+}
+
+
+
+void CTableFilterDlg::OnBnClickedSelectAll()
+{
+	// TODO: Add your control notification handler code here
+
+	bool bCheckedAll = false;
+
+	if (m_checkboxSelectAll->GetCheck())
+	{
+		bCheckedAll = true;
+	}
+	else
+	{
+		bCheckedAll = false;
+	}
+
+	for (int i = 0; i < _countof(g_CheckBoxPos); ++i)
+	{
+		m_aCheckBoxs[i]->SetCheck(bCheckedAll);
+
+		if (Page_Sale == m_enumPage)
+		{
+			if (i == m_breakPointOfPlanPage)
+			{
+				break;
+			}
+		}
+	}
 }

@@ -29,6 +29,8 @@ public:
 	// Dialog Data
 	enum { IDD = IDD_DIALOG_TABLEFILTER };
 
+	afx_msg void OnBnClickedSelectAll();
+
 private:
 	virtual void PostNcDestroy();
 
@@ -80,6 +82,8 @@ private:
 
 	CJQGridAPI* m_pJqGridAPI;
 	CSettingManager m_objSettingManager;
+
+	CButton* m_checkboxSelectAll;
 
 	static const int m_breakPointOfPlanPage = CheckBox_SHJH;
 };
