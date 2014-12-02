@@ -66,9 +66,6 @@
     <ClInclude Include="SaleAddDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AddDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UILib\BSButton.h">
       <Filter>UILib\core</Filter>
     </ClInclude>
@@ -159,6 +156,9 @@
     <ClInclude Include="TableFilterDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PopupDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blue.cpp">
@@ -177,9 +177,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SaleAddDlg.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AddDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UILib\BSButton.cpp">
@@ -252,6 +249,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TableFilterDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PopupDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

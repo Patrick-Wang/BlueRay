@@ -41,7 +41,7 @@ private:
 	CEdit* m_editSearch;
 	DECLARE_MESSAGE_MAP()
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
-	CJQGridAPI* m_pJqGridAPI;
+	std::auto_ptr<CJQGridAPI> m_pJqGridAPI;
 	IHttp* m_pHttp;
 	std::vector<CString> m_cacheRow;
 public:

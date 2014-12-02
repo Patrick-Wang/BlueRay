@@ -128,3 +128,62 @@ CButton* Util::CreateCheckBox(CWnd* pParent, UINT Id, CString csWindowText, CStr
 
 	return pButton;
 }
+
+
+void Util::Split(CString& src, TCHAR split, std::vector<CString>& retData)
+{
+	int start = 0;
+	int index = src.Find(split);
+	while (index > 0)
+	{
+		retData.push_back(src.Mid(start, index - start));
+		start = index + 1;
+		index = src.Find(split, start);
+	}
+	if (!src.IsEmpty())
+	{
+		retData.push_back(src.Mid(start));
+	}
+}
+
+void Util::Split(CString& src, TCHAR split, std::vector<int>& retData)
+{
+	int start = 0;
+	int index = src.Find(split);
+	while (index > 0)
+	{
+		retData.push_back(_tstoi(src.Mid(start, index - start)));
+		start = index + 1;
+		index = src.Find(split, start);
+	}
+	if (!src.IsEmpty())
+	{
+		retData.push_back(_tstoi(src.Mid(start)));
+	}
+}
+
+void Util::Join(const std::vector<CString>& data, CString& dest)
+{
+	for (int i = 0, len = data.size(); i < len; ++i)
+	{
+		dest += data[i];
+		if (i + 1 < len)
+		{
+			dest += _T(",");
+		}
+	}
+}
+
+void Util::Join(const std::vector<int>& data, CString& dest)
+{
+	CString strFmt;
+	for (int i = 0, len = data.size(); i < len; ++i)
+	{
+		strFmt.Format(_T("%d"), data[i]);
+		dest += strFmt;
+		if (i + 1 < len)
+		{
+			dest += _T(",");
+		}
+	}
+}

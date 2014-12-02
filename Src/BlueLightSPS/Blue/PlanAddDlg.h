@@ -1,5 +1,5 @@
 #pragma once
-#include "AddDlg.h"
+#include "PopupDlg.h"
 #include "UILib/BSStatic.h"
 #define OPT_FALSE _T("-1")
 #define OPT_FALSE_INT -1
@@ -52,7 +52,7 @@ if (data.end() == ++it)\
 break;\
 }
 
-class CPlanAddDlg : public CAddDlg
+class CPlanAddDlg : public CPopupDlg
 {
 public:
 
@@ -264,7 +264,7 @@ public:
 	virtual BOOL OnInitDialog();
 
 protected:
-	virtual void OnOKClicked();
+	virtual void OnOK();
 
 private:
 	Option_t* m_lpOption;

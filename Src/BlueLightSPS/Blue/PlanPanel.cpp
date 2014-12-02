@@ -245,7 +245,7 @@ void CPlanPanel::OnBnClickedPlan()
 
 void CPlanPanel::OnBnClickedTableFilter()
 {
-	CTableFilterDlg dlg(_T("表格设置"), m_pJqGridAPI, Page_Plan);
+	CTableFilterDlg dlg(_T("表格设置"), m_pJqGridAPI.get(), Page_Plan);
 	if (IDOK == dlg.DoModal()){
 	}
 }
@@ -452,11 +452,11 @@ void CPlanPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 	CControlPanel::OnShowWindow(bShow, nStatus);
 	if (bShow)
 	{
-		m_pJqGridAPI->ShowGrid(_T("plan"));
+		m_pJqGridAPI->ShowGrid();
 	}
 	else
 	{
-		m_pJqGridAPI->HideGrid(_T("plan"));
+		m_pJqGridAPI->HideGrid();
 	}
 
 }

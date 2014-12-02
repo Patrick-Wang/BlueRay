@@ -26,10 +26,10 @@ void CProductPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 	CControlPanel::OnShowWindow(bShow, nStatus);
 	if (bShow)
 	{
-		m_pJqGridAPI->ShowGrid(_T("product"));
+		m_pJqGridAPI->ShowGrid();
 	}
 	else
 	{
-		m_pJqGridAPI->HideGrid(_T("product"));
+		m_pJqGridAPI->HideGrid();
 	}
 }

@@ -127,13 +127,13 @@ module base {
                     autoScroll: true,
                     //pager: $('#pager'),
                     onSelectRow: (a, b, c) => {
-                        mediator.onRowChecked();
+                        mediator.onRowChecked(this.mTableName);
                     },
                     onSelectAll: (a, b, c) => {
-                        mediator.onRowChecked();
+                        mediator.onRowChecked(this.mTableName);
                     },
                     gridComplete: () => {
-                        mediator.onGridComplete();
+                        mediator.onGridComplete(this.mTableName);
                     }
                 }))
                 //.navGrid('#pager', { search: false, reloadGrid: false, edit: false, add: false, del: false });

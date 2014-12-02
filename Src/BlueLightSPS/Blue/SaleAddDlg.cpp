@@ -121,7 +121,7 @@ inline void init(CComboBox* comb, int val){
 }
 
 CSaleAddDlg::CSaleAddDlg(LPCTSTR title, IHttp* pHttp, CWnd* pParent /*= NULL*/)
-	: CAddDlg(title, pParent)
+	: CPopupDlg(title, pParent)
 	, m_lpOption(NULL)
 	, m_pHttp(NULL)
 {
@@ -281,7 +281,7 @@ void CSaleAddDlg::OnLoadComboDataSuccess(int id, CString strValList)
 {
 	--m_iRef;
 	std::vector<CString> vec;
-	CJQGridAPI::Split(strValList, _T(','), vec);
+	Util::Split(strValList, _T(','), vec);
 
 	for (int i = 0; i < vec.size(); i++)
 	{
@@ -297,7 +297,7 @@ void CSaleAddDlg::OnLoadComboDataSuccess(int id, CString strValList)
 
 BOOL CSaleAddDlg::OnInitDialog()
 {
-	CAddDlg::OnInitDialog();
+	CPopupDlg::OnInitDialog();
 	CenterWindow();
 
 	//init comb
@@ -383,10 +383,10 @@ void CSaleAddDlg::PostNcDestroy()
 		}
 	}
 
-	CAddDlg::PostNcDestroy();
+	CPopupDlg::PostNcDestroy();
 }
 
-void CSaleAddDlg::OnOKClicked()
+void CSaleAddDlg::OnOK()
 {
 	CString strTmp;
 
@@ -444,7 +444,7 @@ void CSaleAddDlg::OnOKClicked()
 	m_aDatePickers[DatePickerId::DatePicker_DDRQ]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->ddrq : _T("")));
 
-	CAddDlg::OnOKClicked();
+	CPopupDlg::OnOK();
 }
 
 void CSaleAddDlg::SetOption(Option_t* lpOpt)

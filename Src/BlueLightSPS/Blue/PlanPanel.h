@@ -26,7 +26,7 @@ protected:
 
 private:
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
-	CJQGridAPI* m_pJqGridAPI;
+	std::auto_ptr<CJQGridAPI> m_pJqGridAPI;
 
 	CBRButton* m_btnPlan;
 	CBRButton* m_btnModify;

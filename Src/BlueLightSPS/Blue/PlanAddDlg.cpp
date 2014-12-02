@@ -35,7 +35,7 @@ inline void init(CBSStatic* sta, CString& val){
 }
 
 CPlanAddDlg::CPlanAddDlg(LPCTSTR title, CWnd* pParent /*= NULL*/)
-	: CAddDlg(title, pParent)
+	: CPopupDlg(title, pParent)
 	, m_lpOption(NULL)
 {
 
@@ -137,7 +137,7 @@ static LPCTSTR g_EditItems[][1] = { //0: default text
 
 BOOL CPlanAddDlg::OnInitDialog()
 {
-	CAddDlg::OnInitDialog();
+	CPopupDlg::OnInitDialog();
 	CenterWindow();
 	//init comb
 
@@ -267,10 +267,10 @@ void CPlanAddDlg::PostNcDestroy()
 		}
 	}
 
-	CAddDlg::PostNcDestroy();
+	CPopupDlg::PostNcDestroy();
 }
 
-void CPlanAddDlg::OnOKClicked()
+void CPlanAddDlg::OnOK()
 {
 	CString strTmp;
 
@@ -289,7 +289,7 @@ void CPlanAddDlg::OnOKClicked()
 	m_aEdits[EditId::Edit_CCBH]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp);
 
-	CAddDlg::OnOKClicked();
+	CPopupDlg::OnOK();
 }
 
 void CPlanAddDlg::SetOption(Option_t* lpOpt)

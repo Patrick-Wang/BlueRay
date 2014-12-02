@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "JsHttpImpl.h"
 #include "JQGridAPI.h"
+#include "util.h"
 CComJsFun CJsHttpImpl::m_funPost(_T("onPost"), 6001);
 CComJsFun CJsHttpImpl::m_funGet(_T("onGet"), 6002);
 
@@ -256,7 +257,7 @@ void CJsHttpImpl::AsJson(std::map<CString, StringArrayPtr>& mapAttr, CString& st
 		strJson += it->first;
 		strJson += _T(":");
 		strTmp.Empty();
-		CJQGridAPI::Join(*(it->second), strTmp);
+		Util::Join(*(it->second), strTmp);
 		strTmp.Replace(_T(","), _T("\",\""));
 		strJson += _T("[\"") + strTmp + _T("\"]");
 		if ((++it) != mapAttr.end())
@@ -278,7 +279,7 @@ void CJsHttpImpl::AsJson(std::map<CString, IntArrayPtr>& mapAttr, CString& strJs
 		strJson += it->first;
 		strJson += _T(":");
 		strTmp.Empty();
-		CJQGridAPI::Join(*(it->second), strTmp);
+		Util::Join(*(it->second), strTmp);
 		strTmp.Replace(_T(","), _T("\",\""));
 		strJson += _T("[\"") + strTmp + _T("\"]");
 		if ((++it) != mapAttr.end())

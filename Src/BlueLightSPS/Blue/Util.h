@@ -1,7 +1,7 @@
 #pragma once
 #include "UILib/BSStatic.h"
 #include "BRButton.h"
-
+#include <vector>
 class Util
 {
 public:
@@ -15,6 +15,9 @@ public:
 	static CDateTimeCtrl* CreateDateTimePicker(CWnd* pParent, UINT Id, CString csFont, int iFSize);
 	static CBRButton* CreateButton(CWnd* pParent, UINT Id, CString csWindowText, CString csFont, int iFSize);
 	static CButton* CreateCheckBox(CWnd* pParent, UINT Id, CString csWindowText, CString csFont, int iFSize);
-
+	static void Split(CString& src, TCHAR split, std::vector<CString>& retData);
+	static void Split(CString& src, TCHAR split, std::vector<int>& retData);
+	static void Join(const std::vector<CString>& retData, CString& dest);
+	static void Join(const std::vector<int>& retData, CString& dest);
 };
 

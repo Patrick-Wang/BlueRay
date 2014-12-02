@@ -20,6 +20,7 @@ void CBRComboBox::Create(CWnd* pParent, UINT id)
 }
 BEGIN_MESSAGE_MAP(CBRComboBox, CComboBox)
 	ON_WM_DESTROY()
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 
@@ -29,4 +30,12 @@ void CBRComboBox::OnDestroy()
 	CFont* pFont = GetFont();
 	//->DeleteObject();
 	delete pFont;
+}
+
+
+BOOL CBRComboBox::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: Add your message handler code here and/or call default
+
+	return CComboBox::OnEraseBkgnd(pDC);
 }

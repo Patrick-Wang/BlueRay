@@ -16,5 +16,6 @@ public:
 	virtual ~IJSMediator(){};
 	virtual VARIANT CallJsFunction(LPCWSTR lpFunName, std::vector<VARIANT>& params) = 0;
 	virtual void RegisterJsFunction(IJSFunction* jsEvent) = 0;
+	virtual void UnRegisterJsFunction(IJSFunction* jsEvent) = 0;
 };
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "AddDlg.h"
+#include "PopupDlg.h"
 #include "UILib/BSStatic.h"
 #include "IHttp.h"
 
@@ -54,7 +54,7 @@ if (data.end() == ++it)\
 {\
 break;\
 }
-class CSaleAddDlg :	public CAddDlg
+class CSaleAddDlg :	public CPopupDlg
 {
 public:
 	enum CombId{
@@ -206,7 +206,7 @@ public:
 	CDelegate<void(CSaleAddDlg&)> d_GetOption;
 protected:
 	void InitHttpInstance(IHttp* pHttp);
-	virtual void OnOKClicked();
+	virtual void OnOK();
 	void InitCtrlData();
 private:
 	std::auto_ptr<Option_t> m_lpOption;

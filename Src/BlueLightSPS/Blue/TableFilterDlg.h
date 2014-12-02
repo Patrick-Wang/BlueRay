@@ -1,5 +1,6 @@
 #pragma once
 #include "afxwin.h"
+#include "PopupDlg.h"
 #include <map>
 
 enum PageIDEnum
@@ -11,7 +12,7 @@ enum PageIDEnum
 
 // CTableFilterDlg dialog
 
-class CTableFilterDlg : public CDialogEx
+class CTableFilterDlg : public CPopupDlg
 {
 	DECLARE_DYNAMIC(CTableFilterDlg)
 
@@ -19,9 +20,10 @@ public:
 	CTableFilterDlg(LPCTSTR title, CJQGridAPI* pJqGridAPI, PageIDEnum pageID, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CTableFilterDlg();
 
-	afx_msg void OnBnClickedOk();
-	afx_msg void OnBnClickedCancel();
-
+	//afx_msg void OnBnClickedOk();
+	//afx_msg void OnBnClickedCancel();
+	virtual void OnOK();
+	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
 
 	// Dialog Data
@@ -31,10 +33,10 @@ private:
 	virtual void PostNcDestroy();
 
 protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+	//virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 
 	DECLARE_MESSAGE_MAP()
-
+	
 
 private:
 	enum CheckBox_Id{
@@ -65,12 +67,12 @@ private:
 	CButton* m_aCheckBoxs[CheckBox_Id::CheckBox_END];
 	PageIDEnum m_enumPage;
 
-	CString m_Title;
+	//CString m_Title;
 	CJQGridAPI* m_pJqGridAPI;
 
 	static const int m_breakPointOfPlanPage = CheckBox_BZ;
 	
-public:
-	CButton m_btnOK;
-	CButton m_btnCancel;
+//public:
+//	CButton m_btnOK;
+//	CButton m_btnCancel;
 };

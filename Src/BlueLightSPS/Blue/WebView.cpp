@@ -53,10 +53,21 @@ VARIANT CWebView::CallJsFunction(LPCWSTR lpFun, std::vector<VARIANT>& params)
 
 void CWebView::RegisterJsFunction(IJSFunction* jsEvent)
 {
-	m_jsEventsMap[jsEvent->Id()] = jsEvent;
-	m_jsEventsMap2[jsEvent->Name()] = jsEvent;
+	if (NULL != jsEvent)
+	{
+		m_jsEventsMap[jsEvent->Id()] = jsEvent;
+		m_jsEventsMap2[jsEvent->Name()] = jsEvent;
+	}
 }
 
+void CWebView::UnRegisterJsFunction(IJSFunction* jsEvent)
+{
+	if (NULL != jsEvent)
+	{
+		m_jsEventsMap.erase(jsEvent->Id());
+		m_jsEventsMap2.erase(jsEvent->Name());
+	}
+}
 
 HRESULT _stdcall CWebView::GetIDsOfNames(
 	REFIID riid,
@@ -133,3 +144,5 @@ void CWebView::OnDocumentCompleted()
 {
 	d_OnDomComplete();
 }
+
+

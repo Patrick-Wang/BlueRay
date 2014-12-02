@@ -2,14 +2,15 @@
 #include "JSExecutor.h"
 #include "UILib/Delegate.h"
 #include "ComJsFun.h"
-
+#include <set>
 class CJQGridAPI
 {
 public:
-	CJQGridAPI(IJSMediator* pMedia);
+	CJQGridAPI(IJSMediator* pMedia, LPCTSTR lpGrid);
 	~CJQGridAPI();
-	void ShowGrid(LPCTSTR gridName);
-	void HideGrid(LPCTSTR gridName);
+	const std::set<int>& getHiddenCols();
+	void ShowGrid();
+	void HideGrid();
 	void ShowCol(int colId);
 	void HideCol(int colId);
 	void ShowRow(int rowId);
@@ -31,13 +32,11 @@ public:
 
 	VARIANT JSCall(int id, const std::vector<VARIANT>& params);
 
-	static void Split(CString& src, TCHAR split, std::vector<CString>& retData);
-	static void Split(CString& src, TCHAR split, std::vector<int>& retData);
-	static void Join(const std::vector<CString>& retData, CString& dest);
-	static void Join(const std::vector<int>& retData, CString& dest);
 private:
+	std::set<int> m_hideCols;
 	IJSMediator* m_pMedia;
-	std::auto_ptr<CComJsFun> m_lpJsfOnChecked;
-	std::auto_ptr<CComJsFun> m_lpJsfOnComplete;
+	static CComJsFun m_lpJsfOnChecked;
+	static CComJsFun m_lpJsfOnComplete;
+	BSTR m_gridName;
 };
 

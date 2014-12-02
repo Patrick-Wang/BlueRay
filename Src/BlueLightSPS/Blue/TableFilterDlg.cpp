@@ -27,8 +27,9 @@ static LPCTSTR g_CheckBoxCaptions[][1] = { //0: default text
 		{ _T("电缆长度") },
 		{ _T("闸线长度") },
 		{ _T("铭牌等资料") },
-		{ _T("订单日期") },
 		{ _T("备注") },
+		{ _T("订单日期") },
+
 
 		{ _T("生产日期") },
 		{ _T("包装日期") },
@@ -64,13 +65,13 @@ static int g_CheckBoxPos[][4] = {
 
 // CTableFilterDlg dialog
 
-IMPLEMENT_DYNAMIC(CTableFilterDlg, CDialogEx)
+IMPLEMENT_DYNAMIC(CTableFilterDlg, CPopupDlg)
 
 CTableFilterDlg::CTableFilterDlg(LPCTSTR title, CJQGridAPI* pJqGridAPI, PageIDEnum pageID, CWnd* pParent /*=NULL*/)
-	: CDialogEx(CTableFilterDlg::IDD, pParent)
-	, m_enumPage(pageID)
-	, m_Title(title)
-	, m_pJqGridAPI(pJqGridAPI)
+: CPopupDlg(title, pParent)
+, m_enumPage(pageID)
+//, m_Title(title)
+, m_pJqGridAPI(pJqGridAPI)
 {
 
 }
@@ -79,17 +80,17 @@ CTableFilterDlg::~CTableFilterDlg()
 {
 }
 
-void CTableFilterDlg::DoDataExchange(CDataExchange* pDX)
-{
-	CDialogEx::DoDataExchange(pDX);
-	DDX_Control(pDX, IDOK, m_btnOK);
-	DDX_Control(pDX, IDCANCEL, m_btnCancel);
-}
+//void CTableFilterDlg::DoDataExchange(CDataExchange* pDX)
+//{
+//	CDialogEx::DoDataExchange(pDX);
+//	DDX_Control(pDX, IDOK, m_btnOK);
+//	DDX_Control(pDX, IDCANCEL, m_btnCancel);
+//}
 
 
-BEGIN_MESSAGE_MAP(CTableFilterDlg, CDialogEx)
-	ON_BN_CLICKED(IDOK, &CTableFilterDlg::OnBnClickedOk)
-	ON_BN_CLICKED(IDCANCEL, &CTableFilterDlg::OnBnClickedCancel)
+BEGIN_MESSAGE_MAP(CTableFilterDlg, CPopupDlg)
+	//	ON_BN_CLICKED(IDOK, &CTableFilterDlg::OnBnClickedOk)
+	//	ON_BN_CLICKED(IDCANCEL, &CTableFilterDlg::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
 
@@ -97,26 +98,33 @@ END_MESSAGE_MAP()
 
 BOOL CTableFilterDlg::OnInitDialog()
 {
-	CDialogEx::OnInitDialog();
-	
-	Util::SetClientSize(m_hWnd, 837, 421);
-	SetWindowText(m_Title);
+	__super::OnInitDialog();
 
-	m_btnOK.MoveWindow(556, 366, 114, 30);
-	m_btnOK.SetWindowText(_T("确定"));
+	//Util::SetClientSize(m_hWnd, 837, 421);
+	//SetWindowText(m_Title);
 
-	m_btnCancel.MoveWindow(690, 366, 114, 30);
-	m_btnCancel.SetWindowText(_T("取消"));
-	
+	//m_btnOK.MoveWindow(556, 366, 114, 30);
+	//m_btnOK.SetWindowText(_T("确定"));
+
+	//m_btnCancel.MoveWindow(690, 366, 114, 30);
+	//m_btnCancel.SetWindowText(_T("取消"));
+
 	CenterWindow();
-
+	const std::set<int>& hiddenCols = m_pJqGridAPI->getHiddenCols();
 	//init check box according to user setting
 	for (int i = 0; i < _countof(g_CheckBoxPos); ++i)
 	{
 		m_aCheckBoxs[i] = Util::CreateCheckBox(this, IDC_CHECKBOX_BASE + i, g_CheckBoxCaptions[i][0], _T("Microsoft YaHei"), 12);
 		m_aCheckBoxs[i]->MoveWindow(g_CheckBoxPos[i][0], g_CheckBoxPos[i][1], g_CheckBoxPos[i][2], g_CheckBoxPos[i][3]);
 
-		m_aCheckBoxs[i]->SetCheck(TRUE);
+		if (hiddenCols.find(i) != hiddenCols.end())
+		{
+			m_aCheckBoxs[i]->SetCheck(FALSE);
+		}
+		else
+		{
+			m_aCheckBoxs[i]->SetCheck(TRUE);
+		}
 
 		//if ( setting false )
 		//{
@@ -148,12 +156,25 @@ void CTableFilterDlg::PostNcDestroy()
 			delete m_aCheckBoxs[i];
 		}
 	}
-	
+
 	CDialogEx::PostNcDestroy();
 }
 
-void CTableFilterDlg::OnBnClickedOk()
-{
+//void CTableFilterDlg::OnBnClickedOk()
+//{
+//	
+//
+//	CDialogEx::OnOK();
+//}
+//
+//
+//void CTableFilterDlg::OnBnClickedCancel()
+//{
+//	CDialogEx::OnCancel();
+//}
+
+void CTableFilterDlg::OnOK(){
+
 	//save user settings
 
 	//update table
@@ -178,11 +199,8 @@ void CTableFilterDlg::OnBnClickedOk()
 		}
 	}
 
-	CDialogEx::OnOK();
+	__super::OnOK();
 }
-
-
-void CTableFilterDlg::OnBnClickedCancel()
-{
-	CDialogEx::OnCancel();
+void CTableFilterDlg::OnCancel(){
+	__super::OnCancel();
 }

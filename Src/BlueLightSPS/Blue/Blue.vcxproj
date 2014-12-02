@@ -107,7 +107,7 @@
     <None Include="res\Blue.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AddDlg.h" />
+    <ClInclude Include="PopupDlg.h" />
     <ClInclude Include="AdoDBConnector.h" />
     <ClInclude Include="Blue.h" />
     <ClInclude Include="BlueDlg.h" />
@@ -149,7 +149,7 @@
     <ClInclude Include="WebView.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AddDlg.cpp" />
+    <ClCompile Include="PopupDlg.cpp" />
     <ClCompile Include="AdoDBConnector.cpp" />
     <ClCompile Include="Blue.cpp" />
     <ClCompile Include="BlueDlg.cpp">

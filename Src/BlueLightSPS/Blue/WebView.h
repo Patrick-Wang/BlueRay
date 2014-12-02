@@ -18,10 +18,12 @@ protected:
 	virtual void OnDocumentCompleted();
 public:
 	CDelegate<void(void)> d_OnDomComplete;
-	DECLARE_MESSAGE_MAP()
-	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	virtual VARIANT CallJsFunction(LPCWSTR lpFun, std::vector<VARIANT>& params);
 	virtual void RegisterJsFunction(IJSFunction* jsEvent);
+	virtual void UnRegisterJsFunction(IJSFunction* jsEvent);
+
+	DECLARE_MESSAGE_MAP()
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	HRESULT _stdcall GetIDsOfNames(REFIID riid, OLECHAR FAR* FAR* rgszNames, unsigned int cNames, LCID lcid, DISPID FAR* rgDispId);
 	HRESULT _stdcall Invoke(DISPID dispIdMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS FAR* pDispParams, VARIANT FAR* pVarResult, EXCEPINFO FAR* pExcepInfo, unsigned int FAR* puArgErr);
 	HRESULT STDMETHODCALLTYPE GetExternal(IDispatch **ppDispatch);

@@ -100,7 +100,7 @@ void CSalePanel::OnBnClickedAdd()
 
 void CSalePanel::OnBnClickedTableFilter()
 {
-	CTableFilterDlg dlg(_T("表格设置"), m_pJqGridAPI, Page_Sale);
+	CTableFilterDlg dlg(_T("表格设置"), m_pJqGridAPI.get(), Page_Sale);
 	if (IDOK == dlg.DoModal()){
 	}
 }
@@ -255,14 +255,14 @@ void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
 	CControlPanel::OnShowWindow(bShow, nStatus);
 	if (bShow)
 	{
-		m_pJqGridAPI->ShowGrid(_T("sale"));
+		m_pJqGridAPI->ShowGrid();
 		m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CSalePanel::OnRowChecked);
 		m_pHttp->d_OnSuccess += std::make_pair(this, &CSalePanel::OnHttpSuccess);
 		m_pHttp->d_OnFailed += std::make_pair(this, &CSalePanel::OnHttpFailed);
 	}
 	else
 	{
-		m_pJqGridAPI->HideGrid(_T("sale"));
+		m_pJqGridAPI->HideGrid();
 		m_pJqGridAPI->d_OnRowChecked -= std::make_pair(this, &CSalePanel::OnRowChecked);
 		m_pHttp->d_OnSuccess -= std::make_pair(this, &CSalePanel::OnHttpSuccess);
 		m_pHttp->d_OnFailed -= std::make_pair(this, &CSalePanel::OnHttpFailed);
@@ -323,11 +323,11 @@ void CSalePanel::OnLoadDataSuccess(CString& jsondata)
 	jsondata.Remove(_T('['));
 	jsondata.Remove(_T(']'));
 	jsondata.Remove(_T('\"'));
-	CJQGridAPI::Split(jsondata, _T('#'), vec);
+	Util::Split(jsondata, _T('#'), vec);
 	m_table.resize(vec.size());
 	for (int i = 0; i < vec.size(); ++i)
 	{
-		CJQGridAPI::Split(vec[i], _T(','), m_table[i].second);
+		Util::Split(vec[i], _T(','), m_table[i].second);
 		m_table[i].first = _tstoi(m_table[i].second[0]);
 		m_table[i].second.erase(m_table[i].second.begin());
 	}

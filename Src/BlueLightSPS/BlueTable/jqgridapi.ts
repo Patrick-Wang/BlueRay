@@ -1,78 +1,78 @@
 ﻿/// <reference path="base.ts" />
-var instance: base.GridView;
+//var instance: base.GridView;
 var grids = {}
 var mediator: any = window.external;
 
-function showCol(id: string) {
-    var colId: string = instance.getTableName() + "_col_" + id;
-    instance.showHideCol(colId, true);
+function showCol(gridName: string, id: string) {
+    var colId: string = gridName + "_col_" + id;
+    grids[gridName].showHideCol(colId, true);
 }
 
-function hideCol(id: string) {
-    var colId: string = instance.getTableName() + "_col_" + id;
-    instance.showHideCol(colId, false);
+function hideCol(gridName: string, id: string) {
+    var colId: string = gridName + "_col_" + id;
+    grids[gridName].showHideCol(colId, false);
 }
 
 function showGrid(gridName: string) {
-    $("#" + grids[gridName].getTableName() + "p").css("display", "");
-    instance = grids[gridName];
-    //alert("show" + instance.getTableName());
+    $("#" + gridName + "p").css("display", "");
+    //grids[gridName] = grids[gridName];
+    //alert("show" + gridName);
 }
 
 function hideGrid(gridName: string) {
-    $("#" + grids[gridName].getTableName() + "p").css("display", "none");
+    $("#" + gridName + "p").css("display", "none");
     //alert("hide" + gridName);
 }
 
-function addRowData(rdata: string) {
+function addRowData(gridName: string, rdata: string) {
     var ardata: string[] = rdata.split(',');
     var targetData = {};
     for (var i = 0; i < ardata.length; ++i) {
-        targetData[instance.getTableName() + "_col_" + i] = ardata[i];
+        targetData[gridName + "_col_" + i] = ardata[i];
     }
-    return instance.addRowData(targetData);
+    return grids[gridName].addRowData(targetData);
 }
 
-function addRowDataById(id: number, rdata: string) : void{
+function addRowDataById(gridName: string, id: number, rdata: string) : void{
     var ardata: string[] = rdata.split(',');
     var targetData = {};
     for (var i = 0; i < ardata.length; ++i) {
-        targetData[instance.getTableName() + "_col_" + i] = ardata[i];
+        targetData[gridName + "_col_" + i] = ardata[i];
     }
-    return instance.addRowDataById(id, targetData);
+    return grids[gridName].addRowDataById(id, targetData);
 }
 
-function getRowId(rowIndex: number) {
-    return instance.getRowId(rowIndex);
+function getRowId(gridName: string, rowIndex: number) {
+    return grids[gridName].getRowId(rowIndex);
 }
 
-function showHideRow(rowId: number, show: string) {
-    //alert(show + instance.getTableName());
-    instance.showHideRow(rowId, show == "true");
+function showHideRow(gridName: string, rowId: number, show: string) {
+    //alert(show + gridName);
+    grids[gridName].showHideRow(rowId, show == "true");
 }
 
-function getSelectedRows() {
-    return instance.getSelectedRowData().toString();
+function getSelectedRows(gridName: string) {
+    return grids[gridName].getSelectedRowData().toString();
 }
 
-function getRowCount() {
-    return instance.getRowCount();
+function getRowCount(gridName: string) {
+    return grids[gridName].getRowCount();
 }
 
 
-function delRowData(rowId: number): void {
+function delRowData(gridName: string, rowId: number): void {
     //alert("delRow" + row);
-    instance.delRowData(rowId);
+    grids[gridName].delRowData(rowId);
 }
 
 
-function reload(): void {
+function reload(gridName: string): void {
     //alert("delRow" + row);
-    instance.reload();
+    grids[gridName].reload();
 }
 
-function getRowData(rowId: number): string {
-    var rw: any = instance.getRowData(rowId);
+function getRowData(gridName: string,rowId: number): string {
+    var rw: any = grids[gridName].getRowData(rowId);
     var ret: string = "";
     for (var i in rw) {
         ret += rw[i] + ',';
@@ -80,6 +80,6 @@ function getRowData(rowId: number): string {
     return ret.substring(0, ret.length - 1);
 }
 
-function setCellData(row: number, col: number, data: string) {
-    instance.setCellData(row, col, data + "");
+function setCellData(gridName: string,row: number, col: number, data: string) {
+    grids[gridName].setCellData(row, col, data + "");
 }

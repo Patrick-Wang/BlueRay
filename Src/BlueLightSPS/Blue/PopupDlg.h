@@ -4,26 +4,26 @@
 #include <vector>
 // CAddDlg dialog
 
-class CAddDlg : public CDialogEx
+class CPopupDlg : public CDialogEx
 {
-	DECLARE_DYNAMIC(CAddDlg)
+	DECLARE_DYNAMIC(CPopupDlg)
 
 public:
-	CAddDlg(LPCTSTR title, CWnd* pParent = NULL);   // standard constructor
-	virtual ~CAddDlg();
+	CPopupDlg(LPCTSTR title, CWnd* pParent = NULL);   // standard constructor
+	virtual ~CPopupDlg();
 
 // Dialog Data
 	enum { IDD = IDD_DIALOG_ITEMINFO };
 	const std::vector<CString>& GetResult() const;
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual void OnOKClicked();
+	//virtual void OnOKClicked();
 	DECLARE_MESSAGE_MAP()
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+//	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 public:
 	virtual BOOL OnInitDialog();
-private:
+protected:
 	CString m_Title;
 	CBRButton m_btnOK;
 	CBRButton m_btnCancel;
@@ -32,4 +32,5 @@ protected:
 	
 public:
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
 };

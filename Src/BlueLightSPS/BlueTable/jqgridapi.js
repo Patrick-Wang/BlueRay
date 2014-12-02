@@ -1,76 +1,76 @@
 ﻿/// <reference path="base.ts" />
-var instance;
+//var instance: base.GridView;
 var grids = {};
 var mediator = window.external;
 
-function showCol(id) {
-    var colId = instance.getTableName() + "_col_" + id;
-    instance.showHideCol(colId, true);
+function showCol(gridName, id) {
+    var colId = gridName + "_col_" + id;
+    grids[gridName].showHideCol(colId, true);
 }
 
-function hideCol(id) {
-    var colId = instance.getTableName() + "_col_" + id;
-    instance.showHideCol(colId, false);
+function hideCol(gridName, id) {
+    var colId = gridName + "_col_" + id;
+    grids[gridName].showHideCol(colId, false);
 }
 
 function showGrid(gridName) {
-    $("#" + grids[gridName].getTableName() + "p").css("display", "");
-    instance = grids[gridName];
-    //alert("show" + instance.getTableName());
+    $("#" + gridName + "p").css("display", "");
+    //grids[gridName] = grids[gridName];
+    //alert("show" + gridName);
 }
 
 function hideGrid(gridName) {
-    $("#" + grids[gridName].getTableName() + "p").css("display", "none");
+    $("#" + gridName + "p").css("display", "none");
     //alert("hide" + gridName);
 }
 
-function addRowData(rdata) {
+function addRowData(gridName, rdata) {
     var ardata = rdata.split(',');
     var targetData = {};
     for (var i = 0; i < ardata.length; ++i) {
-        targetData[instance.getTableName() + "_col_" + i] = ardata[i];
+        targetData[gridName + "_col_" + i] = ardata[i];
     }
-    return instance.addRowData(targetData);
+    return grids[gridName].addRowData(targetData);
 }
 
-function addRowDataById(id, rdata) {
+function addRowDataById(gridName, id, rdata) {
     var ardata = rdata.split(',');
     var targetData = {};
     for (var i = 0; i < ardata.length; ++i) {
-        targetData[instance.getTableName() + "_col_" + i] = ardata[i];
+        targetData[gridName + "_col_" + i] = ardata[i];
     }
-    return instance.addRowDataById(id, targetData);
+    return grids[gridName].addRowDataById(id, targetData);
 }
 
-function getRowId(rowIndex) {
-    return instance.getRowId(rowIndex);
+function getRowId(gridName, rowIndex) {
+    return grids[gridName].getRowId(rowIndex);
 }
 
-function showHideRow(rowId, show) {
-    //alert(show + instance.getTableName());
-    instance.showHideRow(rowId, show == "true");
+function showHideRow(gridName, rowId, show) {
+    //alert(show + gridName);
+    grids[gridName].showHideRow(rowId, show == "true");
 }
 
-function getSelectedRows() {
-    return instance.getSelectedRowData().toString();
+function getSelectedRows(gridName) {
+    return grids[gridName].getSelectedRowData().toString();
 }
 
-function getRowCount() {
-    return instance.getRowCount();
+function getRowCount(gridName) {
+    return grids[gridName].getRowCount();
 }
 
-function delRowData(rowId) {
+function delRowData(gridName, rowId) {
     //alert("delRow" + row);
-    instance.delRowData(rowId);
+    grids[gridName].delRowData(rowId);
 }
 
-function reload() {
+function reload(gridName) {
     //alert("delRow" + row);
-    instance.reload();
+    grids[gridName].reload();
 }
 
-function getRowData(rowId) {
-    var rw = instance.getRowData(rowId);
+function getRowData(gridName, rowId) {
+    var rw = grids[gridName].getRowData(rowId);
     var ret = "";
     for (var i in rw) {
         ret += rw[i] + ',';
@@ -78,7 +78,7 @@ function getRowData(rowId) {
     return ret.substring(0, ret.length - 1);
 }
 
-function setCellData(row, col, data) {
-    instance.setCellData(row, col, data + "");
+function setCellData(gridName, row, col, data) {
+    grids[gridName].setCellData(row, col, data + "");
 }
 //# sourceMappingURL=jqgridapi.js.map
