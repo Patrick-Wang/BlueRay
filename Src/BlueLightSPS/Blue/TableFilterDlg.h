@@ -1,7 +1,9 @@
 #pragma once
 #include "afxwin.h"
 #include "PopupDlg.h"
+#include "XMLParser.h"
 #include <map>
+#include "SettingManager.h"
 
 enum PageIDEnum
 {
@@ -20,8 +22,6 @@ public:
 	CTableFilterDlg(LPCTSTR title, CJQGridAPI* pJqGridAPI, PageIDEnum pageID, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CTableFilterDlg();
 
-	//afx_msg void OnBnClickedOk();
-	//afx_msg void OnBnClickedCancel();
 	virtual void OnOK();
 	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
@@ -31,6 +31,9 @@ public:
 
 private:
 	virtual void PostNcDestroy();
+
+	void SaveColsSetting(std::vector<CString>& vecColsStatus);
+	void GetColsSetting(std::vector<CString>& vecColsStatus);
 
 protected:
 	//virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
@@ -75,12 +78,8 @@ private:
 	CButton* m_aCheckBoxs[CheckBox_Id::CheckBox_END];
 	PageIDEnum m_enumPage;
 
-	//CString m_Title;
 	CJQGridAPI* m_pJqGridAPI;
+	CSettingManager m_objSettingManager;
 
 	static const int m_breakPointOfPlanPage = CheckBox_SHJH;
-	
-//public:
-//	CButton m_btnOK;
-//	CButton m_btnCancel;
 };

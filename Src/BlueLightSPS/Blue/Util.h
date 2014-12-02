@@ -19,5 +19,14 @@ public:
 	static void Split(CString& src, TCHAR split, std::vector<int>& retData);
 	static void Join(const std::vector<CString>& retData, CString& dest);
 	static void Join(const std::vector<int>& retData, CString& dest);
+	
+	static void StringToDate(CString &strData, COleDateTime& objDataTime);
+	static void StringToDataTime(CString &strData, COleDateTime& objDataTime);
+	static DOUBLE CompareTime(CString& strLeftUpdateTime, CString& strRightUpdateTime);
+	static DOUBLE CompareTime(SYSTEMTIME &tmLeftTime, SYSTEMTIME &tmRightTime);
+	static bool MakeDir(LPCTSTR lpPath);
+	static bool DeleteFiles(LPCTSTR strFolderPath);
+	static bool GetExpandPath(LPCTSTR pszEnvironmentPath, CString &csExpandPath);
+
 };
 

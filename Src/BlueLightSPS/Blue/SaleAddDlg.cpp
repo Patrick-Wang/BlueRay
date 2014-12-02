@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "SaleAddDlg.h"
 #include "resource_ids.h"
+#include "CommonDefine.h"
 #include "Util.h"
 #include "JQGridAPI.h"
 

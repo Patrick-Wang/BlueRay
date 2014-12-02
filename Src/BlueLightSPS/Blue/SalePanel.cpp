@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "SalePanel.h"
 #include "resource_ids.h"
+#include "CommonDefine.h"
 #include "Util.h"
 #include "SaleAddDlg.h"
 #include "colors.h"

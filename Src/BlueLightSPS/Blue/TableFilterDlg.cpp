@@ -11,6 +11,36 @@
 
 #define IDC_CHECKBOX_BASE (IDC_TABLEFILTER_BASE + 1)
 
+static LPCTSTR g_TableFilterSettingName[][1] = { //0: default text
+		{ IDS_SETTING_ITEM_TABLEFILTER_HTH },
+		{ IDS_SETTING_ITEM_TABLEFILTER_KHMC },
+		{ IDS_SETTING_ITEM_TABLEFILTER_GGBH },
+		{ IDS_SETTING_ITEM_TABLEFILTER_SL },
+		{ IDS_SETTING_ITEM_TABLEFILTER_ZC },
+		{ IDS_SETTING_ITEM_TABLEFILTER_DFR },
+		{ IDS_SETTING_ITEM_TABLEFILTER_ZDQDY },
+		{ IDS_SETTING_ITEM_TABLEFILTER_YYLGG },
+		{ IDS_SETTING_ITEM_TABLEFILTER_JF },
+		{ IDS_SETTING_ITEM_TABLEFILTER_BPQXH },
+		{ IDS_SETTING_ITEM_TABLEFILTER_BMQXH },
+		{ IDS_SETTING_ITEM_TABLEFILTER_DLCD },
+		{ IDS_SETTING_ITEM_TABLEFILTER_ZXCD },
+		{ IDS_SETTING_ITEM_TABLEFILTER_MPZL },
+		{ IDS_SETTING_ITEM_TABLEFILTER_BZ },
+		{ IDS_SETTING_ITEM_TABLEFILTER_DDRQ },
+		{ IDS_SETTING_ITEM_TABLEFILTER_SHYW },
+		{ IDS_SETTING_ITEM_TABLEFILTER_SHJH },
+		{ IDS_SETTING_ITEM_TABLEFILTER_SCRQ },
+		{ IDS_SETTING_ITEM_TABLEFILTER_JHSHYW },
+		{ IDS_SETTING_ITEM_TABLEFILTER_JHSHJH },
+		{ IDS_SETTING_ITEM_TABLEFILTER_BZRQ },
+		{ IDS_SETTING_ITEM_TABLEFILTER_BZSHYW },
+		{ IDS_SETTING_ITEM_TABLEFILTER_BZSHJH },
+		{ IDS_SETTING_ITEM_TABLEFILTER_FHRQ },
+		{ IDS_SETTING_ITEM_TABLEFILTER_TCBH },
+		{ IDS_SETTING_ITEM_TABLEFILTER_CCBH }
+
+};
 
 static LPCTSTR g_CheckBoxCaptions[][1] = { //0: default text
 		{ _T("合同号") },
@@ -101,8 +131,6 @@ CTableFilterDlg::~CTableFilterDlg()
 
 
 BEGIN_MESSAGE_MAP(CTableFilterDlg, CPopupDlg)
-	//	ON_BN_CLICKED(IDOK, &CTableFilterDlg::OnBnClickedOk)
-	//	ON_BN_CLICKED(IDCANCEL, &CTableFilterDlg::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
 
@@ -112,36 +140,34 @@ BOOL CTableFilterDlg::OnInitDialog()
 {
 	__super::OnInitDialog();
 
-	//Util::SetClientSize(m_hWnd, 837, 421);
-	//SetWindowText(m_Title);
-
-	//m_btnOK.MoveWindow(556, 366, 114, 30);
-	//m_btnOK.SetWindowText(_T("确定"));
-
-	//m_btnCancel.MoveWindow(690, 366, 114, 30);
-	//m_btnCancel.SetWindowText(_T("取消"));
-
 	CenterWindow();
-	const std::set<int>& hiddenCols = m_pJqGridAPI->getHiddenCols();
+
+	//const std::set<int>& hiddenCols = m_pJqGridAPI->getHiddenCols();
+
 	//init check box according to user setting
+	CString strValue;
 	for (int i = 0; i < _countof(g_CheckBoxPos); ++i)
 	{
 		m_aCheckBoxs[i] = Util::CreateCheckBox(this, IDC_CHECKBOX_BASE + i, g_CheckBoxCaptions[i][0], _T("Microsoft YaHei"), 12);
 		m_aCheckBoxs[i]->MoveWindow(g_CheckBoxPos[i][0], g_CheckBoxPos[i][1], g_CheckBoxPos[i][2], g_CheckBoxPos[i][3]);
 
-		if (hiddenCols.find(i) != hiddenCols.end())
+		if (Page_Sale == m_enumPage)
 		{
-			m_aCheckBoxs[i]->SetCheck(FALSE);
+			m_objSettingManager.GetTableFilterSettingForSale(g_TableFilterSettingName[i][0], strValue);
 		}
-		else
+		else if (Page_Plan == m_enumPage)
+		{
+			m_objSettingManager.GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
+		}
+
+		if (0 == strValue.Compare(IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED))
 		{
 			m_aCheckBoxs[i]->SetCheck(TRUE);
 		}
-
-		//if ( setting false )
-		//{
-		//	m_aCheckBoxs[i]->ShowWindow(FALSE);
-		//}
+		else
+		{
+			m_aCheckBoxs[i]->SetCheck(FALSE);
+		}
 
 		if (Page_Sale == m_enumPage)
 		{
@@ -156,6 +182,57 @@ BOOL CTableFilterDlg::OnInitDialog()
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
+void CTableFilterDlg::SaveColsSetting(std::vector<CString>& vecColsStatus)
+{
+	CString strValue;
+
+	for (int i = 0; i < vecColsStatus.size(); ++i)
+	{
+		if (Page_Sale == m_enumPage)
+		{
+			m_objSettingManager.SetTableFilterSettingForSale(g_TableFilterSettingName[i][0], vecColsStatus[i]);
+		}
+		else if (Page_Plan == m_enumPage)
+		{
+			m_objSettingManager.SetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], vecColsStatus[i]);
+		}
+
+		if (Page_Sale == m_enumPage)
+		{
+			if (i == m_breakPointOfPlanPage)
+			{
+				break;
+			}
+		}
+	}
+}
+
+void CTableFilterDlg::GetColsSetting(std::vector<CString>& vecColsStatus)
+{
+	CString strValue;
+
+	for (int i = 0; i < _countof(g_CheckBoxPos); ++i)
+	{
+		if (Page_Sale == m_enumPage)
+		{
+			m_objSettingManager.GetTableFilterSettingForSale(g_TableFilterSettingName[i][0], strValue);
+		}
+		else if (Page_Plan == m_enumPage)
+		{
+			m_objSettingManager.GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
+		}
+
+		vecColsStatus[i] = strValue;
+
+		if (Page_Sale == m_enumPage)
+		{
+			if (i == m_breakPointOfPlanPage)
+			{
+				break;
+			}
+		}
+	}
+}
 
 void CTableFilterDlg::PostNcDestroy()
 {
@@ -172,33 +249,24 @@ void CTableFilterDlg::PostNcDestroy()
 	CDialogEx::PostNcDestroy();
 }
 
-//void CTableFilterDlg::OnBnClickedOk()
-//{
-//	
-//
-//	CDialogEx::OnOK();
-//}
-//
-//
-//void CTableFilterDlg::OnBnClickedCancel()
-//{
-//	CDialogEx::OnCancel();
-//}
-
 void CTableFilterDlg::OnOK(){
 
 	//save user settings
 
 	//update table
 
+	std::vector<CString> vecColsStatus;
+
 	for (int i = 0; i < _countof(m_aCheckBoxs); ++i)
 	{
 		if (!m_aCheckBoxs[i]->GetCheck())
 		{
+			vecColsStatus[i] = IDS_SETTING_ITEM_TABLEFILTER_VALUE_UNCHECKED;
 			m_pJqGridAPI->HideCol(i);
 		}
 		else
 		{
+			vecColsStatus[i] = IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED;
 			m_pJqGridAPI->ShowCol(i);
 		}
 
@@ -211,8 +279,12 @@ void CTableFilterDlg::OnOK(){
 		}
 	}
 
+	SaveColsSetting(vecColsStatus);
+	
 	__super::OnOK();
 }
+
 void CTableFilterDlg::OnCancel(){
+
 	__super::OnCancel();
 }

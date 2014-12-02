@@ -49,11 +49,3 @@
 #define IDP_SALE_ADD	20200
 #define IDP_PLAN	20300
 #define IDP_PRODUCT	20400
-
-//Host
-
-#ifdef _DEBUG
-#define IDS_HOST_NAME             _T("localhost")
-#else
-#define IDS_HOST_NAME             _T("192.168.104.2")
-#endif

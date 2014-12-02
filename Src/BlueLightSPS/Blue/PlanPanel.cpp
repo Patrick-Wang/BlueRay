@@ -3,6 +3,7 @@
 #include "PlanAddDlg.h"
 #include "SaleAddDlg.h"
 #include "resource_ids.h"
+#include "CommonDefine.h"
 #include "Util.h"
 #include "TableFilterDlg.h"
 #include "colors.h"
