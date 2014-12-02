@@ -222,7 +222,7 @@ void CTableFilterDlg::GetColsSetting(std::vector<CString>& vecColsStatus)
 			m_objSettingManager.GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
 		}
 
-		vecColsStatus[i] = strValue;
+		vecColsStatus.push_back(strValue);
 
 		if (Page_Sale == m_enumPage)
 		{
@@ -261,12 +261,12 @@ void CTableFilterDlg::OnOK(){
 	{
 		if (!m_aCheckBoxs[i]->GetCheck())
 		{
-			vecColsStatus[i] = IDS_SETTING_ITEM_TABLEFILTER_VALUE_UNCHECKED;
+			vecColsStatus.push_back(IDS_SETTING_ITEM_TABLEFILTER_VALUE_UNCHECKED);
 			m_pJqGridAPI->HideCol(i);
 		}
 		else
 		{
-			vecColsStatus[i] = IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED;
+			vecColsStatus.push_back(IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED);
 			m_pJqGridAPI->ShowCol(i);
 		}
 
