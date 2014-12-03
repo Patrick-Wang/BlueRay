@@ -28,9 +28,7 @@ public class PlanController {
 	@Autowired
 	PlanService planService;
 
-	@Autowired
-	SaleService saleService;
-	
+
 //	@Autowired
 //	MapQueryService mqService;
 	
@@ -67,8 +65,7 @@ public class PlanController {
 	@RequestMapping(value = "/query", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String getSaleQueryData(HttpServletRequest request,
 			HttpServletResponse response) {
-		String[][] saleHts = saleService.query();
-		return JSONArray.fromObject(planService.query()).toString();
+		return JSONArray.fromObject(planService.query()).toString().replace("null", "");
 	}
 
 //	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -101,19 +98,19 @@ public class PlanController {
 //		return service.delete(ja);
 //	}
 	
-//	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-//	public @ResponseBody String modifySaleData(HttpServletRequest request,
-//			HttpServletResponse response) throws IOException {
-//		BufferedReader br = new BufferedReader(new InputStreamReader(
-//				request.getInputStream(), "UTF-8"));
-//		String line = null;
-//		StringBuilder sb = new StringBuilder();
-//		while ((line = br.readLine()) != null) {
-//			sb.append(line);
-//		}
-//		JSONObject jo = JSONObject.fromObject(sb.toString());
-//		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
-//		JSONArray data = JSONArray.fromObject(jo.get("data"));
-//		return service.update(rows, data);
-//	}
+	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String modifySaleData(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				request.getInputStream(), "UTF-8"));
+		String line = null;
+		StringBuilder sb = new StringBuilder();
+		while ((line = br.readLine()) != null) {
+			sb.append(line);
+		}
+		JSONObject jo = JSONObject.fromObject(sb.toString());
+		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
+		JSONArray data = JSONArray.fromObject(jo.get("data"));
+		return planService.update(rows, data);
+	}
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.BlueRay.mutton.model.dao.ItemDao;
+import com.BlueRay.mutton.model.dao.PlanDao;
 import com.BlueRay.mutton.model.dao.SaleDao;
 import com.BlueRay.mutton.model.entity.jpa.BMQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.BPQXHFLXX;
@@ -17,6 +18,7 @@ import com.BlueRay.mutton.model.entity.jpa.CPGGXHXX;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.KHXX;
 import com.BlueRay.mutton.model.entity.jpa.MPZLXX;
+import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
 import com.BlueRay.mutton.model.entity.jpa.YYLGGFLXX;
 import com.BlueRay.mutton.model.entity.jpa.ZCXX;
 import com.BlueRay.mutton.model.entity.jpa.ZDQDYFLXX;
@@ -31,7 +33,10 @@ public class SaleServiceImpl implements SaleService {
 	@Autowired
 	private ItemDao itemDao;
 
-	public static void setHtxx(String[] row, HTXX htxx, ItemDao itDao){
+	@Autowired
+	private PlanDao planDao;
+
+	public static void setHtxx(String[] row, HTXX htxx, ItemDao itDao) {
 		try {
 			row[0] = htxx.getID() + "";
 
@@ -41,18 +46,14 @@ public class SaleServiceImpl implements SaleService {
 
 			row[4] = htxx.getSl() + "";
 			row[5] = itDao.queryZcxxById(htxx.getZcID()).getZcxh();
-			row[6] = "Y".equals(htxx.getDfr()) ? "是": "否";
+			row[6] = "Y".equals(htxx.getDfr()) ? "是" : "否";
 
-			row[7] = itDao.queryZdqdyflxxById(htxx.getZdqdyID())
-					.getZdqdy();
-			row[8] = itDao.queryYylggflxxById(htxx.getYylggID())
-					.getYylgg();
+			row[7] = itDao.queryZdqdyflxxById(htxx.getZdqdyID()).getZdqdy();
+			row[8] = itDao.queryYylggflxxById(htxx.getYylggID()).getYylgg();
 			row[9] = htxx.getSfjf();
 
-			row[10] = itDao.queryBpqxhflxxById(htxx.getBpqxhID())
-					.getBpqxh();
-			row[11] = itDao.queryBmqxhflxxById(htxx.getBmqxhID())
-					.getBmqxh();
+			row[10] = itDao.queryBpqxhflxxById(htxx.getBpqxhID()).getBpqxh();
+			row[11] = itDao.queryBmqxhflxxById(htxx.getBmqxhID()).getBmqxh();
 			row[12] = htxx.getDlcd();
 
 			row[13] = htxx.getZxcd();
@@ -66,7 +67,7 @@ public class SaleServiceImpl implements SaleService {
 
 		}
 	}
-	
+
 	public String[][] query() {
 		List<HTXX> list = saleDao.getSaleData();
 		// "合同号", "客户名称", "规格型号",
@@ -80,39 +81,39 @@ public class SaleServiceImpl implements SaleService {
 		for (int i = 0; i < list.size(); ++i) {
 			htxx = list.get(i);
 			setHtxx(ret[i], htxx, itemDao);
-//			try {
-//				ret[i][0] = htxx.getID() + "";
-//
-//				ret[i][1] = htxx.getHtID() + "";
-//				ret[i][2] = itemDao.queryKhxxById(htxx.getClientID()).getKhmc();
-//				ret[i][3] = itemDao.queryCpggxhxxById(htxx.getGgxhID()).getGg();
-//
-//				ret[i][4] = htxx.getSl() + "";
-//				ret[i][5] = itemDao.queryZcxxById(htxx.getZcID()).getZcxh();
-//				ret[i][6] = "Y".equals(htxx.getDfr()) ? "是": "否";
-//
-//				ret[i][7] = itemDao.queryZdqdyflxxById(htxx.getZdqdyID())
-//						.getZdqdy();
-//				ret[i][8] = itemDao.queryYylggflxxById(htxx.getYylggID())
-//						.getYylgg();
-//				ret[i][9] = htxx.getSfjf();
-//
-//				ret[i][10] = itemDao.queryBpqxhflxxById(htxx.getBpqxhID())
-//						.getBpqxh();
-//				ret[i][11] = itemDao.queryBmqxhflxxById(htxx.getBmqxhID())
-//						.getBmqxh();
-//				ret[i][12] = htxx.getDlcd();
-//
-//				ret[i][13] = htxx.getZxcd();
-//				ret[i][14] = itemDao.queryMpzlxxById(htxx.getMpzl()).getMpzl();
-//				ret[i][15] = htxx.getBz();
-//
-//				ret[i][16] = htxx.getDdrq() + "";
-//				ret[i][17] = "Y".equals(htxx.getSftgywsh()) ? "已审批" : "未审批";
-//				ret[i][18] = "Y".equals(htxx.getSftgjhsh()) ? "已审批" : "未审批";
-//			} catch (Exception e) {
-//
-//			}
+			// try {
+			// ret[i][0] = htxx.getID() + "";
+			//
+			// ret[i][1] = htxx.getHtID() + "";
+			// ret[i][2] = itemDao.queryKhxxById(htxx.getClientID()).getKhmc();
+			// ret[i][3] = itemDao.queryCpggxhxxById(htxx.getGgxhID()).getGg();
+			//
+			// ret[i][4] = htxx.getSl() + "";
+			// ret[i][5] = itemDao.queryZcxxById(htxx.getZcID()).getZcxh();
+			// ret[i][6] = "Y".equals(htxx.getDfr()) ? "是": "否";
+			//
+			// ret[i][7] = itemDao.queryZdqdyflxxById(htxx.getZdqdyID())
+			// .getZdqdy();
+			// ret[i][8] = itemDao.queryYylggflxxById(htxx.getYylggID())
+			// .getYylgg();
+			// ret[i][9] = htxx.getSfjf();
+			//
+			// ret[i][10] = itemDao.queryBpqxhflxxById(htxx.getBpqxhID())
+			// .getBpqxh();
+			// ret[i][11] = itemDao.queryBmqxhflxxById(htxx.getBmqxhID())
+			// .getBmqxh();
+			// ret[i][12] = htxx.getDlcd();
+			//
+			// ret[i][13] = htxx.getZxcd();
+			// ret[i][14] = itemDao.queryMpzlxxById(htxx.getMpzl()).getMpzl();
+			// ret[i][15] = htxx.getBz();
+			//
+			// ret[i][16] = htxx.getDdrq() + "";
+			// ret[i][17] = "Y".equals(htxx.getSftgywsh()) ? "已审批" : "未审批";
+			// ret[i][18] = "Y".equals(htxx.getSftgjhsh()) ? "已审批" : "未审批";
+			// } catch (Exception e) {
+			//
+			// }
 			// ret[i][17] = htxx.getDdzt();
 
 		}
@@ -312,25 +313,27 @@ public class SaleServiceImpl implements SaleService {
 		for (int i = rows.size() - 1; i >= 0; --i) {
 			HTXX htxx = saleDao
 					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
-			setHtID(htxx, data.getString(0));
-			setClientID(htxx, data.getString(1));
-			setGgxhID(htxx, data.getString(2));
-			setSl(htxx, data.getString(3));
-			setZcID(htxx, data.getString(4));
-			setDfr(htxx, data.getString(5));
-			setZdqdyID(htxx, data.getString(6));
-			setYylggID(htxx, data.getString(7));
-			setSfjf(htxx, data.getString(8));
-			setBpqxhID(htxx, data.getString(9));
-			setBmqxhID(htxx, data.getString(10));
-			setDlcd(htxx, data.getString(11));
+			if (htxx != null) {
+				setHtID(htxx, data.getString(0));
+				setClientID(htxx, data.getString(1));
+				setGgxhID(htxx, data.getString(2));
+				setSl(htxx, data.getString(3));
+				setZcID(htxx, data.getString(4));
+				setDfr(htxx, data.getString(5));
+				setZdqdyID(htxx, data.getString(6));
+				setYylggID(htxx, data.getString(7));
+				setSfjf(htxx, data.getString(8));
+				setBpqxhID(htxx, data.getString(9));
+				setBmqxhID(htxx, data.getString(10));
+				setDlcd(htxx, data.getString(11));
 
-			setZxcd(htxx, data.getString(12));
-			setMpzl(htxx, data.getString(13));
-			setBz(htxx, data.getString(14));
-			setDdrq(htxx, data.getString(15));
+				setZxcd(htxx, data.getString(12));
+				setMpzl(htxx, data.getString(13));
+				setBz(htxx, data.getString(14));
+				setDdrq(htxx, data.getString(15));
 
-			saleDao.update(htxx);
+				saleDao.update(htxx);
+			}
 		}
 		return "success";
 	}
@@ -339,10 +342,12 @@ public class SaleServiceImpl implements SaleService {
 		for (int i = rows.size() - 1; i >= 0; --i) {
 			HTXX htxx = saleDao
 					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
-			if ("N".equals(htxx.getSftgywsh())){
+			if ("N".equals(htxx.getSftgywsh())) {
 				htxx.setSftgywsh("Y");
 				saleDao.update(htxx);
-				
+				PCJHXX pcjhxx = new PCJHXX();
+				pcjhxx.setHtxxID(htxx.getID());
+				planDao.insert(pcjhxx);
 			}
 		}
 		return "success";

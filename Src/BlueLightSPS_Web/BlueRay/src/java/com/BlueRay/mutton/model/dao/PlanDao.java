@@ -8,4 +8,10 @@ public interface PlanDao {
 
 	List<PCJHXX> getPcjhxx();
 
+	void insert(PCJHXX pcjhxx);
+
+	PCJHXX getDataById(int id);
+
+	void update(PCJHXX pcjhxx);
+
 }
