@@ -4,6 +4,7 @@
 #include "BSStatic.h"
 #include "JQGridAPI.h"
 #include "IHttp.h"
+#include "TableFilterDlg.h"
 class CPlanPanel :
 	public CControlPanel
 {
@@ -39,6 +40,7 @@ private:
 	CBSStatic* m_staticProductionStatus;
 	CComboBox* m_comboProductionStatus;
 	IHttp* m_pHttp;
+	CTableFilterDlg m_tableFilterDlg;
 	DECLARE_MESSAGE_MAP()
 
 public:

@@ -5,7 +5,6 @@
 #include "resource_ids.h"
 #include "CommonDefine.h"
 #include "Util.h"
-#include "TableFilterDlg.h"
 #include "colors.h"
 
 BEGIN_MESSAGE_MAP(CPlanPanel, CControlPanel)
@@ -31,7 +30,9 @@ CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
 		m_editSearch(NULL),
 		m_staticProductionStatus(NULL),
 		m_comboProductionStatus(NULL),
-		m_pHttp(pHttp)
+		m_pHttp(pHttp),
+		m_tableFilterDlg(_T("表格设置"))
+
 {
 	m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CPlanPanel::OnRowChecked);
 	m_table.resize(13);
@@ -99,6 +100,8 @@ CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
 		}
 
 	}
+
+	m_tableFilterDlg.Initialize(m_pJqGridAPI.get(), Page_Plan);
 }
 
 
@@ -246,8 +249,7 @@ void CPlanPanel::OnBnClickedPlan()
 
 void CPlanPanel::OnBnClickedTableFilter()
 {
-	CTableFilterDlg dlg(_T("表格设置"), m_pJqGridAPI.get(), Page_Plan);
-	if (IDOK == dlg.DoModal()){
+	if (IDOK == m_tableFilterDlg.DoModal()){
 	}
 }
 

@@ -6,7 +6,6 @@
 #include "SaleAddDlg.h"
 #include "colors.h"
 #include "JQGridAPI.h"
-#include "TableFilterDlg.h"
 #define UM_REQUEST_RESULT
 
 #define RIGHT_AREA_LEFT	150
@@ -30,8 +29,9 @@ END_MESSAGE_MAP()
 CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
 	: m_pJqGridAPI(pJqGridAPI)
 	, m_pHttp(pHttp)
+	, m_tableFilterDlg(_T("表格设置"))
 {
-
+	m_tableFilterDlg.Initialize(m_pJqGridAPI.get(), Page_Sale);
 }
 
 CSalePanel::~CSalePanel()
@@ -101,8 +101,7 @@ void CSalePanel::OnBnClickedAdd()
 
 void CSalePanel::OnBnClickedTableFilter()
 {
-	CTableFilterDlg dlg(_T("表格设置"), m_pJqGridAPI.get(), Page_Sale);
-	if (IDOK == dlg.DoModal()){
+	if (IDOK == m_tableFilterDlg.DoModal()){
 	}
 }
 
@@ -336,6 +335,7 @@ void CSalePanel::OnLoadDataSuccess(CString& jsondata)
 	{
 		m_pJqGridAPI->AddRow(m_table[j].first, m_table[j].second);
 	}
+
 }
 
 void CSalePanel::OnDelDataSuccess()

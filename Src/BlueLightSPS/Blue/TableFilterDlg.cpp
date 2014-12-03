@@ -109,17 +109,63 @@ static int g_CheckBoxPos[][4] = {
 
 IMPLEMENT_DYNAMIC(CTableFilterDlg, CPopupDlg)
 
-CTableFilterDlg::CTableFilterDlg(LPCTSTR title, CJQGridAPI* pJqGridAPI, PageIDEnum pageID, CWnd* pParent /*=NULL*/)
+CTableFilterDlg::CTableFilterDlg(LPCTSTR title, CWnd* pParent /*=NULL*/)
 : CPopupDlg(title, pParent)
-, m_enumPage(pageID)
-//, m_Title(title)
-, m_pJqGridAPI(pJqGridAPI)
 {
 
 }
 
 CTableFilterDlg::~CTableFilterDlg()
 {
+}
+
+bool CTableFilterDlg::Initialize(CJQGridAPI* pJqGridAPI, PageIDEnum pageID)
+{
+	bool bRet = false;
+	do 
+	{
+		m_enumPage = pageID;
+		
+		m_pJqGridAPI = pJqGridAPI;
+		
+		if (NULL == m_pJqGridAPI)
+		{
+			break;
+		}
+		
+
+		CString strValue;
+
+		for (int i = 0; i < _countof(g_CheckBoxPos); ++i)
+		{
+			if (Page_Sale == m_enumPage)
+			{
+				m_objSettingManager.GetTableFilterSettingForSale(g_TableFilterSettingName[i][0], strValue);
+			}
+			else if (Page_Plan == m_enumPage)
+			{
+				m_objSettingManager.GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
+			}
+
+			if (0 != strValue.Compare(IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED))
+			{
+				m_pJqGridAPI->HideCol(i);
+			}
+
+			if (Page_Sale == m_enumPage)
+			{
+				if (i == m_breakPointOfPlanPage)
+				{
+					break;
+				}
+			}
+		}
+
+		bRet = true;
+
+	} while (false);
+
+	return bRet;
 }
 
 //void CTableFilterDlg::DoDataExchange(CDataExchange* pDX)

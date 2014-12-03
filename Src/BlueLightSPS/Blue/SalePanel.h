@@ -4,7 +4,9 @@
 #include "BSStatic.h"
 #include "JQGridAPI.h"
 #include "IHttp.h"
+#include "TableFilterDlg.h"
 #include "SaleAddDlg.h"
+
 class CSalePanel :
 	public CControlPanel
 {
@@ -44,6 +46,7 @@ private:
 	std::auto_ptr<CJQGridAPI> m_pJqGridAPI;
 	IHttp* m_pHttp;
 	std::vector<CString> m_cacheRow;
+	CTableFilterDlg m_tableFilterDlg;
 public:
 	afx_msg void OnNcDestroy();
 };

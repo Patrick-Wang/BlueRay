@@ -19,12 +19,14 @@ class CTableFilterDlg : public CPopupDlg
 	DECLARE_DYNAMIC(CTableFilterDlg)
 
 public:
-	CTableFilterDlg(LPCTSTR title, CJQGridAPI* pJqGridAPI, PageIDEnum pageID, CWnd* pParent = NULL);   // standard constructor
+	CTableFilterDlg(LPCTSTR title, CWnd* pParent = NULL);   // standard constructor
 	virtual ~CTableFilterDlg();
 
 	virtual void OnOK();
 	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
+
+	bool Initialize(CJQGridAPI* pJqGridAPI, PageIDEnum pageID);
 
 	// Dialog Data
 	enum { IDD = IDD_DIALOG_TABLEFILTER };
