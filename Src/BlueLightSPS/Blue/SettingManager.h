@@ -3,22 +3,17 @@
 
 #include "XMLParser.h"
 #include "CommonDefine.h"
+#include "Util.h"
 
 class CSettingManager
 {
-public:
-	CSettingManager(void);
-	virtual ~CSettingManager(void);
+	TO_BE_SINGLETON(CSettingManager);
 
 public:
 	bool SetTableFilterSettingForSale(LPCTSTR lpSettingName, LPCTSTR lpIsSelected);
 	bool GetTableFilterSettingForSale(LPCTSTR lpSettingName, CString& lpIsSelected);
 	bool SetTableFilterSettingForPlan(LPCTSTR lpSettingName, LPCTSTR lpIsSelected);
 	bool GetTableFilterSettingForPlan(LPCTSTR lpSettingName, CString& lpIsSelected);
-
-private:
-	bool Initialize();
-	bool Uninitialize();
 
 private:
 	CXMLParser m_objXMLParser;

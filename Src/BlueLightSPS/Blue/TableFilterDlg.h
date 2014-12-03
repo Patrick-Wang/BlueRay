@@ -83,7 +83,6 @@ private:
 	PageIDEnum m_enumPage;
 
 	CJQGridAPI* m_pJqGridAPI;
-	CSettingManager m_objSettingManager;
 
 	CButton* m_checkboxSelectAll;
 

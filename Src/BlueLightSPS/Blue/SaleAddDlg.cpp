@@ -282,7 +282,7 @@ void CSaleAddDlg::OnLoadComboDataSuccess(int id, CString strValList)
 {
 	--m_iRef;
 	std::vector<CString> vec;
-	Util::Split(strValList, _T(','), vec);
+	Util_Tools::Util::Split(strValList, _T(','), vec);
 
 	for (int i = 0; i < vec.size(); i++)
 	{
@@ -304,7 +304,7 @@ BOOL CSaleAddDlg::OnInitDialog()
 	//init comb
 	for (int i = _countof(g_CombPos) - 1; i >= 0; --i)
 	{
-		m_aCombs[i] = Util::CreateComboBox(this, IDC_COMBO_BASE + i, _T("Microsoft YaHei"), 12);
+		m_aCombs[i] = Util_Tools::Util::CreateComboBox(this, IDC_COMBO_BASE + i, _T("Microsoft YaHei"), 12);
 		m_aCombs[i]->MoveWindow(g_CombPos[i][0], g_CombPos[i][1], g_CombPos[i][2], g_CombPos[i][3]);
 		//for (int j = GetDropList()[i].size() - 1; j >= 0; --j)
 		//{
@@ -315,21 +315,21 @@ BOOL CSaleAddDlg::OnInitDialog()
 	//init static
 	for (int i = 0; i < _countof(g_StaticItems); ++i)
 	{
-		m_aStatics[i] = Util::CreateStatic(this, IDC_STATIC_BASE + i, g_StaticItems[i][0], _T("Microsoft YaHei"), 12);
+		m_aStatics[i] = Util_Tools::Util::CreateStatic(this, IDC_STATIC_BASE + i, g_StaticItems[i][0], _T("Microsoft YaHei"), 12);
 		m_aStatics[i]->MoveWindow(g_StaticPos[i][0], g_StaticPos[i][1], g_StaticPos[i][2], g_StaticPos[i][3]);
 	}
 	
 	//init edit
 	for (int i = 0; i < _countof(g_EditItems); ++i)
 	{
-		m_aEdits[i] = Util::CreateEdit(this, IDC_EDIT_BASE + i, g_EditItems[i][0], _T("Microsoft YaHei"), 12);
+		m_aEdits[i] = Util_Tools::Util::CreateEdit(this, IDC_EDIT_BASE + i, g_EditItems[i][0], _T("Microsoft YaHei"), 12);
 		m_aEdits[i]->MoveWindow(g_EditsPos[i][0], g_EditsPos[i][1], g_EditsPos[i][2], g_EditsPos[i][3]);
 	}
 
 	//init date picker
 	for (int i = 0; i < _countof(g_DatePickersPos); ++i)
 	{
-		m_aDatePickers[i] = Util::CreateDateTimePicker(this, IDC_DATETIME_BASE + i, _T("Microsoft YaHei"), 12);
+		m_aDatePickers[i] = Util_Tools::Util::CreateDateTimePicker(this, IDC_DATETIME_BASE + i, _T("Microsoft YaHei"), 12);
 		m_aDatePickers[i]->MoveWindow(g_DatePickersPos[i][0], g_DatePickersPos[i][1], g_DatePickersPos[i][2], g_DatePickersPos[i][3]);
 	}
 
@@ -467,7 +467,7 @@ void CSaleAddDlg::InitCtrlData()
 
 	for (int i = _countof(g_CombPos) - 1; i >= 0; --i)
 	{
-		//m_aCombs[i] = Util::CreateComboBox(this, IDC_COMBO_BASE + i, _T("Microsoft YaHei"), 12);
+		//m_aCombs[i] = Util_Tools::Util::CreateComboBox(this, IDC_COMBO_BASE + i, _T("Microsoft YaHei"), 12);
 		//m_aCombs[i]->MoveWindow(g_CombPos[i][0], g_CombPos[i][1], g_CombPos[i][2], g_CombPos[i][3]);
 		for (int j = GetDropList()[i].size() - 1; j >= 0; --j)
 		{

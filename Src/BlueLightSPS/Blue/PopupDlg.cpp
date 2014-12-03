@@ -47,7 +47,7 @@ END_MESSAGE_MAP()
 BOOL CPopupDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-	Util::SetClientSize(m_hWnd, 837, 421);
+	Util_Tools::Util::SetClientSize(m_hWnd, 837, 421);
 	SetWindowText(m_Title);
 	m_btnOK.Create(this, IDC_SALE_ADD_BTN_OK);
 	m_btnOK.MoveWindow(556, 366, 114, 30);

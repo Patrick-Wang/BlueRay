@@ -34,7 +34,7 @@ CJQGridAPI::~CJQGridAPI()
 int CJQGridAPI::AddRow(const std::vector<CString>& rowData)
 {
 	CString strArray;
-	Util::Join(rowData, strArray);
+	Util_Tools::Util::Join(rowData, strArray);
 	std::vector<VARIANT> params;
 	VARIANT vt;
 	vt.vt = VT_BSTR;
@@ -55,7 +55,7 @@ int CJQGridAPI::AddRow(const std::vector<CString>& rowData)
 void CJQGridAPI::AddRow(int id, const std::vector<CString>& rowData)
 {
 	CString strArray;
-	Util::Join(rowData, strArray);
+	Util_Tools::Util::Join(rowData, strArray);
 	std::vector<VARIANT> params;
 	VARIANT vt = {};
 	vt.vt = VT_BSTR;
@@ -104,7 +104,7 @@ void CJQGridAPI::GetRow(int rowId, std::vector<CString>& rowData)
 {
 	CString result;
 	GetRow(rowId, result);
-	Util::Split(result, _T(','), rowData);
+	Util_Tools::Util::Split(result, _T(','), rowData);
 }
 
 void CJQGridAPI::GetRow(int rowId, CString& rowData)
@@ -135,7 +135,7 @@ void CJQGridAPI::SetRow(int rowId, const std::vector<CString>& rowData)
 	vt.intVal = rowId;
 	params.push_back(vt);
 	CString strArray;
-	Util::Join(rowData, strArray);
+	Util_Tools::Util::Join(rowData, strArray);
 	vt.vt = VT_BSTR;
 	vt.bstrVal = strArray.AllocSysString();
 	params.push_back(vt);
@@ -154,7 +154,7 @@ void CJQGridAPI::GetCheckedRows(std::vector<int>& checkedRows)
 	if (VT_BSTR == ret.vt)
 	{
 		CString result = ret.bstrVal;
-		Util::Split(result, _T(','), checkedRows);
+		Util_Tools::Util::Split(result, _T(','), checkedRows);
 	}
 
 }

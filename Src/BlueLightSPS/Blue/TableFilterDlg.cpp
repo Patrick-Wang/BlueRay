@@ -122,8 +122,15 @@ CTableFilterDlg::~CTableFilterDlg()
 bool CTableFilterDlg::Initialize(CJQGridAPI* pJqGridAPI, PageIDEnum pageID)
 {
 	bool bRet = false;
+
 	do 
 	{
+		CSettingManager *pobjSettingManager = CSettingManager::GetInstance();
+		if (NULL == pobjSettingManager)
+		{
+			break;
+		}
+
 		m_enumPage = pageID;
 		
 		m_pJqGridAPI = pJqGridAPI;
@@ -140,11 +147,11 @@ bool CTableFilterDlg::Initialize(CJQGridAPI* pJqGridAPI, PageIDEnum pageID)
 		{
 			if (Page_Sale == m_enumPage)
 			{
-				m_objSettingManager.GetTableFilterSettingForSale(g_TableFilterSettingName[i][0], strValue);
+				pobjSettingManager->GetTableFilterSettingForSale(g_TableFilterSettingName[i][0], strValue);
 			}
 			else if (Page_Plan == m_enumPage)
 			{
-				m_objSettingManager.GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
+				pobjSettingManager->GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
 			}
 
 			if (0 != strValue.Compare(IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED))
@@ -189,25 +196,32 @@ BOOL CTableFilterDlg::OnInitDialog()
 
 	CenterWindow();
 
-	m_checkboxSelectAll = Util::CreateCheckBox(this, IDC_CHECKBOX_SELECTALL, _T("ȫѡ"), _T("Microsoft YaHei"), 12);
+	m_checkboxSelectAll = Util_Tools::Util::CreateCheckBox(this, IDC_CHECKBOX_SELECTALL, _T("ȫѡ"), _T("Microsoft YaHei"), 12);
 	m_checkboxSelectAll->MoveWindow(80 * 1 + 80 * 0, 40 * 9, 100, 20);
 
 	//const std::set<int>& hiddenCols = m_pJqGridAPI->getHiddenCols();
 
 	//init check box according to user setting
+	
+	CSettingManager *pobjSettingManager = CSettingManager::GetInstance();
+	if (NULL == pobjSettingManager)
+	{
+		return FALSE;
+	}
+
 	CString strValue;
 	for (int i = 0; i < _countof(g_CheckBoxPos); ++i)
 	{
-		m_aCheckBoxs[i] = Util::CreateCheckBox(this, IDC_CHECKBOX_BASE + i, g_CheckBoxCaptions[i][0], _T("Microsoft YaHei"), 12);
+		m_aCheckBoxs[i] = Util_Tools::Util::CreateCheckBox(this, IDC_CHECKBOX_BASE + i, g_CheckBoxCaptions[i][0], _T("Microsoft YaHei"), 12);
 		m_aCheckBoxs[i]->MoveWindow(g_CheckBoxPos[i][0], g_CheckBoxPos[i][1], g_CheckBoxPos[i][2], g_CheckBoxPos[i][3]);
 
 		if (Page_Sale == m_enumPage)
 		{
-			m_objSettingManager.GetTableFilterSettingForSale(g_TableFilterSettingName[i][0], strValue);
+			pobjSettingManager->GetTableFilterSettingForSale(g_TableFilterSettingName[i][0], strValue);
 		}
 		else if (Page_Plan == m_enumPage)
 		{
-			m_objSettingManager.GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
+			pobjSettingManager->GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
 		}
 
 		if (0 == strValue.Compare(IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED))
@@ -236,22 +250,26 @@ void CTableFilterDlg::SaveColsSetting(std::vector<CString>& vecColsStatus)
 {
 	CString strValue;
 
-	for (int i = 0; i < vecColsStatus.size(); ++i)
+	CSettingManager *pobjSettingManager = CSettingManager::GetInstance();
+	if (NULL != pobjSettingManager)
 	{
-		if (Page_Sale == m_enumPage)
+		for (int i = 0; i < vecColsStatus.size(); ++i)
 		{
-			m_objSettingManager.SetTableFilterSettingForSale(g_TableFilterSettingName[i][0], vecColsStatus[i]);
-		}
-		else if (Page_Plan == m_enumPage)
-		{
-			m_objSettingManager.SetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], vecColsStatus[i]);
-		}
-
-		if (Page_Sale == m_enumPage)
-		{
-			if (i == m_breakPointOfPlanPage)
+			if (Page_Sale == m_enumPage)
 			{
-				break;
+				pobjSettingManager->SetTableFilterSettingForSale(g_TableFilterSettingName[i][0], vecColsStatus[i]);
+			}
+			else if (Page_Plan == m_enumPage)
+			{
+				pobjSettingManager->SetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], vecColsStatus[i]);
+			}
+
+			if (Page_Sale == m_enumPage)
+			{
+				if (i == m_breakPointOfPlanPage)
+				{
+					break;
+				}
 			}
 		}
 	}
@@ -261,24 +279,28 @@ void CTableFilterDlg::GetColsSetting(std::vector<CString>& vecColsStatus)
 {
 	CString strValue;
 
-	for (int i = 0; i < _countof(g_CheckBoxPos); ++i)
+	CSettingManager *pobjSettingManager = CSettingManager::GetInstance();
+	if (NULL != pobjSettingManager)
 	{
-		if (Page_Sale == m_enumPage)
+		for (int i = 0; i < _countof(g_CheckBoxPos); ++i)
 		{
-			m_objSettingManager.GetTableFilterSettingForSale(g_TableFilterSettingName[i][0], strValue);
-		}
-		else if (Page_Plan == m_enumPage)
-		{
-			m_objSettingManager.GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
-		}
-
-		vecColsStatus.push_back(strValue);
-
-		if (Page_Sale == m_enumPage)
-		{
-			if (i == m_breakPointOfPlanPage)
+			if (Page_Sale == m_enumPage)
 			{
-				break;
+				pobjSettingManager->GetTableFilterSettingForSale(g_TableFilterSettingName[i][0], strValue);
+			}
+			else if (Page_Plan == m_enumPage)
+			{
+				pobjSettingManager->GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
+			}
+
+			vecColsStatus.push_back(strValue);
+
+			if (Page_Sale == m_enumPage)
+			{
+				if (i == m_breakPointOfPlanPage)
+				{
+					break;
+				}
 			}
 		}
 	}

@@ -113,11 +113,11 @@ CPlanPanel::~CPlanPanel()
 
 void CPlanPanel::OnInitChilds()
 {
-	m_staticProductionStatus = Util::CreateStatic(this, IDC_PLAN_STATIC_PROSTATUS, _T("根据订单状态筛选"), _T("Microsoft YaHei"), 12);
+	m_staticProductionStatus = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_PROSTATUS, _T("根据订单状态筛选"), _T("Microsoft YaHei"), 12);
 	m_staticProductionStatus->MoveWindow(20, 27, 120, 20);
 	m_staticProductionStatus->SetTextAlign(DT_LEFT);
 
-	m_comboProductionStatus = Util::CreateComboBox(this, IDC_PLAN_COMBO_PROSTATUS, _T("Microsoft YaHei"), 12, TRUE);
+	m_comboProductionStatus = Util_Tools::Util::CreateComboBox(this, IDC_PLAN_COMBO_PROSTATUS, _T("Microsoft YaHei"), 12, TRUE);
 	m_comboProductionStatus->MoveWindow(140, 25, 150, 20);
 
 	m_comboProductionStatus->InsertString(0, _T("全部订单"));
@@ -127,25 +127,25 @@ void CPlanPanel::OnInitChilds()
 
 	m_comboProductionStatus->SetCurSel(0);
 
-	m_btnSearch = Util::CreateButton(this, IDC_PLAN_BTN_SEARCH, _T("查询"), _T("Microsoft YaHei"), 12);
+	m_btnSearch = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_SEARCH, _T("查询"), _T("Microsoft YaHei"), 12);
 	m_btnSearch->MoveWindow(340, 25, 90, 25);
 
-	m_editSearch = Util::CreateEdit(this, IDC_PLAN_BTN_SEARCH, _T(""), _T("Microsoft YaHei"), 12);
+	m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_PLAN_BTN_SEARCH, _T(""), _T("Microsoft YaHei"), 12);
 	m_editSearch->MoveWindow(450, 27, 240, 20);
 
-	m_bsMoreWord = Util::CreateStatic(this, IDC_PLAN_BTN_MOREWORD, _T("更多筛选"), _T("Microsoft YaHei"), 12);
+	m_bsMoreWord = Util_Tools::Util::CreateStatic(this, IDC_PLAN_BTN_MOREWORD, _T("更多筛选"), _T("Microsoft YaHei"), 12);
 	m_bsMoreWord->MoveWindow(700, 27, 63, 20);
 
-	m_btnMore = Util::CreateButton(this, IDC_PLAN_BTN_MORE, _T(">"), _T("Microsoft YaHei"), 12);
+	m_btnMore = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_MORE, _T(">"), _T("Microsoft YaHei"), 12);
 	m_btnMore->MoveWindow(780, 25, 30, 25);
 
-	m_btnPlan = Util::CreateButton(this, IDC_PLAN_BTN_PLAN, _T("计划"), _T("Microsoft YaHei"), 12);
+	m_btnPlan = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_PLAN, _T("计划"), _T("Microsoft YaHei"), 12);
 	m_btnPlan->MoveWindow(20, 70, 90, 25);
 
-	m_btnModify = Util::CreateButton(this, IDC_PLAN_BTN_MODIFY, _T("修改"), _T("Microsoft YaHei"), 12);
+	m_btnModify = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_MODIFY, _T("修改"), _T("Microsoft YaHei"), 12);
 	m_btnModify->MoveWindow(135, 70, 90, 25);
 
-	m_btnRestore = Util::CreateButton(this, IDC_PLAN_BTN_RESTORE, _T("重置"), _T("Microsoft YaHei"), 12);
+	m_btnRestore = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_RESTORE, _T("重置"), _T("Microsoft YaHei"), 12);
 	m_btnRestore->MoveWindow(250, 70, 90, 25);
 
 

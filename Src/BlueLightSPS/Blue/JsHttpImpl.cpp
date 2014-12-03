@@ -257,7 +257,7 @@ void CJsHttpImpl::AsJson(std::map<CString, StringArrayPtr>& mapAttr, CString& st
 		strJson += it->first;
 		strJson += _T(":");
 		strTmp.Empty();
-		Util::Join(*(it->second), strTmp);
+		Util_Tools::Util::Join(*(it->second), strTmp);
 		strTmp.Replace(_T(","), _T("\",\""));
 		strJson += _T("[\"") + strTmp + _T("\"]");
 		if ((++it) != mapAttr.end())
@@ -279,7 +279,7 @@ void CJsHttpImpl::AsJson(std::map<CString, IntArrayPtr>& mapAttr, CString& strJs
 		strJson += it->first;
 		strJson += _T(":");
 		strTmp.Empty();
-		Util::Join(*(it->second), strTmp);
+		Util_Tools::Util::Join(*(it->second), strTmp);
 		strTmp.Replace(_T(","), _T("\",\""));
 		strJson += _T("[\"") + strTmp + _T("\"]");
 		if ((++it) != mapAttr.end())

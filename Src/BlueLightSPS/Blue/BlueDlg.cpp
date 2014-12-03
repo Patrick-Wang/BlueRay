@@ -84,7 +84,7 @@ BOOL CBlueDlg::OnInitDialog()
 
 	CRect rt;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rt, 0);
-	Util::SetWindowSize(m_hWnd, rt.Width(), rt.Height());
+	Util_Tools::Util::SetWindowSize(m_hWnd, rt.Width(), rt.Height());
 	InitWebView();
 
 	//SetWindowPos(NULL, rt.left, rt.top, rt.Width(), rt.Height(), SW_SHOW);

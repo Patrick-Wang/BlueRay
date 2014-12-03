@@ -41,7 +41,7 @@ CSalePanel::~CSalePanel()
 void CSalePanel::OnInitChilds()
 {
 	int delta = 277 - (RIGHT_AREA_LEFT + 15);
-	m_editSearch = Util::CreateEdit(this, IDC_SALE_BTN_SEARCH, _T(""), _T("Microsoft YaHei"), 12);
+	m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_SALE_BTN_SEARCH, _T(""), _T("Microsoft YaHei"), 12);
 	m_editSearch->MoveWindow(235, 27, 240, 20);
 
 	m_btnAdd.Create(this, IDC_SALE_BTN_ADD);
@@ -323,11 +323,11 @@ void CSalePanel::OnLoadDataSuccess(CString& jsondata)
 	jsondata.Remove(_T('['));
 	jsondata.Remove(_T(']'));
 	jsondata.Remove(_T('\"'));
-	Util::Split(jsondata, _T('#'), vec);
+	Util_Tools::Util::Split(jsondata, _T('#'), vec);
 	m_table.resize(vec.size());
 	for (int i = 0; i < vec.size(); ++i)
 	{
-		Util::Split(vec[i], _T(','), m_table[i].second);
+		Util_Tools::Util::Split(vec[i], _T(','), m_table[i].second);
 		m_table[i].first = _tstoi(m_table[i].second[0]);
 		m_table[i].second.erase(m_table[i].second.begin());
 	}

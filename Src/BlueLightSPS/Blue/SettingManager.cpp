@@ -8,13 +8,6 @@ static CString strPath = _T("");
 CSettingManager::CSettingManager(void)
 	: m_bParserInitialized(false)
 {
-	Initialize();
-}
-
-
-CSettingManager::~CSettingManager(void)
-{
-	Uninitialize();
 }
 
 bool CSettingManager::Initialize()
@@ -31,7 +24,7 @@ bool CSettingManager::Initialize()
 				m_bParserInitialized = true;
 			}
 
-			if (!Util::GetExpandPath(IDS_SETTING_LOCATION, strPath))
+			if (!Util_Tools::Util::GetExpandPath(IDS_SETTING_LOCATION, strPath))
 			{
 				break;
 			}
@@ -39,7 +32,7 @@ bool CSettingManager::Initialize()
 			strPath += IDS_SETTING_FILENAME;
 			if (!PathFileExists(strPath))
 			{
-				if (!Util::MakeDir(strPath))
+				if (!Util_Tools::Util::MakeDir(strPath))
 				{
 					break;
 				}
@@ -390,23 +383,13 @@ bool CSettingManager::Initialize()
 	return bRet;
 }
 
-bool CSettingManager::Uninitialize()
+void CSettingManager::UnInitialize()
 {
-	bool bRet = false;
-
-	do
+	if (m_bParserInitialized)
 	{
-		if (m_bParserInitialized)
-		{
-			m_bParserInitialized = false;
-			m_objXMLParser.Uninitialize();
-		}
-
-		bRet = true;
-
-	} while (false);
-
-	return bRet;
+		m_bParserInitialized = false;
+		m_objXMLParser.Uninitialize();
+	}
 }
 
 bool CSettingManager::SetTableFilterSettingForSale(LPCTSTR lpSettingName, LPCTSTR lpIsSelected)
