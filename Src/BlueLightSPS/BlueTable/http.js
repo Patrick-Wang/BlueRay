@@ -1,6 +1,8 @@
 ﻿var mediator = window.external;
 $.support.cors = true;
+$.ajaxSetup({ cache: false });
 function ajaxGet(caller, id, addr) {
+    //alert(addr);
     $.ajax({
         url: addr,
         //dataType: "json",

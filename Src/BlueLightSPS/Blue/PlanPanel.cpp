@@ -7,7 +7,13 @@
 #include "Util.h"
 #include "colors.h"
 
-BEGIN_MESSAGE_MAP(CPlanPanel, CControlPanel)
+
+#define QUERY_URL_ID IDP_PLAN + 1
+#define ADD_URL_ID IDP_PLAN + 2
+#define DEL_URL_ID IDP_PLAN + 3
+#define MODIFY_URL_ID IDP_PLAN + 4
+
+BEGIN_MESSAGE_MAP(CPlanPanel, CBRPanel)
 	ON_BN_CLICKED(IDC_PLAN_BTN_PLAN, &CPlanPanel::OnBnClickedPlan)
 	ON_BN_CLICKED(IDC_PLAN_BTN_MODIFY, &CPlanPanel::OnBnClickedModify)
 	ON_BN_CLICKED(IDC_PLAN_BTN_RESTORE, &CPlanPanel::OnBnClickedRestore)
@@ -20,7 +26,7 @@ BEGIN_MESSAGE_MAP(CPlanPanel, CControlPanel)
 END_MESSAGE_MAP()
 
 CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
-	: m_pJqGridAPI(pJqGridAPI),
+	: CBRPanel(pJqGridAPI, pHttp),
 		m_btnPlan(NULL),
 		m_btnModify(NULL),
 		m_btnRestore(NULL),
@@ -30,76 +36,75 @@ CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
 		m_editSearch(NULL),
 		m_staticProductionStatus(NULL),
 		m_comboProductionStatus(NULL),
-		m_pHttp(pHttp),
 		m_tableFilterDlg(_T("表格设置"))
 
 {
-	m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CPlanPanel::OnRowChecked);
-	m_table.resize(13);
-	for (int i = 0; i < m_table.size(); ++i)
-	{
-		CString csHTH;
-		csHTH.Format(_T("000000%02d"), i + 1);
-		if (i % 2 != 0)
-		{
-			m_table[i].second.push_back(csHTH);
-			m_table[i].second.push_back(_T("浙江怡达"));
-			m_table[i].second.push_back(_T("U1.0ES-H"));
-			m_table[i].second.push_back(_T("1"));
-			m_table[i].second.push_back(_T("BNN"));
-			m_table[i].second.push_back(_T("是"));
-			m_table[i].second.push_back(_T("DC110V"));
-			m_table[i].second.push_back(_T("480*6*12*18"));
-			m_table[i].second.push_back(_T("无"));
-			m_table[i].second.push_back(_T("富士"));
-			m_table[i].second.push_back(_T("海1387"));
-			m_table[i].second.push_back(_T("8米"));
-			m_table[i].second.push_back(_T("5米"));
-			m_table[i].second.push_back(_T("蓝光英文铭牌"));
-			m_table[i].second.push_back(_T("原点值"));
-			m_table[i].second.push_back(_T("2014/08/15"));
+	//m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CPlanPanel::OnRowChecked);
+	//m_table.resize(13);
+	//for (int i = 0; i < m_table.size(); ++i)
+	//{
+	//	CString csHTH;
+	//	csHTH.Format(_T("000000%02d"), i + 1);
+	//	if (i % 2 != 0)
+	//	{
+	//		m_table[i].second.push_back(csHTH);
+	//		m_table[i].second.push_back(_T("浙江怡达"));
+	//		m_table[i].second.push_back(_T("U1.0ES-H"));
+	//		m_table[i].second.push_back(_T("1"));
+	//		m_table[i].second.push_back(_T("BNN"));
+	//		m_table[i].second.push_back(_T("是"));
+	//		m_table[i].second.push_back(_T("DC110V"));
+	//		m_table[i].second.push_back(_T("480*6*12*18"));
+	//		m_table[i].second.push_back(_T("无"));
+	//		m_table[i].second.push_back(_T("富士"));
+	//		m_table[i].second.push_back(_T("海1387"));
+	//		m_table[i].second.push_back(_T("8米"));
+	//		m_table[i].second.push_back(_T("5米"));
+	//		m_table[i].second.push_back(_T("蓝光英文铭牌"));
+	//		m_table[i].second.push_back(_T("原点值"));
+	//		m_table[i].second.push_back(_T("2014/08/15"));
 
-			m_table[i].second.push_back(_T("2014/08/20"));
-			m_table[i].second.push_back(_T("已审核"));
-			m_table[i].second.push_back(_T("已审核"));
-			m_table[i].second.push_back(_T("2014/08/25"));
-			m_table[i].second.push_back(_T("已审核"));
-			m_table[i].second.push_back(_T("已审核"));
-			m_table[i].second.push_back(_T("2014/08/26"));
-			m_table[i].second.push_back(_T("J07833"));
-			m_table[i].second.push_back(_T("1471099BCC"));
-		}
-		else
-		{
-			m_table[i].second.push_back(csHTH);
-			m_table[i].second.push_back(_T("中原智能"));
-			m_table[i].second.push_back(_T("S1.6D-H"));
-			m_table[i].second.push_back(_T("1"));
-			m_table[i].second.push_back(_T("RC"));
-			m_table[i].second.push_back(_T("否"));
-			m_table[i].second.push_back(_T("DC220V"));
-			m_table[i].second.push_back(_T("325*5*8*12"));
-			m_table[i].second.push_back(_T("有"));
-			m_table[i].second.push_back(_T("CV"));
-			m_table[i].second.push_back(_T("海1387"));
-			m_table[i].second.push_back(_T("10米配"));
-			m_table[i].second.push_back(_T("5米"));
-			m_table[i].second.push_back(_T("蓝光铭牌"));
-			m_table[i].second.push_back(_T("D型"));
-			m_table[i].second.push_back(_T("2014/11/15"));
+	//		m_table[i].second.push_back(_T("2014/08/20"));
+	//		m_table[i].second.push_back(_T("已审核"));
+	//		m_table[i].second.push_back(_T("已审核"));
+	//		m_table[i].second.push_back(_T("2014/08/25"));
+	//		m_table[i].second.push_back(_T("已审核"));
+	//		m_table[i].second.push_back(_T("已审核"));
+	//		m_table[i].second.push_back(_T("2014/08/26"));
+	//		m_table[i].second.push_back(_T("J07833"));
+	//		m_table[i].second.push_back(_T("1471099BCC"));
+	//	}
+	//	else
+	//	{
+	//		m_table[i].second.push_back(csHTH);
+	//		m_table[i].second.push_back(_T("中原智能"));
+	//		m_table[i].second.push_back(_T("S1.6D-H"));
+	//		m_table[i].second.push_back(_T("1"));
+	//		m_table[i].second.push_back(_T("RC"));
+	//		m_table[i].second.push_back(_T("否"));
+	//		m_table[i].second.push_back(_T("DC220V"));
+	//		m_table[i].second.push_back(_T("325*5*8*12"));
+	//		m_table[i].second.push_back(_T("有"));
+	//		m_table[i].second.push_back(_T("CV"));
+	//		m_table[i].second.push_back(_T("海1387"));
+	//		m_table[i].second.push_back(_T("10米配"));
+	//		m_table[i].second.push_back(_T("5米"));
+	//		m_table[i].second.push_back(_T("蓝光铭牌"));
+	//		m_table[i].second.push_back(_T("D型"));
+	//		m_table[i].second.push_back(_T("2014/11/15"));
 
-			m_table[i].second.push_back(_T("2014/11/20"));
-			m_table[i].second.push_back(_T("未审核"));
-			m_table[i].second.push_back(_T("未审核"));
-			m_table[i].second.push_back(_T("2014/11/25"));
-			m_table[i].second.push_back(_T("未审核"));
-			m_table[i].second.push_back(_T("未审核"));
-			m_table[i].second.push_back(_T("2014/11/26"));
-			m_table[i].second.push_back(_T("J07888"));
-			m_table[i].second.push_back(_T("1471088BCC"));
-		}
+	//		m_table[i].second.push_back(_T("2014/11/20"));
+	//		m_table[i].second.push_back(_T("未审核"));
+	//		m_table[i].second.push_back(_T("未审核"));
+	//		m_table[i].second.push_back(_T("2014/11/25"));
+	//		m_table[i].second.push_back(_T("未审核"));
+	//		m_table[i].second.push_back(_T("未审核"));
+	//		m_table[i].second.push_back(_T("2014/11/26"));
+	//		m_table[i].second.push_back(_T("J07888"));
+	//		m_table[i].second.push_back(_T("1471088BCC"));
+	//	}
 
-	}
+	//}
 
 	m_tableFilterDlg.Initialize(m_pJqGridAPI.get(), Page_Plan);
 }
@@ -169,16 +174,16 @@ void CPlanPanel::OnBnClickedPlan()
 	std::vector<CString>* pRowData = NULL;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 
-	std::vector<int> checkedRowTableMap;
-	checkedRowTableMap.resize(checkedRows.size(), -1);
+	//std::vector<int> checkedRowTableMap;
+	//checkedRowTableMap.resize(checkedRows.size(), -1);
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
 		pRowData = NULL;
-		for (int j = 0; i < m_table.size(); ++j)
+		for (int j = 0; j < m_table.size(); ++j)
 		{
 			if (m_table[j].first == checkedRows[i])
 			{
-				checkedRowTableMap[i] = j;
+				//checkedRowTableMap[i] = j;
 				pRowData = &(m_table[j].second);
 				break;
 			}
@@ -224,25 +229,17 @@ void CPlanPanel::OnBnClickedPlan()
 
 	if (IDOK == dlg.DoModal())
 	{
-		const std::vector<CString>& result = dlg.GetResult();
-
-		for (int i = checkedRows.size() - 1; i >= 0; --i)
-		{
-			if (checkedRowTableMap[i] >= 0)
-			{
-				m_table[checkedRowTableMap[i]].second[16] = result[0];
-				m_table[checkedRowTableMap[i]].second[19] = result[1];
-				m_table[checkedRowTableMap[i]].second[22] = result[2];
-				m_table[checkedRowTableMap[i]].second[23] = result[3];
-				m_table[checkedRowTableMap[i]].second[24] = result[4];
-			}
-
-			m_pJqGridAPI->SetCell(checkedRows[i], 17, result[0]);
-			m_pJqGridAPI->SetCell(checkedRows[i], 20, result[1]);
-			m_pJqGridAPI->SetCell(checkedRows[i], 23, result[2]);
-			m_pJqGridAPI->SetCell(checkedRows[i], 24, result[3]);
-			m_pJqGridAPI->SetCell(checkedRows[i], 25, result[4]);
-		}
+		m_cacheRow = dlg.GetResult();
+		CString url;
+		url.Format(_T("http://%s:8080/BlueRay/plan/update"), IDS_HOST_NAME);
+		StringArray tmpCheckRows;
+		ToStringArray(checkedRows, tmpCheckRows);
+		std::map<CString, StringArrayPtr> attr;
+		attr[_T("rows")] = &tmpCheckRows;
+		attr[_T("data")] = &m_cacheRow;
+		m_pHttp->Post(url, MODIFY_URL_ID, attr);
+		GetParent()->EnableWindow(FALSE);
+	
 
 	}
 }
@@ -266,7 +263,7 @@ void CPlanPanel::OnBnClickedModify()
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
 		pRowData = NULL;
-		for (int j = 0; i < m_table.size(); ++j)
+		for (int j = 0; j < m_table.size(); ++j)
 		{
 			if (m_table[j].first == checkedRows[i])
 			{
@@ -293,25 +290,8 @@ void CPlanPanel::OnBnClickedModify()
 
 	if (IDOK == dlg.DoModal())
 	{
-		const std::vector<CString>& result = dlg.GetResult();
-
-		for (int i = checkedRows.size() - 1; i >= 0; --i)
-		{
-			if (checkedRowTableMap[i] >= 0)
-			{
-				m_table[checkedRowTableMap[i]].second[16] = result[0];
-				m_table[checkedRowTableMap[i]].second[19] = result[1];
-				m_table[checkedRowTableMap[i]].second[22] = result[2];
-				m_table[checkedRowTableMap[i]].second[23] = result[3];
-				m_table[checkedRowTableMap[i]].second[24] = result[4];
-			}
-
-			m_pJqGridAPI->SetCell(checkedRows[i], 17, result[0]);
-			m_pJqGridAPI->SetCell(checkedRows[i], 20, result[1]);
-			m_pJqGridAPI->SetCell(checkedRows[i], 23, result[2]);
-			m_pJqGridAPI->SetCell(checkedRows[i], 24, result[3]);
-			m_pJqGridAPI->SetCell(checkedRows[i], 25, result[4]);
-		}
+		m_cacheRow = dlg.GetResult();
+		
 	}
 }
 
@@ -394,13 +374,11 @@ void CPlanPanel::OnBnClickedMore()
 				iCountShot++;
 			}
 		}
-
 		if (iCountShot == 0)
 		{
 			MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
 		}
 	}
-
 }
 
 void CPlanPanel::OnNcDestroy()
@@ -445,23 +423,25 @@ void CPlanPanel::OnNcDestroy()
 		delete m_comboProductionStatus;
 	}
 
-	CControlPanel::OnNcDestroy();
+	__super::OnNcDestroy();
 }
 
 
 
 void CPlanPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 {
-	CControlPanel::OnShowWindow(bShow, nStatus);
+	__super::OnShowWindow(bShow, nStatus);
 	if (bShow)
 	{
-		m_pJqGridAPI->ShowGrid();
+		if (!IsUpdated())
+		{
+			Updated();
+			CString url;
+			url.Format(_T("http://%s:8080/BlueRay/plan/query"), IDS_HOST_NAME);
+			m_pHttp->Get(url, QUERY_URL_ID);
+			GetParent()->EnableWindow(FALSE);
+		}
 	}
-	else
-	{
-		m_pJqGridAPI->HideGrid();
-	}
-
 }
 
 void CPlanPanel::OnRowChecked()
@@ -493,3 +473,101 @@ void CPlanPanel::OnUIPrepared()
 	}
 }
 
+void CPlanPanel::OnHttpSuccess(int id, LPCTSTR resp)
+{
+	GetParent()->EnableWindow(TRUE);
+	switch (id)
+	{
+	case QUERY_URL_ID:
+		OnLoadDataSuccess(CString(resp));
+		break;
+	case ADD_URL_ID:
+		//OnAddDataSuccess(_tstoi(resp), m_cacheRow);
+		break;
+	case DEL_URL_ID:
+		//OnDelDataSuccess();
+		break;
+	case MODIFY_URL_ID:
+		OnModifyDataSuccess(m_cacheRow);
+		break;
+	//case BUSSINESS_APPROVE_URL_ID:	//test purpose
+		//break;
+	default:
+		break;
+	}
+}
+
+void CPlanPanel::OnHttpFailed(int id)
+{
+	GetParent()->EnableWindow(TRUE);
+	switch (id)
+	{
+	case QUERY_URL_ID:
+		MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+		break;
+	case ADD_URL_ID:
+		MessageBox(_T("添加数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+		break;
+	case DEL_URL_ID:
+		MessageBox(_T("删除数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+		break;
+	case MODIFY_URL_ID:
+		MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+		break;
+	default:
+		break;
+	}
+}
+
+void CPlanPanel::OnLoadDataSuccess(CString& jsondata)
+{
+	for (int j = 0; j < m_table.size(); ++j)
+	{
+		m_pJqGridAPI->DelRow(m_table[j].first);
+	}
+	
+	StringToTable(jsondata, m_table);
+	for (int j = 0; j < m_table.size(); ++j)
+	{
+		m_pJqGridAPI->AddRow(m_table[j].first, m_table[j].second);
+	}
+}
+
+void CPlanPanel::OnModifyDataSuccess(std::vector<CString>& newData)
+{
+	std::vector<int> checkedRows;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+	std::vector<int> checkedRowTableMap;
+	checkedRowTableMap.resize(checkedRows.size(), -1);
+	for (int i = checkedRows.size() - 1; i >= 0; --i)
+	{
+		for (int j = 0; j < m_table.size(); ++j)
+		{
+			if (m_table[j].first == checkedRows[i])
+			{
+				checkedRowTableMap[i] = j;
+				break;
+			}
+		}
+	}
+
+
+
+	for (int i = checkedRows.size() - 1; i >= 0; --i)
+	{
+		if (checkedRowTableMap[i] >= 0)
+		{
+			m_table[checkedRowTableMap[i]].second[16] = newData[0];
+			m_table[checkedRowTableMap[i]].second[19] = newData[1];
+			m_table[checkedRowTableMap[i]].second[22] = newData[2];
+			m_table[checkedRowTableMap[i]].second[23] = newData[3];
+			m_table[checkedRowTableMap[i]].second[24] = newData[4];
+		}
+
+		m_pJqGridAPI->SetCell(checkedRows[i], 17, newData[0]);
+		m_pJqGridAPI->SetCell(checkedRows[i], 20, newData[1]);
+		m_pJqGridAPI->SetCell(checkedRows[i], 23, newData[2]);
+		m_pJqGridAPI->SetCell(checkedRows[i], 24, newData[3]);
+		m_pJqGridAPI->SetCell(checkedRows[i], 25, newData[4]);
+	}
+}

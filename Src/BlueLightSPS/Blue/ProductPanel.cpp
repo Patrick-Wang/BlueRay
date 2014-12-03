@@ -2,8 +2,8 @@
 #include "ProductPanel.h"
 
 
-CProductPanel::CProductPanel(CJQGridAPI* pJqGridAPI)
-	: m_pJqGridAPI(pJqGridAPI)
+CProductPanel::CProductPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
+	: CBRPanel(pJqGridAPI, pHttp)
 {
 
 }
@@ -23,13 +23,28 @@ END_MESSAGE_MAP()
 
 void CProductPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 {
-	CControlPanel::OnShowWindow(bShow, nStatus);
-	if (bShow)
+	CBRPanel::OnShowWindow(bShow, nStatus);
+	/*if (bShow)
 	{
-		m_pJqGridAPI->ShowGrid();
+	m_pJqGridAPI->ShowGrid();
 	}
 	else
 	{
-		m_pJqGridAPI->HideGrid();
-	}
+	m_pJqGridAPI->HideGrid();
+	}*/
+}
+
+void CProductPanel::OnHttpSuccess(int id, LPCTSTR resp)
+{
+
+}
+
+void CProductPanel::OnHttpFailed(int id)
+{
+
+}
+
+void CProductPanel::OnRowChecked()
+{
+
 }

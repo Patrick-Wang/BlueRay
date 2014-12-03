@@ -1,5 +1,5 @@
 #pragma once
-#include "ControlPanel.h"
+#include "BRPanel.h"
 #include "BRButton.h"
 #include "BSStatic.h"
 #include "JQGridAPI.h"
@@ -8,7 +8,7 @@
 #include "SaleAddDlg.h"
 
 class CSalePanel :
-	public CControlPanel
+	public CBRPanel
 {
 public:
 	CSalePanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp);
@@ -33,6 +33,7 @@ protected:
 	void OnDelDataSuccess();
 	void OnModifyDataSuccess(std::vector<CString>& newData);
 	void OnAddDataSuccess(int id, std::vector<CString>& data);
+	void OnApproveDataSuccess();
 private:
 	CBRButton m_btnAdd;
 	CBRButton m_btnSearch;
@@ -44,8 +45,6 @@ private:
 	CEdit* m_editSearch;
 	DECLARE_MESSAGE_MAP()
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
-	std::auto_ptr<CJQGridAPI> m_pJqGridAPI;
-	IHttp* m_pHttp;
 	std::vector<CString> m_cacheRow;
 	CTableFilterDlg m_tableFilterDlg;
 

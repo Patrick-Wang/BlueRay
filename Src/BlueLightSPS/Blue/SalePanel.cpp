@@ -16,7 +16,7 @@
 #define BUSSINESS_APPROVE_URL_ID IDP_SALE + 5	//test purpose
 
 
-BEGIN_MESSAGE_MAP(CSalePanel, CControlPanel)
+BEGIN_MESSAGE_MAP(CSalePanel, CBRPanel)
 	ON_BN_CLICKED(IDC_SALE_BTN_ADD, &CSalePanel::OnBnClickedAdd)
 	ON_BN_CLICKED(IDC_SALE_BTN_MODIFY, &CSalePanel::OnBnClickedModify)
 	ON_BN_CLICKED(IDC_SALE_BTN_DELETE, &CSalePanel::OnBnClickedDelete)
@@ -29,8 +29,7 @@ BEGIN_MESSAGE_MAP(CSalePanel, CControlPanel)
 END_MESSAGE_MAP()
 
 CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
-	: m_pJqGridAPI(pJqGridAPI)
-	, m_pHttp(pHttp)
+	: CBRPanel(pJqGridAPI, pHttp)
 	, m_tableFilterDlg(_T("表格设置"))
 {
 	m_tableFilterDlg.Initialize(m_pJqGridAPI.get(), Page_Sale);
@@ -87,11 +86,6 @@ void CSalePanel::OnInitChilds()
 	//test purpose
 	m_btnApprove.EnableWindow(FALSE);
 
-	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/sale/query"), IDS_HOST_NAME);
-	m_pHttp->Get(url, QUERY_URL_ID);
-	
-	GetParent()->EnableWindow(FALSE);
 }
 
 void CSalePanel::OnBnClickedAdd()
@@ -100,6 +94,8 @@ void CSalePanel::OnBnClickedAdd()
 	if (IDOK == dlg.DoModal()){
 		GetParent()->EnableWindow(FALSE);
 		m_cacheRow = dlg.GetResult();
+		m_cacheRow.push_back(L"未审批");
+		m_cacheRow.push_back(L"未审批");
 		std::map<CString, StringArrayPtr> attr;
 		attr[_T("add")] = &m_cacheRow;
 
@@ -123,6 +119,7 @@ void CSalePanel::OnBnClickedApprove()	//test purpose
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 	std::map<CString, IntArrayPtr> attr;
 	attr[L"rows"] = &checkedRows;
+
 	m_pHttp->Post(url, BUSSINESS_APPROVE_URL_ID, attr);
 }
 
@@ -137,14 +134,9 @@ void CSalePanel::OnBnClickedModify()
 		m_cacheRow = dlg.GetResult();
 		std::map<CString, StringArrayPtr> attr;
 		StringArray tmpCheckRows;
-		CString strTmp;
 		std::vector<int> checkedRows;
 		m_pJqGridAPI->GetCheckedRows(checkedRows);
-		for (int i = 0; i < checkedRows.size(); ++i)
-		{
-			strTmp.Format(_T("%d"), checkedRows[i]);
-			tmpCheckRows.push_back(strTmp);
-		}
+		ToStringArray(checkedRows, tmpCheckRows);
 
 		attr[_T("rows")] = &tmpCheckRows;
 		attr[_T("data")] = &m_cacheRow;
@@ -172,8 +164,12 @@ void CSalePanel::OnBnClickedDelete()
 
 void CSalePanel::OnRowChecked()
 {
+	
+
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
+
+
 	if (checkedRows.empty())
 	{
 		m_btnDelete.EnableWindow(FALSE);
@@ -185,7 +181,34 @@ void CSalePanel::OnRowChecked()
 		m_btnDelete.EnableWindow(TRUE);
 		m_btnModify.EnableWindow(TRUE);
 		//test purpose
-		m_btnApprove.EnableWindow(TRUE);
+	
+		std::vector<int> checkedRowTableMap;
+		checkedRowTableMap.resize(checkedRows.size(), -1);
+		for (int i = checkedRows.size() - 1; i >= 0; --i)
+		{
+			for (int j = 0; j < m_table.size(); ++j)
+			{
+				if (m_table[j].first == checkedRows[i])
+				{
+					checkedRowTableMap[i] = j;
+					break;
+				}
+			}
+		}
+		bool bHasUnapproved = false;
+		for (int i = checkedRowTableMap.size() - 1; i >= 0; --i)
+		{
+			if (0 == m_table[checkedRowTableMap[i]].second[16].CompareNoCase(_T("未审批"))){
+				m_btnApprove.EnableWindow(TRUE);
+				bHasUnapproved = true;
+				break;
+			}
+		}
+		if (!bHasUnapproved)
+		{
+			m_btnApprove.EnableWindow(FALSE);
+		}
+		
 	}
 }
 
@@ -272,27 +295,25 @@ void CSalePanel::OnBnClickedMore()
 
 void CSalePanel::OnNcDestroy()
 {
-	CControlPanel::OnNcDestroy();
+	__super::OnNcDestroy();
 }
 
 
 void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
 {
-	CControlPanel::OnShowWindow(bShow, nStatus);
+	__super::OnShowWindow(bShow, nStatus);
 	if (bShow)
 	{
-		m_pJqGridAPI->ShowGrid();
-		m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CSalePanel::OnRowChecked);
-		m_pHttp->d_OnSuccess += std::make_pair(this, &CSalePanel::OnHttpSuccess);
-		m_pHttp->d_OnFailed += std::make_pair(this, &CSalePanel::OnHttpFailed);
+		if (!IsUpdated())
+		{
+			Updated();
+			CString url;
+			url.Format(_T("http://%s:8080/BlueRay/sale/query"), IDS_HOST_NAME);
+			m_pHttp->Get(url, QUERY_URL_ID);
+			GetParent()->EnableWindow(FALSE);
+		}
 	}
-	else
-	{
-		m_pJqGridAPI->HideGrid();
-		m_pJqGridAPI->d_OnRowChecked -= std::make_pair(this, &CSalePanel::OnRowChecked);
-		m_pHttp->d_OnSuccess -= std::make_pair(this, &CSalePanel::OnHttpSuccess);
-		m_pHttp->d_OnFailed -= std::make_pair(this, &CSalePanel::OnHttpFailed);
-	}
+	
 
 }
 
@@ -315,6 +336,7 @@ void CSalePanel::OnHttpSuccess(int id, LPCTSTR resp)
 		OnModifyDataSuccess(m_cacheRow);
 		break;
 	case BUSSINESS_APPROVE_URL_ID:	//test purpose
+		OnApproveDataSuccess();
 		break;
 	default:
 		break;
@@ -349,19 +371,7 @@ void CSalePanel::OnHttpFailed(int id)
 
 void CSalePanel::OnLoadDataSuccess(CString& jsondata)
 {
-	std::vector<CString> vec;
-	jsondata.Replace(_T("],["), _T("#"));
-	jsondata.Remove(_T('['));
-	jsondata.Remove(_T(']'));
-	jsondata.Remove(_T('\"'));
-	Util_Tools::Util::Split(jsondata, _T('#'), vec);
-	m_table.resize(vec.size());
-	for (int i = 0; i < vec.size(); ++i)
-	{
-		Util_Tools::Util::Split(vec[i], _T(','), m_table[i].second);
-		m_table[i].first = _tstoi(m_table[i].second[0]);
-		m_table[i].second.erase(m_table[i].second.begin());
-	}
+	StringToTable(jsondata, m_table);
 	for (int j = 0; j < m_table.size(); ++j)
 	{
 		m_pJqGridAPI->AddRow(m_table[j].first, m_table[j].second);
@@ -391,6 +401,7 @@ void CSalePanel::OnDelDataSuccess()
 	}
 
 	OnRowChecked();
+	GetParent()->PostMessage(WM_SALE_UPDATED);
 }
 
 void CSalePanel::OnModifyDataSuccess(std::vector<CString>& newData)
@@ -403,7 +414,7 @@ void CSalePanel::OnModifyDataSuccess(std::vector<CString>& newData)
 	checkedRowTableMap.resize(checkedRows.size(), -1);
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
-		for (int j = 0; i < m_table.size(); ++j)
+		for (int j = 0; j < m_table.size(); ++j)
 		{
 			if (m_table[j].first == checkedRows[i])
 			{
@@ -427,6 +438,8 @@ void CSalePanel::OnModifyDataSuccess(std::vector<CString>& newData)
 			}
 		}
 	}
+
+	GetParent()->PostMessage(WM_SALE_UPDATED);
 }
 
 void CSalePanel::OnAddDataSuccess(int id, std::vector<CString>& data)
@@ -435,6 +448,7 @@ void CSalePanel::OnAddDataSuccess(int id, std::vector<CString>& data)
 		id,
 		data));
 	m_pJqGridAPI->AddRow(id, data);
+	GetParent()->PostMessage(WM_SALE_UPDATED);
 }
 
 void CSalePanel::OnSaleDlgGetModifyOption(CSaleAddDlg& dlg)
@@ -447,7 +461,7 @@ void CSalePanel::OnSaleDlgGetModifyOption(CSaleAddDlg& dlg)
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
 		pRowData = NULL;
-		for (int j = 0; i < m_table.size(); ++j)
+		for (int j = 0; j < m_table.size(); ++j)
 		{
 			if (m_table[j].first == checkedRows[i])
 			{
@@ -470,4 +484,30 @@ void CSalePanel::OnSaleDlgGetModifyOption(CSaleAddDlg& dlg)
 	}
 
 	dlg.SetOption(pstOpt);
+}
+
+void CSalePanel::OnApproveDataSuccess()
+{
+	std::vector<int> checkedRows;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+	std::vector<int> checkedRowTableMap;
+	checkedRowTableMap.resize(checkedRows.size(), -1);
+	for (int i = checkedRows.size() - 1; i >= 0; --i)
+	{
+		for (int j = 0; j < m_table.size(); ++j)
+		{
+			if (m_table[j].first == checkedRows[i])
+			{
+				checkedRowTableMap[i] = j;
+				break;
+			}
+		}
+	}
+	for (int i = checkedRows.size() - 1; i >= 0; --i)
+	{
+		m_table[checkedRowTableMap[i]].second[16] = L"已审批";
+		m_pJqGridAPI->SetCell(checkedRows[i], 17, L"已审批");
+	}
+	GetParent()->PostMessage(WM_SALE_UPDATED);
+	OnRowChecked();
 }

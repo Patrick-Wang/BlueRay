@@ -30,7 +30,7 @@ public:
 // Implementation
 protected:
 	HICON m_hIcon;
-
+	afx_msg void OnSaleChanged();
 	// Generated message map functions
 	void InitWebView();
 	virtual BOOL OnInitDialog();
@@ -66,7 +66,7 @@ private:
 	CBRButtonGroup m_btnGroup;
 	CWebView m_webView;
 	std::auto_ptr<CJQGridAPI> m_pJqGridAPI;
-	std::map<UINT, std::shared_ptr<CControlPanel>> m_pPanelMap;
+	std::map<UINT, std::shared_ptr<CBRPanel>> m_pPanelMap;
 	std::auto_ptr<IHttp> m_pHttp;
 public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);

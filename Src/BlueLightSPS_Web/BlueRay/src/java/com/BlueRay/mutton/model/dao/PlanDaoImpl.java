@@ -42,4 +42,8 @@ public class PlanDaoImpl implements PlanDao{
 		entityManager.merge(pcjhxx);
 	}
 
+	public void delete(PCJHXX pcjhxx) {
+		entityManager.remove(pcjhxx);
+	}
+
 }

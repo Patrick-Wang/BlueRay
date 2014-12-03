@@ -1,16 +1,19 @@
 #pragma once
-#include "ControlPanel.h"
+#include "BRPanel.h"
 #include "BRButton.h"
 #include "BSStatic.h"
 #include "JQGridAPI.h"
 class CProductPanel :
-	public CControlPanel
+	public CBRPanel
 {
 public:
-	CProductPanel(CJQGridAPI* pJqGridAPI);
+	CProductPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp);
 	~CProductPanel();
 protected:
 	virtual void OnInitChilds();
+	virtual void OnHttpSuccess(int id, LPCTSTR resp);
+	virtual void OnHttpFailed(int id) ;
+	virtual void OnRowChecked();
 private:
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
 	std::auto_ptr<CJQGridAPI> m_pJqGridAPI;

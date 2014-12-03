@@ -1,12 +1,12 @@
 #pragma once
-#include "ControlPanel.h"
+#include "BRPanel.h"
 #include "BRButton.h"
 #include "BSStatic.h"
 #include "JQGridAPI.h"
 #include "IHttp.h"
 #include "TableFilterDlg.h"
 class CPlanPanel :
-	public CControlPanel
+	public CBRPanel
 {
 public:
 	CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp);
@@ -15,6 +15,9 @@ public:
 	void OnRowChecked();
 	void OnGridComplete();
 	void OnUIPrepared();
+	void OnHttpSuccess(int id, LPCTSTR resp);
+	void OnHttpFailed(int id);
+	void OnLoadDataSuccess(CString& jsondata);
 protected:
 	virtual void OnInitChilds();
 
@@ -24,10 +27,11 @@ protected:
 	afx_msg void OnBnClickedSearch();
 	afx_msg void OnBnClickedTableFilter();
 	afx_msg void OnBnClickedMore();
-
+	void OnModifyDataSuccess(std::vector<CString>& newData);
 private:
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
-	std::auto_ptr<CJQGridAPI> m_pJqGridAPI;
+	std::vector<CString> m_cacheRow;
+
 
 	CBRButton* m_btnPlan;
 	CBRButton* m_btnModify;
@@ -39,7 +43,6 @@ private:
 	CEdit* m_editSearch;
 	CBSStatic* m_staticProductionStatus;
 	CComboBox* m_comboProductionStatus;
-	IHttp* m_pHttp;
 	CTableFilterDlg m_tableFilterDlg;
 	DECLARE_MESSAGE_MAP()
 

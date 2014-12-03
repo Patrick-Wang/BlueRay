@@ -47,6 +47,7 @@ BEGIN_MESSAGE_MAP(CBlueDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_WM_ERASEBKGND()
+	ON_MESSAGE_VOID(WM_SALE_UPDATED, CBlueDlg::OnSaleChanged)
 	//ON_BN_CLICKED(IDB_SETTINGPAGE, &CBlueDlg::OnBnClickedSetting)
 	//ON_BN_CLICKED(IDB_PLANPAGE, &CBlueDlg::OnBnClickedPlan)
 	ON_WM_CREATE()
@@ -152,7 +153,7 @@ void CBlueDlg::OnGridDataLoaded()
 	m_pPanelMap[IDC_PLANPAGE]->Create(this, IDP_PLAN);
 	m_pPanelMap[IDC_PLANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 
-	m_pPanelMap[IDC_PRODUCTIONSCANPAGE].reset(new CProductPanel(m_pJqGridAPI.release()));
+	m_pPanelMap[IDC_PRODUCTIONSCANPAGE].reset(new CProductPanel(m_pJqGridAPI.release(), m_pHttp.get()));
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE]->Create(this, IDP_PRODUCT);
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 }
@@ -331,5 +332,10 @@ void CBlueDlg::InitWebView()
 	url.vt = VT_BSTR;
 	url.bstrVal = (BSTR)::SysAllocString(path);
 	m_webView.OpenURL(&url);
+}
+
+void CBlueDlg::OnSaleChanged()
+{
+	m_pPanelMap[IDC_PLANPAGE]->HasUpdate();
 }
 

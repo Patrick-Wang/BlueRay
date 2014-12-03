@@ -122,7 +122,7 @@ module base {
                     height: document.documentElement.clientHeight - 22 - 3,
                     width: document.documentElement.clientWidth - 3,
                     shrinkToFit: false,
-                    //rowNum: 5,
+                    rowNum: 10000,
                     //rowList: [5, 10, 15],
                     autoScroll: true,
                     //pager: $('#pager'),

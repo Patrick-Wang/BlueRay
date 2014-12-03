@@ -107,6 +107,7 @@
     <None Include="res\Blue.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BRPanel.h" />
     <ClInclude Include="CommonDefine.h" />
     <ClInclude Include="PopupDlg.h" />
     <ClInclude Include="AdoDBConnector.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="XMLParser.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BRPanel.cpp" />
     <ClCompile Include="PopupDlg.cpp" />
     <ClCompile Include="AdoDBConnector.cpp" />
     <ClCompile Include="Blue.cpp" />

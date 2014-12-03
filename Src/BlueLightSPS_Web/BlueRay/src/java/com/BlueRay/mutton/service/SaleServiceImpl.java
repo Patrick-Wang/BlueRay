@@ -342,12 +342,14 @@ public class SaleServiceImpl implements SaleService {
 		for (int i = rows.size() - 1; i >= 0; --i) {
 			HTXX htxx = saleDao
 					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
-			if ("N".equals(htxx.getSftgywsh())) {
+			if (!"Y".equals(htxx.getSftgywsh())) {
 				htxx.setSftgywsh("Y");
 				saleDao.update(htxx);
+				for (int j = htxx.getSl() - 1; j >= 0; j--){
 				PCJHXX pcjhxx = new PCJHXX();
 				pcjhxx.setHtxxID(htxx.getID());
 				planDao.insert(pcjhxx);
+				}
 			}
 		}
 		return "success";

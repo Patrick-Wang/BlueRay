@@ -14,4 +14,6 @@ public interface PlanDao {
 
 	void update(PCJHXX pcjhxx);
 
+	void delete(PCJHXX pcjhxx);
+
 }
