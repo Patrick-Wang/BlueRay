@@ -27,6 +27,7 @@ protected:
 	afx_msg void OnBnClickedSearch();
 	afx_msg void OnBnClickedTableFilter();
 	afx_msg void OnBnClickedMore();
+	afx_msg void OnBnClickedApprove();	//test purpose
 	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
 	void OnLoadDataSuccess(CString& data);
 	void OnDelDataSuccess();
@@ -47,6 +48,9 @@ private:
 	IHttp* m_pHttp;
 	std::vector<CString> m_cacheRow;
 	CTableFilterDlg m_tableFilterDlg;
+
+	CBRButton m_btnApprove; //only for test purpose
+
 public:
 	afx_msg void OnNcDestroy();
 };

@@ -13,6 +13,7 @@
 #define ADD_URL_ID IDP_SALE + 2
 #define DEL_URL_ID IDP_SALE + 3
 #define MODIFY_URL_ID IDP_SALE + 4
+#define BUSSINESS_APPROVE_URL_ID IDP_SALE + 5	//test purpose
 
 
 BEGIN_MESSAGE_MAP(CSalePanel, CControlPanel)
@@ -22,6 +23,7 @@ BEGIN_MESSAGE_MAP(CSalePanel, CControlPanel)
 	ON_BN_CLICKED(IDC_SALE_BTN_SEARCH, &CSalePanel::OnBnClickedSearch)
 	ON_BN_CLICKED(IDC_SALE_BTN_MORE, &CSalePanel::OnBnClickedMore)
 	ON_BN_CLICKED(IDC_SALE_BTN_TABLEFILTER, &CSalePanel::OnBnClickedTableFilter)
+	ON_BN_CLICKED(IDC_SALE_BTN_APPROVE, &CSalePanel::OnBnClickedApprove)
 	ON_WM_SHOWWINDOW()
 	ON_WM_NCDESTROY()
 END_MESSAGE_MAP()
@@ -69,6 +71,11 @@ void CSalePanel::OnInitChilds()
 	m_btnTableFilter.SetWindowText(_T("表格设置"));
 	m_btnTableFilter.MoveWindow(640, 25, 90, 25);
 
+	//only for test purpose
+	m_btnApprove.Create(this, IDC_SALE_BTN_APPROVE);
+	m_btnApprove.SetWindowText(_T("通过审批"));
+	m_btnApprove.MoveWindow(800, 25, 90, 25);
+
 	m_bsMoreWord.Create(this, IDC_SALE_BTN_MOREWORD);
 	m_bsMoreWord.SetWindowText(_T("更多筛选"));
 	m_bsMoreWord.SetBSFont(_T("Microsoft YaHei"), 12);
@@ -76,6 +83,9 @@ void CSalePanel::OnInitChilds()
 
 	m_btnDelete.EnableWindow(FALSE);
 	m_btnModify.EnableWindow(FALSE);
+
+	//test purpose
+	m_btnApprove.EnableWindow(FALSE);
 
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/sale/query"), IDS_HOST_NAME);
@@ -104,6 +114,18 @@ void CSalePanel::OnBnClickedTableFilter()
 	if (IDOK == m_tableFilterDlg.DoModal()){
 	}
 }
+
+void CSalePanel::OnBnClickedApprove()	//test purpose
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/sale/approve/business"), IDS_HOST_NAME);
+	std::vector<int> checkedRows;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+	std::map<CString, IntArrayPtr> attr;
+	attr[L"rows"] = &checkedRows;
+	m_pHttp->Post(url, BUSSINESS_APPROVE_URL_ID, attr);
+}
+
 
 void CSalePanel::OnBnClickedModify()
 {
@@ -156,10 +178,14 @@ void CSalePanel::OnRowChecked()
 	{
 		m_btnDelete.EnableWindow(FALSE);
 		m_btnModify.EnableWindow(FALSE);
+		//Test purpose
+		m_btnApprove.EnableWindow(FALSE);
 	}
 	else{
 		m_btnDelete.EnableWindow(TRUE);
 		m_btnModify.EnableWindow(TRUE);
+		//test purpose
+		m_btnApprove.EnableWindow(TRUE);
 	}
 }
 
@@ -288,6 +314,8 @@ void CSalePanel::OnHttpSuccess(int id, LPCTSTR resp)
 	case MODIFY_URL_ID:
 		OnModifyDataSuccess(m_cacheRow);
 		break;
+	case BUSSINESS_APPROVE_URL_ID:	//test purpose
+		break;
 	default:
 		break;
 	}
@@ -308,6 +336,9 @@ void CSalePanel::OnHttpFailed(int id)
 		MessageBox(_T("删除数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
 		break;
 	case MODIFY_URL_ID:
+		MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+		break;
+	case BUSSINESS_APPROVE_URL_ID:	//test purpose
 		MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
 		break;
 	default:
