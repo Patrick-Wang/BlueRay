@@ -17,7 +17,7 @@ public class HTXX implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Integer ID;
-	private Integer htID;
+	private String htID;
 	private Integer clientID;
 	private Integer ggxhID;
 	private Integer sl;
@@ -47,7 +47,7 @@ public class HTXX implements Serializable {
 	/**
 	 * @return the htID
 	 */
-	public Integer getHtID() {
+	public String getHtID() {
 		return htID;
 	}
 	/**
@@ -167,7 +167,7 @@ public class HTXX implements Serializable {
 	/**
 	 * @param htID the htID to set
 	 */
-	public void setHtID(Integer htID) {
+	public void setHtID(String htID) {
 		this.htID = htID;
 	}
 	/**

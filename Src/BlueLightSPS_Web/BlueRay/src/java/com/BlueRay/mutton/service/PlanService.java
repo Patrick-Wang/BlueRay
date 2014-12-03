@@ -2,6 +2,6 @@ package com.BlueRay.mutton.service;
 
 public interface PlanService {
 
-	String[][] query(String[][] saleHts);
+	String[][] query();
 
 }

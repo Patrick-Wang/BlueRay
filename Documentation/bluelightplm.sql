@@ -30,7 +30,7 @@ CREATE TABLE `bpqxhflxx` (
 
 -- ----------------------------
 -- Table structure for cpggxhxx
--- ----------------------------
+-- ----------------------------pcjhxxbpcjhxxb
 DROP TABLE IF EXISTS `cpggxhxx`;
 CREATE TABLE `cpggxhxx` (
   `cpggxhID` int(11) NOT NULL auto_increment,
@@ -54,7 +54,7 @@ CREATE TABLE `ddztb` (
 DROP TABLE IF EXISTS `htxx`;
 CREATE TABLE `htxx` (
   `ID` int(11) NOT NULL auto_increment,
-  `htID` int(11) default NULL,
+  `htID` char(16) default NULL,
   `ClientID` int(11) default NULL,
   `ggxhID` int(11) default NULL,
   `sl` int(8) default NULL,
@@ -69,7 +69,7 @@ CREATE TABLE `htxx` (
   `zxcd` char(20) default NULL,
   `mpzl` int(11) default NULL,
   `bz` char(100) default NULL,
-  `ddrq` datetime default NULL,
+  `ddrq` date default NULL,
   `ddzt` char(16) character set utf8 collate utf8_unicode_ci default NULL,
   `sftgywsh` char(1) character set utf8 collate utf8_unicode_ci default NULL,
   `sftgjhsh` char(1) character set utf8 collate utf8_unicode_ci default NULL,
@@ -126,10 +126,10 @@ CREATE TABLE `mpzlxx` (
 DROP TABLE IF EXISTS `pcjhxxb`;
 CREATE TABLE `pcjhxxb` (
   `pcjhID` int(11) NOT NULL auto_increment,
-  `htID` char(16) collate utf8_unicode_ci NOT NULL,
-  `jhscrq` char(12) collate utf8_unicode_ci default NULL,
-  `jhbzrq` char(12) collate utf8_unicode_ci default NULL,
-  `jhfhrq` char(12) collate utf8_unicode_ci default NULL,
+  `htxxID` int(11) collate utf8_unicode_ci NOT NULL,
+  `jhscrq` date default NULL,
+  `jhbzrq` date default NULL,
+  `jhfhrq` date default NULL,
   `tcbh` char(50) collate utf8_unicode_ci default NULL,
   `ccbh` char(50) collate utf8_unicode_ci default NULL,
   `sftgywsh` char(1) collate utf8_unicode_ci default NULL,

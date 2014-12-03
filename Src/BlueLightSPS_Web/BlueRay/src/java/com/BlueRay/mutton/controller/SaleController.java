@@ -112,4 +112,20 @@ public class SaleController {
 		JSONArray data = JSONArray.fromObject(jo.get("data"));
 		return service.update(rows, data);
 	}
+	
+	@RequestMapping(value = "/approve/business", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String approveSaleData(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				request.getInputStream(), "UTF-8"));
+		String line = null;
+		StringBuilder sb = new StringBuilder();
+		while ((line = br.readLine()) != null) {
+			sb.append(line);
+		}
+		JSONObject jo = JSONObject.fromObject(sb.toString());
+		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
+		return service.businessApprove(rows);
+	}
+	
 }

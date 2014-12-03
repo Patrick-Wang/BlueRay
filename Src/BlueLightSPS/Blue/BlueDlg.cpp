@@ -125,7 +125,7 @@ BOOL CBlueDlg::OnInitDialog()
 	m_bsIcon.SetBGPictureIDs(BS_NORMAL, IDB_LOGO);
 	m_bsIcon.MoveWindow(12, 10, 64, 64);
 
-	m_pJqGridAPI.reset(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_SALE));
+	m_pJqGridAPI.reset(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_PRODUCT));
 	m_pJqGridAPI->d_OnGridComplete += std::make_pair(this, &CBlueDlg::OnGridDataLoaded);
 
 	m_btnGroup.OnClicked(&m_btnSalePage);
@@ -143,7 +143,7 @@ void CBlueDlg::OnGridDataLoaded()
 	CRect clientRect;
 	GetClientRect(clientRect);
 	CRect rtCtrlPanel(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 218);
-	m_pPanelMap[IDC_SALEPAGE].reset(new CSalePanel(m_pJqGridAPI.release(), m_pHttp.get()));
+	m_pPanelMap[IDC_SALEPAGE].reset(new CSalePanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_SALE), m_pHttp.get()));
 	m_pPanelMap[IDC_SALEPAGE]->Create(this, IDP_SALE);
 	m_pPanelMap[IDC_SALEPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 	m_pPanelMap[IDC_SALEPAGE]->ShowWindow(SW_SHOW);
@@ -152,7 +152,7 @@ void CBlueDlg::OnGridDataLoaded()
 	m_pPanelMap[IDC_PLANPAGE]->Create(this, IDP_PLAN);
 	m_pPanelMap[IDC_PLANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 
-	m_pPanelMap[IDC_PRODUCTIONSCANPAGE].reset(new CProductPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_PRODUCT)));
+	m_pPanelMap[IDC_PRODUCTIONSCANPAGE].reset(new CProductPanel(m_pJqGridAPI.release()));
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE]->Create(this, IDP_PRODUCT);
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 }

@@ -13,4 +13,6 @@ public interface SaleService{
 	String delete(JSONArray ja);
 
 	String update(JSONArray rows, JSONArray data);
+
+	String businessApprove(JSONArray rows);
 }

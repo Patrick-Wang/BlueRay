@@ -68,7 +68,7 @@ public class PlanController {
 	public @ResponseBody String getSaleQueryData(HttpServletRequest request,
 			HttpServletResponse response) {
 		String[][] saleHts = saleService.query();
-		return JSONArray.fromObject(planService.query(saleHts)).toString();
+		return JSONArray.fromObject(planService.query()).toString();
 	}
 
 //	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

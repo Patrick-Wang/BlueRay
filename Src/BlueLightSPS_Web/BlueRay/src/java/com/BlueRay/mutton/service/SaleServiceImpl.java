@@ -31,6 +31,42 @@ public class SaleServiceImpl implements SaleService {
 	@Autowired
 	private ItemDao itemDao;
 
+	public static void setHtxx(String[] row, HTXX htxx, ItemDao itDao){
+		try {
+			row[0] = htxx.getID() + "";
+
+			row[1] = htxx.getHtID() + "";
+			row[2] = itDao.queryKhxxById(htxx.getClientID()).getKhmc();
+			row[3] = itDao.queryCpggxhxxById(htxx.getGgxhID()).getGg();
+
+			row[4] = htxx.getSl() + "";
+			row[5] = itDao.queryZcxxById(htxx.getZcID()).getZcxh();
+			row[6] = "Y".equals(htxx.getDfr()) ? "是": "否";
+
+			row[7] = itDao.queryZdqdyflxxById(htxx.getZdqdyID())
+					.getZdqdy();
+			row[8] = itDao.queryYylggflxxById(htxx.getYylggID())
+					.getYylgg();
+			row[9] = htxx.getSfjf();
+
+			row[10] = itDao.queryBpqxhflxxById(htxx.getBpqxhID())
+					.getBpqxh();
+			row[11] = itDao.queryBmqxhflxxById(htxx.getBmqxhID())
+					.getBmqxh();
+			row[12] = htxx.getDlcd();
+
+			row[13] = htxx.getZxcd();
+			row[14] = itDao.queryMpzlxxById(htxx.getMpzl()).getMpzl();
+			row[15] = htxx.getBz();
+
+			row[16] = htxx.getDdrq() + "";
+			row[17] = "Y".equals(htxx.getSftgywsh()) ? "已审批" : "未审批";
+			row[18] = "Y".equals(htxx.getSftgjhsh()) ? "已审批" : "未审批";
+		} catch (Exception e) {
+
+		}
+	}
+	
 	public String[][] query() {
 		List<HTXX> list = saleDao.getSaleData();
 		// "合同号", "客户名称", "规格型号",
@@ -43,39 +79,40 @@ public class SaleServiceImpl implements SaleService {
 		HTXX htxx = null;
 		for (int i = 0; i < list.size(); ++i) {
 			htxx = list.get(i);
-			try {
-				ret[i][0] = htxx.getID() + "";
-
-				ret[i][1] = htxx.getHtID() + "";
-				ret[i][2] = itemDao.queryKhxxById(htxx.getClientID()).getKhmc();
-				ret[i][3] = itemDao.queryCpggxhxxById(htxx.getGgxhID()).getGg();
-
-				ret[i][4] = htxx.getSl() + "";
-				ret[i][5] = itemDao.queryZcxxById(htxx.getZcID()).getZcxh();
-				ret[i][6] = "Y".equals(htxx.getDfr()) ? "是": "否";
-
-				ret[i][7] = itemDao.queryZdqdyflxxById(htxx.getZdqdyID())
-						.getZdqdy();
-				ret[i][8] = itemDao.queryYylggflxxById(htxx.getYylggID())
-						.getYylgg();
-				ret[i][9] = htxx.getSfjf();
-
-				ret[i][10] = itemDao.queryBpqxhflxxById(htxx.getBpqxhID())
-						.getBpqxh();
-				ret[i][11] = itemDao.queryBmqxhflxxById(htxx.getBmqxhID())
-						.getBmqxh();
-				ret[i][12] = htxx.getDlcd();
-
-				ret[i][13] = htxx.getZxcd();
-				ret[i][14] = itemDao.queryMpzlxxById(htxx.getMpzl()).getMpzl();
-				ret[i][15] = htxx.getBz();
-
-				ret[i][16] = htxx.getDdrq() + "";
-				ret[i][17] = "Y".equals(htxx.getSftgywsh()) ? "已审批" : "未审批";
-				ret[i][18] = "Y".equals(htxx.getSftgjhsh()) ? "已审批" : "未审批";
-			} catch (Exception e) {
-
-			}
+			setHtxx(ret[i], htxx, itemDao);
+//			try {
+//				ret[i][0] = htxx.getID() + "";
+//
+//				ret[i][1] = htxx.getHtID() + "";
+//				ret[i][2] = itemDao.queryKhxxById(htxx.getClientID()).getKhmc();
+//				ret[i][3] = itemDao.queryCpggxhxxById(htxx.getGgxhID()).getGg();
+//
+//				ret[i][4] = htxx.getSl() + "";
+//				ret[i][5] = itemDao.queryZcxxById(htxx.getZcID()).getZcxh();
+//				ret[i][6] = "Y".equals(htxx.getDfr()) ? "是": "否";
+//
+//				ret[i][7] = itemDao.queryZdqdyflxxById(htxx.getZdqdyID())
+//						.getZdqdy();
+//				ret[i][8] = itemDao.queryYylggflxxById(htxx.getYylggID())
+//						.getYylgg();
+//				ret[i][9] = htxx.getSfjf();
+//
+//				ret[i][10] = itemDao.queryBpqxhflxxById(htxx.getBpqxhID())
+//						.getBpqxh();
+//				ret[i][11] = itemDao.queryBmqxhflxxById(htxx.getBmqxhID())
+//						.getBmqxh();
+//				ret[i][12] = htxx.getDlcd();
+//
+//				ret[i][13] = htxx.getZxcd();
+//				ret[i][14] = itemDao.queryMpzlxxById(htxx.getMpzl()).getMpzl();
+//				ret[i][15] = htxx.getBz();
+//
+//				ret[i][16] = htxx.getDdrq() + "";
+//				ret[i][17] = "Y".equals(htxx.getSftgywsh()) ? "已审批" : "未审批";
+//				ret[i][18] = "Y".equals(htxx.getSftgjhsh()) ? "已审批" : "未审批";
+//			} catch (Exception e) {
+//
+//			}
 			// ret[i][17] = htxx.getDdzt();
 
 		}
@@ -119,7 +156,7 @@ public class SaleServiceImpl implements SaleService {
 
 	private void setHtID(HTXX htxx, String val) {
 		if (!"".equals(val)) {
-			htxx.setHtID(Integer.valueOf(val));
+			htxx.setHtID(val);
 		}
 	}
 
@@ -294,6 +331,19 @@ public class SaleServiceImpl implements SaleService {
 			setDdrq(htxx, data.getString(15));
 
 			saleDao.update(htxx);
+		}
+		return "success";
+	}
+
+	public String businessApprove(JSONArray rows) {
+		for (int i = rows.size() - 1; i >= 0; --i) {
+			HTXX htxx = saleDao
+					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
+			if ("N".equals(htxx.getSftgywsh())){
+				htxx.setSftgywsh("Y");
+				saleDao.update(htxx);
+				
+			}
 		}
 		return "success";
 	}
