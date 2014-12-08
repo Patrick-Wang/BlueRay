@@ -35,8 +35,17 @@ private:
 	CBRButton m_btnPlanBZRQBusinessApprove;
 	CBRButton m_btnPlanBZRQPlanApprove;
 
+	void HideFirstViewOfNotificationPanel(BOOL bShow = FALSE);
+
 public:
 	DECLARE_MESSAGE_MAP()
 	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
+
+	afx_msg void OnBnClickedSaleBusinessApprove();
+	afx_msg void OnBnClickedSalePlanApprove();
+	afx_msg void OnBnClickedPlanSCRQBusinessApprove();
+	afx_msg void OnBnClickedPlanSCRQPlanApprove();
+	afx_msg void OnBnClickedPlanBZRQBusinessApprove();
+	afx_msg void OnBnClickedPlanBZRQPlanApprove();
 };
 

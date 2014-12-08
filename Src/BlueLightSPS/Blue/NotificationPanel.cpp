@@ -83,9 +83,95 @@ void CNotificationPanel::OnInitChilds()
 }
 
 BEGIN_MESSAGE_MAP(CNotificationPanel, CControlPanel)
+	ON_BN_CLICKED(IDC_NOTIFICATION_BTN_SALEBUSINESSAPPROVE, &CNotificationPanel::OnBnClickedSaleBusinessApprove)
+	ON_BN_CLICKED(IDC_NOTIFICATION_BTN_SALEPLANAPPROVE, &CNotificationPanel::OnBnClickedSalePlanApprove)
+	ON_BN_CLICKED(IDC_NOTIFICATION_BTN_PLANSCRQBUSINESSAPPROVE, &CNotificationPanel::OnBnClickedPlanSCRQBusinessApprove)
+	ON_BN_CLICKED(IDC_NOTIFICATION_BTN_PLANSCRQPLANAPPROVE, &CNotificationPanel::OnBnClickedPlanSCRQPlanApprove)
+	ON_BN_CLICKED(IDC_NOTIFICATION_BTN_PLANBZRQBUSINESSAPPROVE, &CNotificationPanel::OnBnClickedPlanBZRQBusinessApprove)
+	ON_BN_CLICKED(IDC_NOTIFICATION_BTN_PLANBZRQPLANAPPROVE, &CNotificationPanel::OnBnClickedPlanBZRQPlanApprove)
 	ON_WM_SHOWWINDOW()
 END_MESSAGE_MAP()
 
+void CNotificationPanel::OnBnClickedSaleBusinessApprove()
+{
+	m_pJqGridAPI->ShowGrid();
+	//HideFirstViewOfNotificationPanel(TRUE);
+	//query
+}
+
+void CNotificationPanel::OnBnClickedSalePlanApprove()
+{
+	m_pJqGridAPI->ShowGrid();
+
+	//query
+}
+
+void CNotificationPanel::OnBnClickedPlanSCRQBusinessApprove()
+{
+	m_pJqGridAPI->ShowGrid();
+
+	//query
+}
+
+void CNotificationPanel::OnBnClickedPlanSCRQPlanApprove()
+{
+	m_pJqGridAPI->ShowGrid();
+
+	//query
+}
+
+void CNotificationPanel::OnBnClickedPlanBZRQBusinessApprove()
+{
+	m_pJqGridAPI->ShowGrid();
+
+	//query
+}
+
+void CNotificationPanel::OnBnClickedPlanBZRQPlanApprove()
+{
+	m_pJqGridAPI->ShowGrid();
+
+	//query
+}
+
+
+void CNotificationPanel::HideFirstViewOfNotificationPanel(BOOL bShow)
+{
+	if (bShow)
+	{
+		m_bsSaleBusinessApprove.ShowWindow(SW_SHOW);
+		m_bsSalePlanApprove.ShowWindow(SW_SHOW);
+		m_bsPlanSCRQBusinessApprove.ShowWindow(SW_SHOW);
+		m_bsPlanSCRQPlanApprove.ShowWindow(SW_SHOW);
+		m_bsPlanBZRQBusinessApprove.ShowWindow(SW_SHOW);
+		m_bsPlanBZRQPlanApprove.ShowWindow(SW_SHOW);
+
+		m_btnSaleBusinessApprove.ShowWindow(SW_SHOW);
+		m_btnSalePlanApprove.ShowWindow(SW_SHOW);
+		m_btnPlanSCRQBusinessApprove.ShowWindow(SW_SHOW);
+		m_btnPlanSCRQPlanApprove.ShowWindow(SW_SHOW);
+		m_btnPlanBZRQBusinessApprove.ShowWindow(SW_SHOW);
+		m_btnPlanBZRQPlanApprove.ShowWindow(SW_SHOW);
+	}
+	else
+	{
+		m_bsSaleBusinessApprove.ShowWindow(SW_HIDE);
+		m_bsSalePlanApprove.ShowWindow(SW_HIDE);
+		m_bsPlanSCRQBusinessApprove.ShowWindow(SW_HIDE);
+		m_bsPlanSCRQPlanApprove.ShowWindow(SW_HIDE);
+		m_bsPlanBZRQBusinessApprove.ShowWindow(SW_HIDE);
+		m_bsPlanBZRQPlanApprove.ShowWindow(SW_HIDE);
+
+		m_btnSaleBusinessApprove.ShowWindow(SW_HIDE);
+		m_btnSalePlanApprove.ShowWindow(SW_HIDE);
+		m_btnPlanSCRQBusinessApprove.ShowWindow(SW_HIDE);
+		m_btnPlanSCRQPlanApprove.ShowWindow(SW_HIDE);
+		m_btnPlanBZRQBusinessApprove.ShowWindow(SW_HIDE);
+		m_btnPlanBZRQPlanApprove.ShowWindow(SW_HIDE);
+	}
+
+	UpdateWindow();
+}
 
 void CNotificationPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 {
