@@ -14,6 +14,8 @@
 #include "JsHttpImpl.h"
 #include "PlanPanel.h"
 #include "ProductPanel.h"
+#include "NotificationPanel.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -29,6 +31,7 @@
 #define GRID_NAME_SALE	_T("sale")
 #define GRID_NAME_PLAN	_T("plan")
 #define GRID_NAME_PRODUCT	_T("product")
+#define GRID_NAME_NOTIFICATION	_T("notification")
 
 CBlueDlg::CBlueDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CBlueDlg::IDD, pParent)
@@ -156,6 +159,10 @@ void CBlueDlg::OnGridDataLoaded()
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE].reset(new CProductPanel(m_pJqGridAPI.release(), m_pHttp.get()));
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE]->Create(this, IDP_PRODUCT);
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
+
+	m_pPanelMap[IDC_NOTIFICATION].reset(new CNotificationPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_NOTIFICATION), m_pHttp.get()));
+	m_pPanelMap[IDC_NOTIFICATION]->Create(this, IDP_NOTIFICATION);
+	m_pPanelMap[IDC_NOTIFICATION]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 }
 // If you add a minimize button to your dialog, you will need the code below
 //  to draw the icon.  For MFC applications using the document/view model,

@@ -35,6 +35,7 @@
                 instance: base.GridView = ui.SaleView.getInstance("sale");
                 ui.PlanView.getInstance("plan");
                 ui.ProductView.getInstance("product");
+                ui.NotificationView.getInstance("notification");
             });
         })();
     </script>
@@ -150,6 +151,10 @@
     </div>
     <div align="center" id="productp" style="display:none">
         <table id="product"></table>
+        <div id="pager"></div>
+    </div>
+    <div align="center" id="notificationp" style="display:none">
+        <table id="notification"></table>
         <div id="pager"></div>
     </div>
 </body>
