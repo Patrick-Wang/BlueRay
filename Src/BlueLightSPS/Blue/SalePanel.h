@@ -20,6 +20,7 @@ public:
 	void OnHttpFailed(int id);
 	void OnSaleDlgGetModifyOption(CSaleAddDlg& dlg);
 protected:
+	virtual void OnDataUpdate();
 	virtual void OnInitChilds();
 	afx_msg void OnBnClickedAdd();
 	afx_msg void OnBnClickedDelete();
@@ -28,7 +29,7 @@ protected:
 	afx_msg void OnBnClickedTableFilter();
 	afx_msg void OnBnClickedMore();
 	afx_msg void OnBnClickedApprove();	//test purpose
-	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
+//	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
 	void OnLoadDataSuccess(CString& data);
 	void OnDelDataSuccess();
 	void OnModifyDataSuccess(std::vector<CString>& newData);

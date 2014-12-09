@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.BlueRay.mutton.service.SaleService;
+import com.BlueRay.mutton.tool.Util;
 
 @Controller
 @RequestMapping(value = "/sale")
@@ -114,18 +115,19 @@ public class SaleController {
 	}
 	
 	@RequestMapping(value = "/approve/business", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String approveSaleData(HttpServletRequest request,
+	public @ResponseBody String bussinessApprove(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				request.getInputStream(), "UTF-8"));
-		String line = null;
-		StringBuilder sb = new StringBuilder();
-		while ((line = br.readLine()) != null) {
-			sb.append(line);
-		}
-		JSONObject jo = JSONObject.fromObject(sb.toString());
+		JSONObject jo = Util.parse(request.getInputStream());
 		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
 		return service.businessApprove(rows);
+	}
+	
+	@RequestMapping(value = "/approve/plan", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String planApprove(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		JSONObject jo = Util.parse(request.getInputStream());
+		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
+		return service.planApprove(rows);
 	}
 	
 }

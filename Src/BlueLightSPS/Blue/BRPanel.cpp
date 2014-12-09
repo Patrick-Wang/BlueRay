@@ -27,6 +27,11 @@ void CBRPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 		m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CBRPanel::OnRowChecked);
 		m_pHttp->d_OnSuccess += std::make_pair(this, &CBRPanel::OnHttpSuccess);
 		m_pHttp->d_OnFailed += std::make_pair(this, &CBRPanel::OnHttpFailed);
+		if (!IsUpdated())
+		{
+			Updated();
+			OnDataUpdate();
+		}
 	}
 	else
 	{

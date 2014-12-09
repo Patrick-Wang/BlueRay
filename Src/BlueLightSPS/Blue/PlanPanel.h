@@ -20,7 +20,7 @@ public:
 	void OnLoadDataSuccess(CString& jsondata);
 protected:
 	virtual void OnInitChilds();
-
+	virtual void OnDataUpdate();
 	afx_msg void OnBnClickedPlan();
 	afx_msg void OnBnClickedRestore();
 	afx_msg void OnBnClickedModify();
@@ -48,6 +48,6 @@ private:
 
 public:
 	afx_msg void OnNcDestroy();
-	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
+//	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
 };
 

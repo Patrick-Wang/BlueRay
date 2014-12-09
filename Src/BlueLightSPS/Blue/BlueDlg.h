@@ -65,7 +65,7 @@ private:
 	
 	CBRButtonGroup m_btnGroup;
 	CWebView m_webView;
-	std::auto_ptr<CJQGridAPI> m_pJqGridAPI;
+	std::auto_ptr<CJQGridAPI> m_pLastGrid;
 	std::map<UINT, std::shared_ptr<CBRPanel>> m_pPanelMap;
 	std::auto_ptr<IHttp> m_pHttp;
 public:

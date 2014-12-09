@@ -31,7 +31,15 @@ namespace Util_Tools
 		static bool MakeDir(LPCTSTR lpPath);
 		static bool DeleteFiles(LPCTSTR strFolderPath);
 		static bool GetExpandPath(LPCTSTR pszEnvironmentPath, CString &csExpandPath);
-
+		static void Utf16leToUtf8(const CString& unicodeString, std::string& str)
+		{
+			int stringLength = ::WideCharToMultiByte(CP_UTF8, NULL, unicodeString, wcslen(unicodeString), NULL, 0, NULL, NULL);
+			char* buffer = new char[stringLength + 1];
+			::WideCharToMultiByte(CP_UTF8, NULL, unicodeString, wcslen(unicodeString), buffer, stringLength, NULL, NULL);
+			buffer[stringLength] = '\0';
+			str = buffer;
+			delete[] buffer;
+		}
 	};
 
 

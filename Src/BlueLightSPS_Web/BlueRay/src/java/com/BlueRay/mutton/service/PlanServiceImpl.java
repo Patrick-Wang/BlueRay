@@ -61,12 +61,12 @@ public class PlanServiceImpl implements PlanService {
 			ret[i][4] = "1";// 数量
 			ret[i][17] = (null != pcjhxx.getJhscrq()) ? pcjhxx.getJhscrq()
 					.toString() : "";
-			ret[i][18] = "Y".equals(pcjhxx.getSftgywsh()) ? "已审批" : "未审批";
-			ret[i][19] = "Y".equals(pcjhxx.getSftgjhsh()) ? "已审批" : "未审批";
+			ret[i][18] = "Y".equals(pcjhxx.getSftgywsh()) ? "√" : "×";
+			ret[i][19] = "Y".equals(pcjhxx.getSftgjhsh()) ? "√" : "×";
 			ret[i][20] = (null != pcjhxx.getJhbzrq()) ? pcjhxx.getJhbzrq()
 					.toString() : "";
-			ret[i][21] = "Y".equals(pcjhxx.getBzsftgywsh()) ? "已审批" : "未审批";
-			ret[i][22] = "Y".equals(pcjhxx.getBzsftgjhsh()) ? "已审批" : "未审批";
+			ret[i][21] = "Y".equals(pcjhxx.getBzsftgywsh()) ? "√" : "×";
+			ret[i][22] = "Y".equals(pcjhxx.getBzsftgjhsh()) ? "√" : "×";
 			ret[i][23] = (null != pcjhxx.getJhfhrq()) ? pcjhxx.getJhfhrq()
 					.toString() : "";
 			ret[i][24] = pcjhxx.getTcbh();
@@ -124,7 +124,6 @@ public class PlanServiceImpl implements PlanService {
 
 			}
 		}
-
 	}
 
 	private void setJhscrq(PCJHXX pcjhxx, String data) {
@@ -137,6 +136,50 @@ public class PlanServiceImpl implements PlanService {
 
 		}
 
+	}
+
+	public String businessApprove(JSONArray rows) {
+		for (int i = rows.size() - 1; i >= 0; --i) {
+			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
+			if (!"Y".equals(pcjhxx.getSftgywsh())) {
+				pcjhxx.setSftgywsh("Y");
+				planDao.update(pcjhxx);
+			}
+		}
+		return "success";
+	}
+
+	public String planApprove(JSONArray rows) {
+		for (int i = rows.size() - 1; i >= 0; --i) {
+			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
+			if (!"Y".equals(pcjhxx.getSftgjhsh())) {
+				pcjhxx.setSftgjhsh("Y");
+				planDao.update(pcjhxx);
+			}
+		}
+		return "success";
+	}
+
+	public String packBusinessApprove(JSONArray rows) {
+		for (int i = rows.size() - 1; i >= 0; --i) {
+			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
+			if (!"Y".equals(pcjhxx.getBzsftgywsh())) {
+				pcjhxx.setBzsftgywsh("Y");
+				planDao.update(pcjhxx);
+			}
+		}
+		return "success";
+	}
+
+	public String packPlanApprove(JSONArray rows) {
+		for (int i = rows.size() - 1; i >= 0; --i) {
+			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
+			if (!"Y".equals(pcjhxx.getBzsftgjhsh())) {
+				pcjhxx.setBzsftgjhsh("Y");
+				planDao.update(pcjhxx);
+			}
+		}
+		return "success";
 	}
 
 }

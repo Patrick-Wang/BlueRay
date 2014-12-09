@@ -7,7 +7,7 @@ module ui {
         private static ins: SaleView;
 
         public static getInstance(gridName: string): SaleView {
-            if (SaleView.ins == undefined) {
+            if (undefined == SaleView.ins) {
                 SaleView.ins = new SaleView(gridName);
             }
             return SaleView.ins;
@@ -20,8 +20,8 @@ module ui {
     export class PlanView extends base.GridView {
         private static ins: PlanView;
 
-        public static getInstance(gridName: string): SaleView {
-            if (PlanView.ins == undefined) {
+        public static getInstance(gridName: string): PlanView {
+            if (undefined == PlanView.ins) {
                 PlanView.ins = new PlanView(gridName);
             }
             return PlanView.ins;
@@ -34,8 +34,8 @@ module ui {
     export class ProductView extends base.GridView {
         private static ins: ProductView;
 
-        public static getInstance(gridName: string): SaleView {
-            if (ProductView.ins == undefined) {
+        public static getInstance(gridName: string): ProductView {
+            if (undefined == ProductView.ins) {
                 ProductView.ins = new ProductView(gridName);
             }
             return ProductView.ins;
@@ -49,8 +49,8 @@ module ui {
     export class NotificationView extends base.GridView {
         private static ins: NotificationView;
 
-        public static getInstance(gridName: string): SaleView {
-            if (NotificationView.ins == undefined) {
+        public static getInstance(gridName: string): NotificationView {
+            if (undefined == NotificationView.ins) {
                 NotificationView.ins = new NotificationView(gridName);
             }
             return NotificationView.ins;

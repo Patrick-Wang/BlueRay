@@ -8,4 +8,12 @@ public interface PlanService {
 
 	String update(JSONArray rows, JSONArray data);
 
+	String businessApprove(JSONArray rows);
+
+	String planApprove(JSONArray rows);
+
+	String packBusinessApprove(JSONArray rows);
+
+	String packPlanApprove(JSONArray rows);
+
 }

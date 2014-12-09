@@ -32,6 +32,7 @@
 #define GRID_NAME_PLAN	_T("plan")
 #define GRID_NAME_PRODUCT	_T("product")
 #define GRID_NAME_NOTIFICATION	_T("notification")
+#define LAST_GRID	GRID_NAME_NOTIFICATION
 
 CBlueDlg::CBlueDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CBlueDlg::IDD, pParent)
@@ -129,8 +130,8 @@ BOOL CBlueDlg::OnInitDialog()
 	m_bsIcon.SetBGPictureIDs(BS_NORMAL, IDB_LOGO);
 	m_bsIcon.MoveWindow(12, 10, 64, 64);
 
-	m_pJqGridAPI.reset(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_PRODUCT));
-	m_pJqGridAPI->d_OnGridComplete += std::make_pair(this, &CBlueDlg::OnGridDataLoaded);
+	m_pLastGrid.reset(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), LAST_GRID));
+	m_pLastGrid->d_OnGridComplete += std::make_pair(this, &CBlueDlg::OnGridDataLoaded);
 
 	m_btnGroup.OnClicked(&m_btnSalePage);
 
@@ -143,7 +144,7 @@ BOOL CBlueDlg::OnInitDialog()
 
 void CBlueDlg::OnGridDataLoaded()
 {
-	m_pJqGridAPI->d_OnGridComplete -= std::make_pair(this, &CBlueDlg::OnGridDataLoaded);
+	m_pLastGrid->d_OnGridComplete -= std::make_pair(this, &CBlueDlg::OnGridDataLoaded);
 	CRect clientRect;
 	GetClientRect(clientRect);
 	CRect rtCtrlPanel(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 218);
@@ -156,13 +157,15 @@ void CBlueDlg::OnGridDataLoaded()
 	m_pPanelMap[IDC_PLANPAGE]->Create(this, IDP_PLAN);
 	m_pPanelMap[IDC_PLANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 
-	m_pPanelMap[IDC_PRODUCTIONSCANPAGE].reset(new CProductPanel(m_pJqGridAPI.release(), m_pHttp.get()));
+	m_pPanelMap[IDC_PRODUCTIONSCANPAGE].reset(new CProductPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_PRODUCT), m_pHttp.get()));
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE]->Create(this, IDP_PRODUCT);
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 
 	m_pPanelMap[IDC_NOTIFICATION].reset(new CNotificationPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_NOTIFICATION), m_pHttp.get()));
 	m_pPanelMap[IDC_NOTIFICATION]->Create(this, IDP_NOTIFICATION);
 	m_pPanelMap[IDC_NOTIFICATION]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
+
+	m_pLastGrid.release();
 }
 // If you add a minimize button to your dialog, you will need the code below
 //  to draw the icon.  For MFC applications using the document/view model,

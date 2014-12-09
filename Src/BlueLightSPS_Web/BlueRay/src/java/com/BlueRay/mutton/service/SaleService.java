@@ -15,4 +15,6 @@ public interface SaleService{
 	String update(JSONArray rows, JSONArray data);
 
 	String businessApprove(JSONArray rows);
+
+	String planApprove(JSONArray rows);
 }

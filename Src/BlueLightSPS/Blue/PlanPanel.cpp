@@ -22,7 +22,7 @@ BEGIN_MESSAGE_MAP(CPlanPanel, CBRPanel)
 	ON_BN_CLICKED(IDC_PLAN_BTN_TABLEFILTER, &CPlanPanel::OnBnClickedTableFilter)
 	ON_MESSAGE_VOID(UM_UI_PREPARED, CPlanPanel::OnUIPrepared)
 	ON_WM_NCDESTROY()
-	ON_WM_SHOWWINDOW()
+//	ON_WM_SHOWWINDOW()
 END_MESSAGE_MAP()
 
 CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
@@ -428,21 +428,18 @@ void CPlanPanel::OnNcDestroy()
 
 
 
-void CPlanPanel::OnShowWindow(BOOL bShow, UINT nStatus)
-{
-	__super::OnShowWindow(bShow, nStatus);
-	if (bShow)
-	{
-		if (!IsUpdated())
-		{
-			Updated();
-			CString url;
-			url.Format(_T("http://%s:8080/BlueRay/plan/query"), IDS_HOST_NAME);
-			m_pHttp->Get(url, QUERY_URL_ID);
-			GetParent()->EnableWindow(FALSE);
-		}
-	}
-}
+//void CPlanPanel::OnShowWindow(BOOL bShow, UINT nStatus)
+//{
+//	__super::OnShowWindow(bShow, nStatus);
+//	if (bShow)
+//	{
+//		if (!IsUpdated())
+//		{
+//			Updated();
+//			
+//		}
+//	}
+//}
 
 void CPlanPanel::OnRowChecked()
 {
@@ -570,4 +567,12 @@ void CPlanPanel::OnModifyDataSuccess(std::vector<CString>& newData)
 		m_pJqGridAPI->SetCell(checkedRows[i], 24, newData[3]);
 		m_pJqGridAPI->SetCell(checkedRows[i], 25, newData[4]);
 	}
+}
+
+void CPlanPanel::OnDataUpdate()
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/plan/query"), IDS_HOST_NAME);
+	m_pHttp->Get(url, QUERY_URL_ID);
+	GetParent()->EnableWindow(FALSE);
 }

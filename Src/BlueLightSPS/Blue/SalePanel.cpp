@@ -24,7 +24,7 @@ BEGIN_MESSAGE_MAP(CSalePanel, CBRPanel)
 	ON_BN_CLICKED(IDC_SALE_BTN_MORE, &CSalePanel::OnBnClickedMore)
 	ON_BN_CLICKED(IDC_SALE_BTN_TABLEFILTER, &CSalePanel::OnBnClickedTableFilter)
 	ON_BN_CLICKED(IDC_SALE_BTN_APPROVE, &CSalePanel::OnBnClickedApprove)
-	ON_WM_SHOWWINDOW()
+//	ON_WM_SHOWWINDOW()
 	ON_WM_NCDESTROY()
 END_MESSAGE_MAP()
 
@@ -94,8 +94,8 @@ void CSalePanel::OnBnClickedAdd()
 	if (IDOK == dlg.DoModal()){
 		GetParent()->EnableWindow(FALSE);
 		m_cacheRow = dlg.GetResult();
-		m_cacheRow.push_back(L"未审批");
-		m_cacheRow.push_back(L"未审批");
+		m_cacheRow.push_back(_T("×"));
+		m_cacheRow.push_back(_T("×"));
 		std::map<CString, StringArrayPtr> attr;
 		attr[_T("add")] = &m_cacheRow;
 
@@ -198,7 +198,7 @@ void CSalePanel::OnRowChecked()
 		bool bHasUnapproved = false;
 		for (int i = checkedRowTableMap.size() - 1; i >= 0; --i)
 		{
-			if (0 == m_table[checkedRowTableMap[i]].second[16].CompareNoCase(_T("未审批"))){
+			if (0 == m_table[checkedRowTableMap[i]].second[16].CompareNoCase(_T("×"))){
 				m_btnApprove.EnableWindow(TRUE);
 				bHasUnapproved = true;
 				break;
@@ -299,23 +299,20 @@ void CSalePanel::OnNcDestroy()
 }
 
 
-void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
-{
-	__super::OnShowWindow(bShow, nStatus);
-	if (bShow)
-	{
-		if (!IsUpdated())
-		{
-			Updated();
-			CString url;
-			url.Format(_T("http://%s:8080/BlueRay/sale/query"), IDS_HOST_NAME);
-			m_pHttp->Get(url, QUERY_URL_ID);
-			GetParent()->EnableWindow(FALSE);
-		}
-	}
-	
-
-}
+//void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
+//{
+//	__super::OnShowWindow(bShow, nStatus);
+//	if (bShow)
+//	{
+//		if (!IsUpdated())
+//		{
+//			Updated();
+//			
+//		}
+//	}
+//	
+//
+//}
 
 
 void CSalePanel::OnHttpSuccess(int id, LPCTSTR resp)
@@ -505,9 +502,18 @@ void CSalePanel::OnApproveDataSuccess()
 	}
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
-		m_table[checkedRowTableMap[i]].second[16] = L"已审批";
-		m_pJqGridAPI->SetCell(checkedRows[i], 17, L"已审批");
+		
+		m_table[checkedRowTableMap[i]].second[16] = _T("√");
+		m_pJqGridAPI->SetCell(checkedRows[i], 17, _T("√"));
 	}
 	GetParent()->PostMessage(WM_SALE_UPDATED);
 	OnRowChecked();
+}
+
+void CSalePanel::OnDataUpdate()
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/sale/query"), IDS_HOST_NAME);
+	m_pHttp->Get(url, QUERY_URL_ID);
+	GetParent()->EnableWindow(FALSE);
 }

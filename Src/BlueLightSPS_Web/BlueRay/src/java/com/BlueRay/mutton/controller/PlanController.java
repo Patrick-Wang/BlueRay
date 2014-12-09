@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.BlueRay.mutton.service.PlanService;
 import com.BlueRay.mutton.service.SaleService;
+import com.BlueRay.mutton.tool.Util;
 
 @Controller
 @RequestMapping(value = "/plan")
@@ -65,6 +66,7 @@ public class PlanController {
 	@RequestMapping(value = "/query", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String getSaleQueryData(HttpServletRequest request,
 			HttpServletResponse response) {
+	
 		return JSONArray.fromObject(planService.query()).toString().replace("null", "");
 	}
 
@@ -101,16 +103,41 @@ public class PlanController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String modifySaleData(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(
-				request.getInputStream(), "UTF-8"));
-		String line = null;
-		StringBuilder sb = new StringBuilder();
-		while ((line = br.readLine()) != null) {
-			sb.append(line);
-		}
-		JSONObject jo = JSONObject.fromObject(sb.toString());
+		String args = Util.getUtf8(request.getInputStream());
+		JSONObject jo = JSONObject.fromObject(args);
 		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
 		JSONArray data = JSONArray.fromObject(jo.get("data"));
 		return planService.update(rows, data);
+	}
+	
+	@RequestMapping(value = "/approve/business", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String planBussinessApprove(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		JSONObject jo = Util.parse(request.getInputStream());
+		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
+		return planService.businessApprove(rows);
+	}
+	@RequestMapping(value = "/approve/plan", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String planApprove(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		JSONObject jo = Util.parse(request.getInputStream());
+		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
+		return planService.planApprove(rows);
+	}
+	
+	@RequestMapping(value = "/approve/pack/business", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String packBusinessApprove(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		JSONObject jo = Util.parse(request.getInputStream());
+		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
+		return planService.packBusinessApprove(rows);
+	}
+	
+	@RequestMapping(value = "/approve/pack/plan", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String planPlanApprove(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		JSONObject jo = Util.parse(request.getInputStream());
+		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
+		return planService.packPlanApprove(rows);
 	}
 }
