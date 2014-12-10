@@ -17,6 +17,10 @@ protected:
 	virtual void OnHttpSuccess(int id, LPCTSTR resp);
 	virtual void OnHttpFailed(int id);
 	virtual void OnRowChecked();
+
+private:
+	void OnReturnApprovedNum(LPCTSTR resp);
+
 private:
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
 	std::auto_ptr<CJQGridAPI> m_pJqGridAPIForSale;
@@ -51,5 +55,8 @@ public:
 	afx_msg void OnBnClickedPlanSCRQPlanApprove();
 	afx_msg void OnBnClickedPlanBZRQBusinessApprove();
 	afx_msg void OnBnClickedPlanBZRQPlanApprove();
+
+	afx_msg void OnBnClickedBtnApprove();
+	afx_msg void OnBnClickedBtnReturn();
 };
 
