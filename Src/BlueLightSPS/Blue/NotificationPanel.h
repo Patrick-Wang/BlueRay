@@ -36,6 +36,9 @@ private:
 	CBRButton m_btnPlanBZRQBusinessApprove;
 	CBRButton m_btnPlanBZRQPlanApprove;
 
+	CBRButton m_btnApproveInSecond;
+	CBRButton m_btnReturnToFirst;
+
 	void HideFirstViewOfNotificationPanel(BOOL bShow = FALSE);
 
 public:

@@ -84,6 +84,16 @@ void CNotificationPanel::OnInitChilds()
 	m_btnPlanBZRQPlanApprove.SetWindowText(_T("前往审核"));
 	m_btnPlanBZRQPlanApprove.MoveWindow(960, 73, 90, 25);
 
+	//审批和返回
+	m_btnApproveInSecond.Create(this, IDC_NOTIFICATION_BTN_APPROVE);
+	m_btnApproveInSecond.SetWindowText(_T("通过审核"));
+	m_btnApproveInSecond.MoveWindow(150, 23, 90, 25);
+	m_btnApproveInSecond.ShowWindow(SW_HIDE);
+
+	m_btnReturnToFirst.Create(this, IDC_NOTIFICATION_BTN_RETURN);
+	m_btnReturnToFirst.SetWindowText(_T("返回"));
+	m_btnReturnToFirst.MoveWindow(20, 23, 90, 25);
+	m_btnReturnToFirst.ShowWindow(SW_HIDE);
 }
 
 BEGIN_MESSAGE_MAP(CNotificationPanel, CControlPanel)
@@ -99,7 +109,7 @@ END_MESSAGE_MAP()
 void CNotificationPanel::OnBnClickedSaleBusinessApprove()
 {
 	m_pJqGridAPI->ShowGrid();
-	//HideFirstViewOfNotificationPanel(TRUE);
+
 	//query
 }
 
@@ -156,6 +166,8 @@ void CNotificationPanel::HideFirstViewOfNotificationPanel(BOOL bShow)
 		m_btnPlanSCRQPlanApprove.ShowWindow(SW_SHOW);
 		m_btnPlanBZRQBusinessApprove.ShowWindow(SW_SHOW);
 		m_btnPlanBZRQPlanApprove.ShowWindow(SW_SHOW);
+
+		
 	}
 	else
 	{
