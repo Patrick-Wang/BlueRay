@@ -83,6 +83,7 @@ void CNotificationPanel::OnInitChilds()
 	m_btnPlanBZRQPlanApprove.Create(this, IDC_NOTIFICATION_BTN_PLANBZRQPLANAPPROVE);
 	m_btnPlanBZRQPlanApprove.SetWindowText(_T("Ç°ÍùÉóºË"));
 	m_btnPlanBZRQPlanApprove.MoveWindow(960, 73, 90, 25);
+	
 
 }
 
@@ -99,6 +100,12 @@ END_MESSAGE_MAP()
 void CNotificationPanel::OnBnClickedSaleBusinessApprove()
 {
 	m_pJqGridAPI->ShowGrid();
+	m_btnSaleBusinessApprove.ShowWindow(SW_HIDE);
+	CRect rt;
+	m_btnSaleBusinessApprove.GetClientRect(rt);
+	m_btnSaleBusinessApprove.ClientToScreen(rt);
+	GetParent()->ScreenToClient(rt);
+	GetParent()->InvalidateRect(rt);
 	//HideFirstViewOfNotificationPanel(TRUE);
 	//query
 }
