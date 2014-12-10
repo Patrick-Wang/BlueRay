@@ -102,9 +102,6 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <None Include="lib_json\json_internalarray.inl" />
-    <None Include="lib_json\json_internalmap.inl" />
-    <None Include="lib_json\json_valueiterator.inl" />
     <None Include="ReadMe.txt" />
     <None Include="res\Blue.ico" />
     <None Include="res\Blue.rc2" />
@@ -112,15 +109,12 @@
   <ItemGroup>
     <ClInclude Include="BRPanel.h" />
     <ClInclude Include="CommonDefine.h" />
-    <ClInclude Include="lib_json\json\autolink.h" />
-    <ClInclude Include="lib_json\json\config.h" />
-    <ClInclude Include="lib_json\json\features.h" />
-    <ClInclude Include="lib_json\json\forwards.h" />
-    <ClInclude Include="lib_json\json\json.h" />
-    <ClInclude Include="lib_json\json\reader.h" />
-    <ClInclude Include="lib_json\json\value.h" />
-    <ClInclude Include="lib_json\json\writer.h" />
-    <ClInclude Include="lib_json\json_batchallocator.h" />
+    <ClInclude Include="lib_json\JsonFactory.h" />
+    <ClInclude Include="lib_json\JsonObjects.h" />
+    <ClInclude Include="lib_json\JsonParser.h" />
+    <ClInclude Include="lib_json\JsonString.h" />
+    <ClInclude Include="lib_json\JsonSymbol.h" />
+    <ClInclude Include="lib_json\JsonType.h" />
     <ClInclude Include="NotificationPanel.h" />
     <ClInclude Include="PopupDlg.h" />
     <ClInclude Include="AdoDBConnector.h" />
@@ -167,15 +161,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BRPanel.cpp" />
-    <ClCompile Include="lib_json\json_reader.cpp">
+    <ClCompile Include="lib_json\JsonFactory.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="lib_json\json_value.cpp">
+    <ClCompile Include="lib_json\JsonParser.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="lib_json\json_writer.cpp">
+    <ClCompile Include="lib_json\JsonString.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="lib_json\JsonSymbol.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>

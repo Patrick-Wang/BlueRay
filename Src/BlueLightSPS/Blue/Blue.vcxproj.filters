@@ -31,9 +31,6 @@
     <Filter Include="jsonlib">
       <UniqueIdentifier>{14e2d77c-5779-4e2e-b55e-f82b9c3b4768}</UniqueIdentifier>
     </Filter>
-    <Filter Include="jsonlib\json">
-      <UniqueIdentifier>{be299305-33f4-4be4-bf8f-026bacca1aeb}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -42,15 +39,6 @@
     </None>
     <None Include="res\Blue.ico">
       <Filter>Resource Files</Filter>
-    </None>
-    <None Include="lib_json\json_internalarray.inl">
-      <Filter>jsonlib</Filter>
-    </None>
-    <None Include="lib_json\json_internalmap.inl">
-      <Filter>jsonlib</Filter>
-    </None>
-    <None Include="lib_json\json_valueiterator.inl">
-      <Filter>jsonlib</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -189,32 +177,23 @@
     <ClInclude Include="NotificationPanel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib_json\json_batchallocator.h">
+    <ClInclude Include="lib_json\JsonFactory.h">
       <Filter>jsonlib</Filter>
     </ClInclude>
-    <ClInclude Include="lib_json\json\autolink.h">
-      <Filter>jsonlib\json</Filter>
+    <ClInclude Include="lib_json\JsonObjects.h">
+      <Filter>jsonlib</Filter>
     </ClInclude>
-    <ClInclude Include="lib_json\json\config.h">
-      <Filter>jsonlib\json</Filter>
+    <ClInclude Include="lib_json\JsonParser.h">
+      <Filter>jsonlib</Filter>
     </ClInclude>
-    <ClInclude Include="lib_json\json\features.h">
-      <Filter>jsonlib\json</Filter>
+    <ClInclude Include="lib_json\JsonString.h">
+      <Filter>jsonlib</Filter>
     </ClInclude>
-    <ClInclude Include="lib_json\json\forwards.h">
-      <Filter>jsonlib\json</Filter>
+    <ClInclude Include="lib_json\JsonSymbol.h">
+      <Filter>jsonlib</Filter>
     </ClInclude>
-    <ClInclude Include="lib_json\json\json.h">
-      <Filter>jsonlib\json</Filter>
-    </ClInclude>
-    <ClInclude Include="lib_json\json\reader.h">
-      <Filter>jsonlib\json</Filter>
-    </ClInclude>
-    <ClInclude Include="lib_json\json\value.h">
-      <Filter>jsonlib\json</Filter>
-    </ClInclude>
-    <ClInclude Include="lib_json\json\writer.h">
-      <Filter>jsonlib\json</Filter>
+    <ClInclude Include="lib_json\JsonType.h">
+      <Filter>jsonlib</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -323,13 +302,16 @@
     <ClCompile Include="NotificationPanel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lib_json\json_reader.cpp">
+    <ClCompile Include="lib_json\JsonFactory.cpp">
       <Filter>jsonlib</Filter>
     </ClCompile>
-    <ClCompile Include="lib_json\json_value.cpp">
+    <ClCompile Include="lib_json\JsonParser.cpp">
       <Filter>jsonlib</Filter>
     </ClCompile>
-    <ClCompile Include="lib_json\json_writer.cpp">
+    <ClCompile Include="lib_json\JsonString.cpp">
+      <Filter>jsonlib</Filter>
+    </ClCompile>
+    <ClCompile Include="lib_json\JsonSymbol.cpp">
       <Filter>jsonlib</Filter>
     </ClCompile>
   </ItemGroup>

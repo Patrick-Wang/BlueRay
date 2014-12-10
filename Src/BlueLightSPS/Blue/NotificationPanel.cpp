@@ -1,7 +1,8 @@
 #include "stdafx.h"
 #include "resource_ids.h"
 #include "NotificationPanel.h"
-#include "reader.h"
+#include "JsonParser.h"
+#include "JsonObjects.h"
 #include "Util.h"
 #define GET_UNAPPROVED_URL_ID IDP_NOTIFICATION + 1
 
@@ -187,17 +188,14 @@ void CNotificationPanel::OnHttpSuccess(int id, LPCTSTR resp)
 {
 	if (GET_UNAPPROVED_URL_ID == id)
 	{
-		std::string json;
-		Util_Tools::Util::Utf16leToUtf8(CString(resp), json);
-		Json::Reader reader;
-		Json::Value val;
-		reader.parse(json, val);
-		int i = val["packBussiness"].asInt();//打包-业务未审批数
-		i = val["packPlan"].asInt();//打包-计划未审批数
-		i = val["planBussiness"].asInt();//计划-业务未审批数
-		i = val["planPlan"].asInt();//计划-计划未审批数
-		i = val["saleBussiness"].asInt();//销售-业务未审批数
-		i = val["salePlan"].asInt();//销售-计划未审批数
+		Json::JsonParser parser;
+		std::shared_ptr<Json::JsonObject> joPtr = parser.Parse((LPTSTR)resp);
+		int i = joPtr->asInt(L"packBussiness"); //打包-业务未审批数
+		i = joPtr->asInt(L"packPlan");//打包-计划未审批数
+		i = joPtr->asInt(L"planBussiness");//计划-业务未审批数
+		i = joPtr->asInt(L"planPlan");//计划-计划未审批数
+		i = joPtr->asInt(L"saleBussiness");//销售-业务未审批数
+		i = joPtr->asInt(L"salePlan");//销售-计划未审批数
 	}
 }
 
