@@ -8,6 +8,8 @@ class CControlPanel : public CBSObject
 	DECLARE_DYNAMIC(CControlPanel)
 public:
 	virtual ~CControlPanel();
+	void ShowChild(CWnd* pChild);
+	void HideChild(CWnd* pChild);
 public:
 	DECLARE_MESSAGE_MAP()
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
