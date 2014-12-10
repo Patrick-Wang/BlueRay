@@ -52,3 +52,21 @@ void CControlPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 	}
 	
 }
+
+void CControlPanel::ShowChild(CWnd* pChild)
+{
+	if (pChild != NULL)
+	{
+		pChild->ShowWindow(SW_SHOW);
+	}
+}
+
+void CControlPanel::HideChild(CWnd* pChild)
+{
+	pChild->ShowWindow(SW_HIDE);
+	CRect rt;
+	pChild->GetClientRect(rt);
+	pChild->ClientToScreen(rt);
+	GetParent()->ScreenToClient(rt);
+	GetParent()->InvalidateRect(rt);
+}

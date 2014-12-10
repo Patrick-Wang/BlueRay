@@ -100,12 +100,7 @@ END_MESSAGE_MAP()
 void CNotificationPanel::OnBnClickedSaleBusinessApprove()
 {
 	m_pJqGridAPI->ShowGrid();
-	m_btnSaleBusinessApprove.ShowWindow(SW_HIDE);
-	CRect rt;
-	m_btnSaleBusinessApprove.GetClientRect(rt);
-	m_btnSaleBusinessApprove.ClientToScreen(rt);
-	GetParent()->ScreenToClient(rt);
-	GetParent()->InvalidateRect(rt);
+
 	//HideFirstViewOfNotificationPanel(TRUE);
 	//query
 }
@@ -113,7 +108,7 @@ void CNotificationPanel::OnBnClickedSaleBusinessApprove()
 void CNotificationPanel::OnBnClickedSalePlanApprove()
 {
 	m_pJqGridAPI->ShowGrid();
-
+	m_btnSaleBusinessApprove.ShowWindow(SW_SHOW);
 	//query
 }
 
@@ -150,35 +145,64 @@ void CNotificationPanel::HideFirstViewOfNotificationPanel(BOOL bShow)
 {
 	if (bShow)
 	{
-		m_bsSaleBusinessApprove.ShowWindow(SW_SHOW);
-		m_bsSalePlanApprove.ShowWindow(SW_SHOW);
-		m_bsPlanSCRQBusinessApprove.ShowWindow(SW_SHOW);
-		m_bsPlanSCRQPlanApprove.ShowWindow(SW_SHOW);
-		m_bsPlanBZRQBusinessApprove.ShowWindow(SW_SHOW);
-		m_bsPlanBZRQPlanApprove.ShowWindow(SW_SHOW);
+		//m_bsSaleBusinessApprove.ShowWindow(SW_SHOW);
+		//m_bsSalePlanApprove.ShowWindow(SW_SHOW);
+		//m_bsPlanSCRQBusinessApprove.ShowWindow(SW_SHOW);
+		//m_bsPlanSCRQPlanApprove.ShowWindow(SW_SHOW);
+		//m_bsPlanBZRQBusinessApprove.ShowWindow(SW_SHOW);
+		//m_bsPlanBZRQPlanApprove.ShowWindow(SW_SHOW);
 
-		m_btnSaleBusinessApprove.ShowWindow(SW_SHOW);
-		m_btnSalePlanApprove.ShowWindow(SW_SHOW);
-		m_btnPlanSCRQBusinessApprove.ShowWindow(SW_SHOW);
-		m_btnPlanSCRQPlanApprove.ShowWindow(SW_SHOW);
-		m_btnPlanBZRQBusinessApprove.ShowWindow(SW_SHOW);
-		m_btnPlanBZRQPlanApprove.ShowWindow(SW_SHOW);
+		//m_btnSaleBusinessApprove.ShowWindow(SW_SHOW);
+		//m_btnSalePlanApprove.ShowWindow(SW_SHOW);
+		//m_btnPlanSCRQBusinessApprove.ShowWindow(SW_SHOW);
+		//m_btnPlanSCRQPlanApprove.ShowWindow(SW_SHOW);
+		//m_btnPlanBZRQBusinessApprove.ShowWindow(SW_SHOW);
+		//m_btnPlanBZRQPlanApprove.ShowWindow(SW_SHOW);
+
+
+		ShowChild(&m_bsSaleBusinessApprove);
+		ShowChild(&m_bsSalePlanApprove);
+		ShowChild(&m_bsPlanSCRQBusinessApprove);
+		ShowChild(&m_bsPlanSCRQPlanApprove);
+		ShowChild(&m_bsPlanBZRQBusinessApprove);
+		ShowChild(&m_bsPlanBZRQPlanApprove);
+
+		ShowChild(&m_btnSaleBusinessApprove);
+		ShowChild(&m_btnSalePlanApprove);
+		ShowChild(&m_btnPlanSCRQBusinessApprove);
+		ShowChild(&m_btnPlanSCRQPlanApprove);
+		ShowChild(&m_btnPlanBZRQBusinessApprove);
+		ShowChild(&m_btnPlanBZRQPlanApprove);
 	}
 	else
 	{
-		m_bsSaleBusinessApprove.ShowWindow(SW_HIDE);
-		m_bsSalePlanApprove.ShowWindow(SW_HIDE);
-		m_bsPlanSCRQBusinessApprove.ShowWindow(SW_HIDE);
-		m_bsPlanSCRQPlanApprove.ShowWindow(SW_HIDE);
-		m_bsPlanBZRQBusinessApprove.ShowWindow(SW_HIDE);
-		m_bsPlanBZRQPlanApprove.ShowWindow(SW_HIDE);
+		//m_bsSaleBusinessApprove.ShowWindow(SW_HIDE);
+		//m_bsSalePlanApprove.ShowWindow(SW_HIDE);
+		//m_bsPlanSCRQBusinessApprove.ShowWindow(SW_HIDE);
+		//m_bsPlanSCRQPlanApprove.ShowWindow(SW_HIDE);
+		//m_bsPlanBZRQBusinessApprove.ShowWindow(SW_HIDE);
+		//m_bsPlanBZRQPlanApprove.ShowWindow(SW_HIDE);
 
-		m_btnSaleBusinessApprove.ShowWindow(SW_HIDE);
-		m_btnSalePlanApprove.ShowWindow(SW_HIDE);
-		m_btnPlanSCRQBusinessApprove.ShowWindow(SW_HIDE);
-		m_btnPlanSCRQPlanApprove.ShowWindow(SW_HIDE);
-		m_btnPlanBZRQBusinessApprove.ShowWindow(SW_HIDE);
-		m_btnPlanBZRQPlanApprove.ShowWindow(SW_HIDE);
+		//m_btnSaleBusinessApprove.ShowWindow(SW_HIDE);
+		//m_btnSalePlanApprove.ShowWindow(SW_HIDE);
+		//m_btnPlanSCRQBusinessApprove.ShowWindow(SW_HIDE);
+		//m_btnPlanSCRQPlanApprove.ShowWindow(SW_HIDE);
+		//m_btnPlanBZRQBusinessApprove.ShowWindow(SW_HIDE);
+		//m_btnPlanBZRQPlanApprove.ShowWindow(SW_HIDE);
+
+		HideChild(&m_bsSaleBusinessApprove);
+		HideChild(&m_bsSalePlanApprove);
+		HideChild(&m_bsPlanSCRQBusinessApprove);
+		HideChild(&m_bsPlanSCRQPlanApprove);
+		HideChild(&m_bsPlanBZRQBusinessApprove);
+		HideChild(&m_bsPlanBZRQPlanApprove);
+
+		HideChild(&m_btnSaleBusinessApprove);
+		HideChild(&m_btnSalePlanApprove);
+		HideChild(&m_btnPlanSCRQBusinessApprove);
+		HideChild(&m_btnPlanSCRQPlanApprove);
+		HideChild(&m_btnPlanBZRQBusinessApprove);
+		HideChild(&m_btnPlanBZRQPlanApprove);
 	}
 
 	UpdateWindow();
