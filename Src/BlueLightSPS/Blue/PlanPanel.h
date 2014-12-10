@@ -14,7 +14,7 @@ public:
 
 	void OnRowChecked();
 	void OnGridComplete();
-	void OnUIPrepared();
+	virtual void OnUIPrepared();
 	void OnHttpSuccess(int id, LPCTSTR resp);
 	void OnHttpFailed(int id);
 	void OnLoadDataSuccess(CString& jsondata);

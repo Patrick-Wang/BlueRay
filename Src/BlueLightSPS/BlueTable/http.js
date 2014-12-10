@@ -32,4 +32,37 @@ function ajaxPost(caller, id, addr, d) {
         }
     });
 }
+
+function ajaxSyncGet(addr) {
+    //alert(addr);
+    var ret = 0;
+    $.ajax({
+        async: false,
+        url: addr,
+        //dataType: "json",
+        success: function (data) {
+            ret = data.toString();
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });
+    return ret;
+}
+
+function ajaxSyncPost(addr, d) {
+    var ret = 0;
+    $.ajax({
+        async: false,
+        type: 'POST',
+        url: addr,
+        dataType: "json",
+        data: d,
+        success: function (retData) {
+            ret = retData.toString();
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+        }
+    });
+    return ret;
+}
 //# sourceMappingURL=http.js.map

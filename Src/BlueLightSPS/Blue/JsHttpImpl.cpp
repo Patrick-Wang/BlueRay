@@ -298,4 +298,171 @@ void CJsHttpImpl::AsJson(std::map<CString, IntArrayPtr>& mapAttr, CString& strJs
 	strJson = jstream.str().c_str();
 }
 
+bool CJsHttpImpl::SyncPost(LPCTSTR lpAddr, std::map<CString, CString>& mapAttr, CString& ret)
+{
+	VARIANT vtRet = {};
+
+	std::vector<VARIANT> params;
+	VARIANT param = {};
+
+	param.vt = VT_BSTR;
+	param.bstrVal = ::SysAllocString(lpAddr);
+	params.push_back(param);
+
+	CString strData;
+	AsJson(mapAttr, strData);
+	VARIANT data = {};
+	data.vt = VT_BSTR;
+	data.bstrVal = strData.AllocSysString();
+
+	params.push_back(data);
+
+	vtRet = m_lpJsMediator->CallJsFunction(_T("ajaxSyncPost"), params);
+
+	::SysFreeString(data.bstrVal);
+	::SysFreeString(param.bstrVal);
+
+	if (VT_BSTR == vtRet.vt)
+	{
+		ret = vtRet.bstrVal;
+		return true;
+	}
+	return false;
+}
+
+bool CJsHttpImpl::SyncPost(LPCTSTR lpAddr, std::map<CString, IntArrayPtr>& mapAttr, CString& ret)
+{
+	VARIANT vtRet = {};
+
+	std::vector<VARIANT> params;
+	VARIANT param = {};
+
+	param.vt = VT_BSTR;
+	param.bstrVal = ::SysAllocString(lpAddr);
+	params.push_back(param);
+
+	CString strData;
+	AsJson(mapAttr, strData);
+	VARIANT data = {};
+	data.vt = VT_BSTR;
+	data.bstrVal = strData.AllocSysString();
+
+	params.push_back(data);
+
+	vtRet = m_lpJsMediator->CallJsFunction(_T("ajaxSyncPost"), params);
+
+	::SysFreeString(data.bstrVal);
+	::SysFreeString(param.bstrVal);
+
+	if (VT_BSTR == vtRet.vt)
+	{
+		ret = vtRet.bstrVal;
+		return true;
+	}
+	return false;
+}
+
+bool CJsHttpImpl::SyncPost(LPCTSTR lpAddr, std::map<CString, StringArrayPtr>& mapAttr, CString& ret)
+{
+	VARIANT vtRet = {};
+
+	std::vector<VARIANT> params;
+	VARIANT param = {};
+
+	param.vt = VT_BSTR;
+	param.bstrVal = ::SysAllocString(lpAddr);
+	params.push_back(param);
+
+	CString strData;
+	AsJson(mapAttr, strData);
+	VARIANT data = {};
+	data.vt = VT_BSTR;
+	data.bstrVal = strData.AllocSysString();
+
+	params.push_back(data);
+
+	vtRet = m_lpJsMediator->CallJsFunction(_T("ajaxSyncPost"), params);
+
+	::SysFreeString(data.bstrVal);
+	::SysFreeString(param.bstrVal);
+
+	if (VT_BSTR == vtRet.vt)
+	{
+		ret = vtRet.bstrVal;
+		return true;
+	}
+	return false;
+}
+
+bool CJsHttpImpl::SyncGet(LPCTSTR lpAddr, std::map<CString, CString>& mapAttr, CString& ret)
+{
+	VARIANT vtRet = {};
+
+	CString url;
+	MakeUrl(lpAddr, mapAttr, url);
+	std::vector<VARIANT> params;
+	VARIANT param = {};
+
+	param.vt = VT_BSTR;
+	param.bstrVal = url.AllocSysString();
+	params.push_back(param);
+
+	vtRet = m_lpJsMediator->CallJsFunction(_T("ajaxSyncGet"), params);
+
+	::SysFreeString(param.bstrVal);
+
+	if (VT_BSTR == vtRet.vt)
+	{
+		ret = vtRet.bstrVal;
+		return true;
+	}
+	return false;
+}
+
+bool CJsHttpImpl::SyncGet(LPCTSTR lpAddr, StringArrayPtr rest, CString& ret)
+{
+	VARIANT vtRet = {};
+
+	CString url;
+	MakeUrl(lpAddr, rest, url);
+	std::vector<VARIANT> params;
+	VARIANT param = {};
+
+	param.vt = VT_BSTR;
+	param.bstrVal = url.AllocSysString();
+	params.push_back(param);
+
+	vtRet = m_lpJsMediator->CallJsFunction(_T("ajaxSyncGet"), params);
+
+	::SysFreeString(param.bstrVal);
+
+	if (VT_BSTR == vtRet.vt)
+	{
+		ret = vtRet.bstrVal;
+		return true;
+	}
+	return false;
+}
+
+bool CJsHttpImpl::SyncGet(LPCTSTR lpAddr, CString& ret)
+{
+	std::vector<VARIANT> params;
+	VARIANT param = {};
+
+	param.vt = VT_BSTR;
+	param.bstrVal = ::SysAllocString(lpAddr);
+	params.push_back(param);
+	VARIANT vtRet = {};
+	vtRet = m_lpJsMediator->CallJsFunction(_T("ajaxSyncGet"), params);
+
+	::SysFreeString(param.bstrVal);
+	if (VT_BSTR == vtRet.vt)
+	{
+		ret = vtRet.bstrVal;
+		return true;
+	}
+	return false;
+
+}
+
 

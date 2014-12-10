@@ -33,3 +33,38 @@ function ajaxPost(caller: number, id: number, addr: string, d: string): void {
         }
     });
 }
+
+function ajaxSyncGet(addr: string): any {
+    //alert(addr);
+    var ret = 0;
+    $.ajax({
+        async: false, 
+        url: addr,
+        //dataType: "json",
+        success: (data: any) => {
+            ret = data.toString();
+        },
+        error: (XMLHttpRequest, textStatus, errorThrown) => {
+
+        }
+    });
+    return ret;
+}
+
+function ajaxSyncPost(addr: string, d: string): any {
+    var ret = 0;
+    $.ajax({
+        async: false, 
+        type: 'POST',
+        url: addr,
+        dataType: "json",
+        data: d,
+        success: (retData: any) => {
+            ret = retData.toString();
+        },
+        error: (XMLHttpRequest, textStatus, errorThrown) => {
+           
+        }
+    });
+    return ret;
+}

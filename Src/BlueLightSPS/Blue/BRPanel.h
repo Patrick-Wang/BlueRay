@@ -12,6 +12,7 @@ public:
 	void HasUpdate();
 	void Updated();
 	DECLARE_MESSAGE_MAP()
+	virtual void OnUIPrepared();
 	virtual void OnDataUpdate(){};
 	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
 	virtual void OnHttpSuccess(int id, LPCTSTR resp) = 0;

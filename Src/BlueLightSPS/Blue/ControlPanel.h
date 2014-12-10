@@ -1,7 +1,7 @@
 #pragma once
 #include "UILib/BSObject.h"
 
-#define UM_UI_PREPARED	WM_APP + 11021
+
 
 class CControlPanel : public CBSObject
 {
@@ -10,8 +10,10 @@ public:
 	virtual ~CControlPanel();
 	void ShowChild(CWnd* pChild);
 	void HideChild(CWnd* pChild);
+	
 public:
 	DECLARE_MESSAGE_MAP()
+	virtual void OnUIPrepared(){};
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	virtual void OnInitChilds() = 0;
 public:

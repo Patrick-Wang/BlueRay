@@ -514,6 +514,8 @@ void CSalePanel::OnDataUpdate()
 {
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/sale/query"), IDS_HOST_NAME);
-	m_pHttp->Get(url, QUERY_URL_ID);
-	GetParent()->EnableWindow(FALSE);
+	CString jsondata;
+	m_pHttp->SyncGet(url, jsondata);
+	OnLoadDataSuccess(jsondata);
+	//GetParent()->EnableWindow(FALSE);
 }

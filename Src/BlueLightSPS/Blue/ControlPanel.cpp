@@ -36,7 +36,7 @@ void CControlPanel::OnTimer(UINT_PTR nIDEvent)
 	if (TM_UI == nIDEvent)
 	{
 		KillTimer(TM_UI);
-		SendMessage(UM_UI_PREPARED);
+		OnUIPrepared();// SendMessage(UM_UI_PREPARED);
 	}
 
 	CBSObject::OnTimer(nIDEvent);
