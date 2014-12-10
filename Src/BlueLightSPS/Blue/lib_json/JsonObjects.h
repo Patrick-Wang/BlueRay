@@ -50,34 +50,39 @@ namespace Json
 		}
 	
 
-		int asInt(json_string name){
+		int asInt(json_char* name){
+			preCheck(name, JsonTypeTag::jint);
 			return static_cast<JsonValue<int>*>(m_fields[name].get())->value();
 		}
 
 		
-		float asFloat(json_string name){
+		float asFloat(json_char* name){
+			preCheck(name, JsonTypeTag::jfloat);
 			return static_cast<JsonValue<float>*>(m_fields[name].get())->value();
 		}
 
-		json_string& asString(json_string name){
+		json_string& asString(json_char* name){
+			preCheck(name, JsonTypeTag::jstring);
 			return static_cast<JsonValue<json_string>*>(m_fields[name].get())->value();
 		}
 
-		bool asBool(json_string name){
+		bool asBool(json_char* name){
+			preCheck(name, JsonTypeTag::jbool);
 			return static_cast<JsonValue<bool>*>(m_fields[name].get())->value();
 		}
 
-		JsonArray& asArray(json_string name){
+		JsonArray& asArray(json_char* name){
+			preCheck(name, JsonTypeTag::jarray);
 			return *((JsonArray*)(m_fields[name].get()));
 		}
 
-
-		JsonObject& asObject(json_string name){
+		JsonObject& asObject(json_char* name){
+			preCheck(name, JsonTypeTag::jobject);
 			return *static_cast<JsonObject*>(m_fields[name].get());
 		}
 
 
-		JsonType* field(json_string name){
+		JsonType* field(json_char* name){
 			return static_cast<JsonType*>(m_fields[name].get());
 		}
 
@@ -110,7 +115,18 @@ namespace Json
 		virtual JsonTypeTag tag(){
 			return jobject;
 		}
+	private:
+		void preCheck(json_char* key, JsonTypeTag tag){
+			if (m_fields.find(key) == m_fields.end())
+			{
+				throw std::exception("No field");
+			}
 
+			if (m_fields[key]->tag() != tag)
+			{
+				throw std::exception("type not match");
+			}
+		}
 	private:
 		JsonFields m_fields;
 	};

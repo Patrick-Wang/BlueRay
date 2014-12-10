@@ -83,6 +83,7 @@ void CNotificationPanel::OnInitChilds()
 	m_btnPlanBZRQPlanApprove.Create(this, IDC_NOTIFICATION_BTN_PLANBZRQPLANAPPROVE);
 	m_btnPlanBZRQPlanApprove.SetWindowText(_T("前往审核"));
 	m_btnPlanBZRQPlanApprove.MoveWindow(960, 73, 90, 25);
+	
 
 	//审批和返回
 	m_btnApproveInSecond.Create(this, IDC_NOTIFICATION_BTN_APPROVE);
@@ -109,7 +110,6 @@ END_MESSAGE_MAP()
 void CNotificationPanel::OnBnClickedSaleBusinessApprove()
 {
 	m_pJqGridAPI->ShowGrid();
-
 	//query
 }
 
