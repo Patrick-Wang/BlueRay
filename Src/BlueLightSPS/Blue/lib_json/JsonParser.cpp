@@ -18,17 +18,17 @@ namespace Json{
 		{
 			throw std::exception("object does not begin with \"{\" ");
 		}
-		return std::shared_ptr<JsonObject>(ParserObject());
+		return std::shared_ptr<JsonObject>(ParseObject());
 	}
 
-	JsonArray* JsonParser::ParserArray(void)
+	JsonArray* JsonParser::ParseArray(void)
 	{
 		JsonSymbol::Symbol symbol;
 		JsonArray* jArray = JsonFactory::createArray();
 		while ((symbol = m_jsonSymbol->nextSymbol()) != JsonSymbol::array_close){
 			switch (symbol){
 			case JsonSymbol::object_open:
-				jArray->add(ParserObject());
+				jArray->add(ParseObject());
 				break;
 			case JsonSymbol::semicolon:
 				break;
@@ -39,7 +39,7 @@ namespace Json{
 				}
 				break;
 			case JsonSymbol::array_open:
-				jArray->add(ParserArray());
+				jArray->add(ParseArray());
 				break;
 			default:
 				throw std::exception((std::string("invalid symbol in array : ") + (char)(symbol)).c_str());
@@ -48,7 +48,7 @@ namespace Json{
 		return jArray;
 	}
 
-	JsonType* JsonParser::ParserField(void)
+	JsonType* JsonParser::ParseField(void)
 	{
 		JsonSymbol::Symbol symbol;
 		switch (symbol = m_jsonSymbol->nextSymbol())
@@ -60,9 +60,9 @@ namespace Json{
 				return JsonFactory::create(jsString.str());
 			}
 		case JsonSymbol::array_open:
-			return ParserArray();
+			return ParseArray();
 		case JsonSymbol::object_open:
-			return ParserObject();
+			return ParseObject();
 			break;
 		case JsonSymbol::null:
 			return JsonFactory::create();
@@ -89,7 +89,7 @@ namespace Json{
 		}
 	}
 
-	JsonObject* JsonParser::ParserObject(void)
+	JsonObject* JsonParser::ParseObject(void)
 	{
 		JsonObject* obj = JsonFactory::createObject();
 		JsonSymbol::Symbol symbol = JsonSymbol::array_open;
@@ -105,7 +105,7 @@ namespace Json{
 					{
 						throw std::exception("invalid field separator");
 					}
-					obj->add(fieldName.str(), ParserField());
+					obj->add(fieldName.str(), ParseField());
 				}
 
 				break;

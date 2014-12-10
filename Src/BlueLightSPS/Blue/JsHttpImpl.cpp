@@ -2,6 +2,8 @@
 #include "JsHttpImpl.h"
 #include "JQGridAPI.h"
 #include "util.h"
+#include "JsonFactory.h"
+#include "JsonObjects.h"
 CComJsFun CJsHttpImpl::m_funPost(_T("onPost"), 6001);
 CComJsFun CJsHttpImpl::m_funGet(_T("onGet"), 6002);
 
@@ -248,47 +250,52 @@ void CJsHttpImpl::AsJson(std::map<CString, CString>& mapAttr, CString& strJson)
 }
 
 
+
+Json::JsonArray* createArray(std::vector<int>& arr){
+	Json::JsonArray* jarray = Json::JsonFactory::createArray();
+	for (std::vector<int>::iterator it = arr.begin(); it != arr.end(); ++it)
+	{
+		jarray->add(Json::JsonFactory::create(*it));
+	}
+	return jarray;
+}
+
+Json::JsonArray* createArray(std::vector<CString>& arr){
+	Json::JsonArray* jarray = Json::JsonFactory::createArray();
+	for (std::vector<CString>::iterator it = arr.begin(); it != arr.end(); ++it)
+	{
+		jarray->add(Json::JsonFactory::create((Json::json_char*)it->GetBuffer()));
+		it->ReleaseBuffer();
+	}
+	return jarray;
+}
+
 void CJsHttpImpl::AsJson(std::map<CString, StringArrayPtr>& mapAttr, CString& strJson)
 {
-	strJson = _T("{");
-	CString strTmp;
-	for (std::map<CString, StringArrayPtr>::iterator it = mapAttr.begin(); it != mapAttr.end();)
+	std::auto_ptr<Json::JsonObject> pJsObj(Json::JsonFactory::createObject());
+	for (std::map<CString, StringArrayPtr>::iterator it = mapAttr.begin();
+		it != mapAttr.end();
+		++it)
 	{
-		strJson += it->first;
-		strJson += _T(":");
-		strTmp.Empty();
-		Util_Tools::Util::Join(*(it->second), strTmp);
-		strTmp.Replace(_T(","), _T("\",\""));
-		strJson += _T("[\"") + strTmp + _T("\"]");
-		if ((++it) != mapAttr.end())
-		{
-			strJson += _T(",");
-		}
+		pJsObj->add((LPTSTR)(LPCTSTR)it->first, createArray(*(it->second)));
 	}
-	strJson += _T("}");
+	Json::json_stringstream jstream;
+	pJsObj->asJson(jstream);
+	strJson = jstream.str().c_str();
 }
 
 void CJsHttpImpl::AsJson(std::map<CString, IntArrayPtr>& mapAttr, CString& strJson)
 {
-	strJson = _T("{");
-	CString strTmp;
+	std::auto_ptr<Json::JsonObject> pJsObj(Json::JsonFactory::createObject());
 	for (std::map<CString, IntArrayPtr>::iterator it = mapAttr.begin();
 		it != mapAttr.end(); 
-		)
+		++it)
 	{
-		strJson += it->first;
-		strJson += _T(":");
-		strTmp.Empty();
-		Util_Tools::Util::Join(*(it->second), strTmp);
-		strTmp.Replace(_T(","), _T("\",\""));
-		strJson += _T("[\"") + strTmp + _T("\"]");
-		if ((++it) != mapAttr.end())
-		{
-			strJson += _T(",");
-		}
+		pJsObj->add((LPTSTR)(LPCTSTR)it->first, createArray(*(it->second)));
 	}
-
-	strJson += _T("}");
+	Json::json_stringstream jstream;
+	pJsObj->asJson(jstream);
+	strJson = jstream.str().c_str();
 }
 
 
