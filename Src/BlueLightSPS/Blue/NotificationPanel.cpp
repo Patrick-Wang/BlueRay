@@ -377,7 +377,6 @@ void CNotificationPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 
 	m_pJqGridAPI->HideGrid();
 	HideFirstViewOfNotificationPanel(TRUE);
-	OnDataUpdate();
 }
 
 void CNotificationPanel::OnHttpSuccess(int id, LPCTSTR resp)

@@ -261,6 +261,7 @@ void CBlueDlg::OnGroupBtnSelected(CBRButton* pBrbtn)
 		if (m_pPanelMap.find(pBrbtn->GetDlgCtrlID()) != m_pPanelMap.end())
 		{
 			m_pPanelMap[pBrbtn->GetDlgCtrlID()]->ShowWindow(SW_SHOW);
+			m_pPanelMap[pBrbtn->GetDlgCtrlID()]->HasUpdate();
 		}
 	}
 }
