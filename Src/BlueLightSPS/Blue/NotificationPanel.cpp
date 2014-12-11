@@ -376,7 +376,6 @@ void CNotificationPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 	CBRPanel::OnShowWindow(bShow, nStatus);
 
 	m_pJqGridAPI->HideGrid();
-	HideFirstViewOfNotificationPanel(TRUE);
 }
 
 void CNotificationPanel::OnHttpSuccess(int id, LPCTSTR resp)
@@ -465,6 +464,7 @@ void CNotificationPanel::OnLoadDataSuccess(CString& jsondata)
 
 void CNotificationPanel::OnDataUpdate()
 {
+	HideFirstViewOfNotificationPanel(TRUE);
 	CString strRet;
 	//获取未审批数量
 	m_pHttp->SyncGet(_T("http://localhost:8080/BlueRay/notification/unapproved"), strRet);

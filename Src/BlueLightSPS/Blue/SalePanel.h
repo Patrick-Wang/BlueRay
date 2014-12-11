@@ -49,7 +49,7 @@ private:
 	std::vector<CString> m_cacheRow;
 	CTableFilterDlg m_tableFilterDlg;
 
-	CBRButton m_btnApprove; //only for test purpose
+	//CBRButton m_btnApprove; //only for test purpose
 
 public:
 	afx_msg void OnNcDestroy();

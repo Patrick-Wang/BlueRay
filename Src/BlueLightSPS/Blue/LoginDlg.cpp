@@ -80,14 +80,14 @@ BOOL CLoginDlg::OnInitDialog()
 	MoveWindow(rt.left, rt.top, rt.Width(), rt.Height());
 	//SendMessage(WM_SYSCOMMAND, SC_MAXIMIZE, 0);
 	//Util::SetWindowSize(m_hWnd, 1024, 728);
-	m_btnVPN.Create(this, IDC_VPN); 
-	m_btnVPN.SetWindowText(_T("VPN/代理 设置 >>"));
-	m_btnVPN.MoveWindow(695, 452, 130, 24);
-	m_btnVPN.SetBackgroundColor(COL_GRAY);
+	//m_btnVPN.Create(this, IDC_VPN); 
+	//m_btnVPN.SetWindowText(_T("VPN/代理 设置 >>"));
+	//m_btnVPN.MoveWindow(695, 452, 130, 24);
+	//m_btnVPN.SetBackgroundColor(COL_GRAY);
 
 	m_btnForgetPassword.Create(this, IDC_FORGET_PSW);
 	m_btnForgetPassword.SetWindowText(_T("忘记密码 >>"));
-	m_btnForgetPassword.MoveWindow(835, 452, 130, 24);
+	m_btnForgetPassword.MoveWindow(667, 440, 130, 24);
 	m_btnForgetPassword.SetBackgroundColor(COL_GRAY);
 
 	m_btnLogin.Create(this, IDC_LOGIN);

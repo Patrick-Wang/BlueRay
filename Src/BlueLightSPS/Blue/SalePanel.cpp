@@ -72,9 +72,9 @@ void CSalePanel::OnInitChilds()
 	m_btnTableFilter.MoveWindow(640, 25, 90, 25);
 
 	//only for test purpose
-	m_btnApprove.Create(this, IDC_SALE_BTN_APPROVE);
-	m_btnApprove.SetWindowText(_T("通过审批"));
-	m_btnApprove.MoveWindow(800, 25, 90, 25);
+	//m_btnApprove.Create(this, IDC_SALE_BTN_APPROVE);
+	//m_btnApprove.SetWindowText(_T("通过审批"));
+	//m_btnApprove.MoveWindow(800, 25, 90, 25);
 
 	m_bsMoreWord.Create(this, IDC_SALE_BTN_MOREWORD);
 	m_bsMoreWord.SetWindowText(_T("更多筛选"));
@@ -85,7 +85,7 @@ void CSalePanel::OnInitChilds()
 	m_btnModify.EnableWindow(FALSE);
 
 	//test purpose
-	m_btnApprove.EnableWindow(FALSE);
+	//m_btnApprove.EnableWindow(FALSE);
 
 }
 
@@ -177,39 +177,40 @@ void CSalePanel::OnRowChecked()
 		m_btnDelete.EnableWindow(FALSE);
 		m_btnModify.EnableWindow(FALSE);
 		//Test purpose
-		m_btnApprove.EnableWindow(FALSE);
+		//m_btnApprove.EnableWindow(FALSE);
 	}
-	else{
+	else
+	{
 		m_btnDelete.EnableWindow(TRUE);
 		m_btnModify.EnableWindow(TRUE);
 		//test purpose
 	
-		std::vector<int> checkedRowTableMap;
-		checkedRowTableMap.resize(checkedRows.size(), -1);
-		for (int i = checkedRows.size() - 1; i >= 0; --i)
-		{
-			for (int j = 0; j < m_table.size(); ++j)
-			{
-				if (m_table[j].first == checkedRows[i])
-				{
-					checkedRowTableMap[i] = j;
-					break;
-				}
-			}
-		}
-		bool bHasUnapproved = false;
-		for (int i = checkedRowTableMap.size() - 1; i >= 0; --i)
-		{
-			if (0 == m_table[checkedRowTableMap[i]].second[16].CompareNoCase(_T("×"))){
-				m_btnApprove.EnableWindow(TRUE);
-				bHasUnapproved = true;
-				break;
-			}
-		}
-		if (!bHasUnapproved)
-		{
-			m_btnApprove.EnableWindow(FALSE);
-		}
+		//std::vector<int> checkedRowTableMap;
+		//checkedRowTableMap.resize(checkedRows.size(), -1);
+		//for (int i = checkedRows.size() - 1; i >= 0; --i)
+		//{
+		//	for (int j = 0; j < m_table.size(); ++j)
+		//	{
+		//		if (m_table[j].first == checkedRows[i])
+		//		{
+		//			checkedRowTableMap[i] = j;
+		//			break;
+		//		}
+		//	}
+		//}
+		//bool bHasUnapproved = false;
+		//for (int i = checkedRowTableMap.size() - 1; i >= 0; --i)
+		//{
+		//	if (0 == m_table[checkedRowTableMap[i]].second[16].CompareNoCase(_T("×"))){
+		//		m_btnApprove.EnableWindow(TRUE);
+		//		bHasUnapproved = true;
+		//		break;
+		//	}
+		//}
+		//if (!bHasUnapproved)
+		//{
+		//	m_btnApprove.EnableWindow(FALSE);
+		//}
 		
 	}
 }

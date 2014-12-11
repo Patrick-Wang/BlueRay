@@ -38,73 +38,6 @@ CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
 		m_tableFilterDlg(_T("表格设置"))
 
 {
-	//m_pJqGridAPI->d_OnRowChecked += std::make_pair(this, &CPlanPanel::OnRowChecked);
-	//m_table.resize(13);
-	//for (int i = 0; i < m_table.size(); ++i)
-	//{
-	//	CString csHTH;
-	//	csHTH.Format(_T("000000%02d"), i + 1);
-	//	if (i % 2 != 0)
-	//	{
-	//		m_table[i].second.push_back(csHTH);
-	//		m_table[i].second.push_back(_T("浙江怡达"));
-	//		m_table[i].second.push_back(_T("U1.0ES-H"));
-	//		m_table[i].second.push_back(_T("1"));
-	//		m_table[i].second.push_back(_T("BNN"));
-	//		m_table[i].second.push_back(_T("是"));
-	//		m_table[i].second.push_back(_T("DC110V"));
-	//		m_table[i].second.push_back(_T("480*6*12*18"));
-	//		m_table[i].second.push_back(_T("无"));
-	//		m_table[i].second.push_back(_T("富士"));
-	//		m_table[i].second.push_back(_T("海1387"));
-	//		m_table[i].second.push_back(_T("8米"));
-	//		m_table[i].second.push_back(_T("5米"));
-	//		m_table[i].second.push_back(_T("蓝光英文铭牌"));
-	//		m_table[i].second.push_back(_T("原点值"));
-	//		m_table[i].second.push_back(_T("2014/08/15"));
-
-	//		m_table[i].second.push_back(_T("2014/08/20"));
-	//		m_table[i].second.push_back(_T("已审核"));
-	//		m_table[i].second.push_back(_T("已审核"));
-	//		m_table[i].second.push_back(_T("2014/08/25"));
-	//		m_table[i].second.push_back(_T("已审核"));
-	//		m_table[i].second.push_back(_T("已审核"));
-	//		m_table[i].second.push_back(_T("2014/08/26"));
-	//		m_table[i].second.push_back(_T("J07833"));
-	//		m_table[i].second.push_back(_T("1471099BCC"));
-	//	}
-	//	else
-	//	{
-	//		m_table[i].second.push_back(csHTH);
-	//		m_table[i].second.push_back(_T("中原智能"));
-	//		m_table[i].second.push_back(_T("S1.6D-H"));
-	//		m_table[i].second.push_back(_T("1"));
-	//		m_table[i].second.push_back(_T("RC"));
-	//		m_table[i].second.push_back(_T("否"));
-	//		m_table[i].second.push_back(_T("DC220V"));
-	//		m_table[i].second.push_back(_T("325*5*8*12"));
-	//		m_table[i].second.push_back(_T("有"));
-	//		m_table[i].second.push_back(_T("CV"));
-	//		m_table[i].second.push_back(_T("海1387"));
-	//		m_table[i].second.push_back(_T("10米配"));
-	//		m_table[i].second.push_back(_T("5米"));
-	//		m_table[i].second.push_back(_T("蓝光铭牌"));
-	//		m_table[i].second.push_back(_T("D型"));
-	//		m_table[i].second.push_back(_T("2014/11/15"));
-
-	//		m_table[i].second.push_back(_T("2014/11/20"));
-	//		m_table[i].second.push_back(_T("未审核"));
-	//		m_table[i].second.push_back(_T("未审核"));
-	//		m_table[i].second.push_back(_T("2014/11/25"));
-	//		m_table[i].second.push_back(_T("未审核"));
-	//		m_table[i].second.push_back(_T("未审核"));
-	//		m_table[i].second.push_back(_T("2014/11/26"));
-	//		m_table[i].second.push_back(_T("J07888"));
-	//		m_table[i].second.push_back(_T("1471088BCC"));
-	//	}
-
-	//}
-
 	m_tableFilterDlg.Initialize(m_pJqGridAPI.get(), Page_Plan);
 }
 
@@ -523,6 +456,8 @@ void CPlanPanel::OnLoadDataSuccess(CString& jsondata)
 		m_pJqGridAPI->DelRow(m_table[j].first);
 	}
 	
+	m_pJqGridAPI->Refresh();
+
 	StringToTable(jsondata, m_table);
 	for (int j = 0; j < m_table.size(); ++j)
 	{
