@@ -20,6 +20,8 @@ protected:
 
 private:
 	void OnReturnApprovedNum(LPCTSTR resp);
+	void HideFirstViewOfNotificationPanel(BOOL bShow = FALSE);
+	void OnLoadDataSuccess(CString& jsondata);
 
 private:
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
@@ -43,7 +45,18 @@ private:
 	CBRButton m_btnApproveInSecond;
 	CBRButton m_btnReturnToFirst;
 
-	void HideFirstViewOfNotificationPanel(BOOL bShow = FALSE);
+	enum enumApprovingItem{
+		Approving_NULL,
+		Approving_SaleBusiness,
+		Approving_SalePlan,
+		Approving_PlanSCRQBusiness,
+		Approving_PlanSCRQPlan,
+		Approving_PlanBZRQBusiness,
+		Approving_PlanBZRQPlan,
+		Approving_END
+	};
+
+	enumApprovingItem m_enumCurrentApprovingItem;
 
 public:
 	DECLARE_MESSAGE_MAP()
