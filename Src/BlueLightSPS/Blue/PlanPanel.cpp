@@ -460,6 +460,7 @@ void CPlanPanel::OnRowChecked()
 
 void CPlanPanel::OnUIPrepared()
 {
+	__super::OnUIPrepared();
 	if (m_pJqGridAPI->GetRowCount() == 0)
 	{
 		for (int i = 0; i < m_table.size(); ++i)
