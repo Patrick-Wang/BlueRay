@@ -571,7 +571,7 @@ void CPlanPanel::OnModifyDataSuccess(std::vector<CString>& newData)
 void CPlanPanel::OnDataUpdate()
 {
 	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/plan/query"), IDS_HOST_NAME);
+	url.Format(_T("http://%s:8080/BlueRay/plan/query/all/none"), IDS_HOST_NAME);
 	m_pHttp->Get(url, QUERY_URL_ID);
 	GetParent()->EnableWindow(FALSE);
 }

@@ -22,10 +22,10 @@ public class HTXX implements Serializable {
 	private Integer ggxhID;
 	private Integer sl;
 	private Integer zcID;
-	private String dfr;
+	private String dfr = "N";
 	private Integer zdqdyID;
 	private Integer yylggID;
-	private String sfjf;
+	private String sfjf = "N";
 	private Integer bpqxhID;
 	private Integer bmqxhID;
 	private String dlcd;
@@ -34,8 +34,8 @@ public class HTXX implements Serializable {
 	private Date ddrq;
 	private String bz;
 	private String ddzt;
-	private String sftgywsh;
-	private String sftgjhsh;
+	private String sftgywsh = "N";
+	private String sftgjhsh = "N";
 	/**
 	 * @return the iD
 	 */

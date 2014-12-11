@@ -30,9 +30,11 @@ public class PlanServiceImpl implements PlanService {
 	@Autowired
 	private ItemDao itemDao;
 
-	public String[][] query() {
+	public String[][] query(String approveType, String approved) {
 
-		List<PCJHXX> pcxxs = planDao.getPcjhxx();
+		List<PCJHXX> pcxxs = null;//
+		pcxxs = planDao.getPcjhxx(approveType, approved);
+		
 		
 		Map<Integer, HTXX> htxxMap = new HashMap<Integer, HTXX>();
 		Integer id;

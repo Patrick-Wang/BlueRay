@@ -19,10 +19,10 @@ public class PlanDaoImpl implements PlanDao{
 	@PersistenceContext(unitName = "localDB")
 	private EntityManager entityManager;
 	
-	public List<PCJHXX> getPcjhxx() {
-		Query q = entityManager.createQuery("select p from PCJHXX p");
-		return q.getResultList();
-	}
+//	public List<PCJHXX> getPcjhxx() {
+//		Query q = entityManager.createQuery("select p from PCJHXX p");
+//		return q.getResultList();
+//	}
 
 	public void insert(PCJHXX pcjhxx) {
 		entityManager.persist(pcjhxx);
@@ -44,6 +44,43 @@ public class PlanDaoImpl implements PlanDao{
 
 	public void delete(PCJHXX pcjhxx) {
 		entityManager.remove(pcjhxx);
+	}
+
+	
+	private String getApprovedSql(String approved){
+		if ("approved".equals(approved)){
+			return "'Y'";
+		} else {
+			return "'N'";
+		} 
+	}
+	
+
+	private String getApproveTypeSql(String approveType){
+		String sql = "from PCJHXX";
+		if ("plan_planApprove".equals(approveType)){
+			return "sftgjhsh";
+		} else if("plan_businessApprove".equals(approveType)){
+			return "sftgywsh";
+		} else if("pack_businessApprove".equals(approveType)){
+			return "bzsftgywsh";
+		} else if("pack_businessApprove".equals(approveType)){
+			return "bzsftgjhsh";
+		} else{
+			return "";
+		}
+	}
+	
+	
+	public List<PCJHXX> getPcjhxx(String approveType, String approved) {
+		String sql = "from PCJHXX";
+		String typeSql = getApproveTypeSql(approveType);
+		String approveSql =  getApprovedSql(approved);
+		if (!typeSql.isEmpty()){
+			sql += " where " + approveSql + " = " + typeSql;
+		} 
+		Query q = entityManager.createQuery(sql);
+		return q.getResultList();
 	}
 
 }

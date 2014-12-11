@@ -18,10 +18,10 @@ public class PCJHXX {
 	Date jhfhrq;
 	String tcbh;
 	String ccbh;
-	String sftgywsh;
-	String sftgjhsh;
-	String bzsftgywsh;
-	String bzsftgjhsh;
+	String sftgywsh = "N";
+	String sftgjhsh = "N";
+	String bzsftgywsh = "N";
+	String bzsftgjhsh = "N";
 	String ddzt;
 	/**
 	 * @return the pcjhID

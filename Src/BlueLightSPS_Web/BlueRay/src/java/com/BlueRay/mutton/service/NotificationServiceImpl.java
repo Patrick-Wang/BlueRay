@@ -24,7 +24,7 @@ public class NotificationServiceImpl implements NotificationService{
 	
 	public UnapprovedBean getUnapproved(){
 		UnapprovedBean unapproved = new UnapprovedBean();
-		List<HTXX> htxxs = saleDao.getSaleData();
+		List<HTXX> htxxs = saleDao.getSaleData("all", "all");
 		for (HTXX htxx : htxxs){
 			if (!"Y".equals(htxx.getSftgjhsh())){
 				unapproved.setSalePlan(unapproved.getSalePlan() + 1);
@@ -33,7 +33,7 @@ public class NotificationServiceImpl implements NotificationService{
 				unapproved.setSaleBussiness(unapproved.getSaleBussiness() + 1);
 			}
 		}
-		List<PCJHXX> pcjhxxs = planDao.getPcjhxx();
+		List<PCJHXX> pcjhxxs = planDao.getPcjhxx("all", "all");
 		for (PCJHXX pcjhxx : pcjhxxs){
 			if (!"Y".equals(pcjhxx.getSftgjhsh())){
 				unapproved.setPlanPlan(unapproved.getPlanPlan() + 1);

@@ -63,12 +63,22 @@ public class PlanController {
 //		return "";
 //	}
 
-	@RequestMapping(value = "/query", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody String getSaleQueryData(HttpServletRequest request,
+	@RequestMapping(value = "/query/{approveType}/{approved}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String getSaleQueryData(
+			@PathVariable String approveType,
+			@PathVariable String approved,
+			HttpServletRequest request,
 			HttpServletResponse response) {
-	
-		return JSONArray.fromObject(planService.query()).toString().replace("null", "");
+
+		return JSONArray.fromObject(planService.query(approveType, approved)).toString().replace("null", "");
 	}
+	
+//	@RequestMapping(value = "/query", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//	public @ResponseBody String getSaleQueryData(HttpServletRequest request,
+//			HttpServletResponse response) {
+//	
+//		return JSONArray.fromObject(planService.query()).toString().replace("null", "");
+//	}
 
 //	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 //	public @ResponseBody String addSaleData(HttpServletRequest request,

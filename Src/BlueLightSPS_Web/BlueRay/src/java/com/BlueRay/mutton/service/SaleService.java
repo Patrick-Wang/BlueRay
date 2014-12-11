@@ -4,7 +4,7 @@ import net.sf.json.JSONArray;
 
 
 public interface SaleService{
-	String[][] query();
+	String[][] query(String approveType, String approved);
 
 	boolean update();
 

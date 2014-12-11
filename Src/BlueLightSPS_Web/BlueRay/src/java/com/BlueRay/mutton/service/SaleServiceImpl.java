@@ -68,8 +68,11 @@ public class SaleServiceImpl implements SaleService {
 		}
 	}
 
-	public String[][] query() {
-		List<HTXX> list = saleDao.getSaleData();
+	public String[][] query(String approveType, String approved) {
+		
+		List<HTXX> list = null;
+		list = saleDao.getSaleData(approveType, approved);
+		
 		// "合同号", "客户名称", "规格型号",
 		// "数量", "轴承", "单复绕",
 		// "制动器电压", "曳引轮规格", "机房",
@@ -187,8 +190,10 @@ public class SaleServiceImpl implements SaleService {
 	}
 
 	private void setSfjf(HTXX htxx, String value) {
-		if (!"".equals(value)) {
-			htxx.setSfjf(value);
+		if (!"Y".equals(value) && !"是".equals(value)) {
+			htxx.setSfjf("N");
+		} else{
+			htxx.setSfjf("Y");
 		}
 	}
 
@@ -216,9 +221,11 @@ public class SaleServiceImpl implements SaleService {
 		}
 	}
 
-	private void setDfr(HTXX htxx, String value) {
-		if (!"".equals(value)) {
-			htxx.setDfr("是".equals(value) ? "Y" : "N");
+	private void setDfr(HTXX htxx, String value) {	
+		if (!"Y".equals(value) && !"是".equals(value)) {
+			htxx.setDfr("N");
+		} else{
+			htxx.setDfr("Y");
 		}
 	}
 

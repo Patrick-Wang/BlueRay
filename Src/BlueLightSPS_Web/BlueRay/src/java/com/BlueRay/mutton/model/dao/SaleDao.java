@@ -6,7 +6,7 @@ import com.BlueRay.mutton.model.entity.jpa.BMQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 
 public interface SaleDao {
-	List<HTXX> getSaleData();
+//	List<HTXX> getSaleData();
 
 	HTXX getSaleDataById(int id);
 
@@ -15,4 +15,6 @@ public interface SaleDao {
 	void del(HTXX htxx);
 
 	void update(HTXX htxx);
+
+	List<HTXX> getSaleData(String approveType, String approved);
 }

@@ -4,7 +4,7 @@ import net.sf.json.JSONArray;
 
 public interface PlanService {
 
-	String[][] query();
+	String[][] query(String approveType, String approved);
 
 	String update(JSONArray rows, JSONArray data);
 

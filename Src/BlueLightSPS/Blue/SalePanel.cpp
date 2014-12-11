@@ -513,7 +513,7 @@ void CSalePanel::OnApproveDataSuccess()
 void CSalePanel::OnDataUpdate()
 {
 	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/sale/query"), IDS_HOST_NAME);
+	url.Format(_T("http://%s:8080/BlueRay/sale/query/all/none"), IDS_HOST_NAME);
 	CString jsondata;
 	m_pHttp->SyncGet(url, jsondata);
 	OnLoadDataSuccess(jsondata);

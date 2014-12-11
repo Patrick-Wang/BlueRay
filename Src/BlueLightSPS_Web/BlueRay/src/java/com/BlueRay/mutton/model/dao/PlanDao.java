@@ -6,7 +6,7 @@ import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
 
 public interface PlanDao {
 
-	List<PCJHXX> getPcjhxx();
+//	List<PCJHXX> getPcjhxx();
 
 	void insert(PCJHXX pcjhxx);
 
@@ -15,5 +15,7 @@ public interface PlanDao {
 	void update(PCJHXX pcjhxx);
 
 	void delete(PCJHXX pcjhxx);
+
+	List<PCJHXX> getPcjhxx(String approveType, String approved);
 
 }

@@ -21,10 +21,10 @@ public class SaleDaoImpl implements SaleDao{
 	private EntityManager entityManager;
 
 	
-	public List<HTXX> getSaleData() {
-		Query q = entityManager.createQuery("select h from HTXX h");
-		return q.getResultList();
-	}
+//	public List<HTXX> getSaleData() {
+//		Query q = entityManager.createQuery("select h from HTXX h");
+//		return q.getResultList();
+//	}
 
 
 	public void insert(HTXX bxx) {
@@ -52,6 +52,36 @@ public class SaleDaoImpl implements SaleDao{
 			return htxxs.get(0);
 		}
 		return null;
+	}
+
+	
+	private String getApprovedSql(String approved){
+		if ("approved".equals(approved)){
+			return "'Y'";
+		} else {
+			return "'N'";
+		} 
+	}
+	
+
+	private String getApproveTypeSql(String approveType){
+		if ("plan".equals(approveType)){
+			return "sftgjhsh";
+		} else if ("business".equals(approveType)){
+			return "sftgywsh";
+		} else{
+			return "";
+		} 
+	}
+	public List<HTXX> getSaleData(String approveType, String approved) {
+		String sql = "from HTXX";
+		String typeSql = getApproveTypeSql(approveType);
+		String approveSql =  getApprovedSql(approved);
+		if (!typeSql.isEmpty()){
+			sql += " where " + approveSql + " = " + typeSql;
+		} 
+		Query q = entityManager.createQuery(sql);
+		return q.getResultList();
 	}
 
 }
