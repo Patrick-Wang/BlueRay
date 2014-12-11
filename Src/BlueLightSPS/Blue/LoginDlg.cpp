@@ -9,6 +9,8 @@
 #include "Util.h"
 #include "colors.h"
 #include "JsHttpImpl.h"
+#include "CommonDefine.h"
+#include "User.h"
 // CLoginDlg dialog
 
 IMPLEMENT_DYNAMIC(CLoginDlg, CDialogEx)
@@ -133,10 +135,16 @@ void CLoginDlg::OnBnClickedLogin()
 	m_editPsw.GetWindowText(psw);
 	CString usrName;
 	m_editUserName.GetWindowText(usrName);
-	//m_pHttp->Get(_T("http://www.baidu.com"), std::map<CString, CString>());
-	if (usrName.CompareNoCase(_T("admin")) == 0 && psw.CompareNoCase(_T("123456")) == 0)
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/account/login/"), IDS_HOST_NAME);
+	url += usrName + _T("/") + psw;
+	CString token;
+	if (m_pHttp->SyncGet(url, token) && 0 != token.Compare(L"error"))
 	{
+		//MessageBox(token, token, MB_OK | MB_ICONWARNING);
+		CUser::GetInstance()->SetToken(token);
 		OnOK();
+		//OnBnClickedLogin();
 	}
 	else
 	{
