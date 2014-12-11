@@ -71,18 +71,6 @@ END_MESSAGE_MAP()
 
 // CBSObject message handlers
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:    SetText
-
-  Summary:     Set the text of control.
-
-  Author:      zhang.xu 2011-06-02
-
-  Args:        [in] UNIT uiTextResID
-                Resource ID of text.
-
-  Returns:     void
------------------------------------------------------------------F-F*/
 void CBSObject::SetText(UINT uiTextResID)
 {
     CString strTemp;
@@ -96,18 +84,6 @@ void CBSObject::SetText(UINT uiTextResID)
     }
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:    SetWindowText
-
-  Summary:     Set the text of control.
-
-  Author:      zhang.xu 2011-06-19
-
-  Args:        [in] UNIT uiTextResID
-                Resource ID of text.
-
-  Returns:     void
------------------------------------------------------------------F-F*/
 void CBSObject::SetWindowText(UINT uiTextResID)
 {
     SetText(uiTextResID);
@@ -131,18 +107,6 @@ CRect CBSObject::PaintDCRect(CRect& rect)
 	return reRet;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     SetWindowText
-                
-  Summary:      Set window text
-
-  Author:       zhang.xu 2011.06.15
-
-  Args:         LPCTSTR strCaption
-
-  Returns:      None
-
------------------------------------------------------------------F-F*/
 void CBSObject::SetWindowText(LPCTSTR strCaption)
 {
     if (strCaption != NULL)
@@ -180,26 +144,6 @@ void CBSObject::CreateBSFont(LPCTSTR lfFaceName, int fontSize, BOOL bUnderLine, 
 	pFont->CreateFontIndirect(&lf);
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     SetBSFont
-                
-  Summary:      Set font
-
-  Author:       zhang.xu 2011.06.15
-
-  Args:         LPCTSTR lfFaceName
-                
-                int fontSize
-                
-                BOOL bUnderLine
-                
-                BOOL bBold
-                
-                BOOL bItalic
-
-  Returns:      None
-
------------------------------------------------------------------F-F*/
 void CBSObject::SetBSFont(LPCTSTR lfFaceName, int fontSize, BOOL bUnderLine, BOOL bBold, BOOL bItalic)
 {
     m_cfFont.DeleteObject();
@@ -210,28 +154,6 @@ void CBSObject::SetBSFont(LPCTSTR lfFaceName, int fontSize, BOOL bUnderLine, BOO
 
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     GetFontPtr
-                
-  Summary:      Get font pointer
-
-  Author:       zhang.xu 2011.06.15
-
-  Args:         HDC hdc
-                
-                LPCTSTR lfFaceName
-                
-                int fontSize
-                
-                BOOL bUnderLine
-                
-                BOOL bBold
-                
-                BOOL bItalic
-
-  Returns:      CFont*
-
------------------------------------------------------------------F-F*/
 CFont* CBSObject::GetFontPtr(LPCTSTR lfFaceName, int fontSize, BOOL bUnderLine, BOOL bBold, BOOL bItalic)
 {
     CFont* pFontTemp = NULL;
@@ -243,26 +165,6 @@ CFont* CBSObject::GetFontPtr(LPCTSTR lfFaceName, int fontSize, BOOL bUnderLine, 
     return pFontTemp;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     SetBSFont
-                
-  Summary:      Set font
-
-  Author:       zhang.xu 2011.06.26
-
-  Args:         UINT uiFaceName
-                
-                int fontSize
-                
-                BOOL bUnderLine
-                
-                BOOL bBold
-                
-                BOOL bItalic
-
-  Returns:      None
-
------------------------------------------------------------------F-F*/
 void CBSObject::SetBSFont(UINT uiFaceName, int fontSize, BOOL bUnderLine, BOOL bBold, BOOL bItalic)
 {
     CString strFaceName;
@@ -272,26 +174,6 @@ void CBSObject::SetBSFont(UINT uiFaceName, int fontSize, BOOL bUnderLine, BOOL b
     }
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     GetFontPtr
-                
-  Summary:      Get font pointer
-
-  Author:       zhang.xu 2011.06.26
-
-  Args:         UINT uiFaceName
-                
-                int fontSize
-                
-                BOOL bUnderLine
-                
-                BOOL bBold
-                
-                BOOL bItalic
-
-  Returns:      CFont*
-
------------------------------------------------------------------F-F*/
 CFont* CBSObject::GetFontPtr(UINT uiFaceName, int fontSize, BOOL bUnderLine, BOOL bBold, BOOL bItalic)
 {
     CFont* pFontTemp = NULL;
@@ -305,42 +187,11 @@ CFont* CBSObject::GetFontPtr(UINT uiFaceName, int fontSize, BOOL bUnderLine, BOO
     return pFontTemp;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     GetWindowText
-                
-  Summary:      Get window text
-
-  Author:       zhang.xu 2011.06.15
-
-  Args:         [out]CString& strCaption
-
-  Returns:      None
-
------------------------------------------------------------------F-F*/
 void CBSObject::GetWindowText(CString& strCaption)
 {
     strCaption = m_strCaption;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:    DrawBitmap
-
-  Summary:     Draw BMP format pictures.
-
-  Author:      zhang.xu 2006-02-18
-
-  Args:        [in] HDC hDC
-                   Handle of DC.
-               [in] const RECT &rectDst
-                   Rectangle of drawing area.
-               [in] UINT Res
-                   Resource ID of the picture.
-               [in] HINSTANCE hInst
-                   Instance of resource.
-
-  Returns:     BOOL
-                   TRUE or FALSE.  
------------------------------------------------------------------F-F*/
 BOOL CBSObject::DrawBitmap(HDC hDC, const RECT &rectDst, UINT uiRes, HINSTANCE hInst)
 {
     Gdiplus::Graphics	graphics(hDC);
@@ -352,51 +203,11 @@ BOOL CBSObject::DrawBitmap(HDC hDC, const RECT &rectDst, UINT uiRes, HINSTANCE h
 	return TRUE;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:    DrawPNG
-
-  Summary:     Draw PNG format pictures.
-
-  Author:      zhang.xu 2006-02-18
-
-  Args:        [in] HDC hDC
-                   Handle of DC.
-               [in] const RECT &rectDst
-                   Rectangle of drawing area.
-               [in] UINT Res
-                   Resource ID of the picture.
-               [in] HINSTANCE hInst
-                   Instance of resource.
-
-  Returns:     BOOL
-                   TRUE or FALSE.  
------------------------------------------------------------------F-F*/
 BOOL CBSObject::DrawPNG(HDC hDC, const RECT &rectDst, UINT Res, HINSTANCE hInst)
 {
     return DrawPNG(hDC, rectDst, NULL, Res, hInst); 
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:    DrawPNG
-
-  Summary:     Draw PNG format pictures.
-
-  Author:      zhang.xu 2006-02-18
-
-  Args:        [in] HDC hDC
-                   Handle of DC.
-               [in] const RECT &rectDst
-                   Rectangle of drawing area.
-               [in] const RECT* prectImagePortion
-                   Rectangle of image portion.
-               [in] UINT Res
-                   Resource ID of the picture.
-               [in] HINSTANCE hInst
-                   Instance of resource.
-
-  Returns:     BOOL
-                   TRUE or FALSE.  
------------------------------------------------------------------F-F*/
 BOOL CBSObject::DrawPNG(HDC hDC, const RECT &rectDst, const RECT* prectImagePortion, UINT Res, HINSTANCE hInst)
 {
 	BOOL bRet = FALSE;
@@ -409,8 +220,6 @@ BOOL CBSObject::DrawPNG(HDC hDC, const RECT &rectDst, const RECT* prectImagePort
 	    DWORD  imageSize = ::SizeofResource(hInst, hResource);  
 	    if  (imageSize > 0)
         {
-		    //void* pResourceData = ::LockResource(::LoadResource(hInst,hResource));  
-            //For Fortify by zhaoyunf
             HGLOBAL hHandle = ::LoadResource(hInst,hResource);
             if (NULL != hHandle)
             {
@@ -425,7 +234,6 @@ BOOL CBSObject::DrawPNG(HDC hDC, const RECT &rectDst, const RECT* prectImagePort
                         void* pBuffer = ::GlobalLock(hBuffer);  
                         if  (pBuffer)  
                         {  
-                            //CopyMemory(pBuffer, pResourceData, imageSize);  
                             memcpy_s(pBuffer, imageSize, pResourceData, imageSize); //For stm0117
                             IStream*  pStream = NULL;  
                             if  (::CreateStreamOnHGlobal(hBuffer,  FALSE,  &pStream) == S_OK)  
@@ -439,8 +247,6 @@ BOOL CBSObject::DrawPNG(HDC hDC, const RECT &rectDst, const RECT* prectImagePort
 								clImgAtt.SetWrapMode(Gdiplus::WrapModeTileFlipXY);
 								if (NULL == prectImagePortion)
 								{
-									//graphics.DrawImage(&cImage, cRectF);
-									//========================liwk
 									graphics.DrawImage(&cImage, 
                                         cRectF, 
                                         static_cast<Gdiplus::REAL>(0), 
@@ -459,7 +265,7 @@ BOOL CBSObject::DrawPNG(HDC hDC, const RECT &rectDst, const RECT* prectImagePort
 										static_cast<Gdiplus::REAL>(prectImagePortion->right - prectImagePortion->left), 
 										static_cast<Gdiplus::REAL>(prectImagePortion->bottom - prectImagePortion->top), 
 										Gdiplus::Unit::UnitPixel, 
-										NULL, //&clImgAtt
+										NULL, 
 										NULL, 
 										NULL);
 								}
@@ -480,22 +286,6 @@ BOOL CBSObject::DrawPNG(HDC hDC, const RECT &rectDst, const RECT* prectImagePort
 	return bRet;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     DrawPNG
-                
-  Summary:      Draw an image to DC
-
-  Author:       zhang.xu 2011.06.16
-
-  Args:         HDC hDC
-                
-                const RECT &rectDst
-                
-                Gdiplus::Image* pImage
-
-  Returns:      BOOL
-
------------------------------------------------------------------F-F*/
 BOOL CBSObject::DrawPNG(HDC hDC, const RECT &rectDst, Gdiplus::Image* pImage, const RECT* prectImagePortion /*= NULL*/)
 {
 	BOOL bRet = FALSE;
@@ -543,20 +333,6 @@ BOOL CBSObject::DrawPNG(HDC hDC, const RECT &rectDst, Gdiplus::Image* pImage, co
 	return bRet;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     LoadImage
-                
-  Summary:      Create an image object from resource ID
-
-  Author:       zhang.xu 2011.06.16
-
-  Args:         UINT Res
-  
-                HINSTANCE hInst
-
-  Returns:      Gdiplus::Image*
-
------------------------------------------------------------------F-F*/
 Gdiplus::Image* CBSObject::LoadImage(UINT Res, HINSTANCE hInst)
 {
 	BOOL bRet = FALSE;
@@ -568,8 +344,6 @@ Gdiplus::Image* CBSObject::LoadImage(UINT Res, HINSTANCE hInst)
 	    DWORD  imageSize = ::SizeofResource(hInst, hResource);  
 	    if  (imageSize > 0)
         {
-		    //void* pResourceData = ::LockResource(::LoadResource(hInst,hResource));  
-            //For Fortify by zhaoyunf
             HGLOBAL hHandle = ::LoadResource(hInst,hResource);
             if (NULL != hHandle)
             {
@@ -584,8 +358,7 @@ Gdiplus::Image* CBSObject::LoadImage(UINT Res, HINSTANCE hInst)
                         void* pBuffer = ::GlobalLock(hBuffer);  
                         if  (pBuffer)  
                         {  
-                            //CopyMemory(pBuffer, pResourceData, imageSize);  
-                            memcpy_s(pBuffer, imageSize, pResourceData, imageSize); //For stm0117
+                            memcpy_s(pBuffer, imageSize, pResourceData, imageSize); 
                             IStream*  pStream = NULL;  
                             if  (::CreateStreamOnHGlobal(hBuffer,  FALSE,  &pStream) == S_OK)  
                             {  
@@ -607,20 +380,6 @@ Gdiplus::Image* CBSObject::LoadImage(UINT Res, HINSTANCE hInst)
 	return pImage;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     LoadImage
-                
-  Summary:      Create an image object from resource ID
-
-  Author:       zhang.xu 2011.06.16
-
-  Args:         LPCTSTR strImagePath
-  
-                HINSTANCE hInst
-
-  Returns:      Gdiplus::Image*
-
------------------------------------------------------------------F-F*/
 Gdiplus::Image* CBSObject::LoadImage(LPCTSTR strImagePath, HINSTANCE hInst)
 {   
     Gdiplus::Image* pImage = NULL;
@@ -639,23 +398,6 @@ Gdiplus::Image* CBSObject::LoadImage(LPCTSTR strImagePath, HINSTANCE hInst)
 }
 
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:    FillRect
-
-  Summary:     Fill rectangle of drawing area.
-
-  Author:      zhang.xu 2009-05-18
-
-  Args:        [in] HDC hDC
-                   Handle of DC.
-               [in] const RECT& rectDst
-                   Rectangle of drawing area.
-               [in] COLORREF crBGColor
-                   Color of background.
-
-  Returns:     BOOL
-                   TRUE or FALSE.  
------------------------------------------------------------------F-F*/
 BOOL CBSObject::FillRect(HDC hDC, const RECT& rectDst, COLORREF crBGColor)
 {
     BOOL bRet = FALSE;
@@ -671,29 +413,12 @@ BOOL CBSObject::FillRect(HDC hDC, const RECT& rectDst, COLORREF crBGColor)
     return bRet;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:    DrawText
-
-  Summary:     Draw text in drawing area.
-
-  Author:      zhang.xu 2009-05-22
-
-  Args:        [in] HDC hDC
-                   Handle of DC.
-               [in] const RECT& rectDst
-                   Rectangle of drawing area.
-               [in] COLORREF crBGColor
-                   Color of background.
-
-  Returns:     BOOL
-                   TRUE or FALSE.  
------------------------------------------------------------------F-F*/
 BOOL CBSObject::DrawText(HDC hDC, const LPRECT lpRect, const CString& strText, 
 							  HFONT hFont, COLORREF clrText, UINT uiFormat)
 {
 	BOOL bResult = FALSE;
 
-#ifdef OSK //Using GDI way, limitation is "Do NOT work on layer window."
+#ifdef OSK 
 	HFONT hFontOld = (HFONT)::SelectObject(hDC, hFont);
 	COLORREF clrTextOld = ::SetTextColor(hDC, clrText);
 	int nBkModeOld = ::SetBkMode(hDC, TRANSPARENT);
@@ -709,18 +434,16 @@ BOOL CBSObject::DrawText(HDC hDC, const LPRECT lpRect, const CString& strText,
 	}
 	::SetTextColor(hDC, clrTextOld);
 	::SetBkMode(hDC, nBkModeOld);
-#else //Using GDI+ way    
+#else   
     Gdiplus::Graphics graphics(hDC);
     
     Gdiplus::SolidBrush brush(Gdiplus::Color(255, GetRValue(clrText), GetGValue(clrText), GetBValue(clrText)));
     Gdiplus::Font font(hDC, hFont);
     Gdiplus::RectF  rect(lpRect->left, lpRect->top, lpRect->right - lpRect->left, lpRect->bottom - lpRect->top);
 
-    //Set antiAlias
 	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
 	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHintClearTypeGridFit);
          
-    //Set Format
     Gdiplus::StringFormat strformat;
     if (uiFormat & DT_TOP)
     {
@@ -759,8 +482,7 @@ BOOL CBSObject::DrawText(HDC hDC, const LPRECT lpRect, const CString& strText,
 
     if (uiFormat & DT_SINGLELINE)
     {
-        //As default
-        //strformat.SetFormatFlags(Gdiplus::StringFormatFlagsNoWrap);
+
     }
 
     if (uiFormat & DT_WORD_ELLIPSIS)
@@ -780,24 +502,6 @@ BOOL CBSObject::DrawText(HDC hDC, const LPRECT lpRect, const CString& strText,
 	return bResult;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     DrawPNG
-                
-  Summary:      Draw PNG from a file
-
-  Author:       zhang.xu 2011-06-03
-
-  Args:         HDC hDC
-
-                const RECT &rectDst
-
-                LPCTSTR strImagePath
-
-                HINSTANCE hInst
-
-  Returns:      BOOL
-
------------------------------------------------------------------F-F*/
 BOOL CBSObject::DrawPNG(HDC hDC, const RECT &rectDst, LPCTSTR strImagePath, HINSTANCE hInst)
 {
     BOOL bRet = FALSE;
@@ -829,7 +533,6 @@ BOOL CBSObject::DrawPNG(HDC hDC, const RECT &rectDst, LPCTSTR strImagePath, HINS
 
 void CBSObject::PreSubclassWindow()
 {
-    // TODO: Add your specialized code here and/or call the base class
 
     CWnd::PreSubclassWindow();
 }
@@ -837,7 +540,6 @@ void CBSObject::PreSubclassWindow()
 
 BOOL CBSObject::OnEraseBkgnd(CDC* pDC)
 {
-    // TODO: Add your message handler code here and/or call default
     BOOL bRet = TRUE;
 
     RECT rt;
@@ -862,7 +564,6 @@ BOOL CBSObject::OnEraseBkgnd(CDC* pDC)
 
     int iState = GetState();
 
-    //add by Tsubasa 2011/7/14
     if (m_bIsEnable && (FALSE == m_bLastState))
     {
         OnMouseLeave();
@@ -871,14 +572,13 @@ BOOL CBSObject::OnEraseBkgnd(CDC* pDC)
 
     if (m_piPanelBG[iState] == NULL)
     {        
-        //Draw background picture
         if (!m_bIsUseBGPicRect)
         {   
             if (m_uiBGPictureIDs[iState] != 0)
             {
                 m_piPanelBG[iState] = LoadImage(m_uiBGPictureIDs[iState], AfxGetInstanceHandle());
             }
-			else if (!m_csGBPicture[iState].IsEmpty())//wsh add
+			else if (!m_csGBPicture[iState].IsEmpty())
 			{
 				m_piPanelBG[iState] = LoadImage(m_csGBPicture[iState], AfxGetInstanceHandle());
 			}
@@ -893,7 +593,7 @@ BOOL CBSObject::OnEraseBkgnd(CDC* pDC)
             {
                 m_piPanelBG[iState] = LoadImage(m_uiBGPictureIDs[iState], AfxGetInstanceHandle());
             }
-			else if (!m_csGBPicture[iState].IsEmpty())//wsh add
+			else if (!m_csGBPicture[iState].IsEmpty())
 			{
 				m_piPanelBG[iState] = LoadImage(m_csGBPicture[iState], AfxGetInstanceHandle());
             }
@@ -919,18 +619,6 @@ BOOL CBSObject::OnEraseBkgnd(CDC* pDC)
     return bRet;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     SetTextAlign
-                
-  Summary:      Set alignment fo text
-
-  Author:       zhang.xu 2011.06.03
-
-  Args:         UINT uiAlign
-  
-  Returns:      void
-
------------------------------------------------------------------F-F*/
 void CBSObject::SetTextAlign(UINT uiAlign)
 {
     m_uiTextAlign = uiAlign;
@@ -941,21 +629,6 @@ void CBSObject::SetTextAlign(UINT uiAlign)
     }
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     SetBGPicRect
-                
-  Summary:      Set background picture's size
-
-  Author:       zhang.xu 2011-06-03
-
-  Args:         int x
-                int y
-                int cx
-                int cy
-
-  Returns:      void
-
------------------------------------------------------------------F-F*/
 void CBSObject::SetBGPicRect(int x, int y, int cx, int cy)
 {
     m_rtBGPicRect.left = x;
@@ -965,21 +638,7 @@ void CBSObject::SetBGPicRect(int x, int y, int cx, int cy)
     m_bIsUseBGPicRect = TRUE;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     SetTextRect
-                
-  Summary:     
 
-  Author:       zhang.xu 2011-06-03
-
-  Args:         int x
-                int y 
-                int cx 
-                int cy
-
-  Returns:      void
-
------------------------------------------------------------------F-F*/
 void CBSObject::SetTextRect(int x, int y, int cx, int cy)
 {
     m_rtTextRect.left = x;
@@ -989,54 +648,19 @@ void CBSObject::SetTextRect(int x, int y, int cx, int cy)
     m_bIsUseTextRect = TRUE;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     SetTextColor
-                
-  Summary:      Set control's text color
 
-  Author:       zhang.xu 2011-06-03
-
-  Args:         COLORREF crTextColor
-
-  Returns:      void
-
------------------------------------------------------------------F-F*/
 void CBSObject::SetTextColor(COLORREF crTextColor)
 {
     m_crTextColor[BS_NORMAL] = crTextColor;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     SetTextColor2
-                
-  Summary:      Set control's text color for metal pattern
 
-  Author:       zhang.xu 2011-06-21
-
-  Args:         COLORREF crTextColor
-
-  Returns:      void
-
------------------------------------------------------------------F-F*/
 void CBSObject::SetTextColor2(COLORREF crTextColor)
 {
     m_crTextColor2[BS_NORMAL] = crTextColor;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     SetBKPictureID
-                
-  Summary:      Set background picture ID
 
-  Author:       zhang.xu 2011.06.03
-
-  Args:         enumBSBtnState BtnState
-                    
-                UINT uiBKPictureID
-
-  Returns:      void
-
------------------------------------------------------------------F-F*/
 void CBSObject::SetBGPictureIDs(enumBSBtnState btnState, UINT uiBKPictureID)
 {
     switch (btnState)
@@ -1075,39 +699,12 @@ void CBSObject::SetBGPictureIDs(enumBSBtnState btnState, UINT uiBKPictureID)
     }
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     SetTextColor
-                
-  Summary:      Set text color with button state
-
-  Author:       zhang.xu 2011-06-03
-
-  Args:         enumBSBtnState BtnState
-                
-                COLORREF crTextColor
-
-  Returns:      void
-
------------------------------------------------------------------F-F*/
 void CBSObject::SetTextColor(enumBSBtnState BtnState, COLORREF crTextColor)
 {
     m_crTextColor[BtnState] = crTextColor;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     SetTextColor2
-                
-  Summary:      Set text color with button state for metal pattern
 
-  Author:       zhang.xu 2011-06-03
-
-  Args:         enumBSBtnState BtnState
-                
-                COLORREF crTextColor
-
-  Returns:      void
-
------------------------------------------------------------------F-F*/
 void CBSObject::SetTextColor2(enumBSBtnState BtnState, COLORREF crTextColor)
 {
     m_crTextColor2[BtnState] = crTextColor;
@@ -1121,7 +718,6 @@ void CBSObject::OnMouseLeave()
     }
 
     BOOL bIsRepaint = FALSE;
-    // TODO: Add your message handler code here and/or call default
     if (m_isHover && !m_bIsSelect)
     {
         m_isHover = FALSE;
@@ -1145,7 +741,6 @@ void CBSObject::OnMouseLeave()
         PaintParent();        
         Invalidate();
     }
-    //CWnd::OnMouseLeave();
     
 }
 
@@ -1155,12 +750,10 @@ void CBSObject::SetPaintDC(HDC hPaintDC, int ix, int iy, int iCx, int iCy)
 	m_StartPaintPoint = CPoint(ix, iy);
 	m_iWidth = iCx;
 	m_iHeight = iCy;
-	//m_bHasPaintDC = TRUE;
 }
 
 void CBSObject::RePaintDC(RECT rect, BOOL bRShow)
 {
-	//OnPaint();
 }
 
 void CBSObject::EnablePaintDC(BOOL bEnable)
@@ -1168,18 +761,6 @@ void CBSObject::EnablePaintDC(BOOL bEnable)
 	m_bHasPaintDC = bEnable;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     GetButtonState
-                
-  Summary:      Get button state
-
-  Author:       zhang.xu 2011-06-03
-
-  Args:         UINT uiItemState
-
-  Returns:      enumBSBtnState
-
------------------------------------------------------------------F-F*/
 enumBSBtnState CBSObject::GetState()
 {
     enumBSBtnState btnState = BS_NORMAL;
@@ -1202,22 +783,6 @@ enumBSBtnState CBSObject::GetState()
     return btnState;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     SetBKPictureHIDs
-                
-  Summary:      Set background picture IDs
-
-  Author:       zhang.xu 2011.06.03
-
-  Args:         UINT uiLeftPicID
-                
-                UINT uiMidPicID
-                
-                UINT uiRightPicID
-
-  Returns:      None
-
------------------------------------------------------------------F-F*/
 void CBSObject::SetBKPictureHIDs(UINT uiLeftPicID, UINT uiMidPicID, UINT uiRightPicID)
 {
 	m_uiBKPicHIDs[BPH_LEFT] = uiLeftPicID;
@@ -1226,22 +791,6 @@ void CBSObject::SetBKPictureHIDs(UINT uiLeftPicID, UINT uiMidPicID, UINT uiRight
 	m_isHBackground = TRUE;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     SetBKPicVIDs
-                
-  Summary:      Set background picture IDs
-
-  Author:       zhang.xu 2011.06.03
-
-  Args:         UINT uiTopPicID
-                
-                UINT uiMidPicID
-                
-                UINT uiBottomPicID
-
-  Returns:      None
-
------------------------------------------------------------------F-F*/
 void CBSObject::SetBKPictureVIDs(UINT uiTopPicID, UINT uiMidPicID, UINT uiBottomPicID)
 {
     m_uiBKPicVIDs[BPV_TOP] = uiTopPicID;
@@ -1250,18 +799,6 @@ void CBSObject::SetBKPictureVIDs(UINT uiTopPicID, UINT uiMidPicID, UINT uiBottom
     m_isVBackground = TRUE;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     SetBGPictureID
-                
-  Summary:      Set background picture ID
-
-  Author:       zhang.xu 2011.06.12
-
-  Args:         UINT uiBGPictureID
-
-  Returns:      None
-
------------------------------------------------------------------F-F*/
 void CBSObject::SetBGPictureID(UINT uiBGPictureID)
 {
     if (m_piPanelBG[BS_NORMAL] != NULL)
@@ -1283,7 +820,6 @@ void CBSObject::OnLButtonUp(UINT nFlags, CPoint point)
     {
         return;
     }
-    // TODO: Add your message handler code here and/or call default
     if (m_isClickEnabled)
     {
         CRect rt;
@@ -1323,7 +859,6 @@ void CBSObject::OnLButtonDown(UINT nFlags, CPoint point)
     {
         return;
     }
-    // TODO: Add your message handler code here and/or call default
     if (m_isClickEnabled)
     {
         m_bIsDown = TRUE;
@@ -1343,18 +878,12 @@ void CBSObject::OnMouseMove(UINT nFlags, CPoint point)
        
         return;
     }
-    // TODO: Add your message handler code here and/or call default
-    if (!m_bIsSelect /* && GetCapture() != this*/)
+    if (!m_bIsSelect )
 	{
        
 		if (!m_isHover)
 		{			
-			/*TRACKMOUSEEVENT TrackMouseEvent;
-			TrackMouseEvent.cbSize = sizeof (TRACKMOUSEEVENT);
-			TrackMouseEvent.dwFlags = TME_LEAVE;
-			TrackMouseEvent.hwndTrack = GetSafeHwnd();
-			TrackMouseEvent.dwHoverTime = 0;
-			_TrackMouseEvent(&TrackMouseEvent);*/
+
           
 			m_isHover = TRUE;
 
@@ -1399,18 +928,6 @@ void CBSObject::OnMouseMove(UINT nFlags, CPoint point)
     CWnd::OnMouseMove(nFlags, point);
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     PaintParent
-                
-  Summary:      Erase child window's area
-
-  Author:       zhang.xu 2011.06.12
-
-  Args:         None
-
-  Returns:      None
-
------------------------------------------------------------------F-F*/
 void CBSObject::PaintParent()
 {
     CRect   rect;
@@ -1419,18 +936,6 @@ void CBSObject::PaintParent()
     GetParent()->InvalidateRect(&rect);
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     PaintGrandpa
-                
-  Summary:      Ask grandpa to redraw background
-
-  Author:       zhang.xu 2011-06-15
-
-  Args:         None
-
-  Returns:      None
-
------------------------------------------------------------------F-F*/
 void CBSObject::PaintGrandpa()
 {
     CRect   rect;
@@ -1440,52 +945,16 @@ void CBSObject::PaintGrandpa()
 }
 
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     EnableEraseBackground
-                
-  Summary:      Set enable/disable to erase background
-
-  Author:       zhang.xu 2011.06.12
-
-  Args:         BOOL bIsErase
-
-  Returns:      None
-
------------------------------------------------------------------F-F*/
 void CBSObject::EnableEraseBackground(BOOL bIsErase /*= TRUE*/)
 {
    m_bIsEraseBG = bIsErase;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     GetFont
-                
-  Summary:      Get font pointer
-
-  Author:       zhang.xu 2011.06.12
-
-  Args:         None
-
-  Returns:      CFont*
-
------------------------------------------------------------------F-F*/
 CFont* CBSObject::GetFont()
 {
    return &m_cfFont;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     SetBackgroundColor
-                
-  Summary:      Set background color
-
-  Author:       zhang.xu 2011.06.12
-
-  Args:         COLORREF crBGColor
-
-  Returns:      None
-
------------------------------------------------------------------F-F*/
 void CBSObject::SetBackgroundColor(COLORREF crBGColor)
 {
     m_crBackgroundColor = crBGColor;
@@ -1498,18 +967,6 @@ void CBSObject::SetBackgroundColor(COLORREF crBGColor)
 }
 
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     EnableWindow
-                
-  Summary:      Enable window
-
-  Author:       zhang.xu 2011.06.12
-
-  Args:         BOOL bIsEnable
-
-  Returns:      None
-
------------------------------------------------------------------F-F*/
 void CBSObject::EnableWindow(BOOL bIsEnable)
 {
     if (m_bIsEnable != bIsEnable)
@@ -1524,35 +981,11 @@ void CBSObject::EnableWindow(BOOL bIsEnable)
     }
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     EnableSelect
-                
-  Summary:      Enable select state
-
-  Author:       zhang.xu 2011.06.12
-
-  Args:         BOOL bIsEnable
-
-  Returns:      None
-
------------------------------------------------------------------F-F*/
 void CBSObject::EnableSelect(BOOL bIsEnable)
 {
     m_bIsSelectEnabled = bIsEnable;
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     UnselectWindow
-                
-  Summary:      Set unselect window state
-
-  Author:       zhang.xu 2011.06.12
-
-  Args:         None
-
-  Returns:      None
-
------------------------------------------------------------------F-F*/
 void CBSObject::UnselectWindow()
 {
     if (m_bIsSelectEnabled)
@@ -1567,18 +1000,6 @@ void CBSObject::UnselectWindow()
     }
 }
 
-/*F+F+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  Function:     IsWindowEnable
-                
-  Summary:      Retrieve if the window is enable.
-
-  Author:       zhang.xu 2011.06.19
-
-  Args:         None
-
-  Returns:      None
-
------------------------------------------------------------------F-F*/
 BOOL CBSObject::IsWindowEnable()
 {
     return m_bIsEnable;
@@ -1591,7 +1012,6 @@ BOOL CBSObject::IsMouseHover()
 
 BOOL CBSObject::PreTranslateMessage(MSG* pMsg)    
 {   
-	// TODO: Add your specialized code here and/or call the base class   
     BOOL bRet = FALSE;
 
 	if (WM_KEYDOWN == pMsg->message)     
@@ -1610,7 +1030,6 @@ BOOL CBSObject::PreTranslateMessage(MSG* pMsg)
 	return bRet;
 }
 
-//wsh add
 void CBSObject::SetBGPicturePath( enumBSBtnState BtnState, CString csBKPicturePath )
 {   
 	switch (BtnState)
