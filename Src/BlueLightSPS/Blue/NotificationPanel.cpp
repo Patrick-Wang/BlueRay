@@ -15,6 +15,33 @@
 #define QUERY_URL_UNAPPROVED_PLANBZRQPLAN		QUERY_URL_UNAPPROVED_PLANBZRQBUSINESS + 1
 #define POST_URL_APPROVE		QUERY_URL_UNAPPROVED_PLANBZRQPLAN + 1
 
+static int g_StaticPos[][4] = {
+		{  20, 25, 280, 25 },
+		{ 440, 25, 280, 25 },
+		{ 860, 25, 280, 25 },
+		{ 20, 75, 280, 25 }, 
+		{ 440, 75, 280, 25 },
+		{ 860, 75, 280, 25 } 
+};
+
+static int g_ButtoncPos[][4] = {
+		{ 300, 23, 90, 25 }, 
+		{ 720, 23, 90, 25 }, 
+		{ 1140, 23, 90, 25 },
+		{ 300, 73, 90, 25 },
+		{ 720, 73, 90, 25 },
+		{ 1140, 73, 90, 25 }
+};
+
+static int g_TableToBeHiddenForPlan[]
+{
+	17, 18, 20, 21
+};
+
+static int g_TableToBeHiddenForSale[]
+{
+	16, 17, 18, 19, 20, 21, 22, 23, 24
+};
 
 CNotificationPanel::CNotificationPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
 	: CBRPanel(pJqGridAPI, pHttp)
@@ -27,19 +54,44 @@ CNotificationPanel::~CNotificationPanel()
 {
 }
 
+void CNotificationPanel::AdjustTableStyleForPlan()
+{
+	for (int i = 0; i < _countof(g_TableToBeHiddenForSale); i++)
+	{
+		m_pJqGridAPI->ShowCol(g_TableToBeHiddenForSale[i]);
+	}
+
+	for (int i = 0; i < _countof(g_TableToBeHiddenForPlan); i++)
+	{
+		m_pJqGridAPI->HideCol(g_TableToBeHiddenForPlan[i]);
+	}
+}
+
+void CNotificationPanel::AdjustTableStyleForSale()
+{
+	for (int i = 0; i < _countof(g_TableToBeHiddenForPlan); i++)
+	{
+		m_pJqGridAPI->ShowCol(g_TableToBeHiddenForPlan[i]);
+	}
+
+	for (int i = 0; i < _countof(g_TableToBeHiddenForSale); i++)
+	{
+		m_pJqGridAPI->HideCol(g_TableToBeHiddenForSale[i]);
+	}
+}
+
 void CNotificationPanel::OnInitChilds()
 {
-
 	//销售-业务
 	m_bsSaleBusinessApprove.Create(this, IDC_NOTIFICATION_STATIC_SALEBUSINESSAPPROVE);
 	//m_bsSaleBusinessApprove.SetWindowText(_T("目前您有未处理的 销售-业务 审核"));
 	m_bsSaleBusinessApprove.SetTextAlign(DT_LEFT);
 	m_bsSaleBusinessApprove.SetBSFont(_T("Microsoft YaHei"), 12);
-	m_bsSaleBusinessApprove.MoveWindow(20, 25, 220, 25);
+	m_bsSaleBusinessApprove.MoveWindow(g_StaticPos[Approving_SaleBusiness][0], g_StaticPos[Approving_SaleBusiness][1], g_StaticPos[Approving_SaleBusiness][2], g_StaticPos[Approving_SaleBusiness][3]);
 
 	m_btnSaleBusinessApprove.Create(this, IDC_NOTIFICATION_BTN_SALEBUSINESSAPPROVE);
 	m_btnSaleBusinessApprove.SetWindowText(_T("前往审核"));
-	m_btnSaleBusinessApprove.MoveWindow(240, 23, 90, 25);
+	m_btnSaleBusinessApprove.MoveWindow(g_ButtoncPos[Approving_SaleBusiness][0], g_ButtoncPos[Approving_SaleBusiness][1], g_ButtoncPos[Approving_SaleBusiness][2], g_ButtoncPos[Approving_SaleBusiness][3]);
 
 	m_bsSaleBusinessApprove.ShowWindow(SW_HIDE);
 	m_btnSaleBusinessApprove.ShowWindow(SW_HIDE);
@@ -49,11 +101,11 @@ void CNotificationPanel::OnInitChilds()
 	//m_bsSalePlanApprove.SetWindowText(_T("目前您有未处理的 销售-计划 审核"));
 	m_bsSalePlanApprove.SetTextAlign(DT_LEFT);
 	m_bsSalePlanApprove.SetBSFont(_T("Microsoft YaHei"), 12);
-	m_bsSalePlanApprove.MoveWindow(380, 25, 220, 25);
+	m_bsSalePlanApprove.MoveWindow(g_StaticPos[Approving_SalePlan][0], g_StaticPos[Approving_SalePlan][1], g_StaticPos[Approving_SalePlan][2], g_StaticPos[Approving_SalePlan][3]);
 
 	m_btnSalePlanApprove.Create(this, IDC_NOTIFICATION_BTN_SALEPLANAPPROVE);
 	m_btnSalePlanApprove.SetWindowText(_T("前往审核"));
-	m_btnSalePlanApprove.MoveWindow(600, 23, 90, 25);
+	m_btnSalePlanApprove.MoveWindow(g_ButtoncPos[Approving_SalePlan][0], g_ButtoncPos[Approving_SalePlan][1], g_ButtoncPos[Approving_SalePlan][2], g_ButtoncPos[Approving_SalePlan][3]);
 
 	m_bsSalePlanApprove.ShowWindow(SW_HIDE);
 	m_btnSalePlanApprove.ShowWindow(SW_HIDE);
@@ -62,12 +114,12 @@ void CNotificationPanel::OnInitChilds()
 	m_bsPlanSCRQBusinessApprove.Create(this, IDC_NOTIFICATION_STATIC_PLANSCRQBUSINESSAPPROVE);
 	//m_bsPlanSCRQBusinessApprove.SetWindowText(_T("目前您有未处理的 计划-生产日期-业务 审核"));
 	m_bsPlanSCRQBusinessApprove.SetBSFont(_T("Microsoft YaHei"), 12);
-	m_bsPlanSCRQBusinessApprove.MoveWindow(740, 25, 220, 25);
+	m_bsPlanSCRQBusinessApprove.MoveWindow(g_StaticPos[Approving_PlanSCRQBusiness][0], g_StaticPos[Approving_PlanSCRQBusiness][1], g_StaticPos[Approving_PlanSCRQBusiness][2], g_StaticPos[Approving_PlanSCRQBusiness][3]);
 	m_bsPlanSCRQBusinessApprove.SetTextAlign(DT_LEFT);
 
 	m_btnPlanSCRQBusinessApprove.Create(this, IDC_NOTIFICATION_BTN_PLANSCRQBUSINESSAPPROVE);
 	m_btnPlanSCRQBusinessApprove.SetWindowText(_T("前往审核"));
-	m_btnPlanSCRQBusinessApprove.MoveWindow(960, 23, 90, 25);
+	m_btnPlanSCRQBusinessApprove.MoveWindow(g_ButtoncPos[Approving_PlanSCRQBusiness][0], g_ButtoncPos[Approving_PlanSCRQBusiness][1], g_ButtoncPos[Approving_PlanSCRQBusiness][2], g_ButtoncPos[Approving_PlanSCRQBusiness][3]);
 
 	m_bsPlanSCRQBusinessApprove.ShowWindow(SW_HIDE);
 	m_btnPlanSCRQBusinessApprove.ShowWindow(SW_HIDE);
@@ -76,12 +128,12 @@ void CNotificationPanel::OnInitChilds()
 	m_bsPlanSCRQPlanApprove.Create(this, IDC_NOTIFICATION_STATIC_PLANSCRQPLANAPPROVE);
 	//m_bsPlanSCRQPlanApprove.SetWindowText(_T("目前您有未处理的 计划-生产日期-计划 审核"));
 	m_bsPlanSCRQPlanApprove.SetBSFont(_T("Microsoft YaHei"), 12);
-	m_bsPlanSCRQPlanApprove.MoveWindow(20, 75, 220, 25);
+	m_bsPlanSCRQPlanApprove.MoveWindow(g_StaticPos[Approving_PlanSCRQPlan][0], g_StaticPos[Approving_PlanSCRQPlan][1], g_StaticPos[Approving_PlanSCRQPlan][2], g_StaticPos[Approving_PlanSCRQPlan][3]);
 	m_bsPlanSCRQPlanApprove.SetTextAlign(DT_LEFT);
 
 	m_btnPlanSCRQPlanApprove.Create(this, IDC_NOTIFICATION_BTN_PLANSCRQPLANAPPROVE);
 	m_btnPlanSCRQPlanApprove.SetWindowText(_T("前往审核"));
-	m_btnPlanSCRQPlanApprove.MoveWindow(240, 73, 90, 25);
+	m_btnPlanSCRQPlanApprove.MoveWindow(g_ButtoncPos[Approving_PlanSCRQPlan][0], g_ButtoncPos[Approving_PlanSCRQPlan][1], g_ButtoncPos[Approving_PlanSCRQPlan][2], g_ButtoncPos[Approving_PlanSCRQPlan][3]);
 
 	m_bsPlanSCRQPlanApprove.ShowWindow(SW_HIDE);
 	m_btnPlanSCRQPlanApprove.ShowWindow(SW_HIDE);
@@ -90,12 +142,12 @@ void CNotificationPanel::OnInitChilds()
 	m_bsPlanBZRQBusinessApprove.Create(this, IDC_NOTIFICATION_STATIC_PLANBZRQBUSINESSAPPROVE);
 	//m_bsPlanBZRQBusinessApprove.SetWindowText(_T("目前您有未处理的 计划-包装日期-业务 审核"));
 	m_bsPlanBZRQBusinessApprove.SetBSFont(_T("Microsoft YaHei"), 12);
-	m_bsPlanBZRQBusinessApprove.MoveWindow(380, 75, 220, 25);
+	m_bsPlanBZRQBusinessApprove.MoveWindow(g_StaticPos[Approving_PlanBZRQBusiness][0], g_StaticPos[Approving_PlanBZRQBusiness][1], g_StaticPos[Approving_PlanBZRQBusiness][2], g_StaticPos[Approving_PlanBZRQBusiness][3]);
 	m_bsPlanBZRQBusinessApprove.SetTextAlign(DT_LEFT);
 
 	m_btnPlanBZRQBusinessApprove.Create(this, IDC_NOTIFICATION_BTN_PLANBZRQBUSINESSAPPROVE);
 	m_btnPlanBZRQBusinessApprove.SetWindowText(_T("前往审核"));
-	m_btnPlanBZRQBusinessApprove.MoveWindow(600, 73, 90, 25);
+	m_btnPlanBZRQBusinessApprove.MoveWindow(g_ButtoncPos[Approving_PlanBZRQBusiness][0], g_ButtoncPos[Approving_PlanBZRQBusiness][1], g_ButtoncPos[Approving_PlanBZRQBusiness][2], g_ButtoncPos[Approving_PlanBZRQBusiness][3]);
 
 	m_bsPlanBZRQBusinessApprove.ShowWindow(SW_HIDE);
 	m_btnPlanBZRQBusinessApprove.ShowWindow(SW_HIDE);
@@ -104,12 +156,12 @@ void CNotificationPanel::OnInitChilds()
 	m_bsPlanBZRQPlanApprove.Create(this, IDC_NOTIFICATION_STATIC_PLANBZRQPLANAPPROVE);
 	//m_bsPlanBZRQPlanApprove.SetWindowText(_T("目前您有未处理的 计划-包装日期-计划 审核"));
 	m_bsPlanBZRQPlanApprove.SetBSFont(_T("Microsoft YaHei"), 12);
-	m_bsPlanBZRQPlanApprove.MoveWindow(740, 75, 220, 25);
+	m_bsPlanBZRQPlanApprove.MoveWindow(g_StaticPos[Approving_PlanBZRQPlan][0], g_StaticPos[Approving_PlanBZRQPlan][1], g_StaticPos[Approving_PlanBZRQPlan][2], g_StaticPos[Approving_PlanBZRQPlan][3]);
 	m_bsPlanBZRQPlanApprove.SetTextAlign(DT_LEFT);
 
 	m_btnPlanBZRQPlanApprove.Create(this, IDC_NOTIFICATION_BTN_PLANBZRQPLANAPPROVE);
 	m_btnPlanBZRQPlanApprove.SetWindowText(_T("前往审核"));
-	m_btnPlanBZRQPlanApprove.MoveWindow(960, 73, 90, 25);
+	m_btnPlanBZRQPlanApprove.MoveWindow(g_ButtoncPos[Approving_PlanBZRQPlan][0], g_ButtoncPos[Approving_PlanBZRQPlan][1], g_ButtoncPos[Approving_PlanBZRQPlan][2], g_ButtoncPos[Approving_PlanBZRQPlan][3]);
 
 	m_bsPlanBZRQPlanApprove.ShowWindow(SW_HIDE);
 	m_btnPlanBZRQPlanApprove.ShowWindow(SW_HIDE);
@@ -117,7 +169,7 @@ void CNotificationPanel::OnInitChilds()
 	//审批和返回
 	m_btnApproveInSecond.Create(this, IDC_NOTIFICATION_BTN_APPROVE);
 	m_btnApproveInSecond.SetWindowText(_T("通过审核"));
-	m_btnApproveInSecond.MoveWindow(150, 23, 90, 25);
+	m_btnApproveInSecond.MoveWindow(160, 23, 90, 25);
 	m_btnApproveInSecond.ShowWindow(SW_HIDE);
 	m_btnApproveInSecond.EnableWindow(FALSE);
 
@@ -172,13 +224,13 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 		url.Format(_T("http://%s:8080/BlueRay/sale/approve/business"), IDS_HOST_NAME);
 		break;
 	case CNotificationPanel::Approving_SalePlan:
-		url.Format(_T("http://%s:8080/BlueRay/sale/approve/plans"), IDS_HOST_NAME);
+		url.Format(_T("http://%s:8080/BlueRay/sale/approve/plan"), IDS_HOST_NAME);
 		break;
 	case CNotificationPanel::Approving_PlanSCRQBusiness:
 		url.Format(_T("http://%s:8080/BlueRay/plan/approve/business"), IDS_HOST_NAME);
 		break;
 	case CNotificationPanel::Approving_PlanSCRQPlan:
-		url.Format(_T("http://%s:8080/BlueRay/plan/approve/plans"), IDS_HOST_NAME);
+		url.Format(_T("http://%s:8080/BlueRay/plan/approve/plan"), IDS_HOST_NAME);
 		break;
 	case CNotificationPanel::Approving_PlanBZRQBusiness:
 		url.Format(_T("http://%s:8080/BlueRay/plan/approve/pack/business"), IDS_HOST_NAME);
@@ -342,6 +394,8 @@ void CNotificationPanel::OnHttpSuccess(int id, LPCTSTR resp)
 		OnLoadDataSuccess(CString(resp));
 		break;
 	case POST_URL_APPROVE:
+		MessageBox(_T("审核成功"), _T("审核结果"), MB_OK | MB_ICONWARNING);
+		OnBnClickedBtnReturn();
 		break;
 	default:
 		break;
@@ -361,6 +415,8 @@ void CNotificationPanel::OnHttpFailed(int id)
 	case QUERY_URL_UNAPPROVED_PLANBZRQPLAN:
 		break;
 	case POST_URL_APPROVE:
+		MessageBox(_T("审核失败"), _T("审核结果"), MB_OK | MB_ICONWARNING);
+		OnBnClickedBtnReturn();
 		break;
 	default:
 		break;
@@ -389,11 +445,23 @@ void CNotificationPanel::OnLoadDataSuccess(CString& jsondata)
 		m_pJqGridAPI->DelRow(m_table[j].first);
 	}
 
+	m_pJqGridAPI->Refresh();
+
 	StringToTable(jsondata, m_table);
 	for (int j = 0; j < m_table.size(); ++j)
 	{
 		m_pJqGridAPI->AddRow(m_table[j].first, m_table[j].second);
 	}
+
+	if ((m_enumCurrentApprovingItem == Approving_SaleBusiness) || (m_enumCurrentApprovingItem == Approving_SalePlan))
+	{
+		AdjustTableStyleForSale();
+	} 
+	else
+	{
+		AdjustTableStyleForPlan();
+	}
+	
 }
 
 void CNotificationPanel::OnDataUpdate()
@@ -419,8 +487,14 @@ void CNotificationPanel::OnReturnApprovedNum(LPCTSTR resp)
 	strSaleBussiness.Format(_T("目前您有 %d条 未处理的 销售-业务 审核"), iSaleBussiness);
 	m_bsSaleBusinessApprove.SetWindowText(strSaleBussiness);
 
+	int iPosIndex = 0;
+
 	if (0 < iSaleBussiness)
 	{
+		m_bsSaleBusinessApprove.MoveWindow(g_StaticPos[iPosIndex][0], g_StaticPos[iPosIndex][1], g_StaticPos[iPosIndex][2], g_StaticPos[iPosIndex][3]);
+		m_btnSaleBusinessApprove.MoveWindow(g_ButtoncPos[iPosIndex][0], g_ButtoncPos[iPosIndex][1], g_ButtoncPos[iPosIndex][2], g_ButtoncPos[iPosIndex][3]);
+		iPosIndex++;
+
 		m_bsSaleBusinessApprove.ShowWindow(SW_SHOW);
 		m_btnSaleBusinessApprove.ShowWindow(SW_SHOW);
 	}
@@ -436,6 +510,10 @@ void CNotificationPanel::OnReturnApprovedNum(LPCTSTR resp)
 
 	if (0 < iSalePlan)
 	{
+		m_bsSalePlanApprove.MoveWindow(g_StaticPos[iPosIndex][0], g_StaticPos[iPosIndex][1], g_StaticPos[iPosIndex][2], g_StaticPos[iPosIndex][3]);
+		m_btnSalePlanApprove.MoveWindow(g_ButtoncPos[iPosIndex][0], g_ButtoncPos[iPosIndex][1], g_ButtoncPos[iPosIndex][2], g_ButtoncPos[iPosIndex][3]);
+		iPosIndex++;
+
 		m_bsSalePlanApprove.ShowWindow(SW_SHOW);
 		m_btnSalePlanApprove.ShowWindow(SW_SHOW);
 	}
@@ -451,6 +529,10 @@ void CNotificationPanel::OnReturnApprovedNum(LPCTSTR resp)
 
 	if (0 < iPlanBussiness)
 	{
+		m_bsPlanSCRQBusinessApprove.MoveWindow(g_StaticPos[iPosIndex][0], g_StaticPos[iPosIndex][1], g_StaticPos[iPosIndex][2], g_StaticPos[iPosIndex][3]);
+		m_btnPlanSCRQBusinessApprove.MoveWindow(g_ButtoncPos[iPosIndex][0], g_ButtoncPos[iPosIndex][1], g_ButtoncPos[iPosIndex][2], g_ButtoncPos[iPosIndex][3]);
+		iPosIndex++;
+
 		m_bsPlanSCRQBusinessApprove.ShowWindow(SW_SHOW);
 		m_btnPlanSCRQBusinessApprove.ShowWindow(SW_SHOW);
 	}
@@ -466,6 +548,10 @@ void CNotificationPanel::OnReturnApprovedNum(LPCTSTR resp)
 
 	if (0 < iPlanPlan)
 	{
+		m_bsPlanSCRQPlanApprove.MoveWindow(g_StaticPos[iPosIndex][0], g_StaticPos[iPosIndex][1], g_StaticPos[iPosIndex][2], g_StaticPos[iPosIndex][3]);
+		m_btnPlanSCRQPlanApprove.MoveWindow(g_ButtoncPos[iPosIndex][0], g_ButtoncPos[iPosIndex][1], g_ButtoncPos[iPosIndex][2], g_ButtoncPos[iPosIndex][3]);
+		iPosIndex++;
+
 		m_bsPlanSCRQPlanApprove.ShowWindow(SW_SHOW);
 		m_btnPlanSCRQPlanApprove.ShowWindow(SW_SHOW);
 	}
@@ -481,6 +567,10 @@ void CNotificationPanel::OnReturnApprovedNum(LPCTSTR resp)
 
 	if (0 < iPackBussiness)
 	{
+		m_bsPlanBZRQBusinessApprove.MoveWindow(g_StaticPos[iPosIndex][0], g_StaticPos[iPosIndex][1], g_StaticPos[iPosIndex][2], g_StaticPos[iPosIndex][3]);
+		m_btnPlanBZRQBusinessApprove.MoveWindow(g_ButtoncPos[iPosIndex][0], g_ButtoncPos[iPosIndex][1], g_ButtoncPos[iPosIndex][2], g_ButtoncPos[iPosIndex][3]);
+		iPosIndex++;
+
 		m_bsPlanBZRQBusinessApprove.ShowWindow(SW_SHOW);
 		m_btnPlanBZRQBusinessApprove.ShowWindow(SW_SHOW);
 	}
@@ -496,6 +586,10 @@ void CNotificationPanel::OnReturnApprovedNum(LPCTSTR resp)
 
 	if (0 < iPackPlan)
 	{
+		m_bsPlanBZRQPlanApprove.MoveWindow(g_StaticPos[iPosIndex][0], g_StaticPos[iPosIndex][1], g_StaticPos[iPosIndex][2], g_StaticPos[iPosIndex][3]);
+		m_btnPlanBZRQPlanApprove.MoveWindow(g_ButtoncPos[iPosIndex][0], g_ButtoncPos[iPosIndex][1], g_ButtoncPos[iPosIndex][2], g_ButtoncPos[iPosIndex][3]);
+		iPosIndex++;
+
 		m_bsPlanBZRQPlanApprove.ShowWindow(SW_SHOW);
 		m_btnPlanBZRQPlanApprove.ShowWindow(SW_SHOW);
 	}

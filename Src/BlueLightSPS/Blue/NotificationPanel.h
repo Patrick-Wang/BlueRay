@@ -22,6 +22,8 @@ private:
 	void OnReturnApprovedNum(LPCTSTR resp);
 	void HideFirstViewOfNotificationPanel(BOOL bShow = FALSE);
 	void OnLoadDataSuccess(CString& jsondata);
+	void AdjustTableStyleForPlan();
+	void AdjustTableStyleForSale();
 
 private:
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
@@ -46,7 +48,7 @@ private:
 	CBRButton m_btnReturnToFirst;
 
 	enum enumApprovingItem{
-		Approving_NULL,
+		Approving_NULL = -1,
 		Approving_SaleBusiness,
 		Approving_SalePlan,
 		Approving_PlanSCRQBusiness,
