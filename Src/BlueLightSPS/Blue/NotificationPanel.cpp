@@ -282,7 +282,7 @@ void CNotificationPanel::OnBnClickedPlanSCRQBusinessApprove()
 	HideFirstViewOfNotificationPanel(FALSE);
 
 	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/plan/query/plan_bussinessApprove/unapproved"), IDS_HOST_NAME);
+	url.Format(_T("http://%s:8080/BlueRay/plan/query/plan_businessApprove/unapproved"), IDS_HOST_NAME);
 	m_pHttp->Get(url, QUERY_URL_UNAPPROVED_PLANSCRQBUSINESS);
 	GetParent()->EnableWindow(FALSE);
 }
@@ -308,7 +308,7 @@ void CNotificationPanel::OnBnClickedPlanBZRQBusinessApprove()
 	HideFirstViewOfNotificationPanel(FALSE);
 
 	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/plan/query/pack_bussinessApprove/unapproved"), IDS_HOST_NAME);
+	url.Format(_T("http://%s:8080/BlueRay/plan/query/pack_businessApprove/unapproved"), IDS_HOST_NAME);
 	m_pHttp->Get(url, QUERY_URL_UNAPPROVED_PLANBZRQBUSINESS);
 	GetParent()->EnableWindow(FALSE);
 }

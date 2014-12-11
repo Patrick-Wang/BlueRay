@@ -370,6 +370,11 @@ void CSalePanel::OnHttpFailed(int id)
 
 void CSalePanel::OnLoadDataSuccess(CString& jsondata)
 {
+	for (int j = 0; j < m_table.size(); ++j)
+	{
+		m_pJqGridAPI->DelRow(m_table[j].first);
+	}
+	m_pJqGridAPI->Refresh();
 	StringToTable(jsondata, m_table);
 	for (int j = 0; j < m_table.size(); ++j)
 	{

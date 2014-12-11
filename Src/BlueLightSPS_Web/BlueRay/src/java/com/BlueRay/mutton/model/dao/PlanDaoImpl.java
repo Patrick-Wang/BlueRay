@@ -64,7 +64,7 @@ public class PlanDaoImpl implements PlanDao{
 			return "jhscrq is not null and sftgywsh";
 		} else if("pack_businessApprove".equals(approveType)){
 			return "jhbzrq is not null and bzsftgywsh";
-		} else if("pack_businessApprove".equals(approveType)){
+		} else if("pack_planApprove".equals(approveType)){
 			return "jhbzrq is not null and bzsftgjhsh";
 		} else{
 			return "";
@@ -77,7 +77,7 @@ public class PlanDaoImpl implements PlanDao{
 		String typeSql = getApproveTypeSql(approveType);
 		String approveSql =  getApprovedSql(approved);
 		if (!typeSql.isEmpty()){
-			sql += " where " + approveSql + " = " + typeSql;
+			sql += " where " + typeSql + " = " + approveSql;
 		} 
 		Query q = entityManager.createQuery(sql);
 		return q.getResultList();
