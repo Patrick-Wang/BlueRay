@@ -195,6 +195,9 @@
     <ClInclude Include="lib_json\JsonType.h">
       <Filter>jsonlib</Filter>
     </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blue.cpp">
@@ -313,6 +316,9 @@
     </ClCompile>
     <ClCompile Include="lib_json\JsonSymbol.cpp">
       <Filter>jsonlib</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

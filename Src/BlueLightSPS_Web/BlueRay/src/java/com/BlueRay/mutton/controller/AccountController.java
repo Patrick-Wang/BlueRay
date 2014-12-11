@@ -63,16 +63,14 @@ public class AccountController {
 //		return "";
 //	}
 
-	@RequestMapping(value = "/login/{userName}/{psw}/{sessionId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/login/{userName}/{psw}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String login(
 			@PathVariable String userName,
 			@PathVariable String psw,
-			@PathVariable String sessionId,
 			HttpServletRequest request,
 			HttpServletResponse response) {
-		//request.setAttribute("jsessionid", sessionId);
+
 		HttpSession session = request.getSession(false);
-		String jid = (String) request.getAttribute("jsessionid");
 		String ret = "error";
 		if (null != session){
 			ret= session.getId();

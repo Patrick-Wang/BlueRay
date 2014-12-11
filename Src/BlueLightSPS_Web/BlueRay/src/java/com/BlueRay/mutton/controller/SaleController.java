@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -74,6 +75,7 @@ public class SaleController {
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String addSaleData(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
+		HttpSession sess = request.getSession(false);
 		BufferedReader br = new BufferedReader(new InputStreamReader(
 				request.getInputStream(), "UTF-8"));
 		String line = null;
