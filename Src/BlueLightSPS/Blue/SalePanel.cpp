@@ -6,6 +6,7 @@
 #include "SaleAddDlg.h"
 #include "colors.h"
 #include "JQGridAPI.h"
+#include "User.h"
 #define UM_REQUEST_RESULT
 
 #define RIGHT_AREA_LEFT	150
@@ -100,7 +101,8 @@ void CSalePanel::OnBnClickedAdd()
 		attr[_T("add")] = &m_cacheRow;
 
 		CString url;
-		url.Format(_T("http://%s:8080/BlueRay/sale/add"), IDS_HOST_NAME);
+		url.Format(_T("http://%s:8080/BlueRay/sale/add/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+
 		m_pHttp->Post(url, ADD_URL_ID, attr);
 	}
 }
@@ -114,7 +116,7 @@ void CSalePanel::OnBnClickedTableFilter()
 void CSalePanel::OnBnClickedApprove()	//test purpose
 {
 	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/sale/approve/business"), IDS_HOST_NAME);
+	url.Format(_T("http://%s:8080/BlueRay/sale/approve/business/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 	std::map<CString, IntArrayPtr> attr;

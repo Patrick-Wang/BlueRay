@@ -172,13 +172,13 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 		url.Format(_T("http://%s:8080/BlueRay/sale/approve/business"), IDS_HOST_NAME);
 		break;
 	case CNotificationPanel::Approving_SalePlan:
-		url.Format(_T("http://%s:8080/BlueRay/sale/approve/plans"), IDS_HOST_NAME);
+		url.Format(_T("http://%s:8080/BlueRay/sale/approve/plan"), IDS_HOST_NAME);
 		break;
 	case CNotificationPanel::Approving_PlanSCRQBusiness:
 		url.Format(_T("http://%s:8080/BlueRay/plan/approve/business"), IDS_HOST_NAME);
 		break;
 	case CNotificationPanel::Approving_PlanSCRQPlan:
-		url.Format(_T("http://%s:8080/BlueRay/plan/approve/plans"), IDS_HOST_NAME);
+		url.Format(_T("http://%s:8080/BlueRay/plan/approve/plan"), IDS_HOST_NAME);
 		break;
 	case CNotificationPanel::Approving_PlanBZRQBusiness:
 		url.Format(_T("http://%s:8080/BlueRay/plan/approve/pack/business"), IDS_HOST_NAME);
@@ -388,7 +388,7 @@ void CNotificationPanel::OnLoadDataSuccess(CString& jsondata)
 	{
 		m_pJqGridAPI->DelRow(m_table[j].first);
 	}
-
+	m_pJqGridAPI->Refresh();
 	StringToTable(jsondata, m_table);
 	for (int j = 0; j < m_table.size(); ++j)
 	{

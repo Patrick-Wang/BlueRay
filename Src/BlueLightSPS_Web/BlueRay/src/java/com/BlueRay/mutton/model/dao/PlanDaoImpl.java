@@ -59,13 +59,13 @@ public class PlanDaoImpl implements PlanDao{
 	private String getApproveTypeSql(String approveType){
 		String sql = "from PCJHXX";
 		if ("plan_planApprove".equals(approveType)){
-			return "sftgjhsh";
+			return "jhscrq is not null and sftgjhsh";
 		} else if("plan_businessApprove".equals(approveType)){
-			return "sftgywsh";
+			return "jhscrq is not null and sftgywsh";
 		} else if("pack_businessApprove".equals(approveType)){
-			return "bzsftgywsh";
+			return "jhbzrq is not null and bzsftgywsh";
 		} else if("pack_businessApprove".equals(approveType)){
-			return "bzsftgjhsh";
+			return "jhbzrq is not null and bzsftgjhsh";
 		} else{
 			return "";
 		}
