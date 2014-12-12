@@ -14,13 +14,15 @@ public:
 	bool GetTableFilterSettingForSale(LPCTSTR lpSettingName, CString& lpIsSelected);
 	bool SetTableFilterSettingForPlan(LPCTSTR lpSettingName, LPCTSTR lpIsSelected);
 	bool GetTableFilterSettingForPlan(LPCTSTR lpSettingName, CString& lpIsSelected);
-
+	bool SetTableFilterSettingForNotification(LPCTSTR lpSettingName, LPCTSTR lpIsSelected);
+	bool GetTableFilterSettingForNotification(LPCTSTR lpSettingName, CString& lpIsSelected);
 private:
 	CXMLParser m_objXMLParser;
 	MSXML2::IXMLDOMNodePtr m_pSettingRootNode;
 	MSXML2::IXMLDOMNodePtr m_pTableFilterNode;
 	MSXML2::IXMLDOMNodePtr m_pTableFilterNodeForSale;
 	MSXML2::IXMLDOMNodePtr m_pTableFilterNodeForPlan;
+	MSXML2::IXMLDOMNodePtr m_pTableFilterNodeForNotification;
 	bool m_bParserInitialized;
 };
 

@@ -142,9 +142,26 @@ bool CTableFilterDlg::Initialize(CJQGridAPI* pJqGridAPI, PageIDEnum pageID)
 		
 
 		CString strValue;
+		int iIgnoreItemForPlan = 0;
 
 		for (int i = 0; i < _countof(g_CheckBoxPos); ++i)
 		{
+			if ((Page_Sale == m_enumPage) || (Page_Notification_Sale == m_enumPage))
+			{
+				if (i == m_breakPointOfPlanPage)
+				{
+					break;
+				}
+			}
+			else if ((Page_Plan == m_enumPage) || (Page_Notification_Plan == m_enumPage))
+			{
+				if ((CheckBox_SHJH == i) || (CheckBox_SHYW == i))
+				{
+					iIgnoreItemForPlan++;
+					continue;
+				}
+			}
+
 			if (Page_Sale == m_enumPage)
 			{
 				pobjSettingManager->GetTableFilterSettingForSale(g_TableFilterSettingName[i][0], strValue);
@@ -156,16 +173,9 @@ bool CTableFilterDlg::Initialize(CJQGridAPI* pJqGridAPI, PageIDEnum pageID)
 
 			if (0 != strValue.Compare(IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED))
 			{
-				m_pJqGridAPI->HideCol(i);
+				m_pJqGridAPI->HideCol(i - iIgnoreItemForPlan);
 			}
 
-			if (Page_Sale == m_enumPage)
-			{
-				if (i == m_breakPointOfPlanPage)
-				{
-					break;
-				}
-			}
 		}
 
 		bRet = true;
@@ -210,10 +220,29 @@ BOOL CTableFilterDlg::OnInitDialog()
 	}
 
 	CString strValue;
+	int iIgnoreItemForPlan = 0;
 	for (int i = 0; i < _countof(g_CheckBoxPos); ++i)
 	{
+		m_aCheckBoxs[i] = NULL;
+
+		if ((Page_Sale == m_enumPage) || (Page_Notification_Sale == m_enumPage))
+		{
+			if (i == m_breakPointOfPlanPage)
+			{
+				break;
+			}
+		}
+		else if ((Page_Plan == m_enumPage) || (Page_Notification_Plan == m_enumPage))
+		{
+			if ((CheckBox_SHJH == i) || (CheckBox_SHYW == i))
+			{
+				iIgnoreItemForPlan++;
+				continue;
+			}
+		}
+
 		m_aCheckBoxs[i] = Util_Tools::Util::CreateCheckBox(this, IDC_CHECKBOX_BASE + i, g_CheckBoxCaptions[i][0], _T("Microsoft YaHei"), 12);
-		m_aCheckBoxs[i]->MoveWindow(g_CheckBoxPos[i][0], g_CheckBoxPos[i][1], g_CheckBoxPos[i][2], g_CheckBoxPos[i][3]);
+		m_aCheckBoxs[i]->MoveWindow(g_CheckBoxPos[i - iIgnoreItemForPlan][0], g_CheckBoxPos[i - iIgnoreItemForPlan][1], g_CheckBoxPos[i - iIgnoreItemForPlan][2], g_CheckBoxPos[i - iIgnoreItemForPlan][3]);
 
 		if (Page_Sale == m_enumPage)
 		{
@@ -233,13 +262,6 @@ BOOL CTableFilterDlg::OnInitDialog()
 			m_aCheckBoxs[i]->SetCheck(FALSE);
 		}
 
-		if (Page_Sale == m_enumPage)
-		{
-			if (i == m_breakPointOfPlanPage)
-			{
-				break;
-			}
-		}
 	}
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -253,23 +275,32 @@ void CTableFilterDlg::SaveColsSetting(std::vector<CString>& vecColsStatus)
 	CSettingManager *pobjSettingManager = CSettingManager::GetInstance();
 	if (NULL != pobjSettingManager)
 	{
-		for (int i = 0; i < vecColsStatus.size(); ++i)
+		int iIgnoreItemForPlan = 0;
+		for (int i = 0; i < _countof(g_TableFilterSettingName); ++i)
 		{
-			if (Page_Sale == m_enumPage)
-			{
-				pobjSettingManager->SetTableFilterSettingForSale(g_TableFilterSettingName[i][0], vecColsStatus[i]);
-			}
-			else if (Page_Plan == m_enumPage)
-			{
-				pobjSettingManager->SetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], vecColsStatus[i]);
-			}
-
-			if (Page_Sale == m_enumPage)
+			if ((Page_Sale == m_enumPage) || (Page_Notification_Sale == m_enumPage))
 			{
 				if (i == m_breakPointOfPlanPage)
 				{
 					break;
 				}
+			}
+			else if ((Page_Plan == m_enumPage) || (Page_Notification_Plan == m_enumPage))
+			{
+				if ((CheckBox_SHJH == i) || (CheckBox_SHYW == i))
+				{
+					iIgnoreItemForPlan++;
+					continue;
+				}
+			}
+
+			if (Page_Sale == m_enumPage)
+			{
+				pobjSettingManager->SetTableFilterSettingForSale(g_TableFilterSettingName[i][0], vecColsStatus[i - iIgnoreItemForPlan]);
+			}
+			else if (Page_Plan == m_enumPage)
+			{
+				pobjSettingManager->SetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], vecColsStatus[i - iIgnoreItemForPlan]);
 			}
 		}
 	}
@@ -284,6 +315,21 @@ void CTableFilterDlg::GetColsSetting(std::vector<CString>& vecColsStatus)
 	{
 		for (int i = 0; i < _countof(g_CheckBoxPos); ++i)
 		{
+			if ((Page_Sale == m_enumPage) || (Page_Notification_Sale == m_enumPage))
+			{
+				if (i == m_breakPointOfPlanPage)
+				{
+					break;
+				}
+			}
+			else if ((Page_Plan == m_enumPage) || (Page_Notification_Plan == m_enumPage))
+			{
+				if ((CheckBox_SHJH == i) || (CheckBox_SHYW == i))
+				{
+					continue;
+				}
+			}
+
 			if (Page_Sale == m_enumPage)
 			{
 				pobjSettingManager->GetTableFilterSettingForSale(g_TableFilterSettingName[i][0], strValue);
@@ -295,13 +341,6 @@ void CTableFilterDlg::GetColsSetting(std::vector<CString>& vecColsStatus)
 
 			vecColsStatus.push_back(strValue);
 
-			if (Page_Sale == m_enumPage)
-			{
-				if (i == m_breakPointOfPlanPage)
-				{
-					break;
-				}
-			}
 		}
 	}
 }
@@ -328,26 +367,35 @@ void CTableFilterDlg::OnOK(){
 	//update table
 
 	std::vector<CString> vecColsStatus;
+	int iIgnoreItemForPlan = 0;
 
 	for (int i = 0; i < _countof(m_aCheckBoxs); ++i)
 	{
-		if (!m_aCheckBoxs[i]->GetCheck())
-		{
-			vecColsStatus.push_back(IDS_SETTING_ITEM_TABLEFILTER_VALUE_UNCHECKED);
-			m_pJqGridAPI->HideCol(i);
-		}
-		else
-		{
-			vecColsStatus.push_back(IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED);
-			m_pJqGridAPI->ShowCol(i);
-		}
-
-		if (Page_Sale == m_enumPage)
+		if ((Page_Sale == m_enumPage) || (Page_Notification_Sale == m_enumPage))
 		{
 			if (i == m_breakPointOfPlanPage)
 			{
 				break;
 			}
+		}
+		else if ((Page_Plan == m_enumPage) || (Page_Notification_Plan == m_enumPage))
+		{
+			if ((CheckBox_SHJH == i) || (CheckBox_SHYW == i))
+			{
+				iIgnoreItemForPlan++;
+				continue;
+			}
+		}
+
+		if (!m_aCheckBoxs[i]->GetCheck())
+		{
+			vecColsStatus.push_back(IDS_SETTING_ITEM_TABLEFILTER_VALUE_UNCHECKED);
+			m_pJqGridAPI->HideCol(i - iIgnoreItemForPlan);
+		}
+		else
+		{
+			vecColsStatus.push_back(IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED);
+			m_pJqGridAPI->ShowCol(i - iIgnoreItemForPlan);
 		}
 	}
 
@@ -380,14 +428,21 @@ void CTableFilterDlg::OnBnClickedSelectAll()
 
 	for (int i = 0; i < _countof(g_CheckBoxPos); ++i)
 	{
-		m_aCheckBoxs[i]->SetCheck(bCheckedAll);
-
-		if (Page_Sale == m_enumPage)
+		if ((Page_Sale == m_enumPage) || (Page_Notification_Sale == m_enumPage))
 		{
 			if (i == m_breakPointOfPlanPage)
 			{
 				break;
 			}
 		}
+		else if ((Page_Plan == m_enumPage) || (Page_Notification_Plan == m_enumPage))
+		{
+			if ((CheckBox_SHJH == i) || (CheckBox_SHYW == i))
+			{
+				continue;
+			}
+		}
+
+		m_aCheckBoxs[i]->SetCheck(bCheckedAll);
 	}
 }
