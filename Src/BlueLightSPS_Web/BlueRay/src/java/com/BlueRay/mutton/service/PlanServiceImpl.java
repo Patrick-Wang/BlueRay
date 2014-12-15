@@ -96,14 +96,11 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	private void setTcbh(PCJHXX pcjhxx, String data) {
-		if (!"".equals(data))
-			pcjhxx.setTcbh(data);
-
+		pcjhxx.setTcbh(data);
 	}
 
 	private void setCcbh(PCJHXX pcjhxx, String data) {
-		if (!"".equals(data))
-			pcjhxx.setCcbh(data);
+		pcjhxx.setCcbh(data);
 
 	}
 
@@ -114,6 +111,9 @@ public class PlanServiceImpl implements PlanService {
 			} catch (Exception e) {
 
 			}
+		}
+		else{
+			pcjhxx.setJhfhrq(null);
 		}
 
 	}
@@ -126,6 +126,9 @@ public class PlanServiceImpl implements PlanService {
 
 			}
 		}
+		else{
+			pcjhxx.setJhbzrq(null);
+		}
 	}
 
 	private void setJhscrq(PCJHXX pcjhxx, String data) {
@@ -136,6 +139,9 @@ public class PlanServiceImpl implements PlanService {
 
 			}
 
+		}
+		else{
+			pcjhxx.setJhscrq(null);
 		}
 
 	}

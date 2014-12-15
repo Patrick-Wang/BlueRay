@@ -124,21 +124,19 @@ public class SaleServiceImpl implements SaleService {
 	}
 
 	private void setHtID(HTXX htxx, String val) {
-		if (!"".equals(val)) {
-			htxx.setHtID(val);
-		}
+		htxx.setHtID(val);
 	}
 
 	private void setDdrq(HTXX htxx, String value) {
 		if (!"".equals(value)) {
 			htxx.setDdrq(Date.valueOf(value.replace("/", "-")));
+		} else{
+			htxx.setDdrq(null);
 		}
 	}
 
 	private void setBz(HTXX htxx, String value) {
-		if (!"".equals(value)) {
-			htxx.setBz(value);
-		}
+		htxx.setBz(value);
 	}
 
 	private void setMpzl(HTXX htxx, String value) {
@@ -154,15 +152,11 @@ public class SaleServiceImpl implements SaleService {
 	}
 
 	private void setZxcd(HTXX htxx, String value) {
-		if (!"".equals(value)) {
-			htxx.setZxcd(value);
-		}
+		htxx.setZxcd(value);
 	}
 
 	private void setDlcd(HTXX htxx, String value) {
-		if (!"".equals(value)) {
-			htxx.setDlcd(value);
-		}
+		htxx.setDlcd(value);
 	}
 
 	private void setBmqxhID(HTXX htxx, String value) {
@@ -245,6 +239,9 @@ public class SaleServiceImpl implements SaleService {
 	private void setSl(HTXX htxx, String value) {
 		if (!"".equals(value)) {
 			htxx.setSl(Integer.valueOf(value));
+		}
+		else {
+			htxx.setSl(null);
 		}
 	}
 
