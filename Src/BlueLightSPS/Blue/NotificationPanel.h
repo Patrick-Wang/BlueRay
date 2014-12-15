@@ -3,6 +3,7 @@
 #include "JQGridAPI.h"
 #include "BSStatic.h"
 #include "BRButton.h"
+#include "TableFilterDlg.h"
 
 class CNotificationPanel :
 	public CBRPanel
@@ -24,11 +25,10 @@ private:
 	void OnLoadDataSuccess(CString& jsondata);
 	void AdjustTableStyleForPlan();
 	void AdjustTableStyleForSale();
+	void AdjustTableStyleForNotification();
 
 private:
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
-	std::auto_ptr<CJQGridAPI> m_pJqGridAPIForSale;
-	std::auto_ptr<CJQGridAPI> m_pJqGridAPIForPlan;
 
 	CBSStatic m_bsSaleBusinessApprove;
 	CBSStatic m_bsSalePlanApprove;
@@ -46,6 +46,10 @@ private:
 
 	CBRButton m_btnApproveInSecond;
 	CBRButton m_btnReturnToFirst;
+
+	CBRButton m_btnTableFilter;
+
+	CTableFilterDlg *m_pTableFilter;
 
 	enum enumApprovingItem{
 		Approving_NULL = -1,
@@ -73,5 +77,6 @@ public:
 
 	afx_msg void OnBnClickedBtnApprove();
 	afx_msg void OnBnClickedBtnReturn();
+	afx_msg void OnBnClickedBtnTableFilter();
 };
 

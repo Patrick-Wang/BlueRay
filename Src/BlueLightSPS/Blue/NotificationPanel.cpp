@@ -43,15 +43,22 @@ static int g_TableToBeHiddenForSale[]
 	16, 17, 18, 19, 20, 21, 22, 23, 24
 };
 
+
 CNotificationPanel::CNotificationPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
 	: CBRPanel(pJqGridAPI, pHttp)
 	, m_enumCurrentApprovingItem(Approving_NULL)
+	, m_pTableFilter(NULL)
 {
 
 }
 
 CNotificationPanel::~CNotificationPanel()
 {
+	if (NULL != m_pTableFilter)
+	{
+		delete m_pTableFilter;
+		m_pTableFilter = NULL;
+	}
 }
 
 void CNotificationPanel::AdjustTableStyleForPlan()
@@ -177,6 +184,11 @@ void CNotificationPanel::OnInitChilds()
 	m_btnReturnToFirst.SetWindowText(_T("返回"));
 	m_btnReturnToFirst.MoveWindow(20, 23, 90, 25);
 	m_btnReturnToFirst.ShowWindow(SW_HIDE);
+
+	m_btnTableFilter.Create(this, IDC_NOTIFICATION_BTN_TABFILTER);
+	m_btnTableFilter.SetWindowText(_T("表格设置"));
+	m_btnTableFilter.MoveWindow(900, 23, 90, 25);
+	m_btnTableFilter.ShowWindow(SW_HIDE);
 }
 
 BEGIN_MESSAGE_MAP(CNotificationPanel, CControlPanel)
@@ -188,6 +200,7 @@ BEGIN_MESSAGE_MAP(CNotificationPanel, CControlPanel)
 	ON_BN_CLICKED(IDC_NOTIFICATION_BTN_PLANBZRQPLANAPPROVE, &CNotificationPanel::OnBnClickedPlanBZRQPlanApprove)
 	ON_BN_CLICKED(IDC_NOTIFICATION_BTN_RETURN, &CNotificationPanel::OnBnClickedBtnReturn)
 	ON_BN_CLICKED(IDC_NOTIFICATION_BTN_APPROVE, &CNotificationPanel::OnBnClickedBtnApprove)
+	ON_BN_CLICKED(IDC_NOTIFICATION_BTN_TABFILTER, &CNotificationPanel::OnBnClickedBtnTableFilter)
 	ON_WM_SHOWWINDOW()
 END_MESSAGE_MAP()
 
@@ -197,7 +210,8 @@ void CNotificationPanel::OnBnClickedBtnReturn()
 
 	HideChild(&m_btnReturnToFirst);
 	HideChild(&m_btnApproveInSecond);
-
+	HideChild(&m_btnTableFilter);
+		
 	OnDataUpdate();
 
 	m_enumCurrentApprovingItem = Approving_NULL;
@@ -247,6 +261,11 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 	m_pHttp->Post(url, POST_URL_APPROVE, attr);
 }
 
+void CNotificationPanel::OnBnClickedBtnTableFilter()
+{
+	if (IDOK == m_pTableFilter->DoModal()){
+	}
+}
 
 void CNotificationPanel::OnBnClickedSaleBusinessApprove()
 {
@@ -348,6 +367,7 @@ void CNotificationPanel::HideFirstViewOfNotificationPanel(BOOL bShow)
 		//disable for two button in second page
 		HideChild(&m_btnReturnToFirst);
 		HideChild(&m_btnApproveInSecond);
+		HideChild(&m_btnTableFilter);
 	}
 	else
 	{
@@ -368,6 +388,7 @@ void CNotificationPanel::HideFirstViewOfNotificationPanel(BOOL bShow)
 		//available for two button in second page
 		ShowChild(&m_btnReturnToFirst);
 		ShowChild(&m_btnApproveInSecond);
+		ShowChild(&m_btnTableFilter);
 	}
 }
 
@@ -460,6 +481,39 @@ void CNotificationPanel::OnLoadDataSuccess(CString& jsondata)
 		AdjustTableStyleForPlan();
 	}
 	
+	CTableFilterDlg *objTableFilter();
+
+	if (NULL != m_pTableFilter)
+	{
+		delete m_pTableFilter;
+		m_pTableFilter = NULL;
+	}
+
+	m_pTableFilter = new CTableFilterDlg(_T("表格设置"));
+
+	if (NULL != m_pTableFilter)
+	{
+		switch (m_enumCurrentApprovingItem)
+		{
+		case CNotificationPanel::Approving_NULL:
+			return;
+		case CNotificationPanel::Approving_SaleBusiness:
+		case CNotificationPanel::Approving_SalePlan:
+			m_pTableFilter->Initialize(m_pJqGridAPI.get(), Page_Notification_Sale);
+			break;
+		case CNotificationPanel::Approving_PlanSCRQBusiness:
+		case CNotificationPanel::Approving_PlanSCRQPlan:
+		case CNotificationPanel::Approving_PlanBZRQBusiness:
+		case CNotificationPanel::Approving_PlanBZRQPlan:
+			m_pTableFilter->Initialize(m_pJqGridAPI.get(), Page_Notification_Plan);
+			break;
+		case CNotificationPanel::Approving_END:
+			return;
+		default:
+			return;
+		}
+	}
+
 }
 
 void CNotificationPanel::OnDataUpdate()

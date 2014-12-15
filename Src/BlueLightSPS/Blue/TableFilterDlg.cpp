@@ -152,6 +152,15 @@ bool CTableFilterDlg::Initialize(CJQGridAPI* pJqGridAPI, PageIDEnum pageID)
 				{
 					break;
 				}
+
+				if (Page_Notification_Sale == m_enumPage)
+				{
+					if ((CheckBox_SHJH == i) || (CheckBox_SHYW == i))
+					{
+						//iIgnoreItemForPlan++;
+						continue;
+					}
+				}
 			}
 			else if ((Page_Plan == m_enumPage) || (Page_Notification_Plan == m_enumPage))
 			{
@@ -159,6 +168,15 @@ bool CTableFilterDlg::Initialize(CJQGridAPI* pJqGridAPI, PageIDEnum pageID)
 				{
 					iIgnoreItemForPlan++;
 					continue;
+				}
+
+				if (Page_Notification_Plan == m_enumPage)
+				{
+					if ((CheckBox_BZSHYW == i) || (CheckBox_BZSHJH == i) || (CheckBox_JHSHYW == i) || (CheckBox_JHSHJH == i))
+					{
+						//iIgnoreItemForPlan++;
+						continue;
+					}
 				}
 			}
 
@@ -169,6 +187,14 @@ bool CTableFilterDlg::Initialize(CJQGridAPI* pJqGridAPI, PageIDEnum pageID)
 			else if (Page_Plan == m_enumPage)
 			{
 				pobjSettingManager->GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
+			}
+			else if (Page_Notification_Sale == m_enumPage)
+			{
+				pobjSettingManager->GetTableFilterSettingForNotification(g_TableFilterSettingName[i][0], strValue);
+			}
+			else if (Page_Notification_Plan == m_enumPage)
+			{
+				pobjSettingManager->GetTableFilterSettingForNotification(g_TableFilterSettingName[i][0], strValue);
 			}
 
 			if (0 != strValue.Compare(IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED))
@@ -231,6 +257,15 @@ BOOL CTableFilterDlg::OnInitDialog()
 			{
 				break;
 			}
+
+			if (Page_Notification_Sale == m_enumPage)
+			{
+				if ((CheckBox_SHJH == i) || (CheckBox_SHYW == i))
+				{
+					iIgnoreItemForPlan++;
+					continue;
+				}
+			}
 		}
 		else if ((Page_Plan == m_enumPage) || (Page_Notification_Plan == m_enumPage))
 		{
@@ -238,6 +273,15 @@ BOOL CTableFilterDlg::OnInitDialog()
 			{
 				iIgnoreItemForPlan++;
 				continue;
+			}
+
+			if (Page_Notification_Plan == m_enumPage)
+			{
+				if ((CheckBox_BZSHYW == i) || (CheckBox_BZSHJH == i) || (CheckBox_JHSHYW == i) || (CheckBox_JHSHJH == i))
+				{
+					iIgnoreItemForPlan++;
+					continue;
+				}
 			}
 		}
 
@@ -251,6 +295,14 @@ BOOL CTableFilterDlg::OnInitDialog()
 		else if (Page_Plan == m_enumPage)
 		{
 			pobjSettingManager->GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
+		}
+		else if (Page_Notification_Sale == m_enumPage)
+		{
+			pobjSettingManager->GetTableFilterSettingForNotification(g_TableFilterSettingName[i][0], strValue);
+		}
+		else if (Page_Notification_Plan == m_enumPage)
+		{
+			pobjSettingManager->GetTableFilterSettingForNotification(g_TableFilterSettingName[i][0], strValue);
 		}
 
 		if (0 == strValue.Compare(IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED))
@@ -284,6 +336,15 @@ void CTableFilterDlg::SaveColsSetting(std::vector<CString>& vecColsStatus)
 				{
 					break;
 				}
+
+				if (Page_Notification_Sale == m_enumPage)
+				{
+					if ((CheckBox_SHJH == i) || (CheckBox_SHYW == i))
+					{
+						iIgnoreItemForPlan++;
+						continue;
+					}
+				}
 			}
 			else if ((Page_Plan == m_enumPage) || (Page_Notification_Plan == m_enumPage))
 			{
@@ -291,6 +352,15 @@ void CTableFilterDlg::SaveColsSetting(std::vector<CString>& vecColsStatus)
 				{
 					iIgnoreItemForPlan++;
 					continue;
+				}
+
+				if (Page_Notification_Plan == m_enumPage)
+				{
+					if ((CheckBox_BZSHYW == i) || (CheckBox_BZSHJH == i) || (CheckBox_JHSHYW == i) || (CheckBox_JHSHJH == i))
+					{
+						iIgnoreItemForPlan++;
+						continue;
+					}
 				}
 			}
 
@@ -301,6 +371,14 @@ void CTableFilterDlg::SaveColsSetting(std::vector<CString>& vecColsStatus)
 			else if (Page_Plan == m_enumPage)
 			{
 				pobjSettingManager->SetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], vecColsStatus[i - iIgnoreItemForPlan]);
+			}
+			else if (Page_Notification_Sale == m_enumPage)
+			{
+				pobjSettingManager->SetTableFilterSettingForNotification(g_TableFilterSettingName[i][0], vecColsStatus[i - iIgnoreItemForPlan]);
+			}
+			else if (Page_Notification_Plan == m_enumPage)
+			{
+				pobjSettingManager->SetTableFilterSettingForNotification(g_TableFilterSettingName[i][0], vecColsStatus[i - iIgnoreItemForPlan]);
 			}
 		}
 	}
@@ -321,12 +399,28 @@ void CTableFilterDlg::GetColsSetting(std::vector<CString>& vecColsStatus)
 				{
 					break;
 				}
+
+				if (Page_Notification_Sale == m_enumPage)
+				{
+					if ((CheckBox_SHJH == i) || (CheckBox_SHYW == i))
+					{
+						continue;
+					}
+				}
 			}
 			else if ((Page_Plan == m_enumPage) || (Page_Notification_Plan == m_enumPage))
 			{
 				if ((CheckBox_SHJH == i) || (CheckBox_SHYW == i))
 				{
 					continue;
+				}
+
+				if (Page_Notification_Plan == m_enumPage)
+				{
+					if ((CheckBox_BZSHYW == i) || (CheckBox_BZSHJH == i) || (CheckBox_JHSHYW == i) || (CheckBox_JHSHJH == i))
+					{
+						continue;
+					}
 				}
 			}
 
@@ -337,6 +431,14 @@ void CTableFilterDlg::GetColsSetting(std::vector<CString>& vecColsStatus)
 			else if (Page_Plan == m_enumPage)
 			{
 				pobjSettingManager->GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
+			}
+			else if (Page_Notification_Sale == m_enumPage)
+			{
+				pobjSettingManager->GetTableFilterSettingForNotification(g_TableFilterSettingName[i][0], strValue);
+			}
+			else if (Page_Notification_Plan == m_enumPage)
+			{
+				pobjSettingManager->GetTableFilterSettingForNotification(g_TableFilterSettingName[i][0], strValue);
 			}
 
 			vecColsStatus.push_back(strValue);
@@ -377,6 +479,15 @@ void CTableFilterDlg::OnOK(){
 			{
 				break;
 			}
+
+			if (Page_Notification_Sale == m_enumPage)
+			{
+				if ((CheckBox_SHJH == i) || (CheckBox_SHYW == i))
+				{
+					//iIgnoreItemForPlan++;
+					continue;
+				}
+			}
 		}
 		else if ((Page_Plan == m_enumPage) || (Page_Notification_Plan == m_enumPage))
 		{
@@ -384,6 +495,15 @@ void CTableFilterDlg::OnOK(){
 			{
 				iIgnoreItemForPlan++;
 				continue;
+			}
+
+			if (Page_Notification_Plan == m_enumPage)
+			{
+				if ((CheckBox_BZSHYW == i) || (CheckBox_BZSHJH == i) || (CheckBox_JHSHYW == i) || (CheckBox_JHSHJH == i))
+				{
+					//iIgnoreItemForPlan++;
+					continue;
+				}
 			}
 		}
 
@@ -434,12 +554,28 @@ void CTableFilterDlg::OnBnClickedSelectAll()
 			{
 				break;
 			}
+
+			if (Page_Notification_Sale == m_enumPage)
+			{
+				if ((CheckBox_SHJH == i) || (CheckBox_SHYW == i))
+				{
+					continue;
+				}
+			}
 		}
 		else if ((Page_Plan == m_enumPage) || (Page_Notification_Plan == m_enumPage))
 		{
 			if ((CheckBox_SHJH == i) || (CheckBox_SHYW == i))
 			{
 				continue;
+			}
+
+			if (Page_Notification_Plan == m_enumPage)
+			{
+				if ((CheckBox_BZSHYW == i) || (CheckBox_BZSHJH == i) || (CheckBox_JHSHYW == i) || (CheckBox_JHSHJH == i))
+				{
+					continue;
+				}
 			}
 		}
 
