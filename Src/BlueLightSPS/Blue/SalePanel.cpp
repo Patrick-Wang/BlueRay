@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Server.h"
 #include "SalePanel.h"
 #include "resource_ids.h"
 #include "CommonDefine.h"
@@ -93,17 +94,25 @@ void CSalePanel::OnBnClickedAdd()
 {
 	CSaleAddDlg dlg(_T("Ìí¼Ó"), m_pHttp);
 	if (IDOK == dlg.DoModal()){
-		GetParent()->EnableWindow(FALSE);
+		//GetParent()->EnableWindow(FALSE);
 		m_cacheRow = dlg.GetResult();
 		m_cacheRow.push_back(_T("¡Á"));
 		m_cacheRow.push_back(_T("¡Á"));
 		std::map<CString, StringArrayPtr> attr;
 		attr[_T("add")] = &m_cacheRow;
 
-		CString url;
-		url.Format(_T("http://%s:8080/BlueRay/sale/add/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+		//CString url;
+		//url.Format(_T("http://%s:8080/BlueRay/sale/add/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
 
-		m_pHttp->Post(url, ADD_URL_ID, attr);
+		//m_pHttp->Post(url, ADD_URL_ID, attr);
+		int rowId;
+		if (CServer::GetInstance()->GetSale().Add(m_cacheRow, rowId)){
+			OnAddDataSuccess(rowId, m_cacheRow);
+		}
+		else
+		{
+			OnHttpFailed(ADD_URL_ID);
+		}
 	}
 }
 
@@ -132,19 +141,27 @@ void CSalePanel::OnBnClickedModify()
 	dlg.d_GetOption += std::make_pair(this, &CSalePanel::OnSaleDlgGetModifyOption);
 	
 	if (IDOK == dlg.DoModal()){
-		GetParent()->EnableWindow(FALSE);
+	//	GetParent()->EnableWindow(FALSE);
 		m_cacheRow = dlg.GetResult();
 		std::map<CString, StringArrayPtr> attr;
 		StringArray tmpCheckRows;
 		std::vector<int> checkedRows;
 		m_pJqGridAPI->GetCheckedRows(checkedRows);
-		ToStringArray(checkedRows, tmpCheckRows);
+		//ToStringArray(checkedRows, tmpCheckRows);
 
-		attr[_T("rows")] = &tmpCheckRows;
-		attr[_T("data")] = &m_cacheRow;
-		CString url;
-		url.Format(_T("http://%s:8080/BlueRay/sale/modify"), IDS_HOST_NAME);
-		m_pHttp->Post(url, MODIFY_URL_ID, attr);
+		//attr[_T("rows")] = &tmpCheckRows;
+		//attr[_T("data")] = &m_cacheRow;
+		//CString url;
+		//url.Format(_T("http://%s:8080/BlueRay/sale/modify"), IDS_HOST_NAME);
+		//m_pHttp->Post(url, MODIFY_URL_ID, attr);
+
+		if (CServer::GetInstance()->GetSale().Update(checkedRows, m_cacheRow)){
+			OnModifyDataSuccess(m_cacheRow);
+		}
+		else
+		{
+			OnHttpFailed(MODIFY_URL_ID);
+		}
 	}
 }
 
@@ -154,13 +171,21 @@ void CSalePanel::OnBnClickedDelete()
 	{
 		std::vector<int> checkedRows;
 		m_pJqGridAPI->GetCheckedRows(checkedRows);
-		GetParent()->EnableWindow(FALSE);
+		//GetParent()->EnableWindow(FALSE);
 		std::map<CString, IntArrayPtr> attr;
 		attr[_T("del")] = &checkedRows;
 		
-		CString url;
-		url.Format(_T("http://%s:8080/BlueRay/sale/delete"), IDS_HOST_NAME);
-		m_pHttp->Post(url, DEL_URL_ID, attr);
+		//CString url;
+		//url.Format(_T("http://%s:8080/BlueRay/sale/delete"), IDS_HOST_NAME);
+		//m_pHttp->Post(url, DEL_URL_ID, attr);
+
+		if (CServer::GetInstance()->GetSale().Delete(checkedRows)){
+			OnDelDataSuccess();
+		}
+		else
+		{
+			OnHttpFailed(DEL_URL_ID);
+		}
 	}
 }
 
@@ -324,7 +349,7 @@ void CSalePanel::OnHttpSuccess(int id, LPCTSTR resp)
 	switch (id)
 	{
 	case QUERY_URL_ID:
-		OnLoadDataSuccess(CString(resp));
+		OnLoadDataSuccess();
 		break;
 	case ADD_URL_ID:
 		OnAddDataSuccess(_tstoi(resp), m_cacheRow);
@@ -369,14 +394,14 @@ void CSalePanel::OnHttpFailed(int id)
 
 }
 
-void CSalePanel::OnLoadDataSuccess(CString& jsondata)
+void CSalePanel::OnLoadDataSuccess()
 {
 	for (int j = 0; j < m_table.size(); ++j)
 	{
 		m_pJqGridAPI->DelRow(m_table[j].first);
 	}
 	m_pJqGridAPI->Refresh();
-	StringToTable(jsondata, m_table);
+	//StringToTable(jsondata, m_table);
 	for (int j = 0; j < m_table.size(); ++j)
 	{
 		m_pJqGridAPI->AddRow(m_table[j].first, m_table[j].second);
@@ -520,10 +545,18 @@ void CSalePanel::OnApproveDataSuccess()
 
 void CSalePanel::OnDataUpdate()
 {
-	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/sale/query/all/none"), IDS_HOST_NAME);
-	CString jsondata;
-	m_pHttp->SyncGet(url, jsondata);
-	OnLoadDataSuccess(jsondata);
+	//CString url;
+	//url.Format(_T("http://%s:8080/BlueRay/sale/query/all/none"), IDS_HOST_NAME);
+	//CString jsondata;
+	//m_pHttp->SyncGet(url, jsondata);
+
+
+
+	if (!CServer::GetInstance()->GetSale().Query(m_table)){
+		OnHttpFailed(QUERY_URL_ID);
+	}
+	
+
+	OnLoadDataSuccess();
 	//GetParent()->EnableWindow(FALSE);
 }

@@ -8,8 +8,8 @@ namespace Json{
 	class JsonParser
 	{
 	public:
-		std::shared_ptr<JsonObject> Parse(json_char* json);
-		std::shared_ptr<JsonObject> Parse(json_char* json, int len);
+		JsonType* Parse(json_char* json);
+		JsonType* Parse(json_char* json, int len);
 	private:
 		JsonObject* ParseObject(void);
 		JsonArray* ParseArray(void);

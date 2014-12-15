@@ -2,23 +2,40 @@
 #include "JsonObjects.h"
 #include "JsonParser.h"
 #include "JsonFactory.h"
+
 #include <iostream>
 namespace Json{
 
-	std::shared_ptr<JsonObject> JsonParser::Parse( json_char* json )
+	JsonType* JsonParser::Parse( json_char* json )
 	{
 		return Parse(json, json_strlen(json));
 	}
 
-	std::shared_ptr<JsonObject> JsonParser::Parse(json_char* json, int len)
+	JsonType* JsonParser::Parse(json_char* json, int len)
 	{
 		m_jsonSymbol.reset(new JsonSymbol(json, len, 0));
 		JsonSymbol::Symbol symbol = m_jsonSymbol->nextSymbol();
-		if (JsonSymbol::object_open != symbol)
+		switch (symbol)
 		{
-			throw std::exception("object does not begin with \"{\" ");
+		case Json::JsonSymbol::array_open:
+			return ParseArray();
+		case Json::JsonSymbol::object_open:
+			return ParseObject();
+		case Json::JsonSymbol::object_close:
+		case Json::JsonSymbol::array_close:
+		case Json::JsonSymbol::string:
+		case Json::JsonSymbol::semicolon:
+		case Json::JsonSymbol::seperator:
+		case Json::JsonSymbol::null:
+		case Json::JsonSymbol::real:
+		case Json::JsonSymbol::fake:
+		case Json::JsonSymbol::digit:
+		default:
+			throw std::exception("invalid json");
+			break;
 		}
-		return std::shared_ptr<JsonObject>(ParseObject());
+
+
 	}
 
 	JsonArray* JsonParser::ParseArray(void)

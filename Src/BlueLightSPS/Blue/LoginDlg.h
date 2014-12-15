@@ -30,7 +30,7 @@ protected:
 	CBSStatic m_bsLogo;
 	CWebView m_webHttpView;
 	HICON m_hIcon;
-	std::auto_ptr<IHttp> m_pHttp;
+
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);

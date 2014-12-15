@@ -5,7 +5,7 @@
 #include "JsonObjects.h"
 #include "Util.h"
 #include "CommonDefine.h"
-
+#include "JsonType.h"
 #define GET_UNAPPROVED_URL_ID					IDP_NOTIFICATION + 1
 #define QUERY_URL_UNAPPROVED_SALEBUSINESS		GET_UNAPPROVED_URL_ID + 1
 #define QUERY_URL_UNAPPROVED_SALEPLAN			QUERY_URL_UNAPPROVED_SALEBUSINESS + 1
@@ -528,7 +528,7 @@ void CNotificationPanel::OnDataUpdate()
 void CNotificationPanel::OnReturnApprovedNum(LPCTSTR resp)
 {
 	Json::JsonParser parser;
-	std::shared_ptr<Json::JsonObject> joPtr = parser.Parse((LPTSTR)resp);
+	std::shared_ptr<Json::JsonObject> joPtr((Json::JsonObject*)parser.Parse((LPTSTR)resp));
 	int iPackBussiness = joPtr->asInt(L"packBussiness"); //打包-业务未审批数
 	int iPackPlan = joPtr->asInt(L"packPlan");//打包-计划未审批数
 	int iPlanBussiness = joPtr->asInt(L"planBussiness");//计划-业务未审批数

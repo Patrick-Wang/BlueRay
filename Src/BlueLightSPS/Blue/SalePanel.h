@@ -30,7 +30,7 @@ protected:
 	afx_msg void OnBnClickedMore();
 	afx_msg void OnBnClickedApprove();	//test purpose
 //	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
-	void OnLoadDataSuccess(CString& data);
+	void OnLoadDataSuccess();
 	void OnDelDataSuccess();
 	void OnModifyDataSuccess(std::vector<CString>& newData);
 	void OnAddDataSuccess(int id, std::vector<CString>& data);

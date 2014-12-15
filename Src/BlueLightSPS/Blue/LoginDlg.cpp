@@ -10,7 +10,8 @@
 #include "colors.h"
 #include "JsHttpImpl.h"
 #include "CommonDefine.h"
-#include "User.h"
+#include "Account.h"
+#include "Server.h"
 // CLoginDlg dialog
 
 IMPLEMENT_DYNAMIC(CLoginDlg, CDialogEx)
@@ -19,7 +20,6 @@ CLoginDlg::CLoginDlg(CWnd* pParent /*=NULL*/)
 : CDialogEx(CLoginDlg::IDD, pParent)
 , m_btnVPN(TRUE)
 , m_btnForgetPassword(TRUE)
-, m_pHttp(new CJsHttpImpl(&m_webHttpView))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -74,6 +74,7 @@ BOOL CLoginDlg::OnInitDialog()
 	CDialogEx::OnInitDialog();
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
+	CServer::GetInstance()->SetHttp(new CJsHttpImpl(&m_webHttpView));
 
 	CRect rt;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rt, 0);   // 获得工作区大小
@@ -135,16 +136,9 @@ void CLoginDlg::OnBnClickedLogin()
 	m_editPsw.GetWindowText(psw);
 	CString usrName;
 	m_editUserName.GetWindowText(usrName);
-	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/account/login/"), IDS_HOST_NAME);
-	url += usrName + _T("/") + psw;
-	CString token;
-	if (m_pHttp->SyncGet(url, token) && 0 != token.Compare(L"error"))
+	if (CServer::GetInstance()->GetAccount().Login(usrName, psw))
 	{
-		//MessageBox(token, token, MB_OK | MB_ICONWARNING);
-		CUser::GetInstance()->SetToken(token);
 		OnOK();
-		//OnBnClickedLogin();
 	}
 	else
 	{

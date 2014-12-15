@@ -7,7 +7,7 @@
 #include <tchar.h>
 #ifdef _UNICODE
 #define J(x)	L##x
-#elif
+#else
 #define J(x)	x
 #endif // _UNICODE
 
@@ -22,7 +22,7 @@ namespace Json{
 	typedef std::wstring		json_string;
 	typedef wchar_t				json_char;
 	typedef std::wostringstream	json_stringstream;
-#elif
+#else
 	typedef std::string			json_string;
 	typedef char				json_char;
 	typedef std::ostringstream	json_stringstream;

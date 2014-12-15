@@ -3,6 +3,7 @@
 //
 
 #include "stdafx.h"
+#include "Server.h"
 #include "Blue.h"
 #include "BlueDlg.h"
 #include "afxdialogex.h"
@@ -15,6 +16,7 @@
 #include "PlanPanel.h"
 #include "ProductPanel.h"
 #include "NotificationPanel.h"
+
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -36,7 +38,6 @@
 
 CBlueDlg::CBlueDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CBlueDlg::IDD, pParent)
-	, m_pHttp(new CJsHttpImpl(&m_webView))
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -86,6 +87,7 @@ BOOL CBlueDlg::OnInitDialog()
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
+	CServer::GetInstance()->SetHttp(new CJsHttpImpl(&m_webView));
 
 	CRect rt;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rt, 0);
@@ -148,20 +150,20 @@ void CBlueDlg::OnGridDataLoaded()
 	CRect clientRect;
 	GetClientRect(clientRect);
 	CRect rtCtrlPanel(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 218);
-	m_pPanelMap[IDC_SALEPAGE].reset(new CSalePanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_SALE), m_pHttp.get()));
+	m_pPanelMap[IDC_SALEPAGE].reset(new CSalePanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_SALE), CServer::GetInstance()->GetHttp()));
 	m_pPanelMap[IDC_SALEPAGE]->Create(this, IDP_SALE);
 	m_pPanelMap[IDC_SALEPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 	m_pPanelMap[IDC_SALEPAGE]->ShowWindow(SW_SHOW);
 
-	m_pPanelMap[IDC_PLANPAGE].reset(new CPlanPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_PLAN), m_pHttp.get()));
+	m_pPanelMap[IDC_PLANPAGE].reset(new CPlanPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_PLAN), CServer::GetInstance()->GetHttp()));
 	m_pPanelMap[IDC_PLANPAGE]->Create(this, IDP_PLAN);
 	m_pPanelMap[IDC_PLANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 
-	m_pPanelMap[IDC_PRODUCTIONSCANPAGE].reset(new CProductPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_PRODUCT), m_pHttp.get()));
+	m_pPanelMap[IDC_PRODUCTIONSCANPAGE].reset(new CProductPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_PRODUCT), CServer::GetInstance()->GetHttp()));
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE]->Create(this, IDP_PRODUCT);
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 
-	m_pPanelMap[IDC_NOTIFICATION].reset(new CNotificationPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_NOTIFICATION), m_pHttp.get()));
+	m_pPanelMap[IDC_NOTIFICATION].reset(new CNotificationPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_NOTIFICATION), CServer::GetInstance()->GetHttp()));
 	m_pPanelMap[IDC_NOTIFICATION]->Create(this, IDP_NOTIFICATION);
 	m_pPanelMap[IDC_NOTIFICATION]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 

@@ -3,7 +3,7 @@
 #include "BRButton.h"
 #include <vector>
 #include <Windows.h>
-
+#include <memory>
 namespace Util_Tools
 {
 	class Util
@@ -40,6 +40,7 @@ namespace Util_Tools
 			str = buffer;
 			delete[] buffer;
 		}
+
 	};
 
 

@@ -31,6 +31,9 @@
     <Filter Include="jsonlib">
       <UniqueIdentifier>{14e2d77c-5779-4e2e-b55e-f82b9c3b4768}</UniqueIdentifier>
     </Filter>
+    <Filter Include="server">
+      <UniqueIdentifier>{37753624-ef5f-423a-87e4-7ba59ae6419c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -195,8 +198,29 @@
     <ClInclude Include="lib_json\JsonType.h">
       <Filter>jsonlib</Filter>
     </ClInclude>
+    <ClInclude Include="Sale.h">
+      <Filter>server</Filter>
+    </ClInclude>
+    <ClInclude Include="Server.h">
+      <Filter>server</Filter>
+    </ClInclude>
+    <ClInclude Include="Plan.h">
+      <Filter>server</Filter>
+    </ClInclude>
+    <ClInclude Include="Notification.h">
+      <Filter>server</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>server</Filter>
+    </ClInclude>
     <ClInclude Include="User.h">
-      <Filter>Header Files</Filter>
+      <Filter>server</Filter>
+    </ClInclude>
+    <ClInclude Include="HttpServerInterface.h">
+      <Filter>server</Filter>
+    </ClInclude>
+    <ClInclude Include="Account.h">
+      <Filter>server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -317,8 +341,29 @@
     <ClCompile Include="lib_json\JsonSymbol.cpp">
       <Filter>jsonlib</Filter>
     </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>server</Filter>
+    </ClCompile>
+    <ClCompile Include="Sale.cpp">
+      <Filter>server</Filter>
+    </ClCompile>
+    <ClCompile Include="Plan.cpp">
+      <Filter>server</Filter>
+    </ClCompile>
+    <ClCompile Include="Notification.cpp">
+      <Filter>server</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>server</Filter>
+    </ClCompile>
     <ClCompile Include="User.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>server</Filter>
+    </ClCompile>
+    <ClCompile Include="HttpServerInterface.cpp">
+      <Filter>server</Filter>
+    </ClCompile>
+    <ClCompile Include="Account.cpp">
+      <Filter>server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

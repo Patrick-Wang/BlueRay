@@ -1,6 +1,7 @@
 #pragma once
 #include "JsonType.h"
 #include <map>
+#include <vector>
 namespace Json
 {
 	//class JsonField : public JsonType{
@@ -132,12 +133,13 @@ namespace Json
 	};
 
 	class JsonArray : public JsonType{
-		typedef std::list<std::shared_ptr<JsonType>> JsonItems;
+		
 
 	private:
 		friend class JsonFactory;
 		JsonArray(){}
 	public:
+		typedef std::vector<std::shared_ptr<Json::JsonType>> JsonItems;
 		JsonItems& items(){
 			return m_objects;
 		}
@@ -146,6 +148,38 @@ namespace Json
 			m_objects.push_back(std::shared_ptr<JsonType>(jsonType));
 			return *this;
 		}
+
+		int asInt(int index){
+			preCheck(index, JsonTypeTag::jint);
+			return static_cast<JsonValue<int>*>(m_objects[index].get())->value();
+		}
+
+
+		float asFloat(int index){
+			preCheck(index, JsonTypeTag::jfloat);
+			return static_cast<JsonValue<float>*>(m_objects[index].get())->value();
+		}
+
+		json_string& asString(int index){
+			preCheck(index, JsonTypeTag::jstring);
+			return static_cast<JsonValue<json_string>*>(m_objects[index].get())->value();
+		}
+
+		bool asBool(int index){
+			preCheck(index, JsonTypeTag::jbool);
+			return static_cast<JsonValue<bool>*>(m_objects[index].get())->value();
+		}
+
+		JsonArray& asArray(int index){
+			preCheck(index, JsonTypeTag::jarray);
+			return *((JsonArray*)(m_objects[index].get()));
+		}
+
+		JsonObject& asObject(int index){
+			preCheck(index, JsonTypeTag::jobject);
+			return *static_cast<JsonObject*>(m_objects[index].get());
+		}
+
 
 		virtual JsonTypeTag tag(){
 			return jarray;
@@ -166,6 +200,18 @@ namespace Json
 			os << J("]");
 		}
 
+	private:
+		void preCheck(int index, JsonTypeTag tag){
+			if (((int)m_objects.size()) <= index)
+			{
+				throw std::exception("array out off bound");
+			}
+
+			if (m_objects[index]->tag() != tag)
+			{
+				throw std::exception("type not match");
+			}
+		}
 	private:
 		JsonItems m_objects;
 	};

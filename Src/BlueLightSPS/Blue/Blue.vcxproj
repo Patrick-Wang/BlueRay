@@ -107,15 +107,20 @@
     <None Include="res\Blue.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Account.h" />
     <ClInclude Include="BRPanel.h" />
     <ClInclude Include="CommonDefine.h" />
+    <ClInclude Include="HttpServerInterface.h" />
+    <ClInclude Include="Item.h" />
     <ClInclude Include="lib_json\JsonFactory.h" />
     <ClInclude Include="lib_json\JsonObjects.h" />
     <ClInclude Include="lib_json\JsonParser.h" />
     <ClInclude Include="lib_json\JsonString.h" />
     <ClInclude Include="lib_json\JsonSymbol.h" />
     <ClInclude Include="lib_json\JsonType.h" />
+    <ClInclude Include="Notification.h" />
     <ClInclude Include="NotificationPanel.h" />
+    <ClInclude Include="Plan.h" />
     <ClInclude Include="PopupDlg.h" />
     <ClInclude Include="AdoDBConnector.h" />
     <ClInclude Include="Blue.h" />
@@ -136,8 +141,10 @@
     <ClInclude Include="ProductPanel.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="resource_ids.h" />
+    <ClInclude Include="Sale.h" />
     <ClInclude Include="SaleAddDlg.h" />
     <ClInclude Include="SalePanel.h" />
+    <ClInclude Include="Server.h" />
     <ClInclude Include="SettingManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TableFilterDlg.h" />
@@ -161,7 +168,10 @@
     <ClInclude Include="XMLParser.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Account.cpp" />
     <ClCompile Include="BRPanel.cpp" />
+    <ClCompile Include="HttpServerInterface.cpp" />
+    <ClCompile Include="Item.cpp" />
     <ClCompile Include="lib_json\JsonFactory.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -178,7 +188,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Notification.cpp" />
     <ClCompile Include="NotificationPanel.cpp" />
+    <ClCompile Include="Plan.cpp" />
     <ClCompile Include="PopupDlg.cpp" />
     <ClCompile Include="AdoDBConnector.cpp" />
     <ClCompile Include="Blue.cpp" />
@@ -196,8 +208,10 @@
     <ClCompile Include="PlanAddDlg.cpp" />
     <ClCompile Include="PlanPanel.cpp" />
     <ClCompile Include="ProductPanel.cpp" />
+    <ClCompile Include="Sale.cpp" />
     <ClCompile Include="SaleAddDlg.cpp" />
     <ClCompile Include="SalePanel.cpp" />
+    <ClCompile Include="Server.cpp" />
     <ClCompile Include="SettingManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
