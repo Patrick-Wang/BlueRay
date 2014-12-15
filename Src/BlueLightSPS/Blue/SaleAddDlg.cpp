@@ -105,12 +105,21 @@ inline void init(CEdit* edit, CString& val){
 inline void init(CDateTimeCtrl* dateTime, CString& val){
 	if (val != OPT_FALSE)
 	{
-		COleVariant VariantTime;
-		VariantTime = val;
-		VariantTime.ChangeType(VT_DATE);
-		COleDateTime DataTime = VariantTime;
+		if (_T("") == val)
+		{
+			COleDateTime oletimeTime;
+			oletimeTime.SetStatus(COleDateTime::null);
+			dateTime->SetTime(oletimeTime);
+		}
+		else
+		{
+			COleVariant VariantTime;
+			VariantTime = val;
+			VariantTime.ChangeType(VT_DATE);
+			COleDateTime DataTime = VariantTime;
 
-		dateTime->SetTime(DataTime);
+			dateTime->SetTime(DataTime);
+		}
 	}
 }
 

@@ -95,7 +95,7 @@ namespace Util_Tools
 
 		pFont = CBSObject::GetFontPtr(csFont, iFSize, FALSE, FALSE, FALSE);
 
-		pDateTimeCtrl->Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | DTS_RIGHTALIGN, CRect(0, 0, 0, 0), pParent, Id);
+		pDateTimeCtrl->Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | DTS_RIGHTALIGN | DTS_SHOWNONE, CRect(0, 0, 0, 0), pParent, Id);
 
 		pDateTimeCtrl->SetFont(pFont);
 

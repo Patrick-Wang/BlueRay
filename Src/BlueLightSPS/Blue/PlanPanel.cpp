@@ -106,8 +106,6 @@ void CPlanPanel::OnBnClickedPlan()
 	std::vector<CString>* pRowData = NULL;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 
-	//std::vector<int> checkedRowTableMap;
-	//checkedRowTableMap.resize(checkedRows.size(), -1);
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
 		pRowData = NULL;
@@ -115,7 +113,6 @@ void CPlanPanel::OnBnClickedPlan()
 		{
 			if (m_table[j].first == checkedRows[i])
 			{
-				//checkedRowTableMap[i] = j;
 				pRowData = &(m_table[j].second);
 				break;
 			}
@@ -132,29 +129,6 @@ void CPlanPanel::OnBnClickedPlan()
 				pstOpt->Merge(*pRowData);
 			}
 		}
-
-		//if (/*To be planned order*/)
-		//{
-			COleDateTime dateTime;
-			dateTime = COleDateTime::GetCurrentTime();
-
-			CString strDateTime;
-			strDateTime.Format(_T("%4d/%2d/%2d"), dateTime.GetYear(), dateTime.GetMonth(), dateTime.GetDay());
-
-			pstOpt->scrq = strDateTime;
-			pstOpt->bzrq = strDateTime;
-			pstOpt->fhrq = strDateTime;
-
-			CString strTemp(_T(""));
-			pstOpt->ccbh = strTemp;
-			pstOpt->tcbh = strTemp;
-
-			strTemp = _T("Î´ÉóºË");
-			pstOpt->jhjhsh = strTemp;
-			pstOpt->jhywsh = strTemp;
-			pstOpt->bzjhsh = strTemp;
-			pstOpt->bzywsh = strTemp;
-		//}
 	}
 
 	dlg.SetOption(pstOpt.get());
@@ -171,8 +145,6 @@ void CPlanPanel::OnBnClickedPlan()
 		attr[_T("data")] = &m_cacheRow;
 		m_pHttp->Post(url, MODIFY_URL_ID, attr);
 		GetParent()->EnableWindow(FALSE);
-	
-
 	}
 }
 

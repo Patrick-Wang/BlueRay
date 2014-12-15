@@ -18,12 +18,21 @@ inline void init(CEdit* edit, CString& val){
 inline void init(CDateTimeCtrl* dateTime, CString& val){
 	if (val != OPT_FALSE)
 	{
-		COleVariant VariantTime;
-		VariantTime = val;
-		VariantTime.ChangeType(VT_DATE);
-		COleDateTime DataTime = VariantTime;
+		if (_T("") == val)
+		{
+     		COleDateTime oletimeTime;
+			oletimeTime.SetStatus(COleDateTime::null);
+			dateTime->SetTime(oletimeTime);    
+		}
+		else
+		{
+			COleVariant VariantTime;
+			VariantTime = val;
+			VariantTime.ChangeType(VT_DATE);
+			COleDateTime DataTime = VariantTime;
 
-		dateTime->SetTime(DataTime);
+			dateTime->SetTime(DataTime);
+		}
 	}
 }
 
@@ -219,7 +228,7 @@ BOOL CPlanAddDlg::OnInitDialog()
 		init(m_aEdits[EditId::Edit_CCBH], val);
 		init(m_aEdits[EditId::Edit_TCBH], val);
 
-		val = _T("2014/01/01");
+		val = _T("");
 
 		init(m_aDatePickers[DatePickerId::DatePicker_BZRQ], val);
 		init(m_aDatePickers[DatePickerId::DatePicker_FHRQ], val);
@@ -273,15 +282,46 @@ void CPlanAddDlg::PostNcDestroy()
 void CPlanAddDlg::OnOK()
 {
 	CString strTmp;
+	CTime time;
+	
+	DWORD dwResult = m_aDatePickers[DatePickerId::DatePicker_SCRQ]->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		m_aDatePickers[DatePickerId::DatePicker_SCRQ]->GetWindowText(strTmp);
+		m_vecResult.push_back(strTmp);
+	}
+	else
+	{
+		m_vecResult.push_back(_T(""));
+	}
 
-	m_aDatePickers[DatePickerId::DatePicker_SCRQ]->GetWindowText(strTmp);
-	m_vecResult.push_back(strTmp);
+	dwResult = m_aDatePickers[DatePickerId::DatePicker_BZRQ]->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		m_aDatePickers[DatePickerId::DatePicker_BZRQ]->GetWindowText(strTmp);
+		m_vecResult.push_back(strTmp);
+	}
+	else
+	{
+		m_vecResult.push_back(_T(""));
+	}
 
-	m_aDatePickers[DatePickerId::DatePicker_BZRQ]->GetWindowText(strTmp);
-	m_vecResult.push_back(strTmp);
+	dwResult = m_aDatePickers[DatePickerId::DatePicker_FHRQ]->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		m_aDatePickers[DatePickerId::DatePicker_FHRQ]->GetWindowText(strTmp);
+		m_vecResult.push_back(strTmp);
+	}
+	else
+	{
+		m_vecResult.push_back(_T(""));
+	}
+	
+	//m_aDatePickers[DatePickerId::DatePicker_BZRQ]->GetWindowText(strTmp);
+	//m_vecResult.push_back(strTmp);
 
-	m_aDatePickers[DatePickerId::DatePicker_FHRQ]->GetWindowText(strTmp);
-	m_vecResult.push_back(strTmp);
+	//m_aDatePickers[DatePickerId::DatePicker_FHRQ]->GetWindowText(strTmp);
+	//m_vecResult.push_back(strTmp);
 
 	m_aEdits[EditId::Edit_TCBH]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp);
