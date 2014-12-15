@@ -75,7 +75,7 @@ bool CSale::Add(StringArray& record, int& id)
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/sale/add/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
 	CString strJson;
-	if (m_lpHttp->SyncPost(url, attr, strJson)){
+	if (m_lpHttp->SyncPost(traceSession(url), attr, strJson)){
 		id = _tstoi(strJson);
 		return true;
 	}
@@ -105,7 +105,7 @@ bool CSale::Delete(IntArray& rows)
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/sale/delete"), IDS_HOST_NAME);
 	CString strRet;
-	m_lpHttp->SyncPost(url, attr, strRet);
+	m_lpHttp->SyncPost(traceSession(url), attr, strRet);
 	return strRet.Compare(L"success") == 0;
 }
 
@@ -149,6 +149,6 @@ bool CSale::doApprove(CString& url, IntArray& rows)
 	std::map<CString, IntArrayPtr> attr;
 	attr[_T("rows")] = &rows;
 	CString strRet;
-	m_lpHttp->SyncPost(url, attr, strRet);
+	m_lpHttp->SyncPost(traceSession(url), attr, strRet);
 	return strRet.Compare(L"success") == 0;
 }

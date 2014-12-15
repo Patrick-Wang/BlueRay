@@ -26,7 +26,7 @@ bool CPlan::Update(IntArray& rows, StringArray& record)
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/plan/update"), IDS_HOST_NAME);
 	CString strRet;
-	m_lpHttp->SyncPost(url, attr, strRet);
+	m_lpHttp->SyncPost(traceSession(url), attr, strRet);
 	return strRet.Compare(L"success") == 0;
 }
 
@@ -83,6 +83,6 @@ bool CPlan::doApprove(CString& url, IntArray& rows)
 	std::map<CString, IntArrayPtr> attr;
 	attr[_T("rows")] = &rows;
 	CString strRet;
-	m_lpHttp->SyncPost(url, attr, strRet);
+	m_lpHttp->SyncPost(traceSession(url), attr, strRet);
 	return strRet.Compare(L"success") == 0;
 }

@@ -47,7 +47,7 @@ bool CItem::Query(ItemType type, StringArray& retArray)
 	}
 
 	CString strJson;
-	if (m_lpHttp->SyncGet(url, strJson)){
+	if (m_lpHttp->SyncGet(traceSession(url), strJson)){
 		std::vector<CString> vec;
 		Util_Tools::Util::Split(strJson, _T(','), retArray);
 		return true;

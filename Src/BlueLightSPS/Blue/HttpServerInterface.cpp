@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "HttpServerInterface.h"
-
+#include "User.h"
 
 CHttpServerInterface::CHttpServerInterface()
 {
@@ -44,4 +44,10 @@ StringArray& CHttpServerInterface::toArray(IntArray& src, StringArray& dest)
 		dest[i] = strTmp;
 	}
 	return dest;
+}
+
+CString& CHttpServerInterface::traceSession(CString& url)
+{
+	url += L";jsessionid=" + CUser::GetInstance()->GetToken();
+	return url;
 }

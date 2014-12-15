@@ -18,7 +18,7 @@ bool CNotification::GetUnapproved(Unapproved_t& stUnapproved)
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/notification/unapproved"), IDS_HOST_NAME);
 	CString strJson;
-	if (m_lpHttp->SyncGet(url, strJson)){
+	if (m_lpHttp->SyncGet(traceSession(url), strJson)){
 		Json::JsonParser parser;
 		std::shared_ptr<Json::JsonObject> joPtr((Json::JsonObject*)parser.Parse((LPTSTR)(LPCTSTR)strJson));
 		stUnapproved.iPackBussiness = joPtr->asInt(L"packBussiness"); //打包-业务未审批数

@@ -7,10 +7,9 @@ class CHttpServerInterface
 public:
 	CHttpServerInterface();
 	virtual ~CHttpServerInterface();
-	
 	std::vector < std::pair<int, StringArray>>& toArray(std::shared_ptr < Json::JsonArray > jarr, std::vector < std::pair<int, StringArray>>& htxxs);
 	StringArray& toArray(IntArray& src, StringArray& dest);
-
+	CString& traceSession(CString& url);
 protected:
 	void resetHttp(IHttp* lpHttp);
 	IHttp* m_lpHttp;
