@@ -18,7 +18,6 @@ public:
 
 		BPQXHFLXX,	//变频器型号
 
-
 		BMQXHFLXX,	//编码器型号
 
 		MPZLXX	//铭牌等资料

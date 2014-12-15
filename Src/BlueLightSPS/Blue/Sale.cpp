@@ -73,10 +73,10 @@ bool CSale::Add(StringArray& record, int& id)
 	std::map<CString, StringArrayPtr> attr;
 	attr[_T("add")] = &record;
 	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/sale/add/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
-	CString strJson;
-	if (m_lpHttp->SyncPost(traceSession(url), attr, strJson)){
-		id = _tstoi(strJson);
+	url.Format(_T("http://%s:8080/BlueRay/sale/add/"), IDS_HOST_NAME);
+	CString strId;
+	if (m_lpHttp->SyncPost(traceSession(url), attr, strId)){
+		id = _tstoi(strId);
 		return true;
 	}
 	return false;
