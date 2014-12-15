@@ -9,7 +9,9 @@ enum PageIDEnum
 {
 	Page_Sale,
 	Page_Plan,
-	Page_Scan
+	Page_Scan,
+	Page_Notification_Sale,
+	Page_Notification_Plan
 };
 
 // CTableFilterDlg dialog
@@ -86,5 +88,5 @@ private:
 
 	CButton* m_checkboxSelectAll;
 
-	static const int m_breakPointOfPlanPage = CheckBox_SHJH;
+	static const int m_breakPointOfPlanPage = CheckBox_SCRQ;
 };
