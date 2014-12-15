@@ -17,4 +17,8 @@ public interface SaleService{
 	String businessApprove(JSONArray rows);
 
 	String planApprove(JSONArray rows);
+
+	String businessUnapprove(JSONArray rows);
+
+	String planUnapprove(JSONArray rows);
 }

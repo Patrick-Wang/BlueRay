@@ -135,4 +135,21 @@ public class SaleController {
 		return service.planApprove(rows);
 	}
 	
+	
+	@RequestMapping(value = "/unapprove/business", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String bussinessUnapprove(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		JSONObject jo = Util.parse(request.getInputStream());
+		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
+		return service.businessUnapprove(rows);
+	}
+	
+	@RequestMapping(value = "/unapprove/plan", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String planUnapprove(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		JSONObject jo = Util.parse(request.getInputStream());
+		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
+		return service.planUnapprove(rows);
+	}
+	
 }

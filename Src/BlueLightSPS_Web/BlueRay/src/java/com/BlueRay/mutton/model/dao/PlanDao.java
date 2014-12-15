@@ -12,6 +12,8 @@ public interface PlanDao {
 
 	PCJHXX getDataById(int id);
 
+	List<PCJHXX> getDateByHtxxId(int id);
+	
 	void update(PCJHXX pcjhxx);
 
 	void delete(PCJHXX pcjhxx);

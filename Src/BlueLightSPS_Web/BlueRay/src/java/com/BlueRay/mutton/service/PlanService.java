@@ -16,4 +16,12 @@ public interface PlanService {
 
 	String packPlanApprove(JSONArray rows);
 
+	String businessUnapprove(JSONArray rows);
+
+	String planUnapprove(JSONArray rows);
+
+	String packBusinessUnapprove(JSONArray rows);
+
+	String packPlanUnapprove(JSONArray rows);
+
 }

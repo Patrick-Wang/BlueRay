@@ -184,4 +184,52 @@ public class PlanServiceImpl implements PlanService {
 		return "success";
 	}
 
+	public String businessUnapprove(JSONArray rows) {
+		for (int i = rows.size() - 1; i >= 0; --i) {
+			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
+			if ("Y".equals(pcjhxx.getSftgywsh())) {
+				pcjhxx.setSftgywsh("N");
+				pcjhxx.setJhscrq(null);
+				planDao.update(pcjhxx);
+			}
+		}
+		return "success";
+	}
+
+	public String planUnapprove(JSONArray rows) {
+		for (int i = rows.size() - 1; i >= 0; --i) {
+			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
+			if ("Y".equals(pcjhxx.getSftgjhsh())) {
+				pcjhxx.setSftgjhsh("N");
+				pcjhxx.setJhscrq(null);
+				planDao.update(pcjhxx);
+			}
+		}
+		return "success";
+	}
+
+	public String packBusinessUnapprove(JSONArray rows) {
+		for (int i = rows.size() - 1; i >= 0; --i) {
+			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
+			if ("Y".equals(pcjhxx.getBzsftgywsh())) {
+				pcjhxx.setBzsftgywsh("N");
+				pcjhxx.setJhbzrq(null);
+				planDao.update(pcjhxx);
+			}
+		}
+		return "success";
+	}
+
+	public String packPlanUnapprove(JSONArray rows) {
+		for (int i = rows.size() - 1; i >= 0; --i) {
+			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
+			if ("Y".equals(pcjhxx.getBzsftgjhsh())) {
+				pcjhxx.setBzsftgjhsh("N");
+				pcjhxx.setJhbzrq(null);
+				planDao.update(pcjhxx);
+			}
+		}
+		return "success";
+	}
+
 }

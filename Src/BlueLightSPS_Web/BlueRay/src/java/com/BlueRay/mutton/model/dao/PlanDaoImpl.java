@@ -83,4 +83,11 @@ public class PlanDaoImpl implements PlanDao{
 		return q.getResultList();
 	}
 
+	public List<PCJHXX> getDateByHtxxId(int id) {
+		String sql = "from PCJHXX where htxxID = :id";
+		Query q = entityManager.createQuery(sql);
+		q.setParameter("id", id);
+		return q.getResultList();
+	}
+
 }

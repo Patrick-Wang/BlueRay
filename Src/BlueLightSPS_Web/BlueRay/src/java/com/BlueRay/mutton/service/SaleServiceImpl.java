@@ -278,7 +278,7 @@ public class SaleServiceImpl implements SaleService {
 			saleDao.del(htxx);
 		}
 
-		return "";
+		return "success";
 	}
 
 	public String update(JSONArray rows, JSONArray data) {
@@ -342,6 +342,41 @@ public class SaleServiceImpl implements SaleService {
 				htxx.setSftgjhsh("Y");
 				saleDao.update(htxx);
 				validatePassApprove(htxx);
+			}
+		}
+		return "success";
+	}
+
+	public String businessUnapprove(JSONArray rows) {
+		for (int i = rows.size() - 1; i >= 0; --i) {
+			HTXX htxx = saleDao
+					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
+			if ("Y".equals(htxx.getSftgywsh())) {
+				htxx.setSftgywsh("N");
+				saleDao.update(htxx);
+				validatePassUnapprove(htxx);
+			}
+		}
+		return "success";
+	}
+
+	private void validatePassUnapprove(HTXX htxx) {
+		if (!"Y".equals(htxx.getSftgjhsh()) || !"Y".equals(htxx.getSftgywsh())) {
+			List<PCJHXX> pcjhs = planDao.getDateByHtxxId(htxx.getID());
+			for (PCJHXX pcjh : pcjhs){
+				planDao.delete(pcjh);
+			}
+		}
+	}
+
+	public String planUnapprove(JSONArray rows) {
+		for (int i = rows.size() - 1; i >= 0; --i) {
+			HTXX htxx = saleDao
+					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
+			if ("Y".equals(htxx.getSftgjhsh())) {
+				htxx.setSftgywsh("N");
+				saleDao.update(htxx);
+				validatePassUnapprove(htxx);
 			}
 		}
 		return "success";

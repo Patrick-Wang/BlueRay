@@ -150,4 +150,35 @@ public class PlanController {
 		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
 		return planService.packPlanApprove(rows);
 	}
+	
+	@RequestMapping(value = "/unapprove/business", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String planBussinessUnapprove(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		JSONObject jo = Util.parse(request.getInputStream());
+		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
+		return planService.businessUnapprove(rows);
+	}
+	@RequestMapping(value = "/unapprove/plan", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String planUnapprove(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		JSONObject jo = Util.parse(request.getInputStream());
+		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
+		return planService.planUnapprove(rows);
+	}
+	
+	@RequestMapping(value = "/unapprove/pack/business", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String packBusinessUnapprove(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		JSONObject jo = Util.parse(request.getInputStream());
+		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
+		return planService.packBusinessUnapprove(rows);
+	}
+	
+	@RequestMapping(value = "/unapprove/pack/plan", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String planPlanUnapprove(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		JSONObject jo = Util.parse(request.getInputStream());
+		JSONArray rows = JSONArray.fromObject(jo.get("rows"));
+		return planService.packPlanUnapprove(rows);
+	}
 }
