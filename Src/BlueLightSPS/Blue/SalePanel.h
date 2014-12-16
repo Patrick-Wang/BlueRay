@@ -29,6 +29,8 @@ protected:
 	afx_msg void OnBnClickedTableFilter();
 	afx_msg void OnBnClickedMore();
 	afx_msg void OnBnClickedApprove();	//test purpose
+	afx_msg void OnBnClickedReApproveBusiness();
+	afx_msg void OnBnClickedReApprovePlan();
 //	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
 	void OnLoadDataSuccess();
 	void OnDelDataSuccess();

@@ -16,6 +16,8 @@
 #define DEL_URL_ID IDP_SALE + 3
 #define MODIFY_URL_ID IDP_SALE + 4
 #define BUSSINESS_APPROVE_URL_ID IDP_SALE + 5	//test purpose
+#define BUSSINESS_REAPPROVE_BSN_URL_ID MODIFY_URL_ID + 6
+#define BUSSINESS_REAPPROVE_PLAN_URL_ID MODIFY_URL_ID + 7
 
 
 BEGIN_MESSAGE_MAP(CSalePanel, CBRPanel)
@@ -26,6 +28,8 @@ BEGIN_MESSAGE_MAP(CSalePanel, CBRPanel)
 	ON_BN_CLICKED(IDC_SALE_BTN_MORE, &CSalePanel::OnBnClickedMore)
 	ON_BN_CLICKED(IDC_SALE_BTN_TABLEFILTER, &CSalePanel::OnBnClickedTableFilter)
 	ON_BN_CLICKED(IDC_SALE_BTN_APPROVE, &CSalePanel::OnBnClickedApprove)
+	ON_BN_CLICKED(IDC_SALE_BTN_REAPPROVEFORBUSINESS, &CSalePanel::OnBnClickedReApproveBusiness)
+	ON_BN_CLICKED(IDC_SALE_BTN_REAPPROVEFORPLAN, &CSalePanel::OnBnClickedReApprovePlan)
 //	ON_WM_SHOWWINDOW()
 	ON_WM_NCDESTROY()
 END_MESSAGE_MAP()
@@ -74,11 +78,11 @@ void CSalePanel::OnInitChilds()
 
 	m_btnReApproveForBusiness.Create(this, IDC_SALE_BTN_REAPPROVEFORBUSINESS);
 	m_btnReApproveForBusiness.SetWindowText(_T("反审核-业务"));
-	m_btnReApproveForBusiness.MoveWindow(900, 25, 90, 25);
+	m_btnReApproveForBusiness.MoveWindow(900, 70, 90, 25);
 
-	m_btnReApproveForBusiness.Create(this, IDC_SALE_BTN_REAPPROVEFORPLAN);
-	m_btnReApproveForBusiness.SetWindowText(_T("反审核-计划"));
-	m_btnReApproveForBusiness.MoveWindow(1010, 25, 90, 25);
+	m_btnReApproveForPlan.Create(this, IDC_SALE_BTN_REAPPROVEFORPLAN);
+	m_btnReApproveForPlan.SetWindowText(_T("反审核-计划"));
+	m_btnReApproveForPlan.MoveWindow(1010, 70, 90, 25);
 
 	m_bsMoreWord.Create(this, IDC_SALE_BTN_MOREWORD);
 	m_bsMoreWord.SetWindowText(_T("更多筛选"));
@@ -88,6 +92,8 @@ void CSalePanel::OnInitChilds()
 	m_btnDelete.EnableWindow(FALSE);
 	m_btnModify.EnableWindow(FALSE);
 
+	m_btnReApproveForBusiness.EnableWindow(FALSE);
+	m_btnReApproveForPlan.EnableWindow(FALSE);
 }
 
 void CSalePanel::OnBnClickedAdd()
@@ -134,6 +140,29 @@ void CSalePanel::OnBnClickedApprove()	//test purpose
 	m_pHttp->Post(url, BUSSINESS_APPROVE_URL_ID, attr);
 }
 
+void CSalePanel::OnBnClickedReApproveBusiness()	
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/business/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	std::vector<int> checkedRows;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+	std::map<CString, IntArrayPtr> attr;
+	attr[L"rows"] = &checkedRows;
+
+	m_pHttp->Post(url, BUSSINESS_REAPPROVE_BSN_URL_ID, attr);
+}
+
+void CSalePanel::OnBnClickedReApprovePlan()	
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/plan/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	std::vector<int> checkedRows;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+	std::map<CString, IntArrayPtr> attr;
+	attr[L"rows"] = &checkedRows;
+
+	m_pHttp->Post(url, BUSSINESS_REAPPROVE_PLAN_URL_ID, attr);
+}
 
 void CSalePanel::OnBnClickedModify()
 {
@@ -203,11 +232,17 @@ void CSalePanel::OnRowChecked()
 		m_btnModify.EnableWindow(FALSE);
 		//Test purpose
 		//m_btnApprove.EnableWindow(FALSE);
+
+		m_btnReApproveForBusiness.EnableWindow(FALSE);
+		m_btnReApproveForPlan.EnableWindow(FALSE);
 	}
 	else
 	{
 		m_btnDelete.EnableWindow(TRUE);
 		m_btnModify.EnableWindow(TRUE);
+
+		m_btnReApproveForBusiness.EnableWindow(TRUE);
+		m_btnReApproveForPlan.EnableWindow(TRUE);
 		//test purpose
 	
 		//std::vector<int> checkedRowTableMap;
@@ -363,6 +398,10 @@ void CSalePanel::OnHttpSuccess(int id, LPCTSTR resp)
 	case BUSSINESS_APPROVE_URL_ID:	//test purpose
 		OnApproveDataSuccess();
 		break;
+	case BUSSINESS_REAPPROVE_BSN_URL_ID:
+	case BUSSINESS_REAPPROVE_PLAN_URL_ID:
+		MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
+		break;
 	default:
 		break;
 	}
@@ -387,6 +426,10 @@ void CSalePanel::OnHttpFailed(int id)
 		break;
 	case BUSSINESS_APPROVE_URL_ID:	//test purpose
 		MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+		break;
+	case BUSSINESS_REAPPROVE_BSN_URL_ID:
+	case BUSSINESS_REAPPROVE_PLAN_URL_ID:
+		MessageBox(_T("反审核失败"), _T("反审核"), MB_OK | MB_ICONWARNING);
 		break;
 	default:
 		break;
