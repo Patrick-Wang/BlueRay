@@ -76,9 +76,9 @@ void CSalePanel::OnInitChilds()
 	m_btnReApproveForBusiness.SetWindowText(_T("反审核-业务"));
 	m_btnReApproveForBusiness.MoveWindow(900, 25, 90, 25);
 
-	m_btnReApproveForBusiness.Create(this, IDC_SALE_BTN_REAPPROVEFORPLAN);
-	m_btnReApproveForBusiness.SetWindowText(_T("反审核-计划"));
-	m_btnReApproveForBusiness.MoveWindow(1010, 25, 90, 25);
+	m_btnReApproveForPlan.Create(this, IDC_SALE_BTN_REAPPROVEFORPLAN);
+	m_btnReApproveForPlan.SetWindowText(_T("反审核-计划"));
+	m_btnReApproveForPlan.MoveWindow(1010, 25, 90, 25);
 
 	m_bsMoreWord.Create(this, IDC_SALE_BTN_MOREWORD);
 	m_bsMoreWord.SetWindowText(_T("更多筛选"));

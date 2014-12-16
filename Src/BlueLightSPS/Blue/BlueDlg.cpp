@@ -16,6 +16,7 @@
 #include "PlanPanel.h"
 #include "ProductPanel.h"
 #include "NotificationPanel.h"
+#include "User.h"
 
 
 #ifdef _DEBUG
@@ -124,7 +125,12 @@ BOOL CBlueDlg::OnInitDialog()
 	m_bsPersion.Create(this, IDS_PERSION_INFO);
 	m_bsPersion.SetBackgroundColor(COL_GRAY);
 	m_bsPersion.SetBSFont(_T("Microsoft YaHei"), 12);
-	m_bsPersion.SetWindowText(_T("用户名: Admin    角色: 管理员    部门: 蓝光集团"));
+
+	CString userInfo;
+	CUser* usr = CUser::GetInstance();
+	userInfo.Format(_T("用户名: %s    角色: %s    部门: %s"), usr->GetUserName(), usr->GetRole(), usr->GetDepartment());
+
+	m_bsPersion.SetWindowText(userInfo);
 	m_bsPersion.SetTextAlign(DT_VCENTER | DT_SINGLELINE | DT_RIGHT | DT_WORD_ELLIPSIS);
 	m_bsPersion.MoveWindow(clientRect.right - 400, 59, 390, 20);
 

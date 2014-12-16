@@ -27,6 +27,7 @@ bool CAccount::Login(CString& usrName, CString& psw)
 		usr->SetToken(jObj->asString(L"session").c_str());
 		Json::JsonObject& jUsr = jObj->asObject(L"usr");
 		Json::JsonObject& jPerm = jObj->asObject(L"perm");
+		
 		usr->SetUserName(jUsr.asString(L"name").c_str());
 		usr->SetDepartment(jUsr.asString(L"department").c_str());
 		usr->SetRole(jUsr.asString(L"role").c_str());
