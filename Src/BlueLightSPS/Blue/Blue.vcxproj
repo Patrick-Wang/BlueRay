@@ -140,6 +140,7 @@
     <ClInclude Include="PlanAddDlg.h" />
     <ClInclude Include="PlanPanel.h" />
     <ClInclude Include="ProductPanel.h" />
+    <ClInclude Include="Promise.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="resource_ids.h" />
     <ClInclude Include="Sale.h" />

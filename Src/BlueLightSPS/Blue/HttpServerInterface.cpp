@@ -20,6 +20,7 @@ void CHttpServerInterface::resetHttp(IHttp* lpHttp)
 std::vector < std::pair<int, StringArray>>& CHttpServerInterface::toArray(std::shared_ptr < Json::JsonArray > jarr, std::vector < std::pair<int, StringArray>>& htxxs)
 {
 	Json::JsonArray::JsonItems& arrItems = jarr->items();
+	htxxs.clear();
 	htxxs.resize(arrItems.size());
 	for (int i = 0; i < arrItems.size(); ++i)
 	{
@@ -37,6 +38,7 @@ std::vector < std::pair<int, StringArray>>& CHttpServerInterface::toArray(std::s
 StringArray& CHttpServerInterface::toArray(IntArray& src, StringArray& dest)
 {
 	CString strTmp;
+	dest.clear();
 	dest.resize(src.size());
 	for (int i = src.size() - 1; i >= 0; --i)
 	{

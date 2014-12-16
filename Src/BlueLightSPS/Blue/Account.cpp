@@ -13,7 +13,7 @@ CAccount::~CAccount()
 {
 }
 
-bool CAccount::Login(CString& usrName, CString& psw)
+bool CAccount::LoginSync(CString& usrName, CString& psw)
 {
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/account/login/"), IDS_HOST_NAME);
@@ -46,4 +46,41 @@ bool CAccount::Login(CString& usrName, CString& psw)
 	{
 		return false;
 	}
+}
+
+CPromise<CUser*>& CAccount::Login(CString& usrName, CString& psw)
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/account/login/"), IDS_HOST_NAME);
+	url += usrName + _T("/") + psw;
+	CPromise<CUser*>* promise = CPromise<CUser*>::MakePromise(m_lpHttp);
+	m_lpHttp->Get(url, (int)promise);
+	return *promise;
+}
+
+CUser* CAccount::StringToUser(LPCTSTR strJson)
+{
+	if (0 != _tcscmp(strJson, L"error"))
+	{
+		Json::JsonParser jParser;
+		std::auto_ptr<Json::JsonObject> jObj((Json::JsonObject*)jParser.Parse((LPTSTR)strJson));
+		CUser* usr = CUser::GetInstance();
+		usr->SetToken(jObj->asString(L"session").c_str());
+		Json::JsonObject& jUsr = jObj->asObject(L"usr");
+		Json::JsonObject& jPerm = jObj->asObject(L"perm");
+
+		usr->SetUserName(jUsr.asString(L"name").c_str());
+		usr->SetDepartment(jUsr.asString(L"department").c_str());
+		usr->SetRole(jUsr.asString(L"role").c_str());
+
+		CPermission& perm = usr->GetPermission();
+		perm.setJhbzjhsh(jPerm.asBool(L"jhbzjhsh"));
+		perm.setJhbzywsh(jPerm.asBool(L"jhbzywsh"));
+		perm.setJhjhsh(jPerm.asBool(L"jhjhsh"));
+		perm.setJhywsh(jPerm.asBool(L"jhywsh"));
+		perm.setXsjhsh(jPerm.asBool(L"xsjhsh"));
+		perm.setXsywsh(jPerm.asBool(L"xsywsh"));
+		return usr;
+	}
+	return NULL;
 }

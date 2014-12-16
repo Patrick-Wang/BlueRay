@@ -136,15 +136,27 @@ void CLoginDlg::OnBnClickedLogin()
 	m_editPsw.GetWindowText(psw);
 	CString usrName;
 	m_editUserName.GetWindowText(usrName);
-	if (CServer::GetInstance()->GetAccount().Login(usrName, psw))
-	{
-		OnOK();
-	}
-	else
-	{
-		MessageBox(_T("用户名或密码错误，请重新输入！"), _T("警告"), MB_OK | MB_ICONWARNING);
-	}
-	
+
+
+
+	BEGIN_LISTENER(OnLoginListener, CPromise<CUser*>, CLoginDlg*)
+		void OnSuccess(CUser* usr)
+		{
+			if (NULL != usr)
+			{
+				m_handle->OnOK();
+			}
+		}
+		void OnFailed()
+		{
+			m_handle->MessageBox(_T("用户名或密码错误，请重新输入！"), _T("警告"), MB_OK | MB_ICONWARNING);
+			m_handle->EnableWindow(TRUE);
+		}
+	END_LISTENER
+
+	CServer::GetInstance()->GetAccount().Login(usrName, psw)
+		.then(new OnLoginListener(this));
+	EnableWindow(FALSE);
 }
 
 

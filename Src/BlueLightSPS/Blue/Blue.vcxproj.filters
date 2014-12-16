@@ -225,6 +225,9 @@
     <ClInclude Include="Permission.h">
       <Filter>server</Filter>
     </ClInclude>
+    <ClInclude Include="Promise.h">
+      <Filter>server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blue.cpp">
