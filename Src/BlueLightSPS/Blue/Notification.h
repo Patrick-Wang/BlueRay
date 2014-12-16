@@ -20,5 +20,6 @@ public:
 
 	bool GetUnapproved(Unapproved_t& stUnapproved);
 
+
 };
 

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Server.h"
 #include "PlanPanel.h"
 #include "PlanAddDlg.h"
 #include "SaleAddDlg.h"
@@ -7,6 +8,7 @@
 #include "Util.h"
 #include "colors.h"
 #include "User.h"
+#include "Plan.h"
 
 #define QUERY_URL_ID IDP_PLAN + 1
 #define ADD_URL_ID IDP_PLAN + 2
@@ -28,6 +30,23 @@ BEGIN_MESSAGE_MAP(CPlanPanel, CBRPanel)
 	ON_BN_CLICKED(IDC_PLAN_BTN_REAPPROVESCRQPLAN, &CPlanPanel::OnBnClickedReApproveSCRQPlan)
 	ON_WM_NCDESTROY()
 END_MESSAGE_MAP()
+
+class OnReApproveListener : public CPromise<bool>::IHttpResponse{
+	CONSTRUCTOR_1(OnReApproveListener, CPlanPanel&, planPanel)
+public:
+	virtual void OnSuccess(bool bRet){
+		if (bRet)
+		{
+			m_planPanel.MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
+		}
+		m_planPanel.GetParent()->EnableWindow(TRUE);
+	}
+	virtual void OnFailed(){
+		m_planPanel.MessageBox(_T("反审核失败"), _T("反审核"), MB_OK | MB_ICONWARNING);
+		m_planPanel.GetParent()->EnableWindow(TRUE);
+	}
+};
+
 
 CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
 	: CBRPanel(pJqGridAPI, pHttp)
@@ -154,14 +173,38 @@ void CPlanPanel::OnBnClickedPlan()
 	if (IDOK == dlg.DoModal())
 	{
 		m_cacheRow = dlg.GetResult();
-		CString url;
-		url.Format(_T("http://%s:8080/BlueRay/plan/update"), IDS_HOST_NAME);
-		StringArray tmpCheckRows;
-		ToStringArray(checkedRows, tmpCheckRows);
-		std::map<CString, StringArrayPtr> attr;
-		attr[_T("rows")] = &tmpCheckRows;
-		attr[_T("data")] = &m_cacheRow;
-		m_pHttp->Post(url, MODIFY_URL_ID, attr);
+		
+		//CString url;
+		//url.Format(_T("http://%s:8080/BlueRay/plan/update"), IDS_HOST_NAME);
+		//StringArray tmpCheckRows;
+		//ToStringArray(checkedRows, tmpCheckRows);
+		//std::map<CString, StringArrayPtr> attr;
+		//attr[_T("rows")] = &tmpCheckRows;
+		//attr[_T("data")] = &m_cacheRow;
+
+		class OnPlanUpdateListener : public CPromise<bool>::IHttpResponse{
+			CONSTRUCTOR_2(OnPlanUpdateListener, std::vector<CString>&, cacheRow, CPlanPanel&, planPanel)
+		public:
+			void OnSuccess(bool bRet)
+			{
+				if (bRet)
+				{
+					(m_planPanel.CPlanPanel::OnModifyDataSuccess)(m_cacheRow);
+				}
+				m_planPanel.GetParent()->EnableWindow(TRUE);
+			}
+			void OnFailed()
+			{
+				m_planPanel.MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+			}
+		};
+
+
+		CServer::GetInstance()->GetPlan().Update(checkedRows, m_cacheRow)
+			.then(new OnPlanUpdateListener(m_cacheRow, *this));
+
+
+		//m_pHttp->Post(url, MODIFY_URL_ID, attr);
 		GetParent()->EnableWindow(FALSE);
 	}
 }
@@ -305,50 +348,63 @@ void CPlanPanel::OnBnClickedMore()
 
 void CPlanPanel::OnBnClickedReApproveBZRQBusiness()
 {
-	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/plan/unapprove/pack/business/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	//CString url;
+	//url.Format(_T("http://%s:8080/BlueRay/plan/unapprove/pack/business/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	std::map<CString, IntArrayPtr> attr;
-	attr[L"rows"] = &checkedRows;
+	//std::map<CString, IntArrayPtr> attr;
+	//attr[L"rows"] = &checkedRows;
 
-	m_pHttp->Post(url, REAPPROVE_URL_ID, attr);
+	//m_pHttp->Post(url, REAPPROVE_URL_ID, attr);
+	CPlan& plan = CServer::GetInstance()->GetPlan();
+	plan.Unapprove(CPlan::PACK_BUSINESS, checkedRows).then(new OnReApproveListener(*this));
+	GetParent()->EnableWindow(FALSE);
 }
 
 void CPlanPanel::OnBnClickedReApproveBZRQPlan()
 {
-	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/plan/unapprove/pack/plan/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	//CString url;
+	//url.Format(_T("http://%s:8080/BlueRay/plan/unapprove/pack/plan/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	std::map<CString, IntArrayPtr> attr;
-	attr[L"rows"] = &checkedRows;
+	//std::map<CString, IntArrayPtr> attr;
+	//attr[L"rows"] = &checkedRows;
 
-	m_pHttp->Post(url, REAPPROVE_URL_ID, attr);
+	//m_pHttp->Post(url, REAPPROVE_URL_ID, attr);
+	CPlan& plan = CServer::GetInstance()->GetPlan();
+	plan.Unapprove(CPlan::PACK_PLAN, checkedRows).then(new OnReApproveListener(*this));
+	GetParent()->EnableWindow(FALSE);
 }
 
 void CPlanPanel::OnBnClickedReApproveSCRQBusiness()
 {
-	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/plan/unapprove/business/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	//CString url;
+	//url.Format(_T("http://%s:8080/BlueRay/plan/unapprove/business/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	std::map<CString, IntArrayPtr> attr;
-	attr[L"rows"] = &checkedRows;
+	//std::map<CString, IntArrayPtr> attr;
+	//attr[L"rows"] = &checkedRows;
 
-	m_pHttp->Post(url, REAPPROVE_URL_ID, attr);
+	//m_pHttp->Post(url, REAPPROVE_URL_ID, attr);
+	CPlan& plan = CServer::GetInstance()->GetPlan();
+	plan.Unapprove(CPlan::PLAN_BUSINESS, checkedRows).then(new OnReApproveListener(*this));
+	GetParent()->EnableWindow(FALSE);
 }
 
 void CPlanPanel::OnBnClickedReApproveSCRQPlan()
 {
-	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/plan/unapprove/plan/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	//CString url;
+	//url.Format(_T("http://%s:8080/BlueRay/plan/unapprove/plan/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	std::map<CString, IntArrayPtr> attr;
-	attr[L"rows"] = &checkedRows;
+	//std::map<CString, IntArrayPtr> attr;
+	//attr[L"rows"] = &checkedRows;
 
-	m_pHttp->Post(url, REAPPROVE_URL_ID, attr);
+	//m_pHttp->Post(url, REAPPROVE_URL_ID, attr);
+
+	CPlan& plan = CServer::GetInstance()->GetPlan();
+	plan.Unapprove(CPlan::PACK_PLAN, checkedRows).then(new OnReApproveListener(*this));
+	GetParent()->EnableWindow(FALSE);
 }
 
 

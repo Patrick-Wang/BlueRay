@@ -14,7 +14,7 @@ CPlan::~CPlan()
 
 
 
-bool CPlan::Update(IntArray& rows, StringArray& record)
+CPromise<bool>& CPlan::Update(IntArray& rows, StringArray& record)
 {
 	std::map<CString, StringArrayPtr> attr;
 	StringArray tmpRows;
@@ -25,13 +25,13 @@ bool CPlan::Update(IntArray& rows, StringArray& record)
 	attr[_T("data")] = &record;
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/plan/update"), IDS_HOST_NAME);
-	CString strRet;
-	m_lpHttp->SyncPost(traceSession(url), attr, strRet);
-	return strRet.Compare(L"success") == 0;
+	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_lpHttp);
+	m_lpHttp->Post(traceSession(url), (int)promise, attr);
+	return *promise;
 }
 
 
-bool CPlan::Approve(ApproveType type, IntArray& rows)
+CPromise<bool>& CPlan::Approve(ApproveType type, IntArray& rows)
 {
 	CString url;
 	switch (type)
@@ -54,7 +54,7 @@ bool CPlan::Approve(ApproveType type, IntArray& rows)
 	return doApprove(url, rows);
 }
 
-bool CPlan::Unapprove(ApproveType type, IntArray& rows)
+CPromise<bool>& CPlan::Unapprove(ApproveType type, IntArray& rows)
 {
 	CString url;
 	switch (type)
@@ -78,11 +78,11 @@ bool CPlan::Unapprove(ApproveType type, IntArray& rows)
 	return doApprove(url, rows);
 }
 
-bool CPlan::doApprove(CString& url, IntArray& rows)
+CPromise<bool>& CPlan::doApprove(CString& url, IntArray& rows)
 {
 	std::map<CString, IntArrayPtr> attr;
 	attr[_T("rows")] = &rows;
-	CString strRet;
-	m_lpHttp->SyncPost(traceSession(url), attr, strRet);
-	return strRet.Compare(L"success") == 0;
+	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_lpHttp);
+	m_lpHttp->Post(traceSession(url), (int)promise, attr);
+	return *promise;
 }

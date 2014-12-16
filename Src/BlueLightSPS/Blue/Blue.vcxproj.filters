@@ -374,6 +374,9 @@
     <ClCompile Include="Permission.cpp">
       <Filter>server</Filter>
     </ClCompile>
+    <ClCompile Include="promise.cpp">
+      <Filter>server</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Blue.rc">

@@ -3,14 +3,21 @@
 #include "IHttp.h"
 #include <memory>
 #include "User.h"
+
+
+template<typename _T1>
+class CPromise{
+
+};
+
 #define MAKE_PROMISE(T, success) \
-template<typename _T1 = T>\
-class CPromise\
+template<>\
+class CPromise<T>\
 {\
 public:\
 class IHttpResponse {\
 public:\
-	   virtual void OnSuccess(_T1 stret) = 0; \
+	   virtual void OnSuccess(T stret) = 0; \
 	   virtual void OnFailed() = 0; \
 	   virtual ~IHttpResponse(){}; \
 }; \
@@ -71,18 +78,29 @@ protected:
 	_Ty m_handle;
 };
 
-#define BEGIN_LISTENER(listener, promise, argType) \
-class listener : public promise::IHttpResponse, CHolder < argType > {\
+
+#define CONSTRUCTOR_1(name, ty1, arg1) \
 public:\
-	listener(argType arg) : CHolder(arg){\
-	}
+	name(ty1 arg1):m_##arg1(arg1){}\
+private:\
+	ty1 m_##arg1;
 
-#define END_LISTENER \
-};
+#define CONSTRUCTOR_2(name, ty1, arg1, ty2, arg2) \
+public:\
+	name(ty1 arg1, ty2 arg2):m_##arg1(arg1), m_##arg2(arg2){}\
+private:\
+	ty1 m_##arg1;\
+	ty2 m_##arg2;
 
-
+extern CUser* StringToUser(LPCTSTR strJson);
 #define USER_SUCCESS(resp, strRet) \
-	resp->OnSuccess(CAccount::StringToUser(strRet))
+	resp->OnSuccess(StringToUser(strRet))
 
 MAKE_PROMISE(CUser*, USER_SUCCESS)
+
+
+#define STRING_SUCCESS(resp, strRet) \
+	resp->OnSuccess(0 == _tcscmp(strRet, L"success"))
+
+MAKE_PROMISE(bool, STRING_SUCCESS)
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "IHttp.h"
 #include "HttpServerInterface.h"
-
+#include "Promise.h"
 class CPlan : public CHttpServerInterface
 {
 public:
@@ -14,10 +14,10 @@ public:
 
 	CPlan();
 	~CPlan();
-	bool Update(IntArray& rows, StringArray& record);
-	bool Approve(ApproveType type, IntArray& rows);
-	bool Unapprove(ApproveType type, IntArray& rows);
+	CPromise<bool>& Update(IntArray& rows, StringArray& record);
+	CPromise<bool>& Approve(ApproveType type, IntArray& rows);
+	CPromise<bool>& Unapprove(ApproveType type, IntArray& rows);
 private:
-	bool doApprove(CString& url, IntArray& rows);
+	CPromise<bool>& doApprove(CString& url, IntArray& rows);
 };
 
