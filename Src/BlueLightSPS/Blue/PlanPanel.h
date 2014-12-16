@@ -27,11 +27,19 @@ protected:
 	afx_msg void OnBnClickedSearch();
 	afx_msg void OnBnClickedTableFilter();
 	afx_msg void OnBnClickedMore();
+	afx_msg void OnBnClickedReApproveBZRQBusiness();
+	afx_msg void OnBnClickedReApproveBZRQPlan();
+	afx_msg void OnBnClickedReApproveSCRQBusiness();
+	afx_msg void OnBnClickedReApproveSCRQPlan();
+
 	void OnModifyDataSuccess(std::vector<CString>& newData);
+
+private:
+	virtual void PostNcDestroy();
+
 private:
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
 	std::vector<CString> m_cacheRow;
-
 
 	CBRButton* m_btnPlan;
 	CBRButton* m_btnModify;
@@ -39,8 +47,14 @@ private:
 	CBRButton* m_btnSearch;
 	CBRButton* m_btnMore;
 	CBSStatic* m_bsMoreWord;
-	CBRButton m_btnTableFilter;
+	CBRButton* m_btnTableFilter;
 	CEdit* m_editSearch;
+
+	CBRButton* m_btnReApproveSCRQBusiness;
+	CBRButton* m_btnReApproveSCRQPlan;
+	CBRButton* m_btnReApproveBZRQBusiness;
+	CBRButton* m_btnReApproveBZRQPlan;
+
 	CBSStatic* m_staticProductionStatus;
 	CComboBox* m_comboProductionStatus;
 	CTableFilterDlg m_tableFilterDlg;

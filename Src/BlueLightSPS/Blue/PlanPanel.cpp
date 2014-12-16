@@ -6,12 +6,13 @@
 #include "CommonDefine.h"
 #include "Util.h"
 #include "colors.h"
-
+#include "User.h"
 
 #define QUERY_URL_ID IDP_PLAN + 1
 #define ADD_URL_ID IDP_PLAN + 2
 #define DEL_URL_ID IDP_PLAN + 3
 #define MODIFY_URL_ID IDP_PLAN + 4
+#define REAPPROVE_URL_ID IDP_PLAN + 5
 
 BEGIN_MESSAGE_MAP(CPlanPanel, CBRPanel)
 	ON_BN_CLICKED(IDC_PLAN_BTN_PLAN, &CPlanPanel::OnBnClickedPlan)
@@ -20,22 +21,32 @@ BEGIN_MESSAGE_MAP(CPlanPanel, CBRPanel)
 	ON_BN_CLICKED(IDC_PLAN_BTN_SEARCH, &CPlanPanel::OnBnClickedSearch)
 	ON_BN_CLICKED(IDC_PLAN_BTN_MORE, &CPlanPanel::OnBnClickedMore)
 	ON_BN_CLICKED(IDC_PLAN_BTN_TABLEFILTER, &CPlanPanel::OnBnClickedTableFilter)
+
+	ON_BN_CLICKED(IDC_PLAN_BTN_REAPPROVEBZRQBUSINESS, &CPlanPanel::OnBnClickedReApproveBZRQBusiness)
+	ON_BN_CLICKED(IDC_PLAN_BTN_REAPPROVEBZRQPLAN, &CPlanPanel::OnBnClickedReApproveBZRQPlan)
+	ON_BN_CLICKED(IDC_PLAN_BTN_REAPPROVESCRQBUSINESS, &CPlanPanel::OnBnClickedReApproveSCRQBusiness)
+	ON_BN_CLICKED(IDC_PLAN_BTN_REAPPROVESCRQPLAN, &CPlanPanel::OnBnClickedReApproveSCRQPlan)
 	ON_WM_NCDESTROY()
 //	ON_WM_SHOWWINDOW()
 END_MESSAGE_MAP()
 
 CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
-	: CBRPanel(pJqGridAPI, pHttp),
-		m_btnPlan(NULL),
-		m_btnModify(NULL),
-		m_btnRestore(NULL),
-		m_btnSearch(NULL),
-		m_btnMore(NULL),
-		m_bsMoreWord(NULL),
-		m_editSearch(NULL),
-		m_staticProductionStatus(NULL),
-		m_comboProductionStatus(NULL),
-		m_tableFilterDlg(_T("表格设置"))
+	: CBRPanel(pJqGridAPI, pHttp)
+	, m_btnPlan(NULL)
+	, m_btnModify(NULL)
+	, m_btnRestore(NULL)
+	, m_btnSearch(NULL)
+	, m_btnMore(NULL)
+	, m_bsMoreWord(NULL)
+	, m_editSearch(NULL)
+	, m_staticProductionStatus(NULL)
+	, m_comboProductionStatus(NULL)
+	, m_btnTableFilter(NULL)
+	, m_btnReApproveBZRQBusiness(NULL)
+	, m_btnReApproveBZRQPlan(NULL)
+	, m_btnReApproveSCRQBusiness(NULL)
+	, m_btnReApproveSCRQPlan(NULL)
+	, m_tableFilterDlg(_T("表格设置"))
 
 {
 	m_tableFilterDlg.Initialize(m_pJqGridAPI.get(), Page_Plan);
@@ -46,7 +57,95 @@ CPlanPanel::~CPlanPanel()
 {
 }
 
+void CPlanPanel::PostNcDestroy()
+{
+	// TODO: Add your specialized code here and/or call the base class
+	if (NULL != m_btnPlan)
+	{
+		delete m_btnPlan;
+		m_btnPlan = NULL;
+	}
 
+	if (NULL != m_btnModify)
+	{
+		delete m_btnModify;
+		m_btnModify = NULL;
+	}
+
+	if (NULL != m_btnRestore)
+	{
+		delete m_btnRestore;
+		m_btnRestore = NULL;
+	}
+
+	if (NULL != m_btnSearch)
+	{
+		delete m_btnSearch;
+		m_btnSearch = NULL;
+	}
+
+	if (NULL != m_btnMore)
+	{
+		delete m_btnMore;
+		m_btnMore = NULL;
+	}
+
+	if (NULL != m_bsMoreWord)
+	{
+		delete m_bsMoreWord;
+		m_bsMoreWord = NULL;
+	}
+
+	if (NULL != m_editSearch)
+	{
+		delete m_editSearch;
+		m_editSearch = NULL;
+	}
+
+	if (NULL != m_staticProductionStatus)
+	{
+		delete m_staticProductionStatus;
+		m_staticProductionStatus = NULL;
+	}
+
+	if (NULL != m_comboProductionStatus)
+	{
+		delete m_comboProductionStatus;
+		m_comboProductionStatus = NULL;
+	}
+
+	if (NULL != m_btnTableFilter)
+	{
+		delete m_btnTableFilter;
+		m_btnTableFilter = NULL;
+	}
+
+	if (NULL != m_btnReApproveBZRQBusiness)
+	{
+		delete m_btnReApproveBZRQBusiness;
+		m_btnReApproveBZRQBusiness = NULL;
+	}
+
+	if (NULL != m_btnReApproveBZRQPlan)
+	{
+		delete m_btnReApproveBZRQPlan;
+		m_btnReApproveBZRQPlan = NULL;
+	}
+
+	if (NULL != m_btnReApproveSCRQBusiness)
+	{
+		delete m_btnReApproveSCRQBusiness;
+		m_btnReApproveSCRQBusiness = NULL;
+	}
+
+	if (NULL != m_btnReApproveSCRQPlan)
+	{
+		delete m_btnReApproveSCRQPlan;
+		m_btnReApproveSCRQPlan = NULL;
+	}
+
+	CBRPanel::PostNcDestroy();
+}
 
 void CPlanPanel::OnInitChilds()
 {
@@ -85,10 +184,20 @@ void CPlanPanel::OnInitChilds()
 	m_btnRestore = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_RESTORE, _T("重置"), _T("Microsoft YaHei"), 12);
 	m_btnRestore->MoveWindow(250, 70, 90, 25);
 
+	m_btnTableFilter = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_TABLEFILTER, _T("表格设置"), _T("Microsoft YaHei"), 12);
+	m_btnTableFilter->MoveWindow(860, 25, 90, 25);
 
-	m_btnTableFilter.Create(this, IDC_PLAN_BTN_TABLEFILTER);
-	m_btnTableFilter.SetWindowText(_T("表格设置"));
-	m_btnTableFilter.MoveWindow(860, 25, 90, 25);
+	m_btnReApproveSCRQBusiness = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVESCRQBUSINESS, _T("反审核-生产日期-业务"), _T("Microsoft YaHei"), 12);
+	m_btnReApproveSCRQBusiness->MoveWindow(500, 70, 140, 25);
+
+	m_btnReApproveSCRQPlan = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVESCRQPLAN, _T("反审核-生产日期-计划"), _T("Microsoft YaHei"), 12);
+	m_btnReApproveSCRQPlan->MoveWindow(660, 70, 140, 25);
+	
+	m_btnReApproveBZRQBusiness = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVEBZRQBUSINESS, _T("反审核-包装日期-业务"), _T("Microsoft YaHei"), 12);
+	m_btnReApproveBZRQBusiness->MoveWindow(820, 70, 140, 25);
+	
+	m_btnReApproveBZRQPlan = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVEBZRQPLAN, _T("反审核-包装日期-计划"), _T("Microsoft YaHei"), 12);
+	m_btnReApproveBZRQPlan->MoveWindow(980, 70, 140, 25);
 
 	m_btnPlan->EnableWindow(FALSE);
 	m_btnRestore->EnableWindow(FALSE);
@@ -285,6 +394,55 @@ void CPlanPanel::OnBnClickedMore()
 	}
 }
 
+void CPlanPanel::OnBnClickedReApproveBZRQBusiness()
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/plan/unapprove/pack/business/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	std::vector<int> checkedRows;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+	std::map<CString, IntArrayPtr> attr;
+	attr[L"rows"] = &checkedRows;
+
+	m_pHttp->Post(url, REAPPROVE_URL_ID, attr);
+}
+
+void CPlanPanel::OnBnClickedReApproveBZRQPlan()
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/pack/plan/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	std::vector<int> checkedRows;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+	std::map<CString, IntArrayPtr> attr;
+	attr[L"rows"] = &checkedRows;
+
+	m_pHttp->Post(url, REAPPROVE_URL_ID, attr);
+}
+
+void CPlanPanel::OnBnClickedReApproveSCRQBusiness()
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/business/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	std::vector<int> checkedRows;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+	std::map<CString, IntArrayPtr> attr;
+	attr[L"rows"] = &checkedRows;
+
+	m_pHttp->Post(url, REAPPROVE_URL_ID, attr);
+}
+
+void CPlanPanel::OnBnClickedReApproveSCRQPlan()
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/plan/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	std::vector<int> checkedRows;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+	std::map<CString, IntArrayPtr> attr;
+	attr[L"rows"] = &checkedRows;
+
+	m_pHttp->Post(url, REAPPROVE_URL_ID, attr);
+}
+
+
 void CPlanPanel::OnNcDestroy()
 {
 	if (NULL != m_btnPlan)
@@ -329,8 +487,6 @@ void CPlanPanel::OnNcDestroy()
 
 	__super::OnNcDestroy();
 }
-
-
 
 //void CPlanPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 //{
@@ -394,6 +550,9 @@ void CPlanPanel::OnHttpSuccess(int id, LPCTSTR resp)
 		break;
 	//case BUSSINESS_APPROVE_URL_ID:	//test purpose
 		//break;
+	case REAPPROVE_URL_ID:
+		MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
+		break;
 	default:
 		break;
 	}
@@ -415,6 +574,9 @@ void CPlanPanel::OnHttpFailed(int id)
 		break;
 	case MODIFY_URL_ID:
 		MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+		break;
+	case REAPPROVE_URL_ID:
+		MessageBox(_T("反审核失败"), _T("反审核"), MB_OK | MB_ICONWARNING);
 		break;
 	default:
 		break;
@@ -454,8 +616,6 @@ void CPlanPanel::OnModifyDataSuccess(std::vector<CString>& newData)
 			}
 		}
 	}
-
-
 
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
