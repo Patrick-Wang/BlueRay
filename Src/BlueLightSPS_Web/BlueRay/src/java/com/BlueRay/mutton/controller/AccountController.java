@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.BlueRay.mutton.model.entity.jpa.User;
 import com.BlueRay.mutton.service.AccountService;
 import com.BlueRay.mutton.service.SaleService;
 import com.BlueRay.mutton.tool.Util;
@@ -78,11 +79,15 @@ public class AccountController {
 		else{
 			if (service.login(userName, psw)){
 				session = request.getSession(true);
-				ret= session.getId();
+				session.setAttribute("usrName", userName);
+				UserInfo usrInfo = service.getUsrInfo(userName);
+				usrInfo.setSession(session.getId());
+				if (null != usrInfo){
+					ret = JSONObject.fromObject(usrInfo).toString();
+				}
 			}
 		}
 		return ret;
 	}
-
 	
 }

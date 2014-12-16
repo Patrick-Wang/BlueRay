@@ -171,6 +171,34 @@ CREATE TABLE `zdqdyflxx` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
+-- Table structure for user
+-- ----------------------------
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `name` char(100) NOT NULL,
+  `psw` char(100) NOT NULL,
+  `department` char(100) NOT NULL,
+  `role` char(100) NOT NULL,
+  PRIMARY KEY  (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for permission
+-- ----------------------------
+DROP TABLE IF EXISTS `permission`;
+CREATE TABLE `permission` (
+  `role` char(100) NOT NULL,
+  `xsywsh` tinyint(1) default false,
+  `xsjhsh` tinyint(1) default false,
+  `jhywsh` tinyint(1) default false,
+  `jhjhsh` tinyint(1) default false,
+  `jhbzywsh` tinyint(1) default false,
+  `jhbzjhsh` tinyint(1) default false,
+  PRIMARY KEY  (`role`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ 
+
+-- ----------------------------
 -- Records 
 -- ----------------------------
 INSERT INTO `bmqxhflxx` VALUES ('1', '海1387');
@@ -226,3 +254,5 @@ INSERT INTO `zcxx` VALUES ('2', 'RC');
 INSERT INTO `zdqdyflxx` VALUES ('1', 'DC110V');
 INSERT INTO `zdqdyflxx` VALUES ('2', 'AC220V');
 INSERT INTO `zdqdyflxx` VALUES ('3', 'DC220V');
+INSERT INTO `user` VALUES ('planer', 'e10adc3949ba59abbe56e057f20f883e', 'Production', 'USER');
+INSERT INTO `permission` VALUES ('USER', false, false, false, false, false, false);
