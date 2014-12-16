@@ -371,7 +371,7 @@ public class SaleServiceImpl implements SaleService {
 			HTXX htxx = saleDao
 					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
 			if ("Y".equals(htxx.getSftgjhsh())) {
-				htxx.setSftgywsh("N");
+				htxx.setSftgjhsh("N");
 				saleDao.update(htxx);
 				validatePassUnapprove(htxx);
 			}
