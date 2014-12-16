@@ -318,7 +318,7 @@ void CPlanPanel::OnBnClickedReApproveBZRQBusiness()
 void CPlanPanel::OnBnClickedReApproveBZRQPlan()
 {
 	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/pack/plan/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	url.Format(_T("http://%s:8080/BlueRay/plan/unapprove/pack/plan/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 	std::map<CString, IntArrayPtr> attr;
@@ -330,7 +330,7 @@ void CPlanPanel::OnBnClickedReApproveBZRQPlan()
 void CPlanPanel::OnBnClickedReApproveSCRQBusiness()
 {
 	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/business/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	url.Format(_T("http://%s:8080/BlueRay/plan/unapprove/business/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 	std::map<CString, IntArrayPtr> attr;
@@ -342,7 +342,7 @@ void CPlanPanel::OnBnClickedReApproveSCRQBusiness()
 void CPlanPanel::OnBnClickedReApproveSCRQPlan()
 {
 	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/plan/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	url.Format(_T("http://%s:8080/BlueRay/plan/unapprove/plan/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 	std::map<CString, IntArrayPtr> attr;

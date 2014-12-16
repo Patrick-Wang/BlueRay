@@ -255,4 +255,4 @@ INSERT INTO `zdqdyflxx` VALUES ('1', 'DC110V');
 INSERT INTO `zdqdyflxx` VALUES ('2', 'AC220V');
 INSERT INTO `zdqdyflxx` VALUES ('3', 'DC220V');
 INSERT INTO `user` VALUES ('planer', 'e10adc3949ba59abbe56e057f20f883e', 'Production', 'USER');
-INSERT INTO `permission` VALUES ('USER', false, false, false, false, false, false);
+INSERT INTO `permission` VALUES ('USER', true, true, true, true, true, true);
