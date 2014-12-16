@@ -35,9 +35,6 @@ protected:
 	void OnModifyDataSuccess(std::vector<CString>& newData);
 
 private:
-	virtual void PostNcDestroy();
-
-private:
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
 	std::vector<CString> m_cacheRow;
 
@@ -62,6 +59,5 @@ private:
 
 public:
 	afx_msg void OnNcDestroy();
-//	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
 };
 

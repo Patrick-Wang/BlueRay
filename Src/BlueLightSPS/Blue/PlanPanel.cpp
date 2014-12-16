@@ -27,7 +27,6 @@ BEGIN_MESSAGE_MAP(CPlanPanel, CBRPanel)
 	ON_BN_CLICKED(IDC_PLAN_BTN_REAPPROVESCRQBUSINESS, &CPlanPanel::OnBnClickedReApproveSCRQBusiness)
 	ON_BN_CLICKED(IDC_PLAN_BTN_REAPPROVESCRQPLAN, &CPlanPanel::OnBnClickedReApproveSCRQPlan)
 	ON_WM_NCDESTROY()
-//	ON_WM_SHOWWINDOW()
 END_MESSAGE_MAP()
 
 CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
@@ -55,96 +54,6 @@ CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
 
 CPlanPanel::~CPlanPanel()
 {
-}
-
-void CPlanPanel::PostNcDestroy()
-{
-	// TODO: Add your specialized code here and/or call the base class
-	if (NULL != m_btnPlan)
-	{
-		delete m_btnPlan;
-		m_btnPlan = NULL;
-	}
-
-	if (NULL != m_btnModify)
-	{
-		delete m_btnModify;
-		m_btnModify = NULL;
-	}
-
-	if (NULL != m_btnRestore)
-	{
-		delete m_btnRestore;
-		m_btnRestore = NULL;
-	}
-
-	if (NULL != m_btnSearch)
-	{
-		delete m_btnSearch;
-		m_btnSearch = NULL;
-	}
-
-	if (NULL != m_btnMore)
-	{
-		delete m_btnMore;
-		m_btnMore = NULL;
-	}
-
-	if (NULL != m_bsMoreWord)
-	{
-		delete m_bsMoreWord;
-		m_bsMoreWord = NULL;
-	}
-
-	if (NULL != m_editSearch)
-	{
-		delete m_editSearch;
-		m_editSearch = NULL;
-	}
-
-	if (NULL != m_staticProductionStatus)
-	{
-		delete m_staticProductionStatus;
-		m_staticProductionStatus = NULL;
-	}
-
-	if (NULL != m_comboProductionStatus)
-	{
-		delete m_comboProductionStatus;
-		m_comboProductionStatus = NULL;
-	}
-
-	if (NULL != m_btnTableFilter)
-	{
-		delete m_btnTableFilter;
-		m_btnTableFilter = NULL;
-	}
-
-	if (NULL != m_btnReApproveBZRQBusiness)
-	{
-		delete m_btnReApproveBZRQBusiness;
-		m_btnReApproveBZRQBusiness = NULL;
-	}
-
-	if (NULL != m_btnReApproveBZRQPlan)
-	{
-		delete m_btnReApproveBZRQPlan;
-		m_btnReApproveBZRQPlan = NULL;
-	}
-
-	if (NULL != m_btnReApproveSCRQBusiness)
-	{
-		delete m_btnReApproveSCRQBusiness;
-		m_btnReApproveSCRQBusiness = NULL;
-	}
-
-	if (NULL != m_btnReApproveSCRQPlan)
-	{
-		delete m_btnReApproveSCRQPlan;
-		m_btnReApproveSCRQPlan = NULL;
-	}
-
-	CBRPanel::PostNcDestroy();
 }
 
 void CPlanPanel::OnInitChilds()
@@ -448,58 +357,89 @@ void CPlanPanel::OnNcDestroy()
 	if (NULL != m_btnPlan)
 	{
 		delete m_btnPlan;
+		m_btnPlan = NULL;
 	}
 
 	if (NULL != m_btnModify)
 	{
 		delete m_btnModify;
+		m_btnModify = NULL;
 	}
 
 	if (NULL != m_btnRestore)
 	{
 		delete m_btnRestore;
+		m_btnRestore = NULL;
 	}
 
 	if (NULL != m_btnSearch)
 	{
 		delete m_btnSearch;
+		m_btnSearch = NULL;
 	}
 
 	if (NULL != m_btnMore)
 	{
 		delete m_btnMore;
+		m_btnMore = NULL;
 	}
 
 	if (NULL != m_bsMoreWord)
 	{
 		delete m_bsMoreWord;
+		m_bsMoreWord = NULL;
+	}
+
+	if (NULL != m_editSearch)
+	{
+		delete m_editSearch;
+		m_editSearch = NULL;
 	}
 
 	if (NULL != m_staticProductionStatus)
 	{
 		delete m_staticProductionStatus;
+		m_staticProductionStatus = NULL;
 	}
 
 	if (NULL != m_comboProductionStatus)
 	{
 		delete m_comboProductionStatus;
+		m_comboProductionStatus = NULL;
+	}
+
+	if (NULL != m_btnTableFilter)
+	{
+		delete m_btnTableFilter;
+		m_btnTableFilter = NULL;
+	}
+
+	if (NULL != m_btnReApproveBZRQBusiness)
+	{
+		delete m_btnReApproveBZRQBusiness;
+		m_btnReApproveBZRQBusiness = NULL;
+	}
+
+	if (NULL != m_btnReApproveBZRQPlan)
+	{
+		delete m_btnReApproveBZRQPlan;
+		m_btnReApproveBZRQPlan = NULL;
+	}
+
+	if (NULL != m_btnReApproveSCRQBusiness)
+	{
+		delete m_btnReApproveSCRQBusiness;
+		m_btnReApproveSCRQBusiness = NULL;
+	}
+
+	if (NULL != m_btnReApproveSCRQPlan)
+	{
+		delete m_btnReApproveSCRQPlan;
+		m_btnReApproveSCRQPlan = NULL;
 	}
 
 	__super::OnNcDestroy();
 }
-
-//void CPlanPanel::OnShowWindow(BOOL bShow, UINT nStatus)
-//{
-//	__super::OnShowWindow(bShow, nStatus);
-//	if (bShow)
-//	{
-//		if (!IsUpdated())
-//		{
-//			Updated();
-//			
-//		}
-//	}
-//}
 
 void CPlanPanel::OnRowChecked()
 {

@@ -22,41 +22,41 @@ public:
 protected:
 	virtual void OnDataUpdate();
 	virtual void OnInitChilds();
+
 	afx_msg void OnBnClickedAdd();
 	afx_msg void OnBnClickedDelete();
 	afx_msg void OnBnClickedModify();
 	afx_msg void OnBnClickedSearch();
 	afx_msg void OnBnClickedTableFilter();
 	afx_msg void OnBnClickedMore();
-	afx_msg void OnBnClickedApprove();	//test purpose
+
 	afx_msg void OnBnClickedReApproveBusiness();
 	afx_msg void OnBnClickedReApprovePlan();
-//	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
+	
 	void OnLoadDataSuccess();
 	void OnDelDataSuccess();
 	void OnModifyDataSuccess(std::vector<CString>& newData);
 	void OnAddDataSuccess(int id, std::vector<CString>& data);
 	void OnApproveDataSuccess();
+
 private:
-	CBRButton m_btnAdd;
-	CBRButton m_btnSearch;
-	CBRButton m_btnModify;
-	CBRButton m_btnDelete;
-	CBRButton m_btnMore;
-	CBRButton m_btnTableFilter;
-
-	CBRButton m_btnReApproveForBusiness;
-	CBRButton m_btnReApproveForPlan;
-
-	CBSStatic m_bsMoreWord;
+	CBRButton* m_btnAdd;
+	CBRButton* m_btnSearch;
+	CBRButton* m_btnModify;
+	CBRButton* m_btnDelete;
+	CBRButton* m_btnMore;
+	CBRButton* m_btnTableFilter;
+	CBRButton* m_btnReApproveForBusiness;
+	CBRButton* m_btnReApproveForPlan;
+	CBSStatic* m_bsMoreWord;
 	CEdit* m_editSearch;
-	DECLARE_MESSAGE_MAP()
+
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
 	std::vector<CString> m_cacheRow;
 	CTableFilterDlg m_tableFilterDlg;
 
-	//CBRButton m_btnApprove; //only for test purpose
-
+	DECLARE_MESSAGE_MAP()
+	
 public:
 	afx_msg void OnNcDestroy();
 };

@@ -27,16 +27,24 @@ BEGIN_MESSAGE_MAP(CSalePanel, CBRPanel)
 	ON_BN_CLICKED(IDC_SALE_BTN_SEARCH, &CSalePanel::OnBnClickedSearch)
 	ON_BN_CLICKED(IDC_SALE_BTN_MORE, &CSalePanel::OnBnClickedMore)
 	ON_BN_CLICKED(IDC_SALE_BTN_TABLEFILTER, &CSalePanel::OnBnClickedTableFilter)
-	ON_BN_CLICKED(IDC_SALE_BTN_APPROVE, &CSalePanel::OnBnClickedApprove)
 	ON_BN_CLICKED(IDC_SALE_BTN_REAPPROVEFORBUSINESS, &CSalePanel::OnBnClickedReApproveBusiness)
 	ON_BN_CLICKED(IDC_SALE_BTN_REAPPROVEFORPLAN, &CSalePanel::OnBnClickedReApprovePlan)
-//	ON_WM_SHOWWINDOW()
 	ON_WM_NCDESTROY()
 END_MESSAGE_MAP()
 
 CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
 	: CBRPanel(pJqGridAPI, pHttp)
 	, m_tableFilterDlg(_T("表格设置"))
+	, m_btnAdd(NULL)
+	, m_btnSearch(NULL)
+	, m_btnModify(NULL)
+	, m_btnDelete(NULL)
+	, m_btnMore(NULL)
+	, m_btnTableFilter(NULL)
+	, m_btnReApproveForBusiness(NULL)
+	, m_btnReApproveForPlan(NULL)
+	, m_bsMoreWord(NULL)
+	, m_editSearch(NULL)
 {
 	m_tableFilterDlg.Initialize(m_pJqGridAPI.get(), Page_Sale);
 }
@@ -47,59 +55,49 @@ CSalePanel::~CSalePanel()
 
 void CSalePanel::OnInitChilds()
 {
-	int delta = 277 - (RIGHT_AREA_LEFT + 15);
 	m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_SALE_BTN_SEARCH, _T(""), _T("Microsoft YaHei"), 12);
 	m_editSearch->MoveWindow(235, 27, 240, 20);
 
-	m_btnAdd.Create(this, IDC_SALE_BTN_ADD);
-	m_btnAdd.SetWindowText(_T("添加"));
-	m_btnAdd.SetBSFont(12);
-	m_btnAdd.MoveWindow(20, 25, 90, 25);
+	m_btnAdd = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_ADD, _T("添加"), _T("Microsoft YaHei"), 12);
+	m_btnAdd->MoveWindow(20, 25, 90, 25);
 
-	m_btnDelete.Create(this, IDC_SALE_BTN_DELETE);
-	m_btnDelete.SetWindowText(_T("删除"));
-	m_btnDelete.MoveWindow(125, 70, 90, 25);
 
-	m_btnModify.Create(this, IDC_SALE_BTN_MODIFY);
-	m_btnModify.SetWindowText(_T("修改"));
-	m_btnModify.MoveWindow(20, 70, 90, 25);
+	m_btnDelete = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_DELETE, _T("删除"), _T("Microsoft YaHei"), 12);
+	m_btnDelete->MoveWindow(125, 70, 90, 25);
 
-	m_btnSearch.Create(this, IDC_SALE_BTN_SEARCH);
-	m_btnSearch.SetWindowText(_T("查询"));
-	m_btnSearch.MoveWindow(125, 25, 90, 25);
+	m_btnModify = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_MODIFY, _T("修改"), _T("Microsoft YaHei"), 12);
+	m_btnModify->MoveWindow(20, 70, 90, 25);
 
-	m_btnMore.Create(this, IDC_SALE_BTN_MORE);
-	m_btnMore.SetWindowText(_T(">"));
-	m_btnMore.MoveWindow(566, 25, 30, 25);
+	m_btnSearch = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_SEARCH, _T("查询"), _T("Microsoft YaHei"), 12);
+	m_btnSearch->MoveWindow(125, 25, 90, 25);
 
-	m_btnTableFilter.Create(this, IDC_SALE_BTN_TABLEFILTER);
-	m_btnTableFilter.SetWindowText(_T("表格设置"));
-	m_btnTableFilter.MoveWindow(640, 25, 90, 25);
+	m_btnMore = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_MORE, _T(">"), _T("Microsoft YaHei"), 12);
+	m_btnMore->MoveWindow(566, 25, 30, 25);
 
-	m_btnReApproveForBusiness.Create(this, IDC_SALE_BTN_REAPPROVEFORBUSINESS);
-	m_btnReApproveForBusiness.SetWindowText(_T("反审核-业务"));
-	m_btnReApproveForBusiness.MoveWindow(900, 70, 90, 25);
+	m_btnTableFilter = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_TABLEFILTER, _T("表格设置"), _T("Microsoft YaHei"), 12);
+	m_btnTableFilter->MoveWindow(640, 25, 90, 25);
 
-	m_btnReApproveForPlan.Create(this, IDC_SALE_BTN_REAPPROVEFORPLAN);
-	m_btnReApproveForPlan.SetWindowText(_T("反审核-计划"));
-	m_btnReApproveForPlan.MoveWindow(1010, 70, 90, 25);
+	m_btnReApproveForBusiness = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_REAPPROVEFORBUSINESS, _T("反审核-业务"), _T("Microsoft YaHei"), 12);
+	m_btnReApproveForBusiness->MoveWindow(900, 70, 90, 25);
 
-	m_bsMoreWord.Create(this, IDC_SALE_BTN_MOREWORD);
-	m_bsMoreWord.SetWindowText(_T("更多筛选"));
-	m_bsMoreWord.SetBSFont(_T("Microsoft YaHei"), 12);
-	m_bsMoreWord.MoveWindow(485, 27, 63, 20);
+	m_btnReApproveForPlan = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_ADD, _T("反审核-计划"), _T("Microsoft YaHei"), 12);
+	m_btnReApproveForPlan->MoveWindow(1010, 70, 90, 25);
 
-	m_btnDelete.EnableWindow(FALSE);
-	m_btnModify.EnableWindow(FALSE);
+	m_bsMoreWord = Util_Tools::Util::CreateStatic(this, IDC_SALE_BTN_MOREWORD, _T("更多筛选"), _T("Microsoft YaHei"), 12);
+	m_bsMoreWord->MoveWindow(485, 27, 63, 20);
 
-	m_btnReApproveForBusiness.EnableWindow(FALSE);
-	m_btnReApproveForPlan.EnableWindow(FALSE);
+	m_btnDelete->EnableWindow(FALSE);
+	m_btnModify->EnableWindow(FALSE);
+
+	m_btnReApproveForBusiness->EnableWindow(FALSE);
+	m_btnReApproveForPlan->EnableWindow(FALSE);
 }
 
 void CSalePanel::OnBnClickedAdd()
 {
 	CSaleAddDlg dlg(_T("添加"), m_pHttp);
-	if (IDOK == dlg.DoModal()){
+	if (IDOK == dlg.DoModal())
+	{
 		//GetParent()->EnableWindow(FALSE);
 		m_cacheRow = dlg.GetResult();
 		m_cacheRow.push_back(_T("×"));
@@ -124,23 +122,13 @@ void CSalePanel::OnBnClickedAdd()
 
 void CSalePanel::OnBnClickedTableFilter()
 {
-	if (IDOK == m_tableFilterDlg.DoModal()){
+	if (IDOK == m_tableFilterDlg.DoModal())
+	{
+
 	}
 }
 
-void CSalePanel::OnBnClickedApprove()	//test purpose
-{
-	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/sale/approve/business/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
-	std::vector<int> checkedRows;
-	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	std::map<CString, IntArrayPtr> attr;
-	attr[L"rows"] = &checkedRows;
-
-	m_pHttp->Post(url, BUSSINESS_APPROVE_URL_ID, attr);
-}
-
-void CSalePanel::OnBnClickedReApproveBusiness()	
+void CSalePanel::OnBnClickedReApproveBusiness()
 {
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/business/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
@@ -152,7 +140,7 @@ void CSalePanel::OnBnClickedReApproveBusiness()
 	m_pHttp->Post(url, BUSSINESS_REAPPROVE_BSN_URL_ID, attr);
 }
 
-void CSalePanel::OnBnClickedReApprovePlan()	
+void CSalePanel::OnBnClickedReApprovePlan()
 {
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/plan/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
@@ -168,9 +156,10 @@ void CSalePanel::OnBnClickedModify()
 {
 	CSaleAddDlg dlg(_T("修改"), m_pHttp);
 	dlg.d_GetOption += std::make_pair(this, &CSalePanel::OnSaleDlgGetModifyOption);
-	
-	if (IDOK == dlg.DoModal()){
-	//	GetParent()->EnableWindow(FALSE);
+
+	if (IDOK == dlg.DoModal())
+	{
+		//GetParent()->EnableWindow(FALSE);
 		m_cacheRow = dlg.GetResult();
 		std::map<CString, StringArrayPtr> attr;
 		StringArray tmpCheckRows;
@@ -184,7 +173,8 @@ void CSalePanel::OnBnClickedModify()
 		//url.Format(_T("http://%s:8080/BlueRay/sale/modify"), IDS_HOST_NAME);
 		//m_pHttp->Post(url, MODIFY_URL_ID, attr);
 
-		if (CServer::GetInstance()->GetSale().Update(checkedRows, m_cacheRow)){
+		if (CServer::GetInstance()->GetSale().Update(checkedRows, m_cacheRow))
+		{
 			OnModifyDataSuccess(m_cacheRow);
 		}
 		else
@@ -203,7 +193,7 @@ void CSalePanel::OnBnClickedDelete()
 		//GetParent()->EnableWindow(FALSE);
 		std::map<CString, IntArrayPtr> attr;
 		attr[_T("del")] = &checkedRows;
-		
+
 		//CString url;
 		//url.Format(_T("http://%s:8080/BlueRay/sale/delete"), IDS_HOST_NAME);
 		//m_pHttp->Post(url, DEL_URL_ID, attr);
@@ -220,58 +210,24 @@ void CSalePanel::OnBnClickedDelete()
 
 void CSalePanel::OnRowChecked()
 {
-	
-
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 
-
 	if (checkedRows.empty())
 	{
-		m_btnDelete.EnableWindow(FALSE);
-		m_btnModify.EnableWindow(FALSE);
-		//Test purpose
-		//m_btnApprove.EnableWindow(FALSE);
+		m_btnDelete->EnableWindow(FALSE);
+		m_btnModify->EnableWindow(FALSE);
 
-		m_btnReApproveForBusiness.EnableWindow(FALSE);
-		m_btnReApproveForPlan.EnableWindow(FALSE);
+		m_btnReApproveForBusiness->EnableWindow(FALSE);
+		m_btnReApproveForPlan->EnableWindow(FALSE);
 	}
 	else
 	{
-		m_btnDelete.EnableWindow(TRUE);
-		m_btnModify.EnableWindow(TRUE);
+		m_btnDelete->EnableWindow(TRUE);
+		m_btnModify->EnableWindow(TRUE);
 
-		m_btnReApproveForBusiness.EnableWindow(TRUE);
-		m_btnReApproveForPlan.EnableWindow(TRUE);
-		//test purpose
-	
-		//std::vector<int> checkedRowTableMap;
-		//checkedRowTableMap.resize(checkedRows.size(), -1);
-		//for (int i = checkedRows.size() - 1; i >= 0; --i)
-		//{
-		//	for (int j = 0; j < m_table.size(); ++j)
-		//	{
-		//		if (m_table[j].first == checkedRows[i])
-		//		{
-		//			checkedRowTableMap[i] = j;
-		//			break;
-		//		}
-		//	}
-		//}
-		//bool bHasUnapproved = false;
-		//for (int i = checkedRowTableMap.size() - 1; i >= 0; --i)
-		//{
-		//	if (0 == m_table[checkedRowTableMap[i]].second[16].CompareNoCase(_T("×"))){
-		//		m_btnApprove.EnableWindow(TRUE);
-		//		bHasUnapproved = true;
-		//		break;
-		//	}
-		//}
-		//if (!bHasUnapproved)
-		//{
-		//	m_btnApprove.EnableWindow(FALSE);
-		//}
-		
+		m_btnReApproveForBusiness->EnableWindow(TRUE);
+		m_btnReApproveForPlan->EnableWindow(TRUE);
 	}
 }
 
@@ -352,31 +308,72 @@ void CSalePanel::OnBnClickedMore()
 			MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
 		}
 	}
-
 }
-
 
 void CSalePanel::OnNcDestroy()
 {
+	if (NULL != m_btnAdd)
+	{
+		delete m_btnAdd;
+		m_btnAdd = NULL;
+	}
+
+	if (NULL != m_btnSearch)
+	{
+		delete m_btnSearch;
+		m_btnSearch = NULL;
+	}
+
+	if (NULL != m_btnModify)
+	{
+		delete m_btnModify;
+		m_btnModify = NULL;
+	}
+
+	if (NULL != m_btnDelete)
+	{
+		delete m_btnDelete;
+		m_btnDelete = NULL;
+	}
+
+	if (NULL != m_btnMore)
+	{
+		delete m_btnMore;
+		m_btnMore = NULL;
+	}
+
+	if (NULL != m_btnTableFilter)
+	{
+		delete m_btnTableFilter;
+		m_btnTableFilter = NULL;
+	}
+
+	if (NULL != m_btnReApproveForBusiness)
+	{
+		delete m_btnReApproveForBusiness;
+		m_btnReApproveForBusiness = NULL;
+	}
+
+	if (NULL != m_btnReApproveForPlan)
+	{
+		delete m_btnReApproveForPlan;
+		m_btnReApproveForPlan = NULL;
+	}
+
+	if (NULL != m_bsMoreWord)
+	{
+		delete m_bsMoreWord;
+		m_bsMoreWord = NULL;
+	}
+
+	if (NULL != m_editSearch)
+	{
+		delete m_editSearch;
+		m_editSearch = NULL;
+	}
+
 	__super::OnNcDestroy();
 }
-
-
-//void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
-//{
-//	__super::OnShowWindow(bShow, nStatus);
-//	if (bShow)
-//	{
-//		if (!IsUpdated())
-//		{
-//			Updated();
-//			
-//		}
-//	}
-//	
-//
-//}
-
 
 void CSalePanel::OnHttpSuccess(int id, LPCTSTR resp)
 {
@@ -424,9 +421,6 @@ void CSalePanel::OnHttpFailed(int id)
 	case MODIFY_URL_ID:
 		MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
 		break;
-	case BUSSINESS_APPROVE_URL_ID:	//test purpose
-		MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-		break;
 	case BUSSINESS_REAPPROVE_BSN_URL_ID:
 	case BUSSINESS_REAPPROVE_PLAN_URL_ID:
 		MessageBox(_T("反审核失败"), _T("反审核"), MB_OK | MB_ICONWARNING);
@@ -443,8 +437,10 @@ void CSalePanel::OnLoadDataSuccess()
 	{
 		m_pJqGridAPI->DelRow(m_table[j].first);
 	}
+
 	m_pJqGridAPI->Refresh();
 	//StringToTable(jsondata, m_table);
+
 	for (int j = 0; j < m_table.size(); ++j)
 	{
 		m_pJqGridAPI->AddRow(m_table[j].first, m_table[j].second);
@@ -479,7 +475,6 @@ void CSalePanel::OnDelDataSuccess()
 
 void CSalePanel::OnModifyDataSuccess(std::vector<CString>& newData)
 {
-
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 
@@ -578,7 +573,6 @@ void CSalePanel::OnApproveDataSuccess()
 	}
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
-		
 		m_table[checkedRowTableMap[i]].second[16] = _T("√");
 		m_pJqGridAPI->SetCell(checkedRows[i], 17, _T("√"));
 	}
@@ -593,12 +587,10 @@ void CSalePanel::OnDataUpdate()
 	//CString jsondata;
 	//m_pHttp->SyncGet(url, jsondata);
 
-
-
-	if (!CServer::GetInstance()->GetSale().Query(m_table)){
+	if (!CServer::GetInstance()->GetSale().Query(m_table))
+	{
 		OnHttpFailed(QUERY_URL_ID);
 	}
-	
 
 	OnLoadDataSuccess();
 	//GetParent()->EnableWindow(FALSE);
