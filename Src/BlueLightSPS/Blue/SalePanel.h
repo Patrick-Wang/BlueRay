@@ -42,6 +42,10 @@ private:
 	CBRButton m_btnDelete;
 	CBRButton m_btnMore;
 	CBRButton m_btnTableFilter;
+
+	CBRButton m_btnReApproveForBusiness;
+	CBRButton m_btnReApproveForPlan;
+
 	CBSStatic m_bsMoreWord;
 	CEdit* m_editSearch;
 	DECLARE_MESSAGE_MAP()

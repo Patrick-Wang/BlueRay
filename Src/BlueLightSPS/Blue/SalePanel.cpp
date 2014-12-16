@@ -72,10 +72,13 @@ void CSalePanel::OnInitChilds()
 	m_btnTableFilter.SetWindowText(_T("表格设置"));
 	m_btnTableFilter.MoveWindow(640, 25, 90, 25);
 
-	//only for test purpose
-	//m_btnApprove.Create(this, IDC_SALE_BTN_APPROVE);
-	//m_btnApprove.SetWindowText(_T("通过审批"));
-	//m_btnApprove.MoveWindow(800, 25, 90, 25);
+	m_btnReApproveForBusiness.Create(this, IDC_SALE_BTN_REAPPROVEFORBUSINESS);
+	m_btnReApproveForBusiness.SetWindowText(_T("反审核-业务"));
+	m_btnReApproveForBusiness.MoveWindow(900, 25, 90, 25);
+
+	m_btnReApproveForBusiness.Create(this, IDC_SALE_BTN_REAPPROVEFORPLAN);
+	m_btnReApproveForBusiness.SetWindowText(_T("反审核-计划"));
+	m_btnReApproveForBusiness.MoveWindow(1010, 25, 90, 25);
 
 	m_bsMoreWord.Create(this, IDC_SALE_BTN_MOREWORD);
 	m_bsMoreWord.SetWindowText(_T("更多筛选"));
@@ -84,9 +87,6 @@ void CSalePanel::OnInitChilds()
 
 	m_btnDelete.EnableWindow(FALSE);
 	m_btnModify.EnableWindow(FALSE);
-
-	//test purpose
-	//m_btnApprove.EnableWindow(FALSE);
 
 }
 
