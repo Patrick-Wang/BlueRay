@@ -222,6 +222,9 @@
     <ClInclude Include="Account.h">
       <Filter>server</Filter>
     </ClInclude>
+    <ClInclude Include="Permission.h">
+      <Filter>server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blue.cpp">
@@ -363,6 +366,9 @@
       <Filter>server</Filter>
     </ClCompile>
     <ClCompile Include="Account.cpp">
+      <Filter>server</Filter>
+    </ClCompile>
+    <ClCompile Include="Permission.cpp">
       <Filter>server</Filter>
     </ClCompile>
   </ItemGroup>

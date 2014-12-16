@@ -120,6 +120,7 @@
     <ClInclude Include="lib_json\JsonType.h" />
     <ClInclude Include="Notification.h" />
     <ClInclude Include="NotificationPanel.h" />
+    <ClInclude Include="Permission.h" />
     <ClInclude Include="Plan.h" />
     <ClInclude Include="PopupDlg.h" />
     <ClInclude Include="AdoDBConnector.h" />
@@ -190,6 +191,7 @@
     </ClCompile>
     <ClCompile Include="Notification.cpp" />
     <ClCompile Include="NotificationPanel.cpp" />
+    <ClCompile Include="Permission.cpp" />
     <ClCompile Include="Plan.cpp" />
     <ClCompile Include="PopupDlg.cpp" />
     <ClCompile Include="AdoDBConnector.cpp" />

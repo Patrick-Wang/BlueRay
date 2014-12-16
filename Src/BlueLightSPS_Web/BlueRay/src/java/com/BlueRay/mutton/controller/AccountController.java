@@ -1,14 +1,9 @@
 package com.BlueRay.mutton.controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.BlueRay.mutton.service.AccountService;
-import com.BlueRay.mutton.service.SaleService;
-import com.BlueRay.mutton.tool.Util;
 
 @Controller
 @RequestMapping(value = "/account")
@@ -78,11 +71,33 @@ public class AccountController {
 		else{
 			if (service.login(userName, psw)){
 				session = request.getSession(true);
-				ret= session.getId();
+				session.setAttribute("usrName", userName);
+				UserInfo usrInfo = service.getUsrInfo(userName);
+				usrInfo.setSession(session.getId());
+				if (null != usrInfo){
+					ret = JSONObject.fromObject(usrInfo).toString();
+				}
 			}
 		}
 		return ret;
 	}
+	
+	@RequestMapping(value = "/info", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String getInfo(
+			HttpServletRequest request,
+			HttpServletResponse response) {
 
+		HttpSession session = request.getSession(false);
+		String ret = "error";
+		if (null != session){
+			String userName = (String) session.getAttribute("usrName");
+			UserInfo usrInfo = service.getUsrInfo(userName);
+			usrInfo.setSession(session.getId());
+			if (null != usrInfo){
+				ret = JSONObject.fromObject(usrInfo).toString();
+			}
+		}
+		return ret;
+	}
 	
 }
