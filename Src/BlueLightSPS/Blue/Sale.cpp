@@ -13,7 +13,7 @@ CSale::~CSale()
 }
 
 
-bool CSale::Query(std::vector < std::pair<int, StringArray>>& htxxs)
+bool CSale::QuerySync(std::vector < std::pair<int, StringArray>>& htxxs)
 {
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/sale/query/all/none"), IDS_HOST_NAME);
@@ -34,7 +34,7 @@ bool CSale::Query(std::vector < std::pair<int, StringArray>>& htxxs)
 	return false;
 }
 
-bool CSale::Query(ApproveType type, bool approved, std::vector < std::pair<int, StringArray>>& htxxs)
+bool CSale::QuerySync(ApproveType type, bool approved, std::vector < std::pair<int, StringArray>>& htxxs)
 {
 	CString url;
 	switch (type)
@@ -141,7 +141,7 @@ bool CSale::Unapprove(ApproveType type, IntArray& rows)
 		break;
 	}
 
-	return doApprove(url, rows);
+	return doApprove(url, rows  );
 }
 
 bool CSale::doApprove(CString& url, IntArray& rows)
@@ -151,4 +151,24 @@ bool CSale::doApprove(CString& url, IntArray& rows)
 	CString strRet;
 	m_lpHttp->SyncPost(traceSession(url), attr, strRet);
 	return strRet.Compare(L"success") == 0;
+}
+
+CPromise<table>& CSale::Query()
+{
+	class CQueryParser : public CPromise<table>::IRespParser{
+	public:
+		virtual table& OnParse(LPCTSTR strJson){
+			Json::JsonParser jparser;
+			std::shared_ptr < Json::JsonArray > jarr((Json::JsonArray*)jparser.Parse((LPTSTR)strJson));
+			toArray(jarr, m_retTable);
+			return m_retTable;
+		}
+	private:
+		table m_retTable;
+	};
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/sale/query/all/none"), IDS_HOST_NAME);
+	CPromise<table>* promise = CPromise<table>::MakePromise(m_lpHttp, new CQueryParser());
+	m_lpHttp->Get(url, promise->GetId());
+	return *promise;
 }

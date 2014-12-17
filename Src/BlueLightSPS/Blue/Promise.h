@@ -3,81 +3,70 @@
 #include "IHttp.h"
 #include <memory>
 #include "User.h"
-
-
-template<typename _T1>
-class CPromise{
-
-};
-
-#define MAKE_PROMISE(T, success) \
-template<>\
-class CPromise<T>\
-{\
-public:\
-class IHttpResponse {\
-public:\
-	   virtual void OnSuccess(T stret) = 0; \
-	   virtual void OnFailed() = 0; \
-	   virtual ~IHttpResponse(){}; \
-}; \
-	static CPromise* MakePromise(IHttp* pHttp){\
-		return new CPromise(pHttp);\
-	}\
-	~CPromise(){\
-		if (NULL != m_lpHttp)\
-		{\
-			m_lpHttp->d_OnSuccess -= std::make_pair(this, &CPromise::OnSuccess);\
-			m_lpHttp->d_OnFailed -= std::make_pair(this, &CPromise::OnFailed);\
-		}\
-	}\
-private:\
-	CPromise(IHttp* pHttp) : m_lpHttp(pHttp){\
-		if (NULL != m_lpHttp)\
-		{\
-			m_lpHttp->d_OnSuccess += std::make_pair(this, &CPromise::OnSuccess);\
-			m_lpHttp->d_OnFailed += std::make_pair(this, &CPromise::OnFailed);\
-		}\
-	}\
-public:\
-	CPromise& then(IHttpResponse* resp){\
-		m_resps.push_back(std::shared_ptr<IHttpResponse>(resp)); \
-		return *this;\
-	}\
-protected:\
-	void OnSuccess(int id, LPCTSTR strRet){\
-		if ((int)this == id)\
-		{\
-			for (int i = 0, len = m_resps.size(); i < len; ++i)\
-			{\
-				success(m_resps[i].get(), strRet);\
-			}\
-			delete this;\
-		}\
-	}\
-	void OnFailed(int id){\
-		if ((int)this == id)\
-		{\
-			for (int i = 0, len = m_resps.size(); i < len; ++i)\
-			{\
-				m_resps[i]->OnFailed();\
-			}\
-			delete this;\
-		}\
-	}\
-	IHttp* m_lpHttp;\
-	std::vector<std::shared_ptr<IHttpResponse>> m_resps; \
-};
-
-template < typename _Ty > 
-class CHolder{
-public:
-	CHolder(_Ty handle) : m_handle(handle){}
-	virtual ~CHolder(){}
-protected:
-	_Ty m_handle;
-};
-
+//
+//template<typename _T1, typename _Convertor>
+//class CPromise{
+//
+//};
+//
+//#define MAKE_PROMISE(T, success_invoker) \
+//template<>\
+//class CPromise<T>\
+//{\
+//public:\
+//class IHttpResponse {\
+//public:\
+//	   virtual void OnSuccess(T stret) = 0; \
+//	   virtual void OnFailed() = 0; \
+//	   virtual ~IHttpResponse(){}; \
+//}; \
+//	static CPromise* MakePromise(IHttp* pHttp){\
+//		return new CPromise(pHttp);\
+//	}\
+//	~CPromise(){\
+//		if (NULL != m_lpHttp)\
+//				{\
+//			m_lpHttp->d_OnSuccess -= std::make_pair(this, &CPromise::OnSuccess);\
+//			m_lpHttp->d_OnFailed -= std::make_pair(this, &CPromise::OnFailed);\
+//				}\
+//	}\
+//private:\
+//	CPromise(IHttp* pHttp) : m_lpHttp(pHttp){\
+//		if (NULL != m_lpHttp)\
+//				{\
+//			m_lpHttp->d_OnSuccess += std::make_pair(this, &CPromise::OnSuccess);\
+//			m_lpHttp->d_OnFailed += std::make_pair(this, &CPromise::OnFailed);\
+//				}\
+//	}\
+//public:\
+//	CPromise& then(IHttpResponse* resp){\
+//		m_resps.push_back(std::shared_ptr<IHttpResponse>(resp)); \
+//		return *this;\
+//	}\
+//protected:\
+//	void OnSuccess(int id, LPCTSTR strRet){\
+//		if ((int)this == id)\
+//				{\
+//			for (int i = 0, len = m_resps.size(); i < len; ++i)\
+//						{\
+//				success_invoker(m_resps[i].get(), strRet);\
+//						}\
+//			delete this;\
+//				}\
+//	}\
+//	void OnFailed(int id){\
+//		if ((int)this == id)\
+//				{\
+//			for (int i = 0, len = m_resps.size(); i < len; ++i)\
+//						{\
+//				m_resps[i]->OnFailed();\
+//						}\
+//			delete this;\
+//				}\
+//	}\
+//	IHttp* m_lpHttp;\
+//	std::vector<std::shared_ptr<IHttpResponse>> m_resps; \
+//};
 
 #define CONSTRUCTOR_1(name, ty1, arg1) \
 public:\
@@ -92,15 +81,121 @@ private:\
 	ty1 m_##arg1;\
 	ty2 m_##arg2;
 
-extern CUser* StringToUser(LPCTSTR strJson);
-#define USER_SUCCESS(resp, strRet) \
-	resp->OnSuccess(StringToUser(strRet))
+#define CONSTRUCTOR_3(name, ty1, arg1, ty2, arg2, ty3, arg3) \
+public:\
+	name(ty1 arg1, ty2 arg2):m_##arg1(arg1), m_##arg2(arg2){}\
+private:\
+	ty1 m_##arg1;\
+	ty2 m_##arg2;\
+	ty3 m_##arg3;
 
-MAKE_PROMISE(CUser*, USER_SUCCESS)
+typedef std::vector < std::pair<int, StringArray>> table;
+//
+//extern CUser* StringToUser(LPCTSTR strJson);
+//#define USER_SUCCESS(resp, strRet) \
+//	resp->OnSuccess(StringToUser(strRet))
+//
+//#define STRING_SUCCESS(resp, strRet) \
+//	resp->OnSuccess(0 == _tcscmp(strRet, L"success"))
+//
+//typedef std::vector < std::pair<int, StringArray>> table;
+//extern void toArray(LPCTSTR strJson, table& tb);
+//#define LOAD_TABLE_SUCCESS(resp, strRet) \
+//	table tb;\
+//	toArray(strRet, tb);\
+//	resp->OnSuccess(tb)
+//
+//
+//
+//MAKE_PROMISE(CUser*, USER_SUCCESS)
+//MAKE_PROMISE(bool, STRING_SUCCESS)
+//MAKE_PROMISE(table&, LOAD_TABLE_SUCCESS)
 
+template<typename _T>
+class CPromise
+{
+public:
+	class IHttpResponse {
+	public:
+		virtual void OnSuccess(_T& ret) = 0;
+		virtual void OnFailed() = 0;
+		virtual ~IHttpResponse(){};
+	};
 
-#define STRING_SUCCESS(resp, strRet) \
-	resp->OnSuccess(0 == _tcscmp(strRet, L"success"))
+	class IRespParser {
+	public:
+		virtual _T& OnParse(LPCTSTR strRet) = 0;
+		virtual ~IRespParser(){};
+	};
 
-MAKE_PROMISE(bool, STRING_SUCCESS)
+	static CPromise* MakePromise(IHttp* pHttp, IRespParser* pRespParser){
+		return new CPromise(pHttp, pRespParser);
+	}
+	~CPromise(){
 
+		if (NULL != m_lpHttp)
+		{
+			m_lpHttp->d_OnSuccess -= std::make_pair(this, &CPromise::OnSuccess);
+			m_lpHttp->d_OnFailed -= std::make_pair(this, &CPromise::OnFailed);
+		}
+	}
+
+	int GetId(){
+		return (int)this;
+	}
+
+private:
+	CPromise(IHttp* pHttp, IRespParser* pRespParser) 
+		: m_lpHttp(pHttp)
+		, m_pRespParser(pRespParser){
+
+		if (NULL != m_lpHttp)
+		{
+			m_lpHttp->d_OnSuccess += std::make_pair(this, &CPromise::OnSuccess);
+			m_lpHttp->d_OnFailed += std::make_pair(this, &CPromise::OnFailed);
+		}
+	}
+private:
+	std::auto_ptr<IRespParser> m_pRespParser;
+public:
+	CPromise& then(IHttpResponse* resp){
+		m_resps.push_back(std::shared_ptr<IHttpResponse>(resp));
+		return *this;
+	}
+protected:
+	void OnSuccess(int id, LPCTSTR strRet){
+		if ((int)this == id)
+		{
+			_T& val = m_pRespParser->OnParse(strRet);
+			for (int i = 0, len = m_resps.size(); i < len; ++i)
+			{
+				m_resps[i]->OnSuccess(val);
+			}
+			delete this;
+		}
+	}
+	void OnFailed(int id){
+
+		if ((int)this == id)
+		{
+			for (int i = 0, len = m_resps.size(); i < len; ++i)
+			{
+				m_resps[i]->OnFailed();
+			}
+			delete this;
+		}
+	}
+	IHttp* m_lpHttp;
+	std::vector<std::shared_ptr<IHttpResponse>> m_resps;
+};
+
+class CBoolParser : public CPromise<bool>::IRespParser
+{
+public:
+	virtual bool& OnParse(LPCTSTR strRet){
+		m_bRet = (0 == _tcscmp(L"success", strRet));
+		return m_bRet;
+	}
+private:
+	bool m_bRet;
+};

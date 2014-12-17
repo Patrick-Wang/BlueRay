@@ -8,6 +8,7 @@
 #include "colors.h"
 #include "JQGridAPI.h"
 #include "User.h"
+#include "Promise.h"
 #define UM_REQUEST_RESULT
 
 #define RIGHT_AREA_LEFT	150
@@ -586,12 +587,28 @@ void CSalePanel::OnDataUpdate()
 	//url.Format(_T("http://%s:8080/BlueRay/sale/query/all/none"), IDS_HOST_NAME);
 	//CString jsondata;
 	//m_pHttp->SyncGet(url, jsondata);
-
-	if (!CServer::GetInstance()->GetSale().Query(m_table))
+	class OnLoadDataListener : public CPromise<table>::IHttpResponse
 	{
-		OnHttpFailed(QUERY_URL_ID);
-	}
+		CONSTRUCTOR_2(OnLoadDataListener, CSalePanel&, salePanel, table&, tb)
+	public:
+		virtual void OnSuccess(table& tb){
+			m_tb = tb;
+			(m_salePanel.CSalePanel::OnLoadDataSuccess)();
+			m_salePanel.GetParent()->EnableWindow(TRUE);
+		}
+		virtual void OnFailed(){
+			m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+			m_salePanel.GetParent()->EnableWindow(TRUE);
+		}
+	};
 
-	OnLoadDataSuccess();
+	CServer::GetInstance()->GetSale().Query().then(new OnLoadDataListener(*this, m_table));
+	//GetParent()->EnableWindow(FALSE);
+	//if (!CServer::GetInstance()->GetSale().QuerySync(m_table))
+	//{
+	//	OnHttpFailed(QUERY_URL_ID);
+	//}
+
+	//OnLoadDataSuccess();
 	//GetParent()->EnableWindow(FALSE);
 }

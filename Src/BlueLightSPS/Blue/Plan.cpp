@@ -25,7 +25,7 @@ CPromise<bool>& CPlan::Update(IntArray& rows, StringArray& record)
 	attr[_T("data")] = &record;
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/plan/update"), IDS_HOST_NAME);
-	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_lpHttp);
+	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_lpHttp, new CBoolParser());
 	m_lpHttp->Post(traceSession(url), (int)promise, attr);
 	return *promise;
 }
@@ -82,7 +82,7 @@ CPromise<bool>& CPlan::doApprove(CString& url, IntArray& rows)
 {
 	std::map<CString, IntArrayPtr> attr;
 	attr[_T("rows")] = &rows;
-	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_lpHttp);
+	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_lpHttp, new CBoolParser());
 	m_lpHttp->Post(traceSession(url), (int)promise, attr);
 	return *promise;
 }

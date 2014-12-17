@@ -34,7 +34,7 @@ END_MESSAGE_MAP()
 class OnReApproveListener : public CPromise<bool>::IHttpResponse{
 	CONSTRUCTOR_1(OnReApproveListener, CPlanPanel&, planPanel)
 public:
-	virtual void OnSuccess(bool bRet){
+	virtual void OnSuccess(bool& bRet){
 		if (bRet)
 		{
 			m_planPanel.MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
@@ -185,7 +185,7 @@ void CPlanPanel::OnBnClickedPlan()
 		class OnPlanUpdateListener : public CPromise<bool>::IHttpResponse{
 			CONSTRUCTOR_2(OnPlanUpdateListener, std::vector<CString>&, cacheRow, CPlanPanel&, planPanel)
 		public:
-			void OnSuccess(bool bRet)
+			void OnSuccess(bool& bRet)
 			{
 				if (bRet)
 				{
@@ -196,6 +196,7 @@ void CPlanPanel::OnBnClickedPlan()
 			void OnFailed()
 			{
 				m_planPanel.MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+				m_planPanel.GetParent()->EnableWindow(TRUE);
 			}
 		};
 

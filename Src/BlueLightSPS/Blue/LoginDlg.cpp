@@ -141,11 +141,16 @@ void CLoginDlg::OnBnClickedLogin()
 	class OnLoginListener : public CPromise<CUser*>::IHttpResponse{
 		CONSTRUCTOR_1(OnLoginListener, CLoginDlg*, loginDlg)
 	public:
-		void OnSuccess(CUser* usr)
+		void OnSuccess(CUser*& usr)
 		{
 			if (NULL != usr)
 			{
 				m_loginDlg->OnOK();
+			}
+			else
+			{
+				m_loginDlg->MessageBox(_T("用户名或密码错误，请重新输入！"), _T("警告"), MB_OK | MB_ICONWARNING);
+				m_loginDlg->EnableWindow(TRUE);
 			}
 		}
 		void OnFailed()

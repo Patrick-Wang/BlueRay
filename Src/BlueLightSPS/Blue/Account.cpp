@@ -50,10 +50,20 @@ bool CAccount::LoginSync(CString& usrName, CString& psw)
 
 CPromise<CUser*>& CAccount::Login(CString& usrName, CString& psw)
 {
+	class CLoginParser : public CPromise<CUser*>::IRespParser{
+	public:
+		virtual CUser*& OnParse(LPCTSTR strRet){
+			m_usr = CAccount::StringToUser(strRet);
+			return m_usr;
+		}
+	private:
+		CUser* m_usr;
+	};
+
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/account/login/"), IDS_HOST_NAME);
 	url += usrName + _T("/") + psw;
-	CPromise<CUser*>* promise = CPromise<CUser*>::MakePromise(m_lpHttp);
+	CPromise<CUser*>* promise = CPromise<CUser*>::MakePromise(m_lpHttp, new CLoginParser());
 	m_lpHttp->Get(url, (int)promise);
 	return *promise;
 }

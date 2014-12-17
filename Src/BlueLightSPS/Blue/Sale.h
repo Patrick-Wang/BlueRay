@@ -5,9 +5,10 @@
 #include "JsonObjects.h"
 #include "JsonType.h"
 #include "HttpServerInterface.h"
+#include "Promise.h"
+
 
 class CSale : public CHttpServerInterface
-
 {
 public:
 	enum ApproveType{
@@ -17,8 +18,9 @@ public:
 
 	CSale();
 	~CSale();
-	bool Query(std::vector < std::pair<int, StringArray>>& htxxs);
-	bool Query(ApproveType type, bool approved, std::vector < std::pair<int, StringArray>>& htxxs);
+	bool QuerySync(table& htxxs);
+	CPromise<table>& Query();
+	bool QuerySync(ApproveType type, bool approved, std::vector < std::pair<int, StringArray>>& htxxs);
 	bool Add(StringArray& record, int& id);
 	bool Update(IntArray& rows, StringArray& record);
 	bool Delete(IntArray& rows);
