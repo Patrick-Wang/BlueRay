@@ -663,6 +663,6 @@ void CNotificationPanel::OnReturnApprovedNum(LPCTSTR resp)
 
 	if (!bHasSp)
 	{
-		MessageBox(_T("没有待审批事项"), _T("审核"), MB_OK | MB_ICONWARNING);
+		MessageBox(_T("没有待审批事项或无审批权限"), _T("审核"), MB_OK | MB_ICONWARNING);
 	}
 }
