@@ -4,7 +4,7 @@ Source Host: localhost
 Source Database: bluelightplm
 Target Host: localhost
 Target Database: bluelightplm
-Date: 2014/11/27 13:32:40
+Date: 2014/12/18 16:08:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -13,161 +13,148 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `bmqxhflxx`;
 CREATE TABLE `bmqxhflxx` (
-  `bmqxhID` int(11) NOT NULL auto_increment,
+  `bmqxhID` int(11) NOT NULL AUTO_INCREMENT,
   `bmqxh` char(100) NOT NULL,
-  PRIMARY KEY  (`bmqxhID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`bmqxhID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for bpqxhflxx
 -- ----------------------------
 DROP TABLE IF EXISTS `bpqxhflxx`;
 CREATE TABLE `bpqxhflxx` (
-  `bpqxhID` int(11) NOT NULL auto_increment,
+  `bpqxhID` int(11) NOT NULL AUTO_INCREMENT,
   `bpqxh` char(100) NOT NULL,
-  PRIMARY KEY  (`bpqxhID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`bpqxhID`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for cpggxhxx
--- ----------------------------pcjhxxbpcjhxxb
+-- ----------------------------
 DROP TABLE IF EXISTS `cpggxhxx`;
 CREATE TABLE `cpggxhxx` (
-  `cpggxhID` int(11) NOT NULL auto_increment,
+  `cpggxhID` int(11) NOT NULL AUTO_INCREMENT,
   `gg` char(100) NOT NULL,
-  PRIMARY KEY  (`cpggxhID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`cpggxhID`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for ddztb
 -- ----------------------------
 DROP TABLE IF EXISTS `ddztb`;
 CREATE TABLE `ddztb` (
-  `ddztID` int(11) NOT NULL auto_increment,
-  `ddzt` char(100) collate utf8_unicode_ci NOT NULL,
-  PRIMARY KEY  (`ddztID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `ddztID` int(11) NOT NULL AUTO_INCREMENT,
+  `ddzt` char(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`ddztID`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Table structure for htxx
 -- ----------------------------
 DROP TABLE IF EXISTS `htxx`;
 CREATE TABLE `htxx` (
-  `ID` int(11) NOT NULL auto_increment,
-  `htID` char(16) default NULL,
-  `ClientID` int(11) default NULL,
-  `ggxhID` int(11) default NULL,
-  `sl` int(8) default NULL,
-  `zcID` int(11) default NULL,
-  `dfr` char(1) default NULL,
-  `zdqdyID` int(11) default NULL,
-  `yylggID` int(11) default NULL,
-  `sfjf` char(1) character set utf8 collate utf8_unicode_ci default NULL,
-  `bpqxhID` int(11) default NULL,
-  `bmqxhID` int(11) default NULL,
-  `dlcd` char(20) default NULL,
-  `zxcd` char(20) default NULL,
-  `mpzl` int(11) default NULL,
-  `bz` char(100) default NULL,
-  `ddrq` date default NULL,
-  `ddzt` char(16) character set utf8 collate utf8_unicode_ci default NULL,
-  `sftgywsh` char(1) character set utf8 collate utf8_unicode_ci default NULL,
-  `sftgjhsh` char(1) character set utf8 collate utf8_unicode_ci default NULL,
-  PRIMARY KEY  (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `htID` char(16) DEFAULT NULL,
+  `ClientID` int(11) DEFAULT NULL,
+  `ggxhID` int(11) DEFAULT NULL,
+  `sl` int(8) DEFAULT NULL,
+  `zcID` int(11) DEFAULT NULL,
+  `dfr` char(1) DEFAULT NULL,
+  `zdqdyID` int(11) DEFAULT NULL,
+  `yylggID` int(11) DEFAULT NULL,
+  `sfjf` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bpqxhID` int(11) DEFAULT NULL,
+  `bmqxhID` int(11) DEFAULT NULL,
+  `dlcd` char(20) DEFAULT NULL,
+  `zxcd` char(20) DEFAULT NULL,
+  `mpzl` int(11) DEFAULT NULL,
+  `bz` char(100) DEFAULT NULL,
+  `ddrq` date DEFAULT NULL,
+  `ddzt` char(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `sftgywsh` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `sftgjhsh` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for khcyxxb
 -- ----------------------------
 DROP TABLE IF EXISTS `khcyxxb`;
 CREATE TABLE `khcyxxb` (
-  `ClientID` int(11) NOT NULL auto_increment,
-  `ggxhID` int(11) default NULL,
-  `zcID` int(11) default NULL,
-  `dfr` char(1) default NULL,
-  `zdqdyID` int(11) default NULL,
-  `yylggID` int(11) default NULL,
-  `sfjf` char(1) character set utf8 collate utf8_unicode_ci default NULL,
-  `bpqxhID` int(11) default NULL,
-  `bmqxhID` int(11) default NULL,
-  `dlcd` char(20) default NULL,
-  `zxcd` char(20) default NULL,
-  `mpzl` char(100) default NULL,
-  PRIMARY KEY  (`ClientID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `ClientID` int(11) NOT NULL AUTO_INCREMENT,
+  `ggxhID` int(11) DEFAULT NULL,
+  `zcID` int(11) DEFAULT NULL,
+  `dfr` char(1) DEFAULT NULL,
+  `zdqdyID` int(11) DEFAULT NULL,
+  `yylggID` int(11) DEFAULT NULL,
+  `sfjf` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bpqxhID` int(11) DEFAULT NULL,
+  `bmqxhID` int(11) DEFAULT NULL,
+  `dlcd` char(20) DEFAULT NULL,
+  `zxcd` char(20) DEFAULT NULL,
+  `mpzl` char(100) DEFAULT NULL,
+  PRIMARY KEY (`ClientID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for khxx
 -- ----------------------------
 DROP TABLE IF EXISTS `khxx`;
 CREATE TABLE `khxx` (
-  `clientID` int(11) NOT NULL auto_increment,
+  `clientID` int(11) NOT NULL AUTO_INCREMENT,
   `khmc` char(100) NOT NULL,
-  `khcz` char(200) default NULL,
-  `lxr` char(20) default NULL,
-  `lxdh` char(20) default NULL,
-  `qtnr` char(100) default NULL,
-  PRIMARY KEY  (`clientID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `khcz` char(200) DEFAULT NULL,
+  `lxr` char(20) DEFAULT NULL,
+  `lxdh` char(20) DEFAULT NULL,
+  `qtnr` char(100) DEFAULT NULL,
+  PRIMARY KEY (`clientID`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for mpzlxx
 -- ----------------------------
 DROP TABLE IF EXISTS `mpzlxx`;
 CREATE TABLE `mpzlxx` (
-  `id` int(11) NOT NULL auto_increment,
-  `mpzl` char(100) collate utf8_unicode_ci NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `mpzl` char(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Table structure for pcjhxxb
 -- ----------------------------
 DROP TABLE IF EXISTS `pcjhxxb`;
 CREATE TABLE `pcjhxxb` (
-  `pcjhID` int(11) NOT NULL auto_increment,
-  `htxxID` int(11) collate utf8_unicode_ci NOT NULL,
-  `jhscrq` date default NULL,
-  `jhbzrq` date default NULL,
-  `jhfhrq` date default NULL,
-  `tcbh` char(50) collate utf8_unicode_ci default NULL,
-  `ccbh` char(50) collate utf8_unicode_ci default NULL,
-  `sftgywsh` char(1) collate utf8_unicode_ci default NULL,
-  `sftgjhsh` char(1) collate utf8_unicode_ci default NULL,
-  `bzsftgywsh` char(1) collate utf8_unicode_ci default NULL,
-  `bzsftgjhsh` char(1) collate utf8_unicode_ci default NULL,
-  `ddzt` char(16) collate utf8_unicode_ci default NULL,
-  PRIMARY KEY  (`pcjhID`)
+  `pcjhID` int(11) NOT NULL AUTO_INCREMENT,
+  `htxxID` int(11) NOT NULL,
+  `jhscrq` date DEFAULT NULL,
+  `jhbzrq` date DEFAULT NULL,
+  `jhfhrq` date DEFAULT NULL,
+  `tcbh` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ccbh` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `sftgywsh` char(1) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `sftgjhsh` char(1) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bzsftgywsh` char(1) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bzsftgjhsh` char(1) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ddzt` char(16) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`pcjhID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
--- Table structure for yylggflxx
+-- Table structure for permission
 -- ----------------------------
-DROP TABLE IF EXISTS `yylggflxx`;
-CREATE TABLE `yylggflxx` (
-  `yylggID` int(11) NOT NULL auto_increment,
-  `yylgg` char(100) NOT NULL,
-  PRIMARY KEY  (`yylggID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for zcxx
--- ----------------------------
-DROP TABLE IF EXISTS `zcxx`;
-CREATE TABLE `zcxx` (
-  `zcxhID` int(11) NOT NULL auto_increment,
-  `zcxh` char(100) NOT NULL,
-  PRIMARY KEY  (`zcxhID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Table structure for zdqdyflxx
--- ----------------------------
-DROP TABLE IF EXISTS `zdqdyflxx`;
-CREATE TABLE `zdqdyflxx` (
-  `zdqdyID` int(11) NOT NULL auto_increment,
-  `zdqdy` char(100) NOT NULL,
-  PRIMARY KEY  (`zdqdyID`)
+DROP TABLE IF EXISTS `permission`;
+CREATE TABLE `permission` (
+  `role` char(100) NOT NULL,
+  `xsywsh` tinyint(1) DEFAULT '0',
+  `xsjhsh` tinyint(1) DEFAULT '0',
+  `jhywsh` tinyint(1) DEFAULT '0',
+  `jhjhsh` tinyint(1) DEFAULT '0',
+  `jhbzywsh` tinyint(1) DEFAULT '0',
+  `jhbzjhsh` tinyint(1) DEFAULT '0',
+  `plan` tinyint(1) DEFAULT '0',
+  `sale` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -179,24 +166,38 @@ CREATE TABLE `user` (
   `psw` char(100) NOT NULL,
   `department` char(100) NOT NULL,
   `role` char(100) NOT NULL,
-  PRIMARY KEY  (`name`)
+  PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Table structure for permission
+-- Table structure for yylggflxx
 -- ----------------------------
-DROP TABLE IF EXISTS `permission`;
-CREATE TABLE `permission` (
-  `role` char(100) NOT NULL,
-  `xsywsh` tinyint(1) default false,
-  `xsjhsh` tinyint(1) default false,
-  `jhywsh` tinyint(1) default false,
-  `jhjhsh` tinyint(1) default false,
-  `jhbzywsh` tinyint(1) default false,
-  `jhbzjhsh` tinyint(1) default false,
-  PRIMARY KEY  (`role`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
- 
+DROP TABLE IF EXISTS `yylggflxx`;
+CREATE TABLE `yylggflxx` (
+  `yylggID` int(11) NOT NULL AUTO_INCREMENT,
+  `yylgg` char(100) NOT NULL,
+  PRIMARY KEY (`yylggID`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for zcxx
+-- ----------------------------
+DROP TABLE IF EXISTS `zcxx`;
+CREATE TABLE `zcxx` (
+  `zcxhID` int(11) NOT NULL AUTO_INCREMENT,
+  `zcxh` char(100) NOT NULL,
+  PRIMARY KEY (`zcxhID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Table structure for zdqdyflxx
+-- ----------------------------
+DROP TABLE IF EXISTS `zdqdyflxx`;
+CREATE TABLE `zdqdyflxx` (
+  `zdqdyID` int(11) NOT NULL AUTO_INCREMENT,
+  `zdqdy` char(100) NOT NULL,
+  PRIMARY KEY (`zdqdyID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records 
@@ -221,18 +222,19 @@ INSERT INTO `ddztb` VALUES ('7', '计划排产已审核');
 INSERT INTO `ddztb` VALUES ('8', '计划排产审核未通过');
 INSERT INTO `ddztb` VALUES ('9', '生产中');
 INSERT INTO `ddztb` VALUES ('10', '生产完成');
-INSERT INTO `htxx` VALUES ('1', '1', '1', '1', '56', '1', 'Y', '1', '1', 'Y', '1', '2', '5米', '8米', '1', '备注', '2014-11-27 17:18:06', '1', 'N', 'N');
-INSERT INTO `htxx` VALUES ('2', '2', '2', '2', '32', '2', 'Y', '2', '2', 'Y', '2', '1', '5米', '2米', '2', '原点住备注', '2014-11-11 17:18:06', '1', 'N', 'N');
-INSERT INTO `htxx` VALUES ('3', '3', '3', '1', '2', '2', 'Y', '3', '2', 'Y', '2', '2', '5米', '2米', '3', '原点住', '2014-11-11 17:18:06', '1', 'N', 'N');
-INSERT INTO `htxx` VALUES ('4', '4', '4', '3', '6', '2', 'Y', '3', '1', 'Y', '1', '1', '5米', '3米', '1', '原点住', '2014-11-04 17:18:06', '1', 'N', 'N');
-INSERT INTO `htxx` VALUES ('5', '5', '1', '2', '98', '2', 'Y', '3', '3', 'Y', '3', '2', '5米', '5米', '2', '原点住备注', '2014-11-11 17:18:06', '1', 'N', 'N');
-INSERT INTO `htxx` VALUES ('6', '6', '3', '4', '7', '1', 'Y', '2', '2', 'Y', '2', '1', '5米', '2米', '1', '原点住', '2014-11-11 17:18:06', '1', 'N', 'N');
-INSERT INTO `htxx` VALUES ('7', '7', '2', '3', '5', '2', 'Y', '1', '1', 'Y', '3', '1', '5米', '2米', '2', '原点住', '2014-11-11 17:18:06', '1', 'N', 'N');
-INSERT INTO `htxx` VALUES ('8', '8', '3', '2', '4', '1', 'Y', '2', '3', 'Y', '4', '2', '5米', '1米', '3', '原点住备注备注', '2014-11-28 17:18:06', '1', 'N', 'N');
-INSERT INTO `htxx` VALUES ('9', '9', '1', '4', '6', '1', 'Y', '1', '1', 'Y', '3', '1', '5米', '8米', '3', '原点住', '2014-11-11 17:18:06', '1', 'N', 'N');
-INSERT INTO `htxx` VALUES ('10', '10', '2', '3', '4', '2', 'Y', '1', '1', 'Y', '4', '1', '8米', '8米', '4', '备注', '2014-11-11 17:18:06', '1', 'N', 'N');
-INSERT INTO `htxx` VALUES ('11', '11', '1', '1', '3', '1', 'Y', '2', '4', 'Y', '2', '2', '8米', '8米', '4', '原点住备注', '2014-11-11 17:18:06', '1', 'N', 'N');
-INSERT INTO `htxx` VALUES ('12', '12', '3', '2', '2', '2', 'Y', '1', '4', 'Y', '1', '2', '8米', '2米', '2', '原点住备注', '2014-11-11 17:18:06', '1', 'N', 'N');
+INSERT INTO `htxx` VALUES ('1', '1', '1', '1', '56', '1', 'Y', '1', '1', 'Y', '1', '2', '5米', '8米', '1', '备注', '2014-11-27', '1', 'N', 'N');
+INSERT INTO `htxx` VALUES ('2', '2', '2', '2', '32', '2', 'Y', '2', '2', 'Y', '2', '1', '5米', '2米', '2', '原点住备注', '2014-11-11', '1', 'N', 'N');
+INSERT INTO `htxx` VALUES ('3', '3', '3', '1', '2', '2', 'Y', '3', '2', 'Y', '2', '2', '5米', '2米', '3', '原点住', '2014-11-11', '1', 'N', 'N');
+INSERT INTO `htxx` VALUES ('4', '4', '4', '3', '6', '2', 'Y', '3', '1', 'Y', '1', '1', '5米', '3米', '1', '原点住', '2014-11-04', '1', 'N', 'N');
+INSERT INTO `htxx` VALUES ('5', '5', '1', '2', '98', '2', 'Y', '3', '3', 'Y', '3', '2', '5米', '5米', '2', '原点住备注', '2014-11-11', '1', 'N', 'N');
+INSERT INTO `htxx` VALUES ('6', '6', '3', '4', '7', '1', 'Y', '2', '2', 'Y', '2', '1', '5米', '2米', '1', '原点住', '2014-11-11', '1', 'N', 'N');
+INSERT INTO `htxx` VALUES ('7', '7', '2', '3', '5', '2', 'Y', '1', '1', 'Y', '3', '1', '5米', '2米', '2', '原点住', '2014-11-11', '1', 'N', 'N');
+INSERT INTO `htxx` VALUES ('8', '8', '3', '2', '4', '1', 'Y', '2', '3', 'Y', '4', '2', '5米', '1米', '3', '原点住备注备注', '2014-11-28', '1', 'N', 'N');
+INSERT INTO `htxx` VALUES ('9', '9', '1', '4', '6', '1', 'Y', '1', '1', 'Y', '3', '1', '5米', '8米', '3', '原点住', '2014-11-11', '1', 'N', 'N');
+INSERT INTO `htxx` VALUES ('10', '10', '2', '3', '4', '2', 'Y', '1', '1', 'Y', '4', '1', '8米', '8米', '4', '备注', '2014-11-11', '1', 'N', 'N');
+INSERT INTO `htxx` VALUES ('11', '11', '1', '1', '3', '1', 'Y', '2', '4', 'Y', '2', '2', '8米', '8米', '4', '原点住备注', '2014-11-11', '1', 'N', 'N');
+INSERT INTO `htxx` VALUES ('12', '12', '3', '2', '2', '2', 'Y', '1', '4', 'Y', '1', '2', '8米', '2米', '2', '原点住备注', '2014-11-11', '1', 'N', 'N');
+INSERT INTO `htxx` VALUES ('13', '2345', '1', '1', '1', '1', 'N', '1', '1', 'N', '1', '1', '', '', '1', '', '2014-12-18', null, 'N', 'N');
 INSERT INTO `khcyxxb` VALUES ('1', '1', '1', 'Y', '1', '1', 'Y', '1', '1', '5m', '8m', '蓝光英文');
 INSERT INTO `khxx` VALUES ('1', '佛山住友富士', null, null, null, null);
 INSERT INTO `khxx` VALUES ('2', '浙江怡达', null, null, null, null);
@@ -245,6 +247,12 @@ INSERT INTO `mpzlxx` VALUES ('2', '蓝光铭牌');
 INSERT INTO `mpzlxx` VALUES ('3', '蓝光英文西门子监制');
 INSERT INTO `mpzlxx` VALUES ('4', '主机用西德英文铭牌');
 INSERT INTO `mpzlxx` VALUES ('5', '制动器和上行超速铭牌用蓝光英文');
+INSERT INTO `permission` VALUES ('ADMIN', '1', '1', '1', '1', '1', '1', '1', '1');
+INSERT INTO `permission` VALUES ('PLANNER', '0', '0', '0', '0', '0', '0', '1', '0');
+INSERT INTO `permission` VALUES ('SALER', '0', '0', '0', '0', '0', '0', '0', '1');
+INSERT INTO `user` VALUES ('admin', 'e10adc3949ba59abbe56e057f20f883e', 'Admin', 'ADMIN');
+INSERT INTO `user` VALUES ('planer', 'e10adc3949ba59abbe56e057f20f883e', 'Production', 'PLANNER');
+INSERT INTO `user` VALUES ('saler', 'e10adc3949ba59abbe56e057f20f883e', 'Saler', 'SALER');
 INSERT INTO `yylggflxx` VALUES ('1', '480*6*12*18');
 INSERT INTO `yylggflxx` VALUES ('2', '400*5*10*16');
 INSERT INTO `yylggflxx` VALUES ('3', '325*5*8*12');
@@ -254,5 +262,3 @@ INSERT INTO `zcxx` VALUES ('2', 'RC');
 INSERT INTO `zdqdyflxx` VALUES ('1', 'DC110V');
 INSERT INTO `zdqdyflxx` VALUES ('2', 'AC220V');
 INSERT INTO `zdqdyflxx` VALUES ('3', 'DC220V');
-INSERT INTO `user` VALUES ('planer', 'e10adc3949ba59abbe56e057f20f883e', 'Production', 'USER');
-INSERT INTO `permission` VALUES ('USER', true, true, true, true, true, true);
