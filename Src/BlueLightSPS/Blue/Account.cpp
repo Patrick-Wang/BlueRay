@@ -64,7 +64,7 @@ CPromise<CUser*>& CAccount::Login(CString& usrName, CString& psw)
 	url.Format(_T("http://%s:8080/BlueRay/account/login/"), IDS_HOST_NAME);
 	url += usrName + _T("/") + psw;
 	CPromise<CUser*>* promise = CPromise<CUser*>::MakePromise(m_lpHttp, new CLoginParser());
-	m_lpHttp->Get(url, (int)promise);
+	m_lpHttp->Get(url, promise->GetId());
 	return *promise;
 }
 

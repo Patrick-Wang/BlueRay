@@ -5,12 +5,11 @@
 #include "Account.h"
 #include "HttpServerInterface.h"
 
-CUser* StringToUser(LPCTSTR strJson)
-{
-	return CAccount::StringToUser(strJson);
-}
 
-extern void toArray(LPCTSTR strJson, table& tb){
-	Json::JsonParser parser;
-	CHttpServerInterface::toArray(std::shared_ptr<Json::JsonArray>((Json::JsonArray*)(parser.Parse((LPTSTR)strJson))), tb);
+table& CQueryParser::OnParse(LPCTSTR strJson)
+{
+	Json::JsonParser jparser;
+	std::shared_ptr < Json::JsonArray > jarr((Json::JsonArray*)jparser.Parse((LPTSTR)strJson));
+	CHttpServerInterface::toArray(jarr, m_retTable);
+	return m_retTable;
 }

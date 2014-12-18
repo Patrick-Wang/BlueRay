@@ -103,21 +103,47 @@ void CSalePanel::OnBnClickedAdd()
 		m_cacheRow = dlg.GetResult();
 		m_cacheRow.push_back(_T("×"));
 		m_cacheRow.push_back(_T("×"));
-		std::map<CString, StringArrayPtr> attr;
-		attr[_T("add")] = &m_cacheRow;
+		//std::map<CString, StringArrayPtr> attr;
+		//attr[_T("add")] = &m_cacheRow;
 
 		//CString url;
 		//url.Format(_T("http://%s:8080/BlueRay/sale/add/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
 
 		//m_pHttp->Post(url, ADD_URL_ID, attr);
-		int rowId;
-		if (CServer::GetInstance()->GetSale().Add(m_cacheRow, rowId)){
+
+		class CAddListener : public CPromise<int>::IHttpResponse{
+			CONSTRUCTOR_2(CAddListener, CSalePanel&, salePanel, StringArray&, cacheRow)
+		public:
+			virtual void OnSuccess(int& ret){
+				if (ret)
+				{
+					(m_salePanel.CSalePanel::OnAddDataSuccess)(ret, m_cacheRow);
+				}
+				else
+				{
+					m_salePanel.MessageBox(_T("添加数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+				}
+				m_salePanel.GetParent()->EnableWindow(TRUE);
+			}
+			virtual void OnFailed(){
+				m_salePanel.MessageBox(_T("添加数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+				m_salePanel.GetParent()->EnableWindow(TRUE);
+			}
+		};
+
+		CServer::GetInstance()->GetSale().Add(m_cacheRow).then(new CAddListener(*this, m_cacheRow));
+		GetParent()->EnableWindow(FALSE);
+
+
+
+
+		/*if (CServer::GetInstance()->GetSale().AddSync(m_cacheRow, rowId)){
 			OnAddDataSuccess(rowId, m_cacheRow);
-		}
-		else
-		{
+			}
+			else
+			{
 			OnHttpFailed(ADD_URL_ID);
-		}
+			}*/
 	}
 }
 
@@ -174,14 +200,38 @@ void CSalePanel::OnBnClickedModify()
 		//url.Format(_T("http://%s:8080/BlueRay/sale/modify"), IDS_HOST_NAME);
 		//m_pHttp->Post(url, MODIFY_URL_ID, attr);
 
-		if (CServer::GetInstance()->GetSale().Update(checkedRows, m_cacheRow))
-		{
-			OnModifyDataSuccess(m_cacheRow);
-		}
-		else
-		{
-			OnHttpFailed(MODIFY_URL_ID);
-		}
+		class CUpdateListener : public CPromise<bool>::IHttpResponse{
+			CONSTRUCTOR_2(CUpdateListener, CSalePanel&, salePanel, StringArray&, cacheRow)
+		public:
+			virtual void OnSuccess(bool& ret){
+				if (ret)
+				{
+					(m_salePanel.CSalePanel::OnModifyDataSuccess)(m_cacheRow);
+				}
+				else
+				{
+					m_salePanel.MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+				}
+				m_salePanel.GetParent()->EnableWindow(TRUE);
+			}
+			virtual void OnFailed(){
+				m_salePanel.MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+				m_salePanel.GetParent()->EnableWindow(TRUE);
+			}
+		};
+
+		CServer::GetInstance()->GetSale().Update(checkedRows, m_cacheRow).then(new CUpdateListener(*this, m_cacheRow));
+		GetParent()->EnableWindow(FALSE);
+
+
+		//if (CServer::GetInstance()->GetSale().UpdateSync(checkedRows, m_cacheRow))
+		//{
+		//	OnModifyDataSuccess(m_cacheRow);
+		//}
+		//else
+		//{
+		//	OnHttpFailed(MODIFY_URL_ID);
+		//}
 	}
 }
 
@@ -199,13 +249,35 @@ void CSalePanel::OnBnClickedDelete()
 		//url.Format(_T("http://%s:8080/BlueRay/sale/delete"), IDS_HOST_NAME);
 		//m_pHttp->Post(url, DEL_URL_ID, attr);
 
-		if (CServer::GetInstance()->GetSale().Delete(checkedRows)){
-			OnDelDataSuccess();
-		}
-		else
-		{
-			OnHttpFailed(DEL_URL_ID);
-		}
+		class CDeleteListener : public CPromise<bool>::IHttpResponse{
+			CONSTRUCTOR_1(CDeleteListener, CSalePanel&, salePanel)
+		public:
+			virtual void OnSuccess(bool& ret){
+				if (ret)
+				{
+					(m_salePanel.CSalePanel::OnDelDataSuccess)();
+				}
+				else
+				{
+					m_salePanel.MessageBox(_T("删除数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+				}
+				m_salePanel.GetParent()->EnableWindow(TRUE);
+			}
+			virtual void OnFailed(){
+				m_salePanel.MessageBox(_T("删除数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+				m_salePanel.GetParent()->EnableWindow(TRUE);
+			}
+		};
+
+		CServer::GetInstance()->GetSale().Delete(checkedRows).then(new CDeleteListener(*this));
+		GetParent()->EnableWindow(FALSE);
+		//if (CServer::GetInstance()->GetSale().DeleteSync(checkedRows)){
+		//	OnDelDataSuccess();
+		//}
+		//else
+		//{
+		//	OnHttpFailed(DEL_URL_ID);
+		//}
 	}
 }
 
@@ -434,12 +506,12 @@ void CSalePanel::OnHttpFailed(int id)
 
 void CSalePanel::OnLoadDataSuccess()
 {
-	for (int j = 0; j < m_table.size(); ++j)
-	{
-		m_pJqGridAPI->DelRow(m_table[j].first);
-	}
+	//for (int j = 0; j < m_table.size(); ++j)
+	//{
+	//	m_pJqGridAPI->DelRow(m_table[j].first);
+	//}
 
-	m_pJqGridAPI->Refresh();
+	//m_pJqGridAPI->Refresh();
 	//StringToTable(jsondata, m_table);
 
 	for (int j = 0; j < m_table.size(); ++j)
@@ -589,11 +661,23 @@ void CSalePanel::OnDataUpdate()
 	//m_pHttp->SyncGet(url, jsondata);
 	class OnLoadDataListener : public CPromise<table>::IHttpResponse
 	{
-		CONSTRUCTOR_2(OnLoadDataListener, CSalePanel&, salePanel, table&, tb)
+		CONSTRUCTOR_3(OnLoadDataListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
 	public:
 		virtual void OnSuccess(table& tb){
+			for (int j = 0; j < m_tb.size(); ++j)
+			{
+				m_pJqGridAPI->DelRow(m_tb[j].first);
+			}
+
+			m_pJqGridAPI->Refresh();
+
 			m_tb = tb;
-			(m_salePanel.CSalePanel::OnLoadDataSuccess)();
+			
+			for (int j = 0; j < m_tb.size(); ++j)
+			{
+				m_pJqGridAPI->AddRow(m_tb[j].first, m_tb[j].second);
+			}
+
 			m_salePanel.GetParent()->EnableWindow(TRUE);
 		}
 		virtual void OnFailed(){
@@ -602,8 +686,8 @@ void CSalePanel::OnDataUpdate()
 		}
 	};
 
-	CServer::GetInstance()->GetSale().Query().then(new OnLoadDataListener(*this, m_table));
-	//GetParent()->EnableWindow(FALSE);
+	CServer::GetInstance()->GetSale().Query().then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+	GetParent()->EnableWindow(FALSE);
 	//if (!CServer::GetInstance()->GetSale().QuerySync(m_table))
 	//{
 	//	OnHttpFailed(QUERY_URL_ID);

@@ -14,6 +14,8 @@ public:
 
 	CPlan();
 	~CPlan();
+	CPromise<table>& Query();
+	CPromise<table>& Query(ApproveType type, bool bApproved);
 	CPromise<bool>& Update(IntArray& rows, StringArray& record);
 	CPromise<bool>& Approve(ApproveType type, IntArray& rows);
 	CPromise<bool>& Unapprove(ApproveType type, IntArray& rows);

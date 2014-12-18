@@ -1,6 +1,7 @@
 #pragma once
 
 #include "HttpServerInterface.h"
+#include "Promise.h"
 class CNotification : public CHttpServerInterface
 {
 
@@ -18,8 +19,8 @@ public:
 	CNotification();
 	~CNotification();
 
-	bool GetUnapproved(Unapproved_t& stUnapproved);
-
+	bool GetUnapprovedSync(Unapproved_t& stUnapproved);
+	CPromise<Unapproved_t>& GetUnapproved();
 
 };
 

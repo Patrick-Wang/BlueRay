@@ -589,7 +589,7 @@ void CPlanPanel::OnLoadDataSuccess(CString& jsondata)
 	
 	m_pJqGridAPI->Refresh();
 
-	StringToTable(jsondata, m_table);
+	//StringToTable(jsondata, m_table);
 	for (int j = 0; j < m_table.size(); ++j)
 	{
 		m_pJqGridAPI->AddRow(m_table[j].first, m_table[j].second);
@@ -635,8 +635,38 @@ void CPlanPanel::OnModifyDataSuccess(std::vector<CString>& newData)
 
 void CPlanPanel::OnDataUpdate()
 {
-	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/plan/query/all/none"), IDS_HOST_NAME);
-	m_pHttp->Get(url, QUERY_URL_ID);
+	//CString url;
+	//url.Format(_T("http://%s:8080/BlueRay/plan/query/all/none"), IDS_HOST_NAME);
+	//m_pHttp->Get(url, QUERY_URL_ID);
+
+
+	class OnLoadDataListener : public CPromise<table>::IHttpResponse
+	{
+		CONSTRUCTOR_3(OnLoadDataListener, CPlanPanel&, planPanel, table&, tb, CJQGridAPI*, pJqGridAPI)
+	public:
+		virtual void OnSuccess(table& tb){
+			for (int j = 0; j < m_tb.size(); ++j)
+			{
+				m_pJqGridAPI->DelRow(m_tb[j].first);
+			}
+
+			m_pJqGridAPI->Refresh();
+
+			m_tb = tb;
+
+			for (int j = 0; j < m_tb.size(); ++j)
+			{
+				m_pJqGridAPI->AddRow(m_tb[j].first, m_tb[j].second);
+			}
+
+			m_planPanel.GetParent()->EnableWindow(TRUE);
+		}
+		virtual void OnFailed(){
+			m_planPanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+			m_planPanel.GetParent()->EnableWindow(TRUE);
+		}
+	};
+	CPlan& plan = CServer::GetInstance()->GetPlan();
+	plan.Query().then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 	GetParent()->EnableWindow(FALSE);
 }
