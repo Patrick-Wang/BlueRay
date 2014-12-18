@@ -7,17 +7,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "permission")
 public class Permission {
-	Role role;
+	String role;
 	Boolean xsywsh;
 	Boolean xsjhsh;
 	Boolean jhywsh;
 	Boolean jhjhsh;
 	Boolean jhbzywsh;
 	Boolean jhbzjhsh;
-	
-	public Role role(){
-		return role;
-	}
 	
 	/**
 	 * @return the xsywsh
@@ -96,12 +92,12 @@ public class Permission {
 	 */
 	@Id
 	public String getRole() {
-		return role.name();
+		return role;
 	}
 	/**
 	 * @param role the role to set
 	 */
 	public void setRole(String role) {
-		this.role = Role.valueOf(role);
+		this.role = role;
 	}
 }

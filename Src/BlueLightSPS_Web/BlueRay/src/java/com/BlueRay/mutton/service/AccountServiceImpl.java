@@ -35,7 +35,7 @@ public class AccountServiceImpl implements AccountService{
 		UserInfo usrInfo = null;
 		User usr = userDao.getUserByName(usrName);
 		if (usr != null){
-			Permission perm = permDao.getPermissionByRole(usr.role());
+			Permission perm = permDao.getPermissionByRole(usr.getRole());
 			if (null != perm){
 				usrInfo = new UserInfo();
 				usrInfo.setPerm(perm);

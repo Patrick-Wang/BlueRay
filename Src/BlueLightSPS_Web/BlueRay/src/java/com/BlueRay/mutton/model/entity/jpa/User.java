@@ -12,7 +12,7 @@ public class User {
 	String name;
 	String psw;
 	String department;
-	Role role;
+	String role;
 	/**
 	 * @return the name
 	 */
@@ -36,7 +36,7 @@ public class User {
 	 * @return the role
 	 */
 	public String getRole() {
-		return role.name();
+		return role;
 	}
 	/**
 	 * @param name the name to set
@@ -45,9 +45,6 @@ public class User {
 		this.name = name;
 	}
 	
-	public Role role(){
-		return role;
-	}
 	/**
 	 * @param psw the psw to set
 	 */
@@ -64,6 +61,6 @@ public class User {
 	 * @param role the role to set
 	 */
 	public void setRole(String role) {
-		this.role = Role.valueOf(role);
+		this.role = role;
 	}
 }
