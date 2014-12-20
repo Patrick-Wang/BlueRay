@@ -14,6 +14,21 @@ public class Permission {
 	Boolean jhjhsh;
 	Boolean jhbzywsh;
 	Boolean jhbzjhsh;
+	Boolean plan;
+	Boolean sale;
+	
+	public Boolean getPlan() {
+		return plan;
+	}
+	public void setPlan(Boolean plan) {
+		this.plan = plan;
+	}
+	public Boolean getSale() {
+		return sale;
+	}
+	public void setSale(Boolean sale) {
+		this.sale = sale;
+	}
 	
 	/**
 	 * @return the xsywsh
