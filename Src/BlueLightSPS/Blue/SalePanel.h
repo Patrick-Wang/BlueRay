@@ -51,12 +51,18 @@ private:
 	CBSStatic* m_bsMoreWord;
 	CEdit* m_editSearch;
 
+	int m_iCountBtnOfReApprove;
+
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
 	std::vector<CString> m_cacheRow;
 	CTableFilterDlg m_tableFilterDlg;
 
 	DECLARE_MESSAGE_MAP()
 	
+	void ShowReApproveBusinessBtn(BOOL bShow);
+	void ShowReApprovePlanBtn(BOOL bShow);
+	void ShowReApproveBtns();
+
 public:
 	afx_msg void OnNcDestroy();
 };

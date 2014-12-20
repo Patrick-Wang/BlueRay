@@ -1,4 +1,4 @@
-/*
+﻿/*
 MySQL Data Transfer
 Source Host: localhost
 Source Database: bluelightplm
@@ -251,7 +251,7 @@ INSERT INTO `permission` VALUES ('ADMIN', '1', '1', '1', '1', '1', '1', '1', '1'
 INSERT INTO `permission` VALUES ('PLANNER', '0', '0', '0', '0', '0', '0', '1', '0');
 INSERT INTO `permission` VALUES ('SALER', '0', '0', '0', '0', '0', '0', '0', '1');
 INSERT INTO `user` VALUES ('admin', 'e10adc3949ba59abbe56e057f20f883e', 'Admin', 'ADMIN');
-INSERT INTO `user` VALUES ('planer', 'e10adc3949ba59abbe56e057f20f883e', 'Production', 'PLANNER');
+INSERT INTO `user` VALUES ('planner', 'e10adc3949ba59abbe56e057f20f883e', 'Production', 'PLANNER');
 INSERT INTO `user` VALUES ('saler', 'e10adc3949ba59abbe56e057f20f883e', 'Saler', 'SALER');
 INSERT INTO `yylggflxx` VALUES ('1', '480*6*12*18');
 INSERT INTO `yylggflxx` VALUES ('2', '400*5*10*16');

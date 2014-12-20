@@ -20,6 +20,10 @@
 #define BUSSINESS_REAPPROVE_BSN_URL_ID MODIFY_URL_ID + 6
 #define BUSSINESS_REAPPROVE_PLAN_URL_ID MODIFY_URL_ID + 7
 
+static int g_ReApproveBtnPos[][4] = {
+		{ 1010, 70, 90, 25 },
+		{ 900, 70, 90, 25 }
+};
 
 BEGIN_MESSAGE_MAP(CSalePanel, CBRPanel)
 	ON_BN_CLICKED(IDC_SALE_BTN_ADD, &CSalePanel::OnBnClickedAdd)
@@ -46,6 +50,7 @@ CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
 	, m_btnReApproveForPlan(NULL)
 	, m_bsMoreWord(NULL)
 	, m_editSearch(NULL)
+	, m_iCountBtnOfReApprove(-1)
 {
 	m_tableFilterDlg.Initialize(m_pJqGridAPI.get(), Page_Sale);
 }
@@ -79,10 +84,8 @@ void CSalePanel::OnInitChilds()
 	m_btnTableFilter->MoveWindow(640, 25, 90, 25);
 
 	m_btnReApproveForBusiness = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_REAPPROVEFORBUSINESS, _T("反审核-业务"), _T("Microsoft YaHei"), 12);
-	m_btnReApproveForBusiness->MoveWindow(900, 70, 90, 25);
-
 	m_btnReApproveForPlan = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_ADD, _T("反审核-计划"), _T("Microsoft YaHei"), 12);
-	m_btnReApproveForPlan->MoveWindow(1010, 70, 90, 25);
+	ShowReApproveBtns();
 
 	m_bsMoreWord = Util_Tools::Util::CreateStatic(this, IDC_SALE_BTN_MOREWORD, _T("更多筛选"), _T("Microsoft YaHei"), 12);
 	m_bsMoreWord->MoveWindow(485, 27, 63, 20);
@@ -501,7 +504,6 @@ void CSalePanel::OnHttpFailed(int id)
 	default:
 		break;
 	}
-
 }
 
 void CSalePanel::OnLoadDataSuccess()
@@ -695,4 +697,69 @@ void CSalePanel::OnDataUpdate()
 
 	//OnLoadDataSuccess();
 	//GetParent()->EnableWindow(FALSE);
+}
+
+void CSalePanel::ShowReApproveBusinessBtn(BOOL bShow)
+{
+	CPermission& perm = CUser::GetInstance()->GetPermission();
+
+	if (!perm.getXsywsh())
+	{
+		bShow = FALSE;
+	}
+	else
+	{
+		m_iCountBtnOfReApprove++;
+	}
+
+	if (bShow)
+	{
+		m_btnReApproveForBusiness->ShowWindow(SW_SHOW);
+	}
+	else
+	{
+		m_btnReApproveForBusiness->ShowWindow(SW_HIDE);
+	}
+
+	m_btnReApproveForBusiness->MoveWindow(g_ReApproveBtnPos[m_iCountBtnOfReApprove][0],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][1],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][2],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][3]);
+}
+
+void CSalePanel::ShowReApprovePlanBtn(BOOL bShow)
+{
+	CPermission& perm = CUser::GetInstance()->GetPermission();
+
+	if (!perm.getXsjhsh())
+	{
+		bShow = FALSE;
+	}
+	else
+	{
+		m_iCountBtnOfReApprove++;
+	}
+
+	if (bShow)
+	{
+		m_btnReApproveForPlan->ShowWindow(SW_SHOW);
+	}
+	else
+	{
+		m_btnReApproveForPlan->ShowWindow(SW_HIDE);
+	}
+
+	m_btnReApproveForPlan->MoveWindow(g_ReApproveBtnPos[m_iCountBtnOfReApprove][0],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][1],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][2],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][3]);
+}
+
+
+void CSalePanel::ShowReApproveBtns()
+{
+	m_iCountBtnOfReApprove = -1;
+	//order must be kept
+	ShowReApprovePlanBtn(TRUE);
+	ShowReApproveBusinessBtn(TRUE);
 }

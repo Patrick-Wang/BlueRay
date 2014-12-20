@@ -16,6 +16,14 @@
 #define MODIFY_URL_ID IDP_PLAN + 4
 #define REAPPROVE_URL_ID IDP_PLAN + 5
 
+static int g_ReApproveBtnPos[][4] = {
+		{ 980, 70, 140, 25 },
+		{ 820, 70, 140, 25 },
+		{ 660, 70, 140, 25 },
+		{ 500, 70, 140, 25 }
+};
+
+
 BEGIN_MESSAGE_MAP(CPlanPanel, CBRPanel)
 	ON_BN_CLICKED(IDC_PLAN_BTN_PLAN, &CPlanPanel::OnBnClickedPlan)
 	ON_BN_CLICKED(IDC_PLAN_BTN_MODIFY, &CPlanPanel::OnBnClickedModify)
@@ -65,6 +73,7 @@ CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
 	, m_btnReApproveSCRQBusiness(NULL)
 	, m_btnReApproveSCRQPlan(NULL)
 	, m_tableFilterDlg(_T("表格设置"))
+	, m_iCountBtnOfReApprove(-1)
 
 {
 	m_tableFilterDlg.Initialize(m_pJqGridAPI.get(), Page_Plan);
@@ -116,16 +125,10 @@ void CPlanPanel::OnInitChilds()
 	m_btnTableFilter->MoveWindow(860, 25, 90, 25);
 
 	m_btnReApproveSCRQBusiness = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVESCRQBUSINESS, _T("反审核-生产日期-业务"), _T("Microsoft YaHei"), 12);
-	m_btnReApproveSCRQBusiness->MoveWindow(500, 70, 140, 25);
-
 	m_btnReApproveSCRQPlan = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVESCRQPLAN, _T("反审核-生产日期-计划"), _T("Microsoft YaHei"), 12);
-	m_btnReApproveSCRQPlan->MoveWindow(660, 70, 140, 25);
-	
 	m_btnReApproveBZRQBusiness = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVEBZRQBUSINESS, _T("反审核-包装日期-业务"), _T("Microsoft YaHei"), 12);
-	m_btnReApproveBZRQBusiness->MoveWindow(820, 70, 140, 25);
-	
 	m_btnReApproveBZRQPlan = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVEBZRQPLAN, _T("反审核-包装日期-计划"), _T("Microsoft YaHei"), 12);
-	m_btnReApproveBZRQPlan->MoveWindow(980, 70, 140, 25);
+	ShowReApproveBtns();
 
 	m_btnPlan->EnableWindow(FALSE);
 	m_btnRestore->EnableWindow(FALSE);
@@ -133,6 +136,11 @@ void CPlanPanel::OnInitChilds()
 
 	m_btnModify->ShowWindow(FALSE);
 	m_btnRestore->ShowWindow(FALSE);
+
+	m_btnReApproveSCRQBusiness->EnableWindow(FALSE);
+	m_btnReApproveSCRQPlan->EnableWindow(FALSE);
+	m_btnReApproveBZRQBusiness->EnableWindow(FALSE);
+	m_btnReApproveBZRQPlan->EnableWindow(FALSE);
 }
 
 void CPlanPanel::OnBnClickedPlan()
@@ -507,12 +515,22 @@ void CPlanPanel::OnRowChecked()
 		m_btnPlan->EnableWindow(FALSE);
 		m_btnRestore->EnableWindow(FALSE);
 		m_btnModify->EnableWindow(FALSE);
+
+		m_btnReApproveSCRQBusiness->EnableWindow(FALSE);
+		m_btnReApproveSCRQPlan->EnableWindow(FALSE);
+		m_btnReApproveBZRQBusiness->EnableWindow(FALSE);
+		m_btnReApproveBZRQPlan->EnableWindow(FALSE);
 	}
 	else
 	{
 		m_btnPlan->EnableWindow(TRUE);
 		m_btnRestore->EnableWindow(TRUE);
 		m_btnModify->EnableWindow(TRUE);
+
+		m_btnReApproveSCRQBusiness->EnableWindow(TRUE);
+		m_btnReApproveSCRQPlan->EnableWindow(TRUE);
+		m_btnReApproveBZRQBusiness->EnableWindow(TRUE);
+		m_btnReApproveBZRQPlan->EnableWindow(TRUE);
 	}
 }
 
@@ -669,4 +687,127 @@ void CPlanPanel::OnDataUpdate()
 	CPlan& plan = CServer::GetInstance()->GetPlan();
 	plan.Query().then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 	GetParent()->EnableWindow(FALSE);
+}
+
+void CPlanPanel::ShowReApproveSCRQBusinessBtn(BOOL bShow)
+{
+	CPermission& perm = CUser::GetInstance()->GetPermission();
+	
+	if (!perm.getJhywsh())
+	{
+		bShow = FALSE;
+	}
+	else
+	{
+		m_iCountBtnOfReApprove++;
+	}
+
+	if (bShow)
+	{
+		m_btnReApproveSCRQBusiness->ShowWindow(SW_SHOW);
+	}
+	else
+	{
+		m_btnReApproveSCRQBusiness->ShowWindow(SW_HIDE);
+	}
+
+	m_btnReApproveSCRQBusiness->MoveWindow(g_ReApproveBtnPos[m_iCountBtnOfReApprove][0],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][1],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][2],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][3]);
+}
+
+void CPlanPanel::ShowReApproveSCRQPlanBtn(BOOL bShow)
+{
+	CPermission& perm = CUser::GetInstance()->GetPermission();
+
+	if (!perm.getJhjhsh())
+	{
+		bShow = FALSE;
+	}
+	else
+	{
+		m_iCountBtnOfReApprove++;
+	}
+
+	if (bShow)
+	{
+		m_btnReApproveSCRQPlan->ShowWindow(SW_SHOW);
+	}
+	else
+	{
+		m_btnReApproveSCRQPlan->ShowWindow(SW_HIDE);
+	}
+
+	m_btnReApproveSCRQPlan->MoveWindow(g_ReApproveBtnPos[m_iCountBtnOfReApprove][0],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][1],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][2],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][3]);
+}
+
+void CPlanPanel::ShowReApproveBZRQBusinessBtn(BOOL bShow)
+{
+	CPermission& perm = CUser::GetInstance()->GetPermission();
+
+	if (!perm.getJhbzywsh())
+	{
+		bShow = FALSE;
+	}
+	else
+	{
+		m_iCountBtnOfReApprove++;
+	}
+
+	if (bShow)
+	{
+		m_btnReApproveBZRQBusiness->ShowWindow(SW_SHOW);
+	}
+	else
+	{
+		m_btnReApproveBZRQBusiness->ShowWindow(SW_HIDE);
+	}
+
+	m_btnReApproveBZRQBusiness->MoveWindow(g_ReApproveBtnPos[m_iCountBtnOfReApprove][0],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][1],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][2],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][3]);
+}
+
+void CPlanPanel::ShowReApproveBZRQPlanBtn(BOOL bShow)
+{
+	CPermission& perm = CUser::GetInstance()->GetPermission();
+
+	if (!perm.getJhbzjhsh())
+	{
+		bShow = FALSE;
+	}
+	else
+	{
+		m_iCountBtnOfReApprove++;
+	}
+
+	if (bShow)
+	{
+		m_btnReApproveBZRQPlan->ShowWindow(SW_SHOW);
+	}
+	else
+	{
+		m_btnReApproveBZRQPlan->ShowWindow(SW_HIDE);
+	}
+
+	m_btnReApproveBZRQPlan->MoveWindow(g_ReApproveBtnPos[m_iCountBtnOfReApprove][0],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][1],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][2],
+		g_ReApproveBtnPos[m_iCountBtnOfReApprove][3]);
+}
+
+void CPlanPanel::ShowReApproveBtns()
+{
+	m_iCountBtnOfReApprove = -1;
+
+	//order must be kept
+	ShowReApproveBZRQPlanBtn(TRUE);
+	ShowReApproveBZRQBusinessBtn(TRUE);
+	ShowReApproveSCRQPlanBtn(TRUE);
+	ShowReApproveSCRQBusinessBtn(TRUE);
 }

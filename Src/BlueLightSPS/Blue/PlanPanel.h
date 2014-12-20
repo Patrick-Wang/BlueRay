@@ -55,7 +55,17 @@ private:
 	CBSStatic* m_staticProductionStatus;
 	CComboBox* m_comboProductionStatus;
 	CTableFilterDlg m_tableFilterDlg;
+
+	int m_iCountBtnOfReApprove;
+
 	DECLARE_MESSAGE_MAP()
+
+	void ShowReApproveSCRQPlanBtn(BOOL bShow);
+	void ShowReApproveBZRQBusinessBtn(BOOL bShow);
+	void ShowReApproveBZRQPlanBtn(BOOL bShow);
+	void ShowReApproveSCRQBusinessBtn(BOOL bShow);
+	void ShowReApproveBtns();
+
 
 public:
 	afx_msg void OnNcDestroy();
