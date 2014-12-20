@@ -302,8 +302,43 @@ void CSalePanel::OnRowChecked()
 		m_btnDelete->EnableWindow(TRUE);
 		m_btnModify->EnableWindow(TRUE);
 
-		m_btnReApproveForBusiness->EnableWindow(TRUE);
-		m_btnReApproveForPlan->EnableWindow(TRUE);
+		bool bIfBreak = false;
+
+		for (int i = checkedRows.size() - 1; i >= 0; --i)
+		{
+			for (int j = 0; j < m_table.size(); ++j)
+			{
+				if (m_table[j].first == checkedRows[i])
+				{
+					if (_T("¡Ì") == m_table[j].second[16])
+					{
+						m_btnReApproveForBusiness->EnableWindow(TRUE);
+						bIfBreak = true;
+					}
+
+					if (_T("¡Ì") == m_table[j].second[17])
+					{
+						m_btnReApproveForPlan->EnableWindow(TRUE);
+						bIfBreak = true;
+					}
+
+					if (bIfBreak)
+					{
+						break;
+					}
+				}
+			}
+
+			if (bIfBreak)
+			{
+				break;
+			}
+			else
+			{
+				m_btnReApproveForBusiness->EnableWindow(FALSE);
+				m_btnReApproveForPlan->EnableWindow(FALSE);
+			}
+		}
 	}
 }
 

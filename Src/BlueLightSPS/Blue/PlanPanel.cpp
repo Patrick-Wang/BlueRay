@@ -527,10 +527,57 @@ void CPlanPanel::OnRowChecked()
 		m_btnRestore->EnableWindow(TRUE);
 		m_btnModify->EnableWindow(TRUE);
 
-		m_btnReApproveSCRQBusiness->EnableWindow(TRUE);
-		m_btnReApproveSCRQPlan->EnableWindow(TRUE);
-		m_btnReApproveBZRQBusiness->EnableWindow(TRUE);
-		m_btnReApproveBZRQPlan->EnableWindow(TRUE);
+		bool bIfBreak = false;
+
+		for (int i = checkedRows.size() - 1; i >= 0; --i)
+		{
+			for (int j = 0; j < m_table.size(); ++j)
+			{
+				if (m_table[j].first == checkedRows[i])
+				{
+					if (_T("¡Ì") == m_table[j].second[17])
+					{
+						m_btnReApproveSCRQBusiness->EnableWindow(TRUE);
+						bIfBreak = true;
+					}
+
+					if (_T("¡Ì") == m_table[j].second[18])
+					{
+						m_btnReApproveSCRQPlan->EnableWindow(TRUE);
+						bIfBreak = true;
+					}
+
+					if (_T("¡Ì") == m_table[j].second[20])
+					{
+						m_btnReApproveBZRQBusiness->EnableWindow(TRUE);
+						bIfBreak = true;
+					}
+
+					if (_T("¡Ì") == m_table[j].second[21])
+					{
+						m_btnReApproveBZRQPlan->EnableWindow(TRUE);
+						bIfBreak = true;
+					}
+
+					if (bIfBreak)
+					{
+						break;
+					}
+				}
+			}
+
+			if (bIfBreak)
+			{
+				break;
+			}
+			else
+			{
+				m_btnReApproveSCRQBusiness->EnableWindow(FALSE);
+				m_btnReApproveSCRQPlan->EnableWindow(FALSE);
+				m_btnReApproveBZRQBusiness->EnableWindow(FALSE);
+				m_btnReApproveBZRQPlan->EnableWindow(FALSE);
+			}
+		}
 	}
 }
 
