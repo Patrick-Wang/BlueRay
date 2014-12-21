@@ -2,6 +2,7 @@
 #include "SettingManager.h"
 #include "CommonDefine.h"
 #include "Util.h"
+#include "User.h"
 
 static CString strPath = _T("");
 
@@ -28,7 +29,8 @@ bool CSettingManager::Initialize()
 			{
 				break;
 			}
-
+			
+			strPath += CUser::GetInstance()->GetUserName();
 			strPath += IDS_SETTING_FILENAME;
 			if (!PathFileExists(strPath))
 			{

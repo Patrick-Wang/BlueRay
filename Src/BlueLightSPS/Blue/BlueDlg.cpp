@@ -141,7 +141,19 @@ BOOL CBlueDlg::OnInitDialog()
 	m_pLastGrid.reset(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), LAST_GRID));
 	m_pLastGrid->d_OnGridComplete += std::make_pair(this, &CBlueDlg::OnGridDataLoaded);
 
-	m_btnGroup.OnClicked(&m_btnSalePage);
+	CPermission& perm = CUser::GetInstance()->GetPermission();
+	if (perm.getSale())
+	{
+		m_btnGroup.OnClicked(&m_btnSalePage);
+	}
+	else if (perm.getPlan())
+	{
+		m_btnGroup.OnClicked(&m_btnPlanPage);
+	}
+	else
+	{
+		m_btnGroup.OnClicked(&m_btnNotification);
+	}
 
 	SetTimer(TM_TIME_COUNT, 1000, NULL);
 	OnTimer(TM_TIME_COUNT);
@@ -159,8 +171,7 @@ void CBlueDlg::OnGridDataLoaded()
 	m_pPanelMap[IDC_SALEPAGE].reset(new CSalePanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_SALE), CServer::GetInstance()->GetHttp()));
 	m_pPanelMap[IDC_SALEPAGE]->Create(this, IDP_SALE);
 	m_pPanelMap[IDC_SALEPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
-	m_pPanelMap[IDC_SALEPAGE]->ShowWindow(SW_SHOW);
-
+	
 	m_pPanelMap[IDC_PLANPAGE].reset(new CPlanPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_PLAN), CServer::GetInstance()->GetHttp()));
 	m_pPanelMap[IDC_PLANPAGE]->Create(this, IDP_PLAN);
 	m_pPanelMap[IDC_PLANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
@@ -172,6 +183,20 @@ void CBlueDlg::OnGridDataLoaded()
 	m_pPanelMap[IDC_NOTIFICATION].reset(new CNotificationPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_NOTIFICATION), CServer::GetInstance()->GetHttp()));
 	m_pPanelMap[IDC_NOTIFICATION]->Create(this, IDP_NOTIFICATION);
 	m_pPanelMap[IDC_NOTIFICATION]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
+
+	CPermission& perm = CUser::GetInstance()->GetPermission();
+	if (perm.getSale())
+	{
+		m_pPanelMap[IDC_SALEPAGE]->ShowWindow(SW_SHOW);
+	}
+	else if (perm.getPlan())
+	{
+		m_pPanelMap[IDC_PLANPAGE]->ShowWindow(SW_SHOW);
+	}
+	else
+	{
+		m_pPanelMap[IDC_NOTIFICATION]->ShowWindow(SW_SHOW);
+	}
 
 	m_pLastGrid.release();
 }

@@ -58,6 +58,8 @@ private:
 
 	int m_iCountBtnOfReApprove;
 
+	CBSStatic* m_staticNoPermWarning;
+
 	DECLARE_MESSAGE_MAP()
 
 	void ShowReApproveSCRQPlanBtn(BOOL bShow);
@@ -66,8 +68,8 @@ private:
 	void ShowReApproveSCRQBusinessBtn(BOOL bShow);
 	void ShowReApproveBtns();
 
-
 public:
 	afx_msg void OnNcDestroy();
+	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
 };
 

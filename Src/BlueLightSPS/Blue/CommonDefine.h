@@ -12,7 +12,7 @@
 #define IDS_SETTING_ROOT_APPFOLDER			_T("\\BlueLightPLM")
 #define IDS_SETTING_ROOT_SETTINGFOLDER		_T("\\settings")
 #define IDS_SETTING_ROOT_FOLDER				_T("%appdata%")
-#define IDS_SETTING_LOCATION				_T("%appdata%\\BlueLightPLM\\settings\\admin\\")
+#define IDS_SETTING_LOCATION				_T("%appdata%\\BlueLightPLM\\settings\\")
 
 //setting item define
 

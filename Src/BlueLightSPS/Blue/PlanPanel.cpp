@@ -84,63 +84,87 @@ CPlanPanel::~CPlanPanel()
 {
 }
 
+void CPlanPanel::OnShowWindow(BOOL bShow, UINT nStatus)
+{
+	CBRPanel::OnShowWindow(bShow, nStatus);
+
+	CPermission& perm = CUser::GetInstance()->GetPermission();
+
+	if (!perm.getPlan())
+	{
+		m_pJqGridAPI->HideGrid();
+	}
+}
+
 void CPlanPanel::OnInitChilds()
 {
-	m_staticProductionStatus = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_PROSTATUS, _T("根据订单状态筛选"), _T("Microsoft YaHei"), 12);
-	m_staticProductionStatus->MoveWindow(20, 27, 120, 20);
-	m_staticProductionStatus->SetTextAlign(DT_LEFT);
+	CPermission& perm = CUser::GetInstance()->GetPermission();
 
-	m_comboProductionStatus = Util_Tools::Util::CreateComboBox(this, IDC_PLAN_COMBO_PROSTATUS, _T("Microsoft YaHei"), 12, TRUE);
-	m_comboProductionStatus->MoveWindow(140, 25, 150, 20);
+	if (!perm.getPlan())
+	{
+		m_staticProductionStatus = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_PROSTATUS, _T("您没有计划的权限"), _T("Microsoft YaHei"), 16);
+		m_staticProductionStatus->MoveWindow(20, 27, 500, 20);
+		m_staticProductionStatus->SetTextAlign(DT_LEFT);
+		m_pJqGridAPI->HideGrid();
+	}
+	else
+	{
+		m_staticProductionStatus = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_PROSTATUS, _T("根据订单状态筛选"), _T("Microsoft YaHei"), 12);
+		m_staticProductionStatus->MoveWindow(20, 27, 120, 20);
+		m_staticProductionStatus->SetTextAlign(DT_LEFT);
 
-	m_comboProductionStatus->InsertString(0, _T("全部订单"));
-	m_comboProductionStatus->InsertString(1, _T("可排产计划订单"));
-	m_comboProductionStatus->InsertString(2, _T("排产计划中订单"));
-	m_comboProductionStatus->InsertString(3, _T("已完成排产计划订单"));
+		m_comboProductionStatus = Util_Tools::Util::CreateComboBox(this, IDC_PLAN_COMBO_PROSTATUS, _T("Microsoft YaHei"), 12, TRUE);
+		m_comboProductionStatus->MoveWindow(140, 25, 150, 20);
 
-	m_comboProductionStatus->SetCurSel(0);
+		m_comboProductionStatus->InsertString(0, _T("全部订单"));
+		m_comboProductionStatus->InsertString(1, _T("可排产计划订单"));
+		m_comboProductionStatus->InsertString(2, _T("排产计划中订单"));
+		m_comboProductionStatus->InsertString(3, _T("已完成排产计划订单"));
 
-	m_btnSearch = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_SEARCH, _T("查询"), _T("Microsoft YaHei"), 12);
-	m_btnSearch->MoveWindow(340, 25, 90, 25);
+		m_comboProductionStatus->SetCurSel(0);
 
-	m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_PLAN_BTN_SEARCH, _T(""), _T("Microsoft YaHei"), 12);
-	m_editSearch->MoveWindow(450, 27, 240, 20);
+		m_btnSearch = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_SEARCH, _T("查询"), _T("Microsoft YaHei"), 12);
+		m_btnSearch->MoveWindow(340, 25, 90, 25);
 
-	m_bsMoreWord = Util_Tools::Util::CreateStatic(this, IDC_PLAN_BTN_MOREWORD, _T("更多筛选"), _T("Microsoft YaHei"), 12);
-	m_bsMoreWord->MoveWindow(700, 27, 63, 20);
+		m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_PLAN_BTN_SEARCH, _T(""), _T("Microsoft YaHei"), 12);
+		m_editSearch->MoveWindow(450, 27, 240, 20);
 
-	m_btnMore = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_MORE, _T(">"), _T("Microsoft YaHei"), 12);
-	m_btnMore->MoveWindow(780, 25, 30, 25);
+		m_bsMoreWord = Util_Tools::Util::CreateStatic(this, IDC_PLAN_BTN_MOREWORD, _T("更多筛选"), _T("Microsoft YaHei"), 12);
+		m_bsMoreWord->MoveWindow(700, 27, 63, 20);
 
-	m_btnPlan = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_PLAN, _T("计划"), _T("Microsoft YaHei"), 12);
-	m_btnPlan->MoveWindow(20, 70, 90, 25);
+		m_btnMore = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_MORE, _T(">"), _T("Microsoft YaHei"), 12);
+		m_btnMore->MoveWindow(780, 25, 30, 25);
 
-	m_btnModify = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_MODIFY, _T("修改"), _T("Microsoft YaHei"), 12);
-	m_btnModify->MoveWindow(135, 70, 90, 25);
+		m_btnPlan = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_PLAN, _T("计划"), _T("Microsoft YaHei"), 12);
+		m_btnPlan->MoveWindow(20, 70, 90, 25);
 
-	m_btnRestore = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_RESTORE, _T("重置"), _T("Microsoft YaHei"), 12);
-	m_btnRestore->MoveWindow(250, 70, 90, 25);
+		m_btnModify = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_MODIFY, _T("修改"), _T("Microsoft YaHei"), 12);
+		m_btnModify->MoveWindow(135, 70, 90, 25);
 
-	m_btnTableFilter = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_TABLEFILTER, _T("表格设置"), _T("Microsoft YaHei"), 12);
-	m_btnTableFilter->MoveWindow(860, 25, 90, 25);
+		m_btnRestore = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_RESTORE, _T("重置"), _T("Microsoft YaHei"), 12);
+		m_btnRestore->MoveWindow(250, 70, 90, 25);
 
-	m_btnReApproveSCRQBusiness = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVESCRQBUSINESS, _T("反审核-生产日期-业务"), _T("Microsoft YaHei"), 12);
-	m_btnReApproveSCRQPlan = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVESCRQPLAN, _T("反审核-生产日期-计划"), _T("Microsoft YaHei"), 12);
-	m_btnReApproveBZRQBusiness = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVEBZRQBUSINESS, _T("反审核-包装日期-业务"), _T("Microsoft YaHei"), 12);
-	m_btnReApproveBZRQPlan = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVEBZRQPLAN, _T("反审核-包装日期-计划"), _T("Microsoft YaHei"), 12);
-	ShowReApproveBtns();
+		m_btnTableFilter = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_TABLEFILTER, _T("表格设置"), _T("Microsoft YaHei"), 12);
+		m_btnTableFilter->MoveWindow(860, 25, 90, 25);
 
-	m_btnPlan->EnableWindow(FALSE);
-	m_btnRestore->EnableWindow(FALSE);
-	m_btnModify->EnableWindow(FALSE);
+		m_btnReApproveSCRQBusiness = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVESCRQBUSINESS, _T("反审核-生产日期-业务"), _T("Microsoft YaHei"), 12);
+		m_btnReApproveSCRQPlan = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVESCRQPLAN, _T("反审核-生产日期-计划"), _T("Microsoft YaHei"), 12);
+		m_btnReApproveBZRQBusiness = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVEBZRQBUSINESS, _T("反审核-包装日期-业务"), _T("Microsoft YaHei"), 12);
+		m_btnReApproveBZRQPlan = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVEBZRQPLAN, _T("反审核-包装日期-计划"), _T("Microsoft YaHei"), 12);
+		ShowReApproveBtns();
 
-	m_btnModify->ShowWindow(FALSE);
-	m_btnRestore->ShowWindow(FALSE);
+		m_btnPlan->EnableWindow(FALSE);
+		m_btnRestore->EnableWindow(FALSE);
+		m_btnModify->EnableWindow(FALSE);
 
-	m_btnReApproveSCRQBusiness->EnableWindow(FALSE);
-	m_btnReApproveSCRQPlan->EnableWindow(FALSE);
-	m_btnReApproveBZRQBusiness->EnableWindow(FALSE);
-	m_btnReApproveBZRQPlan->EnableWindow(FALSE);
+		m_btnModify->ShowWindow(FALSE);
+		m_btnRestore->ShowWindow(FALSE);
+
+		m_btnReApproveSCRQBusiness->EnableWindow(FALSE);
+		m_btnReApproveSCRQPlan->EnableWindow(FALSE);
+		m_btnReApproveBZRQBusiness->EnableWindow(FALSE);
+		m_btnReApproveBZRQPlan->EnableWindow(FALSE);
+	}
 }
 
 void CPlanPanel::OnBnClickedPlan()
@@ -584,12 +608,22 @@ void CPlanPanel::OnRowChecked()
 void CPlanPanel::OnUIPrepared()
 {
 	__super::OnUIPrepared();
-	if (m_pJqGridAPI->GetRowCount() == 0)
+
+	CPermission& perm = CUser::GetInstance()->GetPermission();
+
+	if (perm.getPlan())
 	{
-		for (int i = 0; i < m_table.size(); ++i)
+		if (m_pJqGridAPI->GetRowCount() == 0)
 		{
-			m_table[i].first = m_pJqGridAPI->AddRow(m_table[i].second);
+			for (int i = 0; i < m_table.size(); ++i)
+			{
+				m_table[i].first = m_pJqGridAPI->AddRow(m_table[i].second);
+			}
 		}
+	}
+	else
+	{
+		m_pJqGridAPI->HideGrid();
 	}
 }
 
@@ -704,36 +738,44 @@ void CPlanPanel::OnDataUpdate()
 	//url.Format(_T("http://%s:8080/BlueRay/plan/query/all/none"), IDS_HOST_NAME);
 	//m_pHttp->Get(url, QUERY_URL_ID);
 
+	CPermission& perm = CUser::GetInstance()->GetPermission();
 
-	class OnLoadDataListener : public CPromise<table>::IHttpResponse
+	if (perm.getPlan())
 	{
-		CONSTRUCTOR_3(OnLoadDataListener, CPlanPanel&, planPanel, table&, tb, CJQGridAPI*, pJqGridAPI)
-	public:
-		virtual void OnSuccess(table& tb){
-			for (int j = 0; j < m_tb.size(); ++j)
-			{
-				m_pJqGridAPI->DelRow(m_tb[j].first);
+		class OnLoadDataListener : public CPromise<table>::IHttpResponse
+		{
+			CONSTRUCTOR_3(OnLoadDataListener, CPlanPanel&, planPanel, table&, tb, CJQGridAPI*, pJqGridAPI)
+		public:
+			virtual void OnSuccess(table& tb){
+				for (int j = 0; j < m_tb.size(); ++j)
+				{
+					m_pJqGridAPI->DelRow(m_tb[j].first);
+				}
+
+				m_pJqGridAPI->Refresh();
+
+				m_tb = tb;
+
+				for (int j = 0; j < m_tb.size(); ++j)
+				{
+					m_pJqGridAPI->AddRow(m_tb[j].first, m_tb[j].second);
+				}
+
+				m_planPanel.GetParent()->EnableWindow(TRUE);
 			}
-
-			m_pJqGridAPI->Refresh();
-
-			m_tb = tb;
-
-			for (int j = 0; j < m_tb.size(); ++j)
-			{
-				m_pJqGridAPI->AddRow(m_tb[j].first, m_tb[j].second);
+			virtual void OnFailed(){
+				m_planPanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+				m_planPanel.GetParent()->EnableWindow(TRUE);
 			}
-
-			m_planPanel.GetParent()->EnableWindow(TRUE);
-		}
-		virtual void OnFailed(){
-			m_planPanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-			m_planPanel.GetParent()->EnableWindow(TRUE);
-		}
-	};
-	CPlan& plan = CServer::GetInstance()->GetPlan();
-	plan.Query().then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
-	GetParent()->EnableWindow(FALSE);
+		};
+		CPlan& plan = CServer::GetInstance()->GetPlan();
+		plan.Query().then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+		GetParent()->EnableWindow(FALSE);
+	}
+	else
+	{
+		m_pJqGridAPI->HideGrid();
+	}
 }
 
 void CPlanPanel::ShowReApproveSCRQBusinessBtn(BOOL bShow)

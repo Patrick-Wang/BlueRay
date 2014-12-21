@@ -59,42 +59,66 @@ CSalePanel::~CSalePanel()
 {
 }
 
+void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
+{
+	CBRPanel::OnShowWindow(bShow, nStatus);
+
+	CPermission& perm = CUser::GetInstance()->GetPermission();
+
+	if (!perm.getSale())
+	{
+		m_pJqGridAPI->HideGrid();
+	}
+}
+
 void CSalePanel::OnInitChilds()
 {
-	m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_SALE_BTN_SEARCH, _T(""), _T("Microsoft YaHei"), 12);
-	m_editSearch->MoveWindow(235, 27, 240, 20);
+	CPermission& perm = CUser::GetInstance()->GetPermission();
 
-	m_btnAdd = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_ADD, _T("添加"), _T("Microsoft YaHei"), 12);
-	m_btnAdd->MoveWindow(20, 25, 90, 25);
+	if (!perm.getSale())
+	{
+		m_bsMoreWord = Util_Tools::Util::CreateStatic(this, IDC_SALE_BTN_MOREWORD, _T("您没有销售录入的权限"), _T("Microsoft YaHei"), 16);
+		m_bsMoreWord->MoveWindow(20, 27, 500, 20);
+		m_bsMoreWord->SetTextAlign(DT_LEFT);
+		m_pJqGridAPI->HideGrid();
+	}
+	else
+	{
+		m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_SALE_BTN_SEARCH, _T(""), _T("Microsoft YaHei"), 12);
+		m_editSearch->MoveWindow(235, 27, 240, 20);
+
+		m_btnAdd = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_ADD, _T("添加"), _T("Microsoft YaHei"), 12);
+		m_btnAdd->MoveWindow(20, 25, 90, 25);
 
 
-	m_btnDelete = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_DELETE, _T("删除"), _T("Microsoft YaHei"), 12);
-	m_btnDelete->MoveWindow(125, 70, 90, 25);
+		m_btnDelete = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_DELETE, _T("删除"), _T("Microsoft YaHei"), 12);
+		m_btnDelete->MoveWindow(125, 70, 90, 25);
 
-	m_btnModify = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_MODIFY, _T("修改"), _T("Microsoft YaHei"), 12);
-	m_btnModify->MoveWindow(20, 70, 90, 25);
+		m_btnModify = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_MODIFY, _T("修改"), _T("Microsoft YaHei"), 12);
+		m_btnModify->MoveWindow(20, 70, 90, 25);
 
-	m_btnSearch = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_SEARCH, _T("查询"), _T("Microsoft YaHei"), 12);
-	m_btnSearch->MoveWindow(125, 25, 90, 25);
+		m_btnSearch = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_SEARCH, _T("查询"), _T("Microsoft YaHei"), 12);
+		m_btnSearch->MoveWindow(125, 25, 90, 25);
 
-	m_btnMore = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_MORE, _T(">"), _T("Microsoft YaHei"), 12);
-	m_btnMore->MoveWindow(566, 25, 30, 25);
+		m_btnMore = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_MORE, _T(">"), _T("Microsoft YaHei"), 12);
+		m_btnMore->MoveWindow(566, 25, 30, 25);
 
-	m_btnTableFilter = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_TABLEFILTER, _T("表格设置"), _T("Microsoft YaHei"), 12);
-	m_btnTableFilter->MoveWindow(640, 25, 90, 25);
+		m_btnTableFilter = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_TABLEFILTER, _T("表格设置"), _T("Microsoft YaHei"), 12);
+		m_btnTableFilter->MoveWindow(640, 25, 90, 25);
 
-	m_btnReApproveForBusiness = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_REAPPROVEFORBUSINESS, _T("反审核-业务"), _T("Microsoft YaHei"), 12);
-	m_btnReApproveForPlan = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_ADD, _T("反审核-计划"), _T("Microsoft YaHei"), 12);
-	ShowReApproveBtns();
+		m_btnReApproveForBusiness = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_REAPPROVEFORBUSINESS, _T("反审核-业务"), _T("Microsoft YaHei"), 12);
+		m_btnReApproveForPlan = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_ADD, _T("反审核-计划"), _T("Microsoft YaHei"), 12);
+		ShowReApproveBtns();
 
-	m_bsMoreWord = Util_Tools::Util::CreateStatic(this, IDC_SALE_BTN_MOREWORD, _T("更多筛选"), _T("Microsoft YaHei"), 12);
-	m_bsMoreWord->MoveWindow(485, 27, 63, 20);
+		m_bsMoreWord = Util_Tools::Util::CreateStatic(this, IDC_SALE_BTN_MOREWORD, _T("更多筛选"), _T("Microsoft YaHei"), 12);
+		m_bsMoreWord->MoveWindow(485, 27, 63, 20);
 
-	m_btnDelete->EnableWindow(FALSE);
-	m_btnModify->EnableWindow(FALSE);
+		m_btnDelete->EnableWindow(FALSE);
+		m_btnModify->EnableWindow(FALSE);
 
-	m_btnReApproveForBusiness->EnableWindow(FALSE);
-	m_btnReApproveForPlan->EnableWindow(FALSE);
+		m_btnReApproveForBusiness->EnableWindow(FALSE);
+		m_btnReApproveForPlan->EnableWindow(FALSE);
+	}
 }
 
 void CSalePanel::OnBnClickedAdd()
@@ -696,42 +720,52 @@ void CSalePanel::OnDataUpdate()
 	//url.Format(_T("http://%s:8080/BlueRay/sale/query/all/none"), IDS_HOST_NAME);
 	//CString jsondata;
 	//m_pHttp->SyncGet(url, jsondata);
-	class OnLoadDataListener : public CPromise<table>::IHttpResponse
+	
+	CPermission& perm = CUser::GetInstance()->GetPermission();
+
+	if (perm.getSale())
 	{
-		CONSTRUCTOR_3(OnLoadDataListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
-	public:
-		virtual void OnSuccess(table& tb){
-			for (int j = 0; j < m_tb.size(); ++j)
-			{
-				m_pJqGridAPI->DelRow(m_tb[j].first);
+		class OnLoadDataListener : public CPromise<table>::IHttpResponse
+		{
+			CONSTRUCTOR_3(OnLoadDataListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
+		public:
+			virtual void OnSuccess(table& tb){
+				for (int j = 0; j < m_tb.size(); ++j)
+				{
+					m_pJqGridAPI->DelRow(m_tb[j].first);
+				}
+
+				m_pJqGridAPI->Refresh();
+
+				m_tb = tb;
+
+				for (int j = 0; j < m_tb.size(); ++j)
+				{
+					m_pJqGridAPI->AddRow(m_tb[j].first, m_tb[j].second);
+				}
+
+				m_salePanel.GetParent()->EnableWindow(TRUE);
 			}
-
-			m_pJqGridAPI->Refresh();
-
-			m_tb = tb;
-			
-			for (int j = 0; j < m_tb.size(); ++j)
-			{
-				m_pJqGridAPI->AddRow(m_tb[j].first, m_tb[j].second);
+			virtual void OnFailed(){
+				m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+				m_salePanel.GetParent()->EnableWindow(TRUE);
 			}
+		};
 
-			m_salePanel.GetParent()->EnableWindow(TRUE);
-		}
-		virtual void OnFailed(){
-			m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-			m_salePanel.GetParent()->EnableWindow(TRUE);
-		}
-	};
+		CServer::GetInstance()->GetSale().Query().then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+		GetParent()->EnableWindow(FALSE);
+		//if (!CServer::GetInstance()->GetSale().QuerySync(m_table))
+		//{
+		//	OnHttpFailed(QUERY_URL_ID);
+		//}
 
-	CServer::GetInstance()->GetSale().Query().then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
-	GetParent()->EnableWindow(FALSE);
-	//if (!CServer::GetInstance()->GetSale().QuerySync(m_table))
-	//{
-	//	OnHttpFailed(QUERY_URL_ID);
-	//}
-
-	//OnLoadDataSuccess();
-	//GetParent()->EnableWindow(FALSE);
+		//OnLoadDataSuccess();
+		//GetParent()->EnableWindow(FALSE);
+	}
+	else
+	{
+		m_pJqGridAPI->HideGrid();
+	}
 }
 
 void CSalePanel::ShowReApproveBusinessBtn(BOOL bShow)

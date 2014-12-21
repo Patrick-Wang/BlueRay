@@ -10,6 +10,21 @@ public:
 	bool jhjhsh;
 	bool jhbzywsh;
 	bool jhbzjhsh;
+	bool plan;
+	bool sale;
+
+	/**
+	* @return the plan
+	*/
+	bool getPlan() {
+		return plan;
+	}
+	/**
+	* @return the sale
+	*/
+	bool getSale() {
+		return sale;
+	}
 
 	/**
 	* @return the xsywsh
@@ -84,5 +99,18 @@ public:
 		this->jhbzjhsh = jhbzjhsh;
 	}
 
+	/**
+	* @param plan the plan to set
+	*/
+	void setPlan(bool plan) {
+		this->plan = plan;
+	}
+
+	/**
+	* @param sale the sale to set
+	*/
+	void setSale(bool sale) {
+		this->sale = sale;
+	}
 };
 

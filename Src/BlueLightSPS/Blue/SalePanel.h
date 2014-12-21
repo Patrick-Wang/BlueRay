@@ -65,5 +65,6 @@ private:
 
 public:
 	afx_msg void OnNcDestroy();
+	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
 };
 

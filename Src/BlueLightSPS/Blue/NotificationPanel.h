@@ -51,6 +51,8 @@ private:
 
 	CTableFilterDlg *m_pTableFilter;
 
+	CBSStatic* m_staticPromotion;
+
 	enum enumApprovingItem{
 		Approving_NULL = -1,
 		Approving_SaleBusiness,

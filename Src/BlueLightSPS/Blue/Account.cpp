@@ -39,6 +39,8 @@ bool CAccount::LoginSync(CString& usrName, CString& psw)
 		perm.setJhywsh(jPerm.asBool(L"jhywsh"));
 		perm.setXsjhsh(jPerm.asBool(L"xsjhsh"));
 		perm.setXsywsh(jPerm.asBool(L"xsywsh"));
+		perm.setPlan(jPerm.asBool(L"plan"));
+		perm.setSale(jPerm.asBool(L"sale"));
 
 		return true;
 	}
@@ -90,6 +92,8 @@ CUser* CAccount::StringToUser(LPCTSTR strJson)
 		perm.setJhywsh(jPerm.asBool(L"jhywsh"));
 		perm.setXsjhsh(jPerm.asBool(L"xsjhsh"));
 		perm.setXsywsh(jPerm.asBool(L"xsywsh"));
+		perm.setPlan(jPerm.asBool(L"plan"));
+		perm.setSale(jPerm.asBool(L"sale"));
 		return usr;
 	}
 	return NULL;
