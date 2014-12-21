@@ -436,7 +436,7 @@ void CPlanPanel::OnBnClickedReApproveSCRQPlan()
 	//m_pHttp->Post(url, REAPPROVE_URL_ID, attr);
 
 	CPlan& plan = CServer::GetInstance()->GetPlan();
-	plan.Unapprove(CPlan::PACK_PLAN, checkedRows).then(new OnReApproveListener(*this));
+	plan.Unapprove(CPlan::PLAN_PLAN, checkedRows).then(new OnReApproveListener(*this));
 	GetParent()->EnableWindow(FALSE);
 }
 
