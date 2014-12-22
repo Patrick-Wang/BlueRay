@@ -251,7 +251,7 @@ CPromise<bool>& CSale::Unapprove(ApproveType type, IntArray& rows)
 		url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/plan"), IDS_HOST_NAME);
 		break;
 	case CSale::BUSINESS:
-		url.Format(_T("http://%s:8080/BlueRay/sale/approve/business"), IDS_HOST_NAME);
+		url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/business"), IDS_HOST_NAME);
 		break;
 	default:
 		break;

@@ -125,17 +125,9 @@ void CSalePanel::OnBnClickedAdd()
 	CSaleAddDlg dlg(_T("Ìí¼Ó"), m_pHttp);
 	if (IDOK == dlg.DoModal())
 	{
-		//GetParent()->EnableWindow(FALSE);
 		m_cacheRow = dlg.GetResult();
 		m_cacheRow.push_back(_T("¡Á"));
 		m_cacheRow.push_back(_T("¡Á"));
-		//std::map<CString, StringArrayPtr> attr;
-		//attr[_T("add")] = &m_cacheRow;
-
-		//CString url;
-		//url.Format(_T("http://%s:8080/BlueRay/sale/add/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
-
-		//m_pHttp->Post(url, ADD_URL_ID, attr);
 
 		class CAddListener : public CPromise<int>::IHttpResponse{
 			CONSTRUCTOR_2(CAddListener, CSalePanel&, salePanel, StringArray&, cacheRow)
@@ -159,17 +151,6 @@ void CSalePanel::OnBnClickedAdd()
 
 		CServer::GetInstance()->GetSale().Add(m_cacheRow).then(new CAddListener(*this, m_cacheRow));
 		GetParent()->EnableWindow(FALSE);
-
-
-
-
-		/*if (CServer::GetInstance()->GetSale().AddSync(m_cacheRow, rowId)){
-			OnAddDataSuccess(rowId, m_cacheRow);
-			}
-			else
-			{
-			OnHttpFailed(ADD_URL_ID);
-			}*/
 	}
 }
 
@@ -183,27 +164,100 @@ void CSalePanel::OnBnClickedTableFilter()
 
 void CSalePanel::OnBnClickedReApproveBusiness()
 {
-	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/business/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	class OnReApproveBusinessListener : public CPromise<bool>::IHttpResponse{
+		CONSTRUCTOR_1(OnReApproveBusinessListener, CSalePanel&, salePanel)
+	public:
+		virtual void OnSuccess(bool& bRet){
+			if (bRet)
+			{
+				m_salePanel.MessageBox(_T("·´ÉóºË³É¹¦"), _T("·´ÉóºË"), MB_OK | MB_ICONWARNING);
+				(m_salePanel.CSalePanel::OnReApproveSuccess)(CSale::ApproveType::BUSINESS);
+			}
+			m_salePanel.GetParent()->EnableWindow(TRUE);
+		}
+		virtual void OnFailed(){
+			m_salePanel.MessageBox(_T("·´ÉóºËÊ§°Ü"), _T("·´ÉóºË"), MB_OK | MB_ICONWARNING);
+			m_salePanel.GetParent()->EnableWindow(TRUE);
+		}
+	};
+
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	std::map<CString, IntArrayPtr> attr;
-	attr[L"rows"] = &checkedRows;
 
-	m_pHttp->Post(url, BUSSINESS_REAPPROVE_BSN_URL_ID, attr);
+	CSale& sale = CServer::GetInstance()->GetSale();
+	sale.Unapprove(CSale::BUSINESS, checkedRows).then(new OnReApproveBusinessListener(*this));
+	GetParent()->EnableWindow(FALSE);
 }
 
 void CSalePanel::OnBnClickedReApprovePlan()
 {
-	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/plan/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	class OnReApprovePlanListener : public CPromise<bool>::IHttpResponse{
+		CONSTRUCTOR_1(OnReApprovePlanListener, CSalePanel&, salePanel)
+	public:
+		virtual void OnSuccess(bool& bRet){
+			if (bRet)
+			{
+				m_salePanel.MessageBox(_T("·´ÉóºË³É¹¦"), _T("·´ÉóºË"), MB_OK | MB_ICONWARNING);
+				(m_salePanel.CSalePanel::OnReApproveSuccess)(CSale::ApproveType::PLAN);
+			}
+			m_salePanel.GetParent()->EnableWindow(TRUE);
+		}
+		virtual void OnFailed(){
+			m_salePanel.MessageBox(_T("·´ÉóºËÊ§°Ü"), _T("·´ÉóºË"), MB_OK | MB_ICONWARNING);
+			m_salePanel.GetParent()->EnableWindow(TRUE);
+		}
+	};
+
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	std::map<CString, IntArrayPtr> attr;
-	attr[L"rows"] = &checkedRows;
 
-	m_pHttp->Post(url, BUSSINESS_REAPPROVE_PLAN_URL_ID, attr);
+	CSale& sale = CServer::GetInstance()->GetSale();
+	sale.Unapprove(CSale::PLAN, checkedRows).then(new OnReApprovePlanListener(*this));
+	GetParent()->EnableWindow(FALSE);
 }
+
+void CSalePanel::OnReApproveSuccess(CSale::ApproveType type)
+{
+	std::vector<int> checkedRows;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+
+	std::vector<int> checkedRowTableMap;
+	checkedRowTableMap.resize(checkedRows.size(), -1);
+	for (int i = checkedRows.size() - 1; i >= 0; --i)
+	{
+		for (int j = 0; j < m_table.size(); ++j)
+		{
+			if (m_table[j].first == checkedRows[i])
+			{
+				checkedRowTableMap[i] = j;
+				break;
+			}
+		}
+	}
+
+	for (int i = checkedRows.size() - 1; i >= 0; --i)
+	{
+		if (checkedRowTableMap[i] >= 0)
+		{
+			if (CSale::ApproveType::BUSINESS == type)
+			{
+				m_table[checkedRowTableMap[i]].second[16] = _T("¡Á");
+				m_pJqGridAPI->SetCell(checkedRows[i], 17, _T("¡Á"));
+
+				m_btnReApproveForBusiness->EnableWindow(FALSE);
+			}
+			else if (CSale::ApproveType::PLAN == type)
+			{
+				m_table[checkedRowTableMap[i]].second[17] = _T("¡Á");
+				m_pJqGridAPI->SetCell(checkedRows[i], 18, _T("¡Á"));
+
+				m_btnReApproveForPlan->EnableWindow(FALSE);
+			}
+		}
+	}
+}
+
+
 
 void CSalePanel::OnBnClickedModify()
 {
@@ -212,19 +266,11 @@ void CSalePanel::OnBnClickedModify()
 
 	if (IDOK == dlg.DoModal())
 	{
-		//GetParent()->EnableWindow(FALSE);
 		m_cacheRow = dlg.GetResult();
 		std::map<CString, StringArrayPtr> attr;
 		StringArray tmpCheckRows;
 		std::vector<int> checkedRows;
 		m_pJqGridAPI->GetCheckedRows(checkedRows);
-		//ToStringArray(checkedRows, tmpCheckRows);
-
-		//attr[_T("rows")] = &tmpCheckRows;
-		//attr[_T("data")] = &m_cacheRow;
-		//CString url;
-		//url.Format(_T("http://%s:8080/BlueRay/sale/modify"), IDS_HOST_NAME);
-		//m_pHttp->Post(url, MODIFY_URL_ID, attr);
 
 		class CUpdateListener : public CPromise<bool>::IHttpResponse{
 			CONSTRUCTOR_2(CUpdateListener, CSalePanel&, salePanel, StringArray&, cacheRow)
@@ -248,16 +294,6 @@ void CSalePanel::OnBnClickedModify()
 
 		CServer::GetInstance()->GetSale().Update(checkedRows, m_cacheRow).then(new CUpdateListener(*this, m_cacheRow));
 		GetParent()->EnableWindow(FALSE);
-
-
-		//if (CServer::GetInstance()->GetSale().UpdateSync(checkedRows, m_cacheRow))
-		//{
-		//	OnModifyDataSuccess(m_cacheRow);
-		//}
-		//else
-		//{
-		//	OnHttpFailed(MODIFY_URL_ID);
-		//}
 	}
 }
 

@@ -62,6 +62,7 @@ private:
 	void ShowReApproveBusinessBtn(BOOL bShow);
 	void ShowReApprovePlanBtn(BOOL bShow);
 	void ShowReApproveBtns();
+	void OnReApproveSuccess(CSale::ApproveType type);
 
 public:
 	afx_msg void OnNcDestroy();
