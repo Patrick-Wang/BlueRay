@@ -69,8 +69,10 @@ public class PlanController {
 			@PathVariable String approved,
 			HttpServletRequest request,
 			HttpServletResponse response) {
-
-		return JSONArray.fromObject(planService.query(approveType, approved)).toString().replace("null", "");
+		JSONArray arr = JSONArray.fromObject(planService.query(approveType, approved));
+		String strRet = arr.toString();
+		String finalRet = strRet.replace("null", "\"\"");
+		return finalRet;
 	}
 	
 //	@RequestMapping(value = "/query", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

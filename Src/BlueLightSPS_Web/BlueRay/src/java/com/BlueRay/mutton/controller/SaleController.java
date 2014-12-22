@@ -62,6 +62,16 @@ public class SaleController {
 //		return "";
 //	}
 
+//	@RequestMapping(value = "/pagequery/{approveType}/{approved}/{pagesize}/{pagenum}/{pagecount}/{colIndex}/{sort}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+//	public @ResponseBody String getSaleQueryData(
+//			@PathVariable String approveType,
+//			@PathVariable String approved,
+//			HttpServletRequest request,
+//			HttpServletResponse response) {
+//
+//		return JSONArray.fromObject(service.query(approveType, approved)).toString().replace("null", "\"\"");
+//	}
+	
 	@RequestMapping(value = "/query/{approveType}/{approved}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String getSaleQueryData(
 			@PathVariable String approveType,
@@ -69,7 +79,7 @@ public class SaleController {
 			HttpServletRequest request,
 			HttpServletResponse response) {
 
-		return JSONArray.fromObject(service.query(approveType, approved)).toString().replace("null", "");
+		return JSONArray.fromObject(service.query(approveType, approved)).toString().replace("null", "\"\"");
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
