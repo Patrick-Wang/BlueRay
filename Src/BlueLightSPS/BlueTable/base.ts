@@ -83,7 +83,7 @@ module base {
         }
 
         public setCellData(rowId, colId, data): void {
-            this.mTable.jqGrid('setCell', rowId, colId, data);
+            this.mTable.jqGrid('setCell', rowId, colId, data, undefined, undefined, true);
         }
 
         public reload() {

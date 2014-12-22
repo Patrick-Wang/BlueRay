@@ -80,6 +80,6 @@ function getRowData(gridName: string,rowId: number): string {
     return ret.substring(0, ret.length - 1);
 }
 
-function setCellData(gridName: string,row: number, col: number, data: string) {
+function setCellData(gridName: string, row: number, col: number, data: string) {
     grids[gridName].setCellData(row, col, data + "");
 }
