@@ -33,6 +33,7 @@ protected:
 	afx_msg void OnBnClickedReApproveSCRQPlan();
 
 	void OnModifyDataSuccess(std::vector<CString>& newData);
+	void OnReApproveSuccess(CPlan::ApproveType type);
 
 private:
 	std::vector<std::pair<int, std::vector<CString>>> m_table;

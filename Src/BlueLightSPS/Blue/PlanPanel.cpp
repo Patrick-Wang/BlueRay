@@ -39,22 +39,6 @@ BEGIN_MESSAGE_MAP(CPlanPanel, CBRPanel)
 	ON_WM_NCDESTROY()
 END_MESSAGE_MAP()
 
-class OnReApproveListener : public CPromise<bool>::IHttpResponse{
-	CONSTRUCTOR_1(OnReApproveListener, CPlanPanel&, planPanel)
-public:
-	virtual void OnSuccess(bool& bRet){
-		if (bRet)
-		{
-			m_planPanel.MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
-		}
-		m_planPanel.GetParent()->EnableWindow(TRUE);
-	}
-	virtual void OnFailed(){
-		m_planPanel.MessageBox(_T("反审核失败"), _T("反审核"), MB_OK | MB_ICONWARNING);
-		m_planPanel.GetParent()->EnableWindow(TRUE);
-	}
-};
-
 
 CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
 	: CBRPanel(pJqGridAPI, pHttp)
@@ -205,14 +189,6 @@ void CPlanPanel::OnBnClickedPlan()
 	if (IDOK == dlg.DoModal())
 	{
 		m_cacheRow = dlg.GetResult();
-		
-		//CString url;
-		//url.Format(_T("http://%s:8080/BlueRay/plan/update"), IDS_HOST_NAME);
-		//StringArray tmpCheckRows;
-		//ToStringArray(checkedRows, tmpCheckRows);
-		//std::map<CString, StringArrayPtr> attr;
-		//attr[_T("rows")] = &tmpCheckRows;
-		//attr[_T("data")] = &m_cacheRow;
 
 		class OnPlanUpdateListener : public CPromise<bool>::IHttpResponse{
 			CONSTRUCTOR_2(OnPlanUpdateListener, std::vector<CString>&, cacheRow, CPlanPanel&, planPanel)
@@ -232,12 +208,9 @@ void CPlanPanel::OnBnClickedPlan()
 			}
 		};
 
-
 		CServer::GetInstance()->GetPlan().Update(checkedRows, m_cacheRow)
 			.then(new OnPlanUpdateListener(m_cacheRow, *this));
 
-
-		//m_pHttp->Post(url, MODIFY_URL_ID, attr);
 		GetParent()->EnableWindow(FALSE);
 	}
 }
@@ -250,55 +223,12 @@ void CPlanPanel::OnBnClickedTableFilter()
 
 void CPlanPanel::OnBnClickedModify()
 {
-	std::auto_ptr<CPlanAddDlg::Option_t> pstOpt;
-	CPlanAddDlg dlg(_T("修改"));
-	std::vector<int> checkedRows;
-	std::vector<CString>* pRowData = NULL;
-	m_pJqGridAPI->GetCheckedRows(checkedRows);
-
-	std::vector<int> checkedRowTableMap;
-	checkedRowTableMap.resize(checkedRows.size(), -1);
-	for (int i = checkedRows.size() - 1; i >= 0; --i)
-	{
-		pRowData = NULL;
-		for (int j = 0; j < m_table.size(); ++j)
-		{
-			if (m_table[j].first == checkedRows[i])
-			{
-				checkedRowTableMap[i] = j;
-				pRowData = &(m_table[j].second);
-				break;
-			}
-		}
-
-		if (NULL != pRowData)
-		{
-			if (pstOpt.get() == NULL)
-			{
-				pstOpt.reset(new CPlanAddDlg::Option_t(*pRowData));
-			}
-			else
-			{
-				pstOpt->Merge(*pRowData);
-			}
-		}
-	}
-
-	dlg.SetOption(pstOpt.get());
-
-	if (IDOK == dlg.DoModal())
-	{
-		m_cacheRow = dlg.GetResult();
-		
-	}
+	//dropped
 }
 
 void CPlanPanel::OnBnClickedRestore()
 {
-	if (IDOK == MessageBox(_T("是否撤销已排产的计划,并重新计划排产？"), _T("重新计划"), MB_OKCANCEL | MB_ICONQUESTION))
-	{
-		OnBnClickedPlan();
-	}
+	//dropped
 }
 
 void CPlanPanel::OnBnClickedSearch()
@@ -381,65 +311,184 @@ void CPlanPanel::OnBnClickedMore()
 
 void CPlanPanel::OnBnClickedReApproveBZRQBusiness()
 {
-	//CString url;
-	//url.Format(_T("http://%s:8080/BlueRay/plan/unapprove/pack/business/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	class OnReApproveBZRQBusinessListener : public CPromise<bool>::IHttpResponse{
+		CONSTRUCTOR_1(OnReApproveBZRQBusinessListener, CPlanPanel&, planPanel)
+	public:
+		virtual void OnSuccess(bool& bRet){
+			if (bRet)
+			{
+				m_planPanel.MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
+				(m_planPanel.CPlanPanel::OnReApproveSuccess)(CPlan::ApproveType::PACK_BUSINESS);
+			}
+			m_planPanel.GetParent()->EnableWindow(TRUE);
+		}
+		virtual void OnFailed(){
+			m_planPanel.MessageBox(_T("反审核失败"), _T("反审核"), MB_OK | MB_ICONWARNING);
+			m_planPanel.GetParent()->EnableWindow(TRUE);
+		}
+	};
+
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	//std::map<CString, IntArrayPtr> attr;
-	//attr[L"rows"] = &checkedRows;
 
-	//m_pHttp->Post(url, REAPPROVE_URL_ID, attr);
 	CPlan& plan = CServer::GetInstance()->GetPlan();
-	plan.Unapprove(CPlan::PACK_BUSINESS, checkedRows).then(new OnReApproveListener(*this));
+	plan.Unapprove(CPlan::PACK_BUSINESS, checkedRows).then(new OnReApproveBZRQBusinessListener(*this));
 	GetParent()->EnableWindow(FALSE);
 }
 
 void CPlanPanel::OnBnClickedReApproveBZRQPlan()
 {
-	//CString url;
-	//url.Format(_T("http://%s:8080/BlueRay/plan/unapprove/pack/plan/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	class OnReApproveBZRQPlanListener : public CPromise<bool>::IHttpResponse{
+		CONSTRUCTOR_1(OnReApproveBZRQPlanListener, CPlanPanel&, planPanel)
+	public:
+		virtual void OnSuccess(bool& bRet){
+			if (bRet)
+			{
+				m_planPanel.MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
+				(m_planPanel.CPlanPanel::OnReApproveSuccess)(CPlan::ApproveType::PACK_PLAN);
+			}
+			m_planPanel.GetParent()->EnableWindow(TRUE);
+		}
+		virtual void OnFailed(){
+			m_planPanel.MessageBox(_T("反审核失败"), _T("反审核"), MB_OK | MB_ICONWARNING);
+			m_planPanel.GetParent()->EnableWindow(TRUE);
+		}
+	};
+
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	//std::map<CString, IntArrayPtr> attr;
-	//attr[L"rows"] = &checkedRows;
-
-	//m_pHttp->Post(url, REAPPROVE_URL_ID, attr);
+	
 	CPlan& plan = CServer::GetInstance()->GetPlan();
-	plan.Unapprove(CPlan::PACK_PLAN, checkedRows).then(new OnReApproveListener(*this));
+	plan.Unapprove(CPlan::PACK_PLAN, checkedRows).then(new OnReApproveBZRQPlanListener(*this));
 	GetParent()->EnableWindow(FALSE);
 }
 
 void CPlanPanel::OnBnClickedReApproveSCRQBusiness()
 {
-	//CString url;
-	//url.Format(_T("http://%s:8080/BlueRay/plan/unapprove/business/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	class OnReApproveSCRQBusinessListener : public CPromise<bool>::IHttpResponse{
+		CONSTRUCTOR_1(OnReApproveSCRQBusinessListener, CPlanPanel&, planPanel)
+	public:
+		virtual void OnSuccess(bool& bRet){
+			if (bRet)
+			{
+				m_planPanel.MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
+				(m_planPanel.CPlanPanel::OnReApproveSuccess)(CPlan::ApproveType::PLAN_BUSINESS);
+			}
+			m_planPanel.GetParent()->EnableWindow(TRUE);
+		}
+		virtual void OnFailed(){
+			m_planPanel.MessageBox(_T("反审核失败"), _T("反审核"), MB_OK | MB_ICONWARNING);
+			m_planPanel.GetParent()->EnableWindow(TRUE);
+		}
+	};
+
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	//std::map<CString, IntArrayPtr> attr;
-	//attr[L"rows"] = &checkedRows;
-
-	//m_pHttp->Post(url, REAPPROVE_URL_ID, attr);
+	
 	CPlan& plan = CServer::GetInstance()->GetPlan();
-	plan.Unapprove(CPlan::PLAN_BUSINESS, checkedRows).then(new OnReApproveListener(*this));
+	plan.Unapprove(CPlan::PLAN_BUSINESS, checkedRows).then(new OnReApproveSCRQBusinessListener(*this));
 	GetParent()->EnableWindow(FALSE);
 }
 
 void CPlanPanel::OnBnClickedReApproveSCRQPlan()
 {
-	//CString url;
-	//url.Format(_T("http://%s:8080/BlueRay/plan/unapprove/plan/;jsessionid=%s"), IDS_HOST_NAME, (LPCTSTR)CUser::GetInstance()->GetToken());
+	class OnReApproveSCRQPlanListener : public CPromise<bool>::IHttpResponse{
+		CONSTRUCTOR_1(OnReApproveSCRQPlanListener, CPlanPanel&, planPanel)
+	public:
+		virtual void OnSuccess(bool& bRet){
+			if (bRet)
+			{
+				m_planPanel.MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
+				(m_planPanel.CPlanPanel::OnReApproveSuccess)(CPlan::ApproveType::PLAN_PLAN);
+			}
+			m_planPanel.GetParent()->EnableWindow(TRUE);
+		}
+		virtual void OnFailed(){
+			m_planPanel.MessageBox(_T("反审核失败"), _T("反审核"), MB_OK | MB_ICONWARNING);
+			m_planPanel.GetParent()->EnableWindow(TRUE);
+		}
+	};
+
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	//std::map<CString, IntArrayPtr> attr;
-	//attr[L"rows"] = &checkedRows;
-
-	//m_pHttp->Post(url, REAPPROVE_URL_ID, attr);
-
+	
 	CPlan& plan = CServer::GetInstance()->GetPlan();
-	plan.Unapprove(CPlan::PLAN_PLAN, checkedRows).then(new OnReApproveListener(*this));
+	plan.Unapprove(CPlan::PLAN_PLAN, checkedRows).then(new OnReApproveSCRQPlanListener(*this));
 	GetParent()->EnableWindow(FALSE);
 }
 
+void CPlanPanel::OnReApproveSuccess(CPlan::ApproveType type)
+{
+	std::vector<int> checkedRows;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+
+	std::vector<int> checkedRowTableMap;
+	checkedRowTableMap.resize(checkedRows.size(), -1);
+	for (int i = checkedRows.size() - 1; i >= 0; --i)
+	{
+		for (int j = 0; j < m_table.size(); ++j)
+		{
+			if (m_table[j].first == checkedRows[i])
+			{
+				checkedRowTableMap[i] = j;
+				break;
+			}
+		}
+	}
+
+	for (int i = checkedRows.size() - 1; i >= 0; --i)
+	{
+		if (checkedRowTableMap[i] >= 0)
+		{
+			if (CPlan::ApproveType::PLAN_BUSINESS == type)
+			{
+				m_table[checkedRowTableMap[i]].second[17] = _T("×");
+				m_pJqGridAPI->SetCell(checkedRows[i], 18, _T("×"));
+
+				if (m_table[checkedRowTableMap[i]].second[18] == _T("×"))
+				{
+					//如果生产日期的业务和计划都被反审核，设置生产日期为空
+					m_table[checkedRowTableMap[i]].second[16] = _T("");
+					m_pJqGridAPI->SetCell(checkedRows[i], 17, _T(""));
+				}
+			}
+			else if (CPlan::ApproveType::PLAN_PLAN == type)
+			{
+				m_table[checkedRowTableMap[i]].second[18] = _T("×");
+				m_pJqGridAPI->SetCell(checkedRows[i], 19, _T("×"));
+
+				if (m_table[checkedRowTableMap[i]].second[17] == _T("×"))
+				{
+					m_table[checkedRowTableMap[i]].second[16] = _T("");
+					m_pJqGridAPI->SetCell(checkedRows[i], 17, _T(""));
+				}
+			}
+			else if (CPlan::ApproveType::PACK_BUSINESS == type)
+			{
+				m_table[checkedRowTableMap[i]].second[20] = _T("×");
+				m_pJqGridAPI->SetCell(checkedRows[i], 21, _T("×"));
+
+				if (m_table[checkedRowTableMap[i]].second[21] == _T("×"))
+				{
+					m_table[checkedRowTableMap[i]].second[19] = _T("");
+					m_pJqGridAPI->SetCell(checkedRows[i], 20, _T(""));
+				}
+			}
+			else if (CPlan::ApproveType::PACK_PLAN == type)
+			{
+				m_table[checkedRowTableMap[i]].second[21] = _T("×");
+				m_pJqGridAPI->SetCell(checkedRows[i], 22, _T("×"));
+				
+				if (m_table[checkedRowTableMap[i]].second[20] == _T("×"))
+				{
+					m_table[checkedRowTableMap[i]].second[19] = _T("");
+					m_pJqGridAPI->SetCell(checkedRows[i], 20, _T(""));
+				}
+			}
+		}
+	}
+	m_pJqGridAPI->Refresh();
+}
 
 void CPlanPanel::OnNcDestroy()
 {
