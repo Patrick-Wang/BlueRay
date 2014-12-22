@@ -451,6 +451,8 @@ void CPlanPanel::OnReApproveSuccess(CPlan::ApproveType type)
 					m_table[checkedRowTableMap[i]].second[16] = _T("");
 					m_pJqGridAPI->SetCell(checkedRows[i], 17, _T(""));
 				}
+
+				m_btnReApproveSCRQBusiness->EnableWindow(FALSE);
 			}
 			else if (CPlan::ApproveType::PLAN_PLAN == type)
 			{
@@ -462,6 +464,8 @@ void CPlanPanel::OnReApproveSuccess(CPlan::ApproveType type)
 					m_table[checkedRowTableMap[i]].second[16] = _T("");
 					m_pJqGridAPI->SetCell(checkedRows[i], 17, _T(""));
 				}
+
+				m_btnReApproveSCRQPlan->EnableWindow(FALSE);
 			}
 			else if (CPlan::ApproveType::PACK_BUSINESS == type)
 			{
@@ -473,6 +477,8 @@ void CPlanPanel::OnReApproveSuccess(CPlan::ApproveType type)
 					m_table[checkedRowTableMap[i]].second[19] = _T("");
 					m_pJqGridAPI->SetCell(checkedRows[i], 20, _T(""));
 				}
+
+				m_btnReApproveBZRQBusiness->EnableWindow(FALSE);
 			}
 			else if (CPlan::ApproveType::PACK_PLAN == type)
 			{
@@ -484,10 +490,11 @@ void CPlanPanel::OnReApproveSuccess(CPlan::ApproveType type)
 					m_table[checkedRowTableMap[i]].second[19] = _T("");
 					m_pJqGridAPI->SetCell(checkedRows[i], 20, _T(""));
 				}
+
+				m_btnReApproveBZRQPlan->EnableWindow(FALSE);
 			}
 		}
 	}
-	m_pJqGridAPI->Refresh();
 }
 
 void CPlanPanel::OnNcDestroy()
