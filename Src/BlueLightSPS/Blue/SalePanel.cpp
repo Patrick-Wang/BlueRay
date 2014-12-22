@@ -11,14 +11,13 @@
 #include "Promise.h"
 #define UM_REQUEST_RESULT
 
-#define RIGHT_AREA_LEFT	150
 #define QUERY_URL_ID IDP_SALE + 1
 #define ADD_URL_ID IDP_SALE + 2
 #define DEL_URL_ID IDP_SALE + 3
 #define MODIFY_URL_ID IDP_SALE + 4
 #define BUSSINESS_APPROVE_URL_ID IDP_SALE + 5	//test purpose
-#define BUSSINESS_REAPPROVE_BSN_URL_ID MODIFY_URL_ID + 6
-#define BUSSINESS_REAPPROVE_PLAN_URL_ID MODIFY_URL_ID + 7
+#define BUSSINESS_REAPPROVE_BSN_URL_ID IDP_SALE + 6
+#define BUSSINESS_REAPPROVE_PLAN_URL_ID IDP_SALE + 7
 
 static int g_ReApproveBtnPos[][4] = {
 		{ 1010, 70, 90, 25 },
@@ -107,7 +106,7 @@ void CSalePanel::OnInitChilds()
 		m_btnTableFilter->MoveWindow(640, 25, 90, 25);
 
 		m_btnReApproveForBusiness = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_REAPPROVEFORBUSINESS, _T("反审核-业务"), _T("Microsoft YaHei"), 12);
-		m_btnReApproveForPlan = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_ADD, _T("反审核-计划"), _T("Microsoft YaHei"), 12);
+		m_btnReApproveForPlan = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_REAPPROVEFORPLAN, _T("反审核-计划"), _T("Microsoft YaHei"), 12);
 		ShowReApproveBtns();
 
 		m_bsMoreWord = Util_Tools::Util::CreateStatic(this, IDC_SALE_BTN_MOREWORD, _T("更多筛选"), _T("Microsoft YaHei"), 12);
