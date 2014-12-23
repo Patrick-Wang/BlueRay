@@ -358,7 +358,7 @@ public class SaleServiceImpl implements SaleService {
 	}
 
 	private void validatePassUnapprove(HTXX htxx) {
-		if (!"Y".equals(htxx.getSftgjhsh()) || !"Y".equals(htxx.getSftgywsh())) {
+		if (!"Y".equals(htxx.getSftgjhsh()) && !"Y".equals(htxx.getSftgywsh())) {
 			List<PCJHXX> pcjhs = planDao.getDateByHtxxId(htxx.getID());
 			for (PCJHXX pcjh : pcjhs){
 				planDao.delete(pcjh);
