@@ -385,4 +385,17 @@ public class PlanServiceImpl implements PlanService {
 		return "success";
 	}
 
+	public String validate(String item, String value) {
+		if("tcbh".equalsIgnoreCase(item)){
+			if (null != planDao.getPlanDataByTcbh(value)){
+				return "false";
+			}
+		} else if("ccbh".equalsIgnoreCase(item)){
+			if (null != planDao.getPlanDataByCcbh(value)){
+				return "false";
+			}
+		}
+		return "true";
+	}
+
 }

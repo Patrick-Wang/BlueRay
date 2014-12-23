@@ -96,4 +96,24 @@ public class PlanDaoImpl implements PlanDao{
 		return new DBPCJHXXExcel(entityManager, col, asc);
 	}
 
+	public PCJHXX getPlanDataByTcbh(String tcbh) {
+		Query q = entityManager.createQuery("select t from PCJHXX t where t.tcbh = :tcbh");
+		q.setParameter("tcbh", tcbh);
+		List<PCJHXX> pcs = q.getResultList();
+		if (pcs != null && !pcs.isEmpty()){
+			return pcs.get(0);
+		}
+		return null;
+	}
+	
+	public PCJHXX getPlanDataByCcbh(String ccbh) {
+		Query q = entityManager.createQuery("select t from PCJHXX t where t.ccbh = :ccbh");
+		q.setParameter("ccbh", ccbh);
+		List<PCJHXX> pcs = q.getResultList();
+		if (pcs != null && !pcs.isEmpty()){
+			return pcs.get(0);
+		}
+		return null;
+	}
+
 }

@@ -19,6 +19,8 @@ public:
 	CPromise<bool>& Update(IntArray& rows, StringArray& record);
 	CPromise<bool>& Approve(ApproveType type, IntArray& rows);
 	CPromise<bool>& Unapprove(ApproveType type, IntArray& rows);
+	bool ValidateTcbhSync(LPCTSTR tcbh, bool& bRet);
+	bool ValidateCcbhSync(LPCTSTR ccbh, bool& bRet);
 private:
 	CPromise<bool>& doApprove(CString& url, IntArray& rows);
 };

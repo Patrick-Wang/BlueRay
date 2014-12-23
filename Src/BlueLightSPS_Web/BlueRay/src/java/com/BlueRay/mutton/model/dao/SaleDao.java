@@ -9,7 +9,7 @@ public interface SaleDao {
 //	List<HTXX> getSaleData();
 
 	HTXX getSaleDataById(int id);
-
+	
 	void insert(HTXX htxx);
 
 	void del(HTXX htxx);

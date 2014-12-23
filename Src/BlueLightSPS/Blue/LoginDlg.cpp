@@ -96,10 +96,10 @@ BOOL CLoginDlg::OnInitDialog()
 	m_btnClose.SetBSFont(22, FALSE, TRUE);
 	m_btnClose.SetColorBorder(enumBSBtnState::BS_NORMAL, COL_GRAY);
 	m_btnClose.SetColorBorder(enumBSBtnState::BS_HOVER, COL_WHITE);
-	m_btnClose.SetColorBorder(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+	m_btnClose.SetColorBorder(enumBSBtnState::BS_CLICK, COL_DARK_GRAY);
 	m_btnClose.SetColorInside(enumBSBtnState::BS_NORMAL, COL_GRAY);
 	m_btnClose.SetColorInside(enumBSBtnState::BS_HOVER, COL_WHITE);
-	m_btnClose.SetColorInside(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+	m_btnClose.SetColorInside(enumBSBtnState::BS_CLICK, COL_DARK_GRAY);
 
 	m_btnMin.Create(this, IDC_MIN);
 	m_btnMin.SetWindowText(_T("-"));
@@ -108,10 +108,10 @@ BOOL CLoginDlg::OnInitDialog()
 	m_btnMin.SetBackgroundColor(COL_GRAY);
 	m_btnMin.SetColorBorder(enumBSBtnState::BS_NORMAL, COL_GRAY);
 	m_btnMin.SetColorBorder(enumBSBtnState::BS_HOVER, COL_WHITE);
-	m_btnMin.SetColorBorder(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+	m_btnMin.SetColorBorder(enumBSBtnState::BS_CLICK, COL_DARK_GRAY);
 	m_btnMin.SetColorInside(enumBSBtnState::BS_NORMAL, COL_GRAY);
 	m_btnMin.SetColorInside(enumBSBtnState::BS_HOVER, COL_WHITE);
-	m_btnMin.SetColorInside(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+	m_btnMin.SetColorInside(enumBSBtnState::BS_CLICK, COL_DARK_GRAY);
 
 	m_btnForgetPassword.Create(this, IDC_FORGET_PSW);
 	m_btnForgetPassword.SetWindowText(_T("Íü¼ÇÃÜÂë >>"));

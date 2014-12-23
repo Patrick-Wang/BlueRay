@@ -14,6 +14,7 @@ public interface PlanDao {
 
 	PCJHXX getDataById(int id);
 
+	
 	List<PCJHXX> getDateByHtxxId(int id);
 	
 	void update(PCJHXX pcjhxx);
@@ -23,4 +24,8 @@ public interface PlanDao {
 	List<PCJHXX> getPcjhxx(String approveType, String approved);
 
 	AbstractExcel<PCJHXX> getPcjhExcel(String col, boolean asc);
+
+	PCJHXX getPlanDataByTcbh(String tcbh);
+
+	PCJHXX getPlanDataByCcbh(String ccbh);
 }

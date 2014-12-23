@@ -120,3 +120,27 @@ CPromise<table>& CPlan::Query(ApproveType type, bool bApproved)
 	m_lpHttp->Get(traceSession(url), promise->GetId());
 	return *promise;
 }
+
+bool CPlan::ValidateTcbhSync(LPCTSTR tcbh, bool& bRet)
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/plan/validate/tcbh/%s"), IDS_HOST_NAME, tcbh);
+	CString strRet;
+	if (m_lpHttp->SyncGet(url, strRet)){
+		bRet = (_tcscmp(strRet, L"true") == 0);
+		return true;
+	}
+	return false;
+}
+
+bool CPlan::ValidateCcbhSync(LPCTSTR ccbh, bool& bRet)
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/plan/validate/ccbh/%s"), IDS_HOST_NAME, ccbh);
+	CString strRet;
+	if (m_lpHttp->SyncGet(url, strRet)){
+		bRet = (_tcscmp(strRet, L"true") == 0);
+		return true;
+	}
+	return false;
+}

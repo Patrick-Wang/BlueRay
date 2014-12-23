@@ -84,4 +84,6 @@ public class SaleDaoImpl implements SaleDao{
 		return q.getResultList();
 	}
 
+
+
 }

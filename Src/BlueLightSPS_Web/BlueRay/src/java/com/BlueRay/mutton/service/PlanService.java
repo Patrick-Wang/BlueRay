@@ -30,4 +30,6 @@ public interface PlanService {
 
 	String export(OutputStream outputStream, Integer col, Boolean asc);
 
+	String validate(String item, String value);
+
 }

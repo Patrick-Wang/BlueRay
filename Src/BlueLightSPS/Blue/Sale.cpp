@@ -259,3 +259,4 @@ CPromise<bool>& CSale::Unapprove(ApproveType type, IntArray& rows)
 
 	return doApprove(url, rows);
 }
+
