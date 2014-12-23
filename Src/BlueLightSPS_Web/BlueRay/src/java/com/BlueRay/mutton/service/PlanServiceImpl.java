@@ -24,7 +24,6 @@ import com.BlueRay.mutton.model.dao.PlanDao;
 import com.BlueRay.mutton.model.dao.SaleDao;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
-import com.BlueRay.mutton.model.excel.DBPCJHXXExcel;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
 
@@ -49,7 +48,7 @@ class DBPCJHXXExcelExporter implements IExcelExporter<PCJHXX> {
 	}
 
 	public void exports() {
-		PCJHXX record = null;
+		
 		HSSFWorkbook workbook = new HSSFWorkbook();
 	    HSSFSheet sheet = workbook.createSheet(excel.getName());
 	    Map<Integer, HTXX> htxxMap = new HashMap<Integer, HTXX>();
