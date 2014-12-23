@@ -1,8 +1,10 @@
 package com.BlueRay.mutton.controller;
 
 import java.io.BufferedReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -73,6 +75,16 @@ public class PlanController {
 		String strRet = arr.toString();
 		String finalRet = strRet.replace("null", "\"\"");
 		return finalRet;
+	}
+	
+	@RequestMapping(value = "/export/{col}/{asc}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String exportData(
+			@PathVariable Integer col,
+			@PathVariable Boolean asc,
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		OutputStream out = new FileOutputStream("D://adds.xls");
+		return planService.export(out, col, asc);
 	}
 	
 //	@RequestMapping(value = "/query", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

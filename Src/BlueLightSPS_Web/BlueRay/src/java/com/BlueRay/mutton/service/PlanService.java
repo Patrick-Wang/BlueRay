@@ -1,5 +1,9 @@
 package com.BlueRay.mutton.service;
 
+import java.io.OutputStream;
+
+import javax.servlet.ServletOutputStream;
+
 import net.sf.json.JSONArray;
 
 public interface PlanService {
@@ -23,5 +27,7 @@ public interface PlanService {
 	String packBusinessUnapprove(JSONArray rows);
 
 	String packPlanUnapprove(JSONArray rows);
+
+	String export(OutputStream outputStream, Integer col, Boolean asc);
 
 }

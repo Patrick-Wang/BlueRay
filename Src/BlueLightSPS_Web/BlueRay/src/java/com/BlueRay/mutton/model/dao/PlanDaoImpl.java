@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
+import com.BlueRay.mutton.model.excel.DBPCJHXXExcel;
+import com.BlueRay.mutton.tool.AbstractExcel;
 
 @Repository
 @Transactional("transactionManager")
@@ -88,6 +90,10 @@ public class PlanDaoImpl implements PlanDao{
 		Query q = entityManager.createQuery(sql);
 		q.setParameter("id", id);
 		return q.getResultList();
+	}
+	
+	public AbstractExcel<PCJHXX> getPcjhExcel(String col, boolean asc){
+		return new DBPCJHXXExcel(entityManager, col, asc);
 	}
 
 }
