@@ -48,11 +48,14 @@ protected:
 	CBRButton m_btnNotification;
 	CBRButton m_btnProductionDataAnalyst;
 	CBRButton m_btnSettingPage;
-
+	CBRButton m_btnClose;
+	CBRButton m_btnMin;
 
 public:
 	//afx_msg void OnBnClickedSetting();
 	//afx_msg void OnBnClickedPlan();
+	afx_msg void OnBnCloseClicked();
+	afx_msg void OnBnMinmumClicked();
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);	
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);

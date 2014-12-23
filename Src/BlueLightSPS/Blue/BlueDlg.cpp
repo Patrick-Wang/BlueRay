@@ -56,13 +56,20 @@ BEGIN_MESSAGE_MAP(CBlueDlg, CDialogEx)
 	ON_MESSAGE_VOID(WM_SALE_UPDATED, CBlueDlg::OnSaleChanged)
 	//ON_BN_CLICKED(IDB_SETTINGPAGE, &CBlueDlg::OnBnClickedSetting)
 	//ON_BN_CLICKED(IDB_PLANPAGE, &CBlueDlg::OnBnClickedPlan)
+	ON_BN_CLICKED(IDC_MIN, &CBlueDlg::OnBnMinmumClicked)
+	ON_BN_CLICKED(IDC_CLOSE, &CBlueDlg::OnBnCloseClicked)
 	ON_WM_CREATE()
 	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 
 
-
+void CBlueDlg::OnBnCloseClicked(){
+	SendMessage(WM_CLOSE);
+}
+void CBlueDlg::OnBnMinmumClicked(){
+	SendMessage(WM_SYSCOMMAND, SC_MINIMIZE);
+}
 
 void CBlueDlg::CreatePageButton(CBRButton& btn, UINT id, int n, LPCTSTR text)
 {
@@ -95,6 +102,32 @@ BOOL CBlueDlg::OnInitDialog()
 	Util_Tools::Util::SetWindowSize(m_hWnd, rt.Width(), rt.Height());
 	InitWebView();
 	
+
+	m_btnClose.Create(this, IDC_CLOSE);
+	m_btnClose.SetWindowText(_T("×"));
+	m_btnClose.MoveWindow(rt.Width() - 37, 0, 35, 25);
+	m_btnClose.SetBackgroundColor(COL_GRAY);
+	m_btnClose.SetBSFont(22, FALSE, TRUE);
+	m_btnClose.SetColorBorder(enumBSBtnState::BS_NORMAL, COL_GRAY);
+	m_btnClose.SetColorBorder(enumBSBtnState::BS_HOVER, COL_WHITE);
+	m_btnClose.SetColorBorder(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+	m_btnClose.SetColorInside(enumBSBtnState::BS_NORMAL, COL_GRAY);
+	m_btnClose.SetColorInside(enumBSBtnState::BS_HOVER, COL_WHITE);
+	m_btnClose.SetColorInside(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+
+	m_btnMin.Create(this, IDC_MIN);
+	m_btnMin.SetWindowText(_T("-"));
+	m_btnMin.SetBSFont(30, FALSE, TRUE);
+	m_btnMin.MoveWindow(rt.Width() - 72, 0, 35, 25);
+	m_btnMin.SetBackgroundColor(COL_GRAY);
+	m_btnMin.SetColorBorder(enumBSBtnState::BS_NORMAL, COL_GRAY);
+	m_btnMin.SetColorBorder(enumBSBtnState::BS_HOVER, COL_WHITE);
+	m_btnMin.SetColorBorder(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+	m_btnMin.SetColorInside(enumBSBtnState::BS_NORMAL, COL_GRAY);
+	m_btnMin.SetColorInside(enumBSBtnState::BS_HOVER, COL_WHITE);
+	m_btnMin.SetColorInside(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+
+
 	//SetWindowPos(NULL, rt.left, rt.top, rt.Width(), rt.Height(), SW_SHOW);
 
 	m_btnGroup.d_onSelected += std::make_pair(this, &CBlueDlg::OnGroupBtnSelected);

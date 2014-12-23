@@ -40,6 +40,8 @@ BEGIN_MESSAGE_MAP(CLoginDlg, CDialogEx)
 	ON_WM_CREATE()
 	ON_WM_ERASEBKGND()
 	ON_BN_CLICKED(IDC_LOGIN, &CLoginDlg::OnBnClickedLogin)
+	ON_BN_CLICKED(IDC_MIN, &CLoginDlg::OnBnMinmumClicked)
+	ON_BN_CLICKED(IDC_CLOSE, &CLoginDlg::OnBnCloseClicked)
 	ON_WM_KEYDOWN()
 END_MESSAGE_MAP()
 
@@ -86,6 +88,31 @@ BOOL CLoginDlg::OnInitDialog()
 	//m_btnVPN.MoveWindow(695, 452, 130, 24);
 	//m_btnVPN.SetBackgroundColor(COL_GRAY);
 
+
+	m_btnClose.Create(this, IDC_CLOSE);
+	m_btnClose.SetWindowText(_T("¡Á"));
+	m_btnClose.MoveWindow(rt.Width() - 37, 0, 35, 25);
+	m_btnClose.SetBackgroundColor(COL_GRAY);
+	m_btnClose.SetBSFont(22, FALSE, TRUE);
+	m_btnClose.SetColorBorder(enumBSBtnState::BS_NORMAL, COL_GRAY);
+	m_btnClose.SetColorBorder(enumBSBtnState::BS_HOVER, COL_WHITE);
+	m_btnClose.SetColorBorder(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+	m_btnClose.SetColorInside(enumBSBtnState::BS_NORMAL, COL_GRAY);
+	m_btnClose.SetColorInside(enumBSBtnState::BS_HOVER, COL_WHITE);
+	m_btnClose.SetColorInside(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+
+	m_btnMin.Create(this, IDC_MIN);
+	m_btnMin.SetWindowText(_T("-"));
+	m_btnMin.SetBSFont(30, FALSE, TRUE);
+	m_btnMin.MoveWindow(rt.Width() - 72, 0, 35, 25);
+	m_btnMin.SetBackgroundColor(COL_GRAY);
+	m_btnMin.SetColorBorder(enumBSBtnState::BS_NORMAL, COL_GRAY);
+	m_btnMin.SetColorBorder(enumBSBtnState::BS_HOVER, COL_WHITE);
+	m_btnMin.SetColorBorder(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+	m_btnMin.SetColorInside(enumBSBtnState::BS_NORMAL, COL_GRAY);
+	m_btnMin.SetColorInside(enumBSBtnState::BS_HOVER, COL_WHITE);
+	m_btnMin.SetColorInside(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+
 	m_btnForgetPassword.Create(this, IDC_FORGET_PSW);
 	m_btnForgetPassword.SetWindowText(_T("Íü¼ÇÃÜÂë >>"));
 	m_btnForgetPassword.MoveWindow(667, 440, 130, 24);
@@ -129,7 +156,12 @@ BOOL CLoginDlg::OnInitDialog()
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
-
+void CLoginDlg::OnBnCloseClicked(){
+	SendMessage(WM_CLOSE);
+}
+void CLoginDlg::OnBnMinmumClicked(){
+	SendMessage(WM_SYSCOMMAND, SC_MINIMIZE);
+}
 void CLoginDlg::OnBnClickedLogin()
 {
 	CString psw;

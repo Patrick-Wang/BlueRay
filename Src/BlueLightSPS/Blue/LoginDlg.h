@@ -30,10 +30,13 @@ protected:
 	CBSStatic m_bsLogo;
 	CWebView m_webHttpView;
 	HICON m_hIcon;
-
+	CBRButton m_btnClose;
+	CBRButton m_btnMin;
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg void OnBnCloseClicked();
+	afx_msg void OnBnMinmumClicked();
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBnClickedLogin();
 	CEdit m_editUserName;
