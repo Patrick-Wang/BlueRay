@@ -88,13 +88,13 @@ BOOL CBlueDlg::OnInitDialog()
 	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
-	CServer::GetInstance()->SetHttp(new CJsHttpImpl(&m_webView));
+	CServer::GetInstance()->SetHttp(new CJsHttpImpl(&m_webView, this));
 
 	CRect rt;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rt, 0);
 	Util_Tools::Util::SetWindowSize(m_hWnd, rt.Width(), rt.Height());
 	InitWebView();
-
+	
 	//SetWindowPos(NULL, rt.left, rt.top, rt.Width(), rt.Height(), SW_SHOW);
 
 	m_btnGroup.d_onSelected += std::make_pair(this, &CBlueDlg::OnGroupBtnSelected);

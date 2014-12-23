@@ -1,4 +1,5 @@
 #pragma once
+#include "Sale.h"
 #include "BRPanel.h"
 #include "BRButton.h"
 #include "BSStatic.h"

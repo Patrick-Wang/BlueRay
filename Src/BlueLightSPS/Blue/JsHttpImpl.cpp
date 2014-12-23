@@ -4,11 +4,22 @@
 #include "util.h"
 #include "JsonFactory.h"
 #include "JsonObjects.h"
+#include <Winhttp.h>
+#define WM_SUCCESS	WM_APP + 227657
+#define WM_FAILED	WM_APP + 227658
+
+typedef struct tagSuccess_t{
+	int id;
+	LPCTSTR ret;
+}Success_t;
+
 CComJsFun CJsHttpImpl::m_funPost(_T("onPost"), 6001);
 CComJsFun CJsHttpImpl::m_funGet(_T("onGet"), 6002);
 
-CJsHttpImpl::CJsHttpImpl(IJSMediator* lpJsMediator)
+CJsHttpImpl::CJsHttpImpl(IJSMediator* lpJsMediator, CWnd* pWnd)
 	: m_lpJsMediator(lpJsMediator)
+	, m_lpThread(new std::thread())
+	, m_pWnd(pWnd)
 {
 	m_funPost.d_onJsCall += std::make_pair(this, &CJsHttpImpl::OnPost);
 	m_funGet.d_onJsCall += std::make_pair(this, &CJsHttpImpl::OnGet);
@@ -110,6 +121,14 @@ void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, StringArrayPtr>
 
 	::SysFreeString(data.bstrVal);
 	::SysFreeString(param.bstrVal);
+}
+
+void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IStreamIterator> pStreamIterator)
+{
+	if (NULL == m_lpfnOldProc){
+		m_lpfnOldProc = (WNDPROC)SetWindowLong(m_pWnd->GetSafeHwnd(), GWL_WNDPROC, (LONG)&CJsHttpImpl::WindowProc);
+	}
+	m_lpThread.reset(new std::thread(&CJsHttpImpl::AsyncPost, this, lpAddr,id, mapAttr, pStreamIterator));
 }
 
 void CJsHttpImpl::Get(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr)
@@ -464,5 +483,133 @@ bool CJsHttpImpl::SyncGet(LPCTSTR lpAddr, CString& ret)
 	return false;
 
 }
+
+void CJsHttpImpl::AsyncPost(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IStreamIterator> pStreamIterator)
+{
+	Success_t success;
+	success.id = id;
+	LPSTR pszData = "WinHttpWriteData Example";
+	DWORD dwBytesWritten = 0;
+	BOOL  bResults = FALSE;
+	HINTERNET hSession = NULL,
+		hConnect = NULL,
+		hRequest = NULL;
+
+	// Use WinHttpOpen to obtain a session handle.
+	hSession = WinHttpOpen(L"A WinHTTP Example Program/1.0",
+		WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
+		WINHTTP_NO_PROXY_NAME,
+		WINHTTP_NO_PROXY_BYPASS,
+		0);
+
+	// Specify an HTTP server.
+	if (hSession)
+		hConnect = WinHttpConnect(hSession, L"localhost",
+		8080, 0);
+
+	// Create an HTTP Request handle.
+	if (hConnect)
+		hRequest = WinHttpOpenRequest(hConnect, L"POST",
+		L"/BlueRay/sale/approve/plan",
+		NULL, WINHTTP_NO_REFERER,
+		WINHTTP_DEFAULT_ACCEPT_TYPES,
+		0);
+
+	// Send a Request.
+	if (hRequest)
+		bResults = WinHttpSendRequest(hRequest,
+		WINHTTP_NO_ADDITIONAL_HEADERS,
+		0, WINHTTP_NO_REQUEST_DATA, 0,
+		(DWORD)pStreamIterator->size(), 0);
+
+	int len = 0;
+
+	while (bResults && 0 < (len = pStreamIterator->next())){
+		bResults = WinHttpWriteData(hRequest, pStreamIterator->value(),
+			(DWORD)len,
+			&dwBytesWritten);
+	}
+	DWORD dwErr = GetLastError();
+
+	// End the request.
+	if (bResults)
+		bResults = WinHttpReceiveResponse(hRequest, NULL);
+	DWORD dwSize;
+	BYTE* pszOutBuffer;
+	DWORD dwDownloaded;
+	do
+	{
+		// Check for available data.
+		dwSize = 0;
+		if (!WinHttpQueryDataAvailable(hRequest, &dwSize))
+		{
+			bResults = FALSE;
+			break;
+		}
+
+		// No more available data.
+		if (!dwSize)
+			break;
+
+		// Allocate space for the buffer.
+		pszOutBuffer = new BYTE[dwSize + 1];
+		if (!pszOutBuffer)
+		{
+			bResults = FALSE;
+			break;
+		}
+
+		// Read the Data.
+		ZeroMemory(pszOutBuffer, dwSize + 1);
+
+		if (!WinHttpReadData(hRequest, (LPVOID)pszOutBuffer,
+			dwSize, &dwDownloaded))
+		{
+			bResults = FALSE;
+			break;
+		}
+
+		// Free the memory allocated to the buffer.
+		delete[] pszOutBuffer;
+
+		// This condition should never be reached since WinHttpQueryDataAvailable
+		// reported that there are bits to read.
+		if (!dwDownloaded)
+			break;
+
+	} while (dwSize > 0);
+
+	// Report any errors.
+	if (!bResults)
+		m_pWnd->SendMessage(WM_FAILED, (WPARAM)this, (LPARAM)&success);
+	else
+	{
+
+	}
+
+	// Close any open handles.
+	if (hRequest) WinHttpCloseHandle(hRequest);
+	if (hConnect) WinHttpCloseHandle(hConnect);
+	if (hSession) WinHttpCloseHandle(hSession);
+
+}
+
+LRESULT CALLBACK CJsHttpImpl::WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam)
+{
+	switch (uMsg)
+	{
+	case WM_SUCCESS:
+		((CJsHttpImpl*)wParam)->d_OnSuccess(((Success_t*)lParam)->id, ((Success_t*)lParam)->ret);
+		break;
+	case WM_FAILED:
+		((CJsHttpImpl*)wParam)->d_OnFailed(((Success_t*)lParam)->id);
+		break;
+	default:
+		break;
+	}
+	return m_lpfnOldProc(hwnd, uMsg, wParam, lParam);
+}
+
+WNDPROC CJsHttpImpl::m_lpfnOldProc = NULL;
 
 

@@ -2,12 +2,15 @@
 #include "IHttp.h"
 #include "IJSMediator.h"
 #include "ComJsFun.h"
+#include <thread>
+
 class CJsHttpImpl :
 	public IHttp
 {
 public:
-	CJsHttpImpl(IJSMediator* lpJsMediator);
+	CJsHttpImpl(IJSMediator* lpJsMediator, CWnd* pWnd = NULL);
 	~CJsHttpImpl();
+	virtual void Post(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IStreamIterator> pStreamIterator);
 	virtual void Post(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr);
 	virtual void Post(LPCTSTR lpAddr, int id, std::map<CString, IntArrayPtr>& mapAttr);
 	virtual void Post(LPCTSTR lpAddr, int id, std::map<CString, StringArrayPtr>& mapAttr);
@@ -21,6 +24,7 @@ public:
 	virtual bool SyncGet(LPCTSTR lpAddr, StringArrayPtr rest, CString& ret);
 	virtual bool SyncGet(LPCTSTR lpAddr, CString& ret);
 protected:
+	void AsyncPost(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IStreamIterator> pStreamIterator);
 	VARIANT OnPost(int id, const std::vector<VARIANT>& params);
 	VARIANT OnGet(int id, const std::vector<VARIANT>& params);
 	void MakeUrl(LPCTSTR lpAddr, std::map<CString, CString>& attr, CString& url);
@@ -28,9 +32,18 @@ protected:
 	void AsJson(std::map<CString, CString>& mapAttr, CString& strJson);
 	void AsJson(std::map<CString, IntArrayPtr>& mapAttr, CString& strJson);
 	void AsJson(std::map<CString, StringArrayPtr>& mapAttr, CString& strJson);
+	static LRESULT CALLBACK WindowProc(
+		_In_  HWND hwnd,
+		_In_  UINT uMsg,
+		_In_  WPARAM wParam,
+		_In_  LPARAM lParam
+	);
 private:
 	IJSMediator* m_lpJsMediator;
+	std::auto_ptr<std::thread> m_lpThread;
 	static CComJsFun m_funPost;
 	static CComJsFun m_funGet;
+	static WNDPROC m_lpfnOldProc;
+	CWnd* m_pWnd;
 };
 
