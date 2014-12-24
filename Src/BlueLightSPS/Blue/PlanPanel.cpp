@@ -23,7 +23,6 @@ static int g_ReApproveBtnPos[][4] = {
 		{ 500, 70, 140, 25 }
 };
 
-
 BEGIN_MESSAGE_MAP(CPlanPanel, CBRPanel)
 	ON_BN_CLICKED(IDC_PLAN_BTN_PLAN, &CPlanPanel::OnBnClickedPlan)
 	ON_BN_CLICKED(IDC_PLAN_BTN_MODIFY, &CPlanPanel::OnBnClickedModify)
@@ -31,13 +30,13 @@ BEGIN_MESSAGE_MAP(CPlanPanel, CBRPanel)
 	ON_BN_CLICKED(IDC_PLAN_BTN_SEARCH, &CPlanPanel::OnBnClickedSearch)
 	ON_BN_CLICKED(IDC_PLAN_BTN_MORE, &CPlanPanel::OnBnClickedMore)
 	ON_BN_CLICKED(IDC_PLAN_BTN_TABLEFILTER, &CPlanPanel::OnBnClickedTableFilter)
-
 	ON_BN_CLICKED(IDC_PLAN_BTN_REAPPROVEBZRQBUSINESS, &CPlanPanel::OnBnClickedReApproveBZRQBusiness)
 	ON_BN_CLICKED(IDC_PLAN_BTN_REAPPROVEBZRQPLAN, &CPlanPanel::OnBnClickedReApproveBZRQPlan)
 	ON_BN_CLICKED(IDC_PLAN_BTN_REAPPROVESCRQBUSINESS, &CPlanPanel::OnBnClickedReApproveSCRQBusiness)
 	ON_BN_CLICKED(IDC_PLAN_BTN_REAPPROVESCRQPLAN, &CPlanPanel::OnBnClickedReApproveSCRQPlan)
 	ON_WM_NCDESTROY()
 	ON_WM_DESTROY()
+	ON_CBN_SELCHANGE(IDC_PLAN_COMBO_PROSTATUS, &CPlanPanel::OnCbnSelchangeProductionStatus)
 END_MESSAGE_MAP()
 
 
@@ -78,6 +77,121 @@ void CPlanPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 	if (!perm.getPlan())
 	{
 		m_pJqGridAPI->HideGrid();
+	}
+}
+
+void CPlanPanel::OnCbnSelchangeProductionStatus()
+{
+	int iIndex = m_comboProductionStatus->GetCurSel();
+
+	if (0 == iIndex)
+	{
+		FilterTableByStatus(ProductionStatus_All);
+	}
+	else if (1 == iIndex)
+	{
+		FilterTableByStatus(ProductionStatus_ToBePlan);
+	}
+	else if (2 == iIndex)
+	{
+		FilterTableByStatus(ProductionStatus_Planning);
+	}
+	else if (3 == iIndex)
+	{
+		FilterTableByStatus(ProductionStatus_Planned);
+	}
+}
+
+void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatus)
+{
+	std::vector<int> vecAll;
+	std::vector<int> vecToBePlaned;
+	std::vector<int> vecPlanning;
+	std::vector<int> vecPlanned;
+
+	for (int j = 0; j < m_table.size(); ++j)
+	{
+		bool bIfPlanning = false;
+		bool bIfAnyItemApproved = false;
+
+		if (_T("¡Ì") == m_table[j].second[17])
+		{
+			bIfPlanning = true;
+			bIfAnyItemApproved = true;
+		}
+
+		if (_T("¡Ì") == m_table[j].second[18])
+		{
+			bIfPlanning = true;
+			bIfAnyItemApproved = true;
+		}
+
+		if (_T("¡Ì") == m_table[j].second[20])
+		{
+			bIfPlanning = true;
+			bIfAnyItemApproved = true;
+		}
+
+		if (_T("¡Ì") == m_table[j].second[21])
+		{
+			bIfPlanning = true;
+			bIfAnyItemApproved = true;
+		}
+
+		if (!bIfAnyItemApproved)
+		{
+			vecToBePlaned.push_back(m_table[j].first);
+		}
+		else
+		{
+			if (bIfPlanning)
+			{
+				vecPlanning.push_back(m_table[j].first);
+			}
+			else
+			{
+				vecPlanned.push_back(m_table[j].first);
+			}
+		}
+
+		vecAll.push_back(m_table[j].first);
+	}
+
+	if (ProductionStatus_All == productionStatus)
+	{
+		for (int j = 0; j < vecAll.size(); ++j)
+		{
+			m_pJqGridAPI->ShowRow(vecAll[j]);
+		}
+	}
+	else
+	{
+		for (int i = 1; i <= m_table.size(); i++)
+		{
+			m_pJqGridAPI->HideRow(i);
+		}
+
+		if (ProductionStatus_ToBePlan == productionStatus)
+		{
+			for (int j = 0; j < vecToBePlaned.size(); ++j)
+			{
+				m_pJqGridAPI->ShowRow(vecToBePlaned[j]);
+			}
+		}
+		else if (ProductionStatus_Planning == productionStatus)
+		{
+			for (int j = 0; j < vecPlanning.size(); ++j)
+			{
+				m_pJqGridAPI->ShowRow(vecPlanning[j]);
+			}
+		}
+		else if (ProductionStatus_Planned == productionStatus)
+		{
+			for (int j = 0; j < vecPlanned.size(); ++j)
+			{
+				m_pJqGridAPI->ShowRow(vecPlanned[j]);
+			}
+		}
 	}
 }
 

@@ -31,6 +31,7 @@ protected:
 	afx_msg void OnBnClickedReApproveBZRQPlan();
 	afx_msg void OnBnClickedReApproveSCRQBusiness();
 	afx_msg void OnBnClickedReApproveSCRQPlan();
+	afx_msg void OnCbnSelchangeProductionStatus();
 
 	void OnModifyDataSuccess(std::vector<CString>& newData);
 	void OnReApproveSuccess(CPlan::ApproveType type);
@@ -61,6 +62,15 @@ private:
 
 	CBSStatic* m_staticNoPermWarning;
 
+	enum enumProductionStatusForPlan
+	{
+		ProductionStatus_All,
+		ProductionStatus_ToBePlan,
+		ProductionStatus_Planning,
+		ProductionStatus_Planned
+	};
+
+
 	DECLARE_MESSAGE_MAP()
 
 	void ShowReApproveSCRQPlanBtn(BOOL bShow);
@@ -68,6 +78,7 @@ private:
 	void ShowReApproveBZRQPlanBtn(BOOL bShow);
 	void ShowReApproveSCRQBusinessBtn(BOOL bShow);
 	void ShowReApproveBtns();
+	void FilterTableByStatus(enumProductionStatusForPlan productionStatus);
 
 public:
 	afx_msg void OnNcDestroy();
