@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Server.h"
 
-
 CServer::CServer()
 	: m_lpHttp(NULL)
 {

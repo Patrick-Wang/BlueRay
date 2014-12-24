@@ -4,40 +4,6 @@
 #include <vector>
 namespace Json
 {
-	//class JsonField : public JsonType{
-	//private:
-	//	friend class JsonFactory;
-	//	JsonField(){}
-	//public:
-	//	JsonField(json_char* fieldName, JsonType* fieldValue)
-	//		: m_fieldName(fieldName), m_fieldValue(fieldValue){
-	//			if (fieldValue->tag() == jfield)
-	//			{
-	//				throw std::exception("invalid");
-	//			}
-	//	}
-
-	//	json_string& name(){
-	//		return m_fieldName;
-	//	}
-
-	//	JsonTypePtr& value(){
-	//		return m_fieldValue;
-	//	}
-
-	//	virtual JsonTypeTag tag(){
-	//		return jfield;
-	//	}
-
-	//	virtual void asJson(json_stringstream& os){
-	//		
-	//	}
-
-	//private:
-	//	json_string m_fieldName;
-	//	JsonTypePtr m_fieldValue;
-	//};
-
 	class JsonObject : public JsonType{
 
 		typedef std::map<json_string, std::shared_ptr<JsonType>> JsonFields;
@@ -50,6 +16,9 @@ namespace Json
 			return m_fields;
 		}
 	
+		bool isValid(json_char* name){
+			return m_fields.find(name) != m_fields.end();
+		}
 
 		int asInt(json_char* name){
 			preCheck(name, JsonTypeTag::jint);
@@ -118,7 +87,7 @@ namespace Json
 		}
 	private:
 		void preCheck(json_char* key, JsonTypeTag tag){
-			if (m_fields.find(key) == m_fields.end())
+			if (!isValid(key))
 			{
 				throw std::exception("No field");
 			}
@@ -142,6 +111,10 @@ namespace Json
 		typedef std::vector<std::shared_ptr<Json::JsonType>> JsonItems;
 		JsonItems& items(){
 			return m_objects;
+		}
+
+		int size(){
+			return m_objects.size();
 		}
 
 		JsonArray& add(JsonType* jsonType){

@@ -1,7 +1,8 @@
 #pragma once
 
-#include <string>
+
 #include <memory>
+#include <string>
 #include <sstream>
 #include <list>
 #include <tchar.h>

@@ -9,6 +9,8 @@
 #include "JQGridAPI.h"
 #include "User.h"
 #include "Promise.h"
+
+
 #define UM_REQUEST_RESULT
 
 #define QUERY_URL_ID IDP_SALE + 1
@@ -34,6 +36,7 @@ BEGIN_MESSAGE_MAP(CSalePanel, CBRPanel)
 	ON_BN_CLICKED(IDC_SALE_BTN_REAPPROVEFORBUSINESS, &CSalePanel::OnBnClickedReApproveBusiness)
 	ON_BN_CLICKED(IDC_SALE_BTN_REAPPROVEFORPLAN, &CSalePanel::OnBnClickedReApprovePlan)
 	ON_WM_NCDESTROY()
+	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
@@ -73,6 +76,11 @@ void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
 void CSalePanel::OnInitChilds()
 {
 	CPermission& perm = CUser::GetInstance()->GetPermission();
+	CString strJsonWidths;
+	if (CSettingManager::GetInstance()->GetColWidths(L"saleCol", strJsonWidths))
+	{
+		m_pJqGridAPI->SetWidths(strJsonWidths);
+	}
 
 	if (!perm.getSale())
 	{
@@ -866,4 +874,15 @@ void CSalePanel::ShowReApproveBtns()
 	//order must be kept
 	ShowReApprovePlanBtn(TRUE);
 	ShowReApproveBusinessBtn(TRUE);
+}
+
+void CSalePanel::OnDestroy()
+{
+	CString strWidths;
+	m_pJqGridAPI->GetWidths(strWidths);
+	CSettingManager::GetInstance()->SetColWidths(L"saleCol", strWidths);
+
+	CBRPanel::OnDestroy();
+
+	// TODO: Add your message handler code here
 }

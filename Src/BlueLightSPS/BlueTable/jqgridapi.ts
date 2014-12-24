@@ -83,3 +83,26 @@ function getRowData(gridName: string,rowId: number): string {
 function setCellData(gridName: string, row: number, col: number, data: string) {
     grids[gridName].setCellData(row, col, data + "");
 }
+
+function setWidths(gridName: string, strwidths: string) {
+    var widths: number[] = Util.parse(strwidths);
+    var colModel = $("#" + gridName).jqGrid('getGridParam', 'colModel'); 
+    var tds = $("#" + gridName + " .jqgfirstrow td");
+    var ths = $("#" + gridName + "p .ui-jqgrid-labels th");
+    for (var i = 0; i < widths.length; ++i) {
+        colModel[i].width = widths[i];
+        tds[i].style.width = widths[i];
+        ths[i].style.width = widths[i];
+    }
+    grids[gridName].reload();
+}
+
+function getWidths(gridName: string) {
+    var widths: number[] = [];
+    var colModel = $("#" + gridName).jqGrid('getGridParam', 'colModel');
+    //alert(colModel);
+    for (var i = 0; i < colModel.length; ++i) {
+        widths.push(colModel[i].width);
+    }
+    return "[" + widths + "]";
+}

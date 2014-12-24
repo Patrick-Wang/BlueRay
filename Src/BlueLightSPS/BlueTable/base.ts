@@ -7,10 +7,10 @@ module base {
 
     class JQGridAssistantFactory {
 
-        public static createTable(gridName: string, cols: string[]): JQTable.JQGridAssistant {
+        public static createTable(gridName: string, cols: string[], widths : number[]): JQTable.JQGridAssistant {
             var nodes: JQTable.Node[] = [];
             for (var i = 0; i < cols.length; ++i) {
-                nodes.push(new JQTable.Node(cols[i], gridName + "_col_" + i));
+                nodes.push(new JQTable.Node(cols[i], gridName + "_col_" + i, true, true, widths[i]));
             }
             return new JQTable.JQGridAssistant(nodes, gridName);
         }
@@ -21,12 +21,12 @@ module base {
         private mTableName: string;
         private mTable: any;
         private mCols: string[];
-        constructor(tableId: string, cols: string[]) {
+        constructor(tableId: string, cols: string[], widths : number[]) {
             this.mCols = cols;
             grids[tableId] = this;
             this.mTableName = tableId;
             this.mTable = $('#' + tableId);
-            this.updateTable(tableId);
+            this.updateTable(tableId, widths);
         }
 
         public getTableName(): string {
@@ -100,8 +100,8 @@ module base {
 
         }
 
-        private updateTable(name: string): void {
-            var tableAssist: JQTable.JQGridAssistant = JQGridAssistantFactory.createTable(name, this.mCols);
+        private updateTable(name: string, widths : number[]): void {
+            var tableAssist: JQTable.JQGridAssistant = JQGridAssistantFactory.createTable(name, this.mCols, widths);
             var data = [];
 
             $("#" + name).jqGrid(

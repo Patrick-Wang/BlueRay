@@ -81,4 +81,27 @@ function getRowData(gridName, rowId) {
 function setCellData(gridName, row, col, data) {
     grids[gridName].setCellData(row, col, data + "");
 }
+
+function setWidths(gridName, strwidths) {
+    var widths = Util.parse(strwidths);
+    var colModel = $("#" + gridName).jqGrid('getGridParam', 'colModel');
+    var tds = $("#" + gridName + " .jqgfirstrow td");
+    var ths = $("#" + gridName + "p .ui-jqgrid-labels th");
+    for (var i = 0; i < widths.length; ++i) {
+        colModel[i].width = widths[i];
+        tds[i].style.width = widths[i];
+        ths[i].style.width = widths[i];
+    }
+    grids[gridName].reload();
+}
+
+function getWidths(gridName) {
+    var widths = [];
+    var colModel = $("#" + gridName).jqGrid('getGridParam', 'colModel');
+
+    for (var i = 0; i < colModel.length; ++i) {
+        widths.push(colModel[i].width);
+    }
+    return "[" + widths + "]";
+}
 //# sourceMappingURL=jqgridapi.js.map

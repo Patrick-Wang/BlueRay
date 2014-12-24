@@ -1,11 +1,15 @@
 #pragma once
+#include <memory>
+#include <set>
 #include "JSExecutor.h"
 #include "UILib/Delegate.h"
 #include "ComJsFun.h"
-#include <set>
+
+
 class CJQGridAPI
 {
 public:
+	
 	CJQGridAPI(IJSMediator* pMedia, LPCTSTR lpGrid);
 	~CJQGridAPI();
 	const std::set<int>& getHiddenCols();
@@ -27,6 +31,8 @@ public:
 	void SetRow(int rowId, const std::vector<CString>& rowData);
 	void SetCell(int rowId, int colIndex, const CString& data);
 	void GetCheckedRows(std::vector<int>& checkedRows);
+	void SetWidths(LPCTSTR jsonArray);
+	void GetWidths(CString& strJson);
 	CDelegate<void(void)> d_OnRowChecked;
 	CDelegate<void(void)> d_OnGridComplete;
 

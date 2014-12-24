@@ -1,6 +1,14 @@
 #include "stdafx.h"
+
+#include "JsonParser.h"
+
+#include "JsonObjects.h"
+
 #include "JQGridAPI.h"
+
 #include "Util.h"
+
+
 #define ONROWCHECKED 12345
 #define ONGRIDCOMPLETE 12346
 
@@ -329,6 +337,35 @@ void CJQGridAPI::HideCol(int colId)
 const std::set<int>& CJQGridAPI::getHiddenCols()
 {
 	return m_hideCols;
+}
+
+void CJQGridAPI::SetWidths(LPCTSTR  jsonArray)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_BSTR;
+	vt.bstrVal = m_gridName;
+	params.push_back(vt);
+	vt.vt = VT_BSTR;
+	vt.bstrVal = ::SysAllocString(jsonArray);
+	params.push_back(vt);
+	m_pMedia->CallJsFunction(_T("setWidths"), params);
+	::SysFreeString(vt.bstrVal);
+}
+
+void CJQGridAPI::GetWidths(CString& strJson)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_BSTR;
+	vt.bstrVal = m_gridName;
+	params.push_back(vt);
+	
+	vt = m_pMedia->CallJsFunction(_T("getWidths"), params);
+	if (VT_BSTR == vt.vt)
+	{
+		strJson = vt.bstrVal;
+	}
 }
 
 CComJsFun CJQGridAPI::m_lpJsfOnComplete(_T("onRowChecked"), ONROWCHECKED);

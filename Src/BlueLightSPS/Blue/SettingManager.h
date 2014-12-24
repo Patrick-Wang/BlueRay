@@ -10,6 +10,8 @@ class CSettingManager
 	TO_BE_SINGLETON(CSettingManager);
 
 public:
+	bool SetColWidths(LPCTSTR lpSettingName, LPCTSTR jsonWidthArr);
+	bool GetColWidths(LPCTSTR lpSettingName, CString& jsonWidthArr);
 	bool SetTableFilterSettingForSale(LPCTSTR lpSettingName, LPCTSTR lpIsSelected);
 	bool GetTableFilterSettingForSale(LPCTSTR lpSettingName, CString& lpIsSelected);
 	bool SetTableFilterSettingForPlan(LPCTSTR lpSettingName, LPCTSTR lpIsSelected);
@@ -23,6 +25,7 @@ private:
 	MSXML2::IXMLDOMNodePtr m_pTableFilterNodeForSale;
 	MSXML2::IXMLDOMNodePtr m_pTableFilterNodeForPlan;
 	MSXML2::IXMLDOMNodePtr m_pTableFilterNodeForNotification;
+	MSXML2::IXMLDOMNodePtr m_pColWidthNode;
 	bool m_bParserInitialized;
 };
 

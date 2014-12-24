@@ -37,6 +37,7 @@ BEGIN_MESSAGE_MAP(CPlanPanel, CBRPanel)
 	ON_BN_CLICKED(IDC_PLAN_BTN_REAPPROVESCRQBUSINESS, &CPlanPanel::OnBnClickedReApproveSCRQBusiness)
 	ON_BN_CLICKED(IDC_PLAN_BTN_REAPPROVESCRQPLAN, &CPlanPanel::OnBnClickedReApproveSCRQPlan)
 	ON_WM_NCDESTROY()
+	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 
@@ -82,6 +83,12 @@ void CPlanPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 
 void CPlanPanel::OnInitChilds()
 {
+	CString strJsonWidths;
+	if (CSettingManager::GetInstance()->GetColWidths(L"planCol", strJsonWidths))
+	{
+		m_pJqGridAPI->SetWidths(strJsonWidths);
+	}
+
 	CPermission& perm = CUser::GetInstance()->GetPermission();
 
 	if (!perm.getPlan())
@@ -955,4 +962,14 @@ void CPlanPanel::ShowReApproveBtns()
 	ShowReApproveBZRQBusinessBtn(TRUE);
 	ShowReApproveSCRQPlanBtn(TRUE);
 	ShowReApproveSCRQBusinessBtn(TRUE);
+}
+
+void CPlanPanel::OnDestroy()
+{
+	CString strWidths;
+	m_pJqGridAPI->GetWidths(strWidths);
+	CSettingManager::GetInstance()->SetColWidths(L"planCol", strWidths);
+	CBRPanel::OnDestroy();
+
+	// TODO: Add your message handler code here
 }
