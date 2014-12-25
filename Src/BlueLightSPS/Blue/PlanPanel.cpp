@@ -452,9 +452,15 @@ void CPlanPanel::OnBnClickedReApproveBZRQBusiness()
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 
-	CPlan& plan = CServer::GetInstance()->GetPlan();
-	plan.Unapprove(CPlan::PACK_BUSINESS, checkedRows).then(new OnReApproveBZRQBusinessListener(*this));
-	GetParent()->EnableWindow(FALSE);
+	if (checkedRows.size() > 0)
+	{
+		if (IDOK == MessageBox(_T("反审核会导致数据的永久改变，请确认是否继续？"), _T("反审核"), MB_OKCANCEL | MB_ICONWARNING))
+		{
+			CPlan& plan = CServer::GetInstance()->GetPlan();
+			plan.Unapprove(CPlan::PACK_BUSINESS, checkedRows).then(new OnReApproveBZRQBusinessListener(*this));
+			GetParent()->EnableWindow(FALSE);
+		}
+	}
 }
 
 void CPlanPanel::OnBnClickedReApproveBZRQPlan()
@@ -479,9 +485,15 @@ void CPlanPanel::OnBnClickedReApproveBZRQPlan()
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 	
-	CPlan& plan = CServer::GetInstance()->GetPlan();
-	plan.Unapprove(CPlan::PACK_PLAN, checkedRows).then(new OnReApproveBZRQPlanListener(*this));
-	GetParent()->EnableWindow(FALSE);
+	if (checkedRows.size() > 0)
+	{
+		if (IDOK == MessageBox(_T("反审核会导致数据的永久改变，请确认是否继续？"), _T("反审核"), MB_OKCANCEL | MB_ICONWARNING))
+		{
+			CPlan& plan = CServer::GetInstance()->GetPlan();
+			plan.Unapprove(CPlan::PACK_PLAN, checkedRows).then(new OnReApproveBZRQPlanListener(*this));
+			GetParent()->EnableWindow(FALSE);
+		}
+	}
 }
 
 void CPlanPanel::OnBnClickedReApproveSCRQBusiness()
@@ -506,9 +518,15 @@ void CPlanPanel::OnBnClickedReApproveSCRQBusiness()
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 	
-	CPlan& plan = CServer::GetInstance()->GetPlan();
-	plan.Unapprove(CPlan::PLAN_BUSINESS, checkedRows).then(new OnReApproveSCRQBusinessListener(*this));
-	GetParent()->EnableWindow(FALSE);
+	if (checkedRows.size() > 0)
+	{
+		if (IDOK == MessageBox(_T("反审核会导致数据的永久改变，请确认是否继续？"), _T("反审核"), MB_OKCANCEL | MB_ICONWARNING))
+		{
+			CPlan& plan = CServer::GetInstance()->GetPlan();
+			plan.Unapprove(CPlan::PLAN_BUSINESS, checkedRows).then(new OnReApproveSCRQBusinessListener(*this));
+			GetParent()->EnableWindow(FALSE);
+		}
+	}
 }
 
 void CPlanPanel::OnBnClickedReApproveSCRQPlan()
@@ -533,9 +551,15 @@ void CPlanPanel::OnBnClickedReApproveSCRQPlan()
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 	
-	CPlan& plan = CServer::GetInstance()->GetPlan();
-	plan.Unapprove(CPlan::PLAN_PLAN, checkedRows).then(new OnReApproveSCRQPlanListener(*this));
-	GetParent()->EnableWindow(FALSE);
+	if (checkedRows.size() > 0)
+	{
+		if (IDOK == MessageBox(_T("反审核会导致数据的永久改变，请确认是否继续？"), _T("反审核"), MB_OKCANCEL | MB_ICONWARNING))
+		{
+			CPlan& plan = CServer::GetInstance()->GetPlan();
+			plan.Unapprove(CPlan::PLAN_PLAN, checkedRows).then(new OnReApproveSCRQPlanListener(*this));
+			GetParent()->EnableWindow(FALSE);
+		}
+	}
 }
 
 void CPlanPanel::OnReApproveSuccess(CPlan::ApproveType type)

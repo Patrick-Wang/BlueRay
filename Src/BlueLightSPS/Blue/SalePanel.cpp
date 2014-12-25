@@ -192,10 +192,17 @@ void CSalePanel::OnBnClickedReApproveBusiness()
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 
-	CSale& sale = CServer::GetInstance()->GetSale();
-	sale.Unapprove(CSale::BUSINESS, checkedRows).then(new OnReApproveBusinessListener(*this));
-	GetParent()->EnableWindow(FALSE);
+	if (checkedRows.size() > 0)
+	{
+		if (IDOK == MessageBox(_T("反审核会导致数据的永久改变，请确认是否继续？"), _T("反审核"), MB_OKCANCEL | MB_ICONWARNING))
+		{
+			CSale& sale = CServer::GetInstance()->GetSale();
+			sale.Unapprove(CSale::BUSINESS, checkedRows).then(new OnReApproveBusinessListener(*this));
+			GetParent()->EnableWindow(FALSE);
+		}
+	}
 }
+
 
 void CSalePanel::OnBnClickedReApprovePlan()
 {
@@ -219,9 +226,15 @@ void CSalePanel::OnBnClickedReApprovePlan()
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 
-	CSale& sale = CServer::GetInstance()->GetSale();
-	sale.Unapprove(CSale::PLAN, checkedRows).then(new OnReApprovePlanListener(*this));
-	GetParent()->EnableWindow(FALSE);
+	if (checkedRows.size() > 0)
+	{
+		if (IDOK == MessageBox(_T("反审核会导致数据的永久改变，请确认是否继续？"), _T("反审核"), MB_OKCANCEL | MB_ICONWARNING))
+		{
+			CSale& sale = CServer::GetInstance()->GetSale();
+			sale.Unapprove(CSale::PLAN, checkedRows).then(new OnReApprovePlanListener(*this));
+			GetParent()->EnableWindow(FALSE);
+		}
+	}
 }
 
 void CSalePanel::OnReApproveSuccess(CSale::ApproveType type)
