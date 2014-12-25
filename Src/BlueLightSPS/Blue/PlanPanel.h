@@ -54,6 +54,11 @@ private:
 	CBRButton* m_btnReApproveBZRQBusiness;
 	CBRButton* m_btnReApproveBZRQPlan;
 
+	CBSStatic* m_bsDateRange;
+	CBSStatic* m_bsMiddleLine;
+	CDateTimeCtrl* m_dtcSearchFrom;
+	CDateTimeCtrl* m_dtcSearchTo;
+
 	CBSStatic* m_staticProductionStatus;
 	CComboBox* m_comboProductionStatus;
 	CTableFilterDlg m_tableFilterDlg;

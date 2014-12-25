@@ -33,7 +33,8 @@ protected:
 
 	afx_msg void OnBnClickedReApproveBusiness();
 	afx_msg void OnBnClickedReApprovePlan();
-	
+	afx_msg void OnCbnSelchangeProductionStatus();
+
 	void OnLoadDataSuccess();
 	void OnDelDataSuccess();
 	void OnModifyDataSuccess(std::vector<CString>& newData);
@@ -52,11 +53,25 @@ private:
 	CBSStatic* m_bsMoreWord;
 	CEdit* m_editSearch;
 
+	CBSStatic* m_bsDateRange;
+	CBSStatic* m_bsMiddleLine;
+	CDateTimeCtrl* m_dtcSearchFrom;
+	CDateTimeCtrl* m_dtcSearchTo;
+
 	int m_iCountBtnOfReApprove;
 
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
 	std::vector<CString> m_cacheRow;
 	CTableFilterDlg m_tableFilterDlg;
+	CComboBox* m_comboProductionStatus;
+	
+	enum enumProductionStatusForSale
+	{
+		ProductionStatus_All,
+		ProductionStatus_ToBeApprove,
+		ProductionStatus_Approving,
+		ProductionStatus_Approved
+	};
 
 	DECLARE_MESSAGE_MAP()
 	
@@ -64,6 +79,7 @@ private:
 	void ShowReApprovePlanBtn(BOOL bShow);
 	void ShowReApproveBtns();
 	void OnReApproveSuccess(CSale::ApproveType type);
+	void FilterTableByStatus(enumProductionStatusForSale productionStatus);
 
 public:
 	afx_msg void OnNcDestroy();
