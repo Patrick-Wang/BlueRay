@@ -89,6 +89,6 @@ void CBRPanel::OnUIPrepared()
 	if (!IsUpdated())
 	{
 		Updated();
-		OnDataUpdate();
+		OnInitData();
 	}
 }

@@ -85,5 +85,32 @@ public class SaleDaoImpl implements SaleDao{
 	}
 
 
+	public List<HTXX> getSaleData(String approveType, String approved,
+			Integer pagesize, Integer pagenum, Integer pagecount,
+			String col, Boolean sort) {
+		String sql = "from HTXX";
+		String typeSql = getApproveTypeSql(approveType);
+		String approveSql =  getApprovedSql(approved);
+		if (!typeSql.isEmpty()){
+			sql += " where " + approveSql + " = " + typeSql;
+		} 
+		
+		if (col != null){
+			sql += " order by " + col + (sort ? " asc" : " desc");
+		}
+		Query q = entityManager.createQuery(sql);
+		q.setFirstResult((pagenum - 1) * pagesize);
+		q.setMaxResults(pagesize * pagecount);
+		return q.getResultList();
+	}
+
+
+	public int getSaleDataCount() {
+		Query q = entityManager.createQuery("select count(h) from HTXX h");
+		List<Object> objs = q.getResultList();
+		return ((Long) objs.get(0)).intValue();
+	}
+
+
 
 }

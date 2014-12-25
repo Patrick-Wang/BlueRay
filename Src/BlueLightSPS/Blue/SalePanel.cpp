@@ -81,7 +81,8 @@ void CSalePanel::OnInitChilds()
 	{
 		m_pJqGridAPI->SetWidths(strJsonWidths);
 	}
-
+	
+	m_pJqGridAPI->d_OnUpdateData += std::make_pair(this, &CSalePanel::OnUpdateData);
 	if (!perm.getSale())
 	{
 		m_bsMoreWord = Util_Tools::Util::CreateStatic(this, IDC_SALE_BTN_MOREWORD, _T("您没有销售录入的权限"), _T("Microsoft YaHei"), 16);
@@ -757,7 +758,7 @@ void CSalePanel::OnApproveDataSuccess()
 	OnRowChecked();
 }
 
-void CSalePanel::OnDataUpdate()
+void CSalePanel::OnInitData()
 {
 	//CString url;
 	//url.Format(_T("http://%s:8080/BlueRay/sale/query/all/none"), IDS_HOST_NAME);
@@ -768,25 +769,44 @@ void CSalePanel::OnDataUpdate()
 
 	if (perm.getSale())
 	{
-		class OnLoadDataListener : public CPromise<table>::IHttpResponse
+		//class OnLoadDataListener : public CPromise<table>::IHttpResponse
+		//{
+		//	CONSTRUCTOR_3(OnLoadDataListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
+		//public:
+		//	virtual void OnSuccess(table& tb){
+		//		for (int j = 0; j < m_tb.size(); ++j)
+		//		{
+		//			m_pJqGridAPI->DelRow(m_tb[j].first);
+		//		}
+
+		//		m_pJqGridAPI->Refresh();
+
+		//		m_tb = tb;
+
+		//		for (int j = 0; j < m_tb.size(); ++j)
+		//		{
+		//			m_pJqGridAPI->AddRow(m_tb[j].first, m_tb[j].second);
+		//		}
+
+		//		m_salePanel.GetParent()->EnableWindow(TRUE);
+		//	}
+		//	virtual void OnFailed(){
+		//		m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+		//		m_salePanel.GetParent()->EnableWindow(TRUE);
+		//	}
+		//};
+
+		//CServer::GetInstance()->GetSale().Query().then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+		//GetParent()->EnableWindow(FALSE);
+		
+
+		class OnLoadDataListener : public CPromise<PageData_t>::IHttpResponse
 		{
 			CONSTRUCTOR_3(OnLoadDataListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
 		public:
-			virtual void OnSuccess(table& tb){
-				for (int j = 0; j < m_tb.size(); ++j)
-				{
-					m_pJqGridAPI->DelRow(m_tb[j].first);
-				}
-
-				m_pJqGridAPI->Refresh();
-
-				m_tb = tb;
-
-				for (int j = 0; j < m_tb.size(); ++j)
-				{
-					m_pJqGridAPI->AddRow(m_tb[j].first, m_tb[j].second);
-				}
-
+			virtual void OnSuccess(PageData_t& tb){
+				m_pJqGridAPI->Refresh(tb.rawData);
+				m_tb = tb.rows;
 				m_salePanel.GetParent()->EnableWindow(TRUE);
 			}
 			virtual void OnFailed(){
@@ -795,15 +815,13 @@ void CSalePanel::OnDataUpdate()
 			}
 		};
 
-		CServer::GetInstance()->GetSale().Query().then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+		CServer::GetInstance()->GetSale().Query(
+			m_pJqGridAPI->GetCurrentPage(),
+			m_pJqGridAPI->GetPageSize(), 
+			-1, 
+			false)
+			.then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
-		//if (!CServer::GetInstance()->GetSale().QuerySync(m_table))
-		//{
-		//	OnHttpFailed(QUERY_URL_ID);
-		//}
-
-		//OnLoadDataSuccess();
-		//GetParent()->EnableWindow(FALSE);
 	}
 	else
 	{
@@ -881,8 +899,35 @@ void CSalePanel::OnDestroy()
 	CString strWidths;
 	m_pJqGridAPI->GetWidths(strWidths);
 	CSettingManager::GetInstance()->SetColWidths(L"saleCol", strWidths);
+	m_pJqGridAPI->d_OnUpdateData -= std::make_pair(this, &CSalePanel::OnUpdateData);
 
 	CBRPanel::OnDestroy();
 
 	// TODO: Add your message handler code here
+}
+
+void CSalePanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
+{
+	class OnLoadDataListener : public CPromise<PageData_t>::IHttpResponse
+	{
+		CONSTRUCTOR_3(OnLoadDataListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
+	public:
+		virtual void OnSuccess(PageData_t& tb){
+			m_pJqGridAPI->Refresh(tb.rawData);
+			m_tb = tb.rows;
+			m_salePanel.GetParent()->EnableWindow(TRUE);
+		}
+		virtual void OnFailed(){
+			m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+			m_salePanel.GetParent()->EnableWindow(TRUE);
+		}
+	};
+
+	CServer::GetInstance()->GetSale().Query(
+		page,
+		rows,
+		colIndex,
+		bAsc)
+		.then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+	GetParent()->EnableWindow(FALSE);
 }

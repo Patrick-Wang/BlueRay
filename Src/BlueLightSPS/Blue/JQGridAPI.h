@@ -15,6 +15,8 @@ public:
 	const std::set<int>& getHiddenCols();
 	void ShowGrid();
 	void HideGrid();
+	int GetCurrentPage();
+	int GetPageSize();
 	void ShowCol(int colId);
 	void HideCol(int colId);
 	void ShowRow(int rowId);
@@ -26,6 +28,7 @@ public:
 	int GetRowCount();
 	int GetRowId(int index);
 	void Refresh();
+	void Refresh(CString& strJson);
 	void GetRow(int rowId, std::vector<CString>& rowData);
 	void GetRow(int rowId, CString& rowData);
 	void SetRow(int rowId, const std::vector<CString>& rowData);
@@ -35,14 +38,17 @@ public:
 	void GetWidths(CString& strJson);
 	CDelegate<void(void)> d_OnRowChecked;
 	CDelegate<void(void)> d_OnGridComplete;
+	CDelegate<void(int, int, int, bool)> d_OnUpdateData;
 
 	VARIANT JSCall(int id, const std::vector<VARIANT>& params);
 
 private:
 	std::set<int> m_hideCols;
 	IJSMediator* m_pMedia;
+	int m_pageSize;
 	static CComJsFun m_lpJsfOnChecked;
 	static CComJsFun m_lpJsfOnComplete;
+	static CComJsFun m_lpJsfOnUpdateData;
 	BSTR m_gridName;
 };
 

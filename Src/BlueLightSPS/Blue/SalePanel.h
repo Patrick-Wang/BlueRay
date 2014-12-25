@@ -21,9 +21,9 @@ public:
 	void OnHttpFailed(int id);
 	void OnSaleDlgGetModifyOption(CSaleAddDlg& dlg);
 protected:
-	virtual void OnDataUpdate();
+	virtual void OnInitData();
 	virtual void OnInitChilds();
-
+	void OnUpdateData(int page, int rows, int colIndex, bool bAsc);
 	afx_msg void OnBnClickedAdd();
 	afx_msg void OnBnClickedDelete();
 	afx_msg void OnBnClickedModify();
@@ -69,5 +69,6 @@ public:
 	afx_msg void OnNcDestroy();
 	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
 	afx_msg void OnDestroy();
+
 };
 

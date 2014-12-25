@@ -909,7 +909,7 @@ void CPlanPanel::OnModifyDataSuccess(std::vector<CString>& newData)
 	}
 }
 
-void CPlanPanel::OnDataUpdate()
+void CPlanPanel::OnInitData()
 {
 	//CString url;
 	//url.Format(_T("http://%s:8080/BlueRay/plan/query/all/none"), IDS_HOST_NAME);

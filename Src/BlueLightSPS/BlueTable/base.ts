@@ -17,16 +17,26 @@ module base {
     }
 
     export class GridView {
-
+        private rowNum: number = 10;
+        private curPage: number;
         private mTableName: string;
         private mTable: any;
         private mCols: string[];
+        private mInit: boolean = false;
         constructor(tableId: string, cols: string[], widths : number[]) {
             this.mCols = cols;
             grids[tableId] = this;
             this.mTableName = tableId;
             this.mTable = $('#' + tableId);
             this.updateTable(tableId, widths);
+        }
+
+        private getRowNum() {
+            return this.rowNum;
+        }
+
+        private getCurPage() {
+            return this.curPage;
         }
 
         public getTableName(): string {
@@ -108,8 +118,44 @@ module base {
                 tableAssist.decorate({
                     // url: "TestTable/WGDD_load.do",
                     // datatype: "json",
-                    data: tableAssist.getData(data),
-                    datatype: "local",
+                    //data: tableAssist.getData(data),
+                   // datatype: "json",
+                    datatype: (postdata) => {
+                        //page: 1
+                        //rows: 200
+                        //sidx: "sale_col_2"
+                        //sord: "asc"
+                        //$('#' + name)[0].addJSONData(Util.parse('{' +
+                        //    'total: 12, ' +
+                        //    'page: 1, ' +
+                        //    'records: 2000,' +
+                        //    'rows : [' +
+                        //    ' { id: "1", cell: ["cell11", "cell12", "cell13"] }, ' +
+                        //    '{ id: "2", cell: ["cell21", "cell22", "cell23"] } ' +
+                        //    ' ]' +
+                        //    '}'));
+                        try {
+                            this.rowNum = postdata.rows;
+                            this.curPage = postdata.page;
+                            if (!this.mInit) {
+                                this.mInit = true;
+                                mediator.onGridComplete(this.mTableName);
+                            } else {
+                                var index = -1;
+                                if ("" != postdata.sidx) {
+                                    index = parseInt(postdata.sidx.replace(name + "_col_", ""));
+                                }
+                                //alert("onupdate");
+                                mediator.onUpdate(this.mTableName, postdata.page, postdata.rows, index, ("asc" == postdata.sord));
+                            }
+                        }
+                        catch (e) {
+                        }
+
+                    },
+                    //onPaging: (v1, v2, v3) => {
+                    //    var k = 0;
+                    //},
                     multiselect: true,
                     //multikey: "ctrlKey",
                     //drag: false,
@@ -119,21 +165,22 @@ module base {
                     // cellEdit: false,
                     //viewrecords: true,
                     sortorder: "desc",
-                    height: document.documentElement.clientHeight - 22 - 3,
+                    height: document.documentElement.clientHeight - 22 - 3 - 27,
                     width: document.documentElement.clientWidth - 3,
                     shrinkToFit: false,
-                    rowNum: 10000,
+                    rowNum: this.rowNum,
                     //rowList: [5, 10, 15],
                     autoScroll: true,
-                    //pager: $('#pager'),
+                    viewrecords: true,
+                    pager: name +'pager',
                     onSelectRow: (a, b, c) => {
-                        mediator.onRowChecked(this.mTableName);
+                       mediator.onRowChecked(this.mTableName);
                     },
                     onSelectAll: (a, b, c) => {
                         mediator.onRowChecked(this.mTableName);
                     },
                     gridComplete: () => {
-                        mediator.onGridComplete(this.mTableName);
+                       
                     }
                 }))
                 //.navGrid('#pager', { search: false, reloadGrid: false, edit: false, add: false, del: false });

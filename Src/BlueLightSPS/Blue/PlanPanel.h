@@ -20,7 +20,7 @@ public:
 	void OnLoadDataSuccess(CString& jsondata);
 protected:
 	virtual void OnInitChilds();
-	virtual void OnDataUpdate();
+	virtual void OnInitData();
 	afx_msg void OnBnClickedPlan();
 	afx_msg void OnBnClickedRestore();
 	afx_msg void OnBnClickedModify();

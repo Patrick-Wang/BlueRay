@@ -18,6 +18,11 @@ public:
 
 	CSale();
 	~CSale();
+
+	CPromise<PageData_t>& Query(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc);
+	CPromise<PageData_t>& Query(int page, int rows, int colIndex, bool bAsc);
+
+
 	bool QuerySync(table& htxxs);
 	CPromise<table>& Query();
 

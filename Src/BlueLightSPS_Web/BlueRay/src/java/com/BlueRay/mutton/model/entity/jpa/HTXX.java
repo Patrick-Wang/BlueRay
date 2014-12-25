@@ -36,6 +36,20 @@ public class HTXX implements Serializable {
 	private String ddzt;
 	private String sftgywsh = "N";
 	private String sftgjhsh = "N";
+	private Integer yxj;
+	private Date ddtjrq;
+	public Date getDdtjrq() {
+		return ddtjrq;
+	}
+	public void setDdtjrq(Date ddtjrq) {
+		this.ddtjrq = ddtjrq;
+	}
+	public Integer getYxj() {
+		return yxj;
+	}
+	public void setYxj(Integer yxj) {
+		this.yxj = yxj;
+	}
 	/**
 	 * @return the iD
 	 */

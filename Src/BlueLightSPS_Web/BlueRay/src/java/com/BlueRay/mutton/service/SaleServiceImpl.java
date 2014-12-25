@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.BlueRay.mutton.controller.PageData;
+import com.BlueRay.mutton.controller.PageData.Row;
 import com.BlueRay.mutton.model.dao.ItemDao;
 import com.BlueRay.mutton.model.dao.PlanDao;
 import com.BlueRay.mutton.model.dao.SaleDao;
@@ -63,6 +65,8 @@ public class SaleServiceImpl implements SaleService {
 			row[16] = htxx.getDdrq() + "";
 			row[17] = "Y".equals(htxx.getSftgywsh()) ? "√" : "×";
 			row[18] = "Y".equals(htxx.getSftgjhsh()) ? "√" : "×";
+			row[19] = htxx.getYxj() + "";
+			row[20] = htxx.getDdtjrq() + "";
 		} catch (Exception e) {
 
 		}
@@ -79,7 +83,7 @@ public class SaleServiceImpl implements SaleService {
 		// "变频器型号", "编码器型号", "电缆长度",
 		// "闸线长度", "铭牌等资料", "备注",
 		// "订单日期", "审核-业务", "审核-计划"
-		String[][] ret = new String[list.size()][19];
+		String[][] ret = new String[list.size()][21];
 		HTXX htxx = null;
 		for (int i = 0; i < list.size(); ++i) {
 			htxx = list.get(i);
@@ -377,6 +381,33 @@ public class SaleServiceImpl implements SaleService {
 			}
 		}
 		return "success";
+	}
+
+	public PageData pageQuery(String approveType, String approved,
+			Integer pagesize, Integer pagenum, Integer pagecount,
+			Integer colIndex, Boolean sort) {
+		List<HTXX> htxxs = saleDao.getSaleData(approveType, approved, pagesize, pagenum, pagecount, colIndex < 0 ? null : "id", sort);
+		int count = saleDao.getSaleDataCount();
+		PageData pd = new PageData();
+		pd.setPage(pagenum);
+		pd.setRecords(count);
+		int pageCount = count / pagesize;
+		pageCount += count % pagesize > 0 ? 1 : 0;
+		pd.setTotal(pageCount);
+		String[] row = new String[21];
+		PageData.Row rd;
+		
+		for (int i = 0; i < htxxs.size(); ++i){
+			rd = pd.new Row();
+			setHtxx(row, htxxs.get(i), itemDao);
+			rd.setId(Integer.valueOf(row[0]));
+			pd.getRows().add(rd);
+			for (int j = 1; j < row.length; ++j){
+				rd.getCell().add(row[j]);
+			} 
+		}
+		
+		return pd;
 	}
 
 }

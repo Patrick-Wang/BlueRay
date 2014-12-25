@@ -33,6 +33,10 @@ function addRowData(gridName: string, rdata: string) {
     return grids[gridName].addRowData(targetData);
 }
 
+function update(gridName: string, tdata: string) {
+    $("#" + gridName)[0].addJSONData(Util.parse(tdata));
+}
+
 function addRowDataById(gridName: string, id: number, rdata: string) : void{
     var ardata: string[] = rdata.split(',');
     var targetData = {};
@@ -105,4 +109,12 @@ function getWidths(gridName: string) {
         widths.push(colModel[i].width);
     }
     return "[" + widths + "]";
+}
+
+function curPage(gridName: string) {
+    return grids[gridName].getCurPage();
+}
+
+function rowNum(gridName: string) {
+    return grids[gridName].getRowNum();
 }

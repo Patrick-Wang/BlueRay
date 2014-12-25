@@ -1,5 +1,7 @@
 package com.BlueRay.mutton.service;
 
+import com.BlueRay.mutton.controller.PageData;
+
 import net.sf.json.JSONArray;
 
 
@@ -21,4 +23,7 @@ public interface SaleService{
 	String businessUnapprove(JSONArray rows);
 
 	String planUnapprove(JSONArray rows);
+
+	PageData pageQuery(String approveType, String approved, Integer pagesize,
+			Integer pagenum, Integer pagecount, Integer colIndex, Boolean sort);
 }

@@ -227,7 +227,7 @@ void CNotificationPanel::OnBnClickedBtnReturn()
 	HideChild(&m_btnApproveInSecond);
 	HideChild(&m_btnTableFilter);
 		
-	OnDataUpdate();
+	OnInitData();
 
 	m_enumCurrentApprovingItem = Approving_NULL;
 }
@@ -531,7 +531,7 @@ void CNotificationPanel::OnLoadDataSuccess(CString& jsondata)
 
 }
 
-void CNotificationPanel::OnDataUpdate()
+void CNotificationPanel::OnInitData()
 {
 	CPermission& perm = CUser::GetInstance()->GetPermission();
 

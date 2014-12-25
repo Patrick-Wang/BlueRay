@@ -11,7 +11,7 @@
 
 #define ONROWCHECKED 12345
 #define ONGRIDCOMPLETE 12346
-
+#define ONUPDATEDATA 12347
 CJQGridAPI::CJQGridAPI(IJSMediator* pMedia, LPCTSTR lpGrid)
 	: m_pMedia(pMedia)
 	, m_gridName(::SysAllocString(lpGrid))
@@ -25,6 +25,9 @@ CJQGridAPI::CJQGridAPI(IJSMediator* pMedia, LPCTSTR lpGrid)
 	//m_lpJsfOnComplete.reset(new CComJsFun(_T("onGridComplete"), ONGRIDCOMPLETE));
 	m_pMedia->RegisterJsFunction(&m_lpJsfOnComplete);
 	m_lpJsfOnComplete.d_onJsCall += std::make_pair(this, &CJQGridAPI::JSCall);
+
+	m_pMedia->RegisterJsFunction(&m_lpJsfOnUpdateData);
+	m_lpJsfOnUpdateData.d_onJsCall += std::make_pair(this, &CJQGridAPI::JSCall);
 }
 
 
@@ -37,6 +40,7 @@ CJQGridAPI::~CJQGridAPI()
 
 	m_lpJsfOnChecked.d_onJsCall -= std::make_pair(this, &CJQGridAPI::JSCall);
 	m_lpJsfOnComplete.d_onJsCall -= std::make_pair(this, &CJQGridAPI::JSCall);
+	m_lpJsfOnUpdateData.d_onJsCall -= std::make_pair(this, &CJQGridAPI::JSCall);
 }
 
 int CJQGridAPI::AddRow(const std::vector<CString>& rowData)
@@ -201,6 +205,10 @@ VARIANT CJQGridAPI::JSCall(int id, const std::vector<VARIANT>& params)
 		{
 			d_OnGridComplete();
 		}
+		else if (ONUPDATEDATA == id)
+		{
+			d_OnUpdateData(params[1].intVal, params[2].intVal, params[3].intVal, params[4].boolVal);
+		}
 	}
 	return ret;
 }
@@ -280,6 +288,19 @@ void CJQGridAPI::Refresh()
 	vt.bstrVal = m_gridName;
 	params.push_back(vt);
 	m_pMedia->CallJsFunction(_T("reload"), params);
+}
+
+void CJQGridAPI::Refresh(CString& strJson)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_BSTR;
+	vt.bstrVal = m_gridName;
+	params.push_back(vt);
+	vt.bstrVal = strJson.AllocSysString();
+	params.push_back(vt);
+	m_pMedia->CallJsFunction(_T("update"), params);
+	::SysFreeString(vt.bstrVal);
 }
 
 void CJQGridAPI::HideGrid()
@@ -367,6 +388,40 @@ void CJQGridAPI::GetWidths(CString& strJson)
 		strJson = vt.bstrVal;
 	}
 }
+
+int CJQGridAPI::GetCurrentPage()
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_BSTR;
+	vt.bstrVal = m_gridName;
+	params.push_back(vt);
+
+	vt = m_pMedia->CallJsFunction(_T("curPage"), params);
+	if (VT_I4 == vt.vt)
+	{
+		return vt.intVal;
+	}
+	return 0;
+}
+
+int CJQGridAPI::GetPageSize()
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_BSTR;
+	vt.bstrVal = m_gridName;
+	params.push_back(vt);
+
+	vt = m_pMedia->CallJsFunction(_T("rowNum"), params);
+	if (VT_I4 == vt.vt)
+	{
+		return vt.intVal;
+	}
+	return 0;
+}
+
+CComJsFun CJQGridAPI::m_lpJsfOnUpdateData(_T("onUpdate"), ONUPDATEDATA);
 
 CComJsFun CJQGridAPI::m_lpJsfOnComplete(_T("onRowChecked"), ONROWCHECKED);
 
