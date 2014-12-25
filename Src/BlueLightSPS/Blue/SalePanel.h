@@ -53,6 +53,11 @@ private:
 	CBSStatic* m_bsMoreWord;
 	CEdit* m_editSearch;
 
+	CBSStatic* m_bsDateRange;
+	CBSStatic* m_bsMiddleLine;
+	CDateTimeCtrl* m_dtcSearchFrom;
+	CDateTimeCtrl* m_dtcSearchTo;
+
 	int m_iCountBtnOfReApprove;
 
 	std::vector<std::pair<int, std::vector<CString>>> m_table;

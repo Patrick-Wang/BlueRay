@@ -106,6 +106,24 @@ namespace Util_Tools
 		return pDateTimeCtrl;
 	}
 
+	CDateTimeCtrl* Util::CreateDateTimePickerWithoutCheckbox(CWnd* pParent, UINT Id, CString csFont, int iFSize)
+	{
+		CFont* pFont = NULL;
+		CDateTimeCtrl* pDateTimeCtrl = new CDateTimeCtrl();
+
+		pFont = CBSObject::GetFontPtr(csFont, iFSize, FALSE, FALSE, FALSE);
+
+		pDateTimeCtrl->Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | DTS_RIGHTALIGN , CRect(0, 0, 0, 0), pParent, Id);
+
+		pDateTimeCtrl->SetFont(pFont);
+
+		pDateTimeCtrl->SetTime(COleDateTime::GetCurrentTime());
+
+		pDateTimeCtrl->SetFormat(_T("yyyy/MM/dd"));
+
+		return pDateTimeCtrl;
+	}
+
 	CBRButton* Util::CreateButton(CWnd* pParent, UINT Id, CString csButtonText, CString csFont, int iFSize)
 	{
 		CBRButton* pButton = new CBRButton();

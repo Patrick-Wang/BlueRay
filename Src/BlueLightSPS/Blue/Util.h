@@ -17,6 +17,7 @@ namespace Util_Tools
 		static CBSStatic* CreateStatic(CWnd* pParent, UINT Id, CString csWindowText, CString csFont, int iFSize);
 		static CEdit* CreateEdit(CWnd* pParent, UINT Id, CString csDefaultText, CString csFont, int iFSize);
 		static CDateTimeCtrl* CreateDateTimePicker(CWnd* pParent, UINT Id, CString csFont, int iFSize);
+		static CDateTimeCtrl* CreateDateTimePickerWithoutCheckbox(CWnd* pParent, UINT Id, CString csFont, int iFSize);
 		static CBRButton* CreateButton(CWnd* pParent, UINT Id, CString csWindowText, CString csFont, int iFSize);
 		static CButton* CreateCheckBox(CWnd* pParent, UINT Id, CString csWindowText, CString csFont, int iFSize);
 		static void Split(CString& src, TCHAR split, std::vector<CString>& retData);
