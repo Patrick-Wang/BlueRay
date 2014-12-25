@@ -37,6 +37,7 @@ BEGIN_MESSAGE_MAP(CSalePanel, CBRPanel)
 	ON_BN_CLICKED(IDC_SALE_BTN_REAPPROVEFORPLAN, &CSalePanel::OnBnClickedReApprovePlan)
 	ON_WM_NCDESTROY()
 	ON_WM_DESTROY()
+	ON_CBN_SELCHANGE(IDC_SALE_COMBO_PROSTATUS, &CSalePanel::OnCbnSelchangeProductionStatus)
 END_MESSAGE_MAP()
 
 CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
@@ -125,6 +126,117 @@ void CSalePanel::OnInitChilds()
 
 		m_btnReApproveForBusiness->EnableWindow(FALSE);
 		m_btnReApproveForPlan->EnableWindow(FALSE);
+
+		m_comboProductionStatus = Util_Tools::Util::CreateComboBox(this, IDC_SALE_COMBO_PROSTATUS, _T("Microsoft YaHei"), 12, TRUE);
+		m_comboProductionStatus->MoveWindow(900, 25, 150, 20);
+
+		m_comboProductionStatus->InsertString(0, _T("全部订单"));
+		m_comboProductionStatus->InsertString(1, _T("未审核订单"));
+		m_comboProductionStatus->InsertString(2, _T("审核中订单"));
+		m_comboProductionStatus->InsertString(3, _T("已审核订单"));
+
+		m_comboProductionStatus->SetCurSel(0);
+	}
+}
+
+void CSalePanel::OnCbnSelchangeProductionStatus()
+{
+	int iIndex = m_comboProductionStatus->GetCurSel();
+
+	if (0 == iIndex)
+	{
+		FilterTableByStatus(ProductionStatus_All);
+	}
+	else if (1 == iIndex)
+	{
+		FilterTableByStatus(ProductionStatus_ToBeApprove);
+	}
+	else if (2 == iIndex)
+	{
+		FilterTableByStatus(ProductionStatus_Approving);
+	}
+	else if (3 == iIndex)
+	{
+		FilterTableByStatus(ProductionStatus_Approved);
+	}
+}
+
+void CSalePanel::FilterTableByStatus(enumProductionStatusForSale productionStatus)
+{
+	std::vector<int> vecAll;
+	std::vector<int> vecToBeApprove;
+	std::vector<int> vecApproving;
+	std::vector<int> vecApproved;
+
+	for (int j = 0; j < m_table.size(); ++j)
+	{
+		bool bIfBusinessApproved = false;
+		bool bIfPlanApproved = false;
+
+		if (_T("√") == m_table[j].second[16])
+		{
+			bIfBusinessApproved = true;
+		}
+
+		if (_T("√") == m_table[j].second[17])
+		{
+			bIfPlanApproved = true;
+		}
+
+		if (bIfBusinessApproved && bIfPlanApproved)
+		{
+			vecApproved.push_back(m_table[j].first);
+		}
+		else
+		{
+			if (!bIfPlanApproved && !bIfBusinessApproved)
+			{
+				vecToBeApprove.push_back(m_table[j].first);
+			}
+			else
+			{
+				vecApproving.push_back(m_table[j].first);
+			}
+		}
+
+		vecAll.push_back(m_table[j].first);
+	}
+
+	if (ProductionStatus_All == productionStatus)
+	{
+		for (int j = 0; j < vecAll.size(); ++j)
+		{
+			m_pJqGridAPI->ShowRow(vecAll[j]);
+		}
+	}
+	else
+	{
+		for (int i = 1; i <= m_table.size(); i++)
+		{
+			m_pJqGridAPI->HideRow(i);
+		}
+
+		if (ProductionStatus_ToBeApprove == productionStatus)
+		{
+			for (int j = 0; j < vecToBeApprove.size(); ++j)
+			{
+				m_pJqGridAPI->ShowRow(vecToBeApprove[j]);
+			}
+		}
+		else if (ProductionStatus_Approving == productionStatus)
+		{
+			for (int j = 0; j < vecApproving.size(); ++j)
+			{
+				m_pJqGridAPI->ShowRow(vecApproving[j]);
+			}
+		}
+		else if (ProductionStatus_Approved == productionStatus)
+		{
+			for (int j = 0; j < vecApproved.size(); ++j)
+			{
+				m_pJqGridAPI->ShowRow(vecApproved[j]);
+			}
+		}
 	}
 }
 
