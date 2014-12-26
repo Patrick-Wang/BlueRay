@@ -265,17 +265,18 @@ CPromise<bool>& CSale::Unapprove(ApproveType type, IntArray& rows)
 CPromise<PageData_t>& CSale::Search(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc, LPCTSTR strKeyword)
 {
 	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/simplepagesearch/%s/%s/%d/%d/1/%d/%s/%s"),
+	url.Format(_T("http://%s:8080/BlueRay/sale/simplepagesearch/%s/%s/%d/%d/1/%d/%s"),
 		IDS_HOST_NAME,
 		ToString(type),
 		ToString(approved),
 		rows,
 		page,
 		colIndex,
-		Util_Tools::Util::ToString(bAsc),
-		strKeyword);
+		Util_Tools::Util::ToString(bAsc));
+	std::map<CString, CString> attr;
+	attr[L"search"] = strKeyword;
 	CPromise<PageData_t>* promise = CPromise<PageData_t>::MakePromise(m_lpHttp, new CPageDataParser());
-	m_lpHttp->Get(traceSession(url), promise->GetId());
+	m_lpHttp->Post(traceSession(url), promise->GetId(), attr);
 	return *promise;
 }
 
@@ -284,10 +285,10 @@ CPromise<PageData_t>& CSale::Search(int page, int rows, int colIndex, bool bAsc,
 	return Search(ALL, false, page, rows, colIndex, bAsc, strKeyword);
 }
 
-CPromise<PageData_t>& CSale::Search(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc, std::vector<CString>& strKeywords)
+CPromise<PageData_t>& CSale::Search(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc, const StringArray& strKeywords)
 {
 	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/pagesearch/%s/%s/%d/%d/1/%d/%s"),
+	url.Format(_T("http://%s:8080/BlueRay/sale/pagesearch/%s/%s/%d/%d/1/%d/%s"),
 		IDS_HOST_NAME,
 		ToString(type),
 		ToString(approved),
@@ -296,13 +297,13 @@ CPromise<PageData_t>& CSale::Search(ApproveType type, bool approved, int page, i
 		colIndex,
 		Util_Tools::Util::ToString(bAsc));
 	std::map<CString, StringArrayPtr> attr;
-	attr[L"search"] = &strKeywords;
+	attr[L"search"] = const_cast<StringArray*>(&strKeywords);
 	CPromise<PageData_t>* promise = CPromise<PageData_t>::MakePromise(m_lpHttp, new CPageDataParser());
 	m_lpHttp->Post(traceSession(url), promise->GetId(), attr);
 	return *promise;
 }
 
-CPromise<PageData_t>& CSale::Search(int page, int rows, int colIndex, bool bAsc, std::vector<CString>& strKeywords)
+CPromise<PageData_t>& CSale::Search(int page, int rows, int colIndex, bool bAsc, const StringArray& strKeywords)
 {
 	return Search(ALL, true, page, rows, colIndex, bAsc, strKeywords);
 }

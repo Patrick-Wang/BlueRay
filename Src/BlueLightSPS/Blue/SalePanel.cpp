@@ -557,38 +557,64 @@ void CSalePanel::OnBnClickedSearch()
 	int iCountShot = 0;
 	CString searchText;
 	m_editSearch->GetWindowText(searchText);
-	CString rowData;
-	bool bMatch = false;
-	for (int i = 0; i < m_table.size(); ++i)
-	{
-		bMatch = false;
-		for (int j = 0; j < m_table[i].second.size(); ++j)
-		{
-			CString strSource = m_table[i].second[j];
-			strSource.MakeUpper();
-			searchText.MakeUpper();
 
-			if (searchText.IsEmpty() || strSource.Find(searchText) >= 0)
-			{
-				bMatch = true;
-				break;
-			}
+	class CSearchListener : public CPromise<PageData_t>::IHttpResponse{
+		CONSTRUCTOR_3(CSearchListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
+	public:
+		virtual void OnSuccess(PageData_t& tb){
+			m_pJqGridAPI->Refresh(tb.rawData);
+			m_tb = tb.rows;
+			m_salePanel.GetParent()->EnableWindow(TRUE);
 		}
-		if (!bMatch)
-		{
-			m_pJqGridAPI->HideRow(m_table[i].first);
+		virtual void OnFailed(){
+			m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+			m_salePanel.GetParent()->EnableWindow(TRUE);
 		}
-		else
-		{
-			m_pJqGridAPI->ShowRow(m_table[i].first);
-			iCountShot++;
-		}
-	}
+	};
 
-	if (iCountShot == 0)
-	{
-		MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
+	if (searchText.IsEmpty()){
+		CServer::GetInstance()->GetSale().Query(1, 20, -1, false)
+			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
+		GetParent()->EnableWindow(FALSE);
 	}
+	else{
+		CServer::GetInstance()->GetSale().Search(1, 20, -1, false, searchText)
+			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
+		GetParent()->EnableWindow(FALSE);
+	}
+	
+	//CString rowData;
+	//bool bMatch = false;
+	//for (int i = 0; i < m_table.size(); ++i)
+	//{
+	//	bMatch = false;
+	//	for (int j = 0; j < m_table[i].second.size(); ++j)
+	//	{
+	//		CString strSource = m_table[i].second[j];
+	//		strSource.MakeUpper();
+	//		searchText.MakeUpper();
+
+	//		if (searchText.IsEmpty() || strSource.Find(searchText) >= 0)
+	//		{
+	//			bMatch = true;
+	//			break;
+	//		}
+	//	}
+	//	if (!bMatch)
+	//	{
+	//		m_pJqGridAPI->HideRow(m_table[i].first);
+	//	}
+	//	else
+	//	{
+	//		m_pJqGridAPI->ShowRow(m_table[i].first);
+	//		iCountShot++;
+	//	}
+	//}
+
+	//if (iCountShot == 0)
+	//{
+	//	MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
+	//}
 }
 
 
@@ -599,35 +625,54 @@ void CSalePanel::OnBnClickedMore()
 
 	dlg.SetOption(new CSaleAddDlg::Option_t());
 	if (IDOK == dlg.DoModal()){
-		const std::vector<CString>& searchVals = dlg.GetResult();
-		bool bMatch = true;
-		for (int i = 0; i < m_table.size(); ++i)
-		{
-			bMatch = true;
-			for (int j = 0; j < searchVals.size(); ++j)
-			{
-				if (!searchVals[j].IsEmpty() && m_table[i].second[j].CompareNoCase(searchVals[j]) != 0)
-				{
-					bMatch = false;
-					break;
-				}
+		std::vector<CString>& searchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
+		class CSearchListener : public CPromise<PageData_t>::IHttpResponse{
+			CONSTRUCTOR_3(CSearchListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
+		public:
+			virtual void OnSuccess(PageData_t& tb){
+				m_pJqGridAPI->Refresh(tb.rawData);
+				m_tb = tb.rows;
+				m_salePanel.GetParent()->EnableWindow(TRUE);
 			}
+			virtual void OnFailed(){
+				m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+				m_salePanel.GetParent()->EnableWindow(TRUE);
+			}
+		};
+		searchVals.insert(searchVals.begin() + 15, L"");
+		searchVals.insert(searchVals.begin() + 15, L"");
+		CServer::GetInstance()->GetSale().Search(1, 20, -1, false, searchVals)
+			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
+		GetParent()->EnableWindow(FALSE);
 
-			if (!bMatch)
-			{
-				m_pJqGridAPI->HideRow(m_table[i].first);
-			}
-			else
-			{
-				m_pJqGridAPI->ShowRow(m_table[i].first);
-				iCountShot++;
-			}
-		}
+		//bool bMatch = true;
+		//for (int i = 0; i < m_table.size(); ++i)
+		//{
+		//	bMatch = true;
+		//	for (int j = 0; j < searchVals.size(); ++j)
+		//	{
+		//		if (!searchVals[j].IsEmpty() && m_table[i].second[j].CompareNoCase(searchVals[j]) != 0)
+		//		{
+		//			bMatch = false;
+		//			break;
+		//		}
+		//	}
 
-		if (iCountShot == 0)
-		{
-			MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
-		}
+		//	if (!bMatch)
+		//	{
+		//		m_pJqGridAPI->HideRow(m_table[i].first);
+		//	}
+		//	else
+		//	{
+		//		m_pJqGridAPI->ShowRow(m_table[i].first);
+		//		iCountShot++;
+		//	}
+		//}
+
+		//if (iCountShot == 0)
+		//{
+		//	MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
+		//}
 	}
 }
 

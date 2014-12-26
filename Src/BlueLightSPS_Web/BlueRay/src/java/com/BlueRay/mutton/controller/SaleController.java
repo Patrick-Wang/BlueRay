@@ -81,7 +81,7 @@ public class SaleController {
 		return JSONObject.fromObject(pageData).toString().replace("null", "\"\"");
 	}
 	
-	@RequestMapping(value = "/simplepagesearch/{approveType}/{approved}/{pagesize}/{pagenum}/{pagecount}/{colIndex}/{sort}/{keyword}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/simplepagesearch/{approveType}/{approved}/{pagesize}/{pagenum}/{pagecount}/{colIndex}/{sort}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String getSimplePageSearchData(
 			@PathVariable String approveType,
 			@PathVariable String approved,
@@ -90,14 +90,15 @@ public class SaleController {
 			@PathVariable Integer pagecount,
 			@PathVariable Integer colIndex,
 			@PathVariable Boolean sort,
-			@PathVariable String keyword,
 			HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
+		JSONObject jo = Util.parse(request.getInputStream());
+		String keyword = jo.getString("search");
 		PageData pageData = service.pageSearch(approveType, approved, pagesize,pagenum,pagecount,colIndex >= 0 ? colIndex + 1 : -1,sort, keyword);
 		return JSONObject.fromObject(pageData).toString().replace("null", "\"\"");
 	}
 
-	@RequestMapping(value = "/pagequery/{approveType}/{approved}/{pagesize}/{pagenum}/{pagecount}/{colIndex}/{sort}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/pagequery/{approveType}/{approved}/{pagesize}/{pagenum}/{pagecount}/{colIndex}/{sort}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String getPageQueryData(
 			@PathVariable String approveType,
 			@PathVariable String approved,

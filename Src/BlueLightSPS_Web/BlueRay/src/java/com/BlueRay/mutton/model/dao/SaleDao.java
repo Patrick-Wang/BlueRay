@@ -2,6 +2,8 @@ package com.BlueRay.mutton.model.dao;
 
 import java.util.List;
 
+import net.sf.json.JSONArray;
+
 import com.BlueRay.mutton.model.entity.jpa.BMQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 
@@ -27,4 +29,8 @@ public interface SaleDao {
 	List<HTXX> getSearchedSaleData(String approveType, String approved,
 			Integer pagesize, Integer pagenum, Integer pagecount,
 			Integer colIndex, Boolean sort, String keyword);
+
+	List<HTXX> getSearchedSaleData(String approveType, String approved,
+			Integer pagesize, Integer pagenum, Integer pagecount,
+			Integer colIndex, Boolean sort, JSONArray keyWords);
 }
