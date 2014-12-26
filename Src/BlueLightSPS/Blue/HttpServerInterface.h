@@ -4,15 +4,6 @@
 #include "JsonObjects.h"
 #include "Promise.h"
 
-typedef struct tagPageData_t{
-	int total;
-	int page;
-	int records;
-	table rows;
-	CString rawData;
-}PageData_t;
-
-
 class CHttpServerInterface
 {
 public:

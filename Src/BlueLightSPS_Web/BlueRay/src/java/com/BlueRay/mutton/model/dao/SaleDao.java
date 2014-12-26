@@ -20,7 +20,11 @@ public interface SaleDao {
 
 	List<HTXX> getSaleData(String approveType, String approved,
 			Integer pagesize, Integer pagenum, Integer pagecount,
-			String col, Boolean sort);
+			Integer col, Boolean sort);
 
 	int getSaleDataCount();
+
+	List<HTXX> getSearchedSaleData(String approveType, String approved,
+			Integer pagesize, Integer pagenum, Integer pagecount,
+			Integer colIndex, Boolean sort, String keyword);
 }

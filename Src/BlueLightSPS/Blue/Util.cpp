@@ -418,4 +418,10 @@ namespace Util_Tools
 
 		return bRet;
 	}
+
+	LPCTSTR Util::ToString(bool bVal)
+	{
+		return bVal ? L"true" : L"false";
+	}
+
 }

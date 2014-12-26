@@ -24,6 +24,7 @@ namespace Util_Tools
 		static void Split(CString& src, TCHAR split, std::vector<int>& retData);
 		static void Join(const std::vector<CString>& retData, CString& dest);
 		static void Join(const std::vector<int>& retData, CString& dest);
+		static LPCTSTR ToString(bool bVal);
 
 		static void StringToDate(CString &strData, COleDateTime& objDataTime);
 		static void StringToDataTime(CString &strData, COleDateTime& objDataTime);

@@ -104,20 +104,20 @@ public class PlanServiceImpl implements PlanService {
 		SaleServiceImpl.setHtxx(ret, htxxMap.get(id), itemDao);
 		ret[0] = pcjhxx.getPcjhID() + "";
 		ret[4] = "1";// 鏁伴噺
-		ret[17] = ret[19];
-		ret[18] = ret[20];
-		ret[19] = (null != pcjhxx.getJhscrq()) ? pcjhxx.getJhscrq()
+		ret[25] = ret[18];
+		ret[26] = ret[19];
+		ret[16] = (null != pcjhxx.getJhscrq()) ? pcjhxx.getJhscrq()
 				.toString() : "";
-		ret[20] = "Y".equals(pcjhxx.getSftgywsh()) ? "√" : "×";
-		ret[21] = "Y".equals(pcjhxx.getSftgjhsh()) ? "√" : "×";
-		ret[22] = (null != pcjhxx.getJhbzrq()) ? pcjhxx.getJhbzrq()
+		ret[17] = "Y".equals(pcjhxx.getSftgywsh()) ? "√" : "×";
+		ret[18] = "Y".equals(pcjhxx.getSftgjhsh()) ? "√" : "×";
+		ret[19] = (null != pcjhxx.getJhbzrq()) ? pcjhxx.getJhbzrq()
 				.toString() : "";
-		ret[23] = "Y".equals(pcjhxx.getBzsftgywsh()) ? "√" : "×";
+		ret[20] = "Y".equals(pcjhxx.getBzsftgywsh()) ? "√" : "×";
 		ret[24] = "Y".equals(pcjhxx.getBzsftgjhsh()) ? "√" : "×";
-		ret[25] = (null != pcjhxx.getJhfhrq()) ? pcjhxx.getJhfhrq()
+		ret[22] = (null != pcjhxx.getJhfhrq()) ? pcjhxx.getJhfhrq()
 				.toString() : "";
-		ret[26] = pcjhxx.getTcbh();
-		ret[27] = pcjhxx.getCcbh();
+		ret[23] = pcjhxx.getTcbh();
+		ret[24] = pcjhxx.getCcbh();		
 	}
 	
 	public static Map<Integer, HTXX> getHtxxMap(List<PCJHXX> pcxxs, SaleDao saleDao, PlanDao planDao, Map<Integer, HTXX> htxxMap){
@@ -167,7 +167,7 @@ public class PlanServiceImpl implements PlanService {
 //		}
 		
 		PCJHXX pcjhxx;
-		String[][] ret = new String[pcxxs.size()][28];
+		String[][] ret = new String[pcxxs.size()][27];
 		for (int i = pcxxs.size() - 1; i >= 0; --i) {
 			pcjhxx = pcxxs.get(i);
 			setPCJH(ret[i], pcjhxx, htxxMap, itemDao);

@@ -14,8 +14,6 @@ import javax.persistence.Table;
 @Table(name = "htxx")
 public class HTXX implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
 	private Integer ID;
 	private String htID;
 	private Integer clientID;
@@ -31,19 +29,36 @@ public class HTXX implements Serializable {
 	private String dlcd;
 	private String zxcd;
 	private Integer mpzl;
-	private Date ddrq;
 	private String bz;
 	private String ddzt;
 	private String sftgywsh = "N";
 	private String sftgjhsh = "N";
 	private Integer yxj;
-	private Date ddtjrq;
-	public Date getDdtjrq() {
-		return ddtjrq;
+	private Date ddrq;
+	
+	public static Class<?>  getFroeignClass(int col){
+		switch(col){
+		case 2:
+			return KHXX.class;
+		case 3:
+			return CPGGXHXX.class;
+		case 5:
+			return ZCXX.class;
+		case 7:
+			return ZDQDYFLXX.class;
+		case 8:
+			return YYLGGFLXX.class;
+		case 10:
+			return BPQXHFLXX.class;
+		case 11:
+			return BMQXHFLXX.class;
+		default:
+			return null;
+		}
 	}
-	public void setDdtjrq(Date ddtjrq) {
-		this.ddtjrq = ddtjrq;
-	}
+	
+	private static final long serialVersionUID = 1L;
+	
 	public Integer getYxj() {
 		return yxj;
 	}

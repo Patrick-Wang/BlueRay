@@ -13,7 +13,8 @@ class CSale : public CHttpServerInterface
 public:
 	enum ApproveType{
 		PLAN,
-		BUSINESS
+		BUSINESS,
+		ALL
 	};
 
 	CSale();
@@ -22,6 +23,11 @@ public:
 	CPromise<PageData_t>& Query(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc);
 	CPromise<PageData_t>& Query(int page, int rows, int colIndex, bool bAsc);
 
+	CPromise<PageData_t>& Search(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc, LPCTSTR strKeyword);
+	CPromise<PageData_t>& Search(int page, int rows, int colIndex, bool bAsc, LPCTSTR strKeyword);
+
+	CPromise<PageData_t>& Search(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc, std::vector<CString>& strKeywords);
+	CPromise<PageData_t>& Search(int page, int rows, int colIndex, bool bAsc, std::vector<CString>& strKeywords);
 
 	bool QuerySync(table& htxxs);
 	CPromise<table>& Query();
@@ -47,6 +53,8 @@ public:
 private:
 	bool doApproveSync(CString& url, IntArray& rows);
 	CPromise<bool>& doApprove(CString& url, IntArray& rows);
+	LPCTSTR ToString(ApproveType type);
+	LPCTSTR ToString(bool approved);
 
 
 };

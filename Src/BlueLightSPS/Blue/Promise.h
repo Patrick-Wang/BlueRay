@@ -27,6 +27,14 @@ private:\
 
 typedef std::vector < std::pair<int, StringArray>> table;
 
+typedef struct tagPageData_t{
+	int total;
+	int page;
+	int records;
+	table rows;
+	CString rawData;
+}PageData_t;
+
 template<typename _T>
 class CPromise
 {
@@ -131,4 +139,11 @@ public:
 	virtual table& OnParse(LPCTSTR strJson);
 private:
 	table m_retTable;
+};
+
+class CPageDataParser : public CPromise<PageData_t>::IRespParser{
+public:
+	virtual PageData_t& OnParse(LPCTSTR strJson);
+private:
+	PageData_t m_retData;
 };

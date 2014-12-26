@@ -26,4 +26,12 @@ public interface SaleService{
 
 	PageData pageQuery(String approveType, String approved, Integer pagesize,
 			Integer pagenum, Integer pagecount, Integer colIndex, Boolean sort);
+
+	PageData pageSearch(String approveType, String approved, Integer pagesize,
+			Integer pagenum, Integer pagecount, Integer colIndex, Boolean sort,
+			String keyword);
+
+	PageData pageSearch(String approveType, String approved, Integer pagesize,
+			Integer pagenum, Integer pagecount, Integer colIndex, Boolean sort,
+			JSONArray keyWords);
 }

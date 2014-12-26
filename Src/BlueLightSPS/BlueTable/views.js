@@ -12,7 +12,7 @@ var ui;
     var SaleView = (function (_super) {
         __extends(SaleView, _super);
         function SaleView(gridName) {
-            _super.call(this, gridName, ["合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "审核-业务", "审核-计划", "优先级", "订单日期"], SaleView.widths);
+            _super.call(this, gridName, ["合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "审核-业务", "审核-计划", "优先级", "订单日期"], SaleView.widths);
         }
         SaleView.getInstance = function (gridName) {
             if (undefined == SaleView.ins) {
@@ -30,7 +30,7 @@ var ui;
     var PlanView = (function (_super) {
         __extends(PlanView, _super);
         function PlanView(gridName) {
-            _super.call(this, gridName, ["合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "优先级", "订单日期", "生产日期", "计划审核-业务", "计划审核-计划", "包装日期", "包装审核-业务", "包装审核-计划", "发货日期", "投产编号", "出厂编号"], PlanView.widths);
+            _super.call(this, gridName, ["合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "生产日期", "计划审核-业务", "计划审核-计划", "包装日期", "包装审核-业务", "包装审核-计划", "发货日期", "投产编号", "出厂编号", "优先级", "订单日期"], PlanView.widths);
         }
         PlanView.getInstance = function (gridName) {
             if (undefined == PlanView.ins) {
