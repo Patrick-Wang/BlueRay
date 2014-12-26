@@ -451,8 +451,17 @@ void CSaleAddDlg::OnOK()
 	m_aEdits[EditId::Edit_BZ]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bz : _T("")));
 
-	m_aDatePickers[DatePickerId::DatePicker_DDRQ]->GetWindowText(strTmp);
-	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->ddrq : _T("")));
+	CTime time;
+	DWORD dwResult = m_aDatePickers[DatePickerId::DatePicker_DDRQ]->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		m_aDatePickers[DatePickerId::DatePicker_DDRQ]->GetWindowText(strTmp);
+		m_vecResult.push_back(strTmp);
+	}
+	else
+	{
+		m_vecResult.push_back(_T(""));
+	}
 
 	CPopupDlg::OnOK();
 }
@@ -518,6 +527,9 @@ void CSaleAddDlg::InitCtrlData()
 		init(m_aCombs[CombId::Comb_MPZL], 0);
 		//init(m_aCombs[CombId::Comb_DLCD], 0);
 		//init(m_aCombs[CombId::Comb_ZXCD], 0);
+
+		CString val(_T(""));
+		init(m_aDatePickers[DatePickerId::DatePicker_DDRQ], val);
 	}
 }
 

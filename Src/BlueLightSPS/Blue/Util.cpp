@@ -101,7 +101,7 @@ namespace Util_Tools
 
 		pDateTimeCtrl->SetTime(COleDateTime::GetCurrentTime());
 
-		pDateTimeCtrl->SetFormat(_T("yyyy/MM/dd"));
+		pDateTimeCtrl->SetFormat(_T("yyyy-MM-dd"));
 
 		return pDateTimeCtrl;
 	}
@@ -119,7 +119,7 @@ namespace Util_Tools
 
 		pDateTimeCtrl->SetTime(COleDateTime::GetCurrentTime());
 
-		pDateTimeCtrl->SetFormat(_T("yyyy/MM/dd"));
+		pDateTimeCtrl->SetFormat(_T("yyyy-MM-dd"));
 
 		return pDateTimeCtrl;
 	}

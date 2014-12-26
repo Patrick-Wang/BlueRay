@@ -4,6 +4,7 @@
 #include "IHttp.h"
 
 
+#define OPT_DATE_NULL _T("")
 #define OPT_FALSE _T("-1")
 #define OPT_FALSE_INT -1
 #define do_get(data, it, dest) \
@@ -106,7 +107,7 @@ public:
 			dlcd = OPT_FALSE;			//电缆长度
 			zxcd = OPT_FALSE;			//闸线长度
 			mpzl = OPT_FALSE_INT;		//铭牌等资料
-			ddrq = OPT_FALSE;			//订单日期
+			ddrq = OPT_DATE_NULL;			//订单日期
 			bz = OPT_FALSE;				//备注
 		}
 
