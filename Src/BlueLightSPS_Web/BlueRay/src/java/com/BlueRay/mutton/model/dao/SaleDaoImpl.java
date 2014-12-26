@@ -315,22 +315,35 @@ public class SaleDaoImpl implements SaleDao{
 		firstAnd = false;
 		sqlWhere += " and ( ";
 		for (int i = 1; i < fields.length - 1; ++i){
-				if (!firstAnd){
-					firstAnd = true;
-				} 
-				else{
-					sqlWhere += " or ";
-				}
+				
 				
 				Class<?> cls = HTXX.getFroeignClass(i);
 				if (null != cls){
+					if (!firstAnd){
+						firstAnd = true;
+					} 
+					else{
+						sqlWhere += " or ";
+					}
 					sqlWhere += cls.getSimpleName() + "_." + getForginName(cls) + "='"  + keyword + "' ";
 				} else{
 					try {
 						String key = getSqlKeyword(fields[i], keyword);
+						if (!firstAnd){
+							firstAnd = true;
+						} 
+						else{
+							sqlWhere += " or ";
+						}
 						sqlWhere += "h." + fields[i].getName() + "="  + key + " ";
 					} catch (Exception e) {
 						if ("is date".equals(e.getMessage())){
+							if (!firstAnd){
+								firstAnd = true;
+							} 
+							else{
+								sqlWhere += " or ";
+							}
 							sqlWhere += "DATEDIFF(yymmdd, h." + fields[i].getName() + ","  + keyword + ") ";
 						}
 					}
