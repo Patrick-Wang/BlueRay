@@ -324,7 +324,7 @@ public class SaleDaoImpl implements SaleDao{
 				
 				Class<?> cls = HTXX.getFroeignClass(i);
 				if (null != cls){
-					sqlWhere += cls.getSimpleName() + "_." + getForginName(cls) + "="  + keyword + " ";
+					sqlWhere += cls.getSimpleName() + "_." + getForginName(cls) + "='"  + keyword + "' ";
 				} else{
 					try {
 						String key = getSqlKeyword(fields[i], keyword);
