@@ -2,11 +2,9 @@ package com.BlueRay.mutton.model.dao;
 
 import java.util.List;
 
-<<<<<<< HEAD
+
 import net.sf.json.JSONObject;
-=======
-import net.sf.json.JSONArray;
->>>>>>> ee973321d726894194aae2223ffde6260c65f125
+
 
 import com.BlueRay.mutton.model.entity.jpa.BMQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
