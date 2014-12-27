@@ -14,6 +14,8 @@
 #include "Server.h"
 // CLoginDlg dialog
 
+#define TM_INITUI	100
+
 IMPLEMENT_DYNAMIC(CLoginDlg, CDialogEx)
 
 CLoginDlg::CLoginDlg(CWnd* pParent /*=NULL*/)
@@ -43,6 +45,7 @@ BEGIN_MESSAGE_MAP(CLoginDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_MIN, &CLoginDlg::OnBnMinmumClicked)
 	ON_BN_CLICKED(IDC_CLOSE, &CLoginDlg::OnBnCloseClicked)
 	ON_WM_KEYDOWN()
+	ON_WM_TIMER()
 END_MESSAGE_MAP()
 
 
@@ -151,8 +154,8 @@ BOOL CLoginDlg::OnInitDialog()
 
 	m_editPsw.MoveWindow(696, 405, 181, 20);
 	m_editUserName.MoveWindow(696, 362, 181, 20);
-
-	InitWebView();
+	SetTimer(TM_INITUI, 500, NULL);
+	
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -240,3 +243,15 @@ void CLoginDlg::InitWebView()
 	m_webHttpView.OpenURL(&url);
 }
 
+
+
+void CLoginDlg::OnTimer(UINT_PTR nIDEvent)
+{
+	if (TM_INITUI == nIDEvent)
+	{
+		KillTimer(TM_INITUI);
+		InitWebView();
+	}
+
+	CDialogEx::OnTimer(nIDEvent);
+}

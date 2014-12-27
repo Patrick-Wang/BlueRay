@@ -23,7 +23,7 @@
 #define new DEBUG_NEW
 #endif
 #define TM_TIME_COUNT	10
-
+#define TM_INITUI	11
 // CBlueDlg dialog
 
 
@@ -100,7 +100,7 @@ BOOL CBlueDlg::OnInitDialog()
 	CRect rt;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rt, 0);
 	Util_Tools::Util::SetWindowSize(m_hWnd, rt.Width(), rt.Height());
-	InitWebView();
+	//InitWebView();
 	
 
 	m_btnClose.Create(this, IDC_CLOSE);
@@ -189,8 +189,9 @@ BOOL CBlueDlg::OnInitDialog()
 	}
 
 	SetTimer(TM_TIME_COUNT, 1000, NULL);
+	SetTimer(TM_INITUI, 50, NULL);
 	OnTimer(TM_TIME_COUNT);
-
+	
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -357,6 +358,10 @@ void CBlueDlg::OnTimer(UINT_PTR nIDEvent)
 		CString time = now.Format(_T("%Y/%m/%d %X"));
 
 		m_bsDate.SetWindowText(_T("当前时间: ") + time);
+	}
+	else if (TM_INITUI == nIDEvent){
+		KillTimer(nIDEvent);
+		InitWebView();
 	}
 	else
 	{

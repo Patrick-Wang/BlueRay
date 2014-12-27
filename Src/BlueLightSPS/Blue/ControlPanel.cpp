@@ -48,7 +48,7 @@ void CControlPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 	CBSObject::OnShowWindow(bShow, nStatus);
 	if (bShow)
 	{
-		SetTimer(TM_UI, 10, NULL);
+		SetTimer(TM_UI, 0, NULL);
 	}
 	
 }
