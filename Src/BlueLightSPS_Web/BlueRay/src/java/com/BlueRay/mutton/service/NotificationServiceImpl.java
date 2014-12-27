@@ -2,6 +2,8 @@ package com.BlueRay.mutton.service;
 
 import java.util.List;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +26,8 @@ public class NotificationServiceImpl implements NotificationService {
 
 	public UnapprovedBean getUnapproved() {
 		UnapprovedBean unapproved = new UnapprovedBean();
-		List<HTXX> htxxs = saleDao.getSaleData("all", "none");
+		int count = saleDao.getSaleDataCount();
+		List<HTXX> htxxs = saleDao.getSaleData(count, 1, 1, JSONObject.fromObject("{}"));
 		for (HTXX htxx : htxxs) {
 			if (!"Y".equals(htxx.getSftgjhsh())) {
 				unapproved.setSalePlan(unapproved.getSalePlan() + 1);

@@ -3,10 +3,11 @@ package com.BlueRay.mutton.service;
 import com.BlueRay.mutton.controller.PageData;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 
 public interface SaleService{
-	String[][] query(String approveType, String approved);
+	//String[][] query(String approveType, String approved);
 
 	boolean update();
 
@@ -24,14 +25,23 @@ public interface SaleService{
 
 	String planUnapprove(JSONArray rows);
 
-	PageData pageQuery(String approveType, String approved, Integer pagesize,
-			Integer pagenum, Integer pagecount, Integer colIndex, Boolean sort);
+//	PageData pageQuery(String approveType, String approved, Integer pagesize,
+//			Integer pagenum, Integer pagecount, Integer colIndex, Boolean sort);
+//
+//	PageData pageSearch(String approveType, String approved, Integer pagesize,
+//			Integer pagenum, Integer pagecount, Integer colIndex, Boolean sort,
+//			String keyword);
+//
+//	PageData pageSearch(String approveType, String approved, Integer pagesize,
+//			Integer pagenum, Integer pagecount, Integer colIndex, Boolean sort,
+//			JSONArray keyWords);
+//
+//	PageData pageQuery(String approveType, String approved, Integer pagesize,
+//			Integer pagenum, Integer pagecount);
+//
+//	PageData pageQuery(String approveType, String approved, Integer pagesize,
+//			Integer pagenum, Integer pagecount, JSONObject jparam);
 
-	PageData pageSearch(String approveType, String approved, Integer pagesize,
-			Integer pagenum, Integer pagecount, Integer colIndex, Boolean sort,
-			String keyword);
-
-	PageData pageSearch(String approveType, String approved, Integer pagesize,
-			Integer pagenum, Integer pagecount, Integer colIndex, Boolean sort,
-			JSONArray keyWords);
+	PageData pageQuery(Integer pagesize, Integer pagenum, Integer pagecount,
+			JSONObject jparam);
 }

@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.util.List;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,25 +74,25 @@ public class SaleServiceImpl implements SaleService {
 		}
 	}
 
-	public String[][] query(String approveType, String approved) {
-		
-		List<HTXX> list = null;
-		list = saleDao.getSaleData(approveType, approved);
-		
-		// "合同号", "客户名称", "规格型号",
-		// "数量", "轴承", "单复绕",
-		// "制动器电压", "曳引轮规格", "机房",
-		// "变频器型号", "编码器型号", "电缆长度",
-		// "闸线长度", "铭牌等资料", "备注",
-		// "订单日期", "审核-业务", "审核-计划"
-		String[][] ret = new String[list.size()][20];
-		HTXX htxx = null;
-		for (int i = 0; i < list.size(); ++i) {
-			htxx = list.get(i);
-			setHtxx(ret[i], htxx, itemDao);
-		}
-		return ret;
-	}
+//	public String[][] query(String approveType, String approved) {
+//		
+//		List<HTXX> list = null;
+//		list = saleDao.getSaleData(approveType, approved);
+//		
+//		// "合同号", "客户名称", "规格型号",
+//		// "数量", "轴承", "单复绕",
+//		// "制动器电压", "曳引轮规格", "机房",
+//		// "变频器型号", "编码器型号", "电缆长度",
+//		// "闸线长度", "铭牌等资料", "备注",
+//		// "订单日期", "审核-业务", "审核-计划"
+//		String[][] ret = new String[list.size()][20];
+//		HTXX htxx = null;
+//		for (int i = 0; i < list.size(); ++i) {
+//			htxx = list.get(i);
+//			setHtxx(ret[i], htxx, itemDao);
+//		}
+//		return ret;
+//	}
 
 	public boolean update() {
 		BMQXHFLXX bxx = new BMQXHFLXX();
@@ -384,11 +385,85 @@ public class SaleServiceImpl implements SaleService {
 		return "success";
 	}
 
-	public PageData pageQuery(String approveType, String approved,
-			Integer pagesize, Integer pagenum, Integer pagecount,
-			Integer colIndex, Boolean sort) {
+//	public PageData pageQuery(String approveType, String approved,
+//			Integer pagesize, Integer pagenum, Integer pagecount,
+//			Integer colIndex, Boolean sort) {
+//		Field[] fields = HTXX.class.getDeclaredFields();
+//		List<HTXX> htxxs = saleDao.getSaleData(approveType, approved, pagesize, pagenum, pagecount, colIndex, sort);
+//		int count = saleDao.getSaleDataCount();
+//		PageData pd = new PageData();
+//		pd.setPage(pagenum);
+//		pd.setRecords(count);
+//		int pageCount = count / pagesize;
+//		pageCount += count % pagesize > 0 ? 1 : 0;
+//		pd.setTotal(pageCount);
+//		String[] row = new String[21];
+//		PageData.Row rd;
+//		
+//		for (int i = 0; i < htxxs.size(); ++i){
+//			rd = pd.new Row();
+//			setHtxx(row, htxxs.get(i), itemDao);
+//			rd.setId(Integer.valueOf(row[0]));
+//			pd.getRows().add(rd);
+//			for (int j = 1; j < row.length; ++j){
+//				rd.getCell().add(row[j]);
+//			} 
+//		}
+//		
+//		return pd;
+//	}
+//
+//	public PageData pageSearch(String approveType, String approved,
+//			Integer pagesize, Integer pagenum, Integer pagecount,
+//			Integer colIndex, Boolean sort, String keyword) {
+//		List<HTXX> htxxs = saleDao.getSearchedSaleData(approveType, approved, pagesize, pagenum, pagecount, colIndex, sort, keyword);
+//		int count = saleDao.getSaleDataCount();
+//		PageData pd = new PageData();
+//		pd.setPage(pagenum);
+//		pd.setRecords(count);
+//		int pageCount = count / pagesize;
+//		pageCount += count % pagesize > 0 ? 1 : 0;
+//		pd.setTotal(pageCount);
+//		String[] row = new String[21];
+//		PageData.Row rd;
+//		
+//		for (int i = 0; i < htxxs.size(); ++i){
+//			rd = pd.new Row();
+//			setHtxx(row, htxxs.get(i), itemDao);
+//			rd.setId(Integer.valueOf(row[0]));
+//			pd.getRows().add(rd);
+//			for (int j = 1; j < row.length; ++j){
+//				rd.getCell().add(row[j]);
+//			} 
+//		}
+//		
+//		return pd;
+//	}
+//
+//	public PageData pageSearch(String approveType, String approved,
+//			Integer pagesize, Integer pagenum, Integer pagecount,
+//			Integer colIndex, Boolean sort, JSONArray keyWords) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	public PageData pageQuery(String approveType, String approved,
+//			Integer pagesize, Integer pagenum, Integer pagecount) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	public PageData pageQuery(String approveType, String approved,
+//			Integer pagesize, Integer pagenum, Integer pagecount,
+//			JSONObject jparam) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
+	public PageData pageQuery(Integer pagesize, Integer pagenum,
+			Integer pagecount, JSONObject jparam) {
 		Field[] fields = HTXX.class.getDeclaredFields();
-		List<HTXX> htxxs = saleDao.getSaleData(approveType, approved, pagesize, pagenum, pagecount, colIndex, sort);
+		List<HTXX> htxxs = saleDao.getSaleData(pagesize, pagenum, pagecount, jparam);
 		int count = saleDao.getSaleDataCount();
 		PageData pd = new PageData();
 		pd.setPage(pagenum);
@@ -410,40 +485,6 @@ public class SaleServiceImpl implements SaleService {
 		}
 		
 		return pd;
-	}
-
-	public PageData pageSearch(String approveType, String approved,
-			Integer pagesize, Integer pagenum, Integer pagecount,
-			Integer colIndex, Boolean sort, String keyword) {
-		List<HTXX> htxxs = saleDao.getSearchedSaleData(approveType, approved, pagesize, pagenum, pagecount, colIndex, sort, keyword);
-		int count = saleDao.getSaleDataCount();
-		PageData pd = new PageData();
-		pd.setPage(pagenum);
-		pd.setRecords(count);
-		int pageCount = count / pagesize;
-		pageCount += count % pagesize > 0 ? 1 : 0;
-		pd.setTotal(pageCount);
-		String[] row = new String[21];
-		PageData.Row rd;
-		
-		for (int i = 0; i < htxxs.size(); ++i){
-			rd = pd.new Row();
-			setHtxx(row, htxxs.get(i), itemDao);
-			rd.setId(Integer.valueOf(row[0]));
-			pd.getRows().add(rd);
-			for (int j = 1; j < row.length; ++j){
-				rd.getCell().add(row[j]);
-			} 
-		}
-		
-		return pd;
-	}
-
-	public PageData pageSearch(String approveType, String approved,
-			Integer pagesize, Integer pagenum, Integer pagecount,
-			Integer colIndex, Boolean sort, JSONArray keyWords) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
