@@ -309,6 +309,9 @@ public class SaleQueryParams {
 
 	private String parseApprove() {
 		JSONObject japprove = mJo.getJSONObject("approve");
+		if (japprove.isNullObject()){
+			return "";
+		}
 		if ("unapproved".equals(japprove.getString("type"))) {
 			if (japprove.getBoolean("approve")) {
 				return " HTXX_.sftgjhsh = 'Y' ";
