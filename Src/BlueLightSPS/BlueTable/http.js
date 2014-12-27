@@ -4,7 +4,7 @@ $.ajaxSetup({ cache: false });
 function ajaxGet(caller, id, addr) {
     //alert(addr);
     $.ajax({
-        url: addr,
+        url: encodeURI(addr),
         //dataType: "json",
         success: function (data) {
             //alert(data);
@@ -21,7 +21,7 @@ function ajaxGet(caller, id, addr) {
 function ajaxPost(caller, id, addr, d) {
     $.ajax({
         type: 'POST',
-        url: addr,
+        url: encodeURI(addr),
         dataType: "json",
         data: d,
         success: function (retData) {
@@ -38,7 +38,7 @@ function ajaxSyncGet(addr) {
     var ret = 0;
     $.ajax({
         async: false,
-        url: addr,
+        url: encodeURI(addr),
         //dataType: "json",
         success: function (data) {
             ret = data.toString();
@@ -54,7 +54,7 @@ function ajaxSyncPost(addr, d) {
     $.ajax({
         async: false,
         type: 'POST',
-        url: addr,
+        url: encodeURI(addr),
         dataType: "json",
         data: d,
         success: function (retData) {

@@ -125,7 +125,6 @@ public class SaleController {
 //		]
 //	}
 	
-	@RequestMapping(value = "/pagequery/{pagesize}/{pagenum}/{pagecount}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String getPageQueryData(
 			@PathVariable Integer pagesize,
 			@PathVariable Integer pagenum,

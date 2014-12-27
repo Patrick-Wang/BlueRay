@@ -487,4 +487,67 @@ public class SaleServiceImpl implements SaleService {
 		return pd;
 	}
 
+<<<<<<< HEAD
+=======
+	public PageData pageSearch(String approveType, String approved,
+			Integer pagesize, Integer pagenum, Integer pagecount,
+			Integer colIndex, Boolean sort, String keyword) {
+		List<HTXX> htxxs = saleDao.getSearchedSaleData(approveType, approved, pagesize, pagenum, pagecount, colIndex, sort, keyword);
+		int count = saleDao.getSaleDataCount();
+		PageData pd = new PageData();
+		pd.setPage(pagenum);
+		pd.setRecords(count);
+		int pageCount = count / pagesize;
+		pageCount += count % pagesize > 0 ? 1 : 0;
+		pd.setTotal(pageCount);
+		String[] row = new String[21];
+		PageData.Row rd;
+		
+		for (int i = 0; i < htxxs.size(); ++i){
+			rd = pd.new Row();
+			setHtxx(row, htxxs.get(i), itemDao);
+			rd.setId(Integer.valueOf(row[0]));
+			pd.getRows().add(rd);
+			for (int j = 1; j < row.length; ++j){
+				rd.getCell().add(row[j]);
+			} 
+		}
+		
+		return pd;
+	}
+
+	public PageData pageSearch(String approveType, String approved,
+			Integer pagesize, Integer pagenum, Integer pagecount,
+			Integer colIndex, Boolean sort, JSONArray keyWords) {
+		if ("是".equals(keyWords.get(6))){
+			keyWords.set(5, "Y");
+		} else if("否".equals(keyWords.get(6))){
+			keyWords.set(5, "N");
+		}
+		
+		List<HTXX> htxxs = saleDao.getSearchedSaleData(approveType, approved, pagesize, pagenum, pagecount, colIndex, sort, keyWords);
+		int count = saleDao.getSaleDataCount();
+		PageData pd = new PageData();
+		pd.setPage(pagenum);
+		pd.setRecords(count);
+		int pageCount = count / pagesize;
+		pageCount += count % pagesize > 0 ? 1 : 0;
+		pd.setTotal(pageCount);
+		String[] row = new String[21];
+		PageData.Row rd;
+		
+		for (int i = 0; i < htxxs.size(); ++i){
+			rd = pd.new Row();
+			setHtxx(row, htxxs.get(i), itemDao);
+			rd.setId(Integer.valueOf(row[0]));
+			pd.getRows().add(rd);
+			for (int j = 1; j < row.length; ++j){
+				rd.getCell().add(row[j]);
+			} 
+		}
+		
+		return pd;
+	}
+
+>>>>>>> ee973321d726894194aae2223ffde6260c65f125
 }

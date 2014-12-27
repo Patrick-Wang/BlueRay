@@ -26,8 +26,8 @@ public:
 	CPromise<PageData_t>& Search(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc, LPCTSTR strKeyword);
 	CPromise<PageData_t>& Search(int page, int rows, int colIndex, bool bAsc, LPCTSTR strKeyword);
 
-	CPromise<PageData_t>& Search(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc, std::vector<CString>& strKeywords);
-	CPromise<PageData_t>& Search(int page, int rows, int colIndex, bool bAsc, std::vector<CString>& strKeywords);
+	CPromise<PageData_t>& Search(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc, const StringArray& strKeywords);
+	CPromise<PageData_t>& Search(int page, int rows, int colIndex, bool bAsc, const StringArray& strKeywords);
 
 	bool QuerySync(table& htxxs);
 	CPromise<table>& Query();
