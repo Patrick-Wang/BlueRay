@@ -17,7 +17,7 @@ module base {
     }
 
     export class GridView {
-        private rowNum: number = 10;
+        private rowNum: number = 20;
         private curPage: number;
         private mTableName: string;
         private mTable: any;

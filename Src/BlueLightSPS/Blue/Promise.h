@@ -147,3 +147,19 @@ public:
 private:
 	PageData_t m_retData;
 };
+
+
+typedef struct tagBasicSearchCondition_t{
+	LPCTSTR lpText;
+	bool exact;
+}BasicSearchCondition_t;
+
+typedef struct tagDateSearchCondition_t{
+	LPCTSTR startDate;
+	LPCTSTR endDate;
+}DateSearchCondition_t;
+
+typedef struct tagSortCondition_t{
+	int col;
+	bool asc;
+}SortCondition_t;

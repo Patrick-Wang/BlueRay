@@ -8,6 +8,34 @@
 #include "Promise.h"
 
 
+//{
+//approve : {
+//	type : approved / unapproved,
+//	approve : true/false
+//},
+//search : {
+//	advanced : [],
+//	basic : {
+//		text : searchtext,
+//		exact : true/false
+//	},
+//	date : {
+//		startDate : 
+//		endDate : 
+//	}
+//},
+//sort : [
+//    {
+//    	col : index,
+//    	order : true/false
+//    },
+//    {
+//    	col : index,
+//    	order : true/false
+//    }
+//]
+//}
+
 class CSale : public CHttpServerInterface
 {
 public:
@@ -20,20 +48,35 @@ public:
 	CSale();
 	~CSale();
 
-	CPromise<PageData_t>& Query(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc);
-	CPromise<PageData_t>& Query(int page, int rows, int colIndex, bool bAsc);
+	//CPromise<PageData_t>& Query(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc);
+	//CPromise<PageData_t>& Query(int page, int rows, int colIndex, bool bAsc);
 
-	CPromise<PageData_t>& Search(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc, LPCTSTR strKeyword);
-	CPromise<PageData_t>& Search(int page, int rows, int colIndex, bool bAsc, LPCTSTR strKeyword);
+	//CPromise<PageData_t>& Search(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc, LPCTSTR strKeyword);
+	//CPromise<PageData_t>& Search(int page, int rows, int colIndex, bool bAsc, LPCTSTR strKeyword);
 
-	CPromise<PageData_t>& Search(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc, const StringArray& strKeywords);
-	CPromise<PageData_t>& Search(int page, int rows, int colIndex, bool bAsc, const StringArray& strKeywords);
+	CPromise<PageData_t>& Query(
+		ApproveType type, 
+		bool approved, 
+		int page, 
+		int rows, 
+		BasicSearchCondition_t* pBasicSearch = NULL, 
+		DateSearchCondition_t* pDateSearch = NULL, 
+		StringArrayPtr pAdvanceSearch = NULL, 
+		std::vector<SortCondition_t>* pSorter = NULL);
 
-	bool QuerySync(table& htxxs);
-	CPromise<table>& Query();
+	CPromise<PageData_t>& Query(
+		int page, 
+		int rows, 
+		BasicSearchCondition_t* pBasicSearch = NULL, 
+		DateSearchCondition_t* pDateSearch = NULL, 
+		StringArrayPtr pAdvanceSearch = NULL, 
+		std::vector<SortCondition_t>* pSorter = NULL);
 
-	bool QuerySync(ApproveType type, bool approved, table& htxxs);
-	CPromise<table>& Query(ApproveType type, bool approved);
+	//bool QuerySync(table& htxxs);
+	//CPromise<table>& Query();
+
+	//bool QuerySync(ApproveType type, bool approved, table& htxxs);
+	//CPromise<table>& Query(ApproveType type, bool approved);
 
 	bool AddSync(StringArray& record, int& id);
 	CPromise<int>& Add(StringArray& record);

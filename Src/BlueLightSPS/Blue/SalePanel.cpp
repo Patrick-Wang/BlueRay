@@ -573,48 +573,33 @@ void CSalePanel::OnBnClickedSearch()
 	};
 
 	if (searchText.IsEmpty()){
-		CServer::GetInstance()->GetSale().Query(1, 20, -1, false)
+		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize())
 			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}
 	else{
-		CServer::GetInstance()->GetSale().Search(1, 20, -1, false, searchText)
+		CString strFrom;
+		m_dtcSearchFrom->GetWindowText(strFrom);
+		CString strTo;
+		m_dtcSearchTo->GetWindowText(strTo);
+
+		BasicSearchCondition_t bsc;
+		bsc.lpText = searchText;
+		bsc.exact = true;
+
+		DateSearchCondition_t dsc;
+		dsc.startDate = strFrom;
+		dsc.endDate = strTo;
+
+		std::vector<SortCondition_t> scs;
+		scs.resize(1);//sort for yxj 
+		scs[0].asc = true;
+		scs[0].col = 17;
+
+		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), &bsc, &dsc, NULL, &scs)
 			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}
-	
-	//CString rowData;
-	//bool bMatch = false;
-	//for (int i = 0; i < m_table.size(); ++i)
-	//{
-	//	bMatch = false;
-	//	for (int j = 0; j < m_table[i].second.size(); ++j)
-	//	{
-	//		CString strSource = m_table[i].second[j];
-	//		strSource.MakeUpper();
-	//		searchText.MakeUpper();
-
-	//		if (searchText.IsEmpty() || strSource.Find(searchText) >= 0)
-	//		{
-	//			bMatch = true;
-	//			break;
-	//		}
-	//	}
-	//	if (!bMatch)
-	//	{
-	//		m_pJqGridAPI->HideRow(m_table[i].first);
-	//	}
-	//	else
-	//	{
-	//		m_pJqGridAPI->ShowRow(m_table[i].first);
-	//		iCountShot++;
-	//	}
-	//}
-
-	//if (iCountShot == 0)
-	//{
-	//	MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
-	//}
 }
 
 
@@ -641,9 +626,9 @@ void CSalePanel::OnBnClickedMore()
 		};
 		searchVals.insert(searchVals.begin() + 15, L"");
 		searchVals.insert(searchVals.begin() + 15, L"");
-		CServer::GetInstance()->GetSale().Search(1, 20, -1, false, searchVals)
-			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
-		GetParent()->EnableWindow(FALSE);
+		//CServer::GetInstance()->GetSale().Search(1, 20, -1, false, searchVals)
+		//	.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
+		//GetParent()->EnableWindow(FALSE);
 
 		//bool bMatch = true;
 		//for (int i = 0; i < m_table.size(); ++i)
@@ -971,46 +956,10 @@ void CSalePanel::OnApproveDataSuccess()
 
 void CSalePanel::OnInitData()
 {
-	//CString url;
-	//url.Format(_T("http://%s:8080/BlueRay/sale/query/all/none"), IDS_HOST_NAME);
-	//CString jsondata;
-	//m_pHttp->SyncGet(url, jsondata);
-	
 	CPermission& perm = CUser::GetInstance()->GetPermission();
 
 	if (perm.getSale())
 	{
-		//class OnLoadDataListener : public CPromise<table>::IHttpResponse
-		//{
-		//	CONSTRUCTOR_3(OnLoadDataListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
-		//public:
-		//	virtual void OnSuccess(table& tb){
-		//		for (int j = 0; j < m_tb.size(); ++j)
-		//		{
-		//			m_pJqGridAPI->DelRow(m_tb[j].first);
-		//		}
-
-		//		m_pJqGridAPI->Refresh();
-
-		//		m_tb = tb;
-
-		//		for (int j = 0; j < m_tb.size(); ++j)
-		//		{
-		//			m_pJqGridAPI->AddRow(m_tb[j].first, m_tb[j].second);
-		//		}
-
-		//		m_salePanel.GetParent()->EnableWindow(TRUE);
-		//	}
-		//	virtual void OnFailed(){
-		//		m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-		//		m_salePanel.GetParent()->EnableWindow(TRUE);
-		//	}
-		//};
-
-		//CServer::GetInstance()->GetSale().Query().then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
-		//GetParent()->EnableWindow(FALSE);
-		
-
 		class OnLoadDataListener : public CPromise<PageData_t>::IHttpResponse
 		{
 			CONSTRUCTOR_3(OnLoadDataListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
@@ -1028,9 +977,7 @@ void CSalePanel::OnInitData()
 
 		CServer::GetInstance()->GetSale().Query(
 			m_pJqGridAPI->GetCurrentPage(),
-			m_pJqGridAPI->GetPageSize(), 
-			-1, 
-			false)
+			m_pJqGridAPI->GetPageSize())
 			.then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}
@@ -1134,11 +1081,11 @@ void CSalePanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 		}
 	};
 
-	CServer::GetInstance()->GetSale().Query(
-		page,
-		rows,
-		colIndex,
-		bAsc)
-		.then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
-	GetParent()->EnableWindow(FALSE);
+	//CServer::GetInstance()->GetSale().Query(
+	//	page,
+	//	rows,
+	//	colIndex,
+	//	bAsc)
+	//	.then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+	//GetParent()->EnableWindow(FALSE);
 }
