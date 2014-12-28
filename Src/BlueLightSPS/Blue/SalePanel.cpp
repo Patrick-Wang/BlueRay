@@ -564,6 +564,10 @@ void CSalePanel::OnBnClickedSearch()
 		virtual void OnSuccess(PageData_t& tb){
 			m_pJqGridAPI->Refresh(tb.rawData);
 			m_tb = tb.rows;
+			if (m_tb.empty())
+			{
+				m_salePanel.MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
+			}
 			m_salePanel.GetParent()->EnableWindow(TRUE);
 		}
 		virtual void OnFailed(){
@@ -583,15 +587,11 @@ void CSalePanel::OnBnClickedSearch()
 		CString strTo;
 		m_dtcSearchTo->GetWindowText(strTo);
 
-		BasicSearchCondition_t bsc;
-		bsc.lpText = searchText;
-		bsc.exact = true;
+		CJsonQueryParam jqp;
+		jqp.SetBasicSearchCondition(searchText, true);
+		jqp.SetDateSearchCondition(strFrom, strTo);
 
-		DateSearchCondition_t dsc;
-		dsc.startDate = strFrom;
-		dsc.endDate = strTo;
-
-		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), NULL, &bsc, &dsc, NULL, NULL)
+		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
 			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}
@@ -622,7 +622,9 @@ void CSalePanel::OnBnClickedMore()
 		searchVals.insert(searchVals.begin() + 15, L"");//插入业务审核
 		searchVals.insert(searchVals.begin() + 15, L"");//插入计划审核
 		searchVals.insert(searchVals.begin() + 15, L"");//插入优先级
-		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), NULL, NULL, NULL, &searchVals, NULL)
+		CJsonQueryParam jqp;
+		jqp.AddAdvancedCondition(&searchVals);
+		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
 			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}
@@ -1050,31 +1052,25 @@ void CSalePanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 
 	CString searchText;
 	m_editSearch->GetWindowText(searchText);
-	std::vector<SortCondition_t> scs;
-	scs.resize(1);//sort for yxj 
-	scs[0].asc = bAsc;
-	scs[0].col = colIndex;
+	CJsonQueryParam jqp;
+	jqp.AddSortCondition(17, true);//sort for yxj 
+	jqp.AddSortCondition(colIndex, bAsc);
 
 	if (searchText.IsEmpty()){
-		CServer::GetInstance()->GetSale().Query(page, rows, NULL, NULL, NULL, NULL, &scs)
+		CServer::GetInstance()->GetSale().Query(page, rows, jqp)
 			.then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 	}
 	else
 	{
+		jqp.SetBasicSearchCondition(searchText, true);
 		CString strFrom;
 		m_dtcSearchFrom->GetWindowText(strFrom);
 		CString strTo;
 		m_dtcSearchTo->GetWindowText(strTo);
+		jqp.SetDateSearchCondition(strFrom, strTo);
+		
 
-		BasicSearchCondition_t bsc;
-		bsc.lpText = searchText;
-		bsc.exact = true;
-
-		DateSearchCondition_t dsc;
-		dsc.startDate = strFrom;
-		dsc.endDate = strTo;
-
-		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), NULL, &bsc, &dsc, NULL, &scs)
+		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
 			.then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 	}
 	

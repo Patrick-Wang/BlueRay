@@ -6,67 +6,31 @@
 #include "JsonType.h"
 #include "HttpServerInterface.h"
 #include "Promise.h"
+#include "JsonQueryParam.h"
 
 
-//{
-//approve : [{
-//	type : bussiness / plan,
-//	approve : true/false
-//}],
-//search : {
-//	advanced : [],
-//	basic : {
-//		text : searchtext,
-//		exact : true/false
-//	},
-//	date : {
-//		startDate : 
-//		endDate : 
-//	}
-//},
-//sort : [
-//    {
-//    	col : index,
-//    	order : true/false
-//    },
-//    {
-//    	col : index,
-//    	order : true/false
-//    }
-//]
-//}
-class CSale : public CHttpServerInterface
+class CSale : public CHttpServerInterface, public CJsonQueryParam::IApproveTypeTranslator
 {
 public:
 	enum ApproveType{
 		PLAN,
-		BUSINESS,
-		ALL
+		BUSINESS
 	};
 
 	CSale();
 	~CSale();
 
-	//CPromise<PageData_t>& Query(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc);
-	//CPromise<PageData_t>& Query(int page, int rows, int colIndex, bool bAsc);
-
-	//CPromise<PageData_t>& Search(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc, LPCTSTR strKeyword);
-	//CPromise<PageData_t>& Search(int page, int rows, int colIndex, bool bAsc, LPCTSTR strKeyword);
-
 	CPromise<PageData_t>& Query(
 		int page,
 		int rows,
-		std::vector<ApproveCondition_t>* pApproveCondition = NULL,
-		BasicSearchCondition_t* pBasicSearch = NULL, 
-		DateSearchCondition_t* pDateSearch = NULL, 
-		StringArrayPtr pAdvanceSearch = NULL, 
-		std::vector<SortCondition_t>* pSorter = NULL);
+		CJsonQueryParam& jqParam);
+	CPromise<PageData_t>& Query(
+		int page,
+		int rows){
+		return Query(page, rows, CJsonQueryParam());
+	}
 
-	//bool QuerySync(table& htxxs);
-	//CPromise<table>& Query();
-
-	//bool QuerySync(ApproveType type, bool approved, table& htxxs);
-	//CPromise<table>& Query(ApproveType type, bool approved);
+	LPCTSTR Translate(int type);
 
 	bool AddSync(StringArray& record, int& id);
 	CPromise<int>& Add(StringArray& record);

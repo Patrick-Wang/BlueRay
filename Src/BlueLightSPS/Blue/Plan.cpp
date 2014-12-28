@@ -87,40 +87,6 @@ CPromise<bool>& CPlan::doApprove(CString& url, IntArray& rows)
 	return *promise;
 }
 
-CPromise<table>& CPlan::Query()
-{
-	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/plan/query/all/none"), IDS_HOST_NAME);
-	CPromise<table>* promise = CPromise<table>::MakePromise(m_lpHttp, new CQueryParser());
-	m_lpHttp->Get(traceSession(url), promise->GetId());
-	return *promise;
-}
-
-CPromise<table>& CPlan::Query(ApproveType type, bool bApproved)
-{
-	CString url;
-	switch (type)
-	{
-	case CPlan::PACK_BUSINESS:
-		url.Format(_T("http://%s:8080/BlueRay/plan/query/pack_businessApprove/%s"), IDS_HOST_NAME, bApproved ? L"approved" : L"unapproved");
-		break;
-	case CPlan::PACK_PLAN:
-		url.Format(_T("http://%s:8080/BlueRay/plan/query/pack_planApprove/%s"), IDS_HOST_NAME, bApproved ? L"approved" : L"unapproved");
-		break;
-	case CPlan::PLAN_BUSINESS:
-		url.Format(_T("http://%s:8080/BlueRay/plan/query/plan_businessApprove/%s"), IDS_HOST_NAME, bApproved ? L"approved" : L"unapproved");
-		break;
-	case CPlan::PLAN_PLAN:
-		url.Format(_T("http://%s:8080/BlueRay/plan/query/plan_planApprove/%s"), IDS_HOST_NAME, bApproved ? L"approved" : L"unapproved");
-		break;
-	default:
-		break;
-	}
-	CPromise<table>* promise = CPromise<table>::MakePromise(m_lpHttp, new CQueryParser());
-	m_lpHttp->Get(traceSession(url), promise->GetId());
-	return *promise;
-}
-
 bool CPlan::ValidateTcbhSync(LPCTSTR tcbh, bool& bRet)
 {
 	CString url;
@@ -143,4 +109,39 @@ bool CPlan::ValidateCcbhSync(LPCTSTR ccbh, bool& bRet)
 		return true;
 	}
 	return false;
+}
+
+LPCTSTR CPlan::Translate(int type)
+{
+	switch (type)
+	{
+	case CPlan::PACK_BUSINESS:
+		return L"pack_business";
+	case CPlan::PACK_PLAN:
+		return L"pack_plan";
+	case CPlan::PLAN_BUSINESS:
+		return L"business";
+	case CPlan::PLAN_PLAN:
+		return L"plan";
+	}
+	return NULL;
+}
+
+CPromise<PageData_t>& CPlan::Query(int page, int rows, CJsonQueryParam& jqp)
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/plan/pagequery/%d/%d/1"),
+		IDS_HOST_NAME,
+		rows,
+		page);
+	CPromise<PageData_t>* promise = CPromise<PageData_t>::MakePromise(m_lpHttp, new CPageDataParser());
+	CString base64;
+	CString rawData;
+	jqp.toJson(rawData, this);
+	Util_Tools::Util::base64_encode((unsigned char*)(LPCTSTR)rawData, rawData.GetLength() * 2, base64);
+	std::map<CString, CString> attr;
+	attr[L"query"] = base64;
+
+	m_lpHttp->Post(url, promise->GetId(), attr);
+	return *promise;
 }

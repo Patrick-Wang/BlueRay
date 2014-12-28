@@ -385,7 +385,7 @@ public class SaleServiceImpl implements SaleService {
 			Integer pagecount, JSONObject jparam) {
 		List<HTXX> htxxs = saleDao.getSaleData(pagesize, pagenum, pagecount,
 				jparam, translator);
-		int count = saleDao.getSaleDataCount();
+		int count = saleDao.getSaleDataCount(jparam, translator);
 		PageData pd = new PageData();
 		pd.setPage(pagenum);
 		pd.setRecords(count);

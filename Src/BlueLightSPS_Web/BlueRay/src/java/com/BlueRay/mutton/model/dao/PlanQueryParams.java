@@ -261,11 +261,11 @@ public class PlanQueryParams {
 						basicBuilder.append(cls.getSimpleName() + "_."
 								+ getForginName(cls) + link + searchText + " ");
 					} else {
-						if ((!bIsInteger && fields[column].getType().getName()
-								.equals(Integer.class.getName()))
-								|| !bIsDate
-								&& fields[column].getType().getName()
-										.equals(Date.class.getName())) {
+						if ((!bIsInteger && fields[column].getType().getName().equals(Integer.class.getName()))) {
+							continue;
+						}
+						
+						if ((!bIsDate && fields[column].getType().getName().equals(Date.class.getName()))) {
 							continue;
 						}
 
@@ -277,7 +277,7 @@ public class PlanQueryParams {
 						}
 						
 						link = " = ";
-						if (fields[i].getType().getName()
+						if (fields[column].getType().getName()
 								.equals(String.class.getName())) {
 							searchText = stringSearch;
 							if (!exact) {
@@ -293,7 +293,17 @@ public class PlanQueryParams {
 										.getName() + link + searchText + " ");
 					}
 				} else if (paramPcjhColMap.containsKey(i)){
-					column = paramHtxxColMap.get(i);
+					column = paramPcjhColMap.get(i);
+					Field fd = PCJHXX.class.getDeclaredFields()[column];
+					
+					if ((!bIsInteger && fd.getType().getName().equals(Integer.class.getName()))) {
+						continue;
+					}
+					
+					if ((!bIsDate && fd.getType().getName().equals(Date.class.getName()))) {
+						continue;
+					}
+					
 					if (firstSql) {
 						firstSql = false;
 						basicBuilder.append("( ");
@@ -302,8 +312,7 @@ public class PlanQueryParams {
 					}
 
 					link = " = ";
-					if (fields[i].getType().getName()
-							.equals(String.class.getName())) {
+					if (fd.getType().getName().equals(String.class.getName())) {
 						searchText = stringSearch;
 						if (!exact) {
 							link = " like ";
@@ -313,8 +322,7 @@ public class PlanQueryParams {
 					}
 
 					basicBuilder.append(" PCJHXX_."
-							+ PCJHXX.class.getDeclaredFields()[column]
-									.getName() + link + searchText + " ");
+							+ fd.getName() + link + searchText + " ");
 				}
 
 			}
@@ -412,7 +420,7 @@ public class PlanQueryParams {
 			} else {
 				return " PCJHXX_.sftgjhsh = 'N' ";
 			}
-		} else if ("bussiness".equals(type)) {
+		} else if ("business".equals(type)) {
 			if (approved) {
 				return " PCJHXX_.sftgywsh = 'Y' ";
 			} else {
@@ -424,7 +432,7 @@ public class PlanQueryParams {
 			} else {
 				return " PCJHXX_.bzsftgjhsh = 'N' ";
 			}
-		} else if ("pack_bussiness".equals(type)) {
+		} else if ("pack_business".equals(type)) {
 			if (approved) {
 				return " PCJHXX_.bzsftgywsh = 'Y' ";
 			} else {

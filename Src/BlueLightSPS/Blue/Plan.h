@@ -2,7 +2,8 @@
 #include "IHttp.h"
 #include "HttpServerInterface.h"
 #include "Promise.h"
-class CPlan : public CHttpServerInterface
+#include "JsonQueryParam.h"
+class CPlan : public CHttpServerInterface, public CJsonQueryParam::IApproveTypeTranslator
 {
 public:
 	enum ApproveType{
@@ -14,8 +15,16 @@ public:
 
 	CPlan();
 	~CPlan();
-	CPromise<table>& Query();
-	CPromise<table>& Query(ApproveType type, bool bApproved);
+	LPCTSTR Translate(int type);
+	CPromise<PageData_t>& Query(
+		int page,
+		int rows,
+		CJsonQueryParam& jqp);
+	CPromise<PageData_t>& Query(
+		int page,
+		int rows){
+		return Query(page, rows, CJsonQueryParam());
+	}
 	CPromise<bool>& Update(IntArray& rows, StringArray& record);
 	CPromise<bool>& Approve(ApproveType type, IntArray& rows);
 	CPromise<bool>& Unapprove(ApproveType type, IntArray& rows);

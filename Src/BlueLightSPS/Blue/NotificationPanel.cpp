@@ -7,7 +7,7 @@
 #include "CommonDefine.h"
 #include "JsonType.h"
 #include "User.h"
-
+#include "Server.h"
 #define GET_UNAPPROVED_URL_ID					IDP_NOTIFICATION + 1
 #define QUERY_URL_UNAPPROVED_SALEBUSINESS		GET_UNAPPROVED_URL_ID + 1
 #define QUERY_URL_UNAPPROVED_SALEPLAN			QUERY_URL_UNAPPROVED_SALEBUSINESS + 1
@@ -240,40 +240,56 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	std::map<CString, IntArrayPtr> attr;
-	attr[L"rows"] = &checkedRows;
-	
-	CString url;
 
+	class CApproveListener : public CPromise<bool>::IHttpResponse{
+		CONSTRUCTOR_1(CApproveListener, CNotificationPanel&, panel)
+	public:
+		virtual void OnSuccess(bool& ret){
+			m_panel.MessageBox(_T("审核成功"), _T("审核结果"), MB_OK | MB_ICONWARNING);
+			m_panel.OnBnClickedBtnReturn();
+		}
+		virtual void OnFailed(){
+			m_panel.MessageBox(_T("审核失败"), _T("审核结果"), MB_OK | MB_ICONWARNING);
+			m_panel.OnBnClickedBtnReturn();
+		}
+	};
+
+	CString url;
 	switch (m_enumCurrentApprovingItem)
 	{
 	case CNotificationPanel::Approving_NULL:
 		break;
 	case CNotificationPanel::Approving_SaleBusiness:
-		url.Format(_T("http://%s:8080/BlueRay/sale/approve/business"), IDS_HOST_NAME);
+		//url.Format(_T("http://%s:8080/BlueRay/sale/approve/business"), IDS_HOST_NAME);
+		CServer::GetInstance()->GetSale().Approve(CSale::BUSINESS, checkedRows).then(new CApproveListener(*this));
 		break;
 	case CNotificationPanel::Approving_SalePlan:
-		url.Format(_T("http://%s:8080/BlueRay/sale/approve/plan"), IDS_HOST_NAME);
+		//url.Format(_T("http://%s:8080/BlueRay/sale/approve/plan"), IDS_HOST_NAME);
+		CServer::GetInstance()->GetSale().Approve(CSale::PLAN, checkedRows).then(new CApproveListener(*this));
 		break;
 	case CNotificationPanel::Approving_PlanSCRQBusiness:
-		url.Format(_T("http://%s:8080/BlueRay/plan/approve/business"), IDS_HOST_NAME);
+		//url.Format(_T("http://%s:8080/BlueRay/plan/approve/business"), IDS_HOST_NAME);
+		CServer::GetInstance()->GetPlan().Approve(CPlan::PLAN_BUSINESS, checkedRows).then(new CApproveListener(*this));
 		break;
 	case CNotificationPanel::Approving_PlanSCRQPlan:
-		url.Format(_T("http://%s:8080/BlueRay/plan/approve/plan"), IDS_HOST_NAME);
+		//url.Format(_T("http://%s:8080/BlueRay/plan/approve/plan"), IDS_HOST_NAME);
+		CServer::GetInstance()->GetPlan().Approve(CPlan::PLAN_PLAN, checkedRows).then(new CApproveListener(*this));
 		break;
 	case CNotificationPanel::Approving_PlanBZRQBusiness:
-		url.Format(_T("http://%s:8080/BlueRay/plan/approve/pack/business"), IDS_HOST_NAME);
+		//url.Format(_T("http://%s:8080/BlueRay/plan/approve/pack/business"), IDS_HOST_NAME);
+		CServer::GetInstance()->GetPlan().Approve(CPlan::PACK_BUSINESS, checkedRows).then(new CApproveListener(*this));
 		break;
 	case CNotificationPanel::Approving_PlanBZRQPlan:
-		url.Format(_T("http://%s:8080/BlueRay/plan/approve/pack/plan"), IDS_HOST_NAME);
+		//url.Format(_T("http://%s:8080/BlueRay/plan/approve/pack/plan"), IDS_HOST_NAME);
+		CServer::GetInstance()->GetPlan().Approve(CPlan::PACK_PLAN, checkedRows).then(new CApproveListener(*this));
 		break;
 	case CNotificationPanel::Approving_END:
 		break;
 	default:
 		break;
 	}
-
-	m_pHttp->Post(url, POST_URL_APPROVE, attr);
+	
+	//m_pHttp->Post(url, POST_URL_APPROVE, attr);
 }
 
 void CNotificationPanel::OnBnClickedBtnTableFilter()
@@ -288,10 +304,14 @@ void CNotificationPanel::OnBnClickedSaleBusinessApprove()
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
+	CJsonQueryParam jqp;
+	jqp.AddSortCondition(17, true);
+	jqp.AddApproveCondition(CSale::BUSINESS, false);
+	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
-	CString url;
+	/*CString url;
 	url.Format(_T("http://%s:8080/BlueRay/sale/query/business/unapproved"), IDS_HOST_NAME);
-	m_pHttp->Get(url, QUERY_URL_UNAPPROVED_SALEBUSINESS);
+	m_pHttp->Get(url, QUERY_URL_UNAPPROVED_SALEBUSINESS);*/
 	GetParent()->EnableWindow(FALSE);
 }
 
@@ -301,10 +321,13 @@ void CNotificationPanel::OnBnClickedSalePlanApprove()
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
-
-	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/sale/query/plan/unapproved"), IDS_HOST_NAME);
-	m_pHttp->Get(url, QUERY_URL_UNAPPROVED_SALEPLAN);
+	CJsonQueryParam jqp;
+	jqp.AddSortCondition(17, true);
+	jqp.AddApproveCondition(CSale::PLAN, false);
+	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
+	//CString url;
+	//url.Format(_T("http://%s:8080/BlueRay/sale/query/plan/unapproved"), IDS_HOST_NAME);
+	//m_pHttp->Get(url, QUERY_URL_UNAPPROVED_SALEPLAN);
 	GetParent()->EnableWindow(FALSE);
 }
 
@@ -314,10 +337,14 @@ void CNotificationPanel::OnBnClickedPlanSCRQBusinessApprove()
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
+	CJsonQueryParam jqp;
+	jqp.AddSortCondition(24, true);//for yxj
+	jqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
+	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
-	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/plan/query/plan_businessApprove/unapproved"), IDS_HOST_NAME);
-	m_pHttp->Get(url, QUERY_URL_UNAPPROVED_PLANSCRQBUSINESS);
+	//CString url;
+	//url.Format(_T("http://%s:8080/BlueRay/plan/query/plan_businessApprove/unapproved"), IDS_HOST_NAME);
+	//m_pHttp->Get(url, QUERY_URL_UNAPPROVED_PLANSCRQBUSINESS);
 	GetParent()->EnableWindow(FALSE);
 }
 
@@ -328,9 +355,14 @@ void CNotificationPanel::OnBnClickedPlanSCRQPlanApprove()
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 
-	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/plan/query/plan_planApprove/unapproved"), IDS_HOST_NAME);
-	m_pHttp->Get(url, QUERY_URL_UNAPPROVED_PLANSCRQPLAN);
+	CJsonQueryParam jqp;
+	jqp.AddSortCondition(24, true);//for yxj
+	jqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
+	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
+
+	//CString url;
+	//url.Format(_T("http://%s:8080/BlueRay/plan/query/plan_planApprove/unapproved"), IDS_HOST_NAME);
+	//m_pHttp->Get(url, QUERY_URL_UNAPPROVED_PLANSCRQPLAN);
 	GetParent()->EnableWindow(FALSE);
 }
 
@@ -340,10 +372,14 @@ void CNotificationPanel::OnBnClickedPlanBZRQBusinessApprove()
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
+	CJsonQueryParam jqp;
+	jqp.AddSortCondition(24, true);//for yxj
+	jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
+	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
-	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/plan/query/pack_businessApprove/unapproved"), IDS_HOST_NAME);
-	m_pHttp->Get(url, QUERY_URL_UNAPPROVED_PLANBZRQBUSINESS);
+	//CString url;
+	//url.Format(_T("http://%s:8080/BlueRay/plan/query/pack_businessApprove/unapproved"), IDS_HOST_NAME);
+	//m_pHttp->Get(url, QUERY_URL_UNAPPROVED_PLANBZRQBUSINESS);
 	GetParent()->EnableWindow(FALSE);
 }
 
@@ -354,9 +390,14 @@ void CNotificationPanel::OnBnClickedPlanBZRQPlanApprove()
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 
-	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/plan/query/pack_planApprove/unapproved"), IDS_HOST_NAME);
-	m_pHttp->Get(url, QUERY_URL_UNAPPROVED_PLANBZRQPLAN);
+	CJsonQueryParam jqp;
+	jqp.AddSortCondition(24, true);//for yxj
+	jqp.AddApproveCondition(CPlan::PACK_PLAN, false);
+	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
+
+	//CString url;
+	//url.Format(_T("http://%s:8080/BlueRay/plan/query/pack_planApprove/unapproved"), IDS_HOST_NAME);
+	//m_pHttp->Get(url, QUERY_URL_UNAPPROVED_PLANBZRQPLAN);
 	GetParent()->EnableWindow(FALSE);
 }
 
@@ -425,7 +466,7 @@ void CNotificationPanel::OnHttpSuccess(int id, LPCTSTR resp)
 	case QUERY_URL_UNAPPROVED_PLANSCRQPLAN:
 	case QUERY_URL_UNAPPROVED_PLANBZRQBUSINESS:
 	case QUERY_URL_UNAPPROVED_PLANBZRQPLAN:
-		OnLoadDataSuccess(CString(resp));
+		//OnLoadDataSuccess(CString(resp));
 		break;
 	case POST_URL_APPROVE:
 		MessageBox(_T("审核成功"), _T("审核结果"), MB_OK | MB_ICONWARNING);
@@ -472,20 +513,20 @@ void CNotificationPanel::OnRowChecked()
 }
 
 
-void CNotificationPanel::OnLoadDataSuccess(CString& jsondata)
+void CNotificationPanel::OnLoadDataSuccess(PageData_t& page)
 {
-	for (int j = 0; j < m_table.size(); ++j)
-	{
-		m_pJqGridAPI->DelRow(m_table[j].first);
-	}
-
-	m_pJqGridAPI->Refresh();
-
-	StringToTable(jsondata, m_table);
-	for (int j = 0; j < m_table.size(); ++j)
-	{
-		m_pJqGridAPI->AddRow(m_table[j].first, m_table[j].second);
-	}
+	//for (int j = 0; j < m_table.size(); ++j)
+	//{
+	//	m_pJqGridAPI->DelRow(m_table[j].first);
+	//}
+	m_table = page.rows;
+	m_pJqGridAPI->Refresh(page.rawData);
+	
+	//StringToTable(jsondata, m_table);
+	//for (int j = 0; j < m_table.size(); ++j)
+	//{
+	//	m_pJqGridAPI->AddRow(m_table[j].first, m_table[j].second);
+	//}
 
 	if ((m_enumCurrentApprovingItem == Approving_SaleBusiness) || (m_enumCurrentApprovingItem == Approving_SalePlan))
 	{
@@ -547,21 +588,22 @@ void CNotificationPanel::OnInitData()
 		HideFirstViewOfNotificationPanel(TRUE);
 		CString strRet;
 		//获取未审批数量
-		m_pHttp->SyncGet(_T("http://localhost:8080/BlueRay/notification/unapproved"), strRet);
-		OnReturnApprovedNum(strRet);
+		CNotification::Unapproved_t stUnapproved = {};
+		CServer::GetInstance()->GetNotification().GetUnapprovedSync(stUnapproved);
+		//m_pHttp->SyncGet(_T("http://localhost:8080/BlueRay/notification/unapproved"), strRet);
+		OnReturnApprovedNum(stUnapproved);
 	}
 }
 
-void CNotificationPanel::OnReturnApprovedNum(LPCTSTR resp)
+void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnapproved)
 {
 	Json::JsonParser parser;
-	std::shared_ptr<Json::JsonObject> joPtr((Json::JsonObject*)parser.Parse((LPTSTR)resp));
-	int iPackBussiness = joPtr->asInt(L"packBussiness"); //打包-业务未审批数
-	int iPackPlan = joPtr->asInt(L"packPlan");//打包-计划未审批数
-	int iPlanBussiness = joPtr->asInt(L"planBussiness");//计划-业务未审批数
-	int iPlanPlan = joPtr->asInt(L"planPlan");//计划-计划未审批数
-	int iSaleBussiness = joPtr->asInt(L"saleBussiness");//销售-业务未审批数
-	int iSalePlan = joPtr->asInt(L"salePlan");//销售-计划未审批数
+	int iPackBussiness = stUnapproved.iPackBussiness; //打包-业务未审批数
+	int iPackPlan = stUnapproved.iPackPlan;//打包-计划未审批数
+	int iPlanBussiness = stUnapproved.iPlanBussiness;//计划-业务未审批数
+	int iPlanPlan = stUnapproved.iPlanPlan;//计划-计划未审批数
+	int iSaleBussiness = stUnapproved.iSaleBussiness;//销售-业务未审批数
+	int iSalePlan = stUnapproved.iSalePlan;//销售-计划未审批数
 
 	CString strSaleBussiness;
 	strSaleBussiness.Format(_T("目前您有 %d条 未处理的 销售-业务 审核"), iSaleBussiness);

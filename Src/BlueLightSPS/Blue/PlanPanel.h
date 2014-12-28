@@ -19,6 +19,7 @@ public:
 	void OnHttpFailed(int id);
 	void OnLoadDataSuccess(CString& jsondata);
 protected:
+	void OnUpdateData(int page, int rows, int colIndex, bool bAsc);
 	virtual void OnInitChilds();
 	virtual void OnInitData();
 	afx_msg void OnBnClickedPlan();

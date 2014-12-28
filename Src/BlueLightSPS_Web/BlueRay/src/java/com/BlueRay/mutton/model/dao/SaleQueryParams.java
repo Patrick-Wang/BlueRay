@@ -19,8 +19,8 @@ import net.sf.json.JSONObject;
 
 //{
 //approve : [{
-//	type : bussiness / plan,
-//	approve : true/false
+//	type : business / plan,
+//	approved : true/false
 //}],
 //search : {
 //	advanced : [],
@@ -333,17 +333,17 @@ public class SaleQueryParams {
 
 	
 	private String getApproveSql(String type, boolean approved){
-		if ("bussiness".equals(type)) {
-			if (approved) {
-				return " HTXX_.sftgjhsh = 'Y' ";
-			} else {
-				return " HTXX_.sftgjhsh = 'N' ";
-			}
-		} else if ("plan".equals(type)) {
+		if ("business".equals(type)) {
 			if (approved) {
 				return " HTXX_.sftgywsh = 'Y' ";
 			} else {
 				return " HTXX_.sftgywsh = 'N' ";
+			}
+		} else if ("plan".equals(type)) {
+			if (approved) {
+				return " HTXX_.sftgjhsh = 'Y' ";
+			} else {
+				return " HTXX_.sftgjhsh = 'N' ";
 			}
 		}
 		return "";

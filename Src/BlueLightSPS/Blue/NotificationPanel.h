@@ -4,10 +4,22 @@
 #include "BSStatic.h"
 #include "BRButton.h"
 #include "TableFilterDlg.h"
-
+#include "Notification.h"
 class CNotificationPanel :
 	public CBRPanel
 {
+	class CQueryListener : public CPromise<PageData_t>::IHttpResponse{
+		CONSTRUCTOR_1(CQueryListener, CNotificationPanel&, panel)
+	public:
+		virtual void OnSuccess(PageData_t& page){
+			(m_panel.OnLoadDataSuccess)(page);
+			m_panel.GetParent()->EnableWindow(TRUE);
+		}
+		virtual void OnFailed(){
+			m_panel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+			m_panel.GetParent()->EnableWindow(TRUE);
+		}
+	};
 public:
 	CNotificationPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp);
 	~CNotificationPanel();
@@ -20,9 +32,9 @@ protected:
 	virtual void OnRowChecked();
 
 private:
-	void OnReturnApprovedNum(LPCTSTR resp);
+	void OnReturnApprovedNum(CNotification::Unapproved_t& stUnapproved);
 	void HideFirstViewOfNotificationPanel(BOOL bShow = FALSE);
-	void OnLoadDataSuccess(CString& jsondata);
+	void OnLoadDataSuccess(PageData_t& page);
 	void AdjustTableStyleForPlan();
 	void AdjustTableStyleForSale();
 	void AdjustTableStyleForNotification();

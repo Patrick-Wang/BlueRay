@@ -38,4 +38,6 @@ public interface SaleDao {
 	List<HTXX> getSaleData(Integer pagesize, Integer pagenum,
 			Integer pagecount, JSONObject jparam, IAdvanceTranslator translator);
 
+	int getSaleDataCount(JSONObject jparam, IAdvanceTranslator translator);
+
 }

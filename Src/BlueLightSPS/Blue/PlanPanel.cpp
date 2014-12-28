@@ -206,7 +206,7 @@ void CPlanPanel::OnInitChilds()
 	{
 		m_pJqGridAPI->SetWidths(strJsonWidths);
 	}
-
+	m_pJqGridAPI->d_OnUpdateData += std::make_pair(this, &CPlanPanel::OnUpdateData);
 	CPermission& perm = CUser::GetInstance()->GetPermission();
 
 	if (!perm.getPlan())
@@ -233,28 +233,28 @@ void CPlanPanel::OnInitChilds()
 		m_comboProductionStatus->InsertString(3, _T("已排产订单"));
 		m_comboProductionStatus->SetCurSel(0);
 
-		m_bsDateRange = Util_Tools::Util::CreateStatic(this, IDC_SALE_STATIC_DATERANGE, _T("查询日期"), _T("Microsoft YaHei"), 12);
+		m_bsDateRange = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_DATERANGE, _T("查询日期"), _T("Microsoft YaHei"), 12);
 		m_bsDateRange->MoveWindow(140, 25, 60, 20);
 
-		m_dtcSearchFrom = Util_Tools::Util::CreateDateTimePickerWithoutCheckbox(this, IDC_SALE_DATETIME_SEARCHFROM, _T("Microsoft YaHei"), 12);
+		m_dtcSearchFrom = Util_Tools::Util::CreateDateTimePickerWithoutCheckbox(this, IDC_PLAN_DATETIME_SEARCHFROM, _T("Microsoft YaHei"), 12);
 		m_dtcSearchFrom->MoveWindow(210, 25, 100, 20);
 
-		m_bsMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_SALE_STATIC_MIDDLELINE, _T("--"), _T("Microsoft YaHei"), 12);
+		m_bsMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_MIDDLELINE, _T("--"), _T("Microsoft YaHei"), 12);
 		m_bsMiddleLine->MoveWindow(320, 25, 20, 20);
 
-		m_dtcSearchTo = Util_Tools::Util::CreateDateTimePickerWithoutCheckbox(this, IDC_SALE_DATETIME_SEARCHTO, _T("Microsoft YaHei"), 12);
+		m_dtcSearchTo = Util_Tools::Util::CreateDateTimePickerWithoutCheckbox(this, IDC_PLAN_DATETIME_SEARCHTO, _T("Microsoft YaHei"), 12);
 		m_dtcSearchTo->MoveWindow(350, 25, 100, 20);
 
-		m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_SALE_BTN_SEARCH, _T("请输入关键字"), _T("Microsoft YaHei"), 12);
+		m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_PLAN_BTN_SEARCH, _T("请输入关键字"), _T("Microsoft YaHei"), 12);
 		m_editSearch->MoveWindow(470, 25, 150, 20);
 
-		m_btnMore = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_MORE, _T("更多筛选"), _T("Microsoft YaHei"), 12);
+		m_btnMore = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_MORE, _T("更多筛选"), _T("Microsoft YaHei"), 12);
 		m_btnMore->MoveWindow(640, 23, 90, 25);
 
 // 		m_bsMoreWord = Util_Tools::Util::CreateStatic(this, IDC_SALE_BTN_MOREWORD, _T("..."), _T("Microsoft YaHei"), 12);
 // 		m_bsMoreWord->MoveWindow(485, 27, 63, 20);
 
-		m_btnSearch = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_SEARCH, _T("查询"), _T("Microsoft YaHei"), 12);
+		m_btnSearch = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_SEARCH, _T("查询"), _T("Microsoft YaHei"), 12);
 		m_btnSearch->MoveWindow(750, 23, 90, 25);
 		
 		//second line
@@ -375,38 +375,75 @@ void CPlanPanel::OnBnClickedSearch()
 	int iCountShot = 0;
 	CString searchText;
 	m_editSearch->GetWindowText(searchText);
-	CString rowData;
-	bool bMatch = false;
-	for (int i = 0; i < m_table.size(); ++i)
-	{
-		bMatch = false;
-		for (int j = 0; j < m_table[i].second.size(); ++j)
-		{
-			CString strSource = m_table[i].second[j];
-			strSource.MakeUpper();
-			searchText.MakeUpper();
-
-			if (searchText.IsEmpty() || strSource.Find(searchText) >= 0)
+	class CSearchListener : public CPromise<PageData_t>::IHttpResponse{
+		CONSTRUCTOR_3(CSearchListener, CPlanPanel&, panel, table&, tb, CJQGridAPI*, pJqGridAPI)
+	public:
+		virtual void OnSuccess(PageData_t& tb){
+			m_pJqGridAPI->Refresh(tb.rawData);
+			m_tb = tb.rows;
+			if (m_tb.empty())
 			{
-				bMatch = true;
-				break;
+				m_panel.MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
 			}
+			m_panel.GetParent()->EnableWindow(TRUE);
 		}
-		if (!bMatch)
-		{
-			m_pJqGridAPI->HideRow(m_table[i].first);
+		virtual void OnFailed(){
+			m_panel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+			m_panel.GetParent()->EnableWindow(TRUE);
 		}
-		else
-		{
-			m_pJqGridAPI->ShowRow(m_table[i].first);
-			iCountShot++;
-		}
-	}
+	};
 
-	if (iCountShot == 0)
-	{
-		MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
+	if (searchText.IsEmpty()){
+		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize())
+			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
+		GetParent()->EnableWindow(FALSE);
 	}
+	else{
+		CString strFrom;
+		m_dtcSearchFrom->GetWindowText(strFrom);
+		CString strTo;
+		m_dtcSearchTo->GetWindowText(strTo);
+
+		CJsonQueryParam jqp;
+		jqp.SetBasicSearchCondition(searchText, true);
+		jqp.SetDateSearchCondition(strFrom, strTo);
+
+		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
+			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
+		GetParent()->EnableWindow(FALSE);
+	}
+	//CString rowData;
+	//bool bMatch = false;
+	//for (int i = 0; i < m_table.size(); ++i)
+	//{
+	//	bMatch = false;
+	//	for (int j = 0; j < m_table[i].second.size(); ++j)
+	//	{
+	//		CString strSource = m_table[i].second[j];
+	//		strSource.MakeUpper();
+	//		searchText.MakeUpper();
+
+	//		if (searchText.IsEmpty() || strSource.Find(searchText) >= 0)
+	//		{
+	//			bMatch = true;
+	//			break;
+	//		}
+	//	}
+	//	if (!bMatch)
+	//	{
+	//		m_pJqGridAPI->HideRow(m_table[i].first);
+	//	}
+	//	else
+	//	{
+	//		m_pJqGridAPI->ShowRow(m_table[i].first);
+	//		iCountShot++;
+	//	}
+	//}
+
+	//if (iCountShot == 0)
+	//{
+	//	
+	//}
 }
 
 
@@ -985,7 +1022,7 @@ void CPlanPanel::OnInitData()
 
 	if (perm.getPlan())
 	{
-		class OnLoadDataListener : public CPromise<table>::IHttpResponse
+	/*	class OnLoadDataListener : public CPromise<table>::IHttpResponse
 		{
 			CONSTRUCTOR_3(OnLoadDataListener, CPlanPanel&, planPanel, table&, tb, CJQGridAPI*, pJqGridAPI)
 		public:
@@ -1010,9 +1047,25 @@ void CPlanPanel::OnInitData()
 				m_planPanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
 				m_planPanel.GetParent()->EnableWindow(TRUE);
 			}
+		};*/
+
+		class CInitListener : public CPromise<PageData_t>::IHttpResponse{
+			CONSTRUCTOR_3(CInitListener, CPlanPanel&, planPanel, table&, tb, CJQGridAPI*, pJqGridAPI)
+		public:
+			virtual void OnSuccess(PageData_t& tb){
+				m_pJqGridAPI->Refresh(tb.rawData);
+				m_tb = tb.rows;
+				m_planPanel.GetParent()->EnableWindow(TRUE);
+			}
+			virtual void OnFailed(){
+				m_planPanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+				m_planPanel.GetParent()->EnableWindow(TRUE);
+			}
 		};
+
+
 		CPlan& plan = CServer::GetInstance()->GetPlan();
-		plan.Query().then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+		plan.Query(1, m_pJqGridAPI->GetPageSize()).then(new CInitListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}
 	else
@@ -1152,4 +1205,48 @@ void CPlanPanel::OnDestroy()
 	CBRPanel::OnDestroy();
 
 	// TODO: Add your message handler code here
+}
+
+void CPlanPanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
+{
+	class OnLoadDataListener : public CPromise<PageData_t>::IHttpResponse
+	{
+		CONSTRUCTOR_3(OnLoadDataListener, CPlanPanel&, panel, table&, tb, CJQGridAPI*, pJqGridAPI)
+	public:
+		virtual void OnSuccess(PageData_t& tb){
+			m_pJqGridAPI->Refresh(tb.rawData);
+			m_tb = tb.rows;
+			m_panel.GetParent()->EnableWindow(TRUE);
+		}
+		virtual void OnFailed(){
+			m_panel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+			m_panel.GetParent()->EnableWindow(TRUE);
+		}
+	};
+
+	CString searchText;
+	m_editSearch->GetWindowText(searchText);
+	CJsonQueryParam jqp;
+	jqp.AddSortCondition(24, true);//sort for yxj 
+	jqp.AddSortCondition(colIndex, bAsc);
+
+	if (searchText.IsEmpty()){
+		CServer::GetInstance()->GetPlan().Query(page, rows, jqp)
+			.then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+	}
+	else
+	{
+		jqp.SetBasicSearchCondition(searchText, true);
+		CString strFrom;
+		m_dtcSearchFrom->GetWindowText(strFrom);
+		CString strTo;
+		m_dtcSearchTo->GetWindowText(strTo);
+		jqp.SetDateSearchCondition(strFrom, strTo);
+
+
+		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
+			.then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+	}
+
+	GetParent()->EnableWindow(FALSE);
 }

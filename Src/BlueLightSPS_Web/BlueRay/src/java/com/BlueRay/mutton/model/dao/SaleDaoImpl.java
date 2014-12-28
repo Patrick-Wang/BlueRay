@@ -62,4 +62,12 @@ public class SaleDaoImpl implements SaleDao {
 		return q.getResultList();
 	}
 
+	public int getSaleDataCount(JSONObject jparam, IAdvanceTranslator translator) {
+		SaleQueryParams sqp = new SaleQueryParams(jparam, translator);
+		String sql = sqp.toSql();
+		Query q = entityManager.createQuery(sql.replace("select HTXX_", "select count(HTXX_)"));
+		List<Object> objs = q.getResultList();
+		return ((Long) objs.get(0)).intValue();
+	}
+
 }
