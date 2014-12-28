@@ -19,6 +19,10 @@ public:
 	int GetPageSize();
 	void ShowCol(int colId);
 	void HideCol(int colId);
+	void HighLightRow(int rowId);
+	void DisableSelect(int rowId);
+	void EnableSelect(int rowId);
+	void GetDisabledRows(std::vector<int>& disabledRows);
 	void ShowRow(int rowId);
 	void HideRow(int rowId);
 	int AddRow(const std::vector<CString>& rowData);

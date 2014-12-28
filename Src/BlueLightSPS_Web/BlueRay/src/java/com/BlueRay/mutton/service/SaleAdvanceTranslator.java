@@ -21,6 +21,12 @@ public class SaleAdvanceTranslator extends IAdvanceTranslator {
 			else {
 				return "×";
 			}
+		} else if ("yxj".equals(colName)){
+			if ("10".equals(value)){
+				return "高";
+			} else {
+				return "低";
+			}
 		}
 		return null;
 	}
@@ -30,7 +36,8 @@ public class SaleAdvanceTranslator extends IAdvanceTranslator {
 		if (inMap.containsKey(value)){
 			if ("dfr".equals(colName) || "sfjf".equals(colName)
 					|| "sftgywsh".equals(colName)
-					|| "sftgjhsh".equals(colName)) {
+					|| "sftgjhsh".equals(colName)
+					|| "yxj".equals(colName)) {
 				return inMap.get(value);
 			}
 		}

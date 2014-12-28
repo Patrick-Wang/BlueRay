@@ -69,7 +69,7 @@ public class SaleServiceImpl implements SaleService {
 
 			row[16] = translator.out("sftgywsh", htxx.getSftgywsh());
 			row[17] = translator.out("sftgjhsh", htxx.getSftgjhsh());
-			row[18] = htxx.getYxj() + "";
+			row[18] = translator.out("yxj", htxx.getYxj() + "");
 			row[19] = htxx.getDdrq() + "";
 			
 		} catch (Exception e) {

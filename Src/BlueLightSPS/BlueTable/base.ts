@@ -23,6 +23,7 @@ module base {
         private mTable: any;
         private mCols: string[];
         private mInit: boolean = false;
+        private mDisabledRows: number[] = [];
         constructor(tableId: string, cols: string[], widths : number[]) {
             this.mCols = cols;
             grids[tableId] = this;
@@ -43,6 +44,49 @@ module base {
             return this.mTableName;
         }
 
+        private isSelected(rowId: number): boolean {
+            var rows: any = this.getSelectedRowData();
+            for (var i = 0; i < rows.length; ++i) {
+                if (rows[i] == rowId) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private isDisabled(rowId: number) : boolean {
+            for (var i = 0; i < this.mDisabledRows.length; ++i) {
+                if (this.mDisabledRows[i] == rowId) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public disableSelect(rowId: number) {
+            if (this.isSelected(rowId)) {
+                this.mTable.jqGrid('setSelection', rowId, false);
+            }
+            if (!this.isDisabled(rowId)) {
+                this.mDisabledRows.push(rowId);
+            }
+        }
+
+        public enableSelect(rowId: number) {
+            for (var i = 0; i < this.mDisabledRows.length; ++i) {
+                if (this.mDisabledRows[i] == rowId) {
+                    var tmp = this.mDisabledRows[this.mDisabledRows.length - 1];
+                    this.mDisabledRows[i] = tmp;
+                    this.mDisabledRows.pop();
+                    break;
+                }
+            }
+        }
+
+        public getDisabledRows() {
+            return this.mDisabledRows;
+        }
+
         public showHideRow(rowId: number, show: boolean): void {
             if (show) {
                 $("#" + this.mTableName + "p #" + rowId).css("display", "");
@@ -50,6 +94,10 @@ module base {
             else {
                 $("#" + this.mTableName + "p #" + rowId).css("display", "none");
             }
+        }
+
+        public highLightRow(row: number) {
+            $("#" + this.mTableName + " #" + row).css("background-color", "red");
         }
 
         public getRowId(row: number): number {
@@ -75,14 +123,15 @@ module base {
         }
 
         public delRowData(rowId: number): void {
-            this.mTable.jqGrid('setSelection', rowId, false);
+            if (this.isSelected(rowId)) {
+                this.mTable.jqGrid('setSelection', rowId, false);
+            }
             this.mTable.jqGrid('delRowData', rowId)
         }
 
         public getRowData(rowId: number): void {
             return this.mTable.jqGrid('getRowData', rowId);
         }
-
 
         public getSelectedRowData(): void {
             return this.mTable.jqGrid('getGridParam', 'selarrrow');
@@ -119,21 +168,21 @@ module base {
                     // url: "TestTable/WGDD_load.do",
                     // datatype: "json",
                     //data: tableAssist.getData(data),
-                   // datatype: "json",
+                    // datatype: "json",
                     datatype: (postdata) => {
                         //page: 1
                         //rows: 200
                         //sidx: "sale_col_2"
                         //sord: "asc"
-                        //$('#' + name)[0].addJSONData(Util.parse('{' +
-                        //    'total: 12, ' +
-                        //    'page: 1, ' +
-                        //    'records: 2000,' +
-                        //    'rows : [' +
-                        //    ' { id: "1", cell: ["cell11", "cell12", "cell13"] }, ' +
-                        //    '{ id: "2", cell: ["cell21", "cell22", "cell23"] } ' +
-                        //    ' ]' +
-                        //    '}'));
+                        $('#' + name)[0].addJSONData(Util.parse('{' +
+                            'total: 12, ' +
+                            'page: 1, ' +
+                            'records: 2000,' +
+                            'rows : [' +
+                            ' { id: "1", cell: ["cell11", "cell12", "cell13"] }, ' +
+                            '{ id: "2", cell: ["cell21", "cell22", "cell23"] } ' +
+                            ' ]' +
+                            '}'));
                         try {
                             this.rowNum = postdata.rows;
                             this.curPage = postdata.page;
@@ -172,7 +221,16 @@ module base {
                     //rowList: [5, 10, 15],
                     autoScroll: true,
                     viewrecords: true,
-                    pager: name +'pager',
+                    pager: name + 'pager',
+                    beforeSelectRow: (rowId) => {
+                      for (var i = 0; i < this.mDisabledRows.length; ++i) {
+                          if (rowId == this.mDisabledRows[i]) {
+                              $("#" + this.mTableName + " #jqg_" + this.mTableName + "_" + rowId)[0].checked = false;
+                              return false;
+                          }
+                      }
+                      return true;
+                    },
                     onSelectRow: (a, b, c) => {
                        mediator.onRowChecked(this.mTableName);
                     },

@@ -3,6 +3,10 @@
 var grids = {};
 var mediator = window.external;
 
+function highLightRow(gridName, rowId) {
+    grids[gridName].highLightRow(rowId);
+}
+
 function showCol(gridName, id) {
     var colId = gridName + "_col_" + id;
     grids[gridName].showHideCol(colId, true);
@@ -11,6 +15,18 @@ function showCol(gridName, id) {
 function hideCol(gridName, id) {
     var colId = gridName + "_col_" + id;
     grids[gridName].showHideCol(colId, false);
+}
+
+function disableSelect(gridName, rowId) {
+    return grids[gridName].disableSelect(rowId);
+}
+
+function enableSelect(gridName, rowId) {
+    return grids[gridName].enableSelect(rowId);
+}
+
+function getDisabledRows(gridName) {
+    return grids[gridName].getDisabledRows().toString();
 }
 
 function showGrid(gridName) {

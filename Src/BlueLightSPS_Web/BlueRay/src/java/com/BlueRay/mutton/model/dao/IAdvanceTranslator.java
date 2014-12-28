@@ -12,6 +12,8 @@ public abstract class IAdvanceTranslator{
 		inMap.put("√", "Y");
 		inMap.put("否", "N");
 		inMap.put("×", "N");
+		inMap.put("高", "10");
+		inMap.put("低", "100");
 	}
 	
 	public abstract String out(String colName, String value);

@@ -421,6 +421,60 @@ int CJQGridAPI::GetPageSize()
 	return 0;
 }
 
+void CJQGridAPI::HighLightRow(int rowId)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_BSTR;
+	vt.bstrVal = m_gridName;
+	params.push_back(vt);
+	vt.vt = VT_I4;
+	vt.intVal = rowId;
+	params.push_back(vt);
+	m_pMedia->CallJsFunction(_T("highLightRow"), params);
+}
+
+void CJQGridAPI::DisableSelect(int rowId)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_BSTR;
+	vt.bstrVal = m_gridName;
+	params.push_back(vt);
+	vt.vt = VT_I4;
+	vt.intVal = rowId;
+	params.push_back(vt);
+	m_pMedia->CallJsFunction(_T("disableSelect"), params);
+
+}
+
+void CJQGridAPI::EnableSelect(int rowId)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_BSTR;
+	vt.bstrVal = m_gridName;
+	params.push_back(vt);
+	vt.vt = VT_I4;
+	vt.intVal = rowId;
+	params.push_back(vt);
+	m_pMedia->CallJsFunction(_T("enableSelect"), params);
+}
+
+void CJQGridAPI::GetDisabledRows(std::vector<int>& disabledRows)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_BSTR;
+	vt.bstrVal = m_gridName;
+	params.push_back(vt);
+	vt = m_pMedia->CallJsFunction(_T("getDisabledRows"), params);
+	if (vt.vt == VT_BSTR)
+	{
+		Util_Tools::Util::Split(CString(vt.bstrVal), L',', disabledRows);
+	}
+}
+
 CComJsFun CJQGridAPI::m_lpJsfOnUpdateData(_T("onUpdate"), ONUPDATEDATA);
 
 CComJsFun CJQGridAPI::m_lpJsfOnComplete(_T("onRowChecked"), ONROWCHECKED);

@@ -242,7 +242,7 @@ public class SaleQueryParams {
 
 					if ((!bIsInteger && fields[i].getType().getName()
 							.equals(Integer.class.getName()))
-							|| !bIsDate || fields[i].getType().getName()
+							|| !bIsDate && fields[i].getType().getName()
 									.equals(Date.class.getName())) {
 						continue;
 					}

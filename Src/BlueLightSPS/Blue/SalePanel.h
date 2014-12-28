@@ -20,6 +20,8 @@ public:
 	void OnHttpSuccess(int id, LPCTSTR resp);
 	void OnHttpFailed(int id);
 	void OnSaleDlgGetModifyOption(CSaleAddDlg& dlg);
+	void HighLight();
+
 protected:
 	virtual void OnInitData();
 	virtual void OnInitChilds();

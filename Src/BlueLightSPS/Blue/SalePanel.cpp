@@ -21,6 +21,43 @@
 #define BUSSINESS_REAPPROVE_BSN_URL_ID IDP_SALE + 6
 #define BUSSINESS_REAPPROVE_PLAN_URL_ID IDP_SALE + 7
 
+class OnLoadDataListener : public CPromise<PageData_t>::IHttpResponse
+{
+	CONSTRUCTOR_3(OnLoadDataListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
+public:
+	virtual void OnSuccess(PageData_t& tb){
+		m_pJqGridAPI->Refresh(tb.rawData);
+		m_tb = tb.rows;
+		m_salePanel.HighLight();
+		m_salePanel.GetParent()->EnableWindow(TRUE);
+	}
+	virtual void OnFailed(){
+		m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+		m_salePanel.GetParent()->EnableWindow(TRUE);
+	}
+};
+
+class CSearchListener : public CPromise<PageData_t>::IHttpResponse{
+	CONSTRUCTOR_3(CSearchListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
+public:
+	virtual void OnSuccess(PageData_t& tb){
+		m_pJqGridAPI->Refresh(tb.rawData);
+		m_tb = tb.rows;
+		if (m_tb.empty())
+		{
+			m_salePanel.MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
+		}
+		m_salePanel.HighLight();
+		m_salePanel.GetParent()->EnableWindow(TRUE);
+	}
+	virtual void OnFailed(){
+		m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+		m_salePanel.GetParent()->EnableWindow(TRUE);
+	}
+};
+
+
+
 static int g_ReApproveBtnPos[][4] = {
 		{ 640, 70, 90, 25 },
 		{ 530, 70, 90, 25 }
@@ -558,23 +595,6 @@ void CSalePanel::OnBnClickedSearch()
 	CString searchText;
 	m_editSearch->GetWindowText(searchText);
 
-	class CSearchListener : public CPromise<PageData_t>::IHttpResponse{
-		CONSTRUCTOR_3(CSearchListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
-	public:
-		virtual void OnSuccess(PageData_t& tb){
-			m_pJqGridAPI->Refresh(tb.rawData);
-			m_tb = tb.rows;
-			if (m_tb.empty())
-			{
-				m_salePanel.MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
-			}
-			m_salePanel.GetParent()->EnableWindow(TRUE);
-		}
-		virtual void OnFailed(){
-			m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-			m_salePanel.GetParent()->EnableWindow(TRUE);
-		}
-	};
 
 	if (searchText.IsEmpty()){
 		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize())
@@ -606,19 +626,6 @@ void CSalePanel::OnBnClickedMore()
 	dlg.SetOption(new CSaleAddDlg::Option_t());
 	if (IDOK == dlg.DoModal()){
 		std::vector<CString>& searchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
-		class CSearchListener : public CPromise<PageData_t>::IHttpResponse{
-			CONSTRUCTOR_3(CSearchListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
-		public:
-			virtual void OnSuccess(PageData_t& tb){
-				m_pJqGridAPI->Refresh(tb.rawData);
-				m_tb = tb.rows;
-				m_salePanel.GetParent()->EnableWindow(TRUE);
-			}
-			virtual void OnFailed(){
-				m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-				m_salePanel.GetParent()->EnableWindow(TRUE);
-			}
-		};
 		searchVals.insert(searchVals.begin() + 15, L"");//插入业务审核
 		searchVals.insert(searchVals.begin() + 15, L"");//插入计划审核
 		searchVals.insert(searchVals.begin() + 15, L"");//插入优先级
@@ -929,20 +936,7 @@ void CSalePanel::OnInitData()
 
 	if (perm.getSale())
 	{
-		class OnLoadDataListener : public CPromise<PageData_t>::IHttpResponse
-		{
-			CONSTRUCTOR_3(OnLoadDataListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
-		public:
-			virtual void OnSuccess(PageData_t& tb){
-				m_pJqGridAPI->Refresh(tb.rawData);
-				m_tb = tb.rows;
-				m_salePanel.GetParent()->EnableWindow(TRUE);
-			}
-			virtual void OnFailed(){
-				m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-				m_salePanel.GetParent()->EnableWindow(TRUE);
-			}
-		};
+		
 
 		CServer::GetInstance()->GetSale().Query(
 			m_pJqGridAPI->GetCurrentPage(),
@@ -1035,21 +1029,6 @@ void CSalePanel::OnDestroy()
 
 void CSalePanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 {
-	class OnLoadDataListener : public CPromise<PageData_t>::IHttpResponse
-	{
-		CONSTRUCTOR_3(OnLoadDataListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
-	public:
-		virtual void OnSuccess(PageData_t& tb){
-			m_pJqGridAPI->Refresh(tb.rawData);
-			m_tb = tb.rows;
-			m_salePanel.GetParent()->EnableWindow(TRUE);
-		}
-		virtual void OnFailed(){
-			m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-			m_salePanel.GetParent()->EnableWindow(TRUE);
-		}
-	};
-
 	CString searchText;
 	m_editSearch->GetWindowText(searchText);
 	CJsonQueryParam jqp;
@@ -1075,4 +1054,15 @@ void CSalePanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 	}
 	
 	GetParent()->EnableWindow(FALSE);
+}
+
+void CSalePanel::HighLight()
+{
+	for (size_t i = 0, len = m_table.size(); i < len; i++)
+	{
+		if (0 == m_table[i].second[17].Compare(L"高"))
+		{
+			m_pJqGridAPI->HighLightRow(m_table[i].first);
+		}
+	}
 }
