@@ -9,13 +9,10 @@ import com.BlueRay.mutton.tool.AbstractExcel;
 
 public interface PlanDao {
 
-//	List<PCJHXX> getPcjhxx();
-
 	void insert(PCJHXX pcjhxx);
 
 	PCJHXX getDataById(int id);
 
-	
 	List<PCJHXX> getDateByHtxxId(int id);
 	
 	void update(PCJHXX pcjhxx);
@@ -31,7 +28,7 @@ public interface PlanDao {
 	PCJHXX getPlanDataByCcbh(String ccbh);
 
 	List<PCJHXX> getPlanData(Integer pagesize, Integer pagenum,
-			Integer pagecount, JSONObject jparam);
+			Integer pagecount, JSONObject jparam, IAdvanceTranslator translator);
 
 	int getPlanDataCount();
 }

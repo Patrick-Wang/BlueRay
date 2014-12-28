@@ -4,14 +4,12 @@
 namespace Json{
 	class JsonFactory{
 	public:
-		static JsonType* create(int val);
-		static JsonType* create(long long value);
-		static JsonType* create(float val);
-		static JsonType* create(double val);
-		static JsonType* create(bool val);
-		static JsonType* create(json_char* val);
+		static JsonType* createInt(int val);
+		static JsonType* createFloat(float val);
+		static JsonType* createBool(bool val);
+		static JsonType* createString(json_char* val);
 		static JsonObject* createObject();
-		static JsonType* create();
+		static JsonType* createNull();
 		static JsonArray* createArray();
 	};
 }

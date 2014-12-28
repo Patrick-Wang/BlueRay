@@ -101,27 +101,21 @@ namespace Json{
 		}
 	};
 
-	JsonType* JsonFactory::create(int val){
+	JsonType* JsonFactory::createInt(int val){
 		return new JsonValueInt(val);
 	}
 
-	JsonType* JsonFactory::create(long long val){
-		return new JsonValueInt(val);
-	}
-
-	JsonType* JsonFactory::create(float val){
+	JsonType* JsonFactory::createFloat(float val){
 		return new JsonValueFloat(val);
 	}
-	JsonType* JsonFactory::create(double val){
-		return new JsonValueFloat(val);
-	}
-	JsonType* JsonFactory::create(bool val){
+	
+	JsonType* JsonFactory::createBool(bool val){
 		return new JsonValueBool(val);
 	}
-	JsonType* JsonFactory::create(json_char* val){
+	JsonType* JsonFactory::createString(json_char* val){
 		return new JsonValueString(val);
 	}	
-	JsonType* JsonFactory::create(){
+	JsonType* JsonFactory::createNull(){
 		return new JsonValueNull();
 	}	
 

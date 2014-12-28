@@ -223,22 +223,22 @@ CPromise<PageData_t>& CSale::Query(int page, int rows,
 		if (NULL != pBasicSearch)
 		{
 			Json::JsonObject& jBasic = jSearch.add(L"basic", Json::JsonFactory::createObject()).asObject(L"basic");
-			jBasic.add(L"text", Json::JsonFactory::create((Json::json_char*)pBasicSearch->lpText));
-			jBasic.add(L"exact", Json::JsonFactory::create(pBasicSearch->exact));
+			jBasic.add(L"text", Json::JsonFactory::createString((Json::json_char*)pBasicSearch->lpText));
+			jBasic.add(L"exact", Json::JsonFactory::createBool(pBasicSearch->exact));
 		}
 
 		if (NULL != pDateSearch)
 		{
 			Json::JsonObject& jDate = jSearch.add(L"date", Json::JsonFactory::createObject()).asObject(L"date");
-			jDate.add(L"startDate", Json::JsonFactory::create((Json::json_char*)pDateSearch->startDate));
-			jDate.add(L"endDate", Json::JsonFactory::create((Json::json_char*)pDateSearch->endDate));
+			jDate.add(L"startDate", Json::JsonFactory::createString((Json::json_char*)pDateSearch->startDate));
+			jDate.add(L"endDate", Json::JsonFactory::createString((Json::json_char*)pDateSearch->endDate));
 		}
 
 		if (NULL != pAdvanceSearch)
 		{
-			Json::JsonArray& jDate = jSearch.add(L"advanced", Json::JsonFactory::createArray()).asArray(L"advanced");
+			Json::JsonArray& jAdvance = jSearch.add(L"advanced", Json::JsonFactory::createArray()).asArray(L"advanced");
 			for (int i = 0; i < pAdvanceSearch->size(); ++i){
-				jDate.add(Json::JsonFactory::create((LPCTSTR)pAdvanceSearch->at(i)));
+				jAdvance.add(Json::JsonFactory::createString((Json::json_char*)(LPCTSTR)pAdvanceSearch->at(i)));
 			}
 		}
 	}
@@ -246,8 +246,8 @@ CPromise<PageData_t>& CSale::Query(int page, int rows,
 		Json::JsonArray& jApprove = jquery->add(L"approve", Json::JsonFactory::createArray()).asArray(L"approve");
 		for (int i = 0; i < pApproveCondition->size(); ++i){
 			Json::JsonObject& jApproveItem = jApprove.add(Json::JsonFactory::createObject()).asObject(i);
-			jApproveItem.add(L"type", Json::JsonFactory::create((Json::json_char*)ToString(pApproveCondition->at(i).type)));
-			jApproveItem.add(L"approve", Json::JsonFactory::create((Json::json_char*)ToString(pApproveCondition->at(i).approved)));
+			jApproveItem.add(L"type", Json::JsonFactory::createString((Json::json_char*)ToString((ApproveType)pApproveCondition->at(i).type)));
+			jApproveItem.add(L"approve", Json::JsonFactory::createBool(pApproveCondition->at(i).approved));
 		}
 	}
 	
@@ -257,8 +257,8 @@ CPromise<PageData_t>& CSale::Query(int page, int rows,
 		
 		for (int i = 0; i < pSorter->size(); ++i){
 			Json::JsonObject& jSortItem = jSort.add(Json::JsonFactory::createObject()).asObject(i);
-			jSortItem.add(L"col", Json::JsonFactory::create(pSorter->at(i).col));
-			jSortItem.add(L"order", Json::JsonFactory::create(pSorter->at(i).asc));
+			jSortItem.add(L"col", Json::JsonFactory::createInt(pSorter->at(i).col));
+			jSortItem.add(L"order", Json::JsonFactory::createBool(pSorter->at(i).asc));
 		}
 	}
 

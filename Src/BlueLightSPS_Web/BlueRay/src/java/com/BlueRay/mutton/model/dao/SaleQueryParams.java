@@ -46,6 +46,9 @@ import net.sf.json.JSONObject;
 //}
 
 public class SaleQueryParams {
+	
+	
+	private IAdvanceTranslator mTranslator;
 	private JSONObject mJo;
 	private Map<String, Class<?>> connectMap = new HashMap<String, Class<?>>();
 	private static Map<Integer, Integer> paramColMap = new HashMap<Integer, Integer>();
@@ -57,8 +60,9 @@ public class SaleQueryParams {
 	
 	
 	
-	public SaleQueryParams(JSONObject jo) {
+	public SaleQueryParams(JSONObject jo, IAdvanceTranslator translator) {
 		mJo = jo;
+		mTranslator = translator;
 	}
 
 	private String getForginId(Class<?> cls) {
@@ -151,15 +155,6 @@ public class SaleQueryParams {
 				whereBuilder.append(" and ");
 			}
 			whereBuilder.append(approveSql);
-		}
-
-		if (!advancedSql.isEmpty()) {
-			if (firstSql) {
-				firstSql = false;
-			} else {
-				whereBuilder.append(" and ");
-			}
-			whereBuilder.append(advancedSql);
 		}
 
 		if (!dateSql.isEmpty()) {
@@ -303,11 +298,18 @@ public class SaleQueryParams {
 						advanceBuilder.append(" and ");
 					}
 
+					if (null != mTranslator){
+						String newValue = mTranslator.in(fields[column].getName(), jadvanced.getString(i));
+						if (null != newValue){
+							jadvanced.set(i, newValue);
+						}
+					}
+					
 					Class<?> cls = HTXX.getFroeignClass(column);
 					if (null != cls) {
 						advanceBuilder.append(cls.getSimpleName() + "_."
-								+ getForginName(cls) + " = "
-								+ jadvanced.getString(i) + " ");
+								+ getForginName(cls) + " = '"
+								+ jadvanced.getString(i) + "' ");
 						connectMap.put(fields[column].getName(), cls);
 					} else {
 						
@@ -317,7 +319,7 @@ public class SaleQueryParams {
 							advanceBuilder.append("HTXX_."
 								+ fields[column].getName() + " = '"
 								+ jadvanced.getString(i) + "' ");
-						} else{
+						} else{						
 							advanceBuilder.append("HTXX_."
 									+ fields[column].getName() + " = "
 									+ jadvanced.getString(i) + " ");

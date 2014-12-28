@@ -52,6 +52,9 @@ public class PlanQueryParams {
 	private boolean mNeedsHtxx = false;
 	private static Map<Integer, Integer> paramHtxxColMap = new HashMap<Integer, Integer>();
 	private static Map<Integer, Integer> paramPcjhColMap = new HashMap<Integer, Integer>();
+	private IAdvanceTranslator mTranslator;
+
+	
 	private static int mColumnCount = 26;
 	{
 		for (int i = 0; i < 15; ++i) {
@@ -64,8 +67,9 @@ public class PlanQueryParams {
 		}
 	}
 
-	public PlanQueryParams(JSONObject jo) {
+	public PlanQueryParams(JSONObject jo, IAdvanceTranslator translator) {
 		mJo = jo;
+		mTranslator = translator;
 	}
 
 	private String getForginId(Class<?> cls) {
@@ -349,11 +353,25 @@ public class PlanQueryParams {
 
 						Class<?> cls = HTXX.getFroeignClass(column);
 						if (null != cls) {
+	
+							if (null != mTranslator){
+								String newValue = mTranslator.in(getForginName(cls), jadvanced.getString(i));
+								if (null != newValue){
+									jadvanced.set(i, newValue);
+								}
+							}
+							
 							advanceBuilder.append(cls.getSimpleName() + "_."
 									+ getForginName(cls) + " = "
 									+ jadvanced.getString(i) + " ");
 							connectMap.put(fields[column].getName(), cls);
 						} else {
+							if (null != mTranslator){
+								String newValue = mTranslator.in(fields[column].getName(), jadvanced.getString(i));
+								if (null != newValue){
+									jadvanced.set(i, newValue);
+								}
+							}
 							if (fields[column].getType().getName()
 									.equals(String.class.getName())
 									|| fields[column].getType().getName()
@@ -368,6 +386,13 @@ public class PlanQueryParams {
 							}
 						}
 					} else if (paramPcjhColMap.containsKey(i)) {
+						
+						if (null != mTranslator){
+							String newValue = mTranslator.in(PCJHXX.class.getDeclaredFields()[column].getName(), jadvanced.getString(i));
+							if (null != newValue){
+								jadvanced.set(i, newValue);
+							}
+						}
 						column = paramPcjhColMap.get(i);
 						advanceBuilder.append("PCJHXX_."
 								+ PCJHXX.class.getDeclaredFields()[column]

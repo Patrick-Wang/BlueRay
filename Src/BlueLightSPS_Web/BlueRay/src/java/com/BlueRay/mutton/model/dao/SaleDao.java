@@ -3,7 +3,9 @@ package com.BlueRay.mutton.model.dao;
 import java.util.List;
 
 
+
 import net.sf.json.JSONObject;
+
 
 
 import com.BlueRay.mutton.model.entity.jpa.BMQXHFLXX;
@@ -34,6 +36,6 @@ public interface SaleDao {
 
 
 	List<HTXX> getSaleData(Integer pagesize, Integer pagenum,
-			Integer pagecount, JSONObject jparam);
+			Integer pagecount, JSONObject jparam, IAdvanceTranslator translator);
 
 }

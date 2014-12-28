@@ -274,7 +274,7 @@ Json::JsonArray* createArray(std::vector<int>& arr){
 	Json::JsonArray* jarray = Json::JsonFactory::createArray();
 	for (std::vector<int>::iterator it = arr.begin(); it != arr.end(); ++it)
 	{
-		jarray->add(Json::JsonFactory::create(*it));
+		jarray->add(Json::JsonFactory::createInt(*it));
 	}
 	return jarray;
 }
@@ -283,7 +283,7 @@ Json::JsonArray* createArray(std::vector<CString>& arr){
 	Json::JsonArray* jarray = Json::JsonFactory::createArray();
 	for (std::vector<CString>::iterator it = arr.begin(); it != arr.end(); ++it)
 	{
-		jarray->add(Json::JsonFactory::create((Json::json_char*)it->GetBuffer()));
+		jarray->add(Json::JsonFactory::createString((Json::json_char*)it->GetBuffer()));
 		it->ReleaseBuffer();
 	}
 	return jarray;

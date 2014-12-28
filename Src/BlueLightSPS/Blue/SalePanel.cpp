@@ -591,14 +591,7 @@ void CSalePanel::OnBnClickedSearch()
 		dsc.startDate = strFrom;
 		dsc.endDate = strTo;
 
-		std::vector<SortCondition_t> scs;
-		scs.resize(1);//sort for yxj 
-		scs[0].asc = true;
-		scs[0].col = 17;
-
-
-
-		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), NULL, &bsc, &dsc, NULL, &scs)
+		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), NULL, &bsc, &dsc, NULL, NULL)
 			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}
@@ -626,40 +619,12 @@ void CSalePanel::OnBnClickedMore()
 				m_salePanel.GetParent()->EnableWindow(TRUE);
 			}
 		};
-		searchVals.insert(searchVals.begin() + 15, L"");
-		searchVals.insert(searchVals.begin() + 15, L"");
-		//CServer::GetInstance()->GetSale().Search(1, 20, -1, false, searchVals)
-		//	.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
-		//GetParent()->EnableWindow(FALSE);
-
-		//bool bMatch = true;
-		//for (int i = 0; i < m_table.size(); ++i)
-		//{
-		//	bMatch = true;
-		//	for (int j = 0; j < searchVals.size(); ++j)
-		//	{
-		//		if (!searchVals[j].IsEmpty() && m_table[i].second[j].CompareNoCase(searchVals[j]) != 0)
-		//		{
-		//			bMatch = false;
-		//			break;
-		//		}
-		//	}
-
-		//	if (!bMatch)
-		//	{
-		//		m_pJqGridAPI->HideRow(m_table[i].first);
-		//	}
-		//	else
-		//	{
-		//		m_pJqGridAPI->ShowRow(m_table[i].first);
-		//		iCountShot++;
-		//	}
-		//}
-
-		//if (iCountShot == 0)
-		//{
-		//	MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
-		//}
+		searchVals.insert(searchVals.begin() + 15, L"");//插入业务审核
+		searchVals.insert(searchVals.begin() + 15, L"");//插入计划审核
+		searchVals.insert(searchVals.begin() + 15, L"");//插入优先级
+		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), NULL, NULL, NULL, &searchVals, NULL)
+			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
+		GetParent()->EnableWindow(FALSE);
 	}
 }
 

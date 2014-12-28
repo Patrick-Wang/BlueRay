@@ -52,7 +52,7 @@ namespace Json{
 			case JsonSymbol::string:
 				{
 					JsonString str(true);
-					jArray->add(JsonFactory::create(m_jsonSymbol->nextString(str).str()));
+					jArray->add(JsonFactory::createString(m_jsonSymbol->nextString(str).str()));
 				}
 				break;
 			case JsonSymbol::array_open:
@@ -74,7 +74,7 @@ namespace Json{
 			{
 				JsonString jsString(true);
 				m_jsonSymbol->nextString(jsString).str();
-				return JsonFactory::create(jsString.str());
+				return JsonFactory::createString(jsString.str());
 			}
 		case JsonSymbol::array_open:
 			return ParseArray();
@@ -82,11 +82,11 @@ namespace Json{
 			return ParseObject();
 			break;
 		case JsonSymbol::null:
-			return JsonFactory::create();
+			return JsonFactory::createNull();
 		case JsonSymbol::real:
-			return JsonFactory::create(true);
+			return JsonFactory::createBool(true);
 		case JsonSymbol::fake:
-			return JsonFactory::create(false);
+			return JsonFactory::createBool(false);
 			break;
 		case JsonSymbol::digit:
 			{
@@ -94,10 +94,10 @@ namespace Json{
 				m_jsonSymbol->nextDigest(dig);
 				if (dig.isFloat)
 				{
-					return JsonFactory::create(dig.fval);
+					return JsonFactory::createFloat(dig.fval);
 				}
 				else {
-					return JsonFactory::create(dig.ival);
+					return JsonFactory::createInt(dig.ival);
 				}
 			}
 		default:

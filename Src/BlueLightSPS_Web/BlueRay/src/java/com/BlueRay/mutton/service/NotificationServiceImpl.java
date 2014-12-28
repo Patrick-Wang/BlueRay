@@ -27,7 +27,7 @@ public class NotificationServiceImpl implements NotificationService {
 	public UnapprovedBean getUnapproved() {
 		UnapprovedBean unapproved = new UnapprovedBean();
 		int count = saleDao.getSaleDataCount();
-		List<HTXX> htxxs = saleDao.getSaleData(count, 1, 1, JSONObject.fromObject("{}"));
+		List<HTXX> htxxs = saleDao.getSaleData(count, 1, 1, JSONObject.fromObject("{}"), null);
 		for (HTXX htxx : htxxs) {
 			if (!"Y".equals(htxx.getSftgjhsh())) {
 				unapproved.setSalePlan(unapproved.getSalePlan() + 1);

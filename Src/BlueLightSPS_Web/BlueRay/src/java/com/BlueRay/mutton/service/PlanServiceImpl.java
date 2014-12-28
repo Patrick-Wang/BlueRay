@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.BlueRay.mutton.controller.PageData;
 import com.BlueRay.mutton.controller.PageData.Row;
+import com.BlueRay.mutton.model.dao.IAdvanceTranslator;
 import com.BlueRay.mutton.model.dao.ItemDao;
 import com.BlueRay.mutton.model.dao.PlanDao;
 import com.BlueRay.mutton.model.dao.SaleDao;
@@ -102,6 +103,8 @@ public class PlanServiceImpl implements PlanService {
 
 	@Autowired
 	private ItemDao itemDao;
+	
+	static IAdvanceTranslator planTranslator = new PlanAdvanceTranslator();
 
 	public static void setPCJH(String[] ret, PCJHXX pcjhxx, Map<Integer, HTXX> htxxMap, ItemDao itemDao){
 		Integer id = pcjhxx.getHtxxID();
@@ -112,12 +115,12 @@ public class PlanServiceImpl implements PlanService {
 		ret[26] = ret[19];
 		ret[16] = (null != pcjhxx.getJhscrq()) ? pcjhxx.getJhscrq()
 				.toString() : "";
-		ret[17] = "Y".equals(pcjhxx.getSftgywsh()) ? "√" : "×";
-		ret[18] = "Y".equals(pcjhxx.getSftgjhsh()) ? "√" : "×";
+		ret[17] = planTranslator.out("sftgywsh", pcjhxx.getSftgywsh());
+		ret[18] = planTranslator.out("sftgjhsh", pcjhxx.getSftgjhsh());
 		ret[19] = (null != pcjhxx.getJhbzrq()) ? pcjhxx.getJhbzrq()
 				.toString() : "";
-		ret[20] = "Y".equals(pcjhxx.getBzsftgywsh()) ? "√" : "×";
-		ret[24] = "Y".equals(pcjhxx.getBzsftgjhsh()) ? "√" : "×";
+		ret[20] = planTranslator.out("bzsftgywsh", pcjhxx.getBzsftgywsh());
+		ret[24] = planTranslator.out("bzsftgjhsh", pcjhxx.getBzsftgjhsh());
 		ret[22] = (null != pcjhxx.getJhfhrq()) ? pcjhxx.getJhfhrq()
 				.toString() : "";
 		ret[23] = pcjhxx.getTcbh();
@@ -370,7 +373,7 @@ public class PlanServiceImpl implements PlanService {
 
 	public PageData pageQuery(Integer pagesize, Integer pagenum,
 			Integer pagecount, JSONObject jparam) {
-		List<PCJHXX> pcxxs = planDao.getPlanData(pagesize, pagenum, pagecount, jparam);
+		List<PCJHXX> pcxxs = planDao.getPlanData(pagesize, pagenum, pagecount, jparam, planTranslator);
 		int count = planDao.getPlanDataCount();
 		
 		PageData pd = new PageData();

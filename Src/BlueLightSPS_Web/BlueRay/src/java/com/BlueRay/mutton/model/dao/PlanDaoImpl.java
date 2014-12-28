@@ -113,8 +113,8 @@ public class PlanDaoImpl implements PlanDao{
 	}
 
 	public List<PCJHXX> getPlanData(Integer pagesize, Integer pagenum,
-			Integer pagecount, JSONObject jparam) {
-		PlanQueryParams pqp = new PlanQueryParams(jparam);
+			Integer pagecount, JSONObject jparam, IAdvanceTranslator translator) {
+		PlanQueryParams pqp = new PlanQueryParams(jparam, translator);
 		String sql = pqp.toSql();
 		Query q = entityManager.createQuery(sql);
 		q.setFirstResult((pagenum - 1) * pagesize);

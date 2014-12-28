@@ -53,8 +53,8 @@ public class SaleDaoImpl implements SaleDao {
 	}
 
 	public List<HTXX> getSaleData(Integer pagesize, Integer pagenum,
-			Integer pagecount, JSONObject jparam) {
-		SaleQueryParams sqp = new SaleQueryParams(jparam);
+			Integer pagecount, JSONObject jparam, IAdvanceTranslator translator) {
+		SaleQueryParams sqp = new SaleQueryParams(jparam, translator);
 		String sql = sqp.toSql();
 		Query q = entityManager.createQuery(sql);
 		q.setFirstResult((pagenum - 1) * pagesize);

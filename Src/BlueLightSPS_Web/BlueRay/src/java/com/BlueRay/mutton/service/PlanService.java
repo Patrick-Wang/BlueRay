@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import javax.servlet.ServletOutputStream;
 
 import com.BlueRay.mutton.controller.PageData;
+import com.BlueRay.mutton.model.dao.IAdvanceTranslator;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;

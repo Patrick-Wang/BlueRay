@@ -1,9 +1,7 @@
 package com.BlueRay.mutton.service;
 
-import java.lang.reflect.Field;
 import java.sql.Date;
 import java.util.List;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -12,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.BlueRay.mutton.controller.PageData;
+import com.BlueRay.mutton.model.dao.IAdvanceTranslator;
 import com.BlueRay.mutton.model.dao.ItemDao;
 import com.BlueRay.mutton.model.dao.PlanDao;
 import com.BlueRay.mutton.model.dao.SaleDao;
@@ -39,7 +38,11 @@ public class SaleServiceImpl implements SaleService {
 	@Autowired
 	private PlanDao planDao;
 
-
+	
+	
+	private static IAdvanceTranslator translator = new SaleAdvanceTranslator();
+	
+	
 	public static void setHtxx(String[] row, HTXX htxx, ItemDao itDao) {
 		try {
 			row[0] = htxx.getID() + "";
@@ -50,11 +53,11 @@ public class SaleServiceImpl implements SaleService {
 
 			row[4] = htxx.getSl() + "";
 			row[5] = itDao.queryZcxxById(htxx.getZcID()).getZcxh();
-			row[6] = "Y".equals(htxx.getDfr()) ? "是" : "否";
+			row[6] = translator.out("dfr", htxx.getDfr());
 
 			row[7] = itDao.queryZdqdyflxxById(htxx.getZdqdyID()).getZdqdy();
 			row[8] = itDao.queryYylggflxxById(htxx.getYylggID()).getYylgg();
-			row[9] = htxx.getSfjf();
+			row[9] = translator.out("sfjf", htxx.getSfjf());
 
 			row[10] = itDao.queryBpqxhflxxById(htxx.getBpqxhID()).getBpqxh();
 			row[11] = itDao.queryBmqxhflxxById(htxx.getBmqxhID()).getBmqxh();
@@ -64,8 +67,8 @@ public class SaleServiceImpl implements SaleService {
 			row[14] = itDao.queryMpzlxxById(htxx.getMpzl()).getMpzl();
 			row[15] = htxx.getBz();
 
-			row[16] = "Y".equals(htxx.getSftgywsh()) ? "√" : "×";
-			row[17] = "Y".equals(htxx.getSftgjhsh()) ? "√" : "×";
+			row[16] = translator.out("sftgywsh", htxx.getSftgywsh());
+			row[17] = translator.out("sftgjhsh", htxx.getSftgjhsh());
 			row[18] = htxx.getYxj() + "";
 			row[19] = htxx.getDdrq() + "";
 			
@@ -190,11 +193,7 @@ public class SaleServiceImpl implements SaleService {
 	}
 
 	private void setSfjf(HTXX htxx, String value) {
-		if (!"Y".equals(value) && !"是".equals(value)) {
-			htxx.setSfjf("N");
-		} else{
-			htxx.setSfjf("Y");
-		}
+		htxx.setSfjf(this.translator.in("sfjf", value));
 	}
 
 	private void setYylggID(HTXX htxx, String value) {
@@ -222,11 +221,7 @@ public class SaleServiceImpl implements SaleService {
 	}
 
 	private void setDfr(HTXX htxx, String value) {	
-		if (!"Y".equals(value) && !"是".equals(value)) {
-			htxx.setDfr("N");
-		} else{
-			htxx.setDfr("Y");
-		}
+		htxx.setDfr(this.translator.in("dfr", value));
 	}
 
 	private void setZcID(HTXX htxx, String value) {
@@ -385,85 +380,11 @@ public class SaleServiceImpl implements SaleService {
 		return "success";
 	}
 
-//	public PageData pageQuery(String approveType, String approved,
-//			Integer pagesize, Integer pagenum, Integer pagecount,
-//			Integer colIndex, Boolean sort) {
-//		Field[] fields = HTXX.class.getDeclaredFields();
-//		List<HTXX> htxxs = saleDao.getSaleData(approveType, approved, pagesize, pagenum, pagecount, colIndex, sort);
-//		int count = saleDao.getSaleDataCount();
-//		PageData pd = new PageData();
-//		pd.setPage(pagenum);
-//		pd.setRecords(count);
-//		int pageCount = count / pagesize;
-//		pageCount += count % pagesize > 0 ? 1 : 0;
-//		pd.setTotal(pageCount);
-//		String[] row = new String[21];
-//		PageData.Row rd;
-//		
-//		for (int i = 0; i < htxxs.size(); ++i){
-//			rd = pd.new Row();
-//			setHtxx(row, htxxs.get(i), itemDao);
-//			rd.setId(Integer.valueOf(row[0]));
-//			pd.getRows().add(rd);
-//			for (int j = 1; j < row.length; ++j){
-//				rd.getCell().add(row[j]);
-//			} 
-//		}
-//		
-//		return pd;
-//	}
-//
-//	public PageData pageSearch(String approveType, String approved,
-//			Integer pagesize, Integer pagenum, Integer pagecount,
-//			Integer colIndex, Boolean sort, String keyword) {
-//		List<HTXX> htxxs = saleDao.getSearchedSaleData(approveType, approved, pagesize, pagenum, pagecount, colIndex, sort, keyword);
-//		int count = saleDao.getSaleDataCount();
-//		PageData pd = new PageData();
-//		pd.setPage(pagenum);
-//		pd.setRecords(count);
-//		int pageCount = count / pagesize;
-//		pageCount += count % pagesize > 0 ? 1 : 0;
-//		pd.setTotal(pageCount);
-//		String[] row = new String[21];
-//		PageData.Row rd;
-//		
-//		for (int i = 0; i < htxxs.size(); ++i){
-//			rd = pd.new Row();
-//			setHtxx(row, htxxs.get(i), itemDao);
-//			rd.setId(Integer.valueOf(row[0]));
-//			pd.getRows().add(rd);
-//			for (int j = 1; j < row.length; ++j){
-//				rd.getCell().add(row[j]);
-//			} 
-//		}
-//		
-//		return pd;
-//	}
-//
-//	public PageData pageSearch(String approveType, String approved,
-//			Integer pagesize, Integer pagenum, Integer pagecount,
-//			Integer colIndex, Boolean sort, JSONArray keyWords) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	public PageData pageQuery(String approveType, String approved,
-//			Integer pagesize, Integer pagenum, Integer pagecount) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-//
-//	public PageData pageQuery(String approveType, String approved,
-//			Integer pagesize, Integer pagenum, Integer pagecount,
-//			JSONObject jparam) {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 	public PageData pageQuery(Integer pagesize, Integer pagenum,
 			Integer pagecount, JSONObject jparam) {
-		Field[] fields = HTXX.class.getDeclaredFields();
-		List<HTXX> htxxs = saleDao.getSaleData(pagesize, pagenum, pagecount, jparam);
+		List<HTXX> htxxs = saleDao.getSaleData(pagesize, pagenum, pagecount,
+				jparam, translator);
 		int count = saleDao.getSaleDataCount();
 		PageData pd = new PageData();
 		pd.setPage(pagenum);
