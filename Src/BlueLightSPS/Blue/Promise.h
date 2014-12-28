@@ -163,3 +163,8 @@ typedef struct tagSortCondition_t{
 	int col;
 	bool asc;
 }SortCondition_t;
+
+typedef struct tagApproveCondition_t{
+	int type;
+	bool approved;
+}ApproveCondition_t;

@@ -2,8 +2,9 @@ package com.BlueRay.mutton.model.dao;
 
 import java.util.List;
 
+import net.sf.json.JSONObject;
+
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
-import com.BlueRay.mutton.model.excel.DBPCJHXXExcel;
 import com.BlueRay.mutton.tool.AbstractExcel;
 
 public interface PlanDao {
@@ -28,4 +29,9 @@ public interface PlanDao {
 	PCJHXX getPlanDataByTcbh(String tcbh);
 
 	PCJHXX getPlanDataByCcbh(String ccbh);
+
+	List<PCJHXX> getPlanData(Integer pagesize, Integer pagenum,
+			Integer pagecount, JSONObject jparam);
+
+	int getPlanDataCount();
 }

@@ -173,5 +173,4 @@ public class PCJHXX {
 	public void setHtxxID(Integer htxxID) {
 		this.htxxID = htxxID;
 	}
-
 }

@@ -596,7 +596,9 @@ void CSalePanel::OnBnClickedSearch()
 		scs[0].asc = true;
 		scs[0].col = 17;
 
-		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), &bsc, &dsc, NULL, &scs)
+
+
+		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), NULL, &bsc, &dsc, NULL, &scs)
 			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}
@@ -1081,11 +1083,35 @@ void CSalePanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 		}
 	};
 
-	//CServer::GetInstance()->GetSale().Query(
-	//	page,
-	//	rows,
-	//	colIndex,
-	//	bAsc)
-	//	.then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
-	//GetParent()->EnableWindow(FALSE);
+	CString searchText;
+	m_editSearch->GetWindowText(searchText);
+	std::vector<SortCondition_t> scs;
+	scs.resize(1);//sort for yxj 
+	scs[0].asc = bAsc;
+	scs[0].col = colIndex;
+
+	if (searchText.IsEmpty()){
+		CServer::GetInstance()->GetSale().Query(page, rows, NULL, NULL, NULL, NULL, &scs)
+			.then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+	}
+	else
+	{
+		CString strFrom;
+		m_dtcSearchFrom->GetWindowText(strFrom);
+		CString strTo;
+		m_dtcSearchTo->GetWindowText(strTo);
+
+		BasicSearchCondition_t bsc;
+		bsc.lpText = searchText;
+		bsc.exact = true;
+
+		DateSearchCondition_t dsc;
+		dsc.startDate = strFrom;
+		dsc.endDate = strTo;
+
+		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), NULL, &bsc, &dsc, NULL, &scs)
+			.then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+	}
+	
+	GetParent()->EnableWindow(FALSE);
 }

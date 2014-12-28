@@ -10,6 +10,7 @@ import com.BlueRay.mutton.model.entity.jpa.BPQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.CPGGXHXX;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.KHXX;
+import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
 import com.BlueRay.mutton.model.entity.jpa.YYLGGFLXX;
 import com.BlueRay.mutton.model.entity.jpa.ZCXX;
 import com.BlueRay.mutton.model.entity.jpa.ZDQDYFLXX;
@@ -19,7 +20,7 @@ import net.sf.json.JSONObject;
 
 //{
 //approve : [{
-//	type : bussiness / plan,
+//	type : bussiness / plan / pack_bussiness / pack_plan,
 //	approve : true/false
 //}],
 //search : {
@@ -45,19 +46,25 @@ import net.sf.json.JSONObject;
 //]
 //}
 
-public class SaleQueryParams {
+public class PlanQueryParams {
 	private JSONObject mJo;
 	private Map<String, Class<?>> connectMap = new HashMap<String, Class<?>>();
-	private static Map<Integer, Integer> paramColMap = new HashMap<Integer, Integer>();
+	private boolean mNeedsHtxx = false;
+	private static Map<Integer, Integer> paramHtxxColMap = new HashMap<Integer, Integer>();
+	private static Map<Integer, Integer> paramPcjhColMap = new HashMap<Integer, Integer>();
+	private static int mColumnCount = 26;
 	{
-		for (int i = 0; i < 19; ++i){
-			paramColMap.put(i, i + 1);
+		for (int i = 0; i < 15; ++i) {
+			paramHtxxColMap.put(i, i + 1);
+		}
+		paramHtxxColMap.put(24, 18);
+		paramHtxxColMap.put(25, 19);
+		for (int i = 16; i < 24; ++i) {
+			paramPcjhColMap.put(i, 1 + i - 16);
 		}
 	}
-	
-	
-	
-	public SaleQueryParams(JSONObject jo) {
+
+	public PlanQueryParams(JSONObject jo) {
 		mJo = jo;
 	}
 
@@ -183,6 +190,8 @@ public class SaleQueryParams {
 		}
 
 		if (null != jdate && !jdate.isNullObject()) {
+			// connectMap.put("htxxID", HTXX.class);
+			mNeedsHtxx = true;
 			strDate = "HTXX_.ddrq >= '" + jdate.getString("startDate")
 					+ "' and " + "HTXX_.ddrq <= '" + jdate.getString("endDate")
 					+ "' ";
@@ -213,7 +222,7 @@ public class SaleQueryParams {
 			} catch (Exception e) {
 
 			}
-			
+
 			try {
 				Date.valueOf(normaltext);
 				bIsDate = true;
@@ -222,36 +231,65 @@ public class SaleQueryParams {
 			}
 			Field[] fields = HTXX.class.getDeclaredFields();
 			String link = null;
-			for (int i = 1; i < fields.length - 1; ++i) {
+			int column = 0;
+			for (int i = 0; i < mColumnCount; ++i) {
+				if (paramHtxxColMap.containsKey(i)) {
+					// connectMap.put("htxxID", HTXX.class);
+					mNeedsHtxx = true;
+					column = paramHtxxColMap.get(i);
+				
+					Class<?> cls = HTXX.getFroeignClass(column);
+					if (null != cls) {
+						if (firstSql) {
+							firstSql = false;
+							basicBuilder.append("( ");
+						} else {
+							basicBuilder.append(" or ");
+						}
 
-				Class<?> cls = HTXX.getFroeignClass(i);
-
-				if (null != cls) {
-					if (firstSql) {
-						firstSql = false;
-						basicBuilder.append("( ");
+						if (!exact) {
+							link = " like ";
+						} else {
+							link = " = ";
+						}
+						connectMap.put(fields[column].getName(), cls);
+						searchText = stringSearch;
+						basicBuilder.append(cls.getSimpleName() + "_."
+								+ getForginName(cls) + link + searchText + " ");
 					} else {
-						basicBuilder.append(" or ");
-					}
+						if ((!bIsInteger && fields[column].getType().getName()
+								.equals(Integer.class.getName()))
+								|| !bIsDate
+								&& fields[column].getType().getName()
+										.equals(Date.class.getName())) {
+							continue;
+						}
 
-					if (!exact) {
-						link = " like ";
-					} else {
+						if (firstSql) {
+							firstSql = false;
+							basicBuilder.append("( ");
+						} else {
+							basicBuilder.append(" or ");
+						}
+						
 						link = " = ";
-					}
-					connectMap.put(fields[i].getName(), cls);
-					searchText = stringSearch;
-					basicBuilder.append(cls.getSimpleName() + "_."
-							+ getForginName(cls) + link + searchText + " ");
-				} else {
+						if (fields[i].getType().getName()
+								.equals(String.class.getName())) {
+							searchText = stringSearch;
+							if (!exact) {
+								link = " like ";
+							}
+						} else {
+							searchText = normaltext;
+						}
 
-					if ((!bIsInteger && fields[i].getType().getName()
-							.equals(Integer.class.getName()))
-							|| !bIsDate || fields[i].getType().getName()
-									.equals(Date.class.getName())) {
-						continue;
-					}
 
+						basicBuilder.append(" HTXX_."
+								+ fields[column]
+										.getName() + link + searchText + " ");
+					}
+				} else if (paramPcjhColMap.containsKey(i)){
+					column = paramHtxxColMap.get(i);
 					if (firstSql) {
 						firstSql = false;
 						basicBuilder.append("( ");
@@ -270,9 +308,11 @@ public class SaleQueryParams {
 						searchText = normaltext;
 					}
 
-					basicBuilder.append(" HTXX_." + fields[i].getName() + link
-							+ searchText + " ");
+					basicBuilder.append(" PCJHXX_."
+							+ PCJHXX.class.getDeclaredFields()[column]
+									.getName() + link + searchText + " ");
 				}
+
 			}
 			if (!firstSql) {
 				basicBuilder.append(" ) ");
@@ -291,37 +331,48 @@ public class SaleQueryParams {
 		StringBuilder advanceBuilder = new StringBuilder();
 		advanceBuilder.append("");
 		boolean firstSql = true;
+
 		if (null != jadvanced) {
-			Field[] fields = HTXX.class.getDeclaredFields();
 			int column = 0;
+			Field[] fields = HTXX.class.getDeclaredFields();
 			for (int i = 0; i < jadvanced.size(); ++i) {
-				if (!jadvanced.getString(i).isEmpty() && paramColMap.containsKey(i)) {
-					column = paramColMap.get(i);
+				if (!jadvanced.getString(i).isEmpty()) {
 					if (firstSql) {
 						firstSql = false;
 					} else {
 						advanceBuilder.append(" and ");
 					}
 
-					Class<?> cls = HTXX.getFroeignClass(column);
-					if (null != cls) {
-						advanceBuilder.append(cls.getSimpleName() + "_."
-								+ getForginName(cls) + " = "
-								+ jadvanced.getString(i) + " ");
-						connectMap.put(fields[column].getName(), cls);
-					} else {
-						
-						if (fields[column].getType().getName().equals(String.class.getName()) ||
-								fields[column].getType().getName().equals(Date.class.getName()))
-						{
-							advanceBuilder.append("HTXX_."
-								+ fields[column].getName() + " = '"
-								+ jadvanced.getString(i) + "' ");
-						} else{
-							advanceBuilder.append("HTXX_."
-									+ fields[column].getName() + " = "
+					if (paramHtxxColMap.containsKey(i)) {
+						mNeedsHtxx = true;
+						column = paramHtxxColMap.get(i);
+
+						Class<?> cls = HTXX.getFroeignClass(column);
+						if (null != cls) {
+							advanceBuilder.append(cls.getSimpleName() + "_."
+									+ getForginName(cls) + " = "
 									+ jadvanced.getString(i) + " ");
+							connectMap.put(fields[column].getName(), cls);
+						} else {
+							if (fields[column].getType().getName()
+									.equals(String.class.getName())
+									|| fields[column].getType().getName()
+											.equals(Date.class.getName())) {
+								advanceBuilder.append("HTXX_."
+										+ fields[column].getName() + " = '"
+										+ jadvanced.getString(i) + "' ");
+							} else {
+								advanceBuilder.append("HTXX_."
+										+ fields[column].getName() + " = "
+										+ jadvanced.getString(i) + " ");
+							}
 						}
+					} else if (paramPcjhColMap.containsKey(i)) {
+						column = paramPcjhColMap.get(i);
+						advanceBuilder.append("PCJHXX_."
+								+ PCJHXX.class.getDeclaredFields()[column]
+										.getName() + " = '"
+								+ jadvanced.getString(i) + "' ");
 					}
 				}
 			}
@@ -329,87 +380,109 @@ public class SaleQueryParams {
 		return advanceBuilder.toString();
 	}
 
-	
-	private String getApproveSql(String type, boolean approved){
-		if ("bussiness".equals(type)) {
+	private String getApproveSql(String type, boolean approved) {
+		if ("plan".equals(type)) {
 			if (approved) {
-				return " HTXX_.sftgjhsh = 'Y' ";
+				return " PCJHXX_.sftgjhsh = 'Y' ";
 			} else {
-				return " HTXX_.sftgjhsh = 'N' ";
+				return " PCJHXX_.sftgjhsh = 'N' ";
 			}
-		} else if ("plan".equals(type)) {
+		} else if ("bussiness".equals(type)) {
 			if (approved) {
-				return " HTXX_.sftgywsh = 'Y' ";
+				return " PCJHXX_.sftgywsh = 'Y' ";
 			} else {
-				return " HTXX_.sftgywsh = 'N' ";
+				return " PCJHXX_.sftgywsh = 'N' ";
+			}
+		} else if ("pack_plan".equals(type)) {
+			if (approved) {
+				return " PCJHXX_.bzsftgjhsh = 'Y' ";
+			} else {
+				return " PCJHXX_.bzsftgjhsh = 'N' ";
+			}
+		} else if ("pack_bussiness".equals(type)) {
+			if (approved) {
+				return " PCJHXX_.bzsftgywsh = 'Y' ";
+			} else {
+				return " PCJHXX_.bzsftgywsh = 'N' ";
 			}
 		}
 		return "";
 	}
-	
+
 	private String parseApprove() {
-		if (!mJo.has("approve")){
+		if (!mJo.has("approve")) {
 			return "";
 		}
 		JSONArray japprove = mJo.getJSONArray("approve");
-		if (null == japprove){
+		if (null == japprove) {
 			return "";
 		}
 		boolean firstSql = true;
 		String approve = "";
 		String sqlApprove;
-		for (int i = japprove.size() - 1; i >= 0; --i){
+		for (int i = japprove.size() - 1; i >= 0; --i) {
 			sqlApprove = getApproveSql(
-					japprove.getJSONObject(i).getString("type"), 
-					japprove.getJSONObject(i).getBoolean("approved"));
-			if (!sqlApprove.isEmpty()){
-				if (firstSql){
+					japprove.getJSONObject(i).getString("type"), japprove
+							.getJSONObject(i).getBoolean("approved"));
+			if (!sqlApprove.isEmpty()) {
+				if (firstSql) {
 					firstSql = false;
-				}
-				else{
+				} else {
 					approve += " and ";
 				}
 				approve += sqlApprove;
 			}
 		}
-
 		return approve;
 	}
 
 	public String toSql() {
 		if (null == mJo) {
-			return "from HTXX";
+			return "from PCJHXX";
 		}
 		StringBuilder sqlBuilder = new StringBuilder();
-		sqlBuilder.append("select HTXX_ from HTXX HTXX_");
+		sqlBuilder.append("select PCJHXX_ from PCJHXX PCJHXX_");
 
 		String where = getWhereSql();
 		String order = getOrderSql();
+
+		if (mNeedsHtxx) {
+			sqlBuilder.append(", HTXX HTXX_");
+		}
 
 		for (String key : connectMap.keySet()) {
 			sqlBuilder.append("," + connectMap.get(key).getSimpleName() + " "
 					+ connectMap.get(key).getSimpleName() + "_");
 		}
-		
-		boolean firstSql = true;;
-		if (!where.isEmpty() || !connectMap.isEmpty()){
+
+		boolean firstSql = true;
+		;
+		if (!where.isEmpty() || !connectMap.isEmpty() || mNeedsHtxx) {
 			sqlBuilder.append(" where ");
 		}
 
-		for (String key : connectMap.keySet()) {
-			if (firstSql){
+		if (mNeedsHtxx) {
+			if (firstSql) {
 				firstSql = false;
+			} else {
+				sqlBuilder.append(" and ");
 			}
-			else{
+			sqlBuilder.append("PCJHXX_.htxxID = HTXX_.ID");
+		}
+
+		for (String key : connectMap.keySet()) {
+			if (firstSql) {
+				firstSql = false;
+			} else {
 				sqlBuilder.append(" and ");
 			}
 			sqlBuilder.append(" HTXX_." + key + "="
 					+ connectMap.get(key).getSimpleName() + "_."
-					+ getForginId(connectMap.get(key)) + " ");	
+					+ getForginId(connectMap.get(key)) + " ");
 		}
-		
+
 		if (!where.isEmpty()) {
-			if (!firstSql){
+			if (!firstSql) {
 				sqlBuilder.append(" and ");
 			}
 			sqlBuilder.append(where);
@@ -435,14 +508,19 @@ public class SaleQueryParams {
 		int col = 0;
 		for (int i = 0; i < jsort.size(); ++i) {
 			col = jsort.getJSONObject(i).getInt("col");
-			if (paramColMap.containsKey(col)) {
-				col = paramColMap.get(col);
+			if (paramHtxxColMap.containsKey(col)) {
+				// connectMap.put("htxxID", HTXX.class);
+				mNeedsHtxx = true;
+				col = paramHtxxColMap.get(col);
+
+				Class<?> cls = HTXX.getFroeignClass(col);
+
 				if (firstSql) {
 					firstSql = false;
 				} else {
 					sqlBuilder.append(",");
 				}
-				Class<?> cls = HTXX.getFroeignClass(col);
+
 				if (null != cls) {
 					connectMap.put(fields[col].getName(), cls);
 					sqlBuilder
@@ -458,7 +536,14 @@ public class SaleQueryParams {
 									+ (jsort.getJSONObject(i).getBoolean(
 											"order") ? " asc " : " desc "));
 				}
+			} else if (paramPcjhColMap.containsKey(col)) {
+				col = paramPcjhColMap.get(col);
+				sqlBuilder.append("PCJHXX_."
+						+ PCJHXX.class.getDeclaredFields()[col].getName()
+						+ (jsort.getJSONObject(i).getBoolean("order") ? " asc "
+								: " desc "));
 			}
+
 		}
 
 		return sqlBuilder.toString();

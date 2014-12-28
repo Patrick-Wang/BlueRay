@@ -6,10 +6,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
 import com.BlueRay.mutton.model.excel.DBPCJHXXExcel;
 import com.BlueRay.mutton.tool.AbstractExcel;
@@ -20,11 +21,6 @@ public class PlanDaoImpl implements PlanDao{
 
 	@PersistenceContext(unitName = "localDB")
 	private EntityManager entityManager;
-	
-//	public List<PCJHXX> getPcjhxx() {
-//		Query q = entityManager.createQuery("select p from PCJHXX p");
-//		return q.getResultList();
-//	}
 
 	public void insert(PCJHXX pcjhxx) {
 		entityManager.persist(pcjhxx);
@@ -114,6 +110,22 @@ public class PlanDaoImpl implements PlanDao{
 			return pcs.get(0);
 		}
 		return null;
+	}
+
+	public List<PCJHXX> getPlanData(Integer pagesize, Integer pagenum,
+			Integer pagecount, JSONObject jparam) {
+		PlanQueryParams pqp = new PlanQueryParams(jparam);
+		String sql = pqp.toSql();
+		Query q = entityManager.createQuery(sql);
+		q.setFirstResult((pagenum - 1) * pagesize);
+		q.setMaxResults(pagesize * pagecount);
+		return q.getResultList();
+	}
+
+	public int getPlanDataCount() {
+		Query q = entityManager.createQuery("select count(p) from PCJHXX p");
+		List<Object> objs = q.getResultList();
+		return ((Long) objs.get(0)).intValue();
 	}
 
 }

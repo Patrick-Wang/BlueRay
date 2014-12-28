@@ -9,10 +9,10 @@
 
 
 //{
-//approve : {
-//	type : approved / unapproved,
+//approve : [{
+//	type : bussiness / plan,
 //	approve : true/false
-//},
+//}],
 //search : {
 //	advanced : [],
 //	basic : {
@@ -35,7 +35,6 @@
 //    }
 //]
 //}
-
 class CSale : public CHttpServerInterface
 {
 public:
@@ -55,18 +54,9 @@ public:
 	//CPromise<PageData_t>& Search(int page, int rows, int colIndex, bool bAsc, LPCTSTR strKeyword);
 
 	CPromise<PageData_t>& Query(
-		ApproveType type, 
-		bool approved, 
-		int page, 
-		int rows, 
-		BasicSearchCondition_t* pBasicSearch = NULL, 
-		DateSearchCondition_t* pDateSearch = NULL, 
-		StringArrayPtr pAdvanceSearch = NULL, 
-		std::vector<SortCondition_t>* pSorter = NULL);
-
-	CPromise<PageData_t>& Query(
-		int page, 
-		int rows, 
+		int page,
+		int rows,
+		std::vector<ApproveCondition_t>* pApproveCondition = NULL,
 		BasicSearchCondition_t* pBasicSearch = NULL, 
 		DateSearchCondition_t* pDateSearch = NULL, 
 		StringArrayPtr pAdvanceSearch = NULL, 

@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import sun.misc.BASE64Decoder;
+
 import com.BlueRay.mutton.service.PlanService;
 import com.BlueRay.mutton.service.SaleService;
 import com.BlueRay.mutton.tool.Util;
@@ -73,6 +75,20 @@ public class PlanController {
 			HttpServletResponse response) {
 
 		return planService.validate(item, value);
+	}
+
+	@RequestMapping(value = "/pagequery/{pagesize}/{pagenum}/{pagecount}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String getSaleQueryData(
+			@PathVariable Integer pagesize,
+			@PathVariable Integer pagenum,
+			@PathVariable Integer pagecount,
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		JSONObject jparam = Util.parse(request.getInputStream());
+		BASE64Decoder decoder = new BASE64Decoder();
+		String query = new String(decoder.decodeBuffer(jparam.getString("query")), "utf-16le");
+		PageData pageData = planService.pageQuery(pagesize,pagenum,pagecount, JSONObject.fromObject(query));
+		return JSONObject.fromObject(pageData).toString().replace("null", "\"\"");
 	}
 
 	

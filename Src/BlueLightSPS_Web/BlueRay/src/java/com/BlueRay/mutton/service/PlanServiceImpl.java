@@ -2,6 +2,7 @@ package com.BlueRay.mutton.service;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
@@ -19,6 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.BlueRay.mutton.controller.PageData;
+import com.BlueRay.mutton.controller.PageData.Row;
 import com.BlueRay.mutton.model.dao.ItemDao;
 import com.BlueRay.mutton.model.dao.PlanDao;
 import com.BlueRay.mutton.model.dao.SaleDao;
@@ -145,50 +149,14 @@ public class PlanServiceImpl implements PlanService {
 		List<PCJHXX> pcxxs = null;//
 		pcxxs = planDao.getPcjhxx(approveType, approved);
 		
-		
 		Map<Integer, HTXX> htxxMap = new HashMap<Integer, HTXX>();
 		getHtxxMap(pcxxs, saleDao, planDao, htxxMap);
-//		Integer id;
-//		
-//		for (int i = pcxxs.size() - 1; i >= 0; --i) {
-//			pcjhxx = pcxxs.get(i);
-//			if (null != pcjhxx) {
-//				id = pcjhxx.getHtxxID();
-//				if (!htxxMap.containsKey(id)) {
-//					htxxMap.put(id, saleDao.getSaleDataById(id));
-//				}
-//				if (htxxMap.get(id) == null) {
-//					planDao.delete(pcjhxx);
-//					pcxxs.remove(i);
-//				}
-//			}else{
-//				pcxxs.remove(i);
-//			}
-//		}
-		
+
 		PCJHXX pcjhxx;
 		String[][] ret = new String[pcxxs.size()][27];
 		for (int i = pcxxs.size() - 1; i >= 0; --i) {
 			pcjhxx = pcxxs.get(i);
 			setPCJH(ret[i], pcjhxx, htxxMap, itemDao);
-			
-//			id = pcjhxx.getHtxxID();
-//			SaleServiceImpl.setHtxx(ret[i], htxxMap.get(id), itemDao);
-//			ret[i][0] = pcjhxx.getPcjhID() + "";
-//			ret[i][4] = "1";// 鏁伴噺
-//			ret[i][17] = (null != pcjhxx.getJhscrq()) ? pcjhxx.getJhscrq()
-//					.toString() : "";
-//			ret[i][18] = "Y".equals(pcjhxx.getSftgywsh()) ? "鈭�" : "脳";
-//			ret[i][19] = "Y".equals(pcjhxx.getSftgjhsh()) ? "鈭�" : "脳";
-//			ret[i][20] = (null != pcjhxx.getJhbzrq()) ? pcjhxx.getJhbzrq()
-//					.toString() : "";
-//			ret[i][21] = "Y".equals(pcjhxx.getBzsftgywsh()) ? "鈭�" : "脳";
-//			ret[i][22] = "Y".equals(pcjhxx.getBzsftgjhsh()) ? "鈭�" : "脳";
-//			ret[i][23] = (null != pcjhxx.getJhfhrq()) ? pcjhxx.getJhfhrq()
-//					.toString() : "";
-//			ret[i][24] = pcjhxx.getTcbh();
-//			ret[i][25] = pcjhxx.getCcbh();
-
 		}
 		return ret;
 	}
@@ -398,6 +366,38 @@ public class PlanServiceImpl implements PlanService {
 			}
 		}
 		return "true";
+	}
+
+	public PageData pageQuery(Integer pagesize, Integer pagenum,
+			Integer pagecount, JSONObject jparam) {
+		List<PCJHXX> pcxxs = planDao.getPlanData(pagesize, pagenum, pagecount, jparam);
+		int count = planDao.getPlanDataCount();
+		
+		PageData pd = new PageData();
+		
+		pd.setPage(pagenum);
+		
+		pd.setRecords(count);
+		
+		int pageCount = count / pagesize;
+		pageCount += count % pagesize > 0 ? 1 : 0;
+		pd.setTotal(pageCount);
+		
+		Map<Integer, HTXX> htxxMap = new HashMap<Integer, HTXX>();
+		getHtxxMap(pcxxs, saleDao, planDao, htxxMap);
+		
+		PageData.Row rd;
+		String[] row = new String[27];
+		for (int i = 0; i < pcxxs.size(); ++i) {
+			rd = pd.new Row();
+			setPCJH(row, pcxxs.get(i), htxxMap, itemDao);
+			rd.setId(Integer.valueOf(row[0]));
+			pd.getRows().add(rd);
+			for (int j = 1; j < row.length; ++j){
+				rd.getCell().add(row[j]);
+			} 
+		}
+		return pd;
 	}
 
 }

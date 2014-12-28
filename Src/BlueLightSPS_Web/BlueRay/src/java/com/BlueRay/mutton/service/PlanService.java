@@ -4,7 +4,10 @@ import java.io.OutputStream;
 
 import javax.servlet.ServletOutputStream;
 
+import com.BlueRay.mutton.controller.PageData;
+
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 public interface PlanService {
 
@@ -31,5 +34,8 @@ public interface PlanService {
 	String export(OutputStream outputStream, Integer col, Boolean asc);
 
 	String validate(String item, String value);
+
+	PageData pageQuery(Integer pagesize, Integer pagenum, Integer pagecount,
+			JSONObject jparam);
 
 }

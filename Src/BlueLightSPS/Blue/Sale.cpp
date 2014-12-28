@@ -204,12 +204,12 @@ bool CSale::doApproveSync(CString& url, IntArray& rows)
 //	return *promise;
 //}
 
-CPromise<PageData_t>& CSale::Query(int page, int rows, BasicSearchCondition_t* pBasicSearch /*= NULL*/, DateSearchCondition_t* pDateSearch /*= NULL*/, StringArrayPtr pAdvanceSearch /*= NULL*/, std::vector<SortCondition_t>* pSorter /*= NULL*/)
-{
-	return Query(ALL, false, page, rows, pBasicSearch, pDateSearch, pAdvanceSearch, pSorter);
-}
 
-CPromise<PageData_t>& CSale::Query(ApproveType type, bool approved, int page, int rows, BasicSearchCondition_t* pBasicSearch /*= NULL*/, DateSearchCondition_t* pDateSearch /*= NULL*/, StringArrayPtr pAdvanceSearch /*= NULL*/, std::vector<SortCondition_t>* pSorter /*= NULL*/)
+CPromise<PageData_t>& CSale::Query(int page, int rows, 
+	std::vector<ApproveCondition_t>* pApproveCondition /*= NULL*/, 
+	BasicSearchCondition_t* pBasicSearch /*= NULL*/, DateSearchCondition_t* pDateSearch /*= NULL*/, 
+	StringArrayPtr pAdvanceSearch /*= NULL*/, 
+	std::vector<SortCondition_t>* pSorter /*= NULL*/)
 {
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/sale/pagequery/%d/%d/1"),
@@ -242,10 +242,15 @@ CPromise<PageData_t>& CSale::Query(ApproveType type, bool approved, int page, in
 			}
 		}
 	}
-
-	Json::JsonObject& jApprove = jquery->add(L"approve", Json::JsonFactory::createObject()).asObject(L"approve");
-	jApprove.add(L"type", Json::JsonFactory::create((Json::json_char*)ToString(type)));
-	jApprove.add(L"approve", Json::JsonFactory::create(approved));
+	if (NULL != pApproveCondition){
+		Json::JsonArray& jApprove = jquery->add(L"approve", Json::JsonFactory::createArray()).asArray(L"approve");
+		for (int i = 0; i < pApproveCondition->size(); ++i){
+			Json::JsonObject& jApproveItem = jApprove.add(Json::JsonFactory::createObject()).asObject(i);
+			jApproveItem.add(L"type", Json::JsonFactory::create((Json::json_char*)ToString(pApproveCondition->at(i).type)));
+			jApproveItem.add(L"approve", Json::JsonFactory::create((Json::json_char*)ToString(pApproveCondition->at(i).approved)));
+		}
+	}
+	
 
 	if (NULL != pSorter){
 		Json::JsonArray& jSort = jquery->add(L"sort", Json::JsonFactory::createArray()).asArray(L"sort");
