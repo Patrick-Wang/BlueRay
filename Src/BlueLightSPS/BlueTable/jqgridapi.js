@@ -3,8 +3,8 @@
 var grids = {};
 var mediator = window.external;
 
-function highLightRow(gridName, rowId) {
-    grids[gridName].highLightRow(rowId);
+function setRowBgColor(gridName, rowId, r, g, b) {
+    grids[gridName].setRowBgColor(rowId, r, g, b);
 }
 
 function showCol(gridName, id) {

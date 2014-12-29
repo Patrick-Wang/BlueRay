@@ -96,8 +96,8 @@ module base {
             }
         }
 
-        public highLightRow(row: number) {
-            $("#" + this.mTableName + " #" + row).css("background-color", "red");
+        public setRowBgColor(row: number, r: number, g: number, b: number): void {
+            $("#" + this.mTableName + " #" + row).css("background", "rgb(" + r + "," + g + "," + b + ")");
         }
 
         public getRowId(row: number): number {

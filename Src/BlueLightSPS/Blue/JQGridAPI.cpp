@@ -423,15 +423,7 @@ int CJQGridAPI::GetPageSize()
 
 void CJQGridAPI::HighLightRow(int rowId)
 {
-	std::vector<VARIANT> params;
-	VARIANT vt = {};
-	vt.vt = VT_BSTR;
-	vt.bstrVal = m_gridName;
-	params.push_back(vt);
-	vt.vt = VT_I4;
-	vt.intVal = rowId;
-	params.push_back(vt);
-	m_pMedia->CallJsFunction(_T("highLightRow"), params);
+	SetRowBgColor(rowId, 237, 28, 36);
 }
 
 void CJQGridAPI::DisableSelect(int rowId)
@@ -473,6 +465,28 @@ void CJQGridAPI::GetDisabledRows(std::vector<int>& disabledRows)
 	{
 		Util_Tools::Util::Split(CString(vt.bstrVal), L',', disabledRows);
 	}
+}
+
+void CJQGridAPI::SetRowBgColor(int rowId, int r, int g, int b)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_BSTR;
+	vt.bstrVal = m_gridName;
+	params.push_back(vt);
+	vt.vt = VT_I4;
+	vt.intVal = rowId;
+	params.push_back(vt);
+	vt.vt = VT_I4;
+	vt.intVal = r;
+	params.push_back(vt);
+	vt.vt = VT_I4;
+	vt.intVal = g;
+	params.push_back(vt);
+	vt.vt = VT_I4;
+	vt.intVal = b;
+	params.push_back(vt);
+	m_pMedia->CallJsFunction(_T("setRowBgColor"), params);
 }
 
 CComJsFun CJQGridAPI::m_lpJsfOnUpdateData(_T("onUpdate"), ONUPDATEDATA);

@@ -20,6 +20,7 @@ public:
 	void ShowCol(int colId);
 	void HideCol(int colId);
 	void HighLightRow(int rowId);
+	void SetRowBgColor(int rowId, int r, int g, int b);
 	void DisableSelect(int rowId);
 	void EnableSelect(int rowId);
 	void GetDisabledRows(std::vector<int>& disabledRows);
