@@ -9,9 +9,9 @@
 #include "Util.h"
 
 
-#define ONROWCHECKED 12345
-#define ONGRIDCOMPLETE 12346
-#define ONUPDATEDATA 12347
+#define JSFN_ONROWCHECKED 12345
+#define JSFN_ONGRIDCOMPLETE 12346
+#define JSFN_ONUPDATEDATA 12347
 CJQGridAPI::CJQGridAPI(IJSMediator* pMedia, LPCTSTR lpGrid)
 	: m_pMedia(pMedia)
 	, m_gridName(::SysAllocString(lpGrid))
@@ -197,15 +197,15 @@ VARIANT CJQGridAPI::JSCall(int id, const std::vector<VARIANT>& params)
 	ASSERT(!params.empty());
 	if (0 == _tcscmp(params[0].bstrVal, m_gridName))
 	{
-		if (ONROWCHECKED == id)
+		if (JSFN_ONROWCHECKED == id)
 		{
 			d_OnRowChecked();
 		}
-		else if (ONGRIDCOMPLETE == id)
+		else if (JSFN_ONGRIDCOMPLETE == id)
 		{
 			d_OnGridComplete();
 		}
-		else if (ONUPDATEDATA == id)
+		else if (JSFN_ONUPDATEDATA == id)
 		{
 			d_OnUpdateData(params[1].intVal, params[2].intVal, params[3].intVal, params[4].boolVal);
 		}
@@ -523,8 +523,8 @@ void CJQGridAPI::SetPageSize(int pageSize)
 
 int CJQGridAPI::m_pageSize = 0;
 
-CComJsFun CJQGridAPI::m_lpJsfOnUpdateData(_T("onUpdate"), ONUPDATEDATA);
+CComJsFun CJQGridAPI::m_lpJsfOnUpdateData(_T("onUpdate"), JSFN_ONUPDATEDATA);
 
-CComJsFun CJQGridAPI::m_lpJsfOnComplete(_T("onRowChecked"), ONROWCHECKED);
+CComJsFun CJQGridAPI::m_lpJsfOnComplete(_T("onRowChecked"), JSFN_ONROWCHECKED);
 
-CComJsFun CJQGridAPI::m_lpJsfOnChecked(_T("onGridComplete"), ONGRIDCOMPLETE);
+CComJsFun CJQGridAPI::m_lpJsfOnChecked(_T("onGridComplete"), JSFN_ONGRIDCOMPLETE);

@@ -33,7 +33,7 @@ public class HTXX implements Serializable {
 	private Date ddrq;
 	private String sftgywsh = "N";
 	private String sftgjhsh = "N";
-	private Integer yxj;
+	private Integer yxj = 100;
 	private String ddzt;
 	
 	public static Class<?>  getFroeignClass(int col){

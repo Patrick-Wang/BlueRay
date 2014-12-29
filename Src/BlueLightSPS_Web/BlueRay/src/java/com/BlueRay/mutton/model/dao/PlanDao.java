@@ -30,5 +30,5 @@ public interface PlanDao {
 	List<PCJHXX> getPlanData(Integer pagesize, Integer pagenum,
 			Integer pagecount, JSONObject jparam, IAdvanceTranslator translator);
 
-	int getPlanDataCount();
+	int getPlanDataCount(JSONObject jparam, IAdvanceTranslator translator);
 }

@@ -122,8 +122,11 @@ public class PlanDaoImpl implements PlanDao{
 		return q.getResultList();
 	}
 
-	public int getPlanDataCount() {
-		Query q = entityManager.createQuery("select count(p) from PCJHXX p");
+
+	public int getPlanDataCount(JSONObject jparam, IAdvanceTranslator translator) {
+		PlanQueryParams pqp = new PlanQueryParams(jparam, translator);
+		String sql = pqp.toSql();
+		Query q = entityManager.createQuery(sql.replace("select PCJHXX_", "select count(PCJHXX_)"));
 		List<Object> objs = q.getResultList();
 		return ((Long) objs.get(0)).intValue();
 	}

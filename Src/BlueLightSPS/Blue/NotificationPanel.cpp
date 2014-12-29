@@ -249,10 +249,12 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 		virtual void OnSuccess(bool& ret){
 			m_panel.MessageBox(_T("ÉóºË³É¹¦"), _T("ÉóºË½á¹û"), MB_OK | MB_ICONWARNING);
 			m_panel.OnBnClickedBtnReturn();
+			m_panel.GetParent()->EnableWindow(TRUE);
 		}
 		virtual void OnFailed(){
 			m_panel.MessageBox(_T("ÉóºËÊ§°Ü"), _T("ÉóºË½á¹û"), MB_OK | MB_ICONWARNING);
 			m_panel.OnBnClickedBtnReturn();
+			m_panel.GetParent()->EnableWindow(TRUE);
 		}
 	};
 

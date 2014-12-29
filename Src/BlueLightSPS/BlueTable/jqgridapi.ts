@@ -54,7 +54,7 @@ function addRowData(gridName: string, rdata: string) {
 }
 
 function update(gridName: string, tdata: string) {
-    $("#" + gridName)[0].addJSONData(Util.parse(tdata));
+    $("#" + gridName)[0].addJSONData(jdata);
 }
 
 function addRowDataById(gridName: string, id: number, rdata: string) : void{

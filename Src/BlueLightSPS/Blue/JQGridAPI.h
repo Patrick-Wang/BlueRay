@@ -47,7 +47,6 @@ public:
 	CDelegate<void(void)> d_OnRowChecked;
 	CDelegate<void(void)> d_OnGridComplete;
 	CDelegate<void(int, int, int, bool)> d_OnUpdateData;
-
 	VARIANT JSCall(int id, const std::vector<VARIANT>& params);
 
 private:

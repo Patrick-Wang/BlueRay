@@ -1249,7 +1249,7 @@ void CPlanPanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 	DEFINE_PLAN_QUERY_PARAM(jqp);
 
 	if (searchText.IsEmpty()){
-		CServer::GetInstance()->GetPlan().Query(page, rows, jqp)
+		CServer::GetInstance()->GetPlan().Query(page, m_pJqGridAPI->GetPageSize(), jqp)
 			.then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 	}
 	else

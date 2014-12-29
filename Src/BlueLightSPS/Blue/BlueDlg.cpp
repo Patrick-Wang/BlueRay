@@ -29,6 +29,7 @@
 
 #define NAVIGATE_WIDTH	150
 #define RIGHT_AREA_LEFT	(NAVIGATE_WIDTH + 15)
+#define JSFN_ONGETROWNUM 12350
 
 
 #define GRID_NAME_SALE	_T("sale")
@@ -96,7 +97,9 @@ BOOL CBlueDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	CServer::GetInstance()->SetHttp(new CJsHttpImpl(&m_webView, this));
-
+	
+	static_cast<IJSMediator*>(&m_webView)->RegisterJsFunction(&m_jsfnOnGetRowNum);
+	m_jsfnOnGetRowNum.d_onJsCall += std::make_pair(this, &CBlueDlg::JSCall);
 	CRect rt;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rt, 0);
 	Util_Tools::Util::SetWindowSize(m_hWnd, rt.Width(), rt.Height());
@@ -401,7 +404,7 @@ void CBlueDlg::InitWebView()
 	rt.bottom -= 10;
 
 
-	int rowHeight = rt.Height() - 28 - 23;
+	int rowHeight = rt.Height() - 28 - 23 - 19;
 	int rowNumber = rowHeight / 23;
 	rt.top += rowHeight - rowNumber * 23;
 	
@@ -428,4 +431,17 @@ void CBlueDlg::OnSaleChanged()
 {
 	m_pPanelMap[IDC_PLANPAGE]->HasUpdate();
 }
+
+VARIANT CBlueDlg::JSCall(int id, const std::vector<VARIANT>& params)
+{
+	VARIANT vt;
+	vt.vt = VT_I4;
+	if (JSFN_ONGETROWNUM == id)
+	{
+		vt.intVal = CJQGridAPI::GetPageSize();
+	}
+	return vt;
+}
+
+CComJsFun CBlueDlg::m_jsfnOnGetRowNum(_T("onGetRowNum"), JSFN_ONGETROWNUM);
 

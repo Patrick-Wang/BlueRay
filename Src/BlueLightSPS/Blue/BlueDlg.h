@@ -75,7 +75,8 @@ public:
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	void OnWebComplete();
-
+	VARIANT JSCall(int id, const std::vector<VARIANT>& params);
 private:
 	CDelegate<void(void)> d_OnGridLoaded;
+	static CComJsFun m_jsfnOnGetRowNum;
 };

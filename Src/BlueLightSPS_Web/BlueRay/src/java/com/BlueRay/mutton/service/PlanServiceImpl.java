@@ -373,7 +373,7 @@ public class PlanServiceImpl implements PlanService {
 	public PageData pageQuery(Integer pagesize, Integer pagenum,
 			Integer pagecount, JSONObject jparam) {
 		List<PCJHXX> pcxxs = planDao.getPlanData(pagesize, pagenum, pagecount, jparam, planTranslator);
-		int count = planDao.getPlanDataCount();
+		int count = planDao.getPlanDataCount(jparam, planTranslator);
 		
 		PageData pd = new PageData();
 		

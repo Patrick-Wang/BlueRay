@@ -17,7 +17,7 @@ module base {
     }
 
     export class GridView {
-        private rowNum: number = 50;
+        private rowNum: number = mediator.onGetRowNum();
         private curPage: number;
         private mTableName: string;
         private mTable: any;

@@ -26,7 +26,7 @@ public:
 	CItem();
 	~CItem();
 
-	bool Query(ItemType type, StringArray& retArray);
-
+	bool QuerySync(ItemType type, StringArray& retArray);
+	CPromise<StringArray> Query(ItemType type);
 };
 

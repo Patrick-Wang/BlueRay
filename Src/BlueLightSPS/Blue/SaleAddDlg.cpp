@@ -157,19 +157,19 @@ void CSaleAddDlg::InitHttpInstance()
 		CString url;
 		//url.Format(_T("http://%s:8080/BlueRay/itemquery/khxx"), IDS_HOST_NAME);
 		//m_pHttp->Get(url, QUERY_COMBO_VALUE_KHMC_URL_ID);
-		item.Query(CItem::KHXX, m_DropList[CombId::Comb_KHMC]);
+		item.QuerySync(CItem::KHXX, m_DropList[CombId::Comb_KHMC]);
 		++m_iRef;
 
 		//规格型号
 		//url.Format(_T("http://%s:8080/BlueRay/itemquery/cpggxhxx"), IDS_HOST_NAME);
-		item.Query(CItem::CPGGXHXX, m_DropList[CombId::Comb_GGBH]);
+		item.QuerySync(CItem::CPGGXHXX, m_DropList[CombId::Comb_GGBH]);
 		//m_pHttp->Get(url, QUERY_COMBO_VALUE_GGBH_URL_ID);
 		++m_iRef;
 
 		//轴承
 		//url.Format(_T("http://%s:8080/BlueRay/itemquery/zcxx"), IDS_HOST_NAME);
 		//m_pHttp->Get(url, QUERY_COMBO_VALUE_ZC_URL_ID);
-		item.Query(CItem::ZCXX, m_DropList[CombId::Comb_ZC]);
+		item.QuerySync(CItem::ZCXX, m_DropList[CombId::Comb_ZC]);
 		++m_iRef;
 
 		//单复绕
@@ -179,13 +179,13 @@ void CSaleAddDlg::InitHttpInstance()
 		//制动器电压
 		//url.Format(_T("http://%s:8080/BlueRay/itemquery/zdqdyflxx"), IDS_HOST_NAME);
 		//m_pHttp->Get(url, QUERY_COMBO_VALUE_ZDQDY_URL_ID);
-		item.Query(CItem::ZDQDYFLXX, m_DropList[CombId::Comb_ZDQDY]);
+		item.QuerySync(CItem::ZDQDYFLXX, m_DropList[CombId::Comb_ZDQDY]);
 		++m_iRef;
 
 		//曳引轮规格
 		//url.Format(_T("http://%s:8080/BlueRay/itemquery/yylggflxx"), IDS_HOST_NAME);
 		//m_pHttp->Get(url, QUERY_COMBO_VALUE_YYLGG_URL_ID);
-		item.Query(CItem::YYLGGFLXX, m_DropList[CombId::Comb_YYLGG]);
+		item.QuerySync(CItem::YYLGGFLXX, m_DropList[CombId::Comb_YYLGG]);
 		++m_iRef;
 
 		//机房
@@ -195,19 +195,19 @@ void CSaleAddDlg::InitHttpInstance()
 		//变频器型号
 		//url.Format(_T("http://%s:8080/BlueRay/itemquery/bpqxhflxx"), IDS_HOST_NAME);
 		//m_pHttp->Get(url, QUERY_COMBO_VALUE_BPQXH_URL_ID);
-		item.Query(CItem::BPQXHFLXX, m_DropList[CombId::Comb_BPQXH]);
+		item.QuerySync(CItem::BPQXHFLXX, m_DropList[CombId::Comb_BPQXH]);
 		++m_iRef;
 
 		//编码器型号
 		//url.Format(_T("http://%s:8080/BlueRay/itemquery/bmqxhflxx"), IDS_HOST_NAME);
 		//m_pHttp->Get(url, QUERY_COMBO_VALUE_BMQXH_URL_ID);
-		item.Query(CItem::BMQXHFLXX, m_DropList[CombId::Comb_BMQXH]);
+		item.QuerySync(CItem::BMQXHFLXX, m_DropList[CombId::Comb_BMQXH]);
 		++m_iRef;
 
 		//铭牌等资料
 		//url.Format(_T("http://%s:8080/BlueRay/itemquery/mpzlxx"), IDS_HOST_NAME);
 		//m_pHttp->Get(url, QUERY_COMBO_VALUE_MPZL_URL_ID);
-		item.Query(CItem::MPZLXX, m_DropList[CombId::Comb_MPZL]);
+		item.QuerySync(CItem::MPZLXX, m_DropList[CombId::Comb_MPZL]);
 		//++m_iRef;
 
 		//EnableWindow(FALSE);
