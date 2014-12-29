@@ -18,21 +18,21 @@
 #define POST_URL_APPROVE		QUERY_URL_UNAPPROVED_PLANBZRQPLAN + 1
 
 static int g_StaticPos[][4] = {
-		{  20, 25, 280, 25 },
-		{ 440, 25, 280, 25 },
-		{ 860, 25, 280, 25 },
-		{ 20, 75, 280, 25 }, 
-		{ 440, 75, 280, 25 },
-		{ 860, 75, 280, 25 } 
+		{  20, 25, 180, 25 },
+		{ 270, 25, 180, 25 },
+		{ 520, 25, 180, 25 },
+		{ 20, 75, 180, 25 },
+		{ 270, 75, 180, 25 },
+		{ 520, 75, 180, 25 }
 };
 
 static int g_ButtoncPos[][4] = {
-		{ 300, 23, 90, 25 }, 
-		{ 720, 23, 90, 25 }, 
-		{ 1140, 23, 90, 25 },
-		{ 300, 73, 90, 25 },
-		{ 720, 73, 90, 25 },
-		{ 1140, 73, 90, 25 }
+		{ 200, 23, 50, 25 }, 
+		{ 450, 23, 50, 25 }, 
+		{ 700, 23, 50, 25 },
+		{ 200, 73, 50, 25 },
+		{ 450, 73, 50, 25 },
+		{ 700, 73, 50, 25 }
 };
 
 static int g_TableToBeHiddenForPlan[]
@@ -113,7 +113,7 @@ void CNotificationPanel::OnInitChilds()
 		m_bsSaleBusinessApprove.MoveWindow(g_StaticPos[Approving_SaleBusiness][0], g_StaticPos[Approving_SaleBusiness][1], g_StaticPos[Approving_SaleBusiness][2], g_StaticPos[Approving_SaleBusiness][3]);
 
 		m_btnSaleBusinessApprove.Create(this, IDC_NOTIFICATION_BTN_SALEBUSINESSAPPROVE);
-		m_btnSaleBusinessApprove.SetWindowText(_T("前往审核"));
+		m_btnSaleBusinessApprove.SetWindowText(_T("审核"));
 		m_btnSaleBusinessApprove.MoveWindow(g_ButtoncPos[Approving_SaleBusiness][0], g_ButtoncPos[Approving_SaleBusiness][1], g_ButtoncPos[Approving_SaleBusiness][2], g_ButtoncPos[Approving_SaleBusiness][3]);
 
 		m_bsSaleBusinessApprove.ShowWindow(SW_HIDE);
@@ -127,7 +127,7 @@ void CNotificationPanel::OnInitChilds()
 		m_bsSalePlanApprove.MoveWindow(g_StaticPos[Approving_SalePlan][0], g_StaticPos[Approving_SalePlan][1], g_StaticPos[Approving_SalePlan][2], g_StaticPos[Approving_SalePlan][3]);
 
 		m_btnSalePlanApprove.Create(this, IDC_NOTIFICATION_BTN_SALEPLANAPPROVE);
-		m_btnSalePlanApprove.SetWindowText(_T("前往审核"));
+		m_btnSalePlanApprove.SetWindowText(_T("审核"));
 		m_btnSalePlanApprove.MoveWindow(g_ButtoncPos[Approving_SalePlan][0], g_ButtoncPos[Approving_SalePlan][1], g_ButtoncPos[Approving_SalePlan][2], g_ButtoncPos[Approving_SalePlan][3]);
 
 		m_bsSalePlanApprove.ShowWindow(SW_HIDE);
@@ -141,7 +141,7 @@ void CNotificationPanel::OnInitChilds()
 		m_bsPlanSCRQBusinessApprove.SetTextAlign(DT_LEFT);
 
 		m_btnPlanSCRQBusinessApprove.Create(this, IDC_NOTIFICATION_BTN_PLANSCRQBUSINESSAPPROVE);
-		m_btnPlanSCRQBusinessApprove.SetWindowText(_T("前往审核"));
+		m_btnPlanSCRQBusinessApprove.SetWindowText(_T("审核"));
 		m_btnPlanSCRQBusinessApprove.MoveWindow(g_ButtoncPos[Approving_PlanSCRQBusiness][0], g_ButtoncPos[Approving_PlanSCRQBusiness][1], g_ButtoncPos[Approving_PlanSCRQBusiness][2], g_ButtoncPos[Approving_PlanSCRQBusiness][3]);
 
 		m_bsPlanSCRQBusinessApprove.ShowWindow(SW_HIDE);
@@ -155,7 +155,7 @@ void CNotificationPanel::OnInitChilds()
 		m_bsPlanSCRQPlanApprove.SetTextAlign(DT_LEFT);
 
 		m_btnPlanSCRQPlanApprove.Create(this, IDC_NOTIFICATION_BTN_PLANSCRQPLANAPPROVE);
-		m_btnPlanSCRQPlanApprove.SetWindowText(_T("前往审核"));
+		m_btnPlanSCRQPlanApprove.SetWindowText(_T("审核"));
 		m_btnPlanSCRQPlanApprove.MoveWindow(g_ButtoncPos[Approving_PlanSCRQPlan][0], g_ButtoncPos[Approving_PlanSCRQPlan][1], g_ButtoncPos[Approving_PlanSCRQPlan][2], g_ButtoncPos[Approving_PlanSCRQPlan][3]);
 
 		m_bsPlanSCRQPlanApprove.ShowWindow(SW_HIDE);
@@ -169,7 +169,7 @@ void CNotificationPanel::OnInitChilds()
 		m_bsPlanBZRQBusinessApprove.SetTextAlign(DT_LEFT);
 
 		m_btnPlanBZRQBusinessApprove.Create(this, IDC_NOTIFICATION_BTN_PLANBZRQBUSINESSAPPROVE);
-		m_btnPlanBZRQBusinessApprove.SetWindowText(_T("前往审核"));
+		m_btnPlanBZRQBusinessApprove.SetWindowText(_T("审核"));
 		m_btnPlanBZRQBusinessApprove.MoveWindow(g_ButtoncPos[Approving_PlanBZRQBusiness][0], g_ButtoncPos[Approving_PlanBZRQBusiness][1], g_ButtoncPos[Approving_PlanBZRQBusiness][2], g_ButtoncPos[Approving_PlanBZRQBusiness][3]);
 
 		m_bsPlanBZRQBusinessApprove.ShowWindow(SW_HIDE);
@@ -183,7 +183,7 @@ void CNotificationPanel::OnInitChilds()
 		m_bsPlanBZRQPlanApprove.SetTextAlign(DT_LEFT);
 
 		m_btnPlanBZRQPlanApprove.Create(this, IDC_NOTIFICATION_BTN_PLANBZRQPLANAPPROVE);
-		m_btnPlanBZRQPlanApprove.SetWindowText(_T("前往审核"));
+		m_btnPlanBZRQPlanApprove.SetWindowText(_T("审核"));
 		m_btnPlanBZRQPlanApprove.MoveWindow(g_ButtoncPos[Approving_PlanBZRQPlan][0], g_ButtoncPos[Approving_PlanBZRQPlan][1], g_ButtoncPos[Approving_PlanBZRQPlan][2], g_ButtoncPos[Approving_PlanBZRQPlan][3]);
 
 		m_bsPlanBZRQPlanApprove.ShowWindow(SW_HIDE);
@@ -607,7 +607,7 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 	int iSalePlan = stUnapproved.iSalePlan;//销售-计划未审批数
 
 	CString strSaleBussiness;
-	strSaleBussiness.Format(_T("目前您有 %d条 未处理的 销售-业务 审核"), iSaleBussiness);
+	strSaleBussiness.Format(_T("您有 %d条 未审核的 销售-业务"), iSaleBussiness);
 	m_bsSaleBusinessApprove.SetWindowText(strSaleBussiness);
 
 	int iPosIndex = 0;
@@ -631,7 +631,7 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 	}
 
 	CString strSalePlan;
-	strSalePlan.Format(_T("目前您有 %d条 未处理的 销售-计划 审核"), iSalePlan);
+	strSalePlan.Format(_T("您有 %d条 未审核的 销售-计划"), iSalePlan);
 	m_bsSalePlanApprove.SetWindowText(strSalePlan);
 
 	if (0 < iSalePlan && perm.getXsjhsh())
@@ -651,7 +651,7 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 	}
 
 	CString strPlanBussiness;
-	strPlanBussiness.Format(_T("目前您有 %d条 未处理的 计划-生产日期-业务 审核"), iPlanBussiness);
+	strPlanBussiness.Format(_T("您有 %d条 未审核的 业务-生产"), iPlanBussiness);
 	m_bsPlanSCRQBusinessApprove.SetWindowText(strPlanBussiness);
 
 	if (0 < iPlanBussiness && perm.getJhywsh())
@@ -671,7 +671,7 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 	}
 
 	CString strPlanPlan;
-	strPlanPlan.Format(_T("目前您有 %d条 未处理的 计划-生产日期-计划 审核"), iPlanPlan);
+	strPlanPlan.Format(_T("您有 %d条 未审核的 计划-生产"), iPlanPlan);
 	m_bsPlanSCRQPlanApprove.SetWindowText(strPlanPlan);
 
 	if (0 < iPlanPlan && perm.getJhjhsh())
@@ -691,7 +691,7 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 	}
 
 	CString strPackBussiness;
-	strPackBussiness.Format(_T("目前您有 %d条 未处理的 计划-包装日期-业务 审核"), iPackBussiness);
+	strPackBussiness.Format(_T("您有 %d条 未审核的 业务-包装"), iPackBussiness);
 	m_bsPlanBZRQBusinessApprove.SetWindowText(strPackBussiness);
 
 	if (0 < iPackBussiness && perm.getJhbzywsh())
@@ -711,7 +711,7 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 	}
 
 	CString strPackPlan;
-	strPackPlan.Format(_T("目前您有 %d条 未处理的 计划-包装日期-计划 审核"), iPackPlan);
+	strPackPlan.Format(_T("您有 %d条 未审核的 计划-包装"), iPackPlan);
 	m_bsPlanBZRQPlanApprove.SetWindowText(strPackPlan);
 
 	if (0 < iPackPlan && perm.getJhbzjhsh())
