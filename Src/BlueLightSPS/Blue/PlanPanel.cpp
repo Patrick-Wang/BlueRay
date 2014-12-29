@@ -40,8 +40,46 @@ BEGIN_MESSAGE_MAP(CPlanPanel, CBRPanel)
 END_MESSAGE_MAP()
 
 
-CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
-	: CBRPanel(pJqGridAPI, pHttp)
+
+class CPlanSearchListener : public CPromise<PageData_t>::IHttpResponse{
+	CONSTRUCTOR_3(CPlanSearchListener, CPlanPanel&, panel, table&, tb, CJQGridAPI*, pJqGridAPI)
+public:
+	virtual void OnSuccess(PageData_t& tb){
+		m_pJqGridAPI->Refresh(tb.rawData);
+		m_tb = tb.rows;
+		if (m_tb.empty())
+		{
+			m_panel.MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
+		}
+		m_panel.HighLight();
+		m_panel.GetParent()->EnableWindow(TRUE);
+	}
+	virtual void OnFailed(){
+		m_panel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+		m_panel.GetParent()->EnableWindow(TRUE);
+	}
+};
+
+
+class OnPlanLoadDataListener : public CPromise<PageData_t>::IHttpResponse
+{
+	CONSTRUCTOR_3(OnPlanLoadDataListener, CPlanPanel&, panel, table&, tb, CJQGridAPI*, pJqGridAPI)
+public:
+	virtual void OnSuccess(PageData_t& tb){
+		m_pJqGridAPI->Refresh(tb.rawData);
+		m_tb = tb.rows;
+		m_panel.HighLight();
+		m_panel.GetParent()->EnableWindow(TRUE);
+	}
+	virtual void OnFailed(){
+		m_panel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+		m_panel.GetParent()->EnableWindow(TRUE);
+	}
+};
+
+//CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
+CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI)
+	: CBRPanel(pJqGridAPI)
 	, m_btnPlan(NULL)
 	, m_btnModify(NULL)
 	, m_btnRestore(NULL)
@@ -375,27 +413,11 @@ void CPlanPanel::OnBnClickedSearch()
 	int iCountShot = 0;
 	CString searchText;
 	m_editSearch->GetWindowText(searchText);
-	class CSearchListener : public CPromise<PageData_t>::IHttpResponse{
-		CONSTRUCTOR_3(CSearchListener, CPlanPanel&, panel, table&, tb, CJQGridAPI*, pJqGridAPI)
-	public:
-		virtual void OnSuccess(PageData_t& tb){
-			m_pJqGridAPI->Refresh(tb.rawData);
-			m_tb = tb.rows;
-			if (m_tb.empty())
-			{
-				m_panel.MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
-			}
-			m_panel.GetParent()->EnableWindow(TRUE);
-		}
-		virtual void OnFailed(){
-			m_panel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-			m_panel.GetParent()->EnableWindow(TRUE);
-		}
-	};
+	
 
 	if (searchText.IsEmpty()){
 		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize())
-			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
+			.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}
 	else{
@@ -404,12 +426,12 @@ void CPlanPanel::OnBnClickedSearch()
 		CString strTo;
 		m_dtcSearchTo->GetWindowText(strTo);
 
-		CJsonQueryParam jqp;
+		DEFINE_PLAN_QUERY_PARAM(jqp);
 		jqp.SetBasicSearchCondition(searchText, true);
 		jqp.SetDateSearchCondition(strFrom, strTo);
 
 		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
-			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
+			.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}
 	//CString rowData;
@@ -446,11 +468,21 @@ void CPlanPanel::OnBnClickedSearch()
 	//}
 }
 
+void CPlanPanel::HighLight()
+{
+	for (size_t i = 0, len = m_table.size(); i < len; i++)
+	{
+		if (0 == m_table[i].second[PLAN_PRIORITY_COL].Compare(L"高"))
+		{
+			m_pJqGridAPI->HighLightRow(m_table[i].first);
+		}
+	}
+}
 
 void CPlanPanel::OnBnClickedMore()
 {
 	int iCountShot = 0;
-	CSaleAddDlg dlg(_T("高级搜索"), m_pHttp);
+	CSaleAddDlg dlg(_T("高级搜索"));
 	CSaleAddDlg::Option_t* pstOpt(new CSaleAddDlg::Option_t());
 	dlg.SetOption(pstOpt);
 	if (IDOK == dlg.DoModal()){
@@ -1049,23 +1081,24 @@ void CPlanPanel::OnInitData()
 			}
 		};*/
 
-		class CInitListener : public CPromise<PageData_t>::IHttpResponse{
-			CONSTRUCTOR_3(CInitListener, CPlanPanel&, planPanel, table&, tb, CJQGridAPI*, pJqGridAPI)
-		public:
-			virtual void OnSuccess(PageData_t& tb){
+		/*	class CInitListener : public CPromise<PageData_t>::IHttpResponse{
+				CONSTRUCTOR_3(CInitListener, CPlanPanel&, planPanel, table&, tb, CJQGridAPI*, pJqGridAPI)
+				public:
+				virtual void OnSuccess(PageData_t& tb){
 				m_pJqGridAPI->Refresh(tb.rawData);
 				m_tb = tb.rows;
+				m_planPanel.HighLight();
 				m_planPanel.GetParent()->EnableWindow(TRUE);
-			}
-			virtual void OnFailed(){
+				}
+				virtual void OnFailed(){
 				m_planPanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
 				m_planPanel.GetParent()->EnableWindow(TRUE);
-			}
-		};
+				}
+				};*/
 
-
+		DEFINE_PLAN_QUERY_PARAM(pqp)
 		CPlan& plan = CServer::GetInstance()->GetPlan();
-		plan.Query(1, m_pJqGridAPI->GetPageSize()).then(new CInitListener(*this, m_table, m_pJqGridAPI.get()));
+		plan.Query(1, m_pJqGridAPI->GetPageSize(), pqp).then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}
 	else
@@ -1209,30 +1242,15 @@ void CPlanPanel::OnDestroy()
 
 void CPlanPanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 {
-	class OnLoadDataListener : public CPromise<PageData_t>::IHttpResponse
-	{
-		CONSTRUCTOR_3(OnLoadDataListener, CPlanPanel&, panel, table&, tb, CJQGridAPI*, pJqGridAPI)
-	public:
-		virtual void OnSuccess(PageData_t& tb){
-			m_pJqGridAPI->Refresh(tb.rawData);
-			m_tb = tb.rows;
-			m_panel.GetParent()->EnableWindow(TRUE);
-		}
-		virtual void OnFailed(){
-			m_panel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-			m_panel.GetParent()->EnableWindow(TRUE);
-		}
-	};
+
 
 	CString searchText;
 	m_editSearch->GetWindowText(searchText);
-	CJsonQueryParam jqp;
-	jqp.AddSortCondition(24, true);//sort for yxj 
-	jqp.AddSortCondition(colIndex, bAsc);
+	DEFINE_PLAN_QUERY_PARAM(jqp);
 
 	if (searchText.IsEmpty()){
 		CServer::GetInstance()->GetPlan().Query(page, rows, jqp)
-			.then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+			.then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 	}
 	else
 	{
@@ -1245,7 +1263,7 @@ void CPlanPanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 
 
 		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
-			.then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+			.then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 	}
 
 	GetParent()->EnableWindow(FALSE);

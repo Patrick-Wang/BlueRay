@@ -17,7 +17,7 @@ module base {
     }
 
     export class GridView {
-        private rowNum: number = 20;
+        private rowNum: number = 50;
         private curPage: number;
         private mTableName: string;
         private mTable: any;
@@ -100,6 +100,10 @@ module base {
             $("#" + this.mTableName + " #" + row).css("background", "rgb(" + r + "," + g + "," + b + ")");
         }
 
+        public setRowFgColor(row: number, r: number, g: number, b: number): void {
+            $("#" + this.mTableName + " #" + row).css("color", "rgb(" + r + "," + g + "," + b + ")");
+        }
+
         public getRowId(row: number): number {
             var ids = this.mTable.jqGrid('getDataIDs');
             if (ids.length <= row) {
@@ -174,15 +178,15 @@ module base {
                         //rows: 200
                         //sidx: "sale_col_2"
                         //sord: "asc"
-                        $('#' + name)[0].addJSONData(Util.parse('{' +
-                            'total: 12, ' +
-                            'page: 1, ' +
-                            'records: 2000,' +
-                            'rows : [' +
-                            ' { id: "1", cell: ["cell11", "cell12", "cell13"] }, ' +
-                            '{ id: "2", cell: ["cell21", "cell22", "cell23"] } ' +
-                            ' ]' +
-                            '}'));
+                        //$('#' + name)[0].addJSONData(Util.parse('{' +
+                        //    'total: 12, ' +
+                        //    'page: 1, ' +
+                        //    'records: 2000,' +
+                        //    'rows : [' +
+                        //    ' { id: "1", cell: ["cell11", "cell12", "cell13"] }, ' +
+                        //    '{ id: "2", cell: ["cell21", "cell22", "cell23"] } ' +
+                        //    ' ]' +
+                        //    '}'));
                         try {
                             this.rowNum = postdata.rows;
                             this.curPage = postdata.page;

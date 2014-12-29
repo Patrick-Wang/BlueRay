@@ -6,7 +6,8 @@ class CBRPanel :
 	public CControlPanel
 {
 public:
-	CBRPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp);
+	//CBRPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp);
+	CBRPanel(CJQGridAPI* pJqGridAPI);
 	~CBRPanel();
 	bool IsUpdated();
 	void HasUpdate();
@@ -18,11 +19,11 @@ public:
 	virtual void OnHttpSuccess(int id, LPCTSTR resp) = 0;
 	virtual void OnHttpFailed(int id) = 0;
 	virtual void OnRowChecked() = 0;
-	std::vector < std::pair<int, StringArray>>& StringToTable(CString& json2DemArray, std::vector < std::pair<int, StringArray>>& table);
-	StringArray& ToStringArray(IntArray& src, StringArray& dest);
+	//std::vector < std::pair<int, StringArray>>& StringToTable(CString& json2DemArray, std::vector < std::pair<int, StringArray>>& table);
+	//StringArray& ToStringArray(IntArray& src, StringArray& dest);
 protected:
 	std::auto_ptr<CJQGridAPI> m_pJqGridAPI;
-	IHttp* m_pHttp;
+	//IHttp* m_pHttp;
 	bool m_bHasUpdate;
 };
 

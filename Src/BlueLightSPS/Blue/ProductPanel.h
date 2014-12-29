@@ -7,7 +7,7 @@ class CProductPanel :
 	public CBRPanel
 {
 public:
-	CProductPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp);
+	CProductPanel(CJQGridAPI* pJqGridAPI);
 	~CProductPanel();
 protected:
 	virtual void OnInitChilds();

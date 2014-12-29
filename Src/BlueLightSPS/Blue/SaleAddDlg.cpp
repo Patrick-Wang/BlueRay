@@ -1,4 +1,6 @@
 ﻿#include "stdafx.h"
+#include "Server.h"
+#include "Sale.h"
 #include "SaleAddDlg.h"
 #include "resource_ids.h"
 #include "CommonDefine.h"
@@ -130,90 +132,88 @@ inline void init(CComboBox* comb, int val){
 	}
 }
 
-CSaleAddDlg::CSaleAddDlg(LPCTSTR title, IHttp* pHttp, CWnd* pParent /*= NULL*/)
+CSaleAddDlg::CSaleAddDlg(LPCTSTR title, CWnd* pParent /*= NULL*/)
 	: CPopupDlg(title, pParent)
 	, m_lpOption(NULL)
-	, m_pHttp(NULL)
 {
-	InitHttpInstance(pHttp);
+	InitHttpInstance();
 }
 
 
 
 CSaleAddDlg::~CSaleAddDlg()
 {
-	if (NULL != m_pHttp)
-	{
-		m_pHttp->d_OnSuccess -= std::make_pair(this, &CSaleAddDlg::OnHttpSuccess);
-		m_pHttp->d_OnFailed -= std::make_pair(this, &CSaleAddDlg::OnHttpFailed);
-	}
+
 }
 
-void CSaleAddDlg::InitHttpInstance(IHttp* pHttp)
+void CSaleAddDlg::InitHttpInstance()
 {
-	if (NULL != pHttp)
+	if (m_DropList.empty())
 	{
-		m_pHttp = pHttp;
+		m_DropList.resize(CombId::Comb_END);
+		CItem& item = CServer::GetInstance()->GetItem();
+		
+		//客户名称
+		CString url;
+		//url.Format(_T("http://%s:8080/BlueRay/itemquery/khxx"), IDS_HOST_NAME);
+		//m_pHttp->Get(url, QUERY_COMBO_VALUE_KHMC_URL_ID);
+		item.Query(CItem::KHXX, m_DropList[CombId::Comb_KHMC]);
+		++m_iRef;
 
-		m_pHttp->d_OnSuccess += std::make_pair(this, &CSaleAddDlg::OnHttpSuccess);
-		m_pHttp->d_OnFailed += std::make_pair(this, &CSaleAddDlg::OnHttpFailed);
-	
-		if (m_DropList.empty())
-		{
-			m_DropList.resize(CombId::Comb_END);
+		//规格型号
+		//url.Format(_T("http://%s:8080/BlueRay/itemquery/cpggxhxx"), IDS_HOST_NAME);
+		item.Query(CItem::CPGGXHXX, m_DropList[CombId::Comb_GGBH]);
+		//m_pHttp->Get(url, QUERY_COMBO_VALUE_GGBH_URL_ID);
+		++m_iRef;
 
-			//客户名称
-			CString url;
-			url.Format(_T("http://%s:8080/BlueRay/itemquery/khxx"), IDS_HOST_NAME);
-			m_pHttp->Get(url, QUERY_COMBO_VALUE_KHMC_URL_ID);
-			++m_iRef;
+		//轴承
+		//url.Format(_T("http://%s:8080/BlueRay/itemquery/zcxx"), IDS_HOST_NAME);
+		//m_pHttp->Get(url, QUERY_COMBO_VALUE_ZC_URL_ID);
+		item.Query(CItem::ZCXX, m_DropList[CombId::Comb_ZC]);
+		++m_iRef;
 
-			//规格型号
-			url.Format(_T("http://%s:8080/BlueRay/itemquery/cpggxhxx"), IDS_HOST_NAME);
-			m_pHttp->Get(url, QUERY_COMBO_VALUE_GGBH_URL_ID);
-			++m_iRef;
+		//单复绕
+		m_DropList[Comb_DFR].push_back(_T("是"));
+		m_DropList[Comb_DFR].push_back(_T("否"));
 
-			//轴承
-			url.Format(_T("http://%s:8080/BlueRay/itemquery/zcxx"), IDS_HOST_NAME);
-			m_pHttp->Get(url, QUERY_COMBO_VALUE_ZC_URL_ID);
-			++m_iRef;
+		//制动器电压
+		//url.Format(_T("http://%s:8080/BlueRay/itemquery/zdqdyflxx"), IDS_HOST_NAME);
+		//m_pHttp->Get(url, QUERY_COMBO_VALUE_ZDQDY_URL_ID);
+		item.Query(CItem::ZDQDYFLXX, m_DropList[CombId::Comb_ZDQDY]);
+		++m_iRef;
 
-			//单复绕
-			m_DropList[Comb_DFR].push_back(_T("是"));
-			m_DropList[Comb_DFR].push_back(_T("否"));
+		//曳引轮规格
+		//url.Format(_T("http://%s:8080/BlueRay/itemquery/yylggflxx"), IDS_HOST_NAME);
+		//m_pHttp->Get(url, QUERY_COMBO_VALUE_YYLGG_URL_ID);
+		item.Query(CItem::YYLGGFLXX, m_DropList[CombId::Comb_YYLGG]);
+		++m_iRef;
 
-			//制动器电压
-			url.Format(_T("http://%s:8080/BlueRay/itemquery/zdqdyflxx"), IDS_HOST_NAME);
-			m_pHttp->Get(url, QUERY_COMBO_VALUE_ZDQDY_URL_ID);
-			++m_iRef;
+		//机房
+		m_DropList[Comb_JF].push_back(_T("是"));
+		m_DropList[Comb_JF].push_back(_T("否"));
 
-			//曳引轮规格
-			url.Format(_T("http://%s:8080/BlueRay/itemquery/yylggflxx"), IDS_HOST_NAME);
-			m_pHttp->Get(url, QUERY_COMBO_VALUE_YYLGG_URL_ID);
-			++m_iRef;
+		//变频器型号
+		//url.Format(_T("http://%s:8080/BlueRay/itemquery/bpqxhflxx"), IDS_HOST_NAME);
+		//m_pHttp->Get(url, QUERY_COMBO_VALUE_BPQXH_URL_ID);
+		item.Query(CItem::BPQXHFLXX, m_DropList[CombId::Comb_BPQXH]);
+		++m_iRef;
 
-			//机房
-			m_DropList[Comb_JF].push_back(_T("是"));
-			m_DropList[Comb_JF].push_back(_T("否"));
+		//编码器型号
+		//url.Format(_T("http://%s:8080/BlueRay/itemquery/bmqxhflxx"), IDS_HOST_NAME);
+		//m_pHttp->Get(url, QUERY_COMBO_VALUE_BMQXH_URL_ID);
+		item.Query(CItem::BMQXHFLXX, m_DropList[CombId::Comb_BMQXH]);
+		++m_iRef;
 
-			//变频器型号
-			url.Format(_T("http://%s:8080/BlueRay/itemquery/bpqxhflxx"), IDS_HOST_NAME);
-			m_pHttp->Get(url, QUERY_COMBO_VALUE_BPQXH_URL_ID);
-			++m_iRef;
+		//铭牌等资料
+		//url.Format(_T("http://%s:8080/BlueRay/itemquery/mpzlxx"), IDS_HOST_NAME);
+		//m_pHttp->Get(url, QUERY_COMBO_VALUE_MPZL_URL_ID);
+		item.Query(CItem::MPZLXX, m_DropList[CombId::Comb_MPZL]);
+		//++m_iRef;
 
-			//编码器型号
-			url.Format(_T("http://%s:8080/BlueRay/itemquery/bmqxhflxx"), IDS_HOST_NAME);
-			m_pHttp->Get(url, QUERY_COMBO_VALUE_BMQXH_URL_ID);
-			++m_iRef;
-
-			//铭牌等资料
-			url.Format(_T("http://%s:8080/BlueRay/itemquery/mpzlxx"), IDS_HOST_NAME);
-			m_pHttp->Get(url, QUERY_COMBO_VALUE_MPZL_URL_ID);
-			++m_iRef;
-
-			//EnableWindow(FALSE);
-		}
+		//EnableWindow(FALSE);
 	}
+
+	
 }
 
 void CSaleAddDlg::OnHttpSuccess(int id, LPCTSTR resp)
@@ -343,15 +343,15 @@ BOOL CSaleAddDlg::OnInitDialog()
 	}
 
 
-
-	if (m_iRef > 0)
-	{
-		EnableWindow(FALSE);
-	}
-	else
-	{
-		InitCtrlData();
-	}
+	InitCtrlData();
+	//if (m_iRef > 0)
+	//{
+	//	EnableWindow(FALSE);
+	//}
+	//else
+	//{
+	//	
+	//}
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }

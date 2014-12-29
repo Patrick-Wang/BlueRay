@@ -111,20 +111,19 @@ public class PlanServiceImpl implements PlanService {
 		SaleServiceImpl.setHtxx(ret, htxxMap.get(id), itemDao);
 		ret[0] = pcjhxx.getPcjhID() + "";
 		ret[4] = "1";// 鏁伴噺
-		ret[25] = ret[18];
 		ret[26] = ret[19];
-		ret[16] = (null != pcjhxx.getJhscrq()) ? pcjhxx.getJhscrq()
+		ret[17] = (null != pcjhxx.getJhscrq()) ? pcjhxx.getJhscrq()
 				.toString() : "";
-		ret[17] = planTranslator.out("sftgywsh", pcjhxx.getSftgywsh());
-		ret[18] = planTranslator.out("sftgjhsh", pcjhxx.getSftgjhsh());
-		ret[19] = (null != pcjhxx.getJhbzrq()) ? pcjhxx.getJhbzrq()
+		ret[18] = planTranslator.out("sftgywsh", pcjhxx.getSftgywsh());
+		ret[19] = planTranslator.out("sftgjhsh", pcjhxx.getSftgjhsh());
+		ret[20] = (null != pcjhxx.getJhbzrq()) ? pcjhxx.getJhbzrq()
 				.toString() : "";
-		ret[20] = planTranslator.out("bzsftgywsh", pcjhxx.getBzsftgywsh());
-		ret[24] = planTranslator.out("bzsftgjhsh", pcjhxx.getBzsftgjhsh());
-		ret[22] = (null != pcjhxx.getJhfhrq()) ? pcjhxx.getJhfhrq()
+		ret[21] = planTranslator.out("bzsftgywsh", pcjhxx.getBzsftgywsh());
+		ret[22] = planTranslator.out("bzsftgjhsh", pcjhxx.getBzsftgjhsh());
+		ret[23] = (null != pcjhxx.getJhfhrq()) ? pcjhxx.getJhfhrq()
 				.toString() : "";
-		ret[23] = pcjhxx.getTcbh();
-		ret[24] = pcjhxx.getCcbh();		
+		ret[24] = pcjhxx.getTcbh();
+		ret[25] = pcjhxx.getCcbh();		
 	}
 	
 	public static Map<Integer, HTXX> getHtxxMap(List<PCJHXX> pcxxs, SaleDao saleDao, PlanDao planDao, Map<Integer, HTXX> htxxMap){

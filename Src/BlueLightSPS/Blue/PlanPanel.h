@@ -9,9 +9,9 @@ class CPlanPanel :
 	public CBRPanel
 {
 public:
-	CPlanPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp);
+	CPlanPanel(CJQGridAPI* pJqGridAPI);
 	~CPlanPanel();
-
+	void HighLight();
 	void OnRowChecked();
 	void OnGridComplete();
 	virtual void OnUIPrepared();

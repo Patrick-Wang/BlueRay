@@ -30,10 +30,10 @@ public class HTXX implements Serializable {
 	private String zxcd;
 	private Integer mpzl;
 	private String bz;
+	private Date ddrq;
 	private String sftgywsh = "N";
 	private String sftgjhsh = "N";
 	private Integer yxj;
-	private Date ddrq;
 	private String ddzt;
 	
 	public static Class<?>  getFroeignClass(int col){

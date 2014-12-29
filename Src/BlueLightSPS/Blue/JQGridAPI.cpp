@@ -405,7 +405,7 @@ int CJQGridAPI::GetCurrentPage()
 	return 0;
 }
 
-int CJQGridAPI::GetPageSize()
+int CJQGridAPI::GetGridPageSize()
 {
 	std::vector<VARIANT> params;
 	VARIANT vt = {};
@@ -423,7 +423,7 @@ int CJQGridAPI::GetPageSize()
 
 void CJQGridAPI::HighLightRow(int rowId)
 {
-	SetRowBgColor(rowId, 237, 28, 36);
+	SetRowFgColor(rowId, 237, 28, 36);
 }
 
 void CJQGridAPI::DisableSelect(int rowId)
@@ -488,6 +488,40 @@ void CJQGridAPI::SetRowBgColor(int rowId, int r, int g, int b)
 	params.push_back(vt);
 	m_pMedia->CallJsFunction(_T("setRowBgColor"), params);
 }
+
+void CJQGridAPI::SetRowFgColor(int rowId, int r, int g, int b)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_BSTR;
+	vt.bstrVal = m_gridName;
+	params.push_back(vt);
+	vt.vt = VT_I4;
+	vt.intVal = rowId;
+	params.push_back(vt);
+	vt.vt = VT_I4;
+	vt.intVal = r;
+	params.push_back(vt);
+	vt.vt = VT_I4;
+	vt.intVal = g;
+	params.push_back(vt);
+	vt.vt = VT_I4;
+	vt.intVal = b;
+	params.push_back(vt);
+	m_pMedia->CallJsFunction(_T("setRowFgColor"), params);
+}
+
+int CJQGridAPI::GetPageSize()
+{
+	return m_pageSize;
+}
+
+void CJQGridAPI::SetPageSize(int pageSize)
+{
+	m_pageSize = pageSize;
+}
+
+int CJQGridAPI::m_pageSize = 0;
 
 CComJsFun CJQGridAPI::m_lpJsfOnUpdateData(_T("onUpdate"), ONUPDATEDATA);
 

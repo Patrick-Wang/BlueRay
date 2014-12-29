@@ -57,13 +57,13 @@ public class PlanQueryParams {
 	
 	private static int mColumnCount = 26;
 	{
-		for (int i = 0; i < 15; ++i) {
+		for (int i = 0; i < 17; ++i) {
 			paramHtxxColMap.put(i, i + 1);
 		}
-		paramHtxxColMap.put(24, 18);
 		paramHtxxColMap.put(25, 19);
-		for (int i = 16; i < 24; ++i) {
-			paramPcjhColMap.put(i, 1 + i - 16);
+		
+		for (int i = 17; i < 25; ++i) {
+			paramPcjhColMap.put(i, 1 + i - 17);
 		}
 	}
 

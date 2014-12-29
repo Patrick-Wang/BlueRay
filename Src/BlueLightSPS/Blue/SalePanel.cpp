@@ -21,9 +21,9 @@
 #define BUSSINESS_REAPPROVE_BSN_URL_ID IDP_SALE + 6
 #define BUSSINESS_REAPPROVE_PLAN_URL_ID IDP_SALE + 7
 
-class OnLoadDataListener : public CPromise<PageData_t>::IHttpResponse
+class OnSaleLoadDataListener : public CPromise<PageData_t>::IHttpResponse
 {
-	CONSTRUCTOR_3(OnLoadDataListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
+	CONSTRUCTOR_3(OnSaleLoadDataListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
 public:
 	virtual void OnSuccess(PageData_t& tb){
 		m_pJqGridAPI->Refresh(tb.rawData);
@@ -37,8 +37,8 @@ public:
 	}
 };
 
-class CSearchListener : public CPromise<PageData_t>::IHttpResponse{
-	CONSTRUCTOR_3(CSearchListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
+class CSaleSearchListener : public CPromise<PageData_t>::IHttpResponse{
+	CONSTRUCTOR_3(CSaleSearchListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
 public:
 	virtual void OnSuccess(PageData_t& tb){
 		m_pJqGridAPI->Refresh(tb.rawData);
@@ -77,8 +77,9 @@ BEGIN_MESSAGE_MAP(CSalePanel, CBRPanel)
 	ON_CBN_SELCHANGE(IDC_SALE_COMBO_PROSTATUS, &CSalePanel::OnCbnSelchangeProductionStatus)
 END_MESSAGE_MAP()
 
-CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
-	: CBRPanel(pJqGridAPI, pHttp)
+CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI)
+	//: CBRPanel(pJqGridAPI, pHttp)
+	: CBRPanel(pJqGridAPI)
 	, m_tableFilterDlg(_T("表格设置"))
 	, m_btnAdd(NULL)
 	, m_btnSearch(NULL)
@@ -297,7 +298,7 @@ void CSalePanel::FilterTableByStatus(enumProductionStatusForSale productionStatu
 
 void CSalePanel::OnBnClickedAdd()
 {
-	CSaleAddDlg dlg(_T("添加"), m_pHttp);
+	CSaleAddDlg dlg(_T("添加"));
 	if (IDOK == dlg.DoModal())
 	{
 		m_cacheRow = dlg.GetResult();
@@ -449,7 +450,7 @@ void CSalePanel::OnReApproveSuccess(CSale::ApproveType type)
 
 void CSalePanel::OnBnClickedModify()
 {
-	CSaleAddDlg dlg(_T("修改"), m_pHttp);
+	CSaleAddDlg dlg(_T("修改"));
 	dlg.d_GetOption += std::make_pair(this, &CSalePanel::OnSaleDlgGetModifyOption);
 
 	if (IDOK == dlg.DoModal())
@@ -598,7 +599,7 @@ void CSalePanel::OnBnClickedSearch()
 
 	if (searchText.IsEmpty()){
 		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize())
-			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
+			.then(new CSaleSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}
 	else{
@@ -607,12 +608,12 @@ void CSalePanel::OnBnClickedSearch()
 		CString strTo;
 		m_dtcSearchTo->GetWindowText(strTo);
 
-		CJsonQueryParam jqp;
+		DEFINE_SALE_QUERY_PARAM(jqp);
 		jqp.SetBasicSearchCondition(searchText, true);
 		jqp.SetDateSearchCondition(strFrom, strTo);
 
 		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
-			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
+			.then(new CSaleSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}
 }
@@ -621,7 +622,7 @@ void CSalePanel::OnBnClickedSearch()
 void CSalePanel::OnBnClickedMore()
 {
 	int iCountShot = 0;
-	CSaleAddDlg dlg(_T("高级搜索"), m_pHttp);
+	CSaleAddDlg dlg(_T("高级搜索"));
 
 	dlg.SetOption(new CSaleAddDlg::Option_t());
 	if (IDOK == dlg.DoModal()){
@@ -629,10 +630,10 @@ void CSalePanel::OnBnClickedMore()
 		searchVals.insert(searchVals.begin() + 15, L"");//插入业务审核
 		searchVals.insert(searchVals.begin() + 15, L"");//插入计划审核
 		searchVals.insert(searchVals.begin() + 15, L"");//插入优先级
-		CJsonQueryParam jqp;
+		DEFINE_SALE_QUERY_PARAM(jqp);
 		jqp.AddAdvancedCondition(&searchVals);
 		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
-			.then(new CSearchListener(*this, m_table, m_pJqGridAPI.get()));
+			.then(new CSaleSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}
 }
@@ -937,11 +938,12 @@ void CSalePanel::OnInitData()
 	if (perm.getSale())
 	{
 		
-
+		DEFINE_SALE_QUERY_PARAM(sqp)
 		CServer::GetInstance()->GetSale().Query(
 			m_pJqGridAPI->GetCurrentPage(),
-			m_pJqGridAPI->GetPageSize())
-			.then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+			m_pJqGridAPI->GetPageSize(),
+			sqp)
+			.then(new OnSaleLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}
 	else
@@ -1031,13 +1033,12 @@ void CSalePanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 {
 	CString searchText;
 	m_editSearch->GetWindowText(searchText);
-	CJsonQueryParam jqp;
-	jqp.AddSortCondition(17, true);//sort for yxj 
+	DEFINE_SALE_QUERY_PARAM(jqp);
 	jqp.AddSortCondition(colIndex, bAsc);
 
 	if (searchText.IsEmpty()){
-		CServer::GetInstance()->GetSale().Query(page, rows, jqp)
-			.then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+		CServer::GetInstance()->GetSale().Query(page, CJQGridAPI::GetPageSize(), jqp)
+			.then(new OnSaleLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 	}
 	else
 	{
@@ -1049,8 +1050,8 @@ void CSalePanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 		jqp.SetDateSearchCondition(strFrom, strTo);
 		
 
-		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
-			.then(new OnLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+		CServer::GetInstance()->GetSale().Query(1, CJQGridAPI::GetPageSize(), jqp)
+			.then(new OnSaleLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 	}
 	
 	GetParent()->EnableWindow(FALSE);
@@ -1060,7 +1061,7 @@ void CSalePanel::HighLight()
 {
 	for (size_t i = 0, len = m_table.size(); i < len; i++)
 	{
-		if (0 == m_table[i].second[17].Compare(L"高"))
+		if (0 == m_table[i].second[SALE_PRIORITY_COL].Compare(L"高"))
 		{
 			m_pJqGridAPI->HighLightRow(m_table[i].first);
 		}

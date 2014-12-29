@@ -2,8 +2,9 @@
 #include "ProductPanel.h"
 
 
-CProductPanel::CProductPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
-	: CBRPanel(pJqGridAPI, pHttp)
+CProductPanel::CProductPanel(CJQGridAPI* pJqGridAPI)
+	//: CBRPanel(pJqGridAPI, pHttp)
+	: CBRPanel(pJqGridAPI)
 {
 
 }

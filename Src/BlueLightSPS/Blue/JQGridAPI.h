@@ -16,11 +16,14 @@ public:
 	void ShowGrid();
 	void HideGrid();
 	int GetCurrentPage();
-	int GetPageSize();
+	int GetGridPageSize();
+	static void SetPageSize(int pageSize);
+	static int GetPageSize();
 	void ShowCol(int colId);
 	void HideCol(int colId);
 	void HighLightRow(int rowId);
 	void SetRowBgColor(int rowId, int r, int g, int b);
+	void SetRowFgColor(int rowId, int r, int g, int b);
 	void DisableSelect(int rowId);
 	void EnableSelect(int rowId);
 	void GetDisabledRows(std::vector<int>& disabledRows);
@@ -50,7 +53,7 @@ public:
 private:
 	std::set<int> m_hideCols;
 	IJSMediator* m_pMedia;
-	int m_pageSize;
+	static int m_pageSize;
 	static CComJsFun m_lpJsfOnChecked;
 	static CComJsFun m_lpJsfOnComplete;
 	static CComJsFun m_lpJsfOnUpdateData;

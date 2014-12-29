@@ -202,19 +202,19 @@ void CBlueDlg::OnGridDataLoaded()
 	CRect clientRect;
 	GetClientRect(clientRect);
 	CRect rtCtrlPanel(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 218);
-	m_pPanelMap[IDC_SALEPAGE].reset(new CSalePanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_SALE), CServer::GetInstance()->GetHttp()));
+	m_pPanelMap[IDC_SALEPAGE].reset(new CSalePanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_SALE)));
 	m_pPanelMap[IDC_SALEPAGE]->Create(this, IDP_SALE);
 	m_pPanelMap[IDC_SALEPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 	
-	m_pPanelMap[IDC_PLANPAGE].reset(new CPlanPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_PLAN), CServer::GetInstance()->GetHttp()));
+	m_pPanelMap[IDC_PLANPAGE].reset(new CPlanPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_PLAN)));
 	m_pPanelMap[IDC_PLANPAGE]->Create(this, IDP_PLAN);
 	m_pPanelMap[IDC_PLANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 
-	m_pPanelMap[IDC_PRODUCTIONSCANPAGE].reset(new CProductPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_PRODUCT), CServer::GetInstance()->GetHttp()));
+	m_pPanelMap[IDC_PRODUCTIONSCANPAGE].reset(new CProductPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_PRODUCT)));
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE]->Create(this, IDP_PRODUCT);
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 
-	m_pPanelMap[IDC_NOTIFICATION].reset(new CNotificationPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_NOTIFICATION), CServer::GetInstance()->GetHttp()));
+	m_pPanelMap[IDC_NOTIFICATION].reset(new CNotificationPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_NOTIFICATION)));
 	m_pPanelMap[IDC_NOTIFICATION]->Create(this, IDP_NOTIFICATION);
 	m_pPanelMap[IDC_NOTIFICATION]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 
@@ -399,6 +399,14 @@ void CBlueDlg::InitWebView()
 	rt.top = 237;
 	rt.right -= 10;
 	rt.bottom -= 10;
+
+
+	int rowHeight = rt.Height() - 28 - 23;
+	int rowNumber = rowHeight / 23;
+	rt.top += rowHeight - rowNumber * 23;
+	
+	CJQGridAPI::SetPageSize(rowNumber);
+
 	m_webView.Create(NULL, NULL, WS_CHILD, rt, this, 10000, NULL);
 	m_webView.ShowWindow(SW_SHOW);
 	m_webView.d_OnDomComplete += std::make_pair(this, &CBlueDlg::OnWebComplete);

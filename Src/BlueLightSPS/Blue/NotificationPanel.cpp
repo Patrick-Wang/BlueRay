@@ -46,8 +46,10 @@ static int g_TableToBeHiddenForSale[]
 };
 
 
-CNotificationPanel::CNotificationPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
-	: CBRPanel(pJqGridAPI, pHttp)
+//CNotificationPanel::CNotificationPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
+CNotificationPanel::CNotificationPanel(CJQGridAPI* pJqGridAPI)
+//: CBRPanel(pJqGridAPI, pHttp)
+	: CBRPanel(pJqGridAPI)
 	, m_enumCurrentApprovingItem(Approving_NULL)
 	, m_pTableFilter(NULL)
 	, m_staticPromotion(NULL)
@@ -321,8 +323,7 @@ void CNotificationPanel::OnBnClickedSalePlanApprove()
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
-	CJsonQueryParam jqp;
-	jqp.AddSortCondition(17, true);
+	DEFINE_SALE_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CSale::PLAN, false);
 	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 	//CString url;

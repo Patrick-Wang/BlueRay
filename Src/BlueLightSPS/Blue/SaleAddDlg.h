@@ -160,7 +160,7 @@ public:
 	}Option_t;
 
 
-	CSaleAddDlg(LPCTSTR title, IHttp* pHttp, CWnd* pParent = NULL);
+	CSaleAddDlg(LPCTSTR title, CWnd* pParent = NULL);
 	~CSaleAddDlg();
 	void SetOption(Option_t* lpOpt);
 
@@ -206,7 +206,7 @@ public:
 	static const std::vector<std::vector<CString>>& GetDropList();
 	CDelegate<void(CSaleAddDlg&)> d_GetOption;
 protected:
-	void InitHttpInstance(IHttp* pHttp);
+	void InitHttpInstance();
 	virtual void OnOK();
 	void InitCtrlData();
 private:
@@ -217,8 +217,6 @@ private:
 	CComboBox* m_aCombs[CombId::Comb_END];
 	CEdit* m_aEdits[EditId::Edit_END];
 	CDateTimeCtrl* m_aDatePickers[DatePickerId::DatePicker_END];
-	
-	IHttp* m_pHttp;
 
 private:
 	virtual void PostNcDestroy();

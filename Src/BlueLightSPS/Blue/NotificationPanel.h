@@ -21,7 +21,8 @@ class CNotificationPanel :
 		}
 	};
 public:
-	CNotificationPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp);
+	//CNotificationPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp);
+	CNotificationPanel(CJQGridAPI* pJqGridAPI);
 	~CNotificationPanel();
 
 protected:

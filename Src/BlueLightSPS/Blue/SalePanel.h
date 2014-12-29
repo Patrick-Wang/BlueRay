@@ -12,7 +12,7 @@ class CSalePanel :
 	public CBRPanel
 {
 public:
-	CSalePanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp);
+	CSalePanel(CJQGridAPI* pJqGridAPI);
 	~CSalePanel();
 
 	void OnRowChecked();

@@ -7,6 +7,10 @@ function setRowBgColor(gridName: string, rowId: number, r: number, g: number, b:
     grids[gridName].setRowBgColor(rowId, r, g, b);
 }
 
+function setRowFgColor(gridName: string, rowId: number, r: number, g: number, b: number) {
+    grids[gridName].setRowFgColor(rowId, r, g, b);
+}
+
 function showCol(gridName: string, id: string) {
     var colId: string = gridName + "_col_" + id;
     grids[gridName].showHideCol(colId, true);

@@ -66,11 +66,11 @@ public class SaleServiceImpl implements SaleService {
 			row[13] = htxx.getZxcd();
 			row[14] = itDao.queryMpzlxxById(htxx.getMpzl()).getMpzl();
 			row[15] = htxx.getBz();
-
-			row[16] = translator.out("sftgywsh", htxx.getSftgywsh());
-			row[17] = translator.out("sftgjhsh", htxx.getSftgjhsh());
-			row[18] = translator.out("yxj", htxx.getYxj() + "");
-			row[19] = htxx.getDdrq() + "";
+			row[16] = htxx.getDdrq() + "";
+			row[17] = translator.out("sftgywsh", htxx.getSftgywsh());
+			row[18] = translator.out("sftgjhsh", htxx.getSftgjhsh());
+			row[19] = translator.out("yxj", htxx.getYxj() + "");
+			
 			
 		} catch (Exception e) {
 

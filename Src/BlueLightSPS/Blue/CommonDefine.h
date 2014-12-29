@@ -55,3 +55,14 @@
 #define IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE			IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED
 #define IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED			_T("1")
 #define IDS_SETTING_ITEM_TABLEFILTER_VALUE_UNCHECKED		_T("0")
+
+#define SALE_PRIORITY_COL	18
+#define PLAN_PRIORITY_COL	25
+
+#define DEFINE_SALE_QUERY_PARAM(name) \
+	CJsonQueryParam name;\
+	name.AddSortCondition(SALE_PRIORITY_COL, true);//sort for yxj 
+
+#define DEFINE_PLAN_QUERY_PARAM(name) \
+	CJsonQueryParam name;\
+	name.AddSortCondition(PLAN_PRIORITY_COL, true);//sort for yxj 
