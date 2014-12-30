@@ -68,6 +68,10 @@ module base {
                 this.mTable.jqGrid('setSelection', rowId, false);
             }
             if (!this.isDisabled(rowId)) {
+                var checkBox = $("#" + this.mTableName + " #jqg_" + this.mTableName + "_" + rowId);
+                if (checkBox.length > 0) {
+                    checkBox[0].disabled = true;
+                }
                 this.mDisabledRows.push(rowId);
             }
         }
@@ -78,6 +82,10 @@ module base {
                     var tmp = this.mDisabledRows[this.mDisabledRows.length - 1];
                     this.mDisabledRows[i] = tmp;
                     this.mDisabledRows.pop();
+                    var checkBox = $("#" + this.mTableName + " #jqg_" + this.mTableName + "_" + rowId);
+                    if (checkBox.length > 0) {
+                        checkBox[0].disabled = false;
+                    }
                     break;
                 }
             }
@@ -227,13 +235,7 @@ module base {
                     viewrecords: true,
                     pager: name + 'pager',
                     beforeSelectRow: (rowId) => {
-                      for (var i = 0; i < this.mDisabledRows.length; ++i) {
-                          if (rowId == this.mDisabledRows[i]) {
-                              $("#" + this.mTableName + " #jqg_" + this.mTableName + "_" + rowId)[0].checked = false;
-                              return false;
-                          }
-                      }
-                      return true;
+                       return !this.isDisabled(rowId);
                     },
                     onSelectRow: (a, b, c) => {
                        mediator.onRowChecked(this.mTableName);
