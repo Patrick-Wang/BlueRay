@@ -1,10 +1,21 @@
 package com.BlueRay.mutton.service;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +35,9 @@ import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
 import com.BlueRay.mutton.model.entity.jpa.YYLGGFLXX;
 import com.BlueRay.mutton.model.entity.jpa.ZCXX;
 import com.BlueRay.mutton.model.entity.jpa.ZDQDYFLXX;
+import com.BlueRay.mutton.tool.AbstractExcel;
+import com.BlueRay.mutton.tool.IExcelExporter;
+
 
 @Service
 @Transactional("transactionManager")
@@ -76,26 +90,6 @@ public class SaleServiceImpl implements SaleService {
 
 		}
 	}
-
-//	public String[][] query(String approveType, String approved) {
-//		
-//		List<HTXX> list = null;
-//		list = saleDao.getSaleData(approveType, approved);
-//		
-//		// "合同号", "客户名称", "规格型号",
-//		// "数量", "轴承", "单复绕",
-//		// "制动器电压", "曳引轮规格", "机房",
-//		// "变频器型号", "编码器型号", "电缆长度",
-//		// "闸线长度", "铭牌等资料", "备注",
-//		// "订单日期", "审核-业务", "审核-计划"
-//		String[][] ret = new String[list.size()][20];
-//		HTXX htxx = null;
-//		for (int i = 0; i < list.size(); ++i) {
-//			htxx = list.get(i);
-//			setHtxx(ret[i], htxx, itemDao);
-//		}
-//		return ret;
-//	}
 
 	public boolean update() {
 		BMQXHFLXX bxx = new BMQXHFLXX();
@@ -406,5 +400,19 @@ public class SaleServiceImpl implements SaleService {
 		}
 		
 		return pd;
+	}
+
+	public String export(OutputStream out) {
+		AbstractExcel<HTXX> excel = excel = saleDao.getHtxxExcel();
+		excel.addHeader(new String[]{"合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "审核-业务", "审核-计划", "优先级"});
+		IExcelExporter<HTXX> exportor = new DBHTXXExcelExporter(itemDao, saleDao, excel, out);
+		exportor.exports();
+		try {
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "success";
 	}
 }

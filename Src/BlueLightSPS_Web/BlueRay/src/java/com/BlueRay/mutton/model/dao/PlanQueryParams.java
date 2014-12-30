@@ -442,31 +442,50 @@ public class PlanQueryParams {
 		return "";
 	}
 
-	private String parseApprove() {
-		if (!mJo.has("approve")) {
-			return "";
-		}
-		JSONArray japprove = mJo.getJSONArray("approve");
-		if (null == japprove) {
-			return "";
-		}
+	private String parseApproveItem(JSONArray japprove){
 		boolean firstSql = true;
 		String approve = "";
 		String sqlApprove;
-		for (int i = japprove.size() - 1; i >= 0; --i) {
+		for (int i = japprove.size() - 1; i >= 0; --i){
 			sqlApprove = getApproveSql(
-					japprove.getJSONObject(i).getString("type"), japprove
-							.getJSONObject(i).getBoolean("approved"));
-			if (!sqlApprove.isEmpty()) {
-				if (firstSql) {
+					japprove.getJSONObject(i).getString("type"), 
+					japprove.getJSONObject(i).getBoolean("approved"));
+			if (!sqlApprove.isEmpty()){
+				if (firstSql){
 					firstSql = false;
-				} else {
+				}
+				else{
 					approve += " and ";
 				}
 				approve += sqlApprove;
 			}
 		}
 		return approve;
+	}
+	
+	private String parseApprove() {
+		StringBuilder sb = new StringBuilder();
+		if (!mJo.has("approve")){
+			return "";
+		}
+		JSONArray japprove = mJo.getJSONArray("approve");
+		if (null == japprove){
+			return "";
+		}
+		boolean firstSql = true;
+		for (int i = 0; i < japprove.size(); ++i){
+			if (firstSql){
+				firstSql = false;
+			}
+			else{
+				sb.append(" or ");
+			}
+			sb.append(" ( ");
+			sb.append(parseApproveItem(japprove.getJSONArray(i)));
+			sb.append(" ) ");
+		}
+		
+		return sb.toString();
 	}
 
 	public String toSql() {

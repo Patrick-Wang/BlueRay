@@ -349,14 +349,8 @@ public class SaleQueryParams {
 		return "";
 	}
 	
-	private String parseApprove() {
-		if (!mJo.has("approve")){
-			return "";
-		}
-		JSONArray japprove = mJo.getJSONArray("approve");
-		if (null == japprove){
-			return "";
-		}
+	
+	private String parseApproveItem(JSONArray japprove){
 		boolean firstSql = true;
 		String approve = "";
 		String sqlApprove;
@@ -374,8 +368,32 @@ public class SaleQueryParams {
 				approve += sqlApprove;
 			}
 		}
-
 		return approve;
+	}
+	
+	private String parseApprove() {
+		StringBuilder sb = new StringBuilder();
+		if (!mJo.has("approve")){
+			return "";
+		}
+		JSONArray japprove = mJo.getJSONArray("approve");
+		if (null == japprove){
+			return "";
+		}
+		boolean firstSql = true;
+		for (int i = 0; i < japprove.size(); ++i){
+			if (firstSql){
+				firstSql = false;
+			}
+			else{
+				sb.append(" or ");
+			}
+			sb.append(" ( ");
+			sb.append(parseApproveItem(japprove.getJSONArray(i)));
+			sb.append(" ) ");
+		}
+		
+		return sb.toString();
 	}
 
 	public String toSql() {

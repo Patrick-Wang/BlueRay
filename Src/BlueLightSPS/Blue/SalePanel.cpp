@@ -631,7 +631,7 @@ void CSalePanel::OnBnClickedMore()
 		searchVals.insert(searchVals.begin() + 15, L"");//插入计划审核
 		searchVals.insert(searchVals.begin() + 15, L"");//插入优先级
 		DEFINE_SALE_QUERY_PARAM(jqp);
-		jqp.AddAdvancedCondition(&searchVals);
+		jqp.SetAdvancedCondition(&searchVals);
 		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
 			.then(new CSaleSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
@@ -938,7 +938,11 @@ void CSalePanel::OnInitData()
 	if (perm.getSale())
 	{
 		
-		DEFINE_SALE_QUERY_PARAM(sqp)
+		DEFINE_SALE_QUERY_PARAM(sqp);
+		sqp.AddApproveCondition(CSale::BUSINESS, true);
+		sqp.AddApproveCondition(CSale::PLAN, false);
+		sqp.AddApproveCondition(CSale::BUSINESS, false, 1);
+		sqp.AddApproveCondition(CSale::PLAN, true, 1);
 		CServer::GetInstance()->GetSale().Query(
 			m_pJqGridAPI->GetCurrentPage(),
 			m_pJqGridAPI->GetPageSize(),

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <map>
 #include "IHttp.h"
 //{
 //approve : [{
@@ -64,14 +65,14 @@ public:
 	void SetBasicSearchCondition(LPCTSTR searchText, bool exact);
 	void SetDateSearchCondition(LPCTSTR startDate, LPCTSTR endDate);
 	void AddSortCondition(int col, bool asc);
-	void AddApproveCondition(int type, bool approved);
-	void AddAdvancedCondition(StringArrayPtr pac);
+	void AddApproveCondition(int type, bool approved, int group = 0);
+	void SetAdvancedCondition(StringArrayPtr pac);
 	void toJson(CString& json, IApproveTypeTranslator* translator);
 private:
 	BasicSearchCondition_t* m_pbsc;
 	DateSearchCondition_t* m_pdsc;
 	std::vector<SortCondition_t> m_scs;
-	std::vector<ApproveCondition_t> m_acs;
+	std::map<int, std::vector<ApproveCondition_t>> m_acsMap;
 	StringArrayPtr m_pAdvanced;
 };
 

@@ -1,18 +1,25 @@
 package com.BlueRay.mutton.model.dao;
 
 import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 
+
+
 import net.sf.json.JSONObject;
+
+
 
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
+import com.BlueRay.mutton.model.excel.DBHTXXExcel;
+import com.BlueRay.mutton.tool.AbstractExcel;
 
 @Repository
 @Transactional("transactionManager")
@@ -68,6 +75,10 @@ public class SaleDaoImpl implements SaleDao {
 		Query q = entityManager.createQuery(sql.replace("select HTXX_", "select count(HTXX_)"));
 		List<Object> objs = q.getResultList();
 		return ((Long) objs.get(0)).intValue();
+	}
+
+	public AbstractExcel<HTXX> getHtxxExcel() {
+		return new DBHTXXExcel(entityManager);
 	}
 
 }

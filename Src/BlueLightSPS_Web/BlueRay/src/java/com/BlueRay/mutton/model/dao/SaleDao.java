@@ -4,12 +4,16 @@ import java.util.List;
 
 
 
+
 import net.sf.json.JSONObject;
+
 
 
 
 import com.BlueRay.mutton.model.entity.jpa.BMQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
+import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
+import com.BlueRay.mutton.tool.AbstractExcel;
 
 public interface SaleDao {
 //	List<HTXX> getSaleData();
@@ -39,5 +43,7 @@ public interface SaleDao {
 			Integer pagecount, JSONObject jparam, IAdvanceTranslator translator);
 
 	int getSaleDataCount(JSONObject jparam, IAdvanceTranslator translator);
+
+	AbstractExcel<HTXX> getHtxxExcel();
 
 }

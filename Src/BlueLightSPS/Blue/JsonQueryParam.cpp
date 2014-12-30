@@ -23,7 +23,7 @@ CJsonQueryParam::~CJsonQueryParam()
 		delete m_pdsc;
 		m_pdsc = NULL;
 	}
-	
+
 }
 
 void CJsonQueryParam::SetBasicSearchCondition(LPCTSTR searchText, bool exact)
@@ -60,15 +60,15 @@ void CJsonQueryParam::AddSortCondition(int col, bool asc)
 	m_scs.push_back(sc);
 }
 
-void CJsonQueryParam::AddApproveCondition(int type, bool approved)
+void CJsonQueryParam::AddApproveCondition(int type, bool approved, int group)
 {
 	ApproveCondition_t ac;
 	ac.approved = approved;
 	ac.type = type;
-	m_acs.push_back(ac);
+	m_acsMap[group].push_back(ac);
 }
 
-void CJsonQueryParam::AddAdvancedCondition(StringArrayPtr pac)
+void CJsonQueryParam::SetAdvancedCondition(StringArrayPtr pac)
 {
 	m_pAdvanced = pac;
 }
@@ -101,16 +101,21 @@ void CJsonQueryParam::toJson(CString& json, IApproveTypeTranslator* translator)
 		}
 	}
 
-	if (!m_acs.empty() && NULL != translator){
+	if (!m_acsMap.empty() && NULL != translator){
 		LPCTSTR approveType = NULL;
 		Json::JsonArray& jApprove = jquery->add(L"approve", Json::JsonFactory::createArray()).asArray(L"approve");
-		for (int i = 0, len = m_acs.size(); i < len; ++i){
-			approveType = translator->Translate(m_acs.at(i).type);
-			if (NULL != approveType)
-			{
-				Json::JsonObject& jApproveItem = jApprove.add(Json::JsonFactory::createObject()).asObject(i);
-				jApproveItem.add(L"type", Json::JsonFactory::createString((Json::json_char*)approveType));
-				jApproveItem.add(L"approved", Json::JsonFactory::createBool(m_acs.at(i).approved));
+		int k = 0;
+		for (std::map<int, std::vector<ApproveCondition_t>>::iterator it = m_acsMap.begin(); it != m_acsMap.end(); ++it, ++k)
+		{
+			Json::JsonArray& jGroup = jApprove.add(Json::JsonFactory::createArray()).asArray(k);
+			for (int i = 0, len = it->second.size(); i < len; ++i){
+				approveType = translator->Translate(it->second.at(i).type);
+				if (NULL != approveType)
+				{
+					Json::JsonObject& jApproveItem = jGroup.add(Json::JsonFactory::createObject()).asObject(i);
+					jApproveItem.add(L"type", Json::JsonFactory::createString((Json::json_char*)approveType));
+					jApproveItem.add(L"approved", Json::JsonFactory::createBool(it->second.at(i).approved));
+				}
 			}
 		}
 	}

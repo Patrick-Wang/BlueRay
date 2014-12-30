@@ -3,6 +3,7 @@ package com.BlueRay.mutton.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -126,6 +127,16 @@ public class SaleController {
 //		    }
 //		]
 //	}
+	
+	
+	@RequestMapping(value = "/export", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String exportData(
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		OutputStream out = response.getOutputStream();
+		return service.export(out);
+	}
+	
 	@RequestMapping(value = "/pagequery/{pagesize}/{pagenum}/{pagecount}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String getPageQueryData(
 			@PathVariable Integer pagesize,
