@@ -68,14 +68,14 @@ class DBPCJHXXExcelExporter implements IExcelExporter<PCJHXX> {
 		     cell.setCellValue(text);
 		  }
 	      
-		String[] ret = new String[26];
+		String[] ret = new String[27];
 		for (int i = 0, len = excel.getRowCount(); i < len; ++i){
 			pcxxs.set(0, excel.getRow(i));
 			PlanServiceImpl.getHtxxMap(pcxxs, saleDao, planDao, htxxMap);
 			PlanServiceImpl.setPCJH(ret, pcxxs.get(0), htxxMap, itemDao);
 			row = sheet.createRow(i + 1);
 			for (int j = 1; j < ret.length; ++j){
-				 HSSFCell cell = row.createCell(j);
+				 HSSFCell cell = row.createCell(j - 1);
 				 HSSFRichTextString text = new HSSFRichTextString(ret[j]);
 			     cell.setCellValue(text);
 			}
@@ -345,7 +345,7 @@ public class PlanServiceImpl implements PlanService {
 		else{
 			excel = planDao.getPcjhExcel(null, false);
 		}
-		excel.addHeader(new String[]{"鍚堝悓鍙�", "瀹㈡埛鍚嶇О", "瑙勬牸鍨嬪彿", "鏁伴噺", "杞存壙", "鍗曞缁�", "鍒跺姩鍣ㄧ數鍘�", "鏇冲紩杞鏍�", "鏈烘埧", "鍙橀鍣ㄥ瀷鍙�", "缂栫爜鍣ㄥ瀷鍙�", "鐢电紗闀垮害", "闂哥嚎闀垮害", "閾墝绛夎祫鏂�", "澶囨敞", "璁㈠崟鏃ユ湡", "鐢熶骇鏃ユ湡", "璁″垝瀹℃牳-涓氬姟", "璁″垝瀹℃牳-璁″垝", "鍖呰鏃ユ湡", "鍖呰瀹℃牳-涓氬姟", "鍖呰瀹℃牳-璁″垝", "鍙戣揣鏃ユ湡", "鎶曚骇缂栧彿", "鍑哄巶缂栧彿"});
+		excel.addHeader(new String[]{"合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "生产日期", "计划审核-业务", "计划审核-计划", "包装日期", "包装审核-业务", "包装审核-计划", "发货日期", "投产编号", "出厂编号", "优先级"});
 		IExcelExporter<PCJHXX> exportor = new DBPCJHXXExcelExporter(itemDao, saleDao, planDao, excel, outputStream);
 		exportor.exports();
 		try {

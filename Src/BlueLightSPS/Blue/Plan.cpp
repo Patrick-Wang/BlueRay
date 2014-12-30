@@ -2,7 +2,7 @@
 #include "Plan.h"
 #include "CommonDefine.h"
 #include "Server.h"
-
+#include "FileOutputStream.h"
 CPlan::CPlan()
 {
 }
@@ -143,5 +143,16 @@ CPromise<PageData_t>& CPlan::Query(int page, int rows, CJsonQueryParam& jqp)
 	attr[L"query"] = base64;
 
 	m_lpHttp->Post(url, promise->GetId(), attr);
+	return *promise;
+}
+
+CPromise<bool>& CPlan::Export(LPCTSTR lpFileName)
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/plan/export/-1/false"),
+		IDS_HOST_NAME);
+	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_lpHttp, new CBoolParser());
+	std::map<CString, CString> attr;
+	m_lpHttp->Download(url, promise->GetId(), attr, std::shared_ptr<IHttp::IOutputStream>(new CFileOutputStream(lpFileName)));
 	return *promise;
 }

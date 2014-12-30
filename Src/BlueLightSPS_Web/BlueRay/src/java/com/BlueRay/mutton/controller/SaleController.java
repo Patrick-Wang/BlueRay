@@ -140,16 +140,6 @@ public class SaleController {
 		return JSONObject.fromObject(pageData).toString().replace("null", "\"\"");
 	}
 	
-//	@RequestMapping(value = "/query/{approveType}/{approved}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//	public @ResponseBody String getSaleQueryData(
-//			@PathVariable String approveType,
-//			@PathVariable String approved,
-//			HttpServletRequest request,
-//			HttpServletResponse response) {
-//
-//		return JSONArray.fromObject(service.query(approveType, approved)).toString().replace("null", "\"\"");
-//	}
-
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String addSaleData(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {

@@ -414,9 +414,9 @@ void CPlanPanel::OnBnClickedSearch()
 	CString searchText;
 	m_editSearch->GetWindowText(searchText);
 	
-
+	DEFINE_PLAN_QUERY_PARAM(pqp);
 	if (searchText.IsEmpty()){
-		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize())
+		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), pqp)
 			.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}
@@ -426,11 +426,11 @@ void CPlanPanel::OnBnClickedSearch()
 		CString strTo;
 		m_dtcSearchTo->GetWindowText(strTo);
 
-		DEFINE_PLAN_QUERY_PARAM(jqp);
-		jqp.SetBasicSearchCondition(searchText, true);
-		jqp.SetDateSearchCondition(strFrom, strTo);
 
-		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
+		pqp.SetBasicSearchCondition(searchText, true);
+		pqp.SetDateSearchCondition(strFrom, strTo);
+
+		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), pqp)
 			.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}
@@ -1099,6 +1099,19 @@ void CPlanPanel::OnInitData()
 		DEFINE_PLAN_QUERY_PARAM(pqp)
 		CPlan& plan = CServer::GetInstance()->GetPlan();
 		plan.Query(1, m_pJqGridAPI->GetPageSize(), pqp).then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+
+		//class CDownLoadListener : public CPromise<bool>::IHttpResponse{
+		//	CONSTRUCTOR_1(CDownLoadListener, CPlanPanel&, panel)
+		//public:
+		//	virtual void OnSuccess(bool& ret){
+		//		m_panel.MessageBox(L"download success");
+		//	}
+		//	virtual void OnFailed(){
+		//		m_panel.MessageBox(L"download failed");
+		//	}
+		//};
+		//plan.Export(L"D://bbccs.xls").then(new CDownLoadListener(*this));
+
 		GetParent()->EnableWindow(FALSE);
 	}
 	else

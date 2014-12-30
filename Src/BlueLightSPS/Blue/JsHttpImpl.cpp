@@ -5,8 +5,8 @@
 #include "JsonFactory.h"
 #include "JsonObjects.h"
 #include <Winhttp.h>
-#define WM_SUCCESS	WM_APP + 227657
-#define WM_FAILED	WM_APP + 227658
+#define WM_SUCCESS	WM_APP + 27657
+#define WM_FAILED	WM_APP + 27658
 
 typedef struct tagSuccess_t{
 	int id;
@@ -18,7 +18,6 @@ CComJsFun CJsHttpImpl::m_funGet(_T("onGet"), 6002);
 
 CJsHttpImpl::CJsHttpImpl(IJSMediator* lpJsMediator, CWnd* pWnd)
 	: m_lpJsMediator(lpJsMediator)
-	, m_lpThread(new std::thread())
 	, m_pWnd(pWnd)
 {
 	m_funPost.d_onJsCall += std::make_pair(this, &CJsHttpImpl::OnPost);
@@ -123,12 +122,13 @@ void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, StringArrayPtr>
 	::SysFreeString(param.bstrVal);
 }
 
-void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IStreamIterator> pStreamIterator)
+void CJsHttpImpl::Upload(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IInputStream> pStreamIterator)
 {
 	if (NULL == m_lpfnOldProc){
 		m_lpfnOldProc = (WNDPROC)SetWindowLong(m_pWnd->GetSafeHwnd(), GWL_WNDPROC, (LONG)&CJsHttpImpl::WindowProc);
 	}
-	m_lpThread.reset(new std::thread(&CJsHttpImpl::AsyncPost, this, lpAddr,id, mapAttr, pStreamIterator));
+
+	m_lpUploadThread.reset(new std::thread(&CJsHttpImpl::DoUpload, this, lpAddr, id, mapAttr, pStreamIterator));
 }
 
 void CJsHttpImpl::Get(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr)
@@ -484,7 +484,7 @@ bool CJsHttpImpl::SyncGet(LPCTSTR lpAddr, CString& ret)
 
 }
 
-void CJsHttpImpl::AsyncPost(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IStreamIterator> pStreamIterator)
+void CJsHttpImpl::DoUpload(LPCTSTR lpAddr, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IInputStream> pStreamIterator)
 {
 	Success_t success;
 	success.id = id;
@@ -510,7 +510,7 @@ void CJsHttpImpl::AsyncPost(LPCTSTR lpAddr, int id, std::map<CString, CString>& 
 	// Create an HTTP Request handle.
 	if (hConnect)
 		hRequest = WinHttpOpenRequest(hConnect, L"POST",
-		L"/BlueRay/sale/approve/plan",
+		lpAddr,
 		NULL, WINHTTP_NO_REFERER,
 		WINHTTP_DEFAULT_ACCEPT_TYPES,
 		0);
@@ -608,6 +608,148 @@ LRESULT CALLBACK CJsHttpImpl::WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WP
 		break;
 	}
 	return m_lpfnOldProc(hwnd, uMsg, wParam, lParam);
+}
+
+void CJsHttpImpl::Download(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IOutputStream> pStream)
+{
+	if (NULL == m_lpfnOldProc){
+		m_lpfnOldProc = (WNDPROC)SetWindowLong(m_pWnd->GetSafeHwnd(), GWL_WNDPROC, (LONG)&CJsHttpImpl::WindowProc);
+	}
+	try
+	{
+		if (m_lpDownloadThread.get() != NULL){
+			m_lpDownloadThread->join();
+		}
+		m_lpDownloadThread.reset(new std::thread(&CJsHttpImpl::DoDownload, this, lpAddr, id, mapAttr, pStream));
+	}
+	catch (std::exception e)
+	{
+		int k = 0;
+	}
+	
+}
+
+void CJsHttpImpl::DoDownload(LPCTSTR lpAddr, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IOutputStream> pStream)
+{
+	Success_t success;
+	success.id = id;
+	LPSTR pszData = "WinHttpWriteData Example";
+	DWORD dwBytesWritten = 0;
+	BOOL  bResults = FALSE;
+	HINTERNET hSession = NULL,
+		hConnect = NULL,
+		hRequest = NULL;
+
+	CString strUrl = lpAddr;
+	strUrl.Replace(L"http://", L"");
+	int index = strUrl.Find(_T("/"));
+	CString strHostPort = strUrl.Left(index);
+	strUrl = strUrl.Right(strUrl.GetLength() - index - 1);
+	index = strHostPort.Find(_T(":"));
+	CString strHost = strHostPort.Left(index);
+	int port = _tstoi(strHostPort.Right(strHostPort.GetLength() - index - 1));
+	// Use WinHttpOpen to obtain a session handle.
+	hSession = WinHttpOpen(L"A WinHTTP Example Program/1.0",
+		WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
+		WINHTTP_NO_PROXY_NAME,
+		WINHTTP_NO_PROXY_BYPASS,
+		0);
+
+	// Specify an HTTP server.
+	if (hSession)
+		hConnect = WinHttpConnect(hSession, strHost,
+		port, 0);
+
+	// Create an HTTP Request handle.
+	if (hConnect)
+		hRequest = WinHttpOpenRequest(hConnect, L"GET",
+		strUrl,
+		NULL, WINHTTP_NO_REFERER,
+		WINHTTP_DEFAULT_ACCEPT_TYPES,
+		0);
+
+	// Send a Request.
+	if (hRequest)
+		bResults = WinHttpSendRequest(hRequest,
+		WINHTTP_NO_ADDITIONAL_HEADERS,
+		0, WINHTTP_NO_REQUEST_DATA, 0,
+		0, 0);
+
+	int len = 0;
+
+	//while (bResults && 0 < (len = pStreamIterator->next())){
+	//	bResults = WinHttpWriteData(hRequest, pStreamIterator->value(),
+	//		(DWORD)len,
+	//		&dwBytesWritten);
+	//}
+	//DWORD dwErr = GetLastError();
+
+	// End the request.
+	if (bResults)
+		bResults = WinHttpReceiveResponse(hRequest, NULL);
+	DWORD dwSize;
+	BYTE* pszOutBuffer;
+	DWORD dwDownloaded;
+	do
+	{
+		// Check for available data.
+		dwSize = 0;
+		if (!WinHttpQueryDataAvailable(hRequest, &dwSize))
+		{
+			bResults = FALSE;
+			break;
+		}
+
+		// No more available data.
+		if (!dwSize)
+			break;
+
+		// Allocate space for the buffer.
+		pszOutBuffer = new BYTE[dwSize + 1];
+		if (!pszOutBuffer)
+		{
+			bResults = FALSE;
+			break;
+		}
+
+		// Read the Data.
+		ZeroMemory(pszOutBuffer, dwSize + 1);
+
+		if (!WinHttpReadData(hRequest, (LPVOID)pszOutBuffer,
+			dwSize, &dwDownloaded))
+		{
+			bResults = FALSE;
+		}
+
+		if (bResults && !pStream->write(pszOutBuffer, dwSize))
+		{
+			bResults = FALSE;
+		}
+
+		// Free the memory allocated to the buffer.
+		delete[] pszOutBuffer;
+
+		// This condition should never be reached since WinHttpQueryDataAvailable
+		// reported that there are bits to read.
+		if (!dwDownloaded || !bResults)
+			break;
+
+	} while (dwSize > 0);
+
+	// Report any errors.
+	if (!bResults){
+		m_pWnd->SendMessage(WM_FAILED, (WPARAM)this, (LPARAM)&success);
+	}
+	else
+	{
+		success.ret = L"success";
+		m_pWnd->SendMessage(WM_SUCCESS, (WPARAM)this, (LPARAM)&success);
+	}
+
+	// Close any open handles.
+	if (hRequest) WinHttpCloseHandle(hRequest);
+	if (hConnect) WinHttpCloseHandle(hConnect);
+	if (hSession) WinHttpCloseHandle(hSession);
 }
 
 WNDPROC CJsHttpImpl::m_lpfnOldProc = NULL;

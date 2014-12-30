@@ -112,6 +112,7 @@
     <ClInclude Include="Account.h" />
     <ClInclude Include="BRPanel.h" />
     <ClInclude Include="CommonDefine.h" />
+    <ClInclude Include="FileOutputStream.h" />
     <ClInclude Include="HttpServerInterface.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="JsonQueryParam.h" />
@@ -175,6 +176,7 @@
   <ItemGroup>
     <ClCompile Include="Account.cpp" />
     <ClCompile Include="BRPanel.cpp" />
+    <ClCompile Include="FileOutputStream.cpp" />
     <ClCompile Include="HttpServerInterface.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="JsonQueryParam.cpp" />

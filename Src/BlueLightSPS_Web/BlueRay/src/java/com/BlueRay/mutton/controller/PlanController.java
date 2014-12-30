@@ -110,7 +110,7 @@ public class PlanController {
 			@PathVariable Boolean asc,
 			HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		OutputStream out = new FileOutputStream("D://adds.xls");
+		OutputStream out = response.getOutputStream();
 		return planService.export(out, col, asc);
 	}
 	

@@ -596,9 +596,9 @@ void CSalePanel::OnBnClickedSearch()
 	CString searchText;
 	m_editSearch->GetWindowText(searchText);
 
-
+	DEFINE_SALE_QUERY_PARAM(sqp);
 	if (searchText.IsEmpty()){
-		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize())
+		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), sqp)
 			.then(new CSaleSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}

@@ -10,7 +10,8 @@ class CJsHttpImpl :
 public:
 	CJsHttpImpl(IJSMediator* lpJsMediator, CWnd* pWnd = NULL);
 	~CJsHttpImpl();
-	virtual void Post(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IStreamIterator> pStreamIterator);
+	virtual void Upload(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IInputStream> pStream);
+	virtual void Download(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IOutputStream> pStream) ;
 	virtual void Post(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr);
 	virtual void Post(LPCTSTR lpAddr, int id, std::map<CString, IntArrayPtr>& mapAttr);
 	virtual void Post(LPCTSTR lpAddr, int id, std::map<CString, StringArrayPtr>& mapAttr);
@@ -24,7 +25,8 @@ public:
 	virtual bool SyncGet(LPCTSTR lpAddr, StringArrayPtr rest, CString& ret);
 	virtual bool SyncGet(LPCTSTR lpAddr, CString& ret);
 protected:
-	void AsyncPost(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IStreamIterator> pStreamIterator);
+	void DoUpload(LPCTSTR lpAddr, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IInputStream> pStream);
+	void DoDownload(LPCTSTR lpAddr, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IOutputStream> pStream);
 	VARIANT OnPost(int id, const std::vector<VARIANT>& params);
 	VARIANT OnGet(int id, const std::vector<VARIANT>& params);
 	void MakeUrl(LPCTSTR lpAddr, std::map<CString, CString>& attr, CString& url);
@@ -40,7 +42,8 @@ protected:
 	);
 private:
 	IJSMediator* m_lpJsMediator;
-	std::auto_ptr<std::thread> m_lpThread;
+	std::shared_ptr<std::thread> m_lpUploadThread;
+	std::shared_ptr<std::thread> m_lpDownloadThread;
 	static CComJsFun m_funPost;
 	static CComJsFun m_funGet;
 	static WNDPROC m_lpfnOldProc;

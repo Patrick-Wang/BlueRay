@@ -24,12 +24,7 @@ public:
 		int page,
 		int rows,
 		CJsonQueryParam& jqParam);
-	CPromise<PageData_t>& Query(
-		int page,
-		int rows){
-		return Query(page, rows, CJsonQueryParam());
-	}
-
+	
 	LPCTSTR Translate(int type);
 
 	bool AddSync(StringArray& record, int& id);

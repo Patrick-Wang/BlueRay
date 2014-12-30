@@ -20,11 +20,7 @@ public:
 		int page,
 		int rows,
 		CJsonQueryParam& jqp);
-	CPromise<PageData_t>& Query(
-		int page,
-		int rows){
-		return Query(page, rows, CJsonQueryParam());
-	}
+	CPromise<bool>& Export(LPCTSTR lpFileName);
 	CPromise<bool>& Update(IntArray& rows, StringArray& record);
 	CPromise<bool>& Approve(ApproveType type, IntArray& rows);
 	CPromise<bool>& Unapprove(ApproveType type, IntArray& rows);

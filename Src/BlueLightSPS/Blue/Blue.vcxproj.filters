@@ -231,6 +231,9 @@
     <ClInclude Include="JsonQueryParam.h">
       <Filter>server</Filter>
     </ClInclude>
+    <ClInclude Include="FileOutputStream.h">
+      <Filter>server</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blue.cpp">
@@ -381,6 +384,9 @@
       <Filter>server</Filter>
     </ClCompile>
     <ClCompile Include="JsonQueryParam.cpp">
+      <Filter>server</Filter>
+    </ClCompile>
+    <ClCompile Include="FileOutputStream.cpp">
       <Filter>server</Filter>
     </ClCompile>
   </ItemGroup>
