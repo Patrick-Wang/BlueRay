@@ -146,95 +146,102 @@ void CPlanPanel::OnCbnSelchangeProductionStatus()
 
 void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatus)
 {
-	std::vector<int> vecAll;
-	std::vector<int> vecToBePlaned;
-	std::vector<int> vecPlanning;
-	std::vector<int> vecPlanned;
+	DEFINE_PLAN_QUERY_PARAM(sqp);
 
-	for (int j = 0; j < m_table.size(); ++j)
+	if (ProductionStatus_ToBePlan == productionStatus)
 	{
-		bool bIfPlanning = false;
-		bool bIfAnyItemApproved = false;
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
+	}
+	else if (ProductionStatus_Planning == productionStatus)
+	{
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
 
-		if (_T("¡Ì") == m_table[j].second[17])
-		{
-			bIfPlanning = true;
-			bIfAnyItemApproved = true;
-		}
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 1);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 1);
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 1);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 1);
+		
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 2);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 2);
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 2);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 2);
 
-		if (_T("¡Ì") == m_table[j].second[18])
-		{
-			bIfPlanning = true;
-			bIfAnyItemApproved = true;
-		}
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 3);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 3);
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 3);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 3);
 
-		if (_T("¡Ì") == m_table[j].second[20])
-		{
-			bIfPlanning = true;
-			bIfAnyItemApproved = true;
-		}
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 4);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 4);
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 4);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 4);
 
-		if (_T("¡Ì") == m_table[j].second[21])
-		{
-			bIfPlanning = true;
-			bIfAnyItemApproved = true;
-		}
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 5);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 5);
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 5);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 5);
 
-		if (!bIfAnyItemApproved)
-		{
-			vecToBePlaned.push_back(m_table[j].first);
-		}
-		else
-		{
-			if (bIfPlanning)
-			{
-				vecPlanning.push_back(m_table[j].first);
-			}
-			else
-			{
-				vecPlanned.push_back(m_table[j].first);
-			}
-		}
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 6);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 6);
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 6);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 6);
 
-		vecAll.push_back(m_table[j].first);
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 7);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 7);
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 7);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 7);
+
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 8);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 8);
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 8);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 8);
+
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 9);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 9);
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 9);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 9);
+
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 10);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 10);
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 10);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 10);
+
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 11);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 11);
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 11);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 11);
+
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 12);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 12);
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 12);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 12);
+
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 13);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 13);
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 13);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 13);
+	}
+	else if (ProductionStatus_Planned == productionStatus)
+	{
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true);
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, true);
 	}
 
-	if (ProductionStatus_All == productionStatus)
-	{
-		for (int j = 0; j < vecAll.size(); ++j)
-		{
-			m_pJqGridAPI->ShowRow(vecAll[j]);
-		}
-	}
-	else
-	{
-		for (int i = 1; i <= m_table.size(); i++)
-		{
-			m_pJqGridAPI->HideRow(i);
-		}
+	CServer::GetInstance()->GetPlan().Query(
+		m_pJqGridAPI->GetCurrentPage(),
+		m_pJqGridAPI->GetPageSize(),
+		sqp)
+		.then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 
-		if (ProductionStatus_ToBePlan == productionStatus)
-		{
-			for (int j = 0; j < vecToBePlaned.size(); ++j)
-			{
-				m_pJqGridAPI->ShowRow(vecToBePlaned[j]);
-			}
-		}
-		else if (ProductionStatus_Planning == productionStatus)
-		{
-			for (int j = 0; j < vecPlanning.size(); ++j)
-			{
-				m_pJqGridAPI->ShowRow(vecPlanning[j]);
-			}
-		}
-		else if (ProductionStatus_Planned == productionStatus)
-		{
-			for (int j = 0; j < vecPlanned.size(); ++j)
-			{
-				m_pJqGridAPI->ShowRow(vecPlanned[j]);
-			}
-		}
-	}
+	GetParent()->EnableWindow(FALSE);
 }
 
 void CPlanPanel::OnInitChilds()
