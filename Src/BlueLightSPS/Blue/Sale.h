@@ -27,6 +27,8 @@ public:
 	
 	LPCTSTR Translate(int type);
 
+	CPromise<bool>& Export(LPCTSTR lpFileName);
+
 	bool AddSync(StringArray& record, int& id);
 	CPromise<int>& Add(StringArray& record);
 

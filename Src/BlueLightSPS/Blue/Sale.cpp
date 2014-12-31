@@ -4,6 +4,7 @@
 #include "CommonDefine.h"
 #include "User.h"
 #include "Server.h"
+#include "FileOutputStream.h"
 CSale::CSale()
 {
 
@@ -12,58 +13,6 @@ CSale::CSale()
 CSale::~CSale()
 {
 }
-
-//bool CSale::QuerySync(std::vector < std::pair<int, StringArray>>& htxxs)
-//{
-//	CString url;
-//	url.Format(_T("http://%s:8080/BlueRay/sale/query/all/none"), IDS_HOST_NAME);
-//	CString strJson;
-//	if (m_lpHttp->SyncGet(url, strJson)){
-//		Json::JsonParser jparser;
-//		std::shared_ptr < Json::JsonArray > jarr((Json::JsonArray*)jparser.Parse((LPTSTR)(LPCTSTR)strJson, strJson.GetLength()));
-//		try
-//		{
-//			toArray(jarr, htxxs);
-//			return true;
-//		}
-//		catch (std::exception& e)
-//		{
-//		}
-//		
-//	}
-//	return false;
-//}
-//
-//bool CSale::QuerySync(ApproveType type, bool approved, std::vector < std::pair<int, StringArray>>& htxxs)
-//{
-//	CString url;
-//	switch (type)
-//	{
-//	case CSale::PLAN:
-//		url.Format(_T("http://%s:8080/BlueRay/sale/query/plan/%s"), IDS_HOST_NAME, approved ? L"approved" : L"unapproved");
-//		break;
-//	case CSale::BUSINESS:
-//		url.Format(_T("http://%s:8080/BlueRay/sale/query/business/%s"), IDS_HOST_NAME, approved ? L"approved" : L"unapproved");
-//		break;
-//	default:
-//		break;
-//	}
-//	
-//	CString strJson;
-//	if (m_lpHttp->SyncGet(url, strJson)){
-//		Json::JsonParser jparser;
-//		std::shared_ptr < Json::JsonArray > jarr((Json::JsonArray*)jparser.Parse((LPTSTR)(LPCTSTR)strJson, strJson.GetLength()));
-//		try
-//		{
-//			toArray(jarr, htxxs);
-//			return true;
-//		}
-//		catch (std::exception& e)
-//		{
-//		}
-//	}
-//	return false;
-//}
 
 
 
@@ -153,57 +102,6 @@ bool CSale::doApproveSync(CString& url, IntArray& rows)
 	return strRet.Compare(L"success") == 0;
 }
 
-//CPromise<table>& CSale::Query()
-//{
-//	CString url;
-//	url.Format(_T("http://%s:8080/BlueRay/sale/query/all/none"), IDS_HOST_NAME);
-//	CPromise<table>* promise = CPromise<table>::MakePromise(m_lpHttp, new CQueryParser());
-//	m_lpHttp->Get(url, promise->GetId());
-//	return *promise;
-//}
-//
-//CPromise<table>& CSale::Query(ApproveType type, bool approved)
-//{
-//	CString url;
-//	url.Format(_T("http://%s:8080/BlueRay/sale/query/%s/%s"),
-//		IDS_HOST_NAME,
-//		ToString(type),
-//		ToString(approved));
-//	CPromise<table>* promise = CPromise<table>::MakePromise(m_lpHttp, new CQueryParser());
-//	m_lpHttp->Get(url, promise->GetId());
-//	return *promise;
-//}
-
-//CPromise<PageData_t>& CSale::Query(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc)
-//{
-//	CString url;
-//	url.Format(_T("http://%s:8080/BlueRay/sale/pagequery/%s/%s/%d/%d/1/%d/%s"),
-//		IDS_HOST_NAME,
-//		ToString(type),
-//		ToString(approved),
-//		rows,
-//		page,
-//		colIndex,
-//		Util_Tools::Util::ToString(bAsc));
-//	CPromise<PageData_t>* promise = CPromise<PageData_t>::MakePromise(m_lpHttp, new CPageDataParser());
-//	m_lpHttp->Get(url, promise->GetId());
-//	return *promise;
-//}
-//
-//CPromise<PageData_t>& CSale::Query(int page, int rows, int colIndex, bool bAsc)
-//{
-//	CString url;
-//	url.Format(_T("http://%s:8080/BlueRay/sale/pagequery/all/none/%d/%d/1/%d/%s"),
-//		IDS_HOST_NAME,
-//		rows,
-//		page,
-//		colIndex,
-//		bAsc ? L"true" : L"false");
-//	CPromise<PageData_t>* promise = CPromise<PageData_t>::MakePromise(m_lpHttp, new CPageDataParser());
-//	m_lpHttp->Get(url, promise->GetId());
-//	return *promise;
-//}
-
 
 CPromise<PageData_t>& CSale::Query(int page, int rows, CJsonQueryParam& jqParam)
 {
@@ -219,62 +117,6 @@ CPromise<PageData_t>& CSale::Query(int page, int rows, CJsonQueryParam& jqParam)
 	Util_Tools::Util::base64_encode((unsigned char*)(LPCTSTR)rawData, rawData.GetLength() * 2, base64);
 	std::map<CString, CString> attr;
 	attr[L"query"] = base64;
-
-	//std::shared_ptr<Json::JsonObject> jquery((Json::JsonObject*)(Json::JsonFactory::createObject()));
-	//if (NULL != pBasicSearch || NULL != pDateSearch || NULL != pAdvanceSearch){
-	//	Json::JsonObject& jSearch = jquery->add(L"search", Json::JsonFactory::createObject()).asObject(L"search");
-	//	if (NULL != pBasicSearch)
-	//	{
-	//		Json::JsonObject& jBasic = jSearch.add(L"basic", Json::JsonFactory::createObject()).asObject(L"basic");
-	//		jBasic.add(L"text", Json::JsonFactory::createString((Json::json_char*)pBasicSearch->lpText));
-	//		jBasic.add(L"exact", Json::JsonFactory::createBool(pBasicSearch->exact));
-	//	}
-
-	//	if (NULL != pDateSearch)
-	//	{
-	//		Json::JsonObject& jDate = jSearch.add(L"date", Json::JsonFactory::createObject()).asObject(L"date");
-	//		jDate.add(L"startDate", Json::JsonFactory::createString((Json::json_char*)pDateSearch->startDate));
-	//		jDate.add(L"endDate", Json::JsonFactory::createString((Json::json_char*)pDateSearch->endDate));
-	//	}
-
-	//	if (NULL != pAdvanceSearch)
-	//	{
-	//		Json::JsonArray& jAdvance = jSearch.add(L"advanced", Json::JsonFactory::createArray()).asArray(L"advanced");
-	//		for (int i = 0; i < pAdvanceSearch->size(); ++i){
-	//			jAdvance.add(Json::JsonFactory::createString((Json::json_char*)(LPCTSTR)pAdvanceSearch->at(i)));
-	//		}
-	//	}
-	//}
-
-	//if (NULL != pApproveCondition){
-	//	LPCTSTR approveType = NULL;
-	//	Json::JsonArray& jApprove = jquery->add(L"approve", Json::JsonFactory::createArray()).asArray(L"approve");
-	//	for (int i = 0; i < pApproveCondition->size(); ++i){
-	//		approveType = ToString((ApproveType)pApproveCondition->at(i).type);
-	//		if (NULL != approveType)
-	//		{
-	//			Json::JsonObject& jApproveItem = jApprove.add(Json::JsonFactory::createObject()).asObject(i);
-	//			jApproveItem.add(L"type", Json::JsonFactory::createString((Json::json_char*)approveType));
-	//			jApproveItem.add(L"approve", Json::JsonFactory::createBool(pApproveCondition->at(i).approved));
-	//		}
-	//	}
-	//}
-
-	//if (NULL != pSorter){
-	//	Json::JsonArray& jSort = jquery->add(L"sort", Json::JsonFactory::createArray()).asArray(L"sort");
-	//	for (int i = 0; i < pSorter->size(); ++i){
-	//		Json::JsonObject& jSortItem = jSort.add(Json::JsonFactory::createObject()).asObject(i);
-	//		jSortItem.add(L"col", Json::JsonFactory::createInt(pSorter->at(i).col));
-	//		jSortItem.add(L"order", Json::JsonFactory::createBool(pSorter->at(i).asc));
-	//	}
-	//}
-
-	//Json::json_stringstream jss;
-	//jquery->asJson(jss);
-
-	
-	//std:wstring str = jss.str();
-	
 
 	m_lpHttp->Post(url, promise->GetId(), attr);
 	return *promise;
@@ -338,52 +180,6 @@ CPromise<bool>& CSale::Unapprove(ApproveType type, IntArray& rows)
 	url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/%s"), IDS_HOST_NAME, Translate(type));
 	return doApprove(url, rows);
 }
-//
-//CPromise<PageData_t>& CSale::Search(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc, LPCTSTR strKeyword)
-//{
-//	CString url;
-//	url.Format(_T("http://%s:8080/BlueRay/sale/simplepagesearch/%s/%s/%d/%d/1/%d/%s"),
-//		IDS_HOST_NAME,
-//		ToString(type),
-//		ToString(approved),
-//		rows,
-//		page,
-//		colIndex,
-//		Util_Tools::Util::ToString(bAsc));
-//	std::map<CString, CString> attr;
-//	attr[L"search"] = strKeyword;
-//	CPromise<PageData_t>* promise = CPromise<PageData_t>::MakePromise(m_lpHttp, new CPageDataParser());
-//	m_lpHttp->Post(traceSession(url), promise->GetId(), attr);
-//	return *promise;
-//}
-//
-//CPromise<PageData_t>& CSale::Search(int page, int rows, int colIndex, bool bAsc, LPCTSTR strKeyword)
-//{
-//	return Search(ALL, false, page, rows, colIndex, bAsc, strKeyword);
-//}
-//
-//CPromise<PageData_t>& CSale::Search(ApproveType type, bool approved, int page, int rows, int colIndex, bool bAsc, const StringArray& strKeywords)
-//{
-//	CString url;
-//	url.Format(_T("http://%s:8080/BlueRay/sale/pagesearch/%s/%s/%d/%d/1/%d/%s"),
-//		IDS_HOST_NAME,
-//		ToString(type),
-//		ToString(approved),
-//		rows,
-//		page,
-//		colIndex,
-//		Util_Tools::Util::ToString(bAsc));
-//	std::map<CString, StringArrayPtr> attr;
-//	attr[L"search"] = const_cast<StringArray*>(&strKeywords);
-//	CPromise<PageData_t>* promise = CPromise<PageData_t>::MakePromise(m_lpHttp, new CPageDataParser());
-//	m_lpHttp->Post(traceSession(url), promise->GetId(), attr);
-//	return *promise;
-//}
-//
-//CPromise<PageData_t>& CSale::Search(int page, int rows, int colIndex, bool bAsc, const StringArray& strKeywords)
-//{
-//	return Search(ALL, true, page, rows, colIndex, bAsc, strKeywords);
-//}
 
 
 LPCTSTR CSale::ToString(bool approved)
@@ -403,3 +199,13 @@ LPCTSTR CSale::Translate(int type)
 	return NULL;
 }
 
+CPromise<bool>& CSale::Export(LPCTSTR lpFileName)
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/sale/export"),
+		IDS_HOST_NAME);
+	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_lpHttp, new CBoolParser());
+	std::map<CString, CString> attr;
+	m_lpHttp->Download(url, promise->GetId(), attr, std::shared_ptr<IHttp::IOutputStream>(new CFileOutputStream(lpFileName)));
+	return *promise;
+}
