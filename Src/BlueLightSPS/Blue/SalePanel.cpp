@@ -219,81 +219,34 @@ void CSalePanel::OnCbnSelchangeProductionStatus()
 
 void CSalePanel::FilterTableByStatus(enumProductionStatusForSale productionStatus)
 {
-	std::vector<int> vecAll;
-	std::vector<int> vecToBeApprove;
-	std::vector<int> vecApproving;
-	std::vector<int> vecApproved;
+	DEFINE_SALE_QUERY_PARAM(sqp);
 
-	for (int j = 0; j < m_table.size(); ++j)
+	if (ProductionStatus_ToBeApprove == productionStatus)
 	{
-		bool bIfBusinessApproved = false;
-		bool bIfPlanApproved = false;
-
-		if (_T("¡Ì") == m_table[j].second[16])
-		{
-			bIfBusinessApproved = true;
-		}
-
-		if (_T("¡Ì") == m_table[j].second[17])
-		{
-			bIfPlanApproved = true;
-		}
-
-		if (bIfBusinessApproved && bIfPlanApproved)
-		{
-			vecApproved.push_back(m_table[j].first);
-		}
-		else
-		{
-			if (!bIfPlanApproved && !bIfBusinessApproved)
-			{
-				vecToBeApprove.push_back(m_table[j].first);
-			}
-			else
-			{
-				vecApproving.push_back(m_table[j].first);
-			}
-		}
-
-		vecAll.push_back(m_table[j].first);
+		sqp.AddApproveCondition(CSale::BUSINESS, false);
+		sqp.AddApproveCondition(CSale::PLAN, false);
+	}
+	else if (ProductionStatus_Approving == productionStatus)
+	{
+		sqp.AddApproveCondition(CSale::BUSINESS, true);
+		sqp.AddApproveCondition(CSale::PLAN, false);
+		sqp.AddApproveCondition(CSale::BUSINESS, false, 1);
+		sqp.AddApproveCondition(CSale::PLAN, true, 1);
+	}
+	else if (ProductionStatus_Approved == productionStatus)
+	{
+		sqp.AddApproveCondition(CSale::BUSINESS, true);
+		sqp.AddApproveCondition(CSale::PLAN, true);
 	}
 
-	if (ProductionStatus_All == productionStatus)
-	{
-		for (int j = 0; j < vecAll.size(); ++j)
-		{
-			m_pJqGridAPI->ShowRow(vecAll[j]);
-		}
-	}
-	else
-	{
-		for (int i = 1; i <= m_table.size(); i++)
-		{
-			m_pJqGridAPI->HideRow(i);
-		}
+	CServer::GetInstance()->GetSale().Query(
+		m_pJqGridAPI->GetCurrentPage(),
+		m_pJqGridAPI->GetPageSize(),
+		sqp)
+		.then(new OnSaleLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 
-		if (ProductionStatus_ToBeApprove == productionStatus)
-		{
-			for (int j = 0; j < vecToBeApprove.size(); ++j)
-			{
-				m_pJqGridAPI->ShowRow(vecToBeApprove[j]);
-			}
-		}
-		else if (ProductionStatus_Approving == productionStatus)
-		{
-			for (int j = 0; j < vecApproving.size(); ++j)
-			{
-				m_pJqGridAPI->ShowRow(vecApproving[j]);
-			}
-		}
-		else if (ProductionStatus_Approved == productionStatus)
-		{
-			for (int j = 0; j < vecApproved.size(); ++j)
-			{
-				m_pJqGridAPI->ShowRow(vecApproved[j]);
-			}
-		}
-	}
+	GetParent()->EnableWindow(FALSE);
+
 }
 
 void CSalePanel::OnBnClickedAdd()
@@ -937,12 +890,8 @@ void CSalePanel::OnInitData()
 
 	if (perm.getSale())
 	{
-		
 		DEFINE_SALE_QUERY_PARAM(sqp);
-		sqp.AddApproveCondition(CSale::BUSINESS, true);
-		sqp.AddApproveCondition(CSale::PLAN, false);
-		sqp.AddApproveCondition(CSale::BUSINESS, false, 1);
-		sqp.AddApproveCondition(CSale::PLAN, true, 1);
+
 		CServer::GetInstance()->GetSale().Query(
 			m_pJqGridAPI->GetCurrentPage(),
 			m_pJqGridAPI->GetPageSize(),
