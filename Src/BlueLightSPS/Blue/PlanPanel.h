@@ -33,7 +33,7 @@ protected:
 	afx_msg void OnBnClickedReApproveSCRQBusiness();
 	afx_msg void OnBnClickedReApproveSCRQPlan();
 	afx_msg void OnCbnSelchangeProductionStatus();
-
+	void OnExprotClicked();
 	void OnModifyDataSuccess(std::vector<CString>& newData);
 	void OnReApproveSuccess(CPlan::ApproveType type);
 

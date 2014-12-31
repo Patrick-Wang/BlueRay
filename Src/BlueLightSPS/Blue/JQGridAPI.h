@@ -47,15 +47,18 @@ public:
 	CDelegate<void(void)> d_OnRowChecked;
 	CDelegate<void(void)> d_OnGridComplete;
 	CDelegate<void(int, int, int, bool)> d_OnUpdateData;
+	CDelegate<void(void)> d_OnExportClicked;
+
 	VARIANT JSCall(int id, const std::vector<VARIANT>& params);
 
 private:
 	std::set<int> m_hideCols;
 	IJSMediator* m_pMedia;
 	static int m_pageSize;
-	static CComJsFun m_lpJsfOnChecked;
-	static CComJsFun m_lpJsfOnComplete;
-	static CComJsFun m_lpJsfOnUpdateData;
+	static CComJsFun m_JsfnOnChecked;
+	static CComJsFun m_JsfnOnComplete;
+	static CComJsFun m_JsfnOnUpdateData;
+	static CComJsFun m_JsfnOnExportClicked;
 	BSTR m_gridName;
 };
 

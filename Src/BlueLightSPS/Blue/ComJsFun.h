@@ -4,13 +4,12 @@
 class CComJsFun :
 	public IJSMediator::IJSFunction{
 public:
-	CComJsFun(LPCTSTR lpName, int id)
-		: m_name(lpName)
-		, m_Id(id){
+	CComJsFun(LPCTSTR lpName)
+		: m_name(lpName){
 	}
 
 	VARIANT Call(std::vector<VARIANT>& params){
-		return d_onJsCall(m_Id, params);
+		return d_onJsCall((int)this, params);
 	}
 
 	LPCTSTR Name(){
@@ -18,13 +17,12 @@ public:
 	}
 
 	int Id(){
-		return m_Id;
+		return (int)this;
 	}
 
 	CDelegate<VARIANT(int, const std::vector<VARIANT>&)> d_onJsCall;
 
 private:
-	int m_Id;
 	CString m_name;
 };
 

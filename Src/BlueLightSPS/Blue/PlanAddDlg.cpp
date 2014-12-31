@@ -284,7 +284,7 @@ void CPlanAddDlg::OnOK()
 {
 	CString strTmp;
 	CTime time;
-	
+	m_vecResult.clear();
 	DWORD dwResult = m_aDatePickers[DatePickerId::DatePicker_SCRQ]->GetTime(time);
 	if (dwResult == GDT_VALID)
 	{
@@ -327,20 +327,38 @@ void CPlanAddDlg::OnOK()
 	m_aEdits[EditId::Edit_TCBH]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp);
 	bool bCanBeUse = false;
-	CServer::GetInstance()->GetPlan().ValidateCcbhSync(strTmp, bCanBeUse);
-	if (!bCanBeUse)
-	{
-		MessageBox(_T("投产编号已使用"), _T("警告"), MB_OK | MB_ICONWARNING);
-		return;
+	if (!strTmp.IsEmpty()){
+		if (CServer::GetInstance()->GetPlan().ValidateTcbhSync(strTmp, bCanBeUse))
+		{
+			if (!bCanBeUse)
+			{
+				MessageBox(_T("投产编号已使用"), _T("警告"), MB_OK | MB_ICONWARNING);
+				return;
+			}
+		}
+		else{
+			MessageBox(_T("网络连接错误"), _T("警告"), MB_OK | MB_ICONWARNING);
+			return;
+		}
 	}
+	
 	m_aEdits[EditId::Edit_CCBH]->GetWindowText(strTmp);
-	CServer::GetInstance()->GetPlan().ValidateCcbhSync(strTmp, bCanBeUse);
-	if (!bCanBeUse)
-	{
-		MessageBox(_T("出厂编号已使用"), _T("警告"), MB_OK | MB_ICONWARNING);
-		return;
-	}
 	m_vecResult.push_back(strTmp);
+	if (!strTmp.IsEmpty()){
+		if (CServer::GetInstance()->GetPlan().ValidateCcbhSync(strTmp, bCanBeUse))
+		{
+			if (!bCanBeUse)
+			{
+				MessageBox(_T("出厂编号已使用"), _T("警告"), MB_OK | MB_ICONWARNING);
+				return;
+			}
+		}
+		else{
+			MessageBox(_T("网络连接错误"), _T("警告"), MB_OK | MB_ICONWARNING);
+			return;
+		}
+	}
+	
 
 	CPopupDlg::OnOK();
 }

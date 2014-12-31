@@ -13,8 +13,8 @@ typedef struct tagSuccess_t{
 	LPCTSTR ret;
 }Success_t;
 
-CComJsFun CJsHttpImpl::m_funPost(_T("onPost"), 6001);
-CComJsFun CJsHttpImpl::m_funGet(_T("onGet"), 6002);
+CComJsFun CJsHttpImpl::m_funPost(_T("onPost"));
+CComJsFun CJsHttpImpl::m_funGet(_T("onGet"));
 
 CJsHttpImpl::CJsHttpImpl(IJSMediator* lpJsMediator, CWnd* pWnd)
 	: m_lpJsMediator(lpJsMediator)
@@ -736,7 +736,8 @@ void CJsHttpImpl::DoDownload(LPCTSTR lpAddr, int id, std::map<CString, CString> 
 
 	} while (dwSize > 0);
 
-	// Report any errors.
+	pStream.reset();
+
 	if (!bResults){
 		m_pWnd->SendMessage(WM_FAILED, (WPARAM)this, (LPARAM)&success);
 	}

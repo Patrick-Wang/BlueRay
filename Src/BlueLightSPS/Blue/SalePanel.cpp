@@ -118,6 +118,8 @@ void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
 
 void CSalePanel::OnInitChilds()
 {
+	m_pJqGridAPI->d_OnExportClicked += std::make_pair(this, &CSalePanel::OnExprotClicked);
+
 	CPermission& perm = CUser::GetInstance()->GetPermission();
 	CString strJsonWidths;
 	if (CSettingManager::GetInstance()->GetColWidths(L"saleCol", strJsonWidths))
@@ -976,7 +978,7 @@ void CSalePanel::OnDestroy()
 	m_pJqGridAPI->GetWidths(strWidths);
 	CSettingManager::GetInstance()->SetColWidths(L"saleCol", strWidths);
 	m_pJqGridAPI->d_OnUpdateData -= std::make_pair(this, &CSalePanel::OnUpdateData);
-
+	m_pJqGridAPI->d_OnExportClicked -= std::make_pair(this, &CSalePanel::OnExprotClicked);
 	CBRPanel::OnDestroy();
 
 	// TODO: Add your message handler code here
@@ -1018,5 +1020,57 @@ void CSalePanel::HighLight()
 		{
 			m_pJqGridAPI->HighLightRow(m_table[i].first);
 		}
+	}
+}
+
+void CSalePanel::OnExprotClicked()
+{
+
+	class CSaleExportListener : public CPromise<bool>::IHttpResponse{
+		CONSTRUCTOR_2(CSaleExportListener, CSalePanel&, panel, CString, fileName);
+	public:
+		virtual void OnSuccess(bool& ret){
+			if (ret)
+			{
+				m_panel.MessageBox(_T("销售数据已经成功导出到文件 : ") + m_fileName, _T("导出成功"), MB_OK | MB_ICONINFORMATION);
+			}
+			else
+			{
+				m_panel.MessageBox(_T("销售数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
+				DeleteFile(m_fileName);
+			}
+		}
+		virtual void OnFailed(){
+			m_panel.MessageBox(_T("销售数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
+			DeleteFile(m_fileName);
+		}
+	};
+
+	CFileDialog hFileDlg(TRUE, NULL, NULL, OFN_PATHMUSTEXIST | OFN_READONLY, _T("*.xls;*.xlsx"), NULL);
+	hFileDlg.m_ofn.nFilterIndex = 1;
+	hFileDlg.m_ofn.hwndOwner = GetParent()->GetSafeHwnd();
+	hFileDlg.m_ofn.lStructSize = sizeof(OPENFILENAME);
+	hFileDlg.m_ofn.lpstrTitle = TEXT("选择导出文件位置");
+	hFileDlg.m_ofn.nMaxFile = MAX_PATH;
+
+	if (hFileDlg.DoModal() == IDOK)
+	{
+		CString fileName = hFileDlg.GetFileName();
+		int index = fileName.ReverseFind(_T('.'));
+		if (index > 0)
+		{
+			CString subFix = fileName.Right(fileName.GetLength() - index - 1);
+			if (0 != subFix.CompareNoCase(_T("xls")) && 0 != subFix.CompareNoCase(_T("xlsx")))
+			{
+				fileName = fileName.Left(index + 1) + _T("xls");
+			}
+		}
+		else
+		{
+			fileName += _T(".xls");
+		}
+		CString filePathName = hFileDlg.GetFolderPath() + _T("\\") + fileName;
+		CServer::GetInstance()->GetSale().Export(filePathName).then(
+			new CSaleExportListener(*this, filePathName));
 	}
 }

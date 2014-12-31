@@ -175,7 +175,7 @@ module base {
             var tableAssist: JQTable.JQGridAssistant = JQGridAssistantFactory.createTable(name, this.mCols, widths);
             var data = [];
 
-            $("#" + name).jqGrid(
+            this.mTable.jqGrid(
                 tableAssist.decorate({
                     // url: "TestTable/WGDD_load.do",
                     // datatype: "json",
@@ -235,18 +235,31 @@ module base {
                     viewrecords: true,
                     pager: name + 'pager',
                     beforeSelectRow: (rowId) => {
-                       return !this.isDisabled(rowId);
+                        return !this.isDisabled(rowId);
                     },
                     onSelectRow: (a, b, c) => {
-                       mediator.onRowChecked(this.mTableName);
+                        mediator.onRowChecked(this.mTableName);
                     },
                     onSelectAll: (a, b, c) => {
                         mediator.onRowChecked(this.mTableName);
                     },
                     gridComplete: () => {
-                       
+
                     }
-                }))
+                }));
+            var exporteId = name + "_export";
+            this.mTable.jqGrid('navGrid', "#" + name + 'pager', { search: false, refresh: false, edit: false, add: false, del: false })
+                .jqGrid('navButtonAdd', "#" + name + 'pager', {
+                         caption: "", buttonicon: "none", onClickButton: () => {
+                             mediator.onExportClicked(this.mTableName);
+                         }, position: "last", title: "导出", id: exporteId
+                });
+            this.reload();
+           
+            $("#" + exporteId + " div").addClass("ui-icon");
+            $("#" + exporteId + " div").addClass("ui-icon-folder-open");
+            $("#" + name + "pager_left").css("padding-top", "3px");
+           
                 //.navGrid('#pager', { search: false, reloadGrid: false, edit: false, add: false, del: false });
         }
     }

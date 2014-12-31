@@ -436,12 +436,12 @@ VARIANT CBlueDlg::JSCall(int id, const std::vector<VARIANT>& params)
 {
 	VARIANT vt;
 	vt.vt = VT_I4;
-	if (JSFN_ONGETROWNUM == id)
+	if ((int)&m_jsfnOnGetRowNum == id)
 	{
 		vt.intVal = CJQGridAPI::GetPageSize();
 	}
 	return vt;
 }
 
-CComJsFun CBlueDlg::m_jsfnOnGetRowNum(_T("onGetRowNum"), JSFN_ONGETROWNUM);
+CComJsFun CBlueDlg::m_jsfnOnGetRowNum(_T("onGetRowNum"));
 
