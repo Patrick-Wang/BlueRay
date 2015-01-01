@@ -282,14 +282,19 @@ void CPlanPanel::OnInitChilds()
 		m_bsDateRange = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_DATERANGE, _T("查询日期"), _T("Microsoft YaHei"), 12);
 		m_bsDateRange->MoveWindow(140, 25, 60, 20);
 
-		m_dtcSearchFrom = Util_Tools::Util::CreateDateTimePickerWithoutCheckbox(this, IDC_PLAN_DATETIME_SEARCHFROM, _T("Microsoft YaHei"), 12);
-		m_dtcSearchFrom->MoveWindow(210, 25, 100, 20);
+		m_dtcSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHFROM, _T("Microsoft YaHei"), 12);
+		m_dtcSearchFrom->MoveWindow(210, 25, 108, 20);
+
+		COleDateTime oletimeTime;
+		oletimeTime.SetStatus(COleDateTime::null);
+		m_dtcSearchFrom->SetTime(oletimeTime);
 
 		m_bsMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_MIDDLELINE, _T("--"), _T("Microsoft YaHei"), 12);
-		m_bsMiddleLine->MoveWindow(320, 25, 20, 20);
+		m_bsMiddleLine->MoveWindow(325, 25, 20, 20);
 
-		m_dtcSearchTo = Util_Tools::Util::CreateDateTimePickerWithoutCheckbox(this, IDC_PLAN_DATETIME_SEARCHTO, _T("Microsoft YaHei"), 12);
-		m_dtcSearchTo->MoveWindow(350, 25, 100, 20);
+		m_dtcSearchTo = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHTO, _T("Microsoft YaHei"), 12);
+		m_dtcSearchTo->MoveWindow(350, 25, 108, 20);
+		m_dtcSearchTo->SetTime(oletimeTime);
 
 		m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_PLAN_BTN_SEARCH, _T("请输入关键字"), _T("Microsoft YaHei"), 12);
 		m_editSearch->MoveWindow(470, 25, 150, 20);
@@ -427,59 +432,49 @@ void CPlanPanel::OnBnClickedSearch()
 	int iCountShot = 0;
 	CString searchText;
 	m_editSearch->GetWindowText(searchText);
-	
-	DEFINE_PLAN_QUERY_PARAM(pqp);
-	if (searchText.IsEmpty()){
-		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), pqp)
-			.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
-		GetParent()->EnableWindow(FALSE);
+
+	DEFINE_SALE_QUERY_PARAM(sqp);
+
+	if (!searchText.IsEmpty()){
+		sqp.SetBasicSearchCondition(searchText, true);
 	}
-	else{
-		CString strFrom;
+
+	CString strFrom;
+	CString strTo;
+	bool bHasFrom = false;
+	bool bHasTo = false;
+	CTime time;
+
+	DWORD dwResult = m_dtcSearchFrom->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		bHasFrom = true;
 		m_dtcSearchFrom->GetWindowText(strFrom);
-		CString strTo;
-		m_dtcSearchTo->GetWindowText(strTo);
-
-
-		pqp.SetBasicSearchCondition(searchText, true);
-		pqp.SetDateSearchCondition(strFrom, strTo);
-
-		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), pqp)
-			.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
-		GetParent()->EnableWindow(FALSE);
 	}
-	//CString rowData;
-	//bool bMatch = false;
-	//for (int i = 0; i < m_table.size(); ++i)
-	//{
-	//	bMatch = false;
-	//	for (int j = 0; j < m_table[i].second.size(); ++j)
-	//	{
-	//		CString strSource = m_table[i].second[j];
-	//		strSource.MakeUpper();
-	//		searchText.MakeUpper();
+	else
+	{
+		m_dtcSearchFrom->GetWindowText(strFrom);
+	}
 
-	//		if (searchText.IsEmpty() || strSource.Find(searchText) >= 0)
-	//		{
-	//			bMatch = true;
-	//			break;
-	//		}
-	//	}
-	//	if (!bMatch)
-	//	{
-	//		m_pJqGridAPI->HideRow(m_table[i].first);
-	//	}
-	//	else
-	//	{
-	//		m_pJqGridAPI->ShowRow(m_table[i].first);
-	//		iCountShot++;
-	//	}
-	//}
+	dwResult = m_dtcSearchTo->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		bHasFrom = true;
+		m_dtcSearchTo->GetWindowText(strTo);
+	}
+	else
+	{
+		m_dtcSearchTo->GetWindowText(strTo);
+	}
 
-	//if (iCountShot == 0)
-	//{
-	//	
-	//}
+	if (bHasFrom || bHasTo)
+	{
+		sqp.SetDateSearchCondition(strFrom, strTo);
+	}
+
+	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), sqp)
+		.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
+	GetParent()->EnableWindow(FALSE);
 }
 
 void CPlanPanel::HighLight()
@@ -496,38 +491,61 @@ void CPlanPanel::HighLight()
 void CPlanPanel::OnBnClickedMore()
 {
 	int iCountShot = 0;
-	CSaleAddDlg dlg(_T("高级搜索"));
-	CSaleAddDlg::Option_t* pstOpt(new CSaleAddDlg::Option_t());
-	dlg.SetOption(pstOpt);
-	if (IDOK == dlg.DoModal()){
-		const std::vector<CString>& searchVals = dlg.GetResult();
-		bool bMatch = true;
-		for (int i = 0; i < m_table.size(); ++i)
-		{
-			bMatch = true;
-			for (int j = 0; j < searchVals.size(); ++j)
-			{
-				if (!searchVals[j].IsEmpty() && m_table[i].second[j].CompareNoCase(searchVals[j]) != 0)
-				{
-					bMatch = false;
-					break;
-				}
-			}
+	CPlanAddDlg dlg(_T("高级搜索"));
 
-			if (!bMatch)
-			{
-				m_pJqGridAPI->HideRow(m_table[i].first);
-			}
-			else
-			{
-				m_pJqGridAPI->ShowRow(m_table[i].first);
-				iCountShot++;
-			}
+	dlg.SetOption(new CPlanAddDlg::Option_t());
+
+	if (IDOK == dlg.DoModal()){
+		std::vector<CString>& searchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
+		searchVals.insert(searchVals.begin() + 15, L"");//插入业务审核
+		searchVals.insert(searchVals.begin() + 15, L"");//插入计划审核
+		searchVals.insert(searchVals.begin() + 15, L"");//插入优先级
+		DEFINE_SALE_QUERY_PARAM(jqp);
+		jqp.SetAdvancedCondition(&searchVals);
+
+		CString searchText;
+		m_editSearch->GetWindowText(searchText);
+
+		if (!searchText.IsEmpty()){
+			jqp.SetBasicSearchCondition(searchText, true);
 		}
-		if (iCountShot == 0)
+
+		CString strFrom;
+		CString strTo;
+		bool bHasFrom = false;
+		bool bHasTo = false;
+		CTime time;
+
+		DWORD dwResult = m_dtcSearchFrom->GetTime(time);
+		if (dwResult == GDT_VALID)
 		{
-			MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
+			bHasFrom = true;
+			m_dtcSearchFrom->GetWindowText(strFrom);
 		}
+		else
+		{
+			m_dtcSearchFrom->GetWindowText(strFrom);
+		}
+
+		dwResult = m_dtcSearchTo->GetTime(time);
+		if (dwResult == GDT_VALID)
+		{
+			bHasFrom = true;
+			m_dtcSearchTo->GetWindowText(strTo);
+		}
+		else
+		{
+			m_dtcSearchTo->GetWindowText(strTo);
+		}
+
+		if (bHasFrom || bHasTo)
+		{
+			jqp.SetDateSearchCondition(strFrom, strTo);
+		}
+
+		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
+			.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
+		GetParent()->EnableWindow(FALSE);
 	}
 }
 

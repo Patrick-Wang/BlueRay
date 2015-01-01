@@ -150,14 +150,19 @@ void CSalePanel::OnInitChilds()
 		m_bsDateRange = Util_Tools::Util::CreateStatic(this, IDC_SALE_STATIC_DATERANGE, _T("查询日期"), _T("Microsoft YaHei"), 12);
 		m_bsDateRange->MoveWindow(140, 25, 60, 20);
 
-		m_dtcSearchFrom = Util_Tools::Util::CreateDateTimePickerWithoutCheckbox(this, IDC_SALE_DATETIME_SEARCHFROM, _T("Microsoft YaHei"), 12);
-		m_dtcSearchFrom->MoveWindow(210, 25, 100, 20);
+		m_dtcSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_SALE_DATETIME_SEARCHFROM, _T("Microsoft YaHei"), 12);
+		m_dtcSearchFrom->MoveWindow(210, 25, 108, 20);
+
+		COleDateTime oletimeTime;
+		oletimeTime.SetStatus(COleDateTime::null);
+		m_dtcSearchFrom->SetTime(oletimeTime);
 
 		m_bsMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_SALE_STATIC_MIDDLELINE, _T("--"), _T("Microsoft YaHei"), 12);
-		m_bsMiddleLine->MoveWindow(320, 25, 20, 20);
+		m_bsMiddleLine->MoveWindow(325, 25, 20, 20);
 
-		m_dtcSearchTo = Util_Tools::Util::CreateDateTimePickerWithoutCheckbox(this, IDC_SALE_DATETIME_SEARCHTO, _T("Microsoft YaHei"), 12);
-		m_dtcSearchTo->MoveWindow(350, 25, 100, 20);
+		m_dtcSearchTo = Util_Tools::Util::CreateDateTimePicker(this, IDC_SALE_DATETIME_SEARCHTO, _T("Microsoft YaHei"), 12);
+		m_dtcSearchTo->MoveWindow(350, 25, 108, 20);
+		m_dtcSearchTo->SetTime(oletimeTime);
 
 		m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_SALE_BTN_SEARCH, _T("请输入关键字"), _T("Microsoft YaHei"), 12);
 		m_editSearch->MoveWindow(470, 25, 150, 20);
@@ -552,25 +557,47 @@ void CSalePanel::OnBnClickedSearch()
 	m_editSearch->GetWindowText(searchText);
 
 	DEFINE_SALE_QUERY_PARAM(sqp);
-	if (searchText.IsEmpty()){
-		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), sqp)
-			.then(new CSaleSearchListener(*this, m_table, m_pJqGridAPI.get()));
-		GetParent()->EnableWindow(FALSE);
+
+	if (!searchText.IsEmpty()){
+		sqp.SetBasicSearchCondition(searchText, true);
 	}
-	else{
-		CString strFrom;
+
+	CString strFrom;
+	CString strTo;
+	bool bHasFrom = false;
+	bool bHasTo = false;
+	CTime time;
+
+	DWORD dwResult = m_dtcSearchFrom->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		bHasFrom = true;
 		m_dtcSearchFrom->GetWindowText(strFrom);
-		CString strTo;
-		m_dtcSearchTo->GetWindowText(strTo);
-
-		DEFINE_SALE_QUERY_PARAM(jqp);
-		jqp.SetBasicSearchCondition(searchText, true);
-		jqp.SetDateSearchCondition(strFrom, strTo);
-
-		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
-			.then(new CSaleSearchListener(*this, m_table, m_pJqGridAPI.get()));
-		GetParent()->EnableWindow(FALSE);
 	}
+	else
+	{
+		m_dtcSearchFrom->GetWindowText(strFrom);
+	}
+
+	dwResult = m_dtcSearchTo->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		bHasFrom = true;
+		m_dtcSearchTo->GetWindowText(strTo);
+	}
+	else
+	{
+		m_dtcSearchTo->GetWindowText(strTo);
+	}
+
+	if (bHasFrom || bHasTo)
+	{
+		sqp.SetDateSearchCondition(strFrom, strTo);
+	}
+
+	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), sqp)
+		.then(new CSaleSearchListener(*this, m_table, m_pJqGridAPI.get()));
+	GetParent()->EnableWindow(FALSE);
 }
 
 
@@ -587,6 +614,47 @@ void CSalePanel::OnBnClickedMore()
 		searchVals.insert(searchVals.begin() + 15, L"");//插入优先级
 		DEFINE_SALE_QUERY_PARAM(jqp);
 		jqp.SetAdvancedCondition(&searchVals);
+
+		CString searchText;
+		m_editSearch->GetWindowText(searchText);
+
+		if (!searchText.IsEmpty()){
+			jqp.SetBasicSearchCondition(searchText, true);
+		}
+
+		CString strFrom;
+		CString strTo;
+		bool bHasFrom = false;
+		bool bHasTo = false;
+		CTime time;
+
+		DWORD dwResult = m_dtcSearchFrom->GetTime(time);
+		if (dwResult == GDT_VALID)
+		{
+			bHasFrom = true;
+			m_dtcSearchFrom->GetWindowText(strFrom);
+		}
+		else
+		{
+			m_dtcSearchFrom->GetWindowText(strFrom);
+		}
+
+		dwResult = m_dtcSearchTo->GetTime(time);
+		if (dwResult == GDT_VALID)
+		{
+			bHasFrom = true;
+			m_dtcSearchTo->GetWindowText(strTo);
+		}
+		else
+		{
+			m_dtcSearchTo->GetWindowText(strTo);
+		}
+
+		if (bHasFrom || bHasTo)
+		{
+			jqp.SetDateSearchCondition(strFrom, strTo);
+		}
+
 		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
 			.then(new CSaleSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
