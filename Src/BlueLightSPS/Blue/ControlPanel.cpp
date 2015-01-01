@@ -16,7 +16,7 @@ END_MESSAGE_MAP()
 
 int CControlPanel::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	lpCreateStruct->dwExStyle |= WS_CLIPCHILDREN;
+	//lpCreateStruct->dwExStyle |= WS_CLIPCHILDREN;
 	if (CBSObject::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	OnInitChilds();
@@ -27,7 +27,7 @@ int CControlPanel::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 BOOL CControlPanel::Create(CWnd* pParentWnd, UINT nID)
 {
-	return CBSObject::Create(NULL, NULL, WS_CLIPCHILDREN | WS_CHILDWINDOW, CRect(0, 0, 0, 0), pParentWnd, nID, NULL);
+	return CBSObject::Create(NULL, NULL,WS_CHILDWINDOW, CRect(0, 0, 0, 0), pParentWnd, nID, NULL);
 }
 
 
@@ -58,15 +58,23 @@ void CControlPanel::ShowChild(CWnd* pChild)
 	if (pChild != NULL)
 	{
 		pChild->ShowWindow(SW_SHOW);
+		CRect rt;
+		pChild->GetClientRect(rt);
+		pChild->ClientToScreen(rt);
+		GetParent()->ScreenToClient(rt);
+		GetParent()->InvalidateRect(rt);
 	}
 }
 
 void CControlPanel::HideChild(CWnd* pChild)
 {
-	pChild->ShowWindow(SW_HIDE);
-	CRect rt;
-	pChild->GetClientRect(rt);
-	pChild->ClientToScreen(rt);
-	GetParent()->ScreenToClient(rt);
-	GetParent()->InvalidateRect(rt);
+	if (NULL != pChild)
+	{
+		pChild->ShowWindow(SW_HIDE);
+		CRect rt;
+		pChild->GetClientRect(rt);
+		pChild->ClientToScreen(rt);
+		GetParent()->ScreenToClient(rt);
+		GetParent()->InvalidateRect(rt);
+	}
 }

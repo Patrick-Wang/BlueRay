@@ -52,6 +52,8 @@ public class HTXX implements Serializable {
 			return BPQXHFLXX.class;
 		case 11:
 			return BMQXHFLXX.class;
+		case 14:
+			return MPZLXX.class;
 		default:
 			return null;
 		}

@@ -10,6 +10,7 @@ import com.BlueRay.mutton.model.entity.jpa.BPQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.CPGGXHXX;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.KHXX;
+import com.BlueRay.mutton.model.entity.jpa.MPZLXX;
 import com.BlueRay.mutton.model.entity.jpa.YYLGGFLXX;
 import com.BlueRay.mutton.model.entity.jpa.ZCXX;
 import com.BlueRay.mutton.model.entity.jpa.ZDQDYFLXX;
@@ -89,6 +90,9 @@ public class SaleQueryParams {
 		} else if (cls.getName().equals(BMQXHFLXX.class.getName())) {
 			colName = "bmqxh";
 			id = "bmqxhID";
+		} else if (cls.getName().equals(MPZLXX.class.getName())) {
+			colName = "mpzl";
+			id = "id";
 		}
 		return id;
 	}
@@ -117,6 +121,9 @@ public class SaleQueryParams {
 		} else if (cls.getName().equals(BMQXHFLXX.class.getName())) {
 			colName = "bmqxh";
 			id = "bmqxhID";
+		} else if (cls.getName().equals(MPZLXX.class.getName())) {
+			colName = "mpzl";
+			id = "id";
 		}
 		return colName;
 	}

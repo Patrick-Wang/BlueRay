@@ -622,14 +622,19 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 		m_btnSaleBusinessApprove.MoveWindow(g_ButtoncPos[iPosIndex][0], g_ButtoncPos[iPosIndex][1], g_ButtoncPos[iPosIndex][2], g_ButtoncPos[iPosIndex][3]);
 		iPosIndex++;
 		
-		m_bsSaleBusinessApprove.ShowWindow(SW_SHOW);
-		m_btnSaleBusinessApprove.ShowWindow(SW_SHOW);
+		ShowChild(&m_bsSaleBusinessApprove);
+		ShowChild(&m_btnSaleBusinessApprove);
+		//m_bsSaleBusinessApprove.ShowWindow(SW_SHOW);
+		//m_btnSaleBusinessApprove.ShowWindow(SW_SHOW);
 		bHasSp = true;
 	}
 	else
 	{
-		m_bsSaleBusinessApprove.ShowWindow(SW_HIDE);
-		m_btnSaleBusinessApprove.ShowWindow(SW_HIDE);
+		HideChild(&m_bsSaleBusinessApprove);
+		HideChild(&m_btnSaleBusinessApprove);
+
+		//m_bsSaleBusinessApprove.ShowWindow(SW_HIDE);
+		//m_btnSaleBusinessApprove.ShowWindow(SW_HIDE);
 	}
 
 	CString strSalePlan;
@@ -642,14 +647,18 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 		m_btnSalePlanApprove.MoveWindow(g_ButtoncPos[iPosIndex][0], g_ButtoncPos[iPosIndex][1], g_ButtoncPos[iPosIndex][2], g_ButtoncPos[iPosIndex][3]);
 		iPosIndex++;
 
-		m_bsSalePlanApprove.ShowWindow(SW_SHOW);
-		m_btnSalePlanApprove.ShowWindow(SW_SHOW);
+		ShowChild(&m_bsSalePlanApprove);
+		ShowChild(&m_btnSalePlanApprove);
+		//m_bsSalePlanApprove.ShowWindow(SW_SHOW);
+		//m_btnSalePlanApprove.ShowWindow(SW_SHOW);
 		bHasSp = true;
 	}
 	else
 	{
-		m_bsSalePlanApprove.ShowWindow(SW_HIDE);
-		m_btnSalePlanApprove.ShowWindow(SW_HIDE);
+		HideChild(&m_btnSalePlanApprove);
+		HideChild(&m_bsSalePlanApprove);
+		//m_bsSalePlanApprove.ShowWindow(SW_HIDE);
+		//m_btnSalePlanApprove.ShowWindow(SW_HIDE);
 	}
 
 	CString strPlanBussiness;
@@ -661,15 +670,18 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 		m_bsPlanSCRQBusinessApprove.MoveWindow(g_StaticPos[iPosIndex][0], g_StaticPos[iPosIndex][1], g_StaticPos[iPosIndex][2], g_StaticPos[iPosIndex][3]);
 		m_btnPlanSCRQBusinessApprove.MoveWindow(g_ButtoncPos[iPosIndex][0], g_ButtoncPos[iPosIndex][1], g_ButtoncPos[iPosIndex][2], g_ButtoncPos[iPosIndex][3]);
 		iPosIndex++;
-
-		m_bsPlanSCRQBusinessApprove.ShowWindow(SW_SHOW);
-		m_btnPlanSCRQBusinessApprove.ShowWindow(SW_SHOW);
+		ShowChild(&m_bsPlanSCRQBusinessApprove);
+		ShowChild(&m_btnPlanSCRQBusinessApprove);
+		//m_bsPlanSCRQBusinessApprove.ShowWindow(SW_SHOW);
+		//m_btnPlanSCRQBusinessApprove.ShowWindow(SW_SHOW);
 		bHasSp = true;
 	}
 	else
 	{
-		m_bsPlanSCRQBusinessApprove.ShowWindow(SW_HIDE);
-		m_btnPlanSCRQBusinessApprove.ShowWindow(SW_HIDE);
+		HideChild(&m_bsPlanSCRQBusinessApprove);
+		HideChild(&m_btnPlanSCRQBusinessApprove);
+		//m_bsPlanSCRQBusinessApprove.ShowWindow(SW_HIDE);
+		//m_btnPlanSCRQBusinessApprove.ShowWindow(SW_HIDE);
 	}
 
 	CString strPlanPlan;
@@ -681,15 +693,19 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 		m_bsPlanSCRQPlanApprove.MoveWindow(g_StaticPos[iPosIndex][0], g_StaticPos[iPosIndex][1], g_StaticPos[iPosIndex][2], g_StaticPos[iPosIndex][3]);
 		m_btnPlanSCRQPlanApprove.MoveWindow(g_ButtoncPos[iPosIndex][0], g_ButtoncPos[iPosIndex][1], g_ButtoncPos[iPosIndex][2], g_ButtoncPos[iPosIndex][3]);
 		iPosIndex++;
+		ShowChild(&m_btnPlanSCRQPlanApprove);
+		ShowChild(&m_bsPlanSCRQPlanApprove);
 
-		m_bsPlanSCRQPlanApprove.ShowWindow(SW_SHOW);
-		m_btnPlanSCRQPlanApprove.ShowWindow(SW_SHOW);
+		//m_bsPlanSCRQPlanApprove.ShowWindow(SW_SHOW);
+		//m_btnPlanSCRQPlanApprove.ShowWindow(SW_SHOW);
 		bHasSp = true;
 	}
 	else
 	{
-		m_bsPlanSCRQPlanApprove.ShowWindow(SW_HIDE);
-		m_btnPlanSCRQPlanApprove.ShowWindow(SW_HIDE);
+		HideChild(&m_bsPlanSCRQPlanApprove);
+		HideChild(&m_btnPlanSCRQPlanApprove);
+		//m_bsPlanSCRQPlanApprove.ShowWindow(SW_HIDE);
+		//m_btnPlanSCRQPlanApprove.ShowWindow(SW_HIDE);
 	}
 
 	CString strPackBussiness;
@@ -701,15 +717,20 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 		m_bsPlanBZRQBusinessApprove.MoveWindow(g_StaticPos[iPosIndex][0], g_StaticPos[iPosIndex][1], g_StaticPos[iPosIndex][2], g_StaticPos[iPosIndex][3]);
 		m_btnPlanBZRQBusinessApprove.MoveWindow(g_ButtoncPos[iPosIndex][0], g_ButtoncPos[iPosIndex][1], g_ButtoncPos[iPosIndex][2], g_ButtoncPos[iPosIndex][3]);
 		iPosIndex++;
+		ShowChild(&m_bsPlanBZRQBusinessApprove);
+		ShowChild(&m_btnPlanBZRQBusinessApprove);
 
-		m_bsPlanBZRQBusinessApprove.ShowWindow(SW_SHOW);
-		m_btnPlanBZRQBusinessApprove.ShowWindow(SW_SHOW);
+		//m_bsPlanBZRQBusinessApprove.ShowWindow(SW_SHOW);
+		//m_btnPlanBZRQBusinessApprove.ShowWindow(SW_SHOW);
 		bHasSp = true;
 	}
 	else
 	{
-		m_bsPlanBZRQBusinessApprove.ShowWindow(SW_HIDE);
-		m_btnPlanBZRQBusinessApprove.ShowWindow(SW_HIDE);
+		HideChild(&m_btnPlanBZRQBusinessApprove);
+		HideChild(&m_bsPlanBZRQBusinessApprove);
+
+		//m_bsPlanBZRQBusinessApprove.ShowWindow(SW_HIDE);
+		//m_btnPlanBZRQBusinessApprove.ShowWindow(SW_HIDE);
 	}
 
 	CString strPackPlan;
@@ -721,14 +742,17 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 		m_bsPlanBZRQPlanApprove.MoveWindow(g_StaticPos[iPosIndex][0], g_StaticPos[iPosIndex][1], g_StaticPos[iPosIndex][2], g_StaticPos[iPosIndex][3]);
 		m_btnPlanBZRQPlanApprove.MoveWindow(g_ButtoncPos[iPosIndex][0], g_ButtoncPos[iPosIndex][1], g_ButtoncPos[iPosIndex][2], g_ButtoncPos[iPosIndex][3]);
 		iPosIndex++;
-
-		m_bsPlanBZRQPlanApprove.ShowWindow(SW_SHOW);
-		m_btnPlanBZRQPlanApprove.ShowWindow(SW_SHOW);
+		ShowChild(&m_btnPlanBZRQPlanApprove);
+		ShowChild(&m_bsPlanBZRQPlanApprove);
+		//m_bsPlanBZRQPlanApprove.ShowWindow(SW_SHOW);
+		//m_btnPlanBZRQPlanApprove.ShowWindow(SW_SHOW);
 		bHasSp = true;
 	}
 	else
 	{
-		m_bsPlanBZRQPlanApprove.ShowWindow(SW_HIDE);
-		m_btnPlanBZRQPlanApprove.ShowWindow(SW_HIDE);
+		HideChild(&m_bsPlanBZRQPlanApprove);
+		HideChild(&m_btnPlanBZRQPlanApprove);
+		//m_bsPlanBZRQPlanApprove.ShowWindow(SW_HIDE);
+		//m_btnPlanBZRQPlanApprove.ShowWindow(SW_HIDE);
 	}
 }
