@@ -121,9 +121,18 @@ public class SaleServiceImpl implements SaleService {
 		setMpzl(htxx, ja.getString(13));
 		setBz(htxx, ja.getString(14));
 		setDdrq(htxx, ja.getString(15));
-
+		setYxj(htxx, ja.getString(16));
+		
 		saleDao.insert(htxx);
 		return htxx.getID() + "";
+	}
+
+	private void setYxj(HTXX htxx, String val) {
+		if ("".equals(val))	{
+			htxx.setYxj(100);
+		} else if (10 == Integer.valueOf(val)){
+			htxx.setYxj(10);
+		}
 	}
 
 	private void setHtID(HTXX htxx, String val) {
@@ -295,7 +304,7 @@ public class SaleServiceImpl implements SaleService {
 				setMpzl(htxx, data.getString(13));
 				setBz(htxx, data.getString(14));
 				setDdrq(htxx, data.getString(15));
-
+				setYxj(htxx, data.getString(16));
 				saleDao.update(htxx);
 			}
 		}

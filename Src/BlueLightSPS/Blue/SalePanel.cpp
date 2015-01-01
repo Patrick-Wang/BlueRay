@@ -257,8 +257,7 @@ void CSalePanel::OnBnClickedAdd()
 	if (IDOK == dlg.DoModal())
 	{
 		m_cacheRow = dlg.GetResult();
-		m_cacheRow.push_back(_T("¡Á"));
-		m_cacheRow.push_back(_T("¡Á"));
+		m_cacheRow.push_back(_T(""));//yxj
 
 		class CAddListener : public CPromise<int>::IHttpResponse{
 			CONSTRUCTOR_2(CAddListener, CSalePanel&, salePanel, StringArray&, cacheRow)
@@ -411,6 +410,7 @@ void CSalePanel::OnBnClickedModify()
 	if (IDOK == dlg.DoModal())
 	{
 		m_cacheRow = dlg.GetResult();
+		m_cacheRow.push_back(L"");
 		std::map<CString, StringArrayPtr> attr;
 		StringArray tmpCheckRows;
 		std::vector<int> checkedRows;
