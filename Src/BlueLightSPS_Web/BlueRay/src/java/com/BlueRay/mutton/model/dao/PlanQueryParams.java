@@ -10,6 +10,7 @@ import com.BlueRay.mutton.model.entity.jpa.BPQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.CPGGXHXX;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.KHXX;
+import com.BlueRay.mutton.model.entity.jpa.MPZLXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
 import com.BlueRay.mutton.model.entity.jpa.YYLGGFLXX;
 import com.BlueRay.mutton.model.entity.jpa.ZCXX;
@@ -96,6 +97,9 @@ public class PlanQueryParams {
 		} else if (cls.getName().equals(BMQXHFLXX.class.getName())) {
 			colName = "bmqxh";
 			id = "bmqxhID";
+		} else if (cls.getName().equals(MPZLXX.class.getName())) {
+			colName = "mpzl";
+			id = "id";
 		}
 		return id;
 	}
@@ -124,6 +128,9 @@ public class PlanQueryParams {
 		} else if (cls.getName().equals(BMQXHFLXX.class.getName())) {
 			colName = "bmqxh";
 			id = "bmqxhID";
+		} else if (cls.getName().equals(MPZLXX.class.getName())) {
+			colName = "mpzl";
+			id = "id";
 		}
 		return colName;
 	}
@@ -162,15 +169,6 @@ public class PlanQueryParams {
 				whereBuilder.append(" and ");
 			}
 			whereBuilder.append(approveSql);
-		}
-
-		if (!advancedSql.isEmpty()) {
-			if (firstSql) {
-				firstSql = false;
-			} else {
-				whereBuilder.append(" and ");
-			}
-			whereBuilder.append(advancedSql);
 		}
 
 		if (!dateSql.isEmpty()) {

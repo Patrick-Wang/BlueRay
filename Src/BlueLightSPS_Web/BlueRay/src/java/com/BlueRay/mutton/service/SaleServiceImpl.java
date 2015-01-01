@@ -265,10 +265,11 @@ public class SaleServiceImpl implements SaleService {
 		if (!"".equals(value)) {
 			KHXX khxx = itemDao.queryKhxxByValue("khmc", value);
 			if (null == khxx) {
-
-			} else {
-				htxx.setClientID(khxx.getClientID());
-			}
+				khxx = new KHXX();
+				khxx.setKhmc(value);
+				itemDao.insert(khxx);
+			} 
+			htxx.setClientID(khxx.getClientID());
 		}
 	}
 

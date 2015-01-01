@@ -369,6 +369,12 @@ void CPlanPanel::OnBnClickedPlan()
 		}
 	}
 
+	if (checkedRows.size() > 1)
+	{
+		pstOpt->ccbh = OPT_FALSE;
+		pstOpt->tcbh = OPT_FALSE;
+	}
+
 	dlg.SetOption(pstOpt.get());
 
 	if (IDOK == dlg.DoModal())

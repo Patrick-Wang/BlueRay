@@ -14,6 +14,10 @@ inline void init(CEdit* edit, CString& val){
 	{
 		edit->SetWindowText(val);
 	}
+	else{
+		edit->EnableWindow(FALSE);
+	}
+
 }
 
 inline void init(CDateTimeCtrl* dateTime, CString& val){
