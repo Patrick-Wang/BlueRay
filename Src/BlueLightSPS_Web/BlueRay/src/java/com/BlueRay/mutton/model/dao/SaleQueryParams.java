@@ -388,16 +388,19 @@ public class SaleQueryParams {
 			return "";
 		}
 		boolean firstSql = true;
-		for (int i = 0; i < japprove.size(); ++i){
-			if (firstSql){
-				firstSql = false;
+		for (int i = 0; i < japprove.size(); ++i) {
+			String approveItem = parseApproveItem(japprove.getJSONArray(i));
+			if (!"".equals(approveItem)) {
+				if (firstSql) {
+					firstSql = false;
+				} else {
+					sb.append(" or ");
+				}
+
+				sb.append(" ( ");
+				sb.append(approveItem);
+				sb.append(" ) ");
 			}
-			else{
-				sb.append(" or ");
-			}
-			sb.append(" ( ");
-			sb.append(parseApproveItem(japprove.getJSONArray(i)));
-			sb.append(" ) ");
 		}
 		
 		return sb.toString();
