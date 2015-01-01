@@ -74,6 +74,7 @@ BEGIN_MESSAGE_MAP(CSalePanel, CBRPanel)
 	ON_BN_CLICKED(IDC_SALE_BTN_REAPPROVEFORPLAN, &CSalePanel::OnBnClickedReApprovePlan)
 	ON_WM_NCDESTROY()
 	ON_WM_DESTROY()
+	ON_WM_SHOWWINDOW()
 	ON_CBN_SELCHANGE(IDC_SALE_COMBO_PROSTATUS, &CSalePanel::OnCbnSelchangeProductionStatus)
 END_MESSAGE_MAP()
 
@@ -107,6 +108,15 @@ CSalePanel::~CSalePanel()
 void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
 {
 	CBRPanel::OnShowWindow(bShow, nStatus);
+
+	if (!bShow)
+	{
+		m_btnDelete->EnableWindow(FALSE);
+		m_btnModify->EnableWindow(FALSE);
+
+		m_btnReApproveForBusiness->EnableWindow(FALSE);
+		m_btnReApproveForPlan->EnableWindow(FALSE);
+	}
 
 	CPermission& perm = CUser::GetInstance()->GetPermission();
 
@@ -1010,6 +1020,7 @@ void CSalePanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 	}
 	
 	GetParent()->EnableWindow(FALSE);
+
 }
 
 void CSalePanel::HighLight()

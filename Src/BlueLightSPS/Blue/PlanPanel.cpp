@@ -36,6 +36,7 @@ BEGIN_MESSAGE_MAP(CPlanPanel, CBRPanel)
 	ON_BN_CLICKED(IDC_PLAN_BTN_REAPPROVESCRQPLAN, &CPlanPanel::OnBnClickedReApproveSCRQPlan)
 	ON_WM_NCDESTROY()
 	ON_WM_DESTROY()
+	ON_WM_SHOWWINDOW()
 	ON_CBN_SELCHANGE(IDC_PLAN_COMBO_PROSTATUS, &CPlanPanel::OnCbnSelchangeProductionStatus)
 END_MESSAGE_MAP()
 
@@ -113,6 +114,18 @@ CPlanPanel::~CPlanPanel()
 void CPlanPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 {
 	CBRPanel::OnShowWindow(bShow, nStatus);
+
+	if (!bShow)
+	{
+		m_btnPlan->EnableWindow(FALSE);
+		m_btnRestore->EnableWindow(FALSE);
+		m_btnModify->EnableWindow(FALSE);
+
+		m_btnReApproveSCRQBusiness->EnableWindow(FALSE);
+		m_btnReApproveSCRQPlan->EnableWindow(FALSE);
+		m_btnReApproveBZRQBusiness->EnableWindow(FALSE);
+		m_btnReApproveBZRQPlan->EnableWindow(FALSE);
+	}
 
 	CPermission& perm = CUser::GetInstance()->GetPermission();
 
@@ -1271,8 +1284,6 @@ void CPlanPanel::OnDestroy()
 
 void CPlanPanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 {
-
-
 	CString searchText;
 	m_editSearch->GetWindowText(searchText);
 	DEFINE_PLAN_QUERY_PARAM(jqp);
@@ -1296,6 +1307,7 @@ void CPlanPanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 	}
 
 	GetParent()->EnableWindow(FALSE);
+
 }
 
 void CPlanPanel::OnExprotClicked()
