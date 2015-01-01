@@ -1046,7 +1046,7 @@ void CSalePanel::OnExprotClicked()
 		}
 	};
 
-	CFileDialog hFileDlg(TRUE, NULL, NULL, OFN_PATHMUSTEXIST | OFN_READONLY, _T("*.xls;*.xlsx"), NULL);
+	CFileDialog hFileDlg(FALSE, _T("(*.xls)|*.xls"), _T("*.xls"), OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT, _T("Excel(*.xls)|*.xls||"), NULL);
 	hFileDlg.m_ofn.nFilterIndex = 1;
 	hFileDlg.m_ofn.hwndOwner = GetParent()->GetSafeHwnd();
 	hFileDlg.m_ofn.lStructSize = sizeof(OPENFILENAME);
@@ -1055,21 +1055,7 @@ void CSalePanel::OnExprotClicked()
 
 	if (hFileDlg.DoModal() == IDOK)
 	{
-		CString fileName = hFileDlg.GetFileName();
-		int index = fileName.ReverseFind(_T('.'));
-		if (index > 0)
-		{
-			CString subFix = fileName.Right(fileName.GetLength() - index - 1);
-			if (0 != subFix.CompareNoCase(_T("xls")) && 0 != subFix.CompareNoCase(_T("xlsx")))
-			{
-				fileName = fileName.Left(index + 1) + _T("xls");
-			}
-		}
-		else
-		{
-			fileName += _T(".xls");
-		}
-		CString filePathName = hFileDlg.GetFolderPath() + _T("\\") + fileName;
+		CString filePathName = hFileDlg.GetPathName();
 		CServer::GetInstance()->GetSale().Export(filePathName).then(
 			new CSaleExportListener(*this, filePathName));
 	}
