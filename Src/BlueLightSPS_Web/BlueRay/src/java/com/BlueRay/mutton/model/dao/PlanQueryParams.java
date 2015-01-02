@@ -232,6 +232,7 @@ public class PlanQueryParams {
 
 			}
 			Field[] fields = HTXX.class.getDeclaredFields();
+			Field fdTmp = null;
 			String link = null;
 			int column = 0;
 			for (int i = 0; i < mColumnCount; ++i) {
@@ -239,7 +240,7 @@ public class PlanQueryParams {
 					// connectMap.put("htxxID", HTXX.class);
 					mNeedsHtxx = true;
 					column = paramHtxxColMap.get(i);
-				
+					fdTmp = fields[column];
 					Class<?> cls = HTXX.getFroeignClass(column);
 					if (null != cls) {
 						if (firstSql) {
@@ -254,16 +255,17 @@ public class PlanQueryParams {
 						} else {
 							link = " = ";
 						}
-						connectMap.put(fields[column].getName(), cls);
+						
+						connectMap.put(fdTmp.getName(), cls);
 						searchText = stringSearch;
 						basicBuilder.append(cls.getSimpleName() + "_."
 								+ getForginName(cls) + link + searchText + " ");
 					} else {
-						if ((!bIsInteger && fields[column].getType().getName().equals(Integer.class.getName()))) {
+						if ((!bIsInteger && fdTmp.getType().getName().equals(Integer.class.getName()))) {
 							continue;
 						}
 						
-						if ((!bIsDate && fields[column].getType().getName().equals(Date.class.getName()))) {
+						if ((!bIsDate && fdTmp.getType().getName().equals(Date.class.getName()))) {
 							continue;
 						}
 
@@ -275,30 +277,28 @@ public class PlanQueryParams {
 						}
 						
 						link = " = ";
-						if (fields[column].getType().getName()
-								.equals(String.class.getName())) {
+						if (fdTmp.getType().getName().equals(String.class.getName()) || 
+							fdTmp.getType().getName().equals(Date.class.getName())) {
 							searchText = stringSearch;
-							if (!exact) {
+							if (!exact && fdTmp.getType().getName().equals(String.class.getName())) {
 								link = " like ";
 							}
 						} else {
 							searchText = normaltext;
 						}
 
-
-						basicBuilder.append(" HTXX_."
-								+ fields[column]
-										.getName() + link + searchText + " ");
+						basicBuilder.append(" HTXX_.");
+						basicBuilder.append(fdTmp.getName() + link + searchText + " ");
 					}
 				} else if (paramPcjhColMap.containsKey(i)){
 					column = paramPcjhColMap.get(i);
-					Field fd = PCJHXX.class.getDeclaredFields()[column];
+					fdTmp = PCJHXX.class.getDeclaredFields()[column];
 					
-					if ((!bIsInteger && fd.getType().getName().equals(Integer.class.getName()))) {
+					if ((!bIsInteger && fdTmp.getType().getName().equals(Integer.class.getName()))) {
 						continue;
 					}
 					
-					if ((!bIsDate && fd.getType().getName().equals(Date.class.getName()))) {
+					if ((!bIsDate && fdTmp.getType().getName().equals(Date.class.getName()))) {
 						continue;
 					}
 					
@@ -310,7 +310,8 @@ public class PlanQueryParams {
 					}
 
 					link = " = ";
-					if (fd.getType().getName().equals(String.class.getName())) {
+					if (fdTmp.getType().getName().equals(String.class.getName())|| 
+						fdTmp.getType().getName().equals(Date.class.getName())) {
 						searchText = stringSearch;
 						if (!exact) {
 							link = " like ";
@@ -319,8 +320,8 @@ public class PlanQueryParams {
 						searchText = normaltext;
 					}
 
-					basicBuilder.append(" PCJHXX_."
-							+ fd.getName() + link + searchText + " ");
+					basicBuilder.append(" PCJHXX_.");
+					basicBuilder.append(fdTmp.getName() + link + searchText + " ");
 				}
 
 			}

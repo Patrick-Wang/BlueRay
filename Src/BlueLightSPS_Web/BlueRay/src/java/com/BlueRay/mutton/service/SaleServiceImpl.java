@@ -3,19 +3,10 @@ package com.BlueRay.mutton.service;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRichTextString;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,32 +53,43 @@ public class SaleServiceImpl implements SaleService {
 			row[0] = htxx.getID() + "";
 
 			row[1] = htxx.getHtID() + "";
-			row[2] = itDao.queryKhxxById(htxx.getClientID()).getKhmc();
-			row[3] = itDao.queryCpggxhxxById(htxx.getGgxhID()).getGg();
+			KHXX khxx = null != htxx.getClientID() ? itDao.queryKhxxById(htxx.getClientID()) : null;
+			row[2] = null == khxx ? "" : khxx.getKhmc();
+			
+			CPGGXHXX cpgg = null != htxx.getGgxhID() ? itDao.queryCpggxhxxById(htxx.getGgxhID()) : null;
+			row[3] = null == cpgg ? "" : cpgg.getGg();
 
 			row[4] = htxx.getSl() + "";
-			row[5] = itDao.queryZcxxById(htxx.getZcID()).getZcxh();
+			ZCXX zcxx = null != htxx.getZcID() ? itDao.queryZcxxById(htxx.getZcID()) : null;
+			row[5] = null == zcxx ? "" : zcxx.getZcxh();
 			row[6] = translator.out("dfr", htxx.getDfr());
 
-			row[7] = itDao.queryZdqdyflxxById(htxx.getZdqdyID()).getZdqdy();
-			row[8] = itDao.queryYylggflxxById(htxx.getYylggID()).getYylgg();
+			ZDQDYFLXX zdq = null != htxx.getZdqdyID() ? itDao.queryZdqdyflxxById(htxx.getZdqdyID()) : null;
+			row[7] = null == zdq ? "" : zdq.getZdqdy();
+			
+			YYLGGFLXX yyl = null != htxx.getYylggID() ? itDao.queryYylggflxxById(htxx.getYylggID()) : null;			
+			row[8] = null == yyl ? "" : yyl.getYylgg();
 			row[9] = translator.out("sfjf", htxx.getSfjf());
 
-			row[10] = itDao.queryBpqxhflxxById(htxx.getBpqxhID()).getBpqxh();
-			row[11] = itDao.queryBmqxhflxxById(htxx.getBmqxhID()).getBmqxh();
+			BPQXHFLXX bpq = null != htxx.getBpqxhID() ? itDao.queryBpqxhflxxById(htxx.getBpqxhID()) : null;	
+			row[10] = null == bpq ? "" : bpq.getBpqxh();
+			
+			BMQXHFLXX bmq = null != htxx.getBmqxhID() ? itDao.queryBmqxhflxxById(htxx.getBmqxhID()) : null;						
+			row[11] = null == bmq ? "" : bmq.getBmqxh();
 			row[12] = htxx.getDlcd();
 
 			row[13] = htxx.getZxcd();
-			row[14] = itDao.queryMpzlxxById(htxx.getMpzl()).getMpzl();
+			
+			MPZLXX mpzl = null != htxx.getMpzl() ? itDao.queryMpzlxxById(htxx.getMpzl()): null;			
+			row[14] = null == mpzl ? "" : mpzl.getMpzl();
 			row[15] = htxx.getBz();
 			row[16] = htxx.getDdrq() + "";
 			row[17] = translator.out("sftgywsh", htxx.getSftgywsh());
 			row[18] = translator.out("sftgjhsh", htxx.getSftgjhsh());
 			row[19] = translator.out("yxj", htxx.getYxj() + "");
-			
-			
-		} catch (Exception e) {
 
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

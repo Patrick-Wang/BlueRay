@@ -247,10 +247,8 @@ public class SaleQueryParams {
 							+ getForginName(cls) + link + searchText + " ");
 				} else {
 
-					if ((!bIsInteger && fields[i].getType().getName()
-							.equals(Integer.class.getName()))
-							|| !bIsDate && fields[i].getType().getName()
-									.equals(Date.class.getName())) {
+					if ((!bIsInteger && fields[i].getType().getName().equals(Integer.class.getName()))	||
+						!bIsDate && fields[i].getType().getName().equals(Date.class.getName())) {
 						continue;
 					}
 
@@ -262,10 +260,10 @@ public class SaleQueryParams {
 					}
 
 					link = " = ";
-					if (fields[i].getType().getName()
-							.equals(String.class.getName())) {
+					if (fields[i].getType().getName().equals(String.class.getName()) ||
+						fields[i].getType().getName().equals(Date.class.getName())) {
 						searchText = stringSearch;
-						if (!exact) {
+						if (!exact && fields[i].getType().getName().equals(String.class.getName())) {
 							link = " like ";
 						}
 					} else {
