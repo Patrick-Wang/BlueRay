@@ -82,7 +82,8 @@ private:
 	void ShowReApprovePlanBtn(BOOL bShow);
 	void ShowReApproveBtns();
 	void OnReApproveSuccess(CSale::ApproveType type);
-	void FilterTableByStatus(enumProductionStatusForSale productionStatus);
+	void FilterTableByStatus(enumProductionStatusForSale productionStatus, CJsonQueryParam &sqp);
+	void MakeBasicSearchCondition(CJsonQueryParam &sqp);
 
 public:
 	afx_msg void OnNcDestroy();

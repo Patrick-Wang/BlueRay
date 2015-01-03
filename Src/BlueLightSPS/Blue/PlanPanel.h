@@ -84,7 +84,8 @@ private:
 	void ShowReApproveBZRQPlanBtn(BOOL bShow);
 	void ShowReApproveSCRQBusinessBtn(BOOL bShow);
 	void ShowReApproveBtns();
-	void FilterTableByStatus(enumProductionStatusForPlan productionStatus);
+	void FilterTableByStatus(enumProductionStatusForPlan productionStatus, CJsonQueryParam &sqp);
+	void MakeBasicSearchCondition(CJsonQueryParam &sqp);
 
 public:
 	afx_msg void OnNcDestroy();

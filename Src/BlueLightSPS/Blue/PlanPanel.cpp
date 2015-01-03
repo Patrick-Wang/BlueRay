@@ -137,29 +137,20 @@ void CPlanPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 
 void CPlanPanel::OnCbnSelchangeProductionStatus()
 {
-	int iIndex = m_comboProductionStatus->GetCurSel();
+	DEFINE_PLAN_QUERY_PARAM(sqp);
+	MakeBasicSearchCondition(sqp);
 
-	if (0 == iIndex)
-	{
-		FilterTableByStatus(ProductionStatus_All);
-	}
-	else if (1 == iIndex)
-	{
-		FilterTableByStatus(ProductionStatus_ToBePlan);
-	}
-	else if (2 == iIndex)
-	{
-		FilterTableByStatus(ProductionStatus_Planning);
-	}
-	else if (3 == iIndex)
-	{
-		FilterTableByStatus(ProductionStatus_Planned);
-	}
+	CServer::GetInstance()->GetPlan().Query(
+		m_pJqGridAPI->GetCurrentPage(),
+		m_pJqGridAPI->GetPageSize(),
+		sqp)
+		.then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+
+	GetParent()->EnableWindow(FALSE);
 }
 
-void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatus)
+void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatus, CJsonQueryParam &sqp)
 {
-	DEFINE_PLAN_QUERY_PARAM(sqp);
 
 	if (ProductionStatus_ToBePlan == productionStatus)
 	{
@@ -247,14 +238,6 @@ void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatu
 		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true);
 		sqp.AddApproveCondition(CPlan::PACK_PLAN, true);
 	}
-
-	CServer::GetInstance()->GetPlan().Query(
-		m_pJqGridAPI->GetCurrentPage(),
-		m_pJqGridAPI->GetPageSize(),
-		sqp)
-		.then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
-
-	GetParent()->EnableWindow(FALSE);
 }
 
 void CPlanPanel::OnInitChilds()
@@ -440,13 +423,11 @@ void CPlanPanel::OnBnClickedRestore()
 	//dropped
 }
 
-void CPlanPanel::OnBnClickedSearch()
+void CPlanPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 {
 	int iCountShot = 0;
 	CString searchText;
 	m_editSearch->GetWindowText(searchText);
-
-	DEFINE_SALE_QUERY_PARAM(sqp);
 
 	if (!searchText.IsEmpty()){
 		sqp.SetBasicSearchCondition(searchText, true);
@@ -485,6 +466,31 @@ void CPlanPanel::OnBnClickedSearch()
 		sqp.SetDateSearchCondition(strFrom, strTo);
 	}
 
+	int iIndex = m_comboProductionStatus->GetCurSel();
+
+	if (0 == iIndex)
+	{
+		FilterTableByStatus(ProductionStatus_All, sqp);
+	}
+	else if (1 == iIndex)
+	{
+		FilterTableByStatus(ProductionStatus_ToBePlan, sqp);
+	}
+	else if (2 == iIndex)
+	{
+		FilterTableByStatus(ProductionStatus_Planning, sqp);
+	}
+	else if (3 == iIndex)
+	{
+		FilterTableByStatus(ProductionStatus_Planned, sqp);
+	}
+}
+
+void CPlanPanel::OnBnClickedSearch()
+{
+	DEFINE_PLAN_QUERY_PARAM(sqp);
+	MakeBasicSearchCondition(sqp);
+
 	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), sqp)
 		.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
 	GetParent()->EnableWindow(FALSE);
@@ -513,48 +519,10 @@ void CPlanPanel::OnBnClickedMore()
 		searchVals.insert(searchVals.begin() + 15, L"");//插入业务审核
 		searchVals.insert(searchVals.begin() + 15, L"");//插入计划审核
 		searchVals.insert(searchVals.begin() + 15, L"");//插入优先级
-		DEFINE_SALE_QUERY_PARAM(jqp);
+		DEFINE_PLAN_QUERY_PARAM(jqp);
 		jqp.SetAdvancedCondition(&searchVals);
 
-		CString searchText;
-		m_editSearch->GetWindowText(searchText);
-
-		if (!searchText.IsEmpty()){
-			jqp.SetBasicSearchCondition(searchText, true);
-		}
-
-		CString strFrom;
-		CString strTo;
-		bool bHasFrom = false;
-		bool bHasTo = false;
-		CTime time;
-
-		DWORD dwResult = m_dtcSearchFrom->GetTime(time);
-		if (dwResult == GDT_VALID)
-		{
-			bHasFrom = true;
-			m_dtcSearchFrom->GetWindowText(strFrom);
-		}
-		else
-		{
-			m_dtcSearchFrom->GetWindowText(strFrom);
-		}
-
-		dwResult = m_dtcSearchTo->GetTime(time);
-		if (dwResult == GDT_VALID)
-		{
-			bHasFrom = true;
-			m_dtcSearchTo->GetWindowText(strTo);
-		}
-		else
-		{
-			m_dtcSearchTo->GetWindowText(strTo);
-		}
-
-		if (bHasFrom || bHasTo)
-		{
-			jqp.SetDateSearchCondition(strFrom, strTo);
-		}
+		MakeBasicSearchCondition(jqp);
 
 		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
 			.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));

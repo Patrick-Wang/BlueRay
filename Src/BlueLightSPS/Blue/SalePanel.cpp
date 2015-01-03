@@ -212,32 +212,86 @@ void CSalePanel::OnInitChilds()
 	}
 }
 
-void CSalePanel::OnCbnSelchangeProductionStatus()
+
+void CSalePanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 {
+	int iCountShot = 0;
+	CString searchText;
+	m_editSearch->GetWindowText(searchText);
+
+	if (!searchText.IsEmpty()){
+		sqp.SetBasicSearchCondition(searchText, true);
+	}
+
+	CString strFrom;
+	CString strTo;
+	bool bHasFrom = false;
+	bool bHasTo = false;
+	CTime time;
+
+	DWORD dwResult = m_dtcSearchFrom->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		bHasFrom = true;
+		m_dtcSearchFrom->GetWindowText(strFrom);
+	}
+	else
+	{
+		m_dtcSearchFrom->GetWindowText(strFrom);
+	}
+
+	dwResult = m_dtcSearchTo->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		bHasFrom = true;
+		m_dtcSearchTo->GetWindowText(strTo);
+	}
+	else
+	{
+		m_dtcSearchTo->GetWindowText(strTo);
+	}
+
+	if (bHasFrom || bHasTo)
+	{
+		sqp.SetDateSearchCondition(strFrom, strTo);
+	}
+
 	int iIndex = m_comboProductionStatus->GetCurSel();
 
 	if (0 == iIndex)
 	{
-		FilterTableByStatus(ProductionStatus_All);
+		FilterTableByStatus(ProductionStatus_All, sqp);
 	}
 	else if (1 == iIndex)
 	{
-		FilterTableByStatus(ProductionStatus_ToBeApprove);
+		FilterTableByStatus(ProductionStatus_ToBeApprove, sqp);
 	}
 	else if (2 == iIndex)
 	{
-		FilterTableByStatus(ProductionStatus_Approving);
+		FilterTableByStatus(ProductionStatus_Approving, sqp);
 	}
 	else if (3 == iIndex)
 	{
-		FilterTableByStatus(ProductionStatus_Approved);
+		FilterTableByStatus(ProductionStatus_Approved, sqp);
 	}
 }
 
-void CSalePanel::FilterTableByStatus(enumProductionStatusForSale productionStatus)
+void CSalePanel::OnCbnSelchangeProductionStatus()
 {
 	DEFINE_SALE_QUERY_PARAM(sqp);
+	MakeBasicSearchCondition(sqp);
 
+	CServer::GetInstance()->GetSale().Query(
+		m_pJqGridAPI->GetCurrentPage(),
+		m_pJqGridAPI->GetPageSize(),
+		sqp)
+		.then(new OnSaleLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+
+	GetParent()->EnableWindow(FALSE);
+}
+
+void CSalePanel::FilterTableByStatus(enumProductionStatusForSale productionStatus, CJsonQueryParam &sqp)
+{
 	if (ProductionStatus_ToBeApprove == productionStatus)
 	{
 		sqp.AddApproveCondition(CSale::BUSINESS, false);
@@ -255,15 +309,6 @@ void CSalePanel::FilterTableByStatus(enumProductionStatusForSale productionStatu
 		sqp.AddApproveCondition(CSale::BUSINESS, true);
 		sqp.AddApproveCondition(CSale::PLAN, true);
 	}
-
-	CServer::GetInstance()->GetSale().Query(
-		m_pJqGridAPI->GetCurrentPage(),
-		m_pJqGridAPI->GetPageSize(),
-		sqp)
-		.then(new OnSaleLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
-
-	GetParent()->EnableWindow(FALSE);
-
 }
 
 void CSalePanel::OnBnClickedAdd()
@@ -562,48 +607,8 @@ void CSalePanel::OnRowChecked()
 
 void CSalePanel::OnBnClickedSearch()
 {
-	int iCountShot = 0;
-	CString searchText;
-	m_editSearch->GetWindowText(searchText);
-
 	DEFINE_SALE_QUERY_PARAM(sqp);
-
-	if (!searchText.IsEmpty()){
-		sqp.SetBasicSearchCondition(searchText, true);
-	}
-
-	CString strFrom;
-	CString strTo;
-	bool bHasFrom = false;
-	bool bHasTo = false;
-	CTime time;
-
-	DWORD dwResult = m_dtcSearchFrom->GetTime(time);
-	if (dwResult == GDT_VALID)
-	{
-		bHasFrom = true;
-		m_dtcSearchFrom->GetWindowText(strFrom);
-	}
-	else
-	{
-		m_dtcSearchFrom->GetWindowText(strFrom);
-	}
-
-	dwResult = m_dtcSearchTo->GetTime(time);
-	if (dwResult == GDT_VALID)
-	{
-		bHasFrom = true;
-		m_dtcSearchTo->GetWindowText(strTo);
-	}
-	else
-	{
-		m_dtcSearchTo->GetWindowText(strTo);
-	}
-
-	if (bHasFrom || bHasTo)
-	{
-		sqp.SetDateSearchCondition(strFrom, strTo);
-	}
+	MakeBasicSearchCondition(sqp);
 
 	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), sqp)
 		.then(new CSaleSearchListener(*this, m_table, m_pJqGridAPI.get()));
@@ -625,45 +630,7 @@ void CSalePanel::OnBnClickedMore()
 		DEFINE_SALE_QUERY_PARAM(jqp);
 		jqp.SetAdvancedCondition(&searchVals);
 
-		CString searchText;
-		m_editSearch->GetWindowText(searchText);
-
-		if (!searchText.IsEmpty()){
-			jqp.SetBasicSearchCondition(searchText, true);
-		}
-
-		CString strFrom;
-		CString strTo;
-		bool bHasFrom = false;
-		bool bHasTo = false;
-		CTime time;
-
-		DWORD dwResult = m_dtcSearchFrom->GetTime(time);
-		if (dwResult == GDT_VALID)
-		{
-			bHasFrom = true;
-			m_dtcSearchFrom->GetWindowText(strFrom);
-		}
-		else
-		{
-			m_dtcSearchFrom->GetWindowText(strFrom);
-		}
-
-		dwResult = m_dtcSearchTo->GetTime(time);
-		if (dwResult == GDT_VALID)
-		{
-			bHasFrom = true;
-			m_dtcSearchTo->GetWindowText(strTo);
-		}
-		else
-		{
-			m_dtcSearchTo->GetWindowText(strTo);
-		}
-
-		if (bHasFrom || bHasTo)
-		{
-			jqp.SetDateSearchCondition(strFrom, strTo);
-		}
+		MakeBasicSearchCondition(jqp);
 
 		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
 			.then(new CSaleSearchListener(*this, m_table, m_pJqGridAPI.get()));
