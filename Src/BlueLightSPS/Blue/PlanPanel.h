@@ -68,6 +68,9 @@ private:
 
 	CBSStatic* m_staticNoPermWarning;
 
+	bool m_bEnablePlanBtnForSCRQ;
+	bool m_bEnablePlanBtnForBZRQ;
+
 	enum enumProductionStatusForPlan
 	{
 		ProductionStatus_All,

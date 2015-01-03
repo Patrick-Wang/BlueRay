@@ -262,6 +262,7 @@ private:
 
 public:
 	virtual BOOL OnInitDialog();
+	void ConfigPlanBtns(bool scrq, bool bzrq);
 
 protected:
 	virtual void OnOK();
@@ -273,6 +274,9 @@ private:
 	CBSStatic* m_aStaticsToShow[StaticId2::Static2_END];
 	CEdit* m_aEdits[EditId::Edit_END];
 	CDateTimeCtrl* m_aDatePickers[DatePickerId::DatePicker_END];
+
+	bool m_bEnablePlanBtnForSCRQ;
+	bool m_bEnablePlanBtnForBZRQ;
 
 	virtual void PostNcDestroy();
 };

@@ -51,6 +51,8 @@ inline void init(CBSStatic* sta, CString& val){
 CPlanAddDlg::CPlanAddDlg(LPCTSTR title, CWnd* pParent /*= NULL*/)
 	: CPopupDlg(title, pParent)
 	, m_lpOption(NULL)
+	, m_bEnablePlanBtnForSCRQ(false)
+	, m_bEnablePlanBtnForBZRQ(false)
 {
 
 }
@@ -60,6 +62,11 @@ CPlanAddDlg::~CPlanAddDlg()
 {
 }
 
+void CPlanAddDlg::ConfigPlanBtns(bool scrq, bool bzrq)
+{
+	m_bEnablePlanBtnForSCRQ = scrq;
+	m_bEnablePlanBtnForBZRQ = bzrq;
+}
 
 static LPCTSTR g_StaticItems[][1] = { //0: default text
 		{ _T("ºÏÍ¬ºÅ") },
@@ -153,6 +160,7 @@ BOOL CPlanAddDlg::OnInitDialog()
 {
 	CPopupDlg::OnInitDialog();
 	CenterWindow();
+
 	//init comb
 
 	//init static
@@ -239,6 +247,9 @@ BOOL CPlanAddDlg::OnInitDialog()
 		init(m_aDatePickers[DatePickerId::DatePicker_FHRQ], val);
 		init(m_aDatePickers[DatePickerId::DatePicker_SCRQ], val);
 	}
+
+	m_aDatePickers[DatePicker_SCRQ]->EnableWindow(m_bEnablePlanBtnForSCRQ);
+	m_aDatePickers[DatePicker_BZRQ]->EnableWindow(m_bEnablePlanBtnForBZRQ);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE

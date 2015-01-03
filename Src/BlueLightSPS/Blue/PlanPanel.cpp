@@ -101,6 +101,8 @@ CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI)
 	, m_bsMiddleLine(NULL)
 	, m_dtcSearchFrom(NULL)
 	, m_dtcSearchTo(NULL)
+	, m_bEnablePlanBtnForSCRQ(false)
+	, m_bEnablePlanBtnForBZRQ(false)
 
 {
 	m_tableFilterDlg.Initialize(m_pJqGridAPI.get(), Page_Plan);
@@ -341,6 +343,8 @@ void CPlanPanel::OnBnClickedPlan()
 {
 	std::auto_ptr<CPlanAddDlg::Option_t> pstOpt;
 	CPlanAddDlg dlg(_T("ÅÅ²ú¼Æ»®"));
+	dlg.ConfigPlanBtns(m_bEnablePlanBtnForSCRQ, m_bEnablePlanBtnForBZRQ);
+
 	std::vector<int> checkedRows;
 	std::vector<CString>* pRowData = NULL;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
@@ -857,6 +861,9 @@ void CPlanPanel::OnNcDestroy()
 
 void CPlanPanel::OnRowChecked()
 {
+	m_bEnablePlanBtnForSCRQ = false;
+	m_bEnablePlanBtnForBZRQ = false;
+
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 	if (checkedRows.empty())
@@ -880,6 +887,12 @@ void CPlanPanel::OnRowChecked()
 
 		for (int i = checkedRows.size() - 1; i >= 0; --i)
 		{
+			bool bIsToBeApproveBusinessForSCRQ = false;
+			bool bIsToBeApprovePlanForSCRQ = false;
+
+			bool bIsToBeApproveBusinessForBZRQ = false;
+			bool bIsToBeApprovePlanForBZRQ = false;
+
 			for (int j = 0; j < m_table.size(); ++j)
 			{
 				if (m_table[j].first == checkedRows[i])
@@ -889,11 +902,19 @@ void CPlanPanel::OnRowChecked()
 						m_btnReApproveSCRQBusiness->EnableWindow(TRUE);
 						bIfBreak = true;
 					}
+					else
+					{
+						bIsToBeApproveBusinessForSCRQ = true;
+					}
 
 					if (_T("¡Ì") == m_table[j].second[18])
 					{
 						m_btnReApproveSCRQPlan->EnableWindow(TRUE);
 						bIfBreak = true;
+					}
+					else
+					{
+						bIsToBeApprovePlanForSCRQ = true;
 					}
 
 					if (_T("¡Ì") == m_table[j].second[20])
@@ -901,23 +922,38 @@ void CPlanPanel::OnRowChecked()
 						m_btnReApproveBZRQBusiness->EnableWindow(TRUE);
 						bIfBreak = true;
 					}
+					else
+					{
+						bIsToBeApproveBusinessForBZRQ = true;
+					}
 
 					if (_T("¡Ì") == m_table[j].second[21])
 					{
 						m_btnReApproveBZRQPlan->EnableWindow(TRUE);
 						bIfBreak = true;
 					}
-
-					if (bIfBreak)
+					else
 					{
-						break;
+						bIsToBeApprovePlanForBZRQ = true;
 					}
+
+					if (bIsToBeApproveBusinessForSCRQ && bIsToBeApprovePlanForSCRQ)
+					{
+						m_bEnablePlanBtnForSCRQ = true;
+					}
+
+					if (bIsToBeApproveBusinessForBZRQ && bIsToBeApprovePlanForBZRQ)
+					{
+						m_bEnablePlanBtnForBZRQ = true;
+					}
+					
+					break;
 				}
 			}
 
 			if (bIfBreak)
 			{
-				break;
+				continue;
 			}
 			else
 			{
