@@ -562,13 +562,14 @@ void CSalePanel::OnRowChecked()
 	}
 	else
 	{
-		m_btnDelete->EnableWindow(TRUE);
-		m_btnModify->EnableWindow(TRUE);
-
-		bool bIfBreak = false;
+		bool bIsAnyApproved = false;
+		bool bIfShowModifyAndDelete = false;
 
 		for (int i = checkedRows.size() - 1; i >= 0; --i)
 		{
+			bool bIsToBeApproveBusiness = false;
+			bool bIsToBeApprovePlan = false;
+
 			for (int j = 0; j < m_table.size(); ++j)
 			{
 				if (m_table[j].first == checkedRows[i])
@@ -576,25 +577,35 @@ void CSalePanel::OnRowChecked()
 					if (_T("¡Ì") == m_table[j].second[16])
 					{
 						m_btnReApproveForBusiness->EnableWindow(TRUE);
-						bIfBreak = true;
+						bIsAnyApproved = true;
+					}
+					else
+					{
+						bIsToBeApproveBusiness = true;
 					}
 
 					if (_T("¡Ì") == m_table[j].second[17])
 					{
 						m_btnReApproveForPlan->EnableWindow(TRUE);
-						bIfBreak = true;
+						bIsAnyApproved = true;
+					}
+					else
+					{
+						bIsToBeApprovePlan = true;
 					}
 
-					if (bIfBreak)
+					if (bIsToBeApproveBusiness && bIsToBeApprovePlan)
 					{
-						break;
+						bIfShowModifyAndDelete = true;
 					}
+
+					break;
 				}
 			}
 
-			if (bIfBreak)
+			if (bIsAnyApproved)
 			{
-				break;
+				continue;
 			}
 			else
 			{
@@ -602,6 +613,9 @@ void CSalePanel::OnRowChecked()
 				m_btnReApproveForPlan->EnableWindow(FALSE);
 			}
 		}
+
+		m_btnDelete->EnableWindow(bIfShowModifyAndDelete);
+		m_btnModify->EnableWindow(bIfShowModifyAndDelete);
 	}
 }
 
