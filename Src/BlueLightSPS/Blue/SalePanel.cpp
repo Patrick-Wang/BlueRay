@@ -237,7 +237,8 @@ void CSalePanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	}
 	else
 	{
-		m_dtcSearchFrom->GetWindowText(strFrom);
+		//m_dtcSearchFrom->GetWindowText(strFrom);
+		strFrom = L"";
 	}
 
 	dwResult = m_dtcSearchTo->GetTime(time);
@@ -248,7 +249,8 @@ void CSalePanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	}
 	else
 	{
-		m_dtcSearchTo->GetWindowText(strTo);
+		strTo = L"";
+		//m_dtcSearchTo->GetWindowText(strTo);
 	}
 
 	if (bHasFrom || bHasTo)

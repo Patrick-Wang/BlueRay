@@ -81,15 +81,15 @@ void CJsonQueryParam::toJson(CString& json, IApproveTypeTranslator* translator)
 		if (NULL != m_pbsc)
 		{
 			Json::JsonObject& jBasic = jSearch.add(L"basic", Json::JsonFactory::createObject()).asObject(L"basic");
-			jBasic.add(L"text", Json::JsonFactory::createString((Json::json_char*)m_pbsc->lpText));
+			jBasic.add(L"text", Json::JsonFactory::createString((Json::json_char*)(LPCTSTR)m_pbsc->lpText));
 			jBasic.add(L"exact", Json::JsonFactory::createBool(m_pbsc->exact));
 		}
 
 		if (NULL != m_pdsc)
 		{
 			Json::JsonObject& jDate = jSearch.add(L"date", Json::JsonFactory::createObject()).asObject(L"date");
-			jDate.add(L"startDate", Json::JsonFactory::createString((Json::json_char*)m_pdsc->startDate));
-			jDate.add(L"endDate", Json::JsonFactory::createString((Json::json_char*)m_pdsc->endDate));
+			jDate.add(L"startDate", Json::JsonFactory::createString((Json::json_char*)(LPCTSTR)m_pdsc->startDate));
+			jDate.add(L"endDate", Json::JsonFactory::createString((Json::json_char*)(LPCTSTR)m_pdsc->endDate));
 		}
 
 		if (NULL != m_pAdvanced)

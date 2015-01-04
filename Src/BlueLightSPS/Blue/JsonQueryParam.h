@@ -38,13 +38,13 @@ class CJsonQueryParam
 {
 public:
 	typedef struct tagBasicSearchCondition_t{
-		LPCTSTR lpText;
+		CString lpText;
 		bool exact;
 	}BasicSearchCondition_t;
 
 	typedef struct tagDateSearchCondition_t{
-		LPCTSTR startDate;
-		LPCTSTR endDate;
+		CString startDate;
+		CString endDate;
 	}DateSearchCondition_t;
 
 	typedef struct tagSortCondition_t{

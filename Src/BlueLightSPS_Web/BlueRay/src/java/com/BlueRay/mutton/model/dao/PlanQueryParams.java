@@ -195,11 +195,18 @@ public class PlanQueryParams {
 		}
 
 		if (null != jdate && !jdate.isNullObject()) {
-			// connectMap.put("htxxID", HTXX.class);
 			mNeedsHtxx = true;
-			strDate = "HTXX_.ddrq >= '" + jdate.getString("startDate")
-					+ "' and " + "HTXX_.ddrq <= '" + jdate.getString("endDate")
-					+ "' ";
+			String startDate = jdate.getString("startDate");
+			String endDate = jdate.getString("endDate");
+			if (!startDate.isEmpty()){
+				strDate = "HTXX_.ddrq >= '" + startDate + "'";
+			}
+			if (!endDate.isEmpty()){
+				if (!strDate.isEmpty()){
+					strDate += " and ";
+				}
+				strDate += "HTXX_.ddrq <= '" + endDate + "' ";
+			}
 		}
 		return strDate;
 	}
