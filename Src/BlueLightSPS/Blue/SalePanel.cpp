@@ -1045,31 +1045,15 @@ void CSalePanel::OnDestroy()
 
 void CSalePanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 {
-	CString searchText;
-	m_editSearch->GetWindowText(searchText);
 	DEFINE_SALE_QUERY_PARAM(jqp);
+
+	MakeBasicSearchCondition(jqp);
 	jqp.AddSortCondition(colIndex, bAsc);
 
-	if (searchText.IsEmpty()){
-		CServer::GetInstance()->GetSale().Query(page, CJQGridAPI::GetPageSize(), jqp)
-			.then(new OnSaleLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
-	}
-	else
-	{
-		jqp.SetBasicSearchCondition(searchText, true);
-		CString strFrom;
-		m_dtcSearchFrom->GetWindowText(strFrom);
-		CString strTo;
-		m_dtcSearchTo->GetWindowText(strTo);
-		jqp.SetDateSearchCondition(strFrom, strTo);
-		
+	CServer::GetInstance()->GetSale().Query(page, CJQGridAPI::GetPageSize(), jqp)
+		.then(new OnSaleLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 
-		CServer::GetInstance()->GetSale().Query(1, CJQGridAPI::GetPageSize(), jqp)
-			.then(new OnSaleLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
-	}
-	
 	GetParent()->EnableWindow(FALSE);
-
 }
 
 void CSalePanel::HighLight()
