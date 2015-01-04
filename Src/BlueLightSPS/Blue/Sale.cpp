@@ -43,7 +43,7 @@ bool CSale::UpdateSync(IntArray& rows, StringArray& record)
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/sale/modify"), IDS_HOST_NAME);
 	CString strRet;
-	m_lpHttp->SyncPost(url, attr, strRet);
+	m_lpHttp->SyncPost(traceSession(url), attr, strRet);
 	return strRet.Compare(L"success") == 0;
 }
 
@@ -178,7 +178,7 @@ CPromise<bool>& CSale::Unapprove(ApproveType type, IntArray& rows)
 {
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/%s"), IDS_HOST_NAME, Translate(type));
-	return doApprove(url, rows);
+	return doApprove(traceSession(url), rows);
 }
 
 
@@ -206,6 +206,6 @@ CPromise<bool>& CSale::Export(LPCTSTR lpFileName)
 		IDS_HOST_NAME);
 	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_lpHttp, new CBoolParser());
 	std::map<CString, CString> attr;
-	m_lpHttp->Download(url, promise->GetId(), attr, std::shared_ptr<IHttp::IOutputStream>(new CFileOutputStream(lpFileName)));
+	m_lpHttp->Download(traceSession(url), promise->GetId(), attr, std::shared_ptr<IHttp::IOutputStream>(new CFileOutputStream(lpFileName)));
 	return *promise;
 }

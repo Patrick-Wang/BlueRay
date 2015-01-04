@@ -34,7 +34,7 @@ bool CNotification::GetUnapprovedSync(Unapproved_t& stUnapproved)
 
 CPromise<CNotification::Unapproved_t>& CNotification::GetUnapproved()
 {
-	class CLoginParser : public CPromise<CNotification::Unapproved_t>::IRespParser{
+	class CNotificationParser : public CPromise<CNotification::Unapproved_t>::IRespParser{
 	public:
 		virtual CNotification::Unapproved_t& OnParse(LPCTSTR strJson){
 			Json::JsonParser parser;
@@ -52,7 +52,7 @@ CPromise<CNotification::Unapproved_t>& CNotification::GetUnapproved()
 	};
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/notification/unapproved"), IDS_HOST_NAME);
-	CPromise<CNotification::Unapproved_t>* promise = CPromise<CNotification::Unapproved_t>::MakePromise(m_lpHttp, new CLoginParser());
+	CPromise<CNotification::Unapproved_t>* promise = CPromise<CNotification::Unapproved_t>::MakePromise(m_lpHttp, new CNotificationParser());
 	m_lpHttp->Get(traceSession(url), promise->GetId());
 	return *promise;
 }
