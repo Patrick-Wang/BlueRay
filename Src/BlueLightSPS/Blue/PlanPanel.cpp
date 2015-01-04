@@ -1306,30 +1306,14 @@ void CPlanPanel::OnDestroy()
 
 void CPlanPanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 {
-	CString searchText;
-	m_editSearch->GetWindowText(searchText);
 	DEFINE_PLAN_QUERY_PARAM(jqp);
+	MakeBasicSearchCondition(jqp);
+	jqp.AddSortCondition(colIndex, bAsc);
 
-	if (searchText.IsEmpty()){
-		CServer::GetInstance()->GetPlan().Query(page, m_pJqGridAPI->GetPageSize(), jqp)
-			.then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
-	}
-	else
-	{
-		jqp.SetBasicSearchCondition(searchText, true);
-		CString strFrom;
-		m_dtcSearchFrom->GetWindowText(strFrom);
-		CString strTo;
-		m_dtcSearchTo->GetWindowText(strTo);
-		jqp.SetDateSearchCondition(strFrom, strTo);
-
-
-		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
-			.then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
-	}
+	CServer::GetInstance()->GetPlan().Query(page, m_pJqGridAPI->GetPageSize(), jqp)
+		.then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 
 	GetParent()->EnableWindow(FALSE);
-
 }
 
 void CPlanPanel::OnExprotClicked()
