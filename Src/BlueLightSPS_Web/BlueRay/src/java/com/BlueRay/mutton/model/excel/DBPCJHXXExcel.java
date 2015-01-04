@@ -15,7 +15,7 @@ public class DBPCJHXXExcel extends AbstractExcel<PCJHXX> {
 	private EntityManager entityManager;
 	private String col;
 	private boolean asc;
-	private final static int limit = 100;
+	private final static int limit = 5000;
 	private int start = 0;
 	private List<PCJHXX> mPcjhs = new ArrayList<PCJHXX>();
 	public DBPCJHXXExcel(EntityManager entityMgr, String col, boolean asc) {

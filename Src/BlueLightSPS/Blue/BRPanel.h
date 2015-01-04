@@ -16,8 +16,8 @@ public:
 	virtual void OnUIPrepared();
 	virtual void OnInitData(){};
 	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
-	virtual void OnHttpSuccess(int id, LPCTSTR resp) = 0;
-	virtual void OnHttpFailed(int id) = 0;
+	//virtual void OnHttpSuccess(int id, LPCTSTR resp) = 0;
+	//virtual void OnHttpFailed(int id) = 0;
 	virtual void OnRowChecked() = 0;
 	//std::vector < std::pair<int, StringArray>>& StringToTable(CString& json2DemArray, std::vector < std::pair<int, StringArray>>& table);
 	//StringArray& ToStringArray(IntArray& src, StringArray& dest);

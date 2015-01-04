@@ -15,8 +15,8 @@ public:
 	void OnRowChecked();
 	void OnGridComplete();
 	virtual void OnUIPrepared();
-	void OnHttpSuccess(int id, LPCTSTR resp);
-	void OnHttpFailed(int id);
+	//void OnHttpSuccess(int id, LPCTSTR resp);
+	//void OnHttpFailed(int id);
 	void OnLoadDataSuccess(CString& jsondata);
 protected:
 	void OnUpdateData(int page, int rows, int colIndex, bool bAsc);

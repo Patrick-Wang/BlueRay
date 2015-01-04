@@ -28,8 +28,8 @@ public:
 protected:
 	virtual void OnInitData();
 	virtual void OnInitChilds();
-	virtual void OnHttpSuccess(int id, LPCTSTR resp);
-	virtual void OnHttpFailed(int id);
+	//virtual void OnHttpSuccess(int id, LPCTSTR resp);
+	//virtual void OnHttpFailed(int id);
 	virtual void OnRowChecked();
 
 private:

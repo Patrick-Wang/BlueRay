@@ -34,7 +34,7 @@ class DBHTXXExcelExporter implements IExcelExporter<HTXX> {
 		this.os = os;
 	}
 
-	public void exports() {
+	public void exports() throws IOException {
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet sheet = workbook.createSheet(excel.getName());
 		List<PCJHXX> pcxxs = new ArrayList<PCJHXX>(1);
@@ -47,7 +47,7 @@ class DBHTXXExcelExporter implements IExcelExporter<HTXX> {
 			HSSFRichTextString text = new HSSFRichTextString(header[i]);
 			cell.setCellValue(text);
 		}
-		
+
 		try {
 			String[] ret = new String[20];
 			for (int i = 0, len = excel.getRowCount(); i < len; ++i) {
@@ -63,11 +63,8 @@ class DBHTXXExcelExporter implements IExcelExporter<HTXX> {
 			e.printStackTrace();
 		}
 
-		try {
-			workbook.write(os);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		workbook.write(os);
+
 	}
 
 }

@@ -741,60 +741,60 @@ void CSalePanel::OnNcDestroy()
 	__super::OnNcDestroy();
 }
 
-void CSalePanel::OnHttpSuccess(int id, LPCTSTR resp)
-{
-	GetParent()->EnableWindow(TRUE);
-	switch (id)
-	{
-	case QUERY_URL_ID:
-		OnLoadDataSuccess();
-		break;
-	case ADD_URL_ID:
-		OnAddDataSuccess(_tstoi(resp), m_cacheRow);
-		break;
-	case DEL_URL_ID:
-		OnDelDataSuccess();
-		break;
-	case MODIFY_URL_ID:
-		OnModifyDataSuccess(m_cacheRow);
-		break;
-	case BUSSINESS_APPROVE_URL_ID:	//test purpose
-		OnApproveDataSuccess();
-		break;
-	case BUSSINESS_REAPPROVE_BSN_URL_ID:
-	case BUSSINESS_REAPPROVE_PLAN_URL_ID:
-		MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
-		break;
-	default:
-		break;
-	}
-}
-
-void CSalePanel::OnHttpFailed(int id)
-{
-	GetParent()->EnableWindow(TRUE);
-	switch (id)
-	{
-	case QUERY_URL_ID:
-		MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-		break;
-	case ADD_URL_ID:
-		MessageBox(_T("添加数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-		break;
-	case DEL_URL_ID:
-		MessageBox(_T("删除数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-		break;
-	case MODIFY_URL_ID:
-		MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-		break;
-	case BUSSINESS_REAPPROVE_BSN_URL_ID:
-	case BUSSINESS_REAPPROVE_PLAN_URL_ID:
-		MessageBox(_T("反审核失败"), _T("反审核"), MB_OK | MB_ICONWARNING);
-		break;
-	default:
-		break;
-	}
-}
+//void CSalePanel::OnHttpSuccess(int id, LPCTSTR resp)
+//{
+//	GetParent()->EnableWindow(TRUE);
+//	switch (id)
+//	{
+//	case QUERY_URL_ID:
+//		OnLoadDataSuccess();
+//		break;
+//	case ADD_URL_ID:
+//		OnAddDataSuccess(_tstoi(resp), m_cacheRow);
+//		break;
+//	case DEL_URL_ID:
+//		OnDelDataSuccess();
+//		break;
+//	case MODIFY_URL_ID:
+//		OnModifyDataSuccess(m_cacheRow);
+//		break;
+//	case BUSSINESS_APPROVE_URL_ID:	//test purpose
+//		OnApproveDataSuccess();
+//		break;
+//	case BUSSINESS_REAPPROVE_BSN_URL_ID:
+//	case BUSSINESS_REAPPROVE_PLAN_URL_ID:
+//		MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
+//		break;
+//	default:
+//		break;
+//	}
+//}
+//
+//void CSalePanel::OnHttpFailed(int id)
+//{
+//	GetParent()->EnableWindow(TRUE);
+//	switch (id)
+//	{
+//	case QUERY_URL_ID:
+//		MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+//		break;
+//	case ADD_URL_ID:
+//		MessageBox(_T("添加数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+//		break;
+//	case DEL_URL_ID:
+//		MessageBox(_T("删除数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+//		break;
+//	case MODIFY_URL_ID:
+//		MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+//		break;
+//	case BUSSINESS_REAPPROVE_BSN_URL_ID:
+//	case BUSSINESS_REAPPROVE_PLAN_URL_ID:
+//		MessageBox(_T("反审核失败"), _T("反审核"), MB_OK | MB_ICONWARNING);
+//		break;
+//	default:
+//		break;
+//	}
+//}
 
 void CSalePanel::OnLoadDataSuccess()
 {

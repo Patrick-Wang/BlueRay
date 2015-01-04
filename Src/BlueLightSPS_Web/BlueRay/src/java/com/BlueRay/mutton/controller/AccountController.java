@@ -23,39 +23,6 @@ public class AccountController {
 	@Autowired
 	AccountService service;
 
-//	@Autowired
-//	MapQueryService mqService;
-	
-	// @RequestMapping(value = "syhkjhzxqk.do", method = RequestMethod.GET,
-	// produces=MediaType.APPLICATION_JSON_VALUE)
-	// public @ResponseBody Response getSyhkjhzxqkData(
-	// @RequestParam("page") Integer page, // get the requested page
-	// @RequestParam("rows") Integer rows, // get how many rows we want to have
-	// into the grid
-	// @RequestParam("sidx") String sidx, // get index row - i.e. user click to
-	// sort
-	// @RequestParam("sord") String sord // get the direction
-	// , HttpServletResponse response) {
-	// SaleService service = getSyhkjhzxqkService();
-	// return service.query();
-	// }
-
-//	@RequestMapping(value = "/map_id/{tableName}/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//	public @ResponseBody String getValueById(@PathVariable String tableName,
-//			@PathVariable String id, HttpServletRequest request,
-//			HttpServletResponse response) {
-//
-//		return id;
-//	}
-//
-//	@RequestMapping(value = "/map_value/{tableName}/{value}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//	public @ResponseBody String getIdByValue(@PathVariable String tableName,
-//			@PathVariable String value, HttpServletRequest request,
-//			HttpServletResponse response) {
-//
-//		return "";
-//	}
-
 	@RequestMapping(value = "/login/{userName}/{psw}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String login(
 			@PathVariable String userName,
@@ -66,6 +33,7 @@ public class AccountController {
 		HttpSession session = request.getSession(false);
 		String ret = "error";
 		if (null != session){
+			//session.invalidate();
 			ret= session.getId();
 		}
 		else{

@@ -17,8 +17,8 @@ public:
 
 	void OnRowChecked();
 	void OnGridComplete();
-	void OnHttpSuccess(int id, LPCTSTR resp);
-	void OnHttpFailed(int id);
+	//void OnHttpSuccess(int id, LPCTSTR resp);
+	//void OnHttpFailed(int id);
 	void OnSaleDlgGetModifyOption(CSaleAddDlg& dlg);
 	void HighLight();
 

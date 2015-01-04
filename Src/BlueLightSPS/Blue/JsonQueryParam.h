@@ -4,10 +4,13 @@
 #include <map>
 #include "IHttp.h"
 //{
-//approve : [{
+//approve : [[{
 //	type : bussiness / plan,
 //	approved : true/false
-//}],
+//}],[{
+//	type : bussiness / plan,
+//	approved : true/false
+//}]],
 //search : {
 //	advanced : [],
 //	basic : {

@@ -19,10 +19,13 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 //{
-//approve : [{
-//	type : business / plan,
+//approve : [[{
+//	type : bussiness / plan,
 //	approved : true/false
-//}],
+//}],[{
+//	type : bussiness / plan,
+//	approved : true/false
+//}]],
 //search : {
 //	advanced : [],
 //	basic : {
@@ -35,14 +38,14 @@ import net.sf.json.JSONObject;
 //	}
 //},
 //sort : [
-//    {
-//    	col : index,
-//    	order : true/false
-//    },
-//    {
-//    	col : index,
-//    	order : true/false
-//    }
+//  {
+//  	col : index,
+//  	order : true/false
+//  },
+//  {
+//  	col : index,
+//  	order : true/false
+//  }
 //]
 //}
 

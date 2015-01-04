@@ -288,15 +288,17 @@ public class PlanServiceImpl implements PlanService {
 			excel = planDao.getPcjhExcel(null, false);
 		}
 		excel.addHeader(new String[]{"合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "生产日期", "计划审核-业务", "计划审核-计划", "包装日期", "包装审核-业务", "包装审核-计划", "发货日期", "投产编号", "出厂编号", "优先级"});
-		IExcelExporter<PCJHXX> exportor = new DBPCJHXXExcelExporter(itemDao, saleDao, planDao, excel, outputStream);
-		exportor.exports();
+		IExcelExporter<PCJHXX> exportor = new DBPCJHXXCSVExporter(itemDao, saleDao, planDao, excel, outputStream);
+		
 		try {
+			exportor.exports();
 			outputStream.close();
+			return "success";
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "success";
+		return "error";
 	}
 
 	public String validate(String item, String value) {

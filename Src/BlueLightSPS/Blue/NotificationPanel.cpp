@@ -308,8 +308,7 @@ void CNotificationPanel::OnBnClickedSaleBusinessApprove()
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
-	CJsonQueryParam jqp;
-	jqp.AddSortCondition(17, true);
+	DEFINE_SALE_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CSale::BUSINESS, false);
 	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
@@ -340,10 +339,9 @@ void CNotificationPanel::OnBnClickedPlanSCRQBusinessApprove()
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
-	CJsonQueryParam jqp;
-	jqp.AddSortCondition(24, true);//for yxj
+	DEFINE_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
-	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
+	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
 	//CString url;
 	//url.Format(_T("http://%s:8080/BlueRay/plan/query/plan_businessApprove/unapproved"), IDS_HOST_NAME);
@@ -358,10 +356,9 @@ void CNotificationPanel::OnBnClickedPlanSCRQPlanApprove()
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 
-	CJsonQueryParam jqp;
-	jqp.AddSortCondition(24, true);//for yxj
+	DEFINE_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
-	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
+	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
 	//CString url;
 	//url.Format(_T("http://%s:8080/BlueRay/plan/query/plan_planApprove/unapproved"), IDS_HOST_NAME);
@@ -375,8 +372,7 @@ void CNotificationPanel::OnBnClickedPlanBZRQBusinessApprove()
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
-	CJsonQueryParam jqp;
-	jqp.AddSortCondition(24, true);//for yxj
+	DEFINE_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
 	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
@@ -393,10 +389,9 @@ void CNotificationPanel::OnBnClickedPlanBZRQPlanApprove()
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 
-	CJsonQueryParam jqp;
-	jqp.AddSortCondition(24, true);//for yxj
+	DEFINE_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PACK_PLAN, false);
-	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
+	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
 	//CString url;
 	//url.Format(_T("http://%s:8080/BlueRay/plan/query/pack_planApprove/unapproved"), IDS_HOST_NAME);
@@ -458,48 +453,48 @@ void CNotificationPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 	m_pJqGridAPI->HideGrid();
 }
 
-void CNotificationPanel::OnHttpSuccess(int id, LPCTSTR resp)
-{
-	GetParent()->EnableWindow(TRUE);
-	switch (id)
-	{
-	case QUERY_URL_UNAPPROVED_SALEBUSINESS:
-	case QUERY_URL_UNAPPROVED_SALEPLAN:
-	case QUERY_URL_UNAPPROVED_PLANSCRQBUSINESS:
-	case QUERY_URL_UNAPPROVED_PLANSCRQPLAN:
-	case QUERY_URL_UNAPPROVED_PLANBZRQBUSINESS:
-	case QUERY_URL_UNAPPROVED_PLANBZRQPLAN:
-		//OnLoadDataSuccess(CString(resp));
-		break;
-	case POST_URL_APPROVE:
-		MessageBox(_T("审核成功"), _T("审核结果"), MB_OK | MB_ICONWARNING);
-		OnBnClickedBtnReturn();
-		break;
-	default:
-		break;
-	}
-}
-
-void CNotificationPanel::OnHttpFailed(int id)
-{
-	GetParent()->EnableWindow(TRUE);
-	switch (id)
-	{
-	case QUERY_URL_UNAPPROVED_SALEBUSINESS:
-	case QUERY_URL_UNAPPROVED_SALEPLAN:
-	case QUERY_URL_UNAPPROVED_PLANSCRQBUSINESS:
-	case QUERY_URL_UNAPPROVED_PLANSCRQPLAN:
-	case QUERY_URL_UNAPPROVED_PLANBZRQBUSINESS:
-	case QUERY_URL_UNAPPROVED_PLANBZRQPLAN:
-		break;
-	case POST_URL_APPROVE:
-		MessageBox(_T("审核失败"), _T("审核结果"), MB_OK | MB_ICONWARNING);
-		OnBnClickedBtnReturn();
-		break;
-	default:
-		break;
-	}
-}
+//void CNotificationPanel::OnHttpSuccess(int id, LPCTSTR resp)
+//{
+//	GetParent()->EnableWindow(TRUE);
+//	switch (id)
+//	{
+//	case QUERY_URL_UNAPPROVED_SALEBUSINESS:
+//	case QUERY_URL_UNAPPROVED_SALEPLAN:
+//	case QUERY_URL_UNAPPROVED_PLANSCRQBUSINESS:
+//	case QUERY_URL_UNAPPROVED_PLANSCRQPLAN:
+//	case QUERY_URL_UNAPPROVED_PLANBZRQBUSINESS:
+//	case QUERY_URL_UNAPPROVED_PLANBZRQPLAN:
+//		//OnLoadDataSuccess(CString(resp));
+//		break;
+//	case POST_URL_APPROVE:
+//		MessageBox(_T("审核成功"), _T("审核结果"), MB_OK | MB_ICONWARNING);
+//		OnBnClickedBtnReturn();
+//		break;
+//	default:
+//		break;
+//	}
+//}
+//
+//void CNotificationPanel::OnHttpFailed(int id)
+//{
+//	GetParent()->EnableWindow(TRUE);
+//	switch (id)
+//	{
+//	case QUERY_URL_UNAPPROVED_SALEBUSINESS:
+//	case QUERY_URL_UNAPPROVED_SALEPLAN:
+//	case QUERY_URL_UNAPPROVED_PLANSCRQBUSINESS:
+//	case QUERY_URL_UNAPPROVED_PLANSCRQPLAN:
+//	case QUERY_URL_UNAPPROVED_PLANBZRQBUSINESS:
+//	case QUERY_URL_UNAPPROVED_PLANBZRQPLAN:
+//		break;
+//	case POST_URL_APPROVE:
+//		MessageBox(_T("审核失败"), _T("审核结果"), MB_OK | MB_ICONWARNING);
+//		OnBnClickedBtnReturn();
+//		break;
+//	default:
+//		break;
+//	}
+//}
 
 void CNotificationPanel::OnRowChecked()
 {

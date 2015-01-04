@@ -13,7 +13,7 @@ public class DBHTXXExcel extends AbstractExcel<HTXX> {
 
 
 	private EntityManager entityManager;
-	private final static int limit = 100;
+	private final static int limit = 5000;
 	private int start = 0;
 	private List<HTXX> mHtxxs = new ArrayList<HTXX>();
 	public DBHTXXExcel(EntityManager entityMgr) {

@@ -415,16 +415,18 @@ public class SaleServiceImpl implements SaleService {
 	}
 
 	public String export(OutputStream out) {
-		AbstractExcel<HTXX> excel = excel = saleDao.getHtxxExcel();
+		AbstractExcel<HTXX> excel = saleDao.getHtxxExcel();
 		excel.addHeader(new String[]{"合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "审核-业务", "审核-计划", "优先级"});
 		IExcelExporter<HTXX> exportor = new DBHTXXExcelExporter(itemDao, saleDao, excel, out);
-		exportor.exports();
+		
 		try {
+			exportor.exports();
 			out.close();
+			return "success";
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return "success";
+		return "error";
 	}
 }

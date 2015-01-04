@@ -988,57 +988,57 @@ void CPlanPanel::OnUIPrepared()
 	}
 }
 
-void CPlanPanel::OnHttpSuccess(int id, LPCTSTR resp)
-{
-	GetParent()->EnableWindow(TRUE);
-	switch (id)
-	{
-	case QUERY_URL_ID:
-		OnLoadDataSuccess(CString(resp));
-		break;
-	case ADD_URL_ID:
-		//OnAddDataSuccess(_tstoi(resp), m_cacheRow);
-		break;
-	case DEL_URL_ID:
-		//OnDelDataSuccess();
-		break;
-	case MODIFY_URL_ID:
-		OnModifyDataSuccess(m_cacheRow);
-		break;
-	//case BUSSINESS_APPROVE_URL_ID:	//test purpose
-		//break;
-	case REAPPROVE_URL_ID:
-		MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
-		break;
-	default:
-		break;
-	}
-}
-
-void CPlanPanel::OnHttpFailed(int id)
-{
-	GetParent()->EnableWindow(TRUE);
-	switch (id)
-	{
-	case QUERY_URL_ID:
-		MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-		break;
-	case ADD_URL_ID:
-		MessageBox(_T("添加数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-		break;
-	case DEL_URL_ID:
-		MessageBox(_T("删除数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-		break;
-	case MODIFY_URL_ID:
-		MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-		break;
-	case REAPPROVE_URL_ID:
-		MessageBox(_T("反审核失败"), _T("反审核"), MB_OK | MB_ICONWARNING);
-		break;
-	default:
-		break;
-	}
-}
+//void CPlanPanel::OnHttpSuccess(int id, LPCTSTR resp)
+//{
+//	GetParent()->EnableWindow(TRUE);
+//	switch (id)
+//	{
+//	case QUERY_URL_ID:
+//		OnLoadDataSuccess(CString(resp));
+//		break;
+//	case ADD_URL_ID:
+//		//OnAddDataSuccess(_tstoi(resp), m_cacheRow);
+//		break;
+//	case DEL_URL_ID:
+//		//OnDelDataSuccess();
+//		break;
+//	case MODIFY_URL_ID:
+//		OnModifyDataSuccess(m_cacheRow);
+//		break;
+//	//case BUSSINESS_APPROVE_URL_ID:	//test purpose
+//		//break;
+//	case REAPPROVE_URL_ID:
+//		MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
+//		break;
+//	default:
+//		break;
+//	}
+//}
+//
+//void CPlanPanel::OnHttpFailed(int id)
+//{
+//	GetParent()->EnableWindow(TRUE);
+//	switch (id)
+//	{
+//	case QUERY_URL_ID:
+//		MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+//		break;
+//	case ADD_URL_ID:
+//		MessageBox(_T("添加数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+//		break;
+//	case DEL_URL_ID:
+//		MessageBox(_T("删除数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+//		break;
+//	case MODIFY_URL_ID:
+//		MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+//		break;
+//	case REAPPROVE_URL_ID:
+//		MessageBox(_T("反审核失败"), _T("反审核"), MB_OK | MB_ICONWARNING);
+//		break;
+//	default:
+//		break;
+//	}
+//}
 
 void CPlanPanel::OnLoadDataSuccess(CString& jsondata)
 {
@@ -1354,7 +1354,7 @@ void CPlanPanel::OnExprotClicked()
 		}
 	};
 
-	CFileDialog hFileDlg(FALSE, _T("(*.xls)|*.xls"), _T("*.xls"), OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT, _T("Excel(*.xls)|*.xls||"), NULL);
+	CFileDialog hFileDlg(FALSE, _T("(*.csv)|*.csv"), _T("*.csv"), OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT, _T("Excel(*.csv)|*.csv||"), NULL);
 	hFileDlg.m_ofn.nFilterIndex = 1;
 	hFileDlg.m_ofn.hwndOwner = GetParent()->GetSafeHwnd();
 	hFileDlg.m_ofn.lStructSize = sizeof(OPENFILENAME);

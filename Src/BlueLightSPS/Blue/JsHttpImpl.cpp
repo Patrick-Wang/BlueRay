@@ -654,6 +654,14 @@ void CJsHttpImpl::DoDownload(LPCTSTR lpAddr, int id, std::map<CString, CString> 
 		WINHTTP_NO_PROXY_NAME,
 		WINHTTP_NO_PROXY_BYPASS,
 		0);
+	//BOOL WINAPI WinHttpSetTimeouts(
+	//	_In_  HINTERNET hInternet,
+	//	_In_  int dwResolveTimeout,
+	//	_In_  int dwConnectTimeout,
+	//	_In_  int dwSendTimeout,
+	//	_In_  int dwReceiveTimeout
+	//	);
+	WinHttpSetTimeouts(hSession, 0, 0, 0, 0);
 
 	// Specify an HTTP server.
 	if (hSession)
