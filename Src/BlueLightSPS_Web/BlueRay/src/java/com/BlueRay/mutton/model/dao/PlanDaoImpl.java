@@ -131,4 +131,32 @@ public class PlanDaoImpl implements PlanDao{
 		return ((Long) objs.get(0)).intValue();
 	}
 
+	public int getPlanUnapproved() {
+		Query q = entityManager.createQuery(
+				"select count(t) from PCJHXX t where t.sftgjhsh = 'N' and t.jhscrq is not null");
+		List<Object> objs = q.getResultList();
+		return ((Long) objs.get(0)).intValue();
+	}
+
+	public int getBusinessUnapproved() {
+		Query q = entityManager.createQuery(
+				"select count(t) from PCJHXX t where t.sftgywsh = 'N' and t.jhscrq is not null");
+		List<Object> objs = q.getResultList();
+		return ((Long) objs.get(0)).intValue();
+	}
+
+	public int getPackPlanUnapproved() {
+		Query q = entityManager.createQuery(
+				"select count(t) from PCJHXX t where t.bzsftgjhsh = 'N' and t.jhbzrq is not null");
+		List<Object> objs = q.getResultList();
+		return ((Long) objs.get(0)).intValue();
+	}
+
+	public int getPackBusinessUnapproved() {
+		Query q = entityManager.createQuery(
+				"select count(t) from PCJHXX t where t.bzsftgywsh = 'N' and t.jhbzrq is not null");
+		List<Object> objs = q.getResultList();
+		return ((Long) objs.get(0)).intValue();
+	}
+
 }

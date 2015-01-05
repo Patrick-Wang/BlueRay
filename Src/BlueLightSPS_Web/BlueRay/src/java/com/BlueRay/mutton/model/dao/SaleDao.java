@@ -46,4 +46,8 @@ public interface SaleDao {
 
 	AbstractExcel<HTXX> getHtxxExcel();
 
+	int getSalePlanUnapproved();
+
+	int getSaleBussinessUnapproved();
+
 }

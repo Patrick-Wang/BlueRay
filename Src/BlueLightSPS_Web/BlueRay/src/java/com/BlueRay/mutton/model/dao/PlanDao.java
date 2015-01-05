@@ -31,4 +31,12 @@ public interface PlanDao {
 			Integer pagecount, JSONObject jparam, IAdvanceTranslator translator);
 
 	int getPlanDataCount(JSONObject jparam, IAdvanceTranslator translator);
+
+	int getPlanUnapproved();
+
+	int getBusinessUnapproved();
+
+	int getPackPlanUnapproved();
+
+	int getPackBusinessUnapproved();
 }

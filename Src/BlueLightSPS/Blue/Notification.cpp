@@ -21,11 +21,11 @@ bool CNotification::GetUnapprovedSync(Unapproved_t& stUnapproved)
 	if (m_lpHttp->SyncGet(traceSession(url), strJson)){
 		Json::JsonParser parser;
 		std::shared_ptr<Json::JsonObject> joPtr((Json::JsonObject*)parser.Parse((LPTSTR)(LPCTSTR)strJson));
-		stUnapproved.iPackBussiness = joPtr->asInt(L"packBussiness"); //打包-业务未审批数
+		stUnapproved.iPackBussiness = joPtr->asInt(L"packBusiness"); //打包-业务未审批数
 		stUnapproved.iPackPlan = joPtr->asInt(L"packPlan");//打包-计划未审批数
-		stUnapproved.iPlanBussiness = joPtr->asInt(L"planBussiness");//计划-业务未审批数
+		stUnapproved.iPlanBussiness = joPtr->asInt(L"planBusiness");//计划-业务未审批数
 		stUnapproved.iPlanPlan = joPtr->asInt(L"planPlan");//计划-计划未审批数
-		stUnapproved.iSaleBussiness = joPtr->asInt(L"saleBussiness");//销售-业务未审批数
+		stUnapproved.iSaleBussiness = joPtr->asInt(L"saleBusiness");//销售-业务未审批数
 		stUnapproved.iSalePlan = joPtr->asInt(L"salePlan");//销售-计划未审批数
 		return true;
 	}
@@ -39,11 +39,11 @@ CPromise<CNotification::Unapproved_t>& CNotification::GetUnapproved()
 		virtual CNotification::Unapproved_t& OnParse(LPCTSTR strJson){
 			Json::JsonParser parser;
 			std::shared_ptr<Json::JsonObject> joPtr((Json::JsonObject*)parser.Parse((LPTSTR)(LPCTSTR)strJson));
-			m_stUnapproved.iPackBussiness = joPtr->asInt(L"packBussiness"); //打包-业务未审批数
+			m_stUnapproved.iPackBussiness = joPtr->asInt(L"packBusiness"); //打包-业务未审批数
 			m_stUnapproved.iPackPlan = joPtr->asInt(L"packPlan");//打包-计划未审批数
-			m_stUnapproved.iPlanBussiness = joPtr->asInt(L"planBussiness");//计划-业务未审批数
+			m_stUnapproved.iPlanBussiness = joPtr->asInt(L"planBusiness");//计划-业务未审批数
 			m_stUnapproved.iPlanPlan = joPtr->asInt(L"planPlan");//计划-计划未审批数
-			m_stUnapproved.iSaleBussiness = joPtr->asInt(L"saleBussiness");//销售-业务未审批数
+			m_stUnapproved.iSaleBussiness = joPtr->asInt(L"saleBusiness");//销售-业务未审批数
 			m_stUnapproved.iSalePlan = joPtr->asInt(L"salePlan");//销售-计划未审批数
 			return m_stUnapproved;
 		}

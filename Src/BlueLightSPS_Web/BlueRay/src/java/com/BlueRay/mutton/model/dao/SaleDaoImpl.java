@@ -81,4 +81,16 @@ public class SaleDaoImpl implements SaleDao {
 		return new DBHTXXExcel(entityManager);
 	}
 
+	public int getSalePlanUnapproved() {
+		Query q = entityManager.createQuery("select count(h) from HTXX h where h.sftgjhsh = 'N'");
+		List<Object> objs = q.getResultList();
+		return ((Long) objs.get(0)).intValue();
+	}
+
+	public int getSaleBussinessUnapproved() {
+		Query q = entityManager.createQuery("select count(h) from HTXX h where h.sftgywsh = 'N'");
+		List<Object> objs = q.getResultList();
+		return ((Long) objs.get(0)).intValue();
+	}
+
 }
