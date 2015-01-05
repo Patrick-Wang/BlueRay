@@ -141,9 +141,11 @@ void CPlanPanel::OnCbnSelchangeProductionStatus()
 {
 	DEFINE_PLAN_QUERY_PARAM(sqp);
 	MakeBasicSearchCondition(sqp);
+	sqp.AddSortCondition(15, false);
 
 	CServer::GetInstance()->GetPlan().Query(
-		m_pJqGridAPI->GetCurrentPage(),
+		1,
+		//m_pJqGridAPI->GetCurrentPage(),
 		m_pJqGridAPI->GetPageSize(),
 		sqp)
 		.then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
@@ -494,6 +496,7 @@ void CPlanPanel::OnBnClickedSearch()
 {
 	DEFINE_PLAN_QUERY_PARAM(sqp);
 	MakeBasicSearchCondition(sqp);
+	sqp.AddSortCondition(15, false);
 
 	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), sqp)
 		.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
@@ -527,6 +530,7 @@ void CPlanPanel::OnBnClickedMore()
 		jqp.SetAdvancedCondition(&searchVals);
 
 		MakeBasicSearchCondition(jqp);
+		jqp.AddSortCondition(15, false);
 
 		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
 			.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
@@ -1145,7 +1149,10 @@ void CPlanPanel::OnInitData()
 				}
 				};*/
 
-		DEFINE_PLAN_QUERY_PARAM(pqp)
+		DEFINE_PLAN_QUERY_PARAM(pqp);
+		
+		pqp.AddSortCondition(15, false);
+		
 		CPlan& plan = CServer::GetInstance()->GetPlan();
 		plan.Query(1, m_pJqGridAPI->GetPageSize(), pqp).then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 
