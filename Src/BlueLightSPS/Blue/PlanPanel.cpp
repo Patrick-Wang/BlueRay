@@ -517,22 +517,29 @@ void CPlanPanel::HighLight()
 void CPlanPanel::OnBnClickedMore()
 {
 	int iCountShot = 0;
-	CPlanAddDlg dlg(_T("高级搜索"));
+	CSaleAddDlg dlg(_T("高级搜索"));
 
-	dlg.SetOption(new CPlanAddDlg::Option_t());
+	dlg.SetOption(new CSaleAddDlg::Option_t());
 
 	if (IDOK == dlg.DoModal()){
 		std::vector<CString>& searchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
-		searchVals.insert(searchVals.begin() + 15, L"");//插入业务审核
-		searchVals.insert(searchVals.begin() + 15, L"");//插入计划审核
-		searchVals.insert(searchVals.begin() + 15, L"");//插入优先级
+		searchVals.insert(searchVals.begin() + 16, L"");//插入生产日期
+		searchVals.insert(searchVals.begin() + 17, L"");//插入生产日期业务审核
+		searchVals.insert(searchVals.begin() + 18, L"");//插入生产日期计划审核
+		searchVals.insert(searchVals.begin() + 19, L"");//插入包装日期
+		searchVals.insert(searchVals.begin() + 20, L"");//插入包装日期业务审核
+		searchVals.insert(searchVals.begin() + 21, L"");//插入包装日期计划审核
+		searchVals.insert(searchVals.begin() + 22, L"");//插入发货日期
+		searchVals.insert(searchVals.begin() + 23, L"");//插入生产编码
+		searchVals.insert(searchVals.begin() + 24, L"");//插入出厂编码
+		searchVals.insert(searchVals.begin() + 25, L"");//插入优先级
 		DEFINE_PLAN_QUERY_PARAM(jqp);
 		jqp.SetAdvancedCondition(&searchVals);
 
 		MakeBasicSearchCondition(jqp);
 		jqp.AddSortCondition(15, false);
 
-		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
+		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
 			.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
 	}

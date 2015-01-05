@@ -643,9 +643,9 @@ void CSalePanel::OnBnClickedMore()
 	dlg.SetOption(new CSaleAddDlg::Option_t());
 	if (IDOK == dlg.DoModal()){
 		std::vector<CString>& searchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
-		searchVals.insert(searchVals.begin() + 15, L"");//插入业务审核
-		searchVals.insert(searchVals.begin() + 15, L"");//插入计划审核
-		searchVals.insert(searchVals.begin() + 15, L"");//插入优先级
+		searchVals.insert(searchVals.begin() + 16, L"");//插入业务审核
+		searchVals.insert(searchVals.begin() + 17, L"");//插入计划审核
+		searchVals.insert(searchVals.begin() + 18, L"");//插入优先级
 		DEFINE_SALE_QUERY_PARAM(jqp);
 		jqp.SetAdvancedCondition(&searchVals);
 
