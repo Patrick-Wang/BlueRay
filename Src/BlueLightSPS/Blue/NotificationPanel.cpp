@@ -341,6 +341,10 @@ void CNotificationPanel::OnBnClickedPlanSCRQBusinessApprove()
 	HideFirstViewOfNotificationPanel(FALSE);
 	DEFINE_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
+	StringArray advance;
+	advance.resize(26);
+	advance[16] = L"@!=null";
+	jqp.SetAdvancedCondition(&advance);
 	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
 	//CString url;
@@ -358,6 +362,10 @@ void CNotificationPanel::OnBnClickedPlanSCRQPlanApprove()
 
 	DEFINE_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
+	StringArray advance;
+	advance.resize(26);
+	advance[16] = L"@!=null";
+	jqp.SetAdvancedCondition(&advance);
 	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
 	//CString url;
@@ -374,7 +382,11 @@ void CNotificationPanel::OnBnClickedPlanBZRQBusinessApprove()
 	HideFirstViewOfNotificationPanel(FALSE);
 	DEFINE_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
-	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
+	StringArray advance;
+	advance.resize(26);
+	advance[19] = L"@!=null";
+	jqp.SetAdvancedCondition(&advance);
+	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
 	//CString url;
 	//url.Format(_T("http://%s:8080/BlueRay/plan/query/pack_businessApprove/unapproved"), IDS_HOST_NAME);
@@ -391,6 +403,10 @@ void CNotificationPanel::OnBnClickedPlanBZRQPlanApprove()
 
 	DEFINE_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PACK_PLAN, false);
+	StringArray advance;
+	advance.resize(26);
+	advance[19] = L"@!=null";
+	jqp.SetAdvancedCondition(&advance);
 	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
 	//CString url;

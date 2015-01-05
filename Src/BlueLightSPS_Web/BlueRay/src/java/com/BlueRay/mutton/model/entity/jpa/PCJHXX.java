@@ -14,14 +14,17 @@ public class PCJHXX {
 	Integer pcjhID;
 	Integer htxxID;
 	Date jhscrq;
+	String sftgywsh = "N";
+	String sftgjhsh = "N";
+	
 	Date jhbzrq;
+	String bzsftgywsh = "N";
+	String bzsftgjhsh = "N";
+	
 	Date jhfhrq;
 	String tcbh;
 	String ccbh;
-	String sftgywsh = "N";
-	String sftgjhsh = "N";
-	String bzsftgywsh = "N";
-	String bzsftgjhsh = "N";
+	
 	String ddzt;
 	/**
 	 * @return the pcjhID

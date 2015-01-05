@@ -61,13 +61,13 @@ public class PlanQueryParams {
 	
 	private static int mColumnCount = 26;
 	{
-		for (int i = 0; i < 17; ++i) {
+		for (int i = 0; i < 16; ++i) {
 			paramHtxxColMap.put(i, i + 1);
 		}
 		paramHtxxColMap.put(25, 19);
 		
-		for (int i = 17; i < 25; ++i) {
-			paramPcjhColMap.put(i, 1 + i - 17);
+		for (int i = 16; i < 25; ++i) {
+			paramPcjhColMap.put(i, 2 + i - 16);
 		}
 	}
 
@@ -369,6 +369,7 @@ public class PlanQueryParams {
 						column = paramHtxxColMap.get(i);
 
 						Class<?> cls = HTXX.getFroeignClass(column);
+						String sql = null;
 						if (null != cls) {
 	
 							if (null != mTranslator){
@@ -377,10 +378,15 @@ public class PlanQueryParams {
 									jadvanced.set(i, newValue);
 								}
 							}
-							
-							advanceBuilder.append(cls.getSimpleName() + "_."
-									+ getForginName(cls) + " = "
-									+ jadvanced.getString(i) + " ");
+							sql = QueryColumnCommandParser
+									.parse(cls.getSimpleName() + "_."
+											+ getForginName(cls),
+											jadvanced.getString(i));
+							if (null == sql){
+								sql = cls.getSimpleName() + "_."
+										+ getForginName(cls) + " = '"
+										+ jadvanced.getString(i) + "' ";
+							}
 							connectMap.put(fields[column].getName(), cls);
 						} else {
 							if (null != mTranslator){
@@ -389,20 +395,33 @@ public class PlanQueryParams {
 									jadvanced.set(i, newValue);
 								}
 							}
+							
+							sql = QueryColumnCommandParser.parse("HTXX_."
+									+ fields[column].getName(),
+									jadvanced.getString(i));
+							
 							if (fields[column].getType().getName()
 									.equals(String.class.getName())
 									|| fields[column].getType().getName()
 											.equals(Date.class.getName())) {
-								advanceBuilder.append("HTXX_."
-										+ fields[column].getName() + " = '"
-										+ jadvanced.getString(i) + "' ");
+								if (null == sql) {
+									sql = "HTXX_."
+											+ fields[column].getName() + " = '"
+											+ jadvanced.getString(i) + "' ";
+								}
+
 							} else {
-								advanceBuilder.append("HTXX_."
-										+ fields[column].getName() + " = "
-										+ jadvanced.getString(i) + " ");
+								if (null == sql) {
+									sql = "HTXX_."
+											+ fields[column].getName() + " = "
+											+ jadvanced.getString(i) + " ";
+								}
+								
 							}
+							advanceBuilder.append(sql);
 						}
-					} else if (paramPcjhColMap.containsKey(i)) {
+					} 
+					else if (paramPcjhColMap.containsKey(i)) {
 						
 						if (null != mTranslator){
 							String newValue = mTranslator.in(PCJHXX.class.getDeclaredFields()[column].getName(), jadvanced.getString(i));
@@ -411,10 +430,18 @@ public class PlanQueryParams {
 							}
 						}
 						column = paramPcjhColMap.get(i);
-						advanceBuilder.append("PCJHXX_."
+						String sql = QueryColumnCommandParser
+								.parse("PCJHXX_."
+										+ PCJHXX.class.getDeclaredFields()[column]
+												.getName(),
+												jadvanced.getString(i));
+						if (null == sql){
+							sql = "PCJHXX_."
 								+ PCJHXX.class.getDeclaredFields()[column]
 										.getName() + " = '"
-								+ jadvanced.getString(i) + "' ");
+								+ jadvanced.getString(i) + "' ";
+						}
+						advanceBuilder.append(sql);
 					}
 				}
 			}
