@@ -235,7 +235,7 @@ void CBlueDlg::OnGridDataLoaded()
 		m_pPanelMap[IDC_NOTIFICATION]->ShowWindow(SW_SHOW);
 	}
 
-	m_pLastGrid.release();
+	m_pLastGrid.reset();
 }
 // If you add a minimize button to your dialog, you will need the code below
 //  to draw the icon.  For MFC applications using the document/view model,

@@ -418,8 +418,8 @@ public class PlanQueryParams {
 								}
 								
 							}
-							advanceBuilder.append(sql);
 						}
+						advanceBuilder.append(sql);
 					} 
 					else if (paramPcjhColMap.containsKey(i)) {
 						
