@@ -102,6 +102,11 @@ inline void init(CEdit* edit, CString& val){
 	{
 		edit->SetWindowText(val);
 	}
+	else
+	{
+		edit->EnableWindow(TRUE);
+	}
+
 }
 
 inline void init(CDateTimeCtrl* dateTime, CString& val){
@@ -152,7 +157,7 @@ void CSaleAddDlg::InitHttpInstance()
 	{
 		m_DropList.resize(CombId::Comb_END);
 		CItem& item = CServer::GetInstance()->GetItem();
-		
+
 		//客户名称
 		CString url;
 		//url.Format(_T("http://%s:8080/BlueRay/itemquery/khxx"), IDS_HOST_NAME);
@@ -213,7 +218,7 @@ void CSaleAddDlg::InitHttpInstance()
 		//EnableWindow(FALSE);
 	}
 
-	
+
 }
 
 void CSaleAddDlg::OnHttpSuccess(int id, LPCTSTR resp)
@@ -225,31 +230,31 @@ void CSaleAddDlg::OnHttpSuccess(int id, LPCTSTR resp)
 	case QUERY_COMBO_VALUE_KHMC_URL_ID:
 		OnLoadComboDataSuccess(Comb_KHMC, CString(resp));
 		break;
-	case QUERY_COMBO_VALUE_GGBH_URL_ID:	  
+	case QUERY_COMBO_VALUE_GGBH_URL_ID:
 		OnLoadComboDataSuccess(Comb_GGBH, CString(resp));
 		break;
-	case QUERY_COMBO_VALUE_ZC_URL_ID:	  
+	case QUERY_COMBO_VALUE_ZC_URL_ID:
 		OnLoadComboDataSuccess(Comb_ZC, CString(resp));
 		break;
-	//case QUERY_COMBO_VALUE_DFR_URL_ID:	  
-	//	OnLoadComboDataSuccess(Comb_DFR, CString(resp));
-	//	break;
-	case QUERY_COMBO_VALUE_ZDQDY_URL_ID:  
+		//case QUERY_COMBO_VALUE_DFR_URL_ID:	  
+		//	OnLoadComboDataSuccess(Comb_DFR, CString(resp));
+		//	break;
+	case QUERY_COMBO_VALUE_ZDQDY_URL_ID:
 		OnLoadComboDataSuccess(Comb_ZDQDY, CString(resp));
 		break;
-	case QUERY_COMBO_VALUE_YYLGG_URL_ID:  
+	case QUERY_COMBO_VALUE_YYLGG_URL_ID:
 		OnLoadComboDataSuccess(Comb_YYLGG, CString(resp));
 		break;
-	//case QUERY_COMBO_VALUE_JF_URL_ID:	  
-	//	OnLoadComboDataSuccess(Comb_JF, CString(resp));
-	//	break;
-	case QUERY_COMBO_VALUE_BPQXH_URL_ID:  
+		//case QUERY_COMBO_VALUE_JF_URL_ID:	  
+		//	OnLoadComboDataSuccess(Comb_JF, CString(resp));
+		//	break;
+	case QUERY_COMBO_VALUE_BPQXH_URL_ID:
 		OnLoadComboDataSuccess(Comb_BPQXH, CString(resp));
 		break;
-	case QUERY_COMBO_VALUE_BMQXH_URL_ID:  
+	case QUERY_COMBO_VALUE_BMQXH_URL_ID:
 		OnLoadComboDataSuccess(Comb_BMQXH, CString(resp));
 		break;
-	case QUERY_COMBO_VALUE_MPZL_URL_ID:	  
+	case QUERY_COMBO_VALUE_MPZL_URL_ID:
 		OnLoadComboDataSuccess(Comb_MPZL, CString(resp));
 		break;
 	default:
@@ -265,10 +270,10 @@ void CSaleAddDlg::OnHttpFailed(int id)
 	case QUERY_COMBO_VALUE_KHMC_URL_ID:
 	case QUERY_COMBO_VALUE_GGBH_URL_ID:
 	case QUERY_COMBO_VALUE_ZC_URL_ID:
-	//case QUERY_COMBO_VALUE_DFR_URL_ID:
+		//case QUERY_COMBO_VALUE_DFR_URL_ID:
 	case QUERY_COMBO_VALUE_ZDQDY_URL_ID:
 	case QUERY_COMBO_VALUE_YYLGG_URL_ID:
-	//case QUERY_COMBO_VALUE_JF_URL_ID:
+		//case QUERY_COMBO_VALUE_JF_URL_ID:
 	case QUERY_COMBO_VALUE_BPQXH_URL_ID:
 	case QUERY_COMBO_VALUE_BMQXH_URL_ID:
 	case QUERY_COMBO_VALUE_MPZL_URL_ID:
@@ -284,7 +289,7 @@ void CSaleAddDlg::OnHttpFailed(int id)
 	default:
 		break;
 	}
-	
+
 }
 
 void CSaleAddDlg::OnLoadComboDataSuccess(int id, CString strValList)
@@ -327,7 +332,7 @@ BOOL CSaleAddDlg::OnInitDialog()
 		m_aStatics[i] = Util_Tools::Util::CreateStatic(this, IDC_STATIC_BASE + i, g_StaticItems[i][0], _T("Microsoft YaHei"), 12);
 		m_aStatics[i]->MoveWindow(g_StaticPos[i][0], g_StaticPos[i][1], g_StaticPos[i][2], g_StaticPos[i][3]);
 	}
-	
+
 	//init edit
 	for (int i = 0; i < _countof(g_EditItems); ++i)
 	{
@@ -402,13 +407,13 @@ void CSaleAddDlg::OnOK()
 
 	m_aEdits[EditId::Edit_HTH]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->htbh : _T("")));
-	
+
 	m_aCombs[CombId::Comb_KHMC]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp);
-	
+
 	m_aCombs[CombId::Comb_GGBH]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp);
-	
+
 	m_aEdits[EditId::Edit_SL]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->sl : _T("")));
 
@@ -420,31 +425,31 @@ void CSaleAddDlg::OnOK()
 
 	m_aCombs[CombId::Comb_ZDQDY]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->zdqdy : 0));
-	
+
 	m_aCombs[CombId::Comb_YYLGG]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->yylgg : 0));
-	
+
 	m_aCombs[CombId::Comb_JF]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->jf : 0));
-	
+
 	m_aCombs[CombId::Comb_BPQXH]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bpqxh : 0));
-	
+
 	m_aCombs[CombId::Comb_BMQXH]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bmqxh : 0));
-	
+
 	//m_aCombs[CombId::Comb_DLCD]->GetWindowText(strTmp);
 	//m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->dlcd : 0));
-	
+
 	//m_aCombs[CombId::Comb_ZXCD]->GetWindowText(strTmp);
 	//m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->zxcd : 0));
-	
+
 	m_aEdits[EditId::Edit_DLCD]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->dlcd : _T("")));
-	
+
 	m_aEdits[EditId::Edit_ZXCD]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->zxcd : _T("")));
-	
+
 	m_aCombs[CombId::Comb_MPZL]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bmqxh : 0));
 
