@@ -14,8 +14,9 @@ inline void init(CEdit* edit, CString& val){
 	{
 		edit->SetWindowText(val);
 	}
-	else{
-		edit->EnableWindow(FALSE);
+	else
+	{
+		edit->EnableWindow(TRUE);
 	}
 
 }
