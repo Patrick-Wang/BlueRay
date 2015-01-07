@@ -489,12 +489,17 @@ public class PlanQueryParams {
 			if (!sqlApprove.isEmpty()){
 				if (firstSql){
 					firstSql = false;
+					approve += " ( ";
 				}
 				else{
 					approve += " and ";
 				}
 				approve += sqlApprove;
 			}
+		}
+		
+		if (!firstSql) {
+			approve += ") ";
 		}
 		return approve;
 	}
@@ -518,12 +523,12 @@ public class PlanQueryParams {
 					sb.append(" or ");
 				}
 
-				sb.append(" ( ");
 				sb.append(approveItem);
-				sb.append(" ) ");
 			}
 		}
-		
+		if (!firstSql) {
+			return " (" + sb.toString() + ") ";
+		}
 		return sb.toString();
 	}
 

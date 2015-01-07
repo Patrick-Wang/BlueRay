@@ -391,14 +391,20 @@ public class SaleQueryParams {
 			sqlApprove = getApproveSql(
 					japprove.getJSONObject(i).getString("type"), japprove
 							.getJSONObject(i).getBoolean("approved"));
-			if (!sqlApprove.isEmpty()) {
-				if (firstSql) {
+			if (!sqlApprove.isEmpty()){
+				if (firstSql){
 					firstSql = false;
-				} else {
+					approve += " ( ";
+				}
+				else{
 					approve += " and ";
 				}
 				approve += sqlApprove;
 			}
+		}
+		
+		if (!firstSql) {
+			approve += ") ";
 		}
 		return approve;
 	}
@@ -422,12 +428,13 @@ public class SaleQueryParams {
 					sb.append(" or ");
 				}
 
-				sb.append(" ( ");
 				sb.append(approveItem);
-				sb.append(" ) ");
 			}
 		}
 
+		if (!firstSql) {
+			return " (" + sb.toString() + ") ";
+		}
 		return sb.toString();
 	}
 
