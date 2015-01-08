@@ -21,6 +21,35 @@
 //		startDate : 
 //		endDate : 
 //	}
+//	advancedQyery : [{
+//		group : [{
+//					item : {
+//						col: 1/2/3,
+//						param: string
+//					}
+//					and : true/false
+//		},{
+//			item : {
+//						col: 1/2/3,
+//						param: string
+//					}
+//			and : true/false
+//		},{
+//			group: [{
+//				item : {
+//						col: 1/2/3,
+//						param: string
+//					}
+//				and : true/false
+//			}],
+//		}],
+//	},{
+//				item : {
+//						col: 1/2/3,
+//						param: string
+//					}
+//				and : true/false
+//			}]
 //},
 //sort : [
 //    {
@@ -33,6 +62,27 @@
 //    }
 //]
 //}
+
+
+class CAdvanceQuery{
+	typedef struct tagQueryCondition_t{
+		std::shared_ptr<CAdvanceQuery> pAdvanceQuery;
+		bool bIsAnd;
+	}QueryCondition_t;
+public:
+	CAdvanceQuery(int index, LPCTSTR param);
+	~CAdvanceQuery();
+	CAdvanceQuery& and(CAdvanceQuery* advanceQuery);
+	CAdvanceQuery& or(CAdvanceQuery* advanceQuery);
+	CAdvanceQuery& pack();
+	void toJson(CString& json);
+private:
+	int m_iPack;
+	int m_iColIndex;
+	CString m_strParam;
+	std::vector<QueryCondition_t*> m_vecQuerys;
+};
+
 
 class CJsonQueryParam
 {
