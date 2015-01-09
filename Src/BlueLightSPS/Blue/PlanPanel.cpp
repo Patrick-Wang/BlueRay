@@ -155,93 +155,198 @@ void CPlanPanel::OnCbnSelchangeProductionStatus()
 
 void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatus, CJsonQueryParam &sqp)
 {
-
-	if (ProductionStatus_ToBePlan == productionStatus)
+	if (ProductionStatus_All == productionStatus)
 	{
+		//sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
+		//sqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
+		//sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
+		//sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
+	}
+	else if (ProductionStatus_SCRQ_ToBePlanned == productionStatus)
+	{
+		StringArray advance;
+		advance.resize(26);
+		advance[16] = L"@==null";
+		sqp.SetAdvancedCondition(&advance);
+
 		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
 		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
-		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
-		sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
 	}
-	else if (ProductionStatus_Planning == productionStatus)
+	else if (ProductionStatus_SCRQ_ToBeApproved == productionStatus)
 	{
-		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true);
+		StringArray advance;
+		advance.resize(26);
+		advance[16] = L"@!=null";
+		sqp.SetAdvancedCondition(&advance);
+
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
 		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
-		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
-		sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
+	}
+	else if (ProductionStatus_SCRQ_Planning == productionStatus)
+	{
+		StringArray advance;
+		advance.resize(26);
+		advance[16] = L"@!=null";
+		sqp.SetAdvancedCondition(&advance);
+
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true);
 
 		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 1);
-		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 1);
-		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 1);
-		sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 1);
-		
-		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 2);
-		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 2);
-		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 2);
-		sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 2);
-
-		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 3);
-		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 3);
-		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 3);
-		sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 3);
-
-		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 4);
-		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 4);
-		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 4);
-		sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 4);
-
-		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 5);
-		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 5);
-		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 5);
-		sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 5);
-
-		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 6);
-		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 6);
-		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 6);
-		sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 6);
-
-		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 7);
-		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 7);
-		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 7);
-		sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 7);
-
-		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 8);
-		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 8);
-		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 8);
-		sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 8);
-
-		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 9);
-		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 9);
-		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 9);
-		sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 9);
-
-		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 10);
-		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 10);
-		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 10);
-		sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 10);
-
-		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 11);
-		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 11);
-		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 11);
-		sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 11);
-
-		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 12);
-		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 12);
-		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 12);
-		sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 12);
-
-		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 13);
-		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 13);
-		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 13);
-		sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 13);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 1);
 	}
-	else if (ProductionStatus_Planned == productionStatus)
+	else if (ProductionStatus_SCRQ_Planned == productionStatus)
 	{
+		StringArray advance;
+		advance.resize(26);
+		advance[16] = L"@!=null";
+		sqp.SetAdvancedCondition(&advance);
+
+		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true);
+		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true);
+	}
+	else if (ProductionStatus_BZRQ_ToBePlanned == productionStatus)
+	{
+		StringArray advance;
+		advance.resize(26);
+		advance[19] = L"@==null";
+		sqp.SetAdvancedCondition(&advance);
+
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
+	}
+	else if (ProductionStatus_BZRQ_ToBeApproved == productionStatus)
+	{
+		StringArray advance;
+		advance.resize(26);
+		advance[19] = L"@!=null";
+		sqp.SetAdvancedCondition(&advance);
+
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
+	}
+	else if (ProductionStatus_BZRQ_Planning == productionStatus)
+	{
+		StringArray advance;
+		advance.resize(26);
+		advance[19] = L"@!=null";
+		sqp.SetAdvancedCondition(&advance);
+
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
+
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 1);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 1);
+	}
+	else if (ProductionStatus_BZRQ_Planned == productionStatus)
+	{
+		StringArray advance;
+		advance.resize(26);
+		advance[19] = L"@!=null";
+		sqp.SetAdvancedCondition(&advance);
+
+		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true);
+		sqp.AddApproveCondition(CPlan::PACK_PLAN, true);
+	}
+	else if (ProductionStatus_FHRQ_Planned == productionStatus)
+	{
+		StringArray advance;
+		advance.resize(26);
+		advance[22] = L"@!=null";
+		sqp.SetAdvancedCondition(&advance);
+	}
+	else if (ProductionStatus_FHRQ_ToBePlanned == productionStatus)
+	{
+		StringArray advance;
+		advance.resize(26);
+		advance[22] = L"@!=null";
+		sqp.SetAdvancedCondition(&advance);
+	}
+	else if (ProductionStatus_All_PlannedAndApproved == productionStatus)
+	{
+		StringArray advance;
+		advance.resize(26);
+		advance[22] = L"@!=null";
+		sqp.SetAdvancedCondition(&advance);
+
 		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true);
 		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true);
 		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true);
 		sqp.AddApproveCondition(CPlan::PACK_PLAN, true);
 	}
+
+	//if (ProductionStatus_Planning == productionStatus)
+	//{
+	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true);
+	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
+	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
+	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
+
+	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 1);
+	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 1);
+	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 1);
+	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 1);
+
+	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 2);
+	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 2);
+	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 2);
+	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 2);
+
+	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 3);
+	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 3);
+	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 3);
+	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 3);
+
+	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 4);
+	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 4);
+	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 4);
+	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 4);
+
+	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 5);
+	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 5);
+	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 5);
+	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 5);
+
+	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 6);
+	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 6);
+	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 6);
+	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 6);
+
+	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 7);
+	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 7);
+	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 7);
+	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 7);
+
+	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 8);
+	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 8);
+	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 8);
+	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 8);
+
+	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 9);
+	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 9);
+	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 9);
+	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 9);
+
+	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 10);
+	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 10);
+	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 10);
+	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 10);
+
+	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 11);
+	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 11);
+	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 11);
+	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 11);
+
+	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 12);
+	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 12);
+	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 12);
+	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 12);
+
+	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 13);
+	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 13);
+	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 13);
+	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 13);
+	//}
 }
 
 void CPlanPanel::OnInitChilds()
@@ -271,43 +376,51 @@ void CPlanPanel::OnInitChilds()
 		//m_staticProductionStatus->SetTextAlign(DT_LEFT);
 
 		m_comboProductionStatus = Util_Tools::Util::CreateComboBox(this, IDC_PLAN_COMBO_PROSTATUS, _T("Microsoft YaHei"), 12, TRUE);
-		m_comboProductionStatus->MoveWindow(20, 23, 100, 18);
+		m_comboProductionStatus->MoveWindow(20, 23, 130, 18);
 
-		m_comboProductionStatus->InsertString(0, _T("全部订单"));
-		m_comboProductionStatus->InsertString(1, _T("可排产订单"));
-		m_comboProductionStatus->InsertString(2, _T("排产中订单"));
-		m_comboProductionStatus->InsertString(3, _T("已排产订单"));
+		m_comboProductionStatus->InsertString(0, _T("全部"));
+		m_comboProductionStatus->InsertString(1, _T("生产日期未计划"));
+		m_comboProductionStatus->InsertString(2, _T("生产日期已计划未审核"));
+		m_comboProductionStatus->InsertString(3, _T("生产日期已计划审核中"));
+		m_comboProductionStatus->InsertString(4, _T("生产日期已审核"));
+		m_comboProductionStatus->InsertString(5, _T("包装日期未计划"));
+		m_comboProductionStatus->InsertString(6, _T("包装日期已计划未审核"));
+		m_comboProductionStatus->InsertString(7, _T("包装日期已计划审核中"));
+		m_comboProductionStatus->InsertString(8, _T("包装日期已审核"));
+		m_comboProductionStatus->InsertString(9, _T("发货日期已计划"));
+		m_comboProductionStatus->InsertString(10, _T("发货日期未计划"));
+		m_comboProductionStatus->InsertString(11, _T("全部已审核已计划"));
 		m_comboProductionStatus->SetCurSel(0);
 
 		m_bsDateRange = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_DATERANGE, _T("查询日期"), _T("Microsoft YaHei"), 12);
-		m_bsDateRange->MoveWindow(140, 25, 60, 20);
+		m_bsDateRange->MoveWindow(160, 25, 60, 20);
 
 		m_dtcSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHFROM, _T("Microsoft YaHei"), 12);
-		m_dtcSearchFrom->MoveWindow(210, 25, 108, 20);
+		m_dtcSearchFrom->MoveWindow(220, 25, 108, 20);
 
 		COleDateTime oletimeTime;
 		oletimeTime.SetStatus(COleDateTime::null);
 		m_dtcSearchFrom->SetTime(oletimeTime);
 
 		m_bsMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_MIDDLELINE, _T("--"), _T("Microsoft YaHei"), 12);
-		m_bsMiddleLine->MoveWindow(325, 25, 20, 20);
+		m_bsMiddleLine->MoveWindow(335, 25, 20, 20);
 
 		m_dtcSearchTo = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHTO, _T("Microsoft YaHei"), 12);
-		m_dtcSearchTo->MoveWindow(350, 25, 108, 20);
+		m_dtcSearchTo->MoveWindow(360, 25, 108, 20);
 		m_dtcSearchTo->SetTime(oletimeTime);
 
 		m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_PLAN_BTN_SEARCH, _T("请输入关键字"), _T("Microsoft YaHei"), 12);
-		m_editSearch->MoveWindow(470, 25, 150, 20);
+		m_editSearch->MoveWindow(485, 25, 130, 20);
 
 		m_btnMore = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_MORE, _T("更多筛选"), _T("Microsoft YaHei"), 12);
 		m_btnMore->MoveWindow(640, 23, 90, 25);
 
-// 		m_bsMoreWord = Util_Tools::Util::CreateStatic(this, IDC_SALE_BTN_MOREWORD, _T("..."), _T("Microsoft YaHei"), 12);
-// 		m_bsMoreWord->MoveWindow(485, 27, 63, 20);
+		// 		m_bsMoreWord = Util_Tools::Util::CreateStatic(this, IDC_SALE_BTN_MOREWORD, _T("..."), _T("Microsoft YaHei"), 12);
+		// 		m_bsMoreWord->MoveWindow(485, 27, 63, 20);
 
 		m_btnSearch = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_SEARCH, _T("查询"), _T("Microsoft YaHei"), 12);
 		m_btnSearch->MoveWindow(750, 23, 90, 25);
-		
+
 		//second line
 		m_btnPlan = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_PLAN, _T("计划"), _T("Microsoft YaHei"), 12);
 		m_btnPlan->MoveWindow(20, 70, 90, 25);
@@ -472,24 +585,56 @@ void CPlanPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 		sqp.SetDateSearchCondition(strFrom, strTo);
 	}
 
-	int iIndex = m_comboProductionStatus->GetCurSel();
+	FilterTableByStatus(enumProductionStatusForPlan(m_comboProductionStatus->GetCurSel()), sqp);
 
-	if (0 == iIndex)
-	{
-		FilterTableByStatus(ProductionStatus_All, sqp);
-	}
-	else if (1 == iIndex)
-	{
-		FilterTableByStatus(ProductionStatus_ToBePlan, sqp);
-	}
-	else if (2 == iIndex)
-	{
-		FilterTableByStatus(ProductionStatus_Planning, sqp);
-	}
-	else if (3 == iIndex)
-	{
-		FilterTableByStatus(ProductionStatus_Planned, sqp);
-	}
+	//if (0 == iIndex)
+	//{
+	//	FilterTableByStatus(ProductionStatus_All, sqp);
+	//}
+	//else if (1 == iIndex)
+	//{
+	//	FilterTableByStatus(ProductionStatus_SCRQ_ToBePlanned, sqp);
+	//}
+	//else if (2 == iIndex)
+	//{
+	//	FilterTableByStatus(ProductionStatus_SCRQ_ToBeApproved, sqp);
+	//}
+	//else if (3 == iIndex)
+	//{
+	//	FilterTableByStatus(ProductionStatus_SCRQ_Planning, sqp);
+	//}
+	//else if (4 == iIndex)
+	//{
+	//	FilterTableByStatus(ProductionStatus_SCRQ_Planned, sqp);
+	//}
+	//else if (5 == iIndex)
+	//{
+	//	FilterTableByStatus(ProductionStatus_BZRQ_ToBePlanned, sqp);
+	//}
+	//else if (6 == iIndex)
+	//{
+	//	FilterTableByStatus(ProductionStatus_BZRQ_ToBeApproved, sqp);
+	//}
+	//else if (7 == iIndex)
+	//{
+	//	FilterTableByStatus(ProductionStatus_BZRQ_Planning, sqp);
+	//}
+	//else if (8 == iIndex)
+	//{
+	//	FilterTableByStatus(ProductionStatus_BZRQ_Planned, sqp);
+	//}
+	//else if (9 == iIndex)
+	//{
+	//	FilterTableByStatus(ProductionStatus_FHRQ_Planned, sqp);
+	//}
+	//else if (10 == iIndex)
+	//{
+	//	FilterTableByStatus(ProductionStatus_FHRQ_ToBePlanned, sqp);
+	//}
+	//else if (11 == iIndex)
+	//{
+	//	FilterTableByStatus(ProductionStatus_All_PlannedAndApproved, sqp);
+	//}
 }
 
 void CPlanPanel::OnBnClickedSearch()
@@ -599,7 +744,7 @@ void CPlanPanel::OnBnClickedReApproveBZRQPlan()
 
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	
+
 	if (checkedRows.size() > 0)
 	{
 		if (IDOK == MessageBox(_T("反审核会导致数据的永久改变，请确认是否继续？"), _T("反审核"), MB_OKCANCEL | MB_ICONWARNING))
@@ -632,7 +777,7 @@ void CPlanPanel::OnBnClickedReApproveSCRQBusiness()
 
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	
+
 	if (checkedRows.size() > 0)
 	{
 		if (IDOK == MessageBox(_T("反审核会导致数据的永久改变，请确认是否继续？"), _T("反审核"), MB_OKCANCEL | MB_ICONWARNING))
@@ -665,7 +810,7 @@ void CPlanPanel::OnBnClickedReApproveSCRQPlan()
 
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	
+
 	if (checkedRows.size() > 0)
 	{
 		if (IDOK == MessageBox(_T("反审核会导致数据的永久改变，请确认是否继续？"), _T("反审核"), MB_OKCANCEL | MB_ICONWARNING))
@@ -744,7 +889,7 @@ void CPlanPanel::OnReApproveSuccess(CPlan::ApproveType type)
 			{
 				m_table[checkedRowTableMap[i]].second[21] = _T("×");
 				m_pJqGridAPI->SetCell(checkedRows[i], 22, _T("×"));
-				
+
 				if (m_table[checkedRowTableMap[i]].second[20] == _T("×"))
 				{
 					m_table[checkedRowTableMap[i]].second[19] = _T("");
@@ -957,7 +1102,7 @@ void CPlanPanel::OnRowChecked()
 					{
 						m_bEnablePlanBtnForBZRQ = true;
 					}
-					
+
 					break;
 				}
 			}
@@ -1057,7 +1202,7 @@ void CPlanPanel::OnLoadDataSuccess(CString& jsondata)
 	{
 		m_pJqGridAPI->DelRow(m_table[j].first);
 	}
-	
+
 	m_pJqGridAPI->Refresh();
 
 	//StringToTable(jsondata, m_table);
@@ -1114,32 +1259,32 @@ void CPlanPanel::OnInitData()
 
 	if (perm.getPlan())
 	{
-	/*	class OnLoadDataListener : public CPromise<table>::IHttpResponse
-		{
+		/*	class OnLoadDataListener : public CPromise<table>::IHttpResponse
+			{
 			CONSTRUCTOR_3(OnLoadDataListener, CPlanPanel&, planPanel, table&, tb, CJQGridAPI*, pJqGridAPI)
-		public:
+			public:
 			virtual void OnSuccess(table& tb){
-				for (int j = 0; j < m_tb.size(); ++j)
-				{
-					m_pJqGridAPI->DelRow(m_tb[j].first);
-				}
+			for (int j = 0; j < m_tb.size(); ++j)
+			{
+			m_pJqGridAPI->DelRow(m_tb[j].first);
+			}
 
-				m_pJqGridAPI->Refresh();
+			m_pJqGridAPI->Refresh();
 
-				m_tb = tb;
+			m_tb = tb;
 
-				for (int j = 0; j < m_tb.size(); ++j)
-				{
-					m_pJqGridAPI->AddRow(m_tb[j].first, m_tb[j].second);
-				}
+			for (int j = 0; j < m_tb.size(); ++j)
+			{
+			m_pJqGridAPI->AddRow(m_tb[j].first, m_tb[j].second);
+			}
 
-				m_planPanel.GetParent()->EnableWindow(TRUE);
+			m_planPanel.GetParent()->EnableWindow(TRUE);
 			}
 			virtual void OnFailed(){
-				m_planPanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-				m_planPanel.GetParent()->EnableWindow(TRUE);
+			m_planPanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+			m_planPanel.GetParent()->EnableWindow(TRUE);
 			}
-		};*/
+			};*/
 
 		/*	class CInitListener : public CPromise<PageData_t>::IHttpResponse{
 				CONSTRUCTOR_3(CInitListener, CPlanPanel&, planPanel, table&, tb, CJQGridAPI*, pJqGridAPI)
@@ -1157,9 +1302,9 @@ void CPlanPanel::OnInitData()
 				};*/
 
 		DEFINE_PLAN_QUERY_PARAM(pqp);
-		
+
 		pqp.AddSortCondition(15, false);
-		
+
 		CPlan& plan = CServer::GetInstance()->GetPlan();
 		plan.Query(1, m_pJqGridAPI->GetPageSize(), pqp).then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
 
@@ -1186,7 +1331,7 @@ void CPlanPanel::OnInitData()
 void CPlanPanel::ShowReApproveSCRQBusinessBtn(BOOL bShow)
 {
 	CPermission& perm = CUser::GetInstance()->GetPermission();
-	
+
 	if (!perm.getJhywsh())
 	{
 		bShow = FALSE;

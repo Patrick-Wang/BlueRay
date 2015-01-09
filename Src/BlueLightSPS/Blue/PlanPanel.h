@@ -73,10 +73,18 @@ private:
 
 	enum enumProductionStatusForPlan
 	{
-		ProductionStatus_All,
-		ProductionStatus_ToBePlan,
-		ProductionStatus_Planning,
-		ProductionStatus_Planned
+		ProductionStatus_All = 0,						//全部
+		ProductionStatus_SCRQ_ToBePlanned,			//生产日期未计划
+		ProductionStatus_SCRQ_ToBeApproved,			//生产日期已计划未审核
+		ProductionStatus_SCRQ_Planning,				//生产日期已计划审核中	
+		ProductionStatus_SCRQ_Planned,				//生产日期已审核
+		ProductionStatus_BZRQ_ToBePlanned,			//包装日期未计划
+		ProductionStatus_BZRQ_ToBeApproved,			//包装日期已计划未审核
+		ProductionStatus_BZRQ_Planning,				//包装日期已计划审核中	
+		ProductionStatus_BZRQ_Planned,				//包装日期已审核	
+		ProductionStatus_FHRQ_Planned,				//发货日期已计划	
+		ProductionStatus_FHRQ_ToBePlanned,			//发货日期未计划	
+		ProductionStatus_All_PlannedAndApproved		//全部已审核已计划	
 	};
 
 
