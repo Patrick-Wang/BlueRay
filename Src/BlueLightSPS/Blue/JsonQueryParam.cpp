@@ -76,7 +76,7 @@ void CJsonQueryParam::SetAdvancedCondition(StringArrayPtr pac)
 void CJsonQueryParam::toJson(CString& json, IApproveTypeTranslator* translator)
 {
 	std::shared_ptr<Json::JsonObject> jquery((Json::JsonObject*)(Json::JsonFactory::createObject()));
-	if (NULL != m_pbsc || NULL != m_pdsc || NULL != m_pAdvanced){
+	if (NULL != m_pbsc || NULL != m_pdsc || NULL != m_pAdvanced || m_pAq.get() != NULL){
 		Json::JsonObject& jSearch = jquery->add(L"search", Json::JsonFactory::createObject()).asObject(L"search");
 		if (NULL != m_pbsc)
 		{
@@ -98,6 +98,11 @@ void CJsonQueryParam::toJson(CString& json, IApproveTypeTranslator* translator)
 			for (int i = 0, len = m_pAdvanced->size(); i < len; ++i){
 				jAdvance.add(Json::JsonFactory::createString((Json::json_char*)(LPCTSTR)m_pAdvanced->at(i)));
 			}
+		}
+
+		if (m_pAq.get() != NULL)
+		{
+			jSearch.add(L"united", m_pAq->toJson());
 		}
 	}
 
@@ -134,52 +139,99 @@ void CJsonQueryParam::toJson(CString& json, IApproveTypeTranslator* translator)
 	json = jss.str().c_str();
 }
 
-CAdvanceQuery::CAdvanceQuery(int index, LPCTSTR param)
+void CJsonQueryParam::SetUnitedQuery(std::shared_ptr<CUnitedQuery> pAq)
+{
+	m_pAq = pAq;
+}
+
+CUnitedQuery::CUnitedQuery(int index, LPCTSTR param)
 	: m_iColIndex(index)
 	, m_strParam(param)
-	, m_iPack(-1)
+	, m_iPack(0)
 {
 
 }
 
-CAdvanceQuery& CAdvanceQuery::and(CAdvanceQuery* advanceQuery)
+CUnitedQuery* CUnitedQuery::and(CUnitedQuery* advanceQuery)
 {
 	QueryCondition_t* queryCondition = new QueryCondition_t;
 	queryCondition->pAdvanceQuery.reset(advanceQuery);
 	queryCondition->bIsAnd = true;
 	m_vecQuerys.push_back(queryCondition);
-	return *this;
+	return this;
 }
 
-CAdvanceQuery& CAdvanceQuery::or(CAdvanceQuery* advanceQuery)
+CUnitedQuery* CUnitedQuery::or(CUnitedQuery* advanceQuery)
 {
 	QueryCondition_t* queryCondition = new QueryCondition_t;
 	queryCondition->pAdvanceQuery.reset(advanceQuery);
 	queryCondition->bIsAnd = false;
 	m_vecQuerys.push_back(queryCondition);
-	return *this;
+	return this;
 }
 
-CAdvanceQuery& CAdvanceQuery::pack()
+CUnitedQuery* CUnitedQuery::pack()
 {
 	m_iPack = m_vecQuerys.size();
-	return *this;
+	return this;
 }
 
-void CAdvanceQuery::toJson(CString& json)
+Json::JsonArray*  CUnitedQuery::toJson()
 {
-	std::shared_ptr<Json::JsonObject> jquery((Json::JsonObject*)(Json::JsonFactory::createObject()));
-	if (m_iPack >= 0)
-	{
+	Json::JsonArray* jRet((Json::JsonArray*)(Json::JsonFactory::createArray()));
+	Json::JsonObject* jConnection = NULL;
+	std::auto_ptr<Json::JsonArray> jQueryArr;
 
+	int iStart = 0;
+
+	if (m_iPack > 0)
+	{
+		Json::JsonObject& jGroup = jRet->add(Json::JsonFactory::createObject()).asObject(0);
+		Json::JsonArray& jgArr = jGroup.add(L"group", Json::JsonFactory::createArray()).asArray(L"group");
+
+		Json::JsonObject& jqParam = jgArr.add(Json::JsonFactory::createObject()).asObject(0);
+		jqParam.add(L"col", Json::JsonFactory::createInt(m_iColIndex));
+		jqParam.add(L"param", Json::JsonFactory::createString((Json::json_char*)(LPCTSTR)m_strParam));
+
+
+
+		for (int i = 0; i < m_iPack; ++i)
+		{
+			jConnection = Json::JsonFactory::createObject();
+			jConnection->add(L"and", Json::JsonFactory::createBool(m_vecQuerys[i]->bIsAnd));
+			jgArr.add(jConnection);
+
+			jQueryArr.reset(m_vecQuerys[i]->pAdvanceQuery->toJson());
+			for (int j = jQueryArr->size() - 1; j >= 0; --j)
+			{
+				jgArr.add(jQueryArr->erase(0));
+			}
+		}
+		iStart = m_iPack;
 	}
 	else
 	{
-
+		Json::JsonObject& jqParam = jRet->add(Json::JsonFactory::createObject()).asObject(0);
+		jqParam.add(L"col", Json::JsonFactory::createInt(m_iColIndex));
+		jqParam.add(L"param", Json::JsonFactory::createString((Json::json_char*)(LPCTSTR)m_strParam));
 	}
+	for (int i = iStart, len = m_vecQuerys.size(); i < len; ++i)
+	{
+		jConnection = Json::JsonFactory::createObject();
+		jConnection->add(L"and", Json::JsonFactory::createBool(m_vecQuerys[i]->bIsAnd));
+		jRet->add(jConnection);
+
+		jQueryArr.reset(m_vecQuerys[i]->pAdvanceQuery->toJson());
+		for (int j = jQueryArr->size() - 1; j >= 0; --j)
+		{
+			jRet->add(jQueryArr->erase(0));
+		}
+	}
+
+	return jRet;
 }
 
-CAdvanceQuery::~CAdvanceQuery()
+CUnitedQuery::~CUnitedQuery()
 {
 	for (int i = m_vecQuerys.size() - 1; i >= 0; --i)
 	{

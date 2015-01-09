@@ -20,10 +20,10 @@ import net.sf.json.JSONObject;
 
 //{
 //approve : [[{
-//	type : bussiness / plan,
+//	type : business / plan,
 //	approved : true/false
 //}],[{
-//	type : bussiness / plan,
+//	type : business / plan,
 //	approved : true/false
 //}]],
 //search : {
@@ -36,7 +36,37 @@ import net.sf.json.JSONObject;
 //		startDate : 
 //		endDate : 
 //	}
-//},
+//	"united": [
+//	{
+//		"col": 1,
+//			"param" : "1111"
+//	},
+//	{
+//		"and": true
+//	},
+//	{
+//		"group": [
+//		{
+//			"col": 2,
+//				"param" : "123"
+//		},
+//		{
+//			"and": false
+//		},
+//		{
+//			"col": 3,
+//			"param" : "1243"
+//		}
+//		]
+//	},
+//	{
+//		"and": false
+//	},
+//	{
+//		"col": 8,
+//		"param" : "123"
+//	}
+//],
 //sort : [
 //  {
 //  	col : index,
@@ -134,6 +164,7 @@ public class SaleQueryParams {
 		String advancedSql = parseAdvance();
 		String basicSql = parseBasic();
 		String dateSql = parseDateRange();
+		String unitedSql = parseUnited();
 		whereBuilder.append("");
 		boolean firstSql = true;
 
@@ -172,8 +203,109 @@ public class SaleQueryParams {
 			}
 			whereBuilder.append(dateSql);
 		}
+		
+		if (!unitedSql.isEmpty()) {
+			if (firstSql) {
+				firstSql = false;
+			} else {
+				whereBuilder.append(" and ");
+			}
+			whereBuilder.append("  ( " +unitedSql + " ) ");
+		}
 
 		return whereBuilder.toString();
+	}
+
+	private String parseUnited() {
+		JSONObject search = mJo.getJSONObject("search");
+		JSONArray junited = null;
+		if (!search.isNullObject() && search.has("united")) {
+			junited = search.getJSONArray("united");
+		}
+		StringBuilder unitedBuilder = new StringBuilder();
+		JSONObject junit = null;
+		unitedBuilder.append("");
+		if (null != junited) {
+			for (int i = 0; i < junited.size(); ++i){
+				junit = junited.getJSONObject(i);
+				if (junit.containsKey("group")){
+					unitedBuilder.append(parseUnitedGroup(junit));
+				} else if(junit.containsKey("col")){
+					unitedBuilder.append(parseUnit(junit));
+				} else if(junit.containsKey("and")){
+					unitedBuilder.append(parseUnitedAnd(junit));
+				}
+			}
+		}
+		return unitedBuilder.toString();
+	}
+
+	private String parseUnit(JSONObject junit) {
+		int index = paramColMap.get(junit.getInt("col"));
+		String param = junit.getString("param");
+		Class<?> cls = HTXX.getFroeignClass(index);
+		String keyName = null;
+		Field[] fields = HTXX.class.getDeclaredFields();
+		String sql = null;
+		if (null != mTranslator) {
+			String newValue = mTranslator.in(
+					fields[index].getName(),
+					param);
+			if (null != newValue) {
+				param = newValue;
+			}
+		}
+		if (null != cls){
+			connectMap.put(fields[index].getName(), cls);
+			keyName = cls.getSimpleName() + "_."
+					+ getForginName(cls);			
+			sql = QueryColumnCommandParser
+					.parse(keyName, param);
+			if (null == sql){
+				sql = keyName + " = '" + param + "'";
+			}
+			connectMap.put(fields[index].getName(), cls);
+		}
+		else {
+			keyName = "HTXX_." + fields[index].getName();
+			sql = QueryColumnCommandParser.parse(keyName, param);
+			if (null == sql) {
+				if (fields[index].getType().getName()
+						.equals(String.class.getName())
+						|| fields[index].getType().getName()
+								.equals(Date.class.getName())) {
+					sql = keyName + " = '" + param + "'";
+				} else {
+					sql = keyName + " = " + param;
+				}
+			}
+		}
+
+		return " " + sql + " ";
+	}
+	
+	private String parseUnitedAnd(JSONObject jand) {
+		if (jand.getBoolean("and")) {
+			return " and ";
+		}
+		return " or ";
+
+	}
+
+	private String parseUnitedGroup(JSONObject junit) {
+		JSONArray jgroup = junit.getJSONArray("group");
+		StringBuilder groupBuilder = new StringBuilder();
+		for (int i = 0; i < jgroup.size(); ++i){
+			junit = jgroup.getJSONObject(i);
+			if (junit.containsKey("group")){
+				groupBuilder.append(parseUnitedGroup(junit));
+			} else if(junit.containsKey("col")){
+				groupBuilder.append(parseUnit(junit));
+			} else if(junit.containsKey("and")){
+				groupBuilder.append(parseUnitedAnd(junit));
+			}
+		}
+		return " ( " + groupBuilder.toString() + " ) ";
 	}
 
 	private String parseDateRange() {

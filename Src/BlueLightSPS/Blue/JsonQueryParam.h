@@ -2,13 +2,14 @@
 
 #include <vector>
 #include <map>
+#include "JsonObjects.h"
 #include "IHttp.h"
 //{
 //approve : [[{
-//	type : bussiness / plan,
+//	type : business / plan,
 //	approved : true/false
 //}],[{
-//	type : bussiness / plan,
+//	type : business / plan,
 //	approved : true/false
 //}]],
 //search : {
@@ -21,36 +22,37 @@
 //		startDate : 
 //		endDate : 
 //	}
-//	advancedQyery : [{
-//		group : [{
-//					item : {
-//						col: 1/2/3,
-//						param: string
-//					}
-//					and : true/false
-//		},{
-//			item : {
-//						col: 1/2/3,
-//						param: string
-//					}
-//			and : true/false
-//		},{
-//			group: [{
-//				item : {
-//						col: 1/2/3,
-//						param: string
-//					}
-//				and : true/false
-//			}],
-//		}],
-//	},{
-//				item : {
-//						col: 1/2/3,
-//						param: string
-//					}
-//				and : true/false
-//			}]
-//},
+//	"united": [
+//	{
+//		"col": 1,
+//			"param" : "1111"
+//	},
+//	{
+//		"and": true
+//	},
+//	{
+//		"group": [
+//		{
+//			"col": 2,
+//				"param" : "123"
+//		},
+//		{
+//			"and": false
+//		},
+//		{
+//			"col": 3,
+//			"param" : "1243"
+//		}
+//		]
+//	},
+//	{
+//		"and": false
+//	},
+//	{
+//		"col": 8,
+//		"param" : "123"
+//	}
+//],
 //sort : [
 //    {
 //    	col : index,
@@ -63,19 +65,18 @@
 //]
 //}
 
-
-class CAdvanceQuery{
+class CUnitedQuery{
 	typedef struct tagQueryCondition_t{
-		std::shared_ptr<CAdvanceQuery> pAdvanceQuery;
+		std::shared_ptr<CUnitedQuery> pAdvanceQuery;
 		bool bIsAnd;
 	}QueryCondition_t;
 public:
-	CAdvanceQuery(int index, LPCTSTR param);
-	~CAdvanceQuery();
-	CAdvanceQuery& and(CAdvanceQuery* advanceQuery);
-	CAdvanceQuery& or(CAdvanceQuery* advanceQuery);
-	CAdvanceQuery& pack();
-	void toJson(CString& json);
+	CUnitedQuery(int index, LPCTSTR param);
+	~CUnitedQuery();
+	CUnitedQuery* and(CUnitedQuery* advanceQuery);
+	CUnitedQuery* or(CUnitedQuery* advanceQuery);
+	CUnitedQuery* pack();
+	Json::JsonArray* toJson();
 private:
 	int m_iPack;
 	int m_iColIndex;
@@ -120,6 +121,7 @@ public:
 	void AddSortCondition(int col, bool asc);
 	void AddApproveCondition(int type, bool approved, int group = 0);
 	void SetAdvancedCondition(StringArrayPtr pac);
+	void SetUnitedQuery(std::shared_ptr<CUnitedQuery> pAq);
 	void toJson(CString& json, IApproveTypeTranslator* translator);
 private:
 	BasicSearchCondition_t* m_pbsc;
@@ -127,5 +129,6 @@ private:
 	std::vector<SortCondition_t> m_scs;
 	std::map<int, std::vector<ApproveCondition_t>> m_acsMap;
 	StringArrayPtr m_pAdvanced;
+	std::shared_ptr<CUnitedQuery> m_pAq;
 };
 

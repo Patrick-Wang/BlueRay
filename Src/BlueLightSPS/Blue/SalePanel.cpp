@@ -220,7 +220,7 @@ void CSalePanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	m_editSearch->GetWindowText(searchText);
 
 	if (!searchText.IsEmpty()){
-		sqp.SetBasicSearchCondition(searchText, true);
+		sqp.SetBasicSearchCondition(searchText, false);
 	}
 
 	CString strFrom;
@@ -282,7 +282,7 @@ void CSalePanel::OnCbnSelchangeProductionStatus()
 {
 	DEFINE_SALE_QUERY_PARAM(sqp);
 	MakeBasicSearchCondition(sqp);
-	sqp.AddSortCondition(15, false);
+	//sqp.AddSortCondition(15, false);
 
 	CServer::GetInstance()->GetSale().Query(
 		1,
@@ -627,7 +627,7 @@ void CSalePanel::OnBnClickedSearch()
 {
 	DEFINE_SALE_QUERY_PARAM(sqp);
 	MakeBasicSearchCondition(sqp);
-	sqp.AddSortCondition(15, false);
+	//sqp.AddSortCondition(15, false);
 
 	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), sqp)
 		.then(new CSaleSearchListener(*this, m_table, m_pJqGridAPI.get()));
@@ -650,7 +650,7 @@ void CSalePanel::OnBnClickedMore()
 		jqp.SetAdvancedCondition(&searchVals);
 
 		MakeBasicSearchCondition(jqp);
-		jqp.AddSortCondition(15, false);
+		//jqp.AddSortCondition(15, false);
 
 		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
 			.then(new CSaleSearchListener(*this, m_table, m_pJqGridAPI.get()));
@@ -958,7 +958,7 @@ void CSalePanel::OnInitData()
 	if (perm.getSale())
 	{
 		DEFINE_SALE_QUERY_PARAM(sqp);
-		sqp.AddSortCondition(15, false);
+		//sqp.AddSortCondition(15, false);
 
 		CServer::GetInstance()->GetSale().Query(
 			1,

@@ -144,6 +144,7 @@ public class PlanQueryParams {
 		String advancedSql = parseAdvance();
 		String basicSql = parseBasic();
 		String dateSql = parseDateRange();
+		String unitedSql = parseUnited();
 		whereBuilder.append("");
 		boolean firstSql = true;
 
@@ -181,6 +182,15 @@ public class PlanQueryParams {
 				whereBuilder.append(" and ");
 			}
 			whereBuilder.append(dateSql);
+		}
+		
+		if (!unitedSql.isEmpty()) {
+			if (firstSql) {
+				firstSql = false;
+			} else {
+				whereBuilder.append(" and ");
+			}
+			whereBuilder.append("  ( " +unitedSql + " ) ");
 		}
 
 		return whereBuilder.toString();
@@ -343,6 +353,123 @@ public class PlanQueryParams {
 		return basicBuilder.toString();
 	}
 
+	
+	private String parseUnited() {
+		JSONObject search = mJo.getJSONObject("search");
+		JSONArray junited = null;
+		if (!search.isNullObject() && search.has("united")) {
+			junited = search.getJSONArray("united");
+		}
+		StringBuilder unitedBuilder = new StringBuilder();
+		JSONObject junit = null;
+		unitedBuilder.append("");
+		if (null != junited) {
+			for (int i = 0; i < junited.size(); ++i){
+				junit = junited.getJSONObject(i);
+				if (junit.containsKey("group")){
+					unitedBuilder.append(parseUnitedGroup(junit));
+				} else if(junit.containsKey("col")){
+					unitedBuilder.append(parseUnit(junit));
+				} else if(junit.containsKey("and")){
+					unitedBuilder.append(parseUnitedAnd(junit));
+				}
+			}
+		}
+		return unitedBuilder.toString();
+	}
+
+	private String parseUnit(JSONObject junit) {
+		int col = junit.getInt("col");
+		String param = junit.getString("param");
+		String sql = null;
+		if (paramHtxxColMap.containsKey(col)){
+			int index = paramHtxxColMap.get(col);
+			mNeedsHtxx = true;
+			Class<?> cls = HTXX.getFroeignClass(index);
+			Field[] fields = HTXX.class.getDeclaredFields();
+			if (null != mTranslator) {
+				String newValue = mTranslator.in(fields[index].getName(), param);
+				if (null != newValue) {
+					param = newValue;
+				}
+			}
+			
+			if (null != cls) {
+				String keyName = cls.getSimpleName() + "_."
+						+ getForginName(cls);
+
+
+				sql = QueryColumnCommandParser.parse(keyName, param);
+				if (null == sql) {
+					sql = keyName + " = '" + param + "'";
+				}
+				connectMap.put(fields[index].getName(), cls);
+			}
+			else{
+				
+				String keyName = "HTXX_." + fields[index].getName();
+				sql = QueryColumnCommandParser.parse(keyName, param);
+				if (null == sql) {
+					if (fields[index].getType().getName()
+							.equals(String.class.getName())
+							|| fields[index].getType().getName()
+									.equals(Date.class.getName())) {
+						sql = keyName + " = '" + param + "'";
+					} else {
+						sql = keyName + " = " + param;
+					}
+				}
+			}
+			
+		}else if (paramPcjhColMap.containsKey(col)){
+			int index = paramPcjhColMap.get(col);
+			if (null != mTranslator){
+				String newValue = mTranslator.in(PCJHXX.class.getDeclaredFields()[index].getName(), param);
+				if (null != newValue){
+					param = newValue;
+				}
+			}
+			
+			sql = QueryColumnCommandParser
+					.parse("PCJHXX_."
+							+ PCJHXX.class.getDeclaredFields()[index]
+									.getName(),
+									param);
+			if (null == sql){
+				sql = "PCJHXX_."
+					+ PCJHXX.class.getDeclaredFields()[index]
+							.getName() + " = '"	+ param + "' ";
+			}
+		}
+				
+
+		return " " + sql + " ";
+	}
+	
+	private String parseUnitedAnd(JSONObject jand) {
+		if (jand.getBoolean("and")) {
+			return " and ";
+		}
+		return " or ";
+
+	}
+
+	private String parseUnitedGroup(JSONObject junit) {
+		JSONArray jgroup = junit.getJSONArray("group");
+		StringBuilder groupBuilder = new StringBuilder();
+		for (int i = 0; i < jgroup.size(); ++i){
+			junit = jgroup.getJSONObject(i);
+			if (junit.containsKey("group")){
+				groupBuilder.append(parseUnitedGroup(junit));
+			} else if(junit.containsKey("col")){
+				groupBuilder.append(parseUnit(junit));
+			} else if(junit.containsKey("and")){
+				groupBuilder.append(parseUnitedAnd(junit));
+			}
+		}
+		return " ( " + groupBuilder.toString() + " ) ";
+	}
+	
 	private String parseAdvance() {
 		JSONObject search = mJo.getJSONObject("search");
 		JSONArray jadvanced = null;

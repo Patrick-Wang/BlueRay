@@ -113,12 +113,23 @@ namespace Json
 			return m_objects;
 		}
 
+		std::shared_ptr<Json::JsonType> erase(int index){
+			std::shared_ptr<Json::JsonType> ret = *(m_objects.begin() + index);
+			m_objects.erase(m_objects.begin() + index);
+			return ret;
+		}
+
 		int size(){
 			return m_objects.size();
 		}
 
 		JsonArray& add(JsonType* jsonType){
 			m_objects.push_back(std::shared_ptr<JsonType>(jsonType));
+			return *this;
+		}
+
+		JsonArray& add(std::shared_ptr<JsonType> jsonType){
+			m_objects.push_back(jsonType);
 			return *this;
 		}
 

@@ -1,3 +1,4 @@
+#pragma once
 //Host
 
 #ifdef _DEBUG
@@ -59,10 +60,71 @@
 #define SALE_PRIORITY_COL	18
 #define PLAN_PRIORITY_COL	25
 
+namespace nsSale{
+
+enum Column_en{
+	hth,	//合同号"
+	khmc,	//客户名称"
+	ggxh,	//规格型号"
+	sl,	//数量"
+	zc,	//轴承"
+	dfr,	//单复绕"
+	zdqdy,	//制动器电压"
+	yylgg,	//曳引轮规格"
+	jf,	//机房"
+	bpqxh,	//变频器型号"
+	bmqxh,	//编码器型号"
+	dlcd,	//电缆长度"
+	zxcd,	//闸线长度"
+	mpzl,	//铭牌等资料"
+	bz,	//备注"
+	ddrq,	//订单日期"
+	ywsh,	//审核-业务
+	jhsh,	//审核-计划"
+	yxj	//优先级"
+};
+
+}
+
+namespace nsPlan{
+
+	enum Column_en{
+		hth,	//合同号"
+		khmc,	//客户名称"
+		ggxh,	//规格型号"
+		sl,	//数量"
+		zc,	//轴承"
+		dfr,	//单复绕"
+		zdqdy,	//制动器电压"
+		yylgg,	//曳引轮规格"
+		jf,	//机房"
+		bpqxh,	//变频器型号"
+		bmqxh,	//编码器型号"
+		dlcd,	//电缆长度"
+		zxcd,	//闸线长度"
+		mpzl,	//铭牌等资料"
+		bz,	//备注"
+		ddrq,	//订单日期"
+		scrq,	//生产日期"
+		jhshyw,	//计划审核-业务"
+		jhshjh,	//计划审核-计划"
+		bzrq,	//包装日期"
+		bzshyw,	//包装审核-业务"
+		bzshjh,	//包装审核-计划"
+		fhrq,	//发货日期"
+		tcbh,	//投产编号"
+		ccbh,	//出厂编号"
+		yxj	//优先级"
+	};
+}
+
+
 #define DEFINE_SALE_QUERY_PARAM(name) \
 	CJsonQueryParam name;\
-	name.AddSortCondition(SALE_PRIORITY_COL, true);//sort for yxj 
+	name.AddSortCondition(nsSale::Column_en::ddrq, true); \
+	name.AddSortCondition(nsSale::Column_en::yxj, true);
 
 #define DEFINE_PLAN_QUERY_PARAM(name) \
 	CJsonQueryParam name;\
-	name.AddSortCondition(PLAN_PRIORITY_COL, true);//sort for yxj 
+	name.AddSortCondition(nsPlan::Column_en::ddrq, true); \
+	name.AddSortCondition(nsPlan::Column_en::yxj, true);//sort for yxj 
