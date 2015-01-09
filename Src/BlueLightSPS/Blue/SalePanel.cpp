@@ -1107,8 +1107,9 @@ void CSalePanel::OnExprotClicked()
 
 	if (hFileDlg.DoModal() == IDOK)
 	{
+		DEFINE_SALE_QUERY_PARAM(sqp);
 		CString filePathName = hFileDlg.GetPathName();
-		CServer::GetInstance()->GetSale().Export(filePathName).then(
+		CServer::GetInstance()->GetSale().Export(filePathName, sqp).then(
 			new CSaleExportListener(*this, filePathName));
 	}
 }

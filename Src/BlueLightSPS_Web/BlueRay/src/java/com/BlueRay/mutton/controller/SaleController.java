@@ -33,7 +33,7 @@ public class SaleController {
 	SaleService service;
 
 	
-	@RequestMapping(value = "/export", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/export", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String exportData(
 			HttpServletRequest request,
 			HttpServletResponse response) throws IOException {

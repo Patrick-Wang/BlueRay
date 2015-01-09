@@ -1506,8 +1506,9 @@ void CPlanPanel::OnExprotClicked()
 
 	if (hFileDlg.DoModal() == IDOK)
 	{
+		DEFINE_PLAN_QUERY_PARAM(pqp);
 		CString filePathName = hFileDlg.GetPathName();
-		CServer::GetInstance()->GetPlan().Export(filePathName).then(
+		CServer::GetInstance()->GetPlan().Export(filePathName, pqp).then(
 			new CPlanExportListener(*this, filePathName));
 	}
 }

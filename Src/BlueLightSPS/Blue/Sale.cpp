@@ -199,13 +199,18 @@ LPCTSTR CSale::Translate(int type)
 	return NULL;
 }
 
-CPromise<bool>& CSale::Export(LPCTSTR lpFileName)
+CPromise<bool>& CSale::Export(LPCTSTR lpFileName, CJsonQueryParam& jqParam)
 {
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/sale/export"),
 		IDS_HOST_NAME);
 	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_lpHttp, new CBoolParser());
 	std::map<CString, CString> attr;
+	CString base64;
+	CString rawData;
+	jqParam.toJson(rawData, this);
+	Util_Tools::Util::base64_encode((unsigned char*)(LPCTSTR)rawData, rawData.GetLength() * 2, base64);
+	attr[L"query"] = base64;
 	m_lpHttp->Download(traceSession(url), promise->GetId(), attr, std::shared_ptr<IHttp::IOutputStream>(new CFileOutputStream(lpFileName)));
 	return *promise;
 }

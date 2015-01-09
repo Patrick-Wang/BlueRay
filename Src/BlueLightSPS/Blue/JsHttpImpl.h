@@ -25,8 +25,8 @@ public:
 	virtual bool SyncGet(LPCTSTR lpAddr, StringArrayPtr rest, CString& ret);
 	virtual bool SyncGet(LPCTSTR lpAddr, CString& ret);
 protected:
-	void DoUpload(LPCTSTR lpAddr, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IInputStream> pStream);
-	void DoDownload(LPCTSTR lpAddr, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IOutputStream> pStream);
+	void DoUpload(CString lpAddr, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IInputStream> pStream);
+	void DoDownload(CString lpAddr, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IOutputStream> pStream);
 	VARIANT OnPost(int id, const std::vector<VARIANT>& params);
 	VARIANT OnGet(int id, const std::vector<VARIANT>& params);
 	void MakeUrl(LPCTSTR lpAddr, std::map<CString, CString>& attr, CString& url);

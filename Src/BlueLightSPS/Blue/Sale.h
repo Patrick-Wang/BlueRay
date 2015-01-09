@@ -27,7 +27,7 @@ public:
 	
 	LPCTSTR Translate(int type);
 
-	CPromise<bool>& Export(LPCTSTR lpFileName);
+	CPromise<bool>& Export(LPCTSTR lpFileName, CJsonQueryParam& jqParam);
 
 	bool AddSync(StringArray& record, int& id);
 	CPromise<int>& Add(StringArray& record);

@@ -5,6 +5,7 @@
 #include "JsonFactory.h"
 #include "JsonObjects.h"
 #include <Winhttp.h>
+#include "Encoding.h"
 #define WM_SUCCESS	WM_APP + 27657
 #define WM_FAILED	WM_APP + 27658
 
@@ -484,7 +485,7 @@ bool CJsHttpImpl::SyncGet(LPCTSTR lpAddr, CString& ret)
 
 }
 
-void CJsHttpImpl::DoUpload(LPCTSTR lpAddr, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IInputStream> pStreamIterator)
+void CJsHttpImpl::DoUpload(CString strUrl, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IInputStream> pStreamIterator)
 {
 	Success_t success;
 	success.id = id;
@@ -510,7 +511,7 @@ void CJsHttpImpl::DoUpload(LPCTSTR lpAddr, int id, std::map<CString, CString> ma
 	// Create an HTTP Request handle.
 	if (hConnect)
 		hRequest = WinHttpOpenRequest(hConnect, L"POST",
-		lpAddr,
+		strUrl,
 		NULL, WINHTTP_NO_REFERER,
 		WINHTTP_DEFAULT_ACCEPT_TYPES,
 		0);
@@ -620,7 +621,8 @@ void CJsHttpImpl::Download(LPCTSTR lpAddr, int id, std::map<CString, CString>& m
 		if (m_lpDownloadThread.get() != NULL){
 			m_lpDownloadThread->join();
 		}
-		m_lpDownloadThread.reset(new std::thread(&CJsHttpImpl::DoDownload, this, lpAddr, id, mapAttr, pStream));
+		CString url = lpAddr;
+		m_lpDownloadThread.reset(new std::thread(&CJsHttpImpl::DoDownload, this, url, id, mapAttr, pStream));
 	}
 	catch (std::exception e)
 	{
@@ -629,7 +631,7 @@ void CJsHttpImpl::Download(LPCTSTR lpAddr, int id, std::map<CString, CString>& m
 	
 }
 
-void CJsHttpImpl::DoDownload(LPCTSTR lpAddr, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IOutputStream> pStream)
+void CJsHttpImpl::DoDownload(CString strUrl, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IOutputStream> pStream)
 {
 	Success_t success;
 	success.id = id;
@@ -640,7 +642,6 @@ void CJsHttpImpl::DoDownload(LPCTSTR lpAddr, int id, std::map<CString, CString> 
 		hConnect = NULL,
 		hRequest = NULL;
 
-	CString strUrl = lpAddr;
 	strUrl.Replace(L"http://", L"");
 	int index = strUrl.Find(_T("/"));
 	CString strHostPort = strUrl.Left(index);
@@ -670,27 +671,36 @@ void CJsHttpImpl::DoDownload(LPCTSTR lpAddr, int id, std::map<CString, CString> 
 
 	// Create an HTTP Request handle.
 	if (hConnect)
-		hRequest = WinHttpOpenRequest(hConnect, L"GET",
+		hRequest = WinHttpOpenRequest(hConnect, L"POST",
 		strUrl,
 		NULL, WINHTTP_NO_REFERER,
 		WINHTTP_DEFAULT_ACCEPT_TYPES,
 		0);
+
+	int len = 0;
+	CString strJson;
+	AsJson(mapAttr, strJson);
+	CEncoding* utf8 = CEncoding::Utf8();
+	std::pair<std::shared_ptr<byte>, int> buf = utf8->GetBytes(strJson);
+	dwBytesWritten = buf.second;
 
 	// Send a Request.
 	if (hRequest)
 		bResults = WinHttpSendRequest(hRequest,
 		WINHTTP_NO_ADDITIONAL_HEADERS,
 		0, WINHTTP_NO_REQUEST_DATA, 0,
-		0, 0);
+		dwBytesWritten, 0);
 
-	int len = 0;
-
-	//while (bResults && 0 < (len = pStreamIterator->next())){
-	//	bResults = WinHttpWriteData(hRequest, pStreamIterator->value(),
-	//		(DWORD)len,
-	//		&dwBytesWritten);
+	
+	//while (bResults){
+	if (bResults)
+	{ 
+		bResults = WinHttpWriteData(hRequest, buf.first.get(),
+			dwBytesWritten,
+			&dwBytesWritten);
+	}
 	//}
-	//DWORD dwErr = GetLastError();
+	DWORD dwErr = GetLastError();
 
 	// End the request.
 	if (bResults)
