@@ -88,8 +88,8 @@ public class PlanDaoImpl implements PlanDao{
 		return q.getResultList();
 	}
 	
-	public AbstractExcel<PCJHXX> getPcjhExcel(String col, boolean asc){
-		return new DBPCJHXXExcel(entityManager, col, asc);
+	public AbstractExcel<PCJHXX> getPcjhExcel(JSONObject jparam, IAdvanceTranslator translator){
+		return new DBPCJHXXExcel(entityManager, jparam, translator);
 	}
 
 	public PCJHXX getPlanDataByTcbh(String tcbh) {

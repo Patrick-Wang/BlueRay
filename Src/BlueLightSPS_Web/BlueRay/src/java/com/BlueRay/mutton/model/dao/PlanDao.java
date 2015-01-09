@@ -21,7 +21,7 @@ public interface PlanDao {
 
 	List<PCJHXX> getPcjhxx(String approveType, String approved);
 
-	AbstractExcel<PCJHXX> getPcjhExcel(String col, boolean asc);
+	AbstractExcel<PCJHXX> getPcjhExcel(JSONObject jparam, IAdvanceTranslator translator);
 
 	PCJHXX getPlanDataByTcbh(String tcbh);
 

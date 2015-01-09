@@ -38,7 +38,10 @@ public class SaleController {
 			HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		OutputStream out = response.getOutputStream();
-		return service.export(out);
+		JSONObject jparam = Util.parse(request.getInputStream());
+		BASE64Decoder decoder = new BASE64Decoder();
+		String query = new String(decoder.decodeBuffer(jparam.getString("query")), "utf-16le");
+		return service.export(out, JSONObject.fromObject(query));
 	}
 	
 	@RequestMapping(value = "/pagequery/{pagesize}/{pagenum}/{pagecount}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -279,14 +279,8 @@ public class PlanServiceImpl implements PlanService {
 		return "success";
 	}
 
-	public String export(OutputStream outputStream, Integer col, Boolean asc) {
-		AbstractExcel<PCJHXX> excel = null;
-		if (col >= 0){
-			excel = planDao.getPcjhExcel(PCJHXX.class.getDeclaredFields()[col + 1].getName(), asc);
-		}
-		else{
-			excel = planDao.getPcjhExcel(null, false);
-		}
+	public String export(OutputStream outputStream, JSONObject jparam) {
+		AbstractExcel<PCJHXX> excel = planDao.getPcjhExcel(jparam, planTranslator);
 		excel.addHeader(new String[]{"合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "生产日期", "计划审核-业务", "计划审核-计划", "包装日期", "包装审核-业务", "包装审核-计划", "发货日期", "投产编号", "出厂编号", "优先级"});
 		IExcelExporter<PCJHXX> exportor = new DBPCJHXXCSVExporter(itemDao, saleDao, planDao, excel, outputStream);
 		

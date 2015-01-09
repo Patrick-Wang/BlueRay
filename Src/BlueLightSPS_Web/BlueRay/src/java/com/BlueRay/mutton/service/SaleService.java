@@ -29,5 +29,5 @@ public interface SaleService{
 	PageData pageQuery(Integer pagesize, Integer pagenum, Integer pagecount,
 			JSONObject jparam);
 
-	String export(OutputStream out);
+	String export(OutputStream out, JSONObject jparam);
 }

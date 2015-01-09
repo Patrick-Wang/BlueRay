@@ -9,7 +9,9 @@ import javax.persistence.Query;
 
 
 
+
 import net.sf.json.JSONObject;
+
 
 
 
@@ -77,8 +79,8 @@ public class SaleDaoImpl implements SaleDao {
 		return ((Long) objs.get(0)).intValue();
 	}
 
-	public AbstractExcel<HTXX> getHtxxExcel() {
-		return new DBHTXXExcel(entityManager);
+	public AbstractExcel<HTXX> getHtxxExcel(JSONObject jparam, IAdvanceTranslator translator) {
+		return new DBHTXXExcel(entityManager, jparam, translator);
 	}
 
 	public int getSalePlanUnapproved() {

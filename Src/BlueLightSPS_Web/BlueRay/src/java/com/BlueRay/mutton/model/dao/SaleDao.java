@@ -44,7 +44,7 @@ public interface SaleDao {
 
 	int getSaleDataCount(JSONObject jparam, IAdvanceTranslator translator);
 
-	AbstractExcel<HTXX> getHtxxExcel();
+	AbstractExcel<HTXX> getHtxxExcel(JSONObject jparam, IAdvanceTranslator translator);
 
 	int getSalePlanUnapproved();
 

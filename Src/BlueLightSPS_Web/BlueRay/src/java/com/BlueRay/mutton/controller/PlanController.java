@@ -104,14 +104,15 @@ public class PlanController {
 		return finalRet;
 	}
 	
-	@RequestMapping(value = "/export/{col}/{asc}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/export", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String exportData(
-			@PathVariable Integer col,
-			@PathVariable Boolean asc,
 			HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		OutputStream out = response.getOutputStream();
-		return planService.export(out, col, asc);
+		JSONObject jparam = Util.parse(request.getInputStream());
+		BASE64Decoder decoder = new BASE64Decoder();
+		String query = new String(decoder.decodeBuffer(jparam.getString("query")), "utf-16le");
+		return planService.export(out, JSONObject.fromObject(query));
 	}
 	
 //	@RequestMapping(value = "/query", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

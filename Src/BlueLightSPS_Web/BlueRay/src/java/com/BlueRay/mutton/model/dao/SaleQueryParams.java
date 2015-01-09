@@ -376,13 +376,15 @@ public class SaleQueryParams {
 						basicBuilder.append(" or ");
 					}
 
+					searchText = stringSearch;
 					if (!exact) {
 						link = " like ";
+						searchText = "'%" + normaltext + "%'";
 					} else {
 						link = " = ";
+						
 					}
 					connectMap.put(fields[i].getName(), cls);
-					searchText = stringSearch;
 					basicBuilder.append(cls.getSimpleName() + "_."
 							+ getForginName(cls) + link + searchText + " ");
 				} else {
@@ -412,6 +414,7 @@ public class SaleQueryParams {
 								&& fields[i].getType().getName()
 										.equals(String.class.getName())) {
 							link = " like ";
+							searchText = "'%" + normaltext + "%'";
 						}
 					} else {
 						searchText = normaltext;

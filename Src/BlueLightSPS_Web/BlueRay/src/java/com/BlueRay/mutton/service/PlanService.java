@@ -32,11 +32,11 @@ public interface PlanService {
 
 	String packPlanUnapprove(JSONArray rows);
 
-	String export(OutputStream outputStream, Integer col, Boolean asc);
-
 	String validate(String item, String value);
 
 	PageData pageQuery(Integer pagesize, Integer pagenum, Integer pagecount,
 			JSONObject jparam);
+
+	String export(OutputStream out, JSONObject jquery);
 
 }

@@ -414,8 +414,8 @@ public class SaleServiceImpl implements SaleService {
 		return pd;
 	}
 
-	public String export(OutputStream out) {
-		AbstractExcel<HTXX> excel = saleDao.getHtxxExcel();
+	public String export(OutputStream out, JSONObject jparam) {
+		AbstractExcel<HTXX> excel = saleDao.getHtxxExcel(jparam, translator);
 		excel.addHeader(new String[]{"合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "审核-业务", "审核-计划", "优先级"});
 		IExcelExporter<HTXX> exportor = new DBHTXXExcelExporter(itemDao, saleDao, excel, out);
 		
