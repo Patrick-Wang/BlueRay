@@ -403,7 +403,7 @@ public class PlanQueryParams {
 						+ getForginName(cls);
 
 
-				sql = QueryColumnCommandParser.parse(keyName, param);
+				sql = QueryColumnCommandParser.parse(String.class, keyName, param);
 				if (null == sql) {
 					sql = keyName + " = '" + param + "'";
 				}
@@ -412,7 +412,7 @@ public class PlanQueryParams {
 			else{
 				
 				String keyName = "HTXX_." + fields[index].getName();
-				sql = QueryColumnCommandParser.parse(keyName, param);
+				sql = QueryColumnCommandParser.parse(fields[index].getType(), keyName, param);
 				if (null == sql) {
 					if (fields[index].getType().getName()
 							.equals(String.class.getName())
@@ -435,7 +435,7 @@ public class PlanQueryParams {
 			}
 			
 			sql = QueryColumnCommandParser
-					.parse("PCJHXX_."
+					.parse(PCJHXX.class.getDeclaredFields()[index].getType(), "PCJHXX_."
 							+ PCJHXX.class.getDeclaredFields()[index]
 									.getName(),
 									param);
@@ -510,7 +510,7 @@ public class PlanQueryParams {
 								}
 							}
 							sql = QueryColumnCommandParser
-									.parse(cls.getSimpleName() + "_."
+									.parse(String.class, cls.getSimpleName() + "_."
 											+ getForginName(cls),
 											jadvanced.getString(i));
 							if (null == sql){
@@ -527,7 +527,7 @@ public class PlanQueryParams {
 								}
 							}
 							
-							sql = QueryColumnCommandParser.parse("HTXX_."
+							sql = QueryColumnCommandParser.parse(fields[column].getType(), "HTXX_."
 									+ fields[column].getName(),
 									jadvanced.getString(i));
 							
@@ -562,7 +562,7 @@ public class PlanQueryParams {
 						}
 						column = paramPcjhColMap.get(i);
 						String sql = QueryColumnCommandParser
-								.parse("PCJHXX_."
+								.parse(PCJHXX.class.getDeclaredFields()[column].getType(), "PCJHXX_."
 										+ PCJHXX.class.getDeclaredFields()[column]
 												.getName(),
 												jadvanced.getString(i));

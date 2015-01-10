@@ -260,7 +260,7 @@ public class SaleQueryParams {
 			keyName = cls.getSimpleName() + "_."
 					+ getForginName(cls);			
 			sql = QueryColumnCommandParser
-					.parse(keyName, param);
+					.parse(String.class, keyName, param);
 			if (null == sql){
 				sql = keyName + " = '" + param + "'";
 			}
@@ -268,7 +268,7 @@ public class SaleQueryParams {
 		}
 		else {
 			keyName = "HTXX_." + fields[index].getName();
-			sql = QueryColumnCommandParser.parse(keyName, param);
+			sql = QueryColumnCommandParser.parse(fields[index].getType(), keyName, param);
 			if (null == sql) {
 				if (fields[index].getType().getName()
 						.equals(String.class.getName())
@@ -467,7 +467,7 @@ public class SaleQueryParams {
 					String sql = null;
 					if (null != cls) {
 						sql = QueryColumnCommandParser
-								.parse(cls.getSimpleName() + "_."
+								.parse(String.class, cls.getSimpleName() + "_."
 										+ getForginName(cls),
 										jadvanced.getString(i));
 						if (null == sql) {
@@ -477,7 +477,7 @@ public class SaleQueryParams {
 						}
 						connectMap.put(fields[column].getName(), cls);
 					} else {
-						sql = QueryColumnCommandParser.parse("HTXX_."
+						sql = QueryColumnCommandParser.parse(fields[column].getType(), "HTXX_."
 								+ fields[column].getName(),
 								jadvanced.getString(i));
 						if (null == sql) {
