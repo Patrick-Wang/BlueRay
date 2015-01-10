@@ -270,14 +270,16 @@ public class PlanQueryParams {
 							basicBuilder.append(" or ");
 						}
 
+						searchText = stringSearch;
 						if (!exact) {
 							link = " like ";
+							searchText = "'%" + normaltext + "%'";
 						} else {
 							link = " = ";
 						}
 						
 						connectMap.put(fdTmp.getName(), cls);
-						searchText = stringSearch;
+						
 						basicBuilder.append(cls.getSimpleName() + "_."
 								+ getForginName(cls) + link + searchText + " ");
 					} else {
@@ -302,6 +304,7 @@ public class PlanQueryParams {
 							searchText = stringSearch;
 							if (!exact && fdTmp.getType().getName().equals(String.class.getName())) {
 								link = " like ";
+								searchText = "'%" + normaltext + "%'";
 							}
 						} else {
 							searchText = normaltext;
@@ -335,6 +338,7 @@ public class PlanQueryParams {
 						searchText = stringSearch;
 						if (!exact) {
 							link = " like ";
+							searchText = "'%" + normaltext + "%'";
 						}
 					} else {
 						searchText = normaltext;
