@@ -1305,12 +1305,8 @@ void CPlanPanel::OnInitData()
 
 		// (nsPlan::bzrq != null and nsPlan::scrq !=null) or (nsPlan::bzrq == null and nsPlan::scrq==null)
 		//CUnitedQuery& pUq =
-		//	UQ(nsPlan::bzrq, L"@!=null")
-		//	.and(UQ(nsPlan::scrq, L"@!=null"))
-		//	.group()
-		//	.or(UQ(nsPlan::bzrq, L"@==null")
-		//		.and(UQ(nsPlan::scrq, L"@==null"))
-		//		.group());
+		//	UQ(nsPlan::bzrq, L"@!=null").and(UQ(nsPlan::scrq, L"@!=null")).group().or(
+		//		UQ(nsPlan::bzrq, L"@==null").and(UQ(nsPlan::scrq, L"@==null")).group());
 		//pqp.SetUnitedQuery(pUq);
 
 		CPlan& plan = CServer::GetInstance()->GetPlan();
