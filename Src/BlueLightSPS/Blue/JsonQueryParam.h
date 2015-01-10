@@ -65,17 +65,22 @@
 //]
 //}
 
+#define UQ(col, param)	CUnitedQuery::Create(col, param)
+
 class CUnitedQuery{
 	typedef struct tagQueryCondition_t{
 		std::shared_ptr<CUnitedQuery> pAdvanceQuery;
 		bool bIsAnd;
 	}QueryCondition_t;
-public:
+private:
 	CUnitedQuery(int index, LPCTSTR param);
+public:
+	static CUnitedQuery& Create(int index, LPCTSTR param);
+	
 	~CUnitedQuery();
-	CUnitedQuery* and(CUnitedQuery* advanceQuery);
-	CUnitedQuery* or(CUnitedQuery* advanceQuery);
-	CUnitedQuery* pack();
+	CUnitedQuery& and(CUnitedQuery& advanceQuery);
+	CUnitedQuery& or(CUnitedQuery& advanceQuery);
+	CUnitedQuery& group();
 	Json::JsonArray* toJson();
 private:
 	int m_iPack;
@@ -121,7 +126,7 @@ public:
 	void AddSortCondition(int col, bool asc);
 	void AddApproveCondition(int type, bool approved, int group = 0);
 	void SetAdvancedCondition(StringArrayPtr pac);
-	void SetUnitedQuery(std::shared_ptr<CUnitedQuery> pAq);
+	void SetUnitedQuery(CUnitedQuery& pAq);
 	void toJson(CString& json, IApproveTypeTranslator* translator);
 private:
 	BasicSearchCondition_t* m_pbsc;

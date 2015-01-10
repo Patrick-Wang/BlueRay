@@ -139,9 +139,9 @@ void CJsonQueryParam::toJson(CString& json, IApproveTypeTranslator* translator)
 	json = jss.str().c_str();
 }
 
-void CJsonQueryParam::SetUnitedQuery(std::shared_ptr<CUnitedQuery> pAq)
+void CJsonQueryParam::SetUnitedQuery(CUnitedQuery& pAq)
 {
-	m_pAq = pAq;
+	m_pAq.reset(&pAq);
 }
 
 CUnitedQuery::CUnitedQuery(int index, LPCTSTR param)
@@ -152,28 +152,28 @@ CUnitedQuery::CUnitedQuery(int index, LPCTSTR param)
 
 }
 
-CUnitedQuery* CUnitedQuery::and(CUnitedQuery* advanceQuery)
+CUnitedQuery& CUnitedQuery::and(CUnitedQuery& advanceQuery)
 {
 	QueryCondition_t* queryCondition = new QueryCondition_t;
-	queryCondition->pAdvanceQuery.reset(advanceQuery);
+	queryCondition->pAdvanceQuery.reset(&advanceQuery);
 	queryCondition->bIsAnd = true;
 	m_vecQuerys.push_back(queryCondition);
-	return this;
+	return *this;
 }
 
-CUnitedQuery* CUnitedQuery::or(CUnitedQuery* advanceQuery)
+CUnitedQuery& CUnitedQuery::or(CUnitedQuery& advanceQuery)
 {
 	QueryCondition_t* queryCondition = new QueryCondition_t;
-	queryCondition->pAdvanceQuery.reset(advanceQuery);
+	queryCondition->pAdvanceQuery.reset(&advanceQuery);
 	queryCondition->bIsAnd = false;
 	m_vecQuerys.push_back(queryCondition);
-	return this;
+	return *this;
 }
 
-CUnitedQuery* CUnitedQuery::pack()
+CUnitedQuery& CUnitedQuery::group()
 {
 	m_iPack = m_vecQuerys.size();
-	return this;
+	return *this;
 }
 
 Json::JsonArray*  CUnitedQuery::toJson()
@@ -238,4 +238,9 @@ CUnitedQuery::~CUnitedQuery()
 		delete m_vecQuerys[i];
 		m_vecQuerys[i] = NULL;
 	}
+}
+
+CUnitedQuery& CUnitedQuery::Create(int index, LPCTSTR param)
+{
+	return *(new CUnitedQuery(index, param));
 }

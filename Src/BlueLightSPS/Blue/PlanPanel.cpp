@@ -1303,7 +1303,15 @@ void CPlanPanel::OnInitData()
 
 		DEFINE_PLAN_QUERY_PARAM(pqp);
 
-		//pqp.AddSortCondition(15, false);
+		// (nsPlan::bzrq != null and nsPlan::scrq !=null) or (nsPlan::bzrq == null and nsPlan::scrq==null)
+		//CUnitedQuery& pUq =
+		//	UQ(nsPlan::bzrq, L"@!=null")
+		//	.and(UQ(nsPlan::scrq, L"@!=null"))
+		//	.group()
+		//	.or(UQ(nsPlan::bzrq, L"@==null")
+		//		.and(UQ(nsPlan::scrq, L"@==null"))
+		//		.group());
+		//pqp.SetUnitedQuery(pUq);
 
 		CPlan& plan = CServer::GetInstance()->GetPlan();
 		plan.Query(1, m_pJqGridAPI->GetPageSize(), pqp).then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
