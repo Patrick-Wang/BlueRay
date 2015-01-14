@@ -24,11 +24,8 @@ bool CFileOutputStream::write(BYTE* pStart, int length)
 {
 	if (NULL != m_fp)
 	{
-		CString strDest;
-		CEncoding::Utf8()->GetString(pStart, length, strDest);
-		std::pair<std::shared_ptr<byte>, int> buf = CEncoding::Ansi()->GetBytes((LPCTSTR)strDest, strDest.GetLength());
-		fwrite(buf.first.get(), 1, buf.second, m_fp);
-		m_size += buf.second;
+		fwrite(pStart, 1, length, m_fp);
+		m_size += length;
 		return true;
 	}
 	return false;

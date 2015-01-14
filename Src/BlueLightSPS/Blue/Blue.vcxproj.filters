@@ -231,11 +231,14 @@
     <ClInclude Include="JsonQueryParam.h">
       <Filter>server</Filter>
     </ClInclude>
-    <ClInclude Include="FileOutputStream.h">
-      <Filter>server</Filter>
-    </ClInclude>
     <ClInclude Include="Encoding.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSVOutputStream.h">
+      <Filter>server</Filter>
+    </ClInclude>
+    <ClInclude Include="FileOutputStream.h">
+      <Filter>server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -389,11 +392,14 @@
     <ClCompile Include="JsonQueryParam.cpp">
       <Filter>server</Filter>
     </ClCompile>
-    <ClCompile Include="FileOutputStream.cpp">
-      <Filter>server</Filter>
-    </ClCompile>
     <ClCompile Include="Encoding.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CSVOutputStream.cpp">
+      <Filter>server</Filter>
+    </ClCompile>
+    <ClCompile Include="FileOutputStream.cpp">
+      <Filter>server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

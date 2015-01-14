@@ -114,6 +114,7 @@
     <ClInclude Include="CommonDefine.h" />
     <ClInclude Include="Encoding.h" />
     <ClInclude Include="FileOutputStream.h" />
+    <ClInclude Include="CSVOutputStream.h" />
     <ClInclude Include="HttpServerInterface.h" />
     <ClInclude Include="Item.h" />
     <ClInclude Include="JsonQueryParam.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="BRPanel.cpp" />
     <ClCompile Include="Encoding.cpp" />
     <ClCompile Include="FileOutputStream.cpp" />
+    <ClCompile Include="CSVOutputStream.cpp" />
     <ClCompile Include="HttpServerInterface.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="JsonQueryParam.cpp" />
