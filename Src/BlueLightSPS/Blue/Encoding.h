@@ -17,8 +17,10 @@ public:
 	static CEncoding* Ansi();
 
 	//bytesEncoded is end with '\0' or L'\0'
+	virtual std::pair<std::shared_ptr<byte>, int> GetBytes(LPCWSTR srcUtf16le, int len) = 0;
 	virtual std::pair<std::shared_ptr<byte>, int> GetBytes(LPCWSTR srcUtf16le) = 0;
 	virtual void GetString(unsigned char* srcBytesEncoded, CString& destUtf16le) = 0;
+	virtual void GetString(unsigned char* srcBytesEncoded, int len, CString& destUtf16le) = 0;
 
 private:
 	static CEncoding* m_utf16le;

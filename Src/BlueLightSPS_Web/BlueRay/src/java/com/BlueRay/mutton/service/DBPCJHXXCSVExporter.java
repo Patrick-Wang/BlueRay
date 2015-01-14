@@ -38,7 +38,7 @@ class DBPCJHXXCSVExporter implements IExcelExporter<PCJHXX> {
 
 		Map<Integer, HTXX> htxxMap = new HashMap<Integer, HTXX>();
 
-		os.write(new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF });
+		//os.write(new byte[] { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF });
 
 		List<PCJHXX> pcxxs = new ArrayList<PCJHXX>(1);
 		pcxxs.add(null);

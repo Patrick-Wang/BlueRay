@@ -174,21 +174,16 @@ void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatu
 	}
 	else if (ProductionStatus_SCRQ_ToBeApproved == productionStatus)
 	{
-		StringArray advance;
-		advance.resize(26);
-		advance[16] = L"@!=null";
-		sqp.SetAdvancedCondition(&advance);
+		CUnitedQuery& uq = UQ(nsPlan::scrq, L"@!=null");
+		sqp.SetUnitedQuery(uq);
 
 		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
 		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
 	}
 	else if (ProductionStatus_SCRQ_Planning == productionStatus)
 	{
-		StringArray advance;
-		advance.resize(26);
-		advance[16] = L"@!=null";
-		sqp.SetAdvancedCondition(&advance);
-
+		CUnitedQuery& uq = UQ(nsPlan::scrq, L"@!=null");
+		sqp.SetUnitedQuery(uq);
 		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
 		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true);
 
@@ -197,40 +192,30 @@ void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatu
 	}
 	else if (ProductionStatus_SCRQ_Planned == productionStatus)
 	{
-		StringArray advance;
-		advance.resize(26);
-		advance[16] = L"@!=null";
-		sqp.SetAdvancedCondition(&advance);
-
+		CUnitedQuery& uq = UQ(nsPlan::scrq, L"@!=null");
+		sqp.SetUnitedQuery(uq);
 		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true);
 		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true);
 	}
 	else if (ProductionStatus_BZRQ_ToBePlanned == productionStatus)
 	{
-		StringArray advance;
-		advance.resize(26);
-		advance[19] = L"@==null";
-		sqp.SetAdvancedCondition(&advance);
-
+		CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
+		sqp.SetUnitedQuery(uq);
 		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
 		sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
 	}
 	else if (ProductionStatus_BZRQ_ToBeApproved == productionStatus)
 	{
-		StringArray advance;
-		advance.resize(26);
-		advance[19] = L"@!=null";
-		sqp.SetAdvancedCondition(&advance);
+		CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
+		sqp.SetUnitedQuery(uq);
 
 		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
 		sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
 	}
 	else if (ProductionStatus_BZRQ_Planning == productionStatus)
 	{
-		StringArray advance;
-		advance.resize(26);
-		advance[19] = L"@!=null";
-		sqp.SetAdvancedCondition(&advance);
+		CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
+		sqp.SetUnitedQuery(uq);
 
 		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true);
 		sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
@@ -240,34 +225,26 @@ void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatu
 	}
 	else if (ProductionStatus_BZRQ_Planned == productionStatus)
 	{
-		StringArray advance;
-		advance.resize(26);
-		advance[19] = L"@!=null";
-		sqp.SetAdvancedCondition(&advance);
+		CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
+		sqp.SetUnitedQuery(uq);
 
 		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true);
 		sqp.AddApproveCondition(CPlan::PACK_PLAN, true);
 	}
 	else if (ProductionStatus_FHRQ_Planned == productionStatus)
 	{
-		StringArray advance;
-		advance.resize(26);
-		advance[22] = L"@!=null";
-		sqp.SetAdvancedCondition(&advance);
+		CUnitedQuery& uq = UQ(nsPlan::fhrq, L"@!=null");
+		sqp.SetUnitedQuery(uq);
 	}
 	else if (ProductionStatus_FHRQ_ToBePlanned == productionStatus)
 	{
-		StringArray advance;
-		advance.resize(26);
-		advance[22] = L"@!=null";
-		sqp.SetAdvancedCondition(&advance);
+		CUnitedQuery& uq = UQ(nsPlan::fhrq, L"@!=null");
+		sqp.SetUnitedQuery(uq);
 	}
 	else if (ProductionStatus_All_PlannedAndApproved == productionStatus)
 	{
-		StringArray advance;
-		advance.resize(26);
-		advance[22] = L"@!=null";
-		sqp.SetAdvancedCondition(&advance);
+		CUnitedQuery& uq = UQ(nsPlan::fhrq, L"@!=null");
+		sqp.SetUnitedQuery(uq);
 
 		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true);
 		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true);
@@ -1501,7 +1478,7 @@ void CPlanPanel::OnExprotClicked()
 		}
 	};
 
-	CFileDialog hFileDlg(FALSE, _T("(*.csv)|*.csv"), _T("*.csv"), OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT, _T("Excel(*.csv)|*.csv||"), NULL);
+	CFileDialog hFileDlg(FALSE, _T("(*.csv)|*.csv"), _T("plan.csv"), OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT, _T("Excel(*.csv)|*.csv||"), NULL);
 	hFileDlg.m_ofn.nFilterIndex = 1;
 	hFileDlg.m_ofn.hwndOwner = GetParent()->GetSafeHwnd();
 	hFileDlg.m_ofn.lStructSize = sizeof(OPENFILENAME);

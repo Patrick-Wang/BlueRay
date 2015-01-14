@@ -362,10 +362,8 @@ void CNotificationPanel::OnBnClickedPlanSCRQPlanApprove()
 
 	DEFINE_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
-	StringArray advance;
-	advance.resize(26);
-	advance[16] = L"@!=null";
-	jqp.SetAdvancedCondition(&advance);
+	CUnitedQuery& uq = UQ(nsPlan::scrq, L"@!=null");
+	jqp.SetUnitedQuery(uq);
 	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
 	//CString url;
@@ -382,10 +380,8 @@ void CNotificationPanel::OnBnClickedPlanBZRQBusinessApprove()
 	HideFirstViewOfNotificationPanel(FALSE);
 	DEFINE_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
-	StringArray advance;
-	advance.resize(26);
-	advance[19] = L"@!=null";
-	jqp.SetAdvancedCondition(&advance);
+	CUnitedQuery& uq = UQ(nsPlan::fhrq, L"@!=null");
+	jqp.SetUnitedQuery(uq);
 	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
 	//CString url;
