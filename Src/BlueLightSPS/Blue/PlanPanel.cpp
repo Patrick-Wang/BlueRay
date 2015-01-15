@@ -1478,7 +1478,7 @@ void CPlanPanel::OnExprotClicked()
 		}
 	};
 
-	CFileDialog hFileDlg(FALSE, _T("(*.csv)|*.csv"), _T("plan.csv"), OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT, _T("Excel(*.csv)|*.csv||"), NULL);
+	CFileDialog hFileDlg(FALSE, _T("(*.xls)|*.xls"), _T("计划数据导出.xls"), OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT, _T("Excel(*.xls)|*.xls||"), NULL);
 	hFileDlg.m_ofn.nFilterIndex = 1;
 	hFileDlg.m_ofn.hwndOwner = GetParent()->GetSafeHwnd();
 	hFileDlg.m_ofn.lStructSize = sizeof(OPENFILENAME);
@@ -1488,6 +1488,8 @@ void CPlanPanel::OnExprotClicked()
 	if (hFileDlg.DoModal() == IDOK)
 	{
 		DEFINE_PLAN_QUERY_PARAM(pqp);
+		MakeBasicSearchCondition(pqp);
+
 		CString filePathName = hFileDlg.GetPathName();
 		CServer::GetInstance()->GetPlan().Export(filePathName, pqp).then(
 			new CPlanExportListener(*this, filePathName));
