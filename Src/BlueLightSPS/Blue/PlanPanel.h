@@ -60,6 +60,21 @@ private:
 	CDateTimeCtrl* m_dtcSearchFrom;
 	CDateTimeCtrl* m_dtcSearchTo;
 
+	CBSStatic* m_bsSCRQDateRange;
+	CBSStatic* m_bsSCRQMiddleLine;
+	CDateTimeCtrl* m_dtcSCRQSearchFrom;
+	CDateTimeCtrl* m_dtcSCRQSearchTo;
+
+	CBSStatic* m_bsBZRQDateRange;
+	CBSStatic* m_bsBZRQMiddleLine;
+	CDateTimeCtrl* m_dtcBZRQSearchFrom;
+	CDateTimeCtrl* m_dtcBZRQSearchTo;
+
+	CBSStatic* m_bsFHRQDateRange;
+	CBSStatic* m_bsFHRQMiddleLine;
+	CDateTimeCtrl* m_dtcFHRQSearchFrom;
+	CDateTimeCtrl* m_dtcFHRQSearchTo;
+
 	CBSStatic* m_staticProductionStatus;
 	CComboBox* m_comboProductionStatus;
 	CTableFilterDlg m_tableFilterDlg;

@@ -204,14 +204,15 @@ void CBlueDlg::OnGridDataLoaded()
 	m_pLastGrid->d_OnGridComplete -= std::make_pair(this, &CBlueDlg::OnGridDataLoaded);
 	CRect clientRect;
 	GetClientRect(clientRect);
-	CRect rtCtrlPanel(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 218);
+	CRect rtCtrlPanel(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 320);
 	m_pPanelMap[IDC_SALEPAGE].reset(new CSalePanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_SALE)));
 	m_pPanelMap[IDC_SALEPAGE]->Create(this, IDP_SALE);
 	m_pPanelMap[IDC_SALEPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 	
+	CRect rtCtrlPanelForPlan(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 320);
 	m_pPanelMap[IDC_PLANPAGE].reset(new CPlanPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_PLAN)));
 	m_pPanelMap[IDC_PLANPAGE]->Create(this, IDP_PLAN);
-	m_pPanelMap[IDC_PLANPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
+	m_pPanelMap[IDC_PLANPAGE]->SetWindowPos(NULL, rtCtrlPanelForPlan.left, rtCtrlPanelForPlan.top, rtCtrlPanelForPlan.Width(), rtCtrlPanelForPlan.Height(), SWP_HIDEWINDOW);
 
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE].reset(new CProductPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_PRODUCT)));
 	m_pPanelMap[IDC_PRODUCTIONSCANPAGE]->Create(this, IDP_PRODUCT);
@@ -294,7 +295,7 @@ BOOL CBlueDlg::OnEraseBkgnd(CDC* pDC)
 	GetClientRect(rtClient);
 	CBSObject::FillRect(pDC->m_hDC, CRect(0, 84, rtClient.Width(), rtClient.Height()), COL_WHITE);
 	CBSObject::FillRect(pDC->m_hDC, CRect(0, 0, rtClient.Width(), 84), COL_GRAY);
-	CBSObject::DrawRect(pDC->m_hDC, CRect(RIGHT_AREA_LEFT, 102, rtClient.Width() - 10, 218), COL_BLACK, 2);
+	CBSObject::DrawRect(pDC->m_hDC, CRect(RIGHT_AREA_LEFT, 102, rtClient.Width() - 10, 255), COL_BLACK, 2);
 	CBSObject::DrawRect(pDC->m_hDC, CRect(3, 102, NAVIGATE_WIDTH, rtClient.Height() - 10), COL_GRAY, 2);
 	CBSObject::DrawLine(pDC->m_hDC, CPoint(-1, 84), CPoint(rtClient.Width(), 84), COL_BLACK, 2);
 	return ret;
@@ -399,7 +400,7 @@ void CBlueDlg::InitWebView()
 	CRect rt;
 	GetClientRect(rt);
 	rt.left = RIGHT_AREA_LEFT;
-	rt.top = 237;
+	rt.top = 270;
 	rt.right -= 10;
 	rt.bottom -= 10;
 

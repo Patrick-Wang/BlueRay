@@ -17,10 +17,10 @@
 #define REAPPROVE_URL_ID IDP_PLAN + 5
 
 static int g_ReApproveBtnPos[][4] = {
-		{ 610, 70, 120, 25 },
-		{ 470, 70, 120, 25 },
-		{ 330, 70, 120, 25 },
-		{ 190, 70, 120, 25 }
+		{ 610, 115, 120, 25 },
+		{ 470, 115, 120, 25 },
+		{ 330, 115, 120, 25 },
+		{ 190, 115, 120, 25 }
 };
 
 BEGIN_MESSAGE_MAP(CPlanPanel, CBRPanel)
@@ -369,7 +369,7 @@ void CPlanPanel::OnInitChilds()
 		m_comboProductionStatus->InsertString(11, _T("全部已审核已计划"));
 		m_comboProductionStatus->SetCurSel(0);
 
-		m_bsDateRange = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_DATERANGE, _T("查询日期"), _T("Microsoft YaHei"), 12);
+		m_bsDateRange = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_DATERANGE, _T("订单日期"), _T("Microsoft YaHei"), 12);
 		m_bsDateRange->MoveWindow(160, 25, 60, 20);
 
 		m_dtcSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHFROM, _T("Microsoft YaHei"), 12);
@@ -386,6 +386,55 @@ void CPlanPanel::OnInitChilds()
 		m_dtcSearchTo->MoveWindow(360, 25, 108, 20);
 		m_dtcSearchTo->SetTime(oletimeTime);
 
+		//生产日期
+		m_bsSCRQDateRange = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_DATERANGE_SCRQ, _T("生产日期"), _T("Microsoft YaHei"), 12);
+		m_bsSCRQDateRange->MoveWindow(20, 70, 60, 20);
+
+		m_dtcSCRQSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHFROM_SCRQ, _T("Microsoft YaHei"), 12);
+		m_dtcSCRQSearchFrom->MoveWindow(80, 70, 108, 20);
+
+		m_dtcSCRQSearchFrom->SetTime(oletimeTime);
+
+		m_bsSCRQMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_MIDDLELINE_SCRQ, _T("--"), _T("Microsoft YaHei"), 12);
+		m_bsSCRQMiddleLine->MoveWindow(195, 70, 20, 20);
+
+		m_dtcSCRQSearchTo = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHTO_SCRQ, _T("Microsoft YaHei"), 12);
+		m_dtcSCRQSearchTo->MoveWindow(220, 70, 108, 20);
+		m_dtcSCRQSearchTo->SetTime(oletimeTime);
+
+		//包装日期
+		m_bsBZRQDateRange = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_DATERANGE_BZRQ, _T("包装日期"), _T("Microsoft YaHei"), 12);
+		m_bsBZRQDateRange->MoveWindow(350, 70, 60, 20);
+
+		m_dtcBZRQSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHFROM_BZRQ, _T("Microsoft YaHei"), 12);
+		m_dtcBZRQSearchFrom->MoveWindow(410, 70, 108, 20);
+
+		m_dtcBZRQSearchFrom->SetTime(oletimeTime);
+
+		m_bsBZRQMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_MIDDLELINE_BZRQ, _T("--"), _T("Microsoft YaHei"), 12);
+		m_bsBZRQMiddleLine->MoveWindow(525, 70, 20, 20);
+
+		m_dtcBZRQSearchTo = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHTO_BZRQ, _T("Microsoft YaHei"), 12);
+		m_dtcBZRQSearchTo->MoveWindow(550, 70, 108, 20);
+		m_dtcBZRQSearchTo->SetTime(oletimeTime);
+
+		//发货日期
+		m_bsFHRQDateRange = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_DATERANGE_FHRQ, _T("发货日期"), _T("Microsoft YaHei"), 12);
+		m_bsFHRQDateRange->MoveWindow(680, 70, 60, 20);
+
+		m_dtcFHRQSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHFROM_FHRQ, _T("Microsoft YaHei"), 12);
+		m_dtcFHRQSearchFrom->MoveWindow(740, 70, 108, 20);
+
+		m_dtcFHRQSearchFrom->SetTime(oletimeTime);
+
+		m_bsFHRQMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_MIDDLELINE_FHRQ, _T("--"), _T("Microsoft YaHei"), 12);
+		m_bsFHRQMiddleLine->MoveWindow(855, 70, 20, 20);
+
+		m_dtcFHRQSearchTo = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHTO_FHRQ, _T("Microsoft YaHei"), 12);
+		m_dtcFHRQSearchTo->MoveWindow(880, 70, 108, 20);
+		m_dtcFHRQSearchTo->SetTime(oletimeTime);
+
+
 		m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_PLAN_BTN_SEARCH, _T("请输入关键字"), _T("Microsoft YaHei"), 12);
 		m_editSearch->MoveWindow(485, 25, 130, 20);
 
@@ -400,13 +449,13 @@ void CPlanPanel::OnInitChilds()
 
 		//second line
 		m_btnPlan = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_PLAN, _T("计划"), _T("Microsoft YaHei"), 12);
-		m_btnPlan->MoveWindow(20, 70, 90, 25);
+		m_btnPlan->MoveWindow(20, 115, 90, 25);
 
 		m_btnModify = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_MODIFY, _T("修改"), _T("Microsoft YaHei"), 12);
-		m_btnModify->MoveWindow(130, 70, 90, 255);
+		m_btnModify->MoveWindow(130, 115, 90, 255);
 
 		m_btnRestore = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_RESTORE, _T("重置"), _T("Microsoft YaHei"), 12);
-		m_btnRestore->MoveWindow(240, 70, 90, 25);
+		m_btnRestore->MoveWindow(240, 115, 90, 25);
 
 		m_btnReApproveSCRQBusiness = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVESCRQBUSINESS, _T("反审核-生产业务"), _T("Microsoft YaHei"), 12);
 		m_btnReApproveSCRQPlan = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVESCRQPLAN, _T("反审核-生产计划"), _T("Microsoft YaHei"), 12);
@@ -427,7 +476,7 @@ void CPlanPanel::OnInitChilds()
 		m_btnReApproveBZRQPlan->EnableWindow(FALSE);
 
 		m_btnTableFilter = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_TABLEFILTER, _T("表格设置"), _T("Microsoft YaHei"), 12);
-		m_btnTableFilter->MoveWindow(750, 70, 90, 25);
+		m_btnTableFilter->MoveWindow(750, 115, 90, 25);
 	}
 }
 
@@ -535,6 +584,7 @@ void CPlanPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	bool bHasTo = false;
 	CTime time;
 
+	//订单日期
 	DWORD dwResult = m_dtcSearchFrom->GetTime(time);
 	if (dwResult == GDT_VALID)
 	{
@@ -561,6 +611,115 @@ void CPlanPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	{
 		sqp.SetDateSearchCondition(strFrom, strTo);
 	}
+
+	//生产日期
+	CString strSCRQondition;
+	CString strSCRQFrom;
+	CString strSCRQTo;
+	dwResult = m_dtcSCRQSearchFrom->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		bHasFrom = true;
+		m_dtcSCRQSearchFrom->GetWindowText(strFrom);
+	}
+	else
+	{
+		m_dtcSCRQSearchFrom->GetWindowText(strFrom);
+	}
+
+	dwResult = m_dtcSCRQSearchTo->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		bHasFrom = true;
+		m_dtcSCRQSearchTo->GetWindowText(strTo);
+	}
+	else
+	{
+		m_dtcSCRQSearchTo->GetWindowText(strTo);
+	}
+
+	if (bHasFrom || bHasTo)
+	{
+		strSCRQondition.Format(_T("@between %s and %s"), strFrom, strTo);
+	}
+	else
+	{
+		strSCRQondition = _T("@between 1990-01-01 and 2090-01-01");
+	}
+
+	//包装日期
+	CString strBZRQondition;
+	CString strBZRQFrom;
+	CString strBZRQTo;
+	dwResult = m_dtcBZRQSearchFrom->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		bHasFrom = true;
+		m_dtcBZRQSearchFrom->GetWindowText(strFrom);
+	}
+	else
+	{
+		m_dtcBZRQSearchFrom->GetWindowText(strFrom);
+	}
+
+	dwResult = m_dtcBZRQSearchTo->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		bHasFrom = true;
+		m_dtcBZRQSearchTo->GetWindowText(strTo);
+	}
+	else
+	{
+		m_dtcBZRQSearchTo->GetWindowText(strTo);
+	}
+
+	if (bHasFrom || bHasTo)
+	{
+		strBZRQondition.Format(_T("@between %s and %s"), strFrom, strTo);
+	}
+	else
+	{
+		strBZRQondition = _T("@between 1990-01-01 and 2090-01-01");
+	}
+
+	//发货日期
+	CString strFHRQondition;
+	CString strFHRQFrom;
+	CString strFHRQTo;
+	dwResult = m_dtcFHRQSearchFrom->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		bHasFrom = true;
+		m_dtcFHRQSearchFrom->GetWindowText(strFrom);
+	}
+	else
+	{
+		m_dtcFHRQSearchFrom->GetWindowText(strFrom);
+	}
+
+	dwResult = m_dtcFHRQSearchTo->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		bHasFrom = true;
+		m_dtcFHRQSearchTo->GetWindowText(strTo);
+	}
+	else
+	{
+		m_dtcFHRQSearchTo->GetWindowText(strTo);
+	}
+
+	if (bHasFrom || bHasTo)
+	{
+		strFHRQondition.Format(_T("@between %s and %s"), strFrom, strTo);
+	}
+	else
+	{
+		strFHRQondition = _T("@between 1990-01-01 and 2090-01-01");
+	}
+
+
+	CUnitedQuery& uq = UQ(nsPlan::scrq, strSCRQondition).and(UQ(nsPlan::bzrq, strBZRQondition).and(UQ(nsPlan::fhrq, strFHRQondition)));
+	sqp.SetUnitedQuery(uq);
 
 	FilterTableByStatus(enumProductionStatusForPlan(m_comboProductionStatus->GetCurSel()), sqp);
 
