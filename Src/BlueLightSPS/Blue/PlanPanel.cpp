@@ -599,7 +599,7 @@ void CPlanPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	dwResult = m_dtcSearchTo->GetTime(time);
 	if (dwResult == GDT_VALID)
 	{
-		bHasFrom = true;
+		bHasTo = true;
 		m_dtcSearchTo->GetWindowText(strTo);
 	}
 	else
@@ -620,32 +620,35 @@ void CPlanPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	if (dwResult == GDT_VALID)
 	{
 		bHasFrom = true;
-		m_dtcSCRQSearchFrom->GetWindowText(strFrom);
+		m_dtcSCRQSearchFrom->GetWindowText(strSCRQFrom);
 	}
 	else
 	{
-		m_dtcSCRQSearchFrom->GetWindowText(strFrom);
+		m_dtcSCRQSearchFrom->GetWindowText(strSCRQFrom);
 	}
 
 	dwResult = m_dtcSCRQSearchTo->GetTime(time);
 	if (dwResult == GDT_VALID)
 	{
-		bHasFrom = true;
-		m_dtcSCRQSearchTo->GetWindowText(strTo);
+		bHasTo = true;
+		m_dtcSCRQSearchTo->GetWindowText(strSCRQTo);
 	}
 	else
 	{
-		m_dtcSCRQSearchTo->GetWindowText(strTo);
+		bHasTo = false;
+		//m_dtcSCRQSearchTo->GetWindowText(strTo);
 	}
+	
+	Util_Tools::Util::MakeDateQueryCommand(bHasFrom, bHasTo, strSCRQFrom, strSCRQTo, strSCRQondition);
 
-	if (bHasFrom || bHasTo)
-	{
-		strSCRQondition.Format(_T("@between %s and %s"), strFrom, strTo);
-	}
-	else
-	{
-		strSCRQondition = _T("@between 1990-01-01 and 2090-01-01");
-	}
+	//if (bHasFrom || bHasTo)
+	//{
+	//	strSCRQondition.Format(_T("@between %s and %s"), strFrom, strTo);
+	//}
+	//else
+	//{
+	//	strSCRQondition = _T("@between 1990-01-01 and 2090-01-01");
+	//}
 
 	//包装日期
 	CString strBZRQondition;
@@ -655,32 +658,35 @@ void CPlanPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	if (dwResult == GDT_VALID)
 	{
 		bHasFrom = true;
-		m_dtcBZRQSearchFrom->GetWindowText(strFrom);
+		m_dtcBZRQSearchFrom->GetWindowText(strBZRQFrom);
 	}
 	else
 	{
-		m_dtcBZRQSearchFrom->GetWindowText(strFrom);
+		bHasFrom = false;
+		//m_dtcBZRQSearchFrom->GetWindowText(strBZRQFrom);
 	}
 
 	dwResult = m_dtcBZRQSearchTo->GetTime(time);
 	if (dwResult == GDT_VALID)
 	{
-		bHasFrom = true;
-		m_dtcBZRQSearchTo->GetWindowText(strTo);
+		bHasTo = true;
+		m_dtcBZRQSearchTo->GetWindowText(strBZRQTo);
 	}
 	else
 	{
-		m_dtcBZRQSearchTo->GetWindowText(strTo);
+		bHasTo = false;
+		//m_dtcBZRQSearchTo->GetWindowText(strTo);
 	}
 
-	if (bHasFrom || bHasTo)
-	{
-		strBZRQondition.Format(_T("@between %s and %s"), strFrom, strTo);
-	}
-	else
-	{
-		strBZRQondition = _T("@between 1990-01-01 and 2090-01-01");
-	}
+	//if (bHasFrom || bHasTo)
+	//{
+	//	strBZRQondition.Format(_T("@between %s and %s"), strFrom, strTo);
+	//}
+	//else
+	//{
+	//	strBZRQondition = _T("@between 1990-01-01 and 2090-01-01");
+	//}
+	Util_Tools::Util::MakeDateQueryCommand(bHasFrom, bHasTo, strBZRQFrom, strBZRQTo, strBZRQondition);
 
 	//发货日期
 	CString strFHRQondition;
@@ -690,36 +696,70 @@ void CPlanPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	if (dwResult == GDT_VALID)
 	{
 		bHasFrom = true;
-		m_dtcFHRQSearchFrom->GetWindowText(strFrom);
+		m_dtcFHRQSearchFrom->GetWindowText(strFHRQFrom);
 	}
 	else
 	{
-		m_dtcFHRQSearchFrom->GetWindowText(strFrom);
+		bHasFrom = false;
+		//m_dtcFHRQSearchFrom->GetWindowText(strFrom);
 	}
 
 	dwResult = m_dtcFHRQSearchTo->GetTime(time);
 	if (dwResult == GDT_VALID)
 	{
-		bHasFrom = true;
-		m_dtcFHRQSearchTo->GetWindowText(strTo);
+		bHasTo = true;
+		m_dtcFHRQSearchTo->GetWindowText(strFHRQTo);
 	}
 	else
 	{
-		m_dtcFHRQSearchTo->GetWindowText(strTo);
+		bHasTo = false;
+		//m_dtcFHRQSearchTo->GetWindowText(strTo);
 	}
 
-	if (bHasFrom || bHasTo)
+	//if (bHasFrom || bHasTo)
+	//{
+	//	strFHRQondition.Format(_T("@between %s and %s"), strFrom, strTo);
+	//}
+	//else
+	//{
+	//	strFHRQondition = _T("@between 1990-01-01 and 2090-01-01");
+	//}
+	Util_Tools::Util::MakeDateQueryCommand(bHasFrom, bHasTo, strFHRQFrom, strFHRQTo, strFHRQondition);
+	CUnitedQuery* pUq = NULL;
+	if (!strSCRQondition.IsEmpty())
 	{
-		strFHRQondition.Format(_T("@between %s and %s"), strFrom, strTo);
+		pUq = &UQ(nsPlan::scrq, strSCRQondition);
 	}
-	else
+
+	if (!strBZRQondition.IsEmpty())
 	{
-		strFHRQondition = _T("@between 1990-01-01 and 2090-01-01");
+		if (NULL == pUq)
+		{
+			pUq = &UQ(nsPlan::bzrq, strBZRQondition);
+		}
+		else
+		{
+			pUq->and(UQ(nsPlan::bzrq, strBZRQondition));
+		}
 	}
 
+	if (!strFHRQondition.IsEmpty())
+	{
+		if (NULL == pUq)
+		{
+			pUq = &UQ(nsPlan::fhrq, strFHRQondition);
+		}
+		else
+		{
+			pUq->and(UQ(nsPlan::fhrq, strFHRQondition));
+		}
+	}
 
-	CUnitedQuery& uq = UQ(nsPlan::scrq, strSCRQondition).and(UQ(nsPlan::bzrq, strBZRQondition).and(UQ(nsPlan::fhrq, strFHRQondition)));
-	sqp.SetUnitedQuery(uq);
+	//CUnitedQuery& uq = UQ(nsPlan::scrq, strSCRQondition).and(UQ(nsPlan::bzrq, strBZRQondition).and(UQ(nsPlan::fhrq, strFHRQondition)));
+	if (NULL != pUq)
+	{
+		sqp.SetUnitedQuery(*pUq);
+	}
 
 	FilterTableByStatus(enumProductionStatusForPlan(m_comboProductionStatus->GetCurSel()), sqp);
 
@@ -1607,7 +1647,9 @@ void CPlanPanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 {
 	DEFINE_PLAN_QUERY_PARAM(jqp);
 	MakeBasicSearchCondition(jqp);
-	jqp.AddSortCondition(colIndex, bAsc);
+	if (colIndex >= 0){
+		jqp.AddSortCondition(colIndex, bAsc);
+	}
 
 	CServer::GetInstance()->GetPlan().Query(page, m_pJqGridAPI->GetPageSize(), jqp)
 		.then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));

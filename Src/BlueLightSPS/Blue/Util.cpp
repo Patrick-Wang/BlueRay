@@ -467,4 +467,25 @@ namespace Util_Tools
 		return bVal ? L"true" : L"false";
 	}
 
+	bool Util::MakeDateQueryCommand(bool bHasFrom, bool bHasTo, CString& strFrom, CString& strTo, CString& strVal)
+	{
+		if (bHasFrom && bHasTo)
+		{
+			strVal.Format(_T("@between %s and %s"), strFrom, strTo);
+		}
+		else if (bHasFrom)
+		{
+			strVal.Format(_T("@>= %s"), strFrom);
+		}
+		else if (bHasTo)
+		{
+			strVal.Format(_T("@<= %s"), strTo);
+		}
+		else
+		{
+			return false;
+		}
+		return true;
+	}
+
 }

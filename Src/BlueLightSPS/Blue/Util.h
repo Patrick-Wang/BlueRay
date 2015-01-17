@@ -44,6 +44,7 @@ namespace Util_Tools
 			delete[] buffer;
 		}
 
+		static bool MakeDateQueryCommand(bool bHasFrom, bool bHasTo, CString& strFrom, CString& strTo, CString& strVal);
 	};
 
 

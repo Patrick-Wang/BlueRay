@@ -1056,7 +1056,9 @@ void CSalePanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 	DEFINE_SALE_QUERY_PARAM(jqp);
 
 	MakeBasicSearchCondition(jqp);
-	jqp.AddSortCondition(colIndex, bAsc);
+	if (colIndex >= 0){
+		jqp.AddSortCondition(colIndex, bAsc);
+	}
 
 	CServer::GetInstance()->GetSale().Query(page, CJQGridAPI::GetPageSize(), jqp)
 		.then(new OnSaleLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
