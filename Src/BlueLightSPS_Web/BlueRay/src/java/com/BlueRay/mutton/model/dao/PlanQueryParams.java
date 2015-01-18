@@ -7,14 +7,20 @@ import java.util.Map;
 
 import com.BlueRay.mutton.model.entity.jpa.BMQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.BPQXHFLXX;
+import com.BlueRay.mutton.model.entity.jpa.BZXDTGG;
 import com.BlueRay.mutton.model.entity.jpa.CPGGXHXX;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
+import com.BlueRay.mutton.model.entity.jpa.KHQY;
 import com.BlueRay.mutton.model.entity.jpa.KHXX;
 import com.BlueRay.mutton.model.entity.jpa.MPZLXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
 import com.BlueRay.mutton.model.entity.jpa.YYLGGFLXX;
 import com.BlueRay.mutton.model.entity.jpa.ZCXX;
 import com.BlueRay.mutton.model.entity.jpa.ZDQDYFLXX;
+import com.BlueRay.mutton.model.entity.jpa.ZDQXH;
+import com.BlueRay.mutton.model.entity.jpa.ZJDY;
+import com.BlueRay.mutton.model.entity.jpa.ZJYS;
+import com.BlueRay.mutton.model.entity.jpa.ZZS;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -59,15 +65,15 @@ public class PlanQueryParams {
 	private IAdvanceTranslator mTranslator;
 
 	
-	private static int mColumnCount = 26;
+	private static int mColumnCount = 34;
 	{
-		for (int i = 0; i < 16; ++i) {
+		for (int i = 0; i < 24; ++i) {
 			paramHtxxColMap.put(i, i + 1);
 		}
-		paramHtxxColMap.put(25, 19);
+		paramHtxxColMap.put(33, 27);
 		
-		for (int i = 16; i < 25; ++i) {
-			paramPcjhColMap.put(i, 2 + i - 16);
+		for (int i = 24; i < 33; ++i) {
+			paramPcjhColMap.put(i, 2 + i - 24);
 		}
 	}
 
@@ -103,6 +109,24 @@ public class PlanQueryParams {
 		} else if (cls.getName().equals(MPZLXX.class.getName())) {
 			colName = "mpzl";
 			id = "id";
+		} else if (cls.getName().equals(ZJDY.class.getName())) {
+			colName = "zjdyID";
+			id = "id";
+		} else if (cls.getName().equals(ZJYS.class.getName())) {
+			colName = "zjysID";
+			id = "id";
+		} else if (cls.getName().equals(ZDQXH.class.getName())) {
+			colName = "zdqxhID";
+			id = "id";
+		} else if (cls.getName().equals(BZXDTGG.class.getName())) {
+			colName = "bzxdtggID";
+			id = "id";
+		} else if (cls.getName().equals(ZZS.class.getName())) {
+			colName = "zzsID";
+			id = "id";
+		} else if (cls.getName().equals(KHQY.class.getName())) {
+			colName = "khqyID";
+			id = "id";
 		}
 		return id;
 	}
@@ -133,6 +157,24 @@ public class PlanQueryParams {
 			id = "bmqxhID";
 		} else if (cls.getName().equals(MPZLXX.class.getName())) {
 			colName = "mpzl";
+			id = "id";
+		} else if (cls.getName().equals(ZJDY.class.getName())) {
+			colName = "zjdyID";
+			id = "id";
+		} else if (cls.getName().equals(ZJYS.class.getName())) {
+			colName = "zjysID";
+			id = "id";
+		} else if (cls.getName().equals(ZDQXH.class.getName())) {
+			colName = "zdqxhID";
+			id = "id";
+		} else if (cls.getName().equals(BZXDTGG.class.getName())) {
+			colName = "bzxdtggID";
+			id = "id";
+		} else if (cls.getName().equals(ZZS.class.getName())) {
+			colName = "zzsID";
+			id = "id";
+		} else if (cls.getName().equals(KHQY.class.getName())) {
+			colName = "khqyID";
 			id = "id";
 		}
 		return colName;

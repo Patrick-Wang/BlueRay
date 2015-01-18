@@ -20,13 +20,27 @@ public:
 
 		BMQXHFLXX,	//编码器型号
 
-		MPZLXX	//铭牌等资料
+		MPZLXX,	//铭牌等资料
+
+		ZJDY,	//主机电压
+
+		ZJYS,	//主机颜色
+
+		ZDQXH,	//制动器型号
+
+		BZXDTGG,// 包装箱/底托规格
+
+		ZZS,	// 制造商
+
+		KHQY	// 客户区域
 
 	};
 	CItem();
 	~CItem();
 
 	bool QuerySync(ItemType type, StringArray& retArray);
-	CPromise<StringArray> Query(ItemType type);
+	CPromise<StringArray>& Query(ItemType type);
+private:
+	bool toURL(ItemType type, CString& url);
 };
 

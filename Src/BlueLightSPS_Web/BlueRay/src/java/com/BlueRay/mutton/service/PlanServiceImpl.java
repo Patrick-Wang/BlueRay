@@ -53,19 +53,19 @@ public class PlanServiceImpl implements PlanService {
 		SaleServiceImpl.setHtxx(ret, htxxMap.get(id), itemDao);
 		ret[0] = pcjhxx.getPcjhID() + "";
 		ret[4] = "1";// 鏁伴噺
-		ret[26] = ret[19];
-		ret[17] = (null != pcjhxx.getJhscrq()) ? pcjhxx.getJhscrq()
+		ret[26 + 8] = ret[19 + 8];
+		ret[17 + 8] = (null != pcjhxx.getJhscrq()) ? pcjhxx.getJhscrq()
 				.toString() : "";
-		ret[18] = planTranslator.out("sftgywsh", pcjhxx.getSftgywsh());
-		ret[19] = planTranslator.out("sftgjhsh", pcjhxx.getSftgjhsh());
-		ret[20] = (null != pcjhxx.getJhbzrq()) ? pcjhxx.getJhbzrq()
+		ret[18 + 8] = planTranslator.out("sftgywsh", pcjhxx.getSftgywsh());
+		ret[19 + 8] = planTranslator.out("sftgjhsh", pcjhxx.getSftgjhsh());
+		ret[20 + 8] = (null != pcjhxx.getJhbzrq()) ? pcjhxx.getJhbzrq()
 				.toString() : "";
-		ret[21] = planTranslator.out("bzsftgywsh", pcjhxx.getBzsftgywsh());
-		ret[22] = planTranslator.out("bzsftgjhsh", pcjhxx.getBzsftgjhsh());
-		ret[23] = (null != pcjhxx.getJhfhrq()) ? pcjhxx.getJhfhrq()
+		ret[21 + 8] = planTranslator.out("bzsftgywsh", pcjhxx.getBzsftgywsh());
+		ret[22 + 8] = planTranslator.out("bzsftgjhsh", pcjhxx.getBzsftgjhsh());
+		ret[23 + 8] = (null != pcjhxx.getJhfhrq()) ? pcjhxx.getJhfhrq()
 				.toString() : "";
-		ret[24] = pcjhxx.getTcbh();
-		ret[25] = pcjhxx.getCcbh();		
+		ret[24 + 8] = pcjhxx.getTcbh();
+		ret[25 + 8] = pcjhxx.getCcbh();		
 	}
 	
 	public static Map<Integer, HTXX> getHtxxMap(List<PCJHXX> pcxxs, SaleDao saleDao, PlanDao planDao, Map<Integer, HTXX> htxxMap){
@@ -97,7 +97,7 @@ public class PlanServiceImpl implements PlanService {
 		getHtxxMap(pcxxs, saleDao, planDao, htxxMap);
 
 		PCJHXX pcjhxx;
-		String[][] ret = new String[pcxxs.size()][27];
+		String[][] ret = new String[pcxxs.size()][35];
 		for (int i = pcxxs.size() - 1; i >= 0; --i) {
 			pcjhxx = pcxxs.get(i);
 			setPCJH(ret[i], pcjhxx, htxxMap, itemDao);
@@ -281,7 +281,7 @@ public class PlanServiceImpl implements PlanService {
 
 	public String export(OutputStream outputStream, JSONObject jparam) {
 		AbstractExcel<PCJHXX> excel = planDao.getPcjhExcel(jparam, planTranslator);
-		excel.addHeader(new String[]{"合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "生产日期", "计划审核-业务", "计划审核-计划", "包装日期", "包装审核-业务", "包装审核-计划", "发货日期", "投产编号", "出厂编号", "优先级"});
+		excel.addHeader(new String[]{"合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "主机电压", "主机颜色", "制动器型号", "左/右置", "包装箱/底托规格", "工号", "制造商", "客户区域", "生产日期", "计划审核-业务", "计划审核-计划", "包装日期", "包装审核-业务", "包装审核-计划", "发货日期", "投产编号", "出厂编号", "优先级"});
 		IExcelExporter<PCJHXX> exportor = new DBPCJHXXCSVExporter(itemDao, saleDao, planDao, excel, outputStream);
 		
 		try {
@@ -327,7 +327,7 @@ public class PlanServiceImpl implements PlanService {
 		getHtxxMap(pcxxs, saleDao, planDao, htxxMap);
 		
 		PageData.Row rd;
-		String[] row = new String[27];
+		String[] row = new String[35];
 		for (int i = 0; i < pcxxs.size(); ++i) {
 			rd = pd.new Row();
 			setPCJH(row, pcxxs.get(i), htxxMap, itemDao);

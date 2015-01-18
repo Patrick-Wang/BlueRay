@@ -31,10 +31,90 @@ public class HTXX implements Serializable {
 	private Integer mpzl;
 	private String bz;
 	private Date ddrq;
+	private Integer zjysID;
+	private Integer zdqxhID;
+	private String zyz;
+	private Integer bzxdtggID;
+	private String gh;
+	private Integer zzsID;
+	private Integer khqyID;
 	private String sftgywsh = "N";
 	private String sftgjhsh = "N";
 	private Integer yxj = 100;
 	private String ddzt;
+//	 `zjdyID` int(11) DEFAULT NULL,
+//	  `zjysID` int(11) DEFAULT NULL,
+//	  `zdqxhID` int(11) DEFAULT NULL,
+//	  `zyz` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT 'Y',
+//	  `bzxdtggID` int(11) DEFAULT NULL,
+//	  `gh` char(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+//	  `zzsID` int(11) DEFAULT NULL,
+//	  `khqyID` int(11) DEFAULT NULL,
+	private Integer zjdyID;
+	public Integer getZjdyID() {
+		return zjdyID;
+	}
+
+	public void setZjdyID(Integer zjdyID) {
+		this.zjdyID = zjdyID;
+	}
+
+	public Integer getZjysID() {
+		return zjysID;
+	}
+
+	public void setZjysID(Integer zjysID) {
+		this.zjysID = zjysID;
+	}
+
+	public Integer getZdqxhID() {
+		return zdqxhID;
+	}
+
+	public void setZdqxhID(Integer zdqxhID) {
+		this.zdqxhID = zdqxhID;
+	}
+
+	public String getZyz() {
+		return zyz;
+	}
+
+	public void setZyz(String zyz) {
+		this.zyz = zyz;
+	}
+
+	public Integer getBzxdtggID() {
+		return bzxdtggID;
+	}
+
+	public void setBzxdtggID(Integer bzxdtggID) {
+		this.bzxdtggID = bzxdtggID;
+	}
+
+	public String getGh() {
+		return gh;
+	}
+
+	public void setGh(String gh) {
+		this.gh = gh;
+	}
+
+	public Integer getZzsID() {
+		return zzsID;
+	}
+
+	public void setZzsID(Integer zzsID) {
+		this.zzsID = zzsID;
+	}
+
+	public Integer getKhqyID() {
+		return khqyID;
+	}
+
+	public void setKhqyID(Integer khqyID) {
+		this.khqyID = khqyID;
+	}
+
 	
 	public static Class<?>  getFroeignClass(int col){
 		switch(col){
@@ -54,6 +134,18 @@ public class HTXX implements Serializable {
 			return BMQXHFLXX.class;
 		case 14:
 			return MPZLXX.class;
+		case 17:
+			return ZJDY.class;
+		case 18:
+			return ZJYS.class;
+		case 19:
+			return ZDQXH.class;
+		case 21:
+			return BZXDTGG.class;
+		case 23:
+			return ZZS.class;
+		case 24:
+			return KHQY.class;
 		default:
 			return null;
 		}

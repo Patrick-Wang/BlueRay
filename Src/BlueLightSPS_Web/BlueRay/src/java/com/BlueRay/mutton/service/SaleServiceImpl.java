@@ -2,8 +2,11 @@ package com.BlueRay.mutton.service;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -18,14 +21,20 @@ import com.BlueRay.mutton.model.dao.PlanDao;
 import com.BlueRay.mutton.model.dao.SaleDao;
 import com.BlueRay.mutton.model.entity.jpa.BMQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.BPQXHFLXX;
+import com.BlueRay.mutton.model.entity.jpa.BZXDTGG;
 import com.BlueRay.mutton.model.entity.jpa.CPGGXHXX;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
+import com.BlueRay.mutton.model.entity.jpa.KHQY;
 import com.BlueRay.mutton.model.entity.jpa.KHXX;
 import com.BlueRay.mutton.model.entity.jpa.MPZLXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
 import com.BlueRay.mutton.model.entity.jpa.YYLGGFLXX;
 import com.BlueRay.mutton.model.entity.jpa.ZCXX;
 import com.BlueRay.mutton.model.entity.jpa.ZDQDYFLXX;
+import com.BlueRay.mutton.model.entity.jpa.ZDQXH;
+import com.BlueRay.mutton.model.entity.jpa.ZJDY;
+import com.BlueRay.mutton.model.entity.jpa.ZJYS;
+import com.BlueRay.mutton.model.entity.jpa.ZZS;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
 
@@ -84,9 +93,34 @@ public class SaleServiceImpl implements SaleService {
 			row[14] = null == mpzl ? "" : mpzl.getMpzl();
 			row[15] = htxx.getBz();
 			row[16] = htxx.getDdrq() + "";
-			row[17] = translator.out("sftgywsh", htxx.getSftgywsh());
-			row[18] = translator.out("sftgjhsh", htxx.getSftgjhsh());
-			row[19] = translator.out("yxj", htxx.getYxj() + "");
+
+			
+			ZJDY zjdy = null != htxx.getZjdyID() ? itDao.queryZJDYById(htxx.getZjdyID()) : null;
+			row[17] = null == zjdy ? "" : zjdy.getZjdy();
+			
+			ZJYS zjys = null != htxx.getZjysID() ? itDao.queryZJYSById(htxx.getZjysID()) : null;
+			row[18] = null == zjys ? "" : zjys.getZjys();
+			
+			ZDQXH zdqxh = null != htxx.getZdqxhID() ? itDao.queryZdqxhById(htxx.getZdqxhID()) : null;
+			row[19] = null == zdqxh ? "" : zdqxh.getZdqxh();
+			
+			row[20] = htxx.getZyz();
+			
+			BZXDTGG bzxdtgg = null != htxx.getBzxdtggID() ? itDao.queryBzxdtggById(htxx.getBzxdtggID()) : null;
+			row[21] = null == bzxdtgg ? "" : bzxdtgg.getBzxdtgg();
+	
+			row[22] = htxx.getGh();
+
+			ZZS zzs = null != htxx.getZzsID() ? itDao.queryZZSById(htxx.getZzsID()) : null;
+			row[23] = null == zzs ? "" : zzs.getZzs();
+
+			KHQY khqy = null != htxx.getKhqyID() ? itDao.queryKHQYById(htxx.getKhqyID()) : null;
+			row[24] = null == khqy ? "" : khqy.getKhqy();
+			
+			
+			row[25] = translator.out("sftgywsh", htxx.getSftgywsh());
+			row[26] = translator.out("sftgjhsh", htxx.getSftgjhsh());
+			row[27] = translator.out("yxj", htxx.getYxj() + "");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,32 +135,169 @@ public class SaleServiceImpl implements SaleService {
 		return false;
 	}
 
+	private static List<Method> setMethods = new ArrayList<Method>();
+	static{
+		try {
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setHtID", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setClientID", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setGgxhID", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setSl", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setZcID", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setDfr", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setZdqdyID", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setYylggID", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setSfjf", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setBpqxhID", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setBmqxhID", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setZxcd", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setMpzl", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setBz", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setDdrq", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setZjdy", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setZjys", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setZdqxh", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setZyz", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setBzxdtgg", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setGh", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setZzs", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setKhqy", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setYxj", HTXX.class, String.class));
+
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void updateHtxx(JSONArray ja, HTXX htxx) {
+		try {
+			for (int i = ja.size() > setMethods.size() ? setMethods.size() - 1
+					: ja.size() - 1; i >= 0; --i) {
+				setMethods.get(i).invoke(this, htxx, ja.getString(i));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public String add(JSONArray ja) throws Exception {
 		HTXX htxx = new HTXX();
 		if ("".equals(ja.getString(0))) {
 			throw new Exception("Id cannot be none");
 		}
-		setHtID(htxx, ja.getString(0));
-		setClientID(htxx, ja.getString(1));
-		setGgxhID(htxx, ja.getString(2));
-		setSl(htxx, ja.getString(3));
-		setZcID(htxx, ja.getString(4));
-		setDfr(htxx, ja.getString(5));
-		setZdqdyID(htxx, ja.getString(6));
-		setYylggID(htxx, ja.getString(7));
-		setSfjf(htxx, ja.getString(8));
-		setBpqxhID(htxx, ja.getString(9));
-		setBmqxhID(htxx, ja.getString(10));
-		setDlcd(htxx, ja.getString(11));
-
-		setZxcd(htxx, ja.getString(12));
-		setMpzl(htxx, ja.getString(13));
-		setBz(htxx, ja.getString(14));
-		setDdrq(htxx, ja.getString(15));
-		setYxj(htxx, ja.getString(16));
+		updateHtxx(ja, htxx);
+//		setHtID(htxx, ja.getString(0));
+//		setClientID(htxx, ja.getString(1));
+//		setGgxhID(htxx, ja.getString(2));
+//		setSl(htxx, ja.getString(3));
+//		setZcID(htxx, ja.getString(4));
+//		setDfr(htxx, ja.getString(5));
+//		setZdqdyID(htxx, ja.getString(6));
+//		setYylggID(htxx, ja.getString(7));
+//		setSfjf(htxx, ja.getString(8));
+//		setBpqxhID(htxx, ja.getString(9));
+//		setBmqxhID(htxx, ja.getString(10));
+//		setDlcd(htxx, ja.getString(11));
+//
+//		setZxcd(htxx, ja.getString(12));
+//		setMpzl(htxx, ja.getString(13));
+//		setBz(htxx, ja.getString(14));
+//		setDdrq(htxx, ja.getString(15));
+//		setZjdy(htxx, ja.getString(16));
+//		setZjys(htxx, ja.getString(17));
+//		setZdqxh(htxx, ja.getString(18));
+//		setZyz(htxx, ja.getString(19));
+//		setBzxdtgg(htxx, ja.getString(20));
+//		setGh(htxx, ja.getString(21));
+//		setZzs(htxx, ja.getString(22));
+//		setKhqy(htxx, ja.getString(23));
+//		setYxj(htxx, ja.getString(24));
 		
 		saleDao.insert(htxx);
 		return htxx.getID() + "";
+	}
+
+	private void setKhqy(HTXX htxx, String val) {
+		if (!"".equals(val)) {
+			KHQY item = itemDao.queryKHQYByValue("khqy", val);
+			if (null == item) {
+				item = new KHQY();
+				item.setKhqy(val);
+				itemDao.insert(item);
+			}
+			htxx.setKhqyID(item.getId());
+		}	
+	}
+
+	private void setZzs(HTXX htxx, String val) {
+		if (!"".equals(val)) {
+			ZZS item = itemDao.queryZZSByValue("zzs", val);
+			if (null == item) {
+				item = new ZZS();
+				item.setZzs(val);
+				itemDao.insert(item);
+			}
+			htxx.setZzsID(item.getId());
+		}			
+	}
+
+	private void setGh(HTXX htxx, String val) {
+		htxx.setGh(val);
+	}
+
+	private void setBzxdtgg(HTXX htxx, String val) {
+		if (!"".equals(val)) {
+			BZXDTGG item = itemDao.queryBzxdtggByValue("bzxdtgg", val);
+			if (null == item) {
+				item = new BZXDTGG();
+				item.setBzxdtgg(val);
+				itemDao.insert(item);
+			}
+			htxx.setBzxdtggID(item.getId());
+		}					
+	}
+
+	private void setZyz(HTXX htxx, String val) {
+		htxx.setZyz(val);		
+	}
+
+	private void setZdqxh(HTXX htxx, String val) {
+		if (!"".equals(val)) {
+			ZDQXH item = itemDao.queryZdqxhByValue("zdqxh", val);
+			if (null == item) {
+				item = new ZDQXH();
+				item.setZdqxh(val);
+				itemDao.insert(item);
+			}
+			htxx.setBzxdtggID(item.getId());
+		}			
+	}
+
+	private void setZjys(HTXX htxx, String val) {
+		if (!"".equals(val)) {
+			ZJYS item = itemDao.queryZJYSByValue("zjys", val);
+			if (null == item) {
+				item = new ZJYS();
+				item.setZjys(val);
+				itemDao.insert(item);
+			}
+			htxx.setZjysID(item.getId());
+		}		
+	}
+
+	private void setZjdy(HTXX htxx, String val) {
+		if (!"".equals(val)) {
+			ZJDY item = itemDao.queryZJDYByValue("zjdy", val);
+			if (null == item) {
+				item = new ZJDY();
+				item.setZjdy(val);
+				itemDao.insert(item);
+			}
+			htxx.setZjdyID(item.getId());
+		}			
 	}
 
 	private void setYxj(HTXX htxx, String val) {
@@ -290,24 +461,33 @@ public class SaleServiceImpl implements SaleService {
 			HTXX htxx = saleDao
 					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
 			if (htxx != null) {
-				setHtID(htxx, data.getString(0));
-				setClientID(htxx, data.getString(1));
-				setGgxhID(htxx, data.getString(2));
-				setSl(htxx, data.getString(3));
-				setZcID(htxx, data.getString(4));
-				setDfr(htxx, data.getString(5));
-				setZdqdyID(htxx, data.getString(6));
-				setYylggID(htxx, data.getString(7));
-				setSfjf(htxx, data.getString(8));
-				setBpqxhID(htxx, data.getString(9));
-				setBmqxhID(htxx, data.getString(10));
-				setDlcd(htxx, data.getString(11));
-
-				setZxcd(htxx, data.getString(12));
-				setMpzl(htxx, data.getString(13));
-				setBz(htxx, data.getString(14));
-				setDdrq(htxx, data.getString(15));
-				setYxj(htxx, data.getString(16));
+//				setHtID(htxx, data.getString(0));
+//				setClientID(htxx, data.getString(1));
+//				setGgxhID(htxx, data.getString(2));
+//				setSl(htxx, data.getString(3));
+//				setZcID(htxx, data.getString(4));
+//				setDfr(htxx, data.getString(5));
+//				setZdqdyID(htxx, data.getString(6));
+//				setYylggID(htxx, data.getString(7));
+//				setSfjf(htxx, data.getString(8));
+//				setBpqxhID(htxx, data.getString(9));
+//				setBmqxhID(htxx, data.getString(10));
+//				setDlcd(htxx, data.getString(11));
+//
+//				setZxcd(htxx, data.getString(12));
+//				setMpzl(htxx, data.getString(13));
+//				setBz(htxx, data.getString(14));
+//				setDdrq(htxx, data.getString(15));
+//				setZjdy(htxx, data.getString(16));
+//				setZjys(htxx, data.getString(17));
+//				setZdqxh(htxx, data.getString(18));
+//				setZyz(htxx, data.getString(19));
+//				setBzxdtgg(htxx, data.getString(20));
+//				setGh(htxx, data.getString(21));
+//				setZzs(htxx, data.getString(22));
+//				setKhqy(htxx, data.getString(23));
+//				setYxj(htxx, data.getString(24));
+				updateHtxx(data, htxx);
 				saleDao.update(htxx);
 			}
 		}
@@ -398,7 +578,7 @@ public class SaleServiceImpl implements SaleService {
 		int pageCount = count / pagesize;
 		pageCount += count % pagesize > 0 ? 1 : 0;
 		pd.setTotal(pageCount);
-		String[] row = new String[21];
+		String[] row = new String[28];
 		PageData.Row rd;
 		
 		for (int i = 0; i < htxxs.size(); ++i){
@@ -416,7 +596,7 @@ public class SaleServiceImpl implements SaleService {
 
 	public String export(OutputStream out, JSONObject jparam) {
 		AbstractExcel<HTXX> excel = saleDao.getHtxxExcel(jparam, translator);
-		excel.addHeader(new String[]{"合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "审核-业务", "审核-计划", "优先级"});
+		excel.addHeader(new String[]{"合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "主机电压", "主机颜色", "制动器型号", "左/右置", "包装箱/底托规格", "工号", "制造商", "客户区域", "审核-业务", "审核-计划", "优先级"});
 		IExcelExporter<HTXX> exportor = new DBHTXXExcelExporter(itemDao, saleDao, excel, out);
 		
 		try {

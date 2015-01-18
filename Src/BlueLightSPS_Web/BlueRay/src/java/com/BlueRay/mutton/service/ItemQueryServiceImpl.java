@@ -10,13 +10,19 @@ import org.springframework.transaction.annotation.Transactional;
 import com.BlueRay.mutton.model.dao.ItemDao;
 import com.BlueRay.mutton.model.entity.jpa.BMQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.BPQXHFLXX;
+import com.BlueRay.mutton.model.entity.jpa.BZXDTGG;
 import com.BlueRay.mutton.model.entity.jpa.CPGGXHXX;
 import com.BlueRay.mutton.model.entity.jpa.DDZTB;
+import com.BlueRay.mutton.model.entity.jpa.KHQY;
 import com.BlueRay.mutton.model.entity.jpa.KHXX;
 import com.BlueRay.mutton.model.entity.jpa.MPZLXX;
 import com.BlueRay.mutton.model.entity.jpa.YYLGGFLXX;
 import com.BlueRay.mutton.model.entity.jpa.ZCXX;
 import com.BlueRay.mutton.model.entity.jpa.ZDQDYFLXX;
+import com.BlueRay.mutton.model.entity.jpa.ZDQXH;
+import com.BlueRay.mutton.model.entity.jpa.ZJDY;
+import com.BlueRay.mutton.model.entity.jpa.ZJYS;
+import com.BlueRay.mutton.model.entity.jpa.ZZS;
 
 @Service
 @Transactional("transactionManager")
@@ -45,8 +51,74 @@ public class ItemQueryServiceImpl implements ItemQueryService {
 			ret = queryCpggxhxx();
 		} else if ("mpzlxx".equals(tableName)) {
 			ret = queryMpzlxx();
+		} else if ("zjdy".equals(tableName)) {
+			ret = queryZjdy();
+		} else if ("zjys".equals(tableName)) {
+			ret = queryZjys();
+		} else if ("zdqxh".equals(tableName)) {
+			ret = queryZdqxh();
+		} else if ("bzxdtgg".equals(tableName)) {
+			ret = queryBzxdtgg();
+		} else if ("zzs".equals(tableName)) {
+			ret = queryZzs();
+		} else if ("khqy".equals(tableName)) {
+			ret = queryKhqy();
 		} 
 		
+		return ret;
+	}
+
+	private List<String> queryKhqy() {
+		List<KHQY> items = itemDao.queryKHQY();
+		List<String> ret = new ArrayList<String>();
+		for (int i = 0; i < items.size(); ++i) {
+			ret.add(items.get(i).getKhqy());
+		}
+		return ret;
+	}
+
+	private List<String> queryZzs() {
+		List<ZZS> items = itemDao.queryZZS();
+		List<String> ret = new ArrayList<String>();
+		for (int i = 0; i < items.size(); ++i) {
+			ret.add(items.get(i).getZzs());
+		}
+		return ret;
+	}
+
+	private List<String> queryBzxdtgg() {
+		List<BZXDTGG> items = itemDao.queryBzxdtgg();
+		List<String> ret = new ArrayList<String>();
+		for (int i = 0; i < items.size(); ++i) {
+			ret.add(items.get(i).getBzxdtgg());
+		}
+		return ret;
+	}
+
+	private List<String> queryZdqxh() {
+		List<ZDQXH> items = itemDao.queryZdqxh();
+		List<String> ret = new ArrayList<String>();
+		for (int i = 0; i < items.size(); ++i) {
+			ret.add(items.get(i).getZdqxh());
+		}
+		return ret;
+	}
+
+	private List<String> queryZjys() {
+		List<ZJYS> items = itemDao.queryZJYS();
+		List<String> ret = new ArrayList<String>();
+		for (int i = 0; i < items.size(); ++i) {
+			ret.add(items.get(i).getZjys());
+		}
+		return ret;
+	}
+
+	private List<String> queryZjdy() {
+		List<ZJDY> items = itemDao.queryZJDY();
+		List<String> ret = new ArrayList<String>();
+		for (int i = 0; i < items.size(); ++i) {
+			ret.add(items.get(i).getZjdy());
+		}
 		return ret;
 	}
 

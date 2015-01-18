@@ -71,11 +71,63 @@ CREATE TABLE `htxx` (
   `bz` char(100) DEFAULT NULL,
   `ddrq` date DEFAULT NULL,
   `ddzt` char(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `zjdyID` int(11) DEFAULT NULL,
+  `zjysID` int(11) DEFAULT NULL,
+  `zdqxhID` int(11) DEFAULT NULL,
+  `zyz` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT 'Y',
+  `bzxdtggID` int(11) DEFAULT NULL,
+  `gh` char(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `zzsID` int(11) DEFAULT NULL,
+  `khqyID` int(11) DEFAULT NULL,
   `sftgywsh` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `sftgjhsh` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-   `yxj` int(8) DEFAULT 10,	
+  `yxj` int(8) DEFAULT 10,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `zzs`;
+CREATE TABLE `zzs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `zzs` char(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+DROP TABLE IF EXISTS `khqy`;
+CREATE TABLE `khqy` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `khqy` char(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+DROP TABLE IF EXISTS `bzxdtgg`;
+CREATE TABLE `bzxdtgg` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `bzxdtgg` char(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TABLE IF EXISTS `zdqxh`;
+CREATE TABLE `zdqxh` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `zdqxh` char(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TABLE IF EXISTS `zjys`;
+CREATE TABLE `zjys` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `zjys` char(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TABLE IF EXISTS `zjdy`;
+CREATE TABLE `zjdy` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `zjdy` char(100) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Table structure for khcyxxb
@@ -203,6 +255,24 @@ CREATE TABLE `zdqdyflxx` (
 -- ----------------------------
 -- Records 
 -- ----------------------------
+INSERT INTO `zzs` VALUES ('1', '联想');
+INSERT INTO `zzs` VALUES ('2', '华为');
+INSERT INTO `zzs` VALUES ('3', '中兴');
+INSERT INTO `bzxdtgg` VALUES ('1', '15*16');
+INSERT INTO `bzxdtgg` VALUES ('2', '15*19');
+INSERT INTO `bzxdtgg` VALUES ('3', '20*19');
+INSERT INTO `zdqxh` VALUES ('1', '112230991');
+INSERT INTO `zdqxh` VALUES ('2', '151122319');
+INSERT INTO `zdqxh` VALUES ('3', '112990991');
+INSERT INTO `zjys` VALUES ('1', '红色');
+INSERT INTO `zjys` VALUES ('2', '黄色');
+INSERT INTO `zjys` VALUES ('3', '白色');
+INSERT INTO `zjdy` VALUES ('1', '220V');
+INSERT INTO `zjdy` VALUES ('2', '380V');
+INSERT INTO `zjdy` VALUES ('3', '110V');
+INSERT INTO `khqy` VALUES ('1', '华东');
+INSERT INTO `khqy` VALUES ('2', '华南');
+INSERT INTO `khqy` VALUES ('3', '东北');
 INSERT INTO `bmqxhflxx` VALUES ('1', '海1387');
 INSERT INTO `bmqxhflxx` VALUES ('2', '其他');
 INSERT INTO `bpqxhflxx` VALUES ('1', '富士');
@@ -223,19 +293,19 @@ INSERT INTO `ddztb` VALUES ('7', '计划排产已审核');
 INSERT INTO `ddztb` VALUES ('8', '计划排产审核未通过');
 INSERT INTO `ddztb` VALUES ('9', '生产中');
 INSERT INTO `ddztb` VALUES ('10', '生产完成');
-INSERT INTO `htxx` VALUES ('1', '1', '1', '1', '100', '1', 'Y', '1', '1', 'Y', '1', '2', '5米', '8米', '1', '备注', '2014-11-27', '1', 'N', 'N', 100);
-INSERT INTO `htxx` VALUES ('2', '2', '2', '2', '32', '2', 'Y', '2', '2', 'Y', '2', '1', '5米', '2米', '2', '原点住备注', '2014-11-11', '1', 'N', 'N', 100);
-INSERT INTO `htxx` VALUES ('3', '3', '3', '1', '2', '2', 'Y', '3', '2', 'Y', '2', '2', '5米', '2米', '3', '原点住', '2014-11-11', '1', 'N', 'N', 100);
-INSERT INTO `htxx` VALUES ('4', '4', '4', '3', '6', '2', 'Y', '3', '1', 'Y', '1', '1', '5米', '3米', '1', '原点住', '2014-11-04', '1', 'N', 'N', 100);
-INSERT INTO `htxx` VALUES ('5', '5', '1', '2', '98', '2', 'Y', '3', '3', 'Y', '3', '2', '5米', '5米', '2', '原点住备注', '2014-11-11', '1', 'N', 'N', 10);
-INSERT INTO `htxx` VALUES ('6', '6', '3', '4', '7', '1', 'Y', '2', '2', 'Y', '2', '1', '5米', '2米', '1', '原点住', '2014-11-11', '1', 'N', 'N', 10);
-INSERT INTO `htxx` VALUES ('7', '7', '2', '3', '5', '2', 'Y', '1', '1', 'Y', '3', '1', '5米', '2米', '2', '原点住', '2014-11-11', '1', 'N', 'N', 100);
-INSERT INTO `htxx` VALUES ('8', '8', '3', '2', '4', '1', 'Y', '2', '3', 'Y', '4', '2', '5米', '1米', '3', '原点住备注备注', '2014-11-28', '1', 'N', 'N', 10);
-INSERT INTO `htxx` VALUES ('9', '9', '1', '4', '6', '1', 'Y', '1', '1', 'Y', '3', '1', '5米', '8米', '3', '原点住', '2014-11-11', '1', 'N', 'N', 10);
-INSERT INTO `htxx` VALUES ('10', '10', '2', '3', '4', '2', 'Y', '1', '1', 'Y', '4', '1', '8米', '8米', '4', '备注', '2014-11-11', '1', 'N', 'N', 10);
-INSERT INTO `htxx` VALUES ('11', '11', '1', '1', '3', '1', 'Y', '2', '4', 'Y', '2', '2', '8米', '8米', '4', '原点住备注', '2014-11-11', '1', 'N', 'N', 10);
-INSERT INTO `htxx` VALUES ('12', '12', '3', '2', '2', '2', 'Y', '1', '4', 'Y', '1', '2', '8米', '2米', '2', '原点住备注', '2014-11-11', '1', 'N', 'N', 10);
-INSERT INTO `htxx` VALUES ('13', '2345', '1', '1', '1', '1', 'N', '1', '1', 'N', '1', '1', '', '', '1', '', '2014-12-18', null, 'N', 'N', 10);
+INSERT INTO `htxx` VALUES ('1', '1', '1', '1', '100', '1', 'Y', '1', '1', 'Y', '1', '2', '5米', '8米', '1', '备注', '2014-11-27', '1', '1','1','1','Y','1','1','1','1','N', 'N', 100);
+INSERT INTO `htxx` VALUES ('2', '2', '2', '2', '32', '2', 'Y', '2', '2', 'Y', '2', '1', '5米', '2米', '2', '原点住备注', '2014-11-11', '1', '1','1','1','Y','1','1','1','1','N', 'N', 100);
+INSERT INTO `htxx` VALUES ('3', '3', '3', '1', '2', '2', 'Y', '3', '2', 'Y', '2', '2', '5米', '2米', '3', '原点住', '2014-11-11', '1', '1','1','1','Y','1','1','1','1','N', 'N', 100);
+INSERT INTO `htxx` VALUES ('4', '4', '4', '3', '6', '2', 'Y', '3', '1', 'Y', '1', '1', '5米', '3米', '1', '原点住', '2014-11-04', '1', '1','1','1','Y','1','1','1','1','N', 'N', 100);
+INSERT INTO `htxx` VALUES ('5', '5', '1', '2', '98', '2', 'Y', '3', '3', 'Y', '3', '2', '5米', '5米', '2', '原点住备注', '2014-11-11', '1','1','1','1','Y','1','1','1','1', 'N', 'N', 10);
+INSERT INTO `htxx` VALUES ('6', '6', '3', '4', '7', '1', 'Y', '2', '2', 'Y', '2', '1', '5米', '2米', '1', '原点住', '2014-11-11', '1', '1','1','1','Y','1','1','1','1','N', 'N', 10);
+INSERT INTO `htxx` VALUES ('7', '7', '2', '3', '5', '2', 'Y', '1', '1', 'Y', '3', '1', '5米', '2米', '2', '原点住', '2014-11-11', '1', '1','1','1','Y','1','1','1','1','N', 'N', 100);
+INSERT INTO `htxx` VALUES ('8', '8', '3', '2', '4', '1', 'Y', '2', '3', 'Y', '4', '2', '5米', '1米', '3', '原点住备注备注', '2014-11-28', '1', '1','1','1','Y','1','1','1','1','N', 'N', 10);
+INSERT INTO `htxx` VALUES ('9', '9', '1', '4', '6', '1', 'Y', '1', '1', 'Y', '3', '1', '5米', '8米', '3', '原点住', '2014-11-11', '1', '1','1','1','N','1','1','1','1','N', 'N', 10);
+INSERT INTO `htxx` VALUES ('10', '10', '2', '3', '4', '2', 'Y', '1', '1', 'Y', '4', '1', '8米', '8米', '4', '备注', '2014-11-11', '1', '1','1','1','N','1','1','1','1','N', 'N', 10);
+INSERT INTO `htxx` VALUES ('11', '11', '1', '1', '3', '1', 'Y', '2', '4', 'Y', '2', '2', '8米', '8米', '4', '原点住备注', '2014-11-11', '1', '1','1','1','N','1','1','1','1','N', 'N', 10);
+INSERT INTO `htxx` VALUES ('12', '12', '3', '2', '2', '2', 'Y', '1', '4', 'Y', '1', '2', '8米', '2米', '2', '原点住备注', '2014-11-11', '1', '1','1','1','N','1','1','1','1','N', 'N', 10);
+INSERT INTO `htxx` VALUES ('13', '2345', '1', '1', '1', '1', 'N', '1', '1', 'N', '1', '1', '', '', '1', '', '2014-12-18', null, '1','1','1','N','1','1','1','1','N', 'N', 10);
 INSERT INTO `khcyxxb` VALUES ('1', '1', '1', 'Y', '1', '1', 'Y', '1', '1', '5m', '8m', '蓝光英文');
 INSERT INTO `khxx` VALUES ('1', '佛山住友富士', null, null, null, null);
 INSERT INTO `khxx` VALUES ('2', '浙江怡达', null, null, null, null);

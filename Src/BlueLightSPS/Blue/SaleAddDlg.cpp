@@ -215,6 +215,15 @@ void CSaleAddDlg::InitHttpInstance()
 		item.QuerySync(CItem::MPZLXX, m_DropList[CombId::Comb_MPZL]);
 		//++m_iRef;
 
+		//StringArray testArray;
+		//item.QuerySync(CItem::ZJDY, testArray);
+		//item.QuerySync(CItem::ZJYS, testArray);
+		//item.QuerySync(CItem::ZDQXH, testArray);
+		//item.QuerySync(CItem::BZXDTGG, testArray);
+		//item.QuerySync(CItem::ZZS, testArray);
+		//item.QuerySync(CItem::KHQY, testArray);
+
+
 		//EnableWindow(FALSE);
 	}
 

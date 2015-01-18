@@ -79,6 +79,14 @@ enum Column_en{
 	mpzl,	//铭牌等资料"
 	bz,	//备注"
 	ddrq,	//订单日期"
+	zjdy,	//主机电压
+	zjys,	//主机颜色
+	zdqxh,	//制动器型号
+	zyz,	// 左/右置
+	bzxdtgg,// 包装箱/底托规格
+	gh,	// 工号
+	zzs,	// 制造商
+	khqy,	// 客户区域
 	ywsh,	//审核-业务
 	jhsh,	//审核-计划"
 	yxj	//优先级"
@@ -105,6 +113,14 @@ namespace nsPlan{
 		mpzl,	//铭牌等资料"
 		bz,	//备注"
 		ddrq,	//订单日期"
+		zjdy,	//主机电压
+		zjys,	//主机颜色
+		zdqxh,	//制动器型号
+		zyz,	// 左/右置
+		bzxdtgg,// 包装箱/底托规格
+		gh,	// 工号
+		zzs,	// 制造商
+		khqy,	// 客户区域
 		scrq,	//生产日期"
 		jhshyw,	//计划审核-业务"
 		jhshjh,	//计划审核-计划"

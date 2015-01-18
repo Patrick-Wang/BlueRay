@@ -8,6 +8,8 @@ import java.util.List;
 
 
 
+
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -17,13 +19,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.BlueRay.mutton.model.entity.jpa.BMQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.BPQXHFLXX;
+import com.BlueRay.mutton.model.entity.jpa.BZXDTGG;
 import com.BlueRay.mutton.model.entity.jpa.CPGGXHXX;
 import com.BlueRay.mutton.model.entity.jpa.DDZTB;
+import com.BlueRay.mutton.model.entity.jpa.KHQY;
 import com.BlueRay.mutton.model.entity.jpa.KHXX;
 import com.BlueRay.mutton.model.entity.jpa.MPZLXX;
 import com.BlueRay.mutton.model.entity.jpa.YYLGGFLXX;
 import com.BlueRay.mutton.model.entity.jpa.ZCXX;
 import com.BlueRay.mutton.model.entity.jpa.ZDQDYFLXX;
+import com.BlueRay.mutton.model.entity.jpa.ZDQXH;
+import com.BlueRay.mutton.model.entity.jpa.ZJDY;
+import com.BlueRay.mutton.model.entity.jpa.ZJYS;
+import com.BlueRay.mutton.model.entity.jpa.ZZS;
 
 @Repository
 @Transactional("transactionManager")
@@ -304,6 +312,186 @@ public class ItemDaoImpl implements ItemDao{
 
 	public void insert(MPZLXX item) {
 		entityManager.persist(item);
+	}
+
+	public List<BZXDTGG> queryBzxdtgg() {
+		Query q = entityManager.createQuery("select t from BZXDTGG t");
+		return q.getResultList();
+	}
+
+	public BZXDTGG queryBzxdtggById(int id) {
+		Query q = entityManager.createQuery("select t from BZXDTGG t where t.id = :id");
+		q.setParameter("id", id);
+		List<BZXDTGG> list = q.getResultList();
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	public BZXDTGG queryBzxdtggByValue(String colName, Object val) {
+		Query q = entityManager.createQuery("select t from BZXDTGG t where t." + colName + "  = :val");
+		
+		q.setParameter("val", val);
+		List<BZXDTGG> list = q.getResultList();
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	public void insert(BZXDTGG item) {
+		entityManager.persist(item);
+	}
+
+	public List<ZDQXH> queryZdqxh() {
+		Query q = entityManager.createQuery("select t from ZDQXH t");
+		return q.getResultList();
+	}
+
+	public ZDQXH queryZdqxhById(int id) {
+		Query q = entityManager.createQuery("select t from ZDQXH t where t.id = :id");
+		q.setParameter("id", id);
+		List<ZDQXH> list = q.getResultList();
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	public ZDQXH queryZdqxhByValue(String colName, Object val) {
+		Query q = entityManager.createQuery("select t from ZDQXH t where t." + colName + "  = :val");
+		
+		q.setParameter("val", val);
+		List<ZDQXH> list = q.getResultList();
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;	
+	}
+
+	public void insert(ZDQXH item) {
+		entityManager.persist(item);		
+	}
+
+	public List<ZJDY> queryZJDY() {
+		Query q = entityManager.createQuery("select t from ZJDY t");
+		return q.getResultList();
+	}
+
+	public ZJDY queryZJDYById(int id) {
+		Query q = entityManager.createQuery("select t from ZJDY t where t.id = :id");
+		q.setParameter("id", id);
+		List<ZJDY> list = q.getResultList();
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	public ZJDY queryZJDYByValue(String colName, Object val) {
+		Query q = entityManager.createQuery("select t from ZJDY t where t." + colName + "  = :val");
+		
+		q.setParameter("val", val);
+		List<ZJDY> list = q.getResultList();
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;	
+	}
+
+	public void insert(ZJDY item) {
+		entityManager.persist(item);
+	}
+
+	public List<ZJYS> queryZJYS() {
+		Query q = entityManager.createQuery("select t from ZJYS t");
+		return q.getResultList();
+	}
+
+	public ZJYS queryZJYSById(int id) {
+		Query q = entityManager.createQuery("select t from ZJYS t where t.id = :id");
+		q.setParameter("id", id);
+		List<ZJYS> list = q.getResultList();
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	public ZJYS queryZJYSByValue(String colName, Object val) {
+		Query q = entityManager.createQuery("select t from ZJYS t where t." + colName + "  = :val");
+		
+		q.setParameter("val", val);
+		List<ZJYS> list = q.getResultList();
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;	
+	}
+
+	public void insert(ZJYS item) {
+		entityManager.persist(item);		
+	}
+
+	public List<KHQY> queryKHQY() {
+		Query q = entityManager.createQuery("select t from KHQY t");
+		return q.getResultList();
+	}
+
+	public KHQY queryKHQYById(int id) {
+		Query q = entityManager.createQuery("select t from KHQY t where t.id = :id");
+		q.setParameter("id", id);
+		List<KHQY> list = q.getResultList();
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	public KHQY queryKHQYByValue(String colName, Object val) {
+		Query q = entityManager.createQuery("select t from KHQY t where t." + colName + "  = :val");
+		
+		q.setParameter("val", val);
+		List<KHQY> list = q.getResultList();
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	public void insert(KHQY item) {
+		entityManager.persist(item);		
+	}
+
+	public List<ZZS> queryZZS() {
+		Query q = entityManager.createQuery("select t from ZZS t");
+		return q.getResultList();
+	}
+
+	public ZZS queryZZSById(int id) {
+		Query q = entityManager.createQuery("select t from ZZS t where t.id = :id");
+		q.setParameter("id", id);
+		List<ZZS> list = q.getResultList();
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	public ZZS queryZZSByValue(String colName, Object val) {
+		Query q = entityManager.createQuery("select t from ZZS t where t." + colName + "  = :val");
+		
+		q.setParameter("val", val);
+		List<ZZS> list = q.getResultList();
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	public void insert(ZZS item) {
+		entityManager.persist(item);				
 	}
 
 }

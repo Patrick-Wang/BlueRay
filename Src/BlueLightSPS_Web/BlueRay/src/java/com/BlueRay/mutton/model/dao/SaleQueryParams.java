@@ -7,13 +7,19 @@ import java.util.Map;
 
 import com.BlueRay.mutton.model.entity.jpa.BMQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.BPQXHFLXX;
+import com.BlueRay.mutton.model.entity.jpa.BZXDTGG;
 import com.BlueRay.mutton.model.entity.jpa.CPGGXHXX;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
+import com.BlueRay.mutton.model.entity.jpa.KHQY;
 import com.BlueRay.mutton.model.entity.jpa.KHXX;
 import com.BlueRay.mutton.model.entity.jpa.MPZLXX;
 import com.BlueRay.mutton.model.entity.jpa.YYLGGFLXX;
 import com.BlueRay.mutton.model.entity.jpa.ZCXX;
 import com.BlueRay.mutton.model.entity.jpa.ZDQDYFLXX;
+import com.BlueRay.mutton.model.entity.jpa.ZDQXH;
+import com.BlueRay.mutton.model.entity.jpa.ZJDY;
+import com.BlueRay.mutton.model.entity.jpa.ZJYS;
+import com.BlueRay.mutton.model.entity.jpa.ZZS;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -86,7 +92,7 @@ public class SaleQueryParams {
 	private Map<String, Class<?>> connectMap = new HashMap<String, Class<?>>();
 	private static Map<Integer, Integer> paramColMap = new HashMap<Integer, Integer>();
 	{
-		for (int i = 0; i < 19; ++i) {
+		for (int i = 0; i < 27; ++i) {
 			paramColMap.put(i, i + 1);
 		}
 	}
@@ -123,6 +129,24 @@ public class SaleQueryParams {
 		} else if (cls.getName().equals(MPZLXX.class.getName())) {
 			colName = "mpzl";
 			id = "id";
+		} else if (cls.getName().equals(ZJDY.class.getName())) {
+			colName = "zjdyID";
+			id = "id";
+		} else if (cls.getName().equals(ZJYS.class.getName())) {
+			colName = "zjysID";
+			id = "id";
+		} else if (cls.getName().equals(ZDQXH.class.getName())) {
+			colName = "zdqxhID";
+			id = "id";
+		} else if (cls.getName().equals(BZXDTGG.class.getName())) {
+			colName = "bzxdtggID";
+			id = "id";
+		} else if (cls.getName().equals(ZZS.class.getName())) {
+			colName = "zzsID";
+			id = "id";
+		} else if (cls.getName().equals(KHQY.class.getName())) {
+			colName = "khqyID";
+			id = "id";
 		}
 		return id;
 	}
@@ -154,9 +178,28 @@ public class SaleQueryParams {
 		} else if (cls.getName().equals(MPZLXX.class.getName())) {
 			colName = "mpzl";
 			id = "id";
+		} else if (cls.getName().equals(ZJDY.class.getName())) {
+			colName = "zjdyID";
+			id = "id";
+		} else if (cls.getName().equals(ZJYS.class.getName())) {
+			colName = "zjysID";
+			id = "id";
+		} else if (cls.getName().equals(ZDQXH.class.getName())) {
+			colName = "zdqxhID";
+			id = "id";
+		} else if (cls.getName().equals(BZXDTGG.class.getName())) {
+			colName = "bzxdtggID";
+			id = "id";
+		} else if (cls.getName().equals(ZZS.class.getName())) {
+			colName = "zzsID";
+			id = "id";
+		} else if (cls.getName().equals(KHQY.class.getName())) {
+			colName = "khqyID";
+			id = "id";
 		}
 		return colName;
 	}
+
 
 	private String getWhereSql() {
 		StringBuilder whereBuilder = new StringBuilder();

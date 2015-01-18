@@ -6,7 +6,7 @@ module ui {
     export class SaleView extends base.GridView{
         private static ins: SaleView;
         public static widths: number[] = [
-            53, 96, 81, 40, 34, 56, 78, 81, 44, 77, 80, 80, 80, 126, 89, 86, 63, 63
+            53, 96, 81, 40, 34, 56, 78, 81, 44, 77, 80, 80, 80, 126, 89, 80, 80, 80, 80, 80, 80, 80, 80, 86, 63, 63
         ];
         public static getInstance(gridName: string): SaleView {
             if (undefined == SaleView.ins) {
@@ -15,14 +15,14 @@ module ui {
             return SaleView.ins;
         }
         constructor(gridName: string) {
-            super(gridName, ["合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "审核-业务", "审核-计划", "优先级"], SaleView.widths);
+            super(gridName, ["合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "主机电压", "主机颜色", "制动器型号", "左/右置", "包装箱/底托规格", "工号", "制造商", "客户区域", "审核-业务", "审核-计划", "优先级"], SaleView.widths);
         }
     }
 
     export class PlanView extends base.GridView {
         private static ins: PlanView;
         public static widths: number[] = [
-            68, 82, 69, 34, 48, 80, 80, 124, 80, 80, 80, 80, 80, 123, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80
+            68, 82, 69, 34, 48, 80, 80, 124, 80, 80, 80, 80, 80, 123, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80
         ];
         public static getInstance(gridName: string): PlanView {
             if (undefined == PlanView.ins) {
@@ -31,7 +31,7 @@ module ui {
             return PlanView.ins;
         }
         constructor(gridName: string) {
-            super(gridName, ["合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "生产日期", "计划审核-业务", "计划审核-计划", "包装日期", "包装审核-业务", "包装审核-计划", "发货日期", "投产编号", "出厂编号", "优先级"], PlanView.widths);
+            super(gridName, ["合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "主机电压", "主机颜色", "制动器型号", "左/右置", "包装箱/底托规格", "工号", "制造商", "客户区域", "生产日期", "计划审核-业务", "计划审核-计划", "包装日期", "包装审核-业务", "包装审核-计划", "发货日期", "投产编号", "出厂编号", "优先级"], PlanView.widths);
         }
     }
 
