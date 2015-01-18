@@ -575,7 +575,7 @@ void CPlanPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	m_editSearch->GetWindowText(searchText);
 
 	if (!searchText.IsEmpty()){
-		sqp.SetBasicSearchCondition(searchText, true);
+		sqp.SetBasicSearchCondition(searchText, false);
 	}
 
 	CString strFrom;
@@ -828,7 +828,7 @@ void CPlanPanel::HighLight()
 {
 	for (size_t i = 0, len = m_table.size(); i < len; i++)
 	{
-		if (0 == m_table[i].second[PLAN_PRIORITY_COL].Compare(L"¸ß"))
+		if (0 == m_table[i].second[nsPlan::yxj].Compare(L"¸ß"))
 		{
 			m_pJqGridAPI->HighLightRow(m_table[i].first);
 		}

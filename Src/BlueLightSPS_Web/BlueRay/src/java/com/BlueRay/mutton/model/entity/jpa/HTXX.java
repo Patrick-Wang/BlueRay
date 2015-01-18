@@ -31,6 +31,7 @@ public class HTXX implements Serializable {
 	private Integer mpzl;
 	private String bz;
 	private Date ddrq;
+	private Integer zjdyID;
 	private Integer zjysID;
 	private Integer zdqxhID;
 	private String zyz;
@@ -50,7 +51,7 @@ public class HTXX implements Serializable {
 //	  `gh` char(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
 //	  `zzsID` int(11) DEFAULT NULL,
 //	  `khqyID` int(11) DEFAULT NULL,
-	private Integer zjdyID;
+	
 	public Integer getZjdyID() {
 		return zjdyID;
 	}

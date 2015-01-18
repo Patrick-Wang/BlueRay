@@ -130,22 +130,22 @@ public class SaleQueryParams {
 			colName = "mpzl";
 			id = "id";
 		} else if (cls.getName().equals(ZJDY.class.getName())) {
-			colName = "zjdyID";
+			colName = "zjdy";
 			id = "id";
 		} else if (cls.getName().equals(ZJYS.class.getName())) {
-			colName = "zjysID";
+			colName = "zjys";
 			id = "id";
 		} else if (cls.getName().equals(ZDQXH.class.getName())) {
-			colName = "zdqxhID";
+			colName = "zdqxh";
 			id = "id";
 		} else if (cls.getName().equals(BZXDTGG.class.getName())) {
-			colName = "bzxdtggID";
+			colName = "bzxdtgg";
 			id = "id";
 		} else if (cls.getName().equals(ZZS.class.getName())) {
-			colName = "zzsID";
+			colName = "zzs";
 			id = "id";
 		} else if (cls.getName().equals(KHQY.class.getName())) {
-			colName = "khqyID";
+			colName = "khqy";
 			id = "id";
 		}
 		return id;
@@ -179,22 +179,22 @@ public class SaleQueryParams {
 			colName = "mpzl";
 			id = "id";
 		} else if (cls.getName().equals(ZJDY.class.getName())) {
-			colName = "zjdyID";
+			colName = "zjdy";
 			id = "id";
 		} else if (cls.getName().equals(ZJYS.class.getName())) {
-			colName = "zjysID";
+			colName = "zjys";
 			id = "id";
 		} else if (cls.getName().equals(ZDQXH.class.getName())) {
-			colName = "zdqxhID";
+			colName = "zdqxh";
 			id = "id";
 		} else if (cls.getName().equals(BZXDTGG.class.getName())) {
-			colName = "bzxdtggID";
+			colName = "bzxdtgg";
 			id = "id";
 		} else if (cls.getName().equals(ZZS.class.getName())) {
-			colName = "zzsID";
+			colName = "zzs";
 			id = "id";
 		} else if (cls.getName().equals(KHQY.class.getName())) {
-			colName = "khqyID";
+			colName = "khqy";
 			id = "id";
 		}
 		return colName;
