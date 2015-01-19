@@ -164,10 +164,13 @@ void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatu
 	}
 	else if (ProductionStatus_SCRQ_ToBePlanned == productionStatus)
 	{
-		StringArray advance;
-		advance.resize(26);
-		advance[16] = L"@==null";
-		sqp.SetAdvancedCondition(&advance);
+		CUnitedQuery& uq = UQ(nsPlan::scrq, L"@==null");
+		sqp.SetUnitedQuery(uq);
+
+// 		StringArray advance;
+// 		advance.resize(nsPlan::Column_en::end);
+// 		advance[16] = L"@==null";
+// 		sqp.SetAdvancedCondition(&advance);
 
 		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
 		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
@@ -199,7 +202,7 @@ void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatu
 	}
 	else if (ProductionStatus_BZRQ_ToBePlanned == productionStatus)
 	{
-		CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
+		CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@==null");
 		sqp.SetUnitedQuery(uq);
 		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
 		sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
@@ -238,7 +241,7 @@ void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatu
 	}
 	else if (ProductionStatus_FHRQ_ToBePlanned == productionStatus)
 	{
-		CUnitedQuery& uq = UQ(nsPlan::fhrq, L"@!=null");
+		CUnitedQuery& uq = UQ(nsPlan::fhrq, L"@==null");
 		sqp.SetUnitedQuery(uq);
 	}
 	else if (ProductionStatus_All_PlannedAndApproved == productionStatus)
@@ -844,21 +847,21 @@ void CPlanPanel::OnBnClickedMore()
 
 	if (IDOK == dlg.DoModal()){
 		std::vector<CString>& searchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
-		searchVals.insert(searchVals.begin() + 16, L"");//插入生产日期
-		searchVals.insert(searchVals.begin() + 17, L"");//插入生产日期业务审核
-		searchVals.insert(searchVals.begin() + 18, L"");//插入生产日期计划审核
-		searchVals.insert(searchVals.begin() + 19, L"");//插入包装日期
-		searchVals.insert(searchVals.begin() + 20, L"");//插入包装日期业务审核
-		searchVals.insert(searchVals.begin() + 21, L"");//插入包装日期计划审核
-		searchVals.insert(searchVals.begin() + 22, L"");//插入发货日期
-		searchVals.insert(searchVals.begin() + 23, L"");//插入生产编码
-		searchVals.insert(searchVals.begin() + 24, L"");//插入出厂编码
-		searchVals.insert(searchVals.begin() + 25, L"");//插入优先级
+// 		searchVals.insert(searchVals.begin() + 16, L"");//插入生产日期
+// 		searchVals.insert(searchVals.begin() + 17, L"");//插入生产日期业务审核
+// 		searchVals.insert(searchVals.begin() + 18, L"");//插入生产日期计划审核
+// 		searchVals.insert(searchVals.begin() + 19, L"");//插入包装日期
+// 		searchVals.insert(searchVals.begin() + 20, L"");//插入包装日期业务审核
+// 		searchVals.insert(searchVals.begin() + 21, L"");//插入包装日期计划审核
+// 		searchVals.insert(searchVals.begin() + 22, L"");//插入发货日期
+// 		searchVals.insert(searchVals.begin() + 23, L"");//插入生产编码
+// 		searchVals.insert(searchVals.begin() + 24, L"");//插入出厂编码
+// 		searchVals.insert(searchVals.begin() + 25, L"");//插入优先级
 		DEFINE_PLAN_QUERY_PARAM(jqp);
 		jqp.SetAdvancedCondition(&searchVals);
 
 		MakeBasicSearchCondition(jqp);
-		jqp.AddSortCondition(15, false);
+// 		jqp.AddSortCondition(15, false);
 
 		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
 			.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
@@ -1023,53 +1026,53 @@ void CPlanPanel::OnReApproveSuccess(CPlan::ApproveType type)
 		{
 			if (CPlan::ApproveType::PLAN_BUSINESS == type)
 			{
-				m_table[checkedRowTableMap[i]].second[17] = _T("×");
-				m_pJqGridAPI->SetCell(checkedRows[i], 18, _T("×"));
+				m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::jhshyw] = _T("×");
+				m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::jhshyw + 1, _T("×"));
 
-				if (m_table[checkedRowTableMap[i]].second[18] == _T("×"))
+				if (m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::jhshjh] == _T("×"))
 				{
 					//如果生产日期的业务和计划都被反审核，设置生产日期为空
-					m_table[checkedRowTableMap[i]].second[16] = _T("");
-					m_pJqGridAPI->SetCell(checkedRows[i], 17, _T(""));
+					m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::scrq] = _T("");
+					m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::scrq + 1, _T(""));
 				}
 
 				m_btnReApproveSCRQBusiness->EnableWindow(FALSE);
 			}
 			else if (CPlan::ApproveType::PLAN_PLAN == type)
 			{
-				m_table[checkedRowTableMap[i]].second[18] = _T("×");
-				m_pJqGridAPI->SetCell(checkedRows[i], 19, _T("×"));
+				m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::jhshjh] = _T("×");
+				m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::jhshjh + 1, _T("×"));
 
-				if (m_table[checkedRowTableMap[i]].second[17] == _T("×"))
+				if (m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::jhshyw] == _T("×"))
 				{
-					m_table[checkedRowTableMap[i]].second[16] = _T("");
-					m_pJqGridAPI->SetCell(checkedRows[i], 17, _T(""));
+					m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::scrq] = _T("");
+					m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::scrq + 1, _T(""));
 				}
 
 				m_btnReApproveSCRQPlan->EnableWindow(FALSE);
 			}
 			else if (CPlan::ApproveType::PACK_BUSINESS == type)
 			{
-				m_table[checkedRowTableMap[i]].second[20] = _T("×");
-				m_pJqGridAPI->SetCell(checkedRows[i], 21, _T("×"));
+				m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzshyw] = _T("×");
+				m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::bzshyw + 1, _T("×"));
 
-				if (m_table[checkedRowTableMap[i]].second[21] == _T("×"))
+				if (m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzshjh] == _T("×"))
 				{
-					m_table[checkedRowTableMap[i]].second[19] = _T("");
-					m_pJqGridAPI->SetCell(checkedRows[i], 20, _T(""));
+					m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzrq] = _T("");
+					m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::bzrq + 1, _T(""));
 				}
 
 				m_btnReApproveBZRQBusiness->EnableWindow(FALSE);
 			}
 			else if (CPlan::ApproveType::PACK_PLAN == type)
 			{
-				m_table[checkedRowTableMap[i]].second[21] = _T("×");
-				m_pJqGridAPI->SetCell(checkedRows[i], 22, _T("×"));
+				m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzshjh] = _T("×");
+				m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::bzshjh + 1, _T("×"));
 
-				if (m_table[checkedRowTableMap[i]].second[20] == _T("×"))
+				if (m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzshyw] == _T("×"))
 				{
-					m_table[checkedRowTableMap[i]].second[19] = _T("");
-					m_pJqGridAPI->SetCell(checkedRows[i], 20, _T(""));
+					m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzrq] = _T("");
+					m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::bzrq + 1, _T(""));
 				}
 
 				m_btnReApproveBZRQPlan->EnableWindow(FALSE);
@@ -1229,7 +1232,7 @@ void CPlanPanel::OnRowChecked()
 			{
 				if (m_table[j].first == checkedRows[i])
 				{
-					if (_T("√") == m_table[j].second[17])
+					if (_T("√") == m_table[j].second[nsPlan::Column_en::jhshyw])
 					{
 						m_btnReApproveSCRQBusiness->EnableWindow(TRUE);
 						bIfBreak = true;
@@ -1239,7 +1242,7 @@ void CPlanPanel::OnRowChecked()
 						bIsToBeApproveBusinessForSCRQ = true;
 					}
 
-					if (_T("√") == m_table[j].second[18])
+					if (_T("√") == m_table[j].second[nsPlan::Column_en::jhshjh])
 					{
 						m_btnReApproveSCRQPlan->EnableWindow(TRUE);
 						bIfBreak = true;
@@ -1249,7 +1252,7 @@ void CPlanPanel::OnRowChecked()
 						bIsToBeApprovePlanForSCRQ = true;
 					}
 
-					if (_T("√") == m_table[j].second[20])
+					if (_T("√") == m_table[j].second[nsPlan::Column_en::bzshyw])
 					{
 						m_btnReApproveBZRQBusiness->EnableWindow(TRUE);
 						bIfBreak = true;
@@ -1259,7 +1262,7 @@ void CPlanPanel::OnRowChecked()
 						bIsToBeApproveBusinessForBZRQ = true;
 					}
 
-					if (_T("√") == m_table[j].second[21])
+					if (_T("√") == m_table[j].second[nsPlan::Column_en::bzshjh])
 					{
 						m_btnReApproveBZRQPlan->EnableWindow(TRUE);
 						bIfBreak = true;
@@ -1410,18 +1413,18 @@ void CPlanPanel::OnModifyDataSuccess(std::vector<CString>& newData)
 	{
 		if (checkedRowTableMap[i] >= 0)
 		{
-			m_table[checkedRowTableMap[i]].second[16] = newData[0];
-			m_table[checkedRowTableMap[i]].second[19] = newData[1];
-			m_table[checkedRowTableMap[i]].second[22] = newData[2];
-			m_table[checkedRowTableMap[i]].second[23] = newData[3];
-			m_table[checkedRowTableMap[i]].second[24] = newData[4];
+			m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::scrq] = newData[0];
+			m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzrq] = newData[1];
+			m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::fhrq] = newData[2];
+			m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::tcbh] = newData[3];
+			m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::ccbh] = newData[4];
 		}
 
-		m_pJqGridAPI->SetCell(checkedRows[i], 17, newData[0]);
-		m_pJqGridAPI->SetCell(checkedRows[i], 20, newData[1]);
-		m_pJqGridAPI->SetCell(checkedRows[i], 23, newData[2]);
-		m_pJqGridAPI->SetCell(checkedRows[i], 24, newData[3]);
-		m_pJqGridAPI->SetCell(checkedRows[i], 25, newData[4]);
+		m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::scrq + 1, newData[0]);
+		m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::bzrq + 1, newData[1]);
+		m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::fhrq + 1, newData[2]);
+		m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::tcbh + 1, newData[3]);
+		m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::ccbh + 1, newData[4]);
 	}
 }
 
