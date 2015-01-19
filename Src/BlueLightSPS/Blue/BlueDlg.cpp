@@ -204,12 +204,12 @@ void CBlueDlg::OnGridDataLoaded()
 	m_pLastGrid->d_OnGridComplete -= std::make_pair(this, &CBlueDlg::OnGridDataLoaded);
 	CRect clientRect;
 	GetClientRect(clientRect);
-	CRect rtCtrlPanel(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 320);
+	CRect rtCtrlPanel(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 270);
 	m_pPanelMap[IDC_SALEPAGE].reset(new CSalePanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_SALE)));
 	m_pPanelMap[IDC_SALEPAGE]->Create(this, IDP_SALE);
 	m_pPanelMap[IDC_SALEPAGE]->SetWindowPos(NULL, rtCtrlPanel.left, rtCtrlPanel.top, rtCtrlPanel.Width(), rtCtrlPanel.Height(), SWP_HIDEWINDOW);
 	
-	CRect rtCtrlPanelForPlan(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 320);
+	CRect rtCtrlPanelForPlan(RIGHT_AREA_LEFT, 102, clientRect.Width() - 10, 270);
 	m_pPanelMap[IDC_PLANPAGE].reset(new CPlanPanel(new CJQGridAPI(static_cast<IJSMediator*>(&m_webView), GRID_NAME_PLAN)));
 	m_pPanelMap[IDC_PLANPAGE]->Create(this, IDP_PLAN);
 	m_pPanelMap[IDC_PLANPAGE]->SetWindowPos(NULL, rtCtrlPanelForPlan.left, rtCtrlPanelForPlan.top, rtCtrlPanelForPlan.Width(), rtCtrlPanelForPlan.Height(), SWP_HIDEWINDOW);

@@ -89,7 +89,8 @@ enum Column_en{
 	khqy,	// 客户区域
 	ywsh,	//审核-业务
 	jhsh,	//审核-计划"
-	yxj	//优先级"
+	yxj,	//优先级"
+	end
 };
 
 }
@@ -130,7 +131,8 @@ namespace nsPlan{
 		fhrq,	//发货日期"
 		tcbh,	//投产编号"
 		ccbh,	//出厂编号"
-		yxj	//优先级"
+		yxj,	//优先级"
+		end
 	};
 }
 

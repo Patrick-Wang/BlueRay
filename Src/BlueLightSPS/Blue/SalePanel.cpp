@@ -180,12 +180,8 @@ void CSalePanel::OnInitChilds()
 		m_btnMore = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_MORE, _T("更多筛选"), _T("Microsoft YaHei"), 12);
 		m_btnMore->MoveWindow(640, 23, 90, 25);
 
-// 		m_bsMoreWord = Util_Tools::Util::CreateStatic(this, IDC_SALE_BTN_MOREWORD, _T("..."), _T("Microsoft YaHei"), 12);
-// 		m_bsMoreWord->MoveWindow(485, 27, 63, 20);
-
 		m_btnSearch = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_SEARCH, _T("查询"), _T("Microsoft YaHei"), 12);
 		m_btnSearch->MoveWindow(750, 23, 90, 25);
-
 
 		//second line
 		m_btnAdd = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_ADD, _T("添加"), _T("Microsoft YaHei"), 12);
@@ -448,15 +444,15 @@ void CSalePanel::OnReApproveSuccess(CSale::ApproveType type)
 		{
 			if (CSale::ApproveType::BUSINESS == type)
 			{
-				m_table[checkedRowTableMap[i]].second[16] = _T("×");
-				m_pJqGridAPI->SetCell(checkedRows[i], 17, _T("×"));
+				m_table[checkedRowTableMap[i]].second[nsSale::Column_en::ywsh] = _T("×");
+				m_pJqGridAPI->SetCell(checkedRows[i], nsSale::Column_en::ywsh + 1, _T("×"));
 
 				m_btnReApproveForBusiness->EnableWindow(FALSE);
 			}
 			else if (CSale::ApproveType::PLAN == type)
 			{
-				m_table[checkedRowTableMap[i]].second[17] = _T("×");
-				m_pJqGridAPI->SetCell(checkedRows[i], 18, _T("×"));
+				m_table[checkedRowTableMap[i]].second[nsSale::Column_en::jhsh] = _T("×");
+				m_pJqGridAPI->SetCell(checkedRows[i], nsSale::Column_en::jhsh + 1, _T("×"));
 
 				m_btnReApproveForPlan->EnableWindow(FALSE);
 			}
@@ -578,7 +574,7 @@ void CSalePanel::OnRowChecked()
 			{
 				if (m_table[j].first == checkedRows[i])
 				{
-					if (_T("√") == m_table[j].second[16])
+					if (_T("√") == m_table[j].second[nsSale::Column_en::ywsh])
 					{
 						m_btnReApproveForBusiness->EnableWindow(TRUE);
 						bIsAnyApproved = true;
@@ -588,7 +584,7 @@ void CSalePanel::OnRowChecked()
 						bIsToBeApproveBusiness = true;
 					}
 
-					if (_T("√") == m_table[j].second[17])
+					if (_T("√") == m_table[j].second[nsSale::Column_en::jhsh])
 					{
 						m_btnReApproveForPlan->EnableWindow(TRUE);
 						bIsAnyApproved = true;
@@ -643,9 +639,9 @@ void CSalePanel::OnBnClickedMore()
 	dlg.SetOption(new CSaleAddDlg::Option_t());
 	if (IDOK == dlg.DoModal()){
 		std::vector<CString>& searchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
-		searchVals.insert(searchVals.begin() + 16, L"");//插入业务审核
-		searchVals.insert(searchVals.begin() + 17, L"");//插入计划审核
-		searchVals.insert(searchVals.begin() + 18, L"");//插入优先级
+// 		searchVals.insert(searchVals.begin() + 16, L"");//插入业务审核
+// 		searchVals.insert(searchVals.begin() + 17, L"");//插入计划审核
+// 		searchVals.insert(searchVals.begin() + 18, L"");//插入优先级
 		DEFINE_SALE_QUERY_PARAM(jqp);
 		jqp.SetAdvancedCondition(&searchVals);
 
@@ -944,8 +940,8 @@ void CSalePanel::OnApproveDataSuccess()
 	}
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
-		m_table[checkedRowTableMap[i]].second[16] = _T("√");
-		m_pJqGridAPI->SetCell(checkedRows[i], 17, _T("√"));
+		m_table[checkedRowTableMap[i]].second[nsSale::Column_en::ywsh] = _T("√");
+		m_pJqGridAPI->SetCell(checkedRows[i], nsSale::Column_en::ywsh + 1, _T("√"));
 	}
 	GetParent()->PostMessage(WM_SALE_UPDATED);
 	OnRowChecked();
