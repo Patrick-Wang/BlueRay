@@ -295,9 +295,9 @@ BOOL CBlueDlg::OnEraseBkgnd(CDC* pDC)
 	GetClientRect(rtClient);
 	CBSObject::FillRect(pDC->m_hDC, CRect(0, 84, rtClient.Width(), rtClient.Height()), COL_WHITE);
 	CBSObject::FillRect(pDC->m_hDC, CRect(0, 0, rtClient.Width(), 84), COL_GRAY);
-	CBSObject::DrawRect(pDC->m_hDC, CRect(RIGHT_AREA_LEFT, 102, rtClient.Width() - 10, 255), COL_BLACK, 2);
+	CBSObject::DrawRect(pDC->m_hDC, CRect(RIGHT_AREA_LEFT, 102, rtClient.Width() - 10, 255), COL_GRAY, 2);
 	CBSObject::DrawRect(pDC->m_hDC, CRect(3, 102, NAVIGATE_WIDTH, rtClient.Height() - 10), COL_GRAY, 2);
-	CBSObject::DrawLine(pDC->m_hDC, CPoint(-1, 84), CPoint(rtClient.Width(), 84), COL_BLACK, 2);
+	CBSObject::DrawLine(pDC->m_hDC, CPoint(-1, 84), CPoint(rtClient.Width(), 84), COL_DARK_GRAY, 2);
 	return ret;
 }
 

@@ -116,10 +116,10 @@ BOOL CLoginDlg::OnInitDialog()
 	m_btnMin.SetColorInside(enumBSBtnState::BS_HOVER, COL_WHITE);
 	m_btnMin.SetColorInside(enumBSBtnState::BS_CLICK, COL_DARK_GRAY);
 
-	m_btnForgetPassword.Create(this, IDC_FORGET_PSW);
-	m_btnForgetPassword.SetWindowText(_T("Íü¼ÇÃÜÂë >>"));
-	m_btnForgetPassword.MoveWindow(667, 440, 130, 24);
-	m_btnForgetPassword.SetBackgroundColor(COL_GRAY);
+// 	m_btnForgetPassword.Create(this, IDC_FORGET_PSW);
+// 	m_btnForgetPassword.SetWindowText(_T("Íü¼ÇÃÜÂë >>"));
+// 	m_btnForgetPassword.MoveWindow(667, 440, 130, 24);
+// 	m_btnForgetPassword.SetBackgroundColor(COL_GRAY);
 
 	m_btnLogin.Create(this, IDC_LOGIN);
 	m_btnLogin.SetWindowText(_T("µÇÂ½"));
