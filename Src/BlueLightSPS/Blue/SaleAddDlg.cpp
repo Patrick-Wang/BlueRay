@@ -22,6 +22,12 @@
 #define QUERY_COMBO_VALUE_BPQXH_URL_ID		IDP_SALE_ADD + 8
 #define QUERY_COMBO_VALUE_BMQXH_URL_ID		IDP_SALE_ADD + 9
 #define QUERY_COMBO_VALUE_MPZL_URL_ID		IDP_SALE_ADD + 10
+#define QUERY_COMBO_VALUE_ZJDY_URL_ID		IDP_SALE_ADD + 11
+#define QUERY_COMBO_VALUE_ZJYS_URL_ID		IDP_SALE_ADD + 12
+#define QUERY_COMBO_VALUE_ZDQXH_URL_ID		IDP_SALE_ADD + 13
+#define QUERY_COMBO_VALUE_BZXDTGG_URL_ID	IDP_SALE_ADD + 14
+#define QUERY_COMBO_VALUE_ZZS_URL_ID		IDP_SALE_ADD + 15
+#define QUERY_COMBO_VALUE_KHQY_URL_ID		IDP_SALE_ADD + 16
 
 
 static LPCTSTR g_StaticItems[][1] = { //0: default text
@@ -40,7 +46,16 @@ static LPCTSTR g_StaticItems[][1] = { //0: default text
 		{ _T("闸线长度") },
 		{ _T("铭牌等资料") },
 		{ _T("订单日期") },
-		{ _T("备注") }
+		{ _T("备注") },
+		{ _T("主机电压") },
+		{ _T("主机颜色") },
+		{ _T("制动器型号") },
+		{ _T("左/右置") },
+		{ _T("包装箱/底托规格") },
+		{ _T("制造商") },
+		{ _T("客户区域") },
+		{ _T("优先级") },
+		{ _T("工号") }
 };
 
 static int g_StaticPos[][4] = {
@@ -59,7 +74,16 @@ static int g_StaticPos[][4] = {
 		{ 100 * 0 + 100 * 0, 40 * 4, 100, 20 }, //Static_ZXCD,
 		{ 100 * 1 + 100 * 1, 40 * 4, 100, 20 }, //Static_MPZL,
 		{ 100 * 2 + 100 * 2, 40 * 4, 100, 20 }, //Static_DDRQ,
-		{ 100 * 3 + 100 * 3, 40 * 4, 100, 20 }  //Static_BZ,
+		{ 100 * 3 + 100 * 3, 40 * 4, 100, 20 },  //Static_BZ,
+		{ 100 * 0 + 100 * 0, 40 * 5, 100, 20 }, 
+		{ 100 * 1 + 100 * 1, 40 * 5, 100, 20 }, 
+		{ 100 * 2 + 100 * 2, 40 * 5, 100, 20 }, 
+		{ 100 * 3 + 100 * 3, 40 * 5, 100, 20 }, 
+		{ 100 * 0 + 100 * 0, 40 * 6, 100, 20 }, 
+		{ 100 * 1 + 100 * 1, 40 * 6, 100, 20 }, 
+		{ 100 * 2 + 100 * 2, 40 * 6, 100, 20 }, 
+		{ 100 * 3 + 100 * 3, 40 * 6, 100, 20 },
+		{ 100 * 0 + 100 * 0, 40 * 7, 100, 20 }
 };
 
 static int g_CombPos[][4] = {
@@ -72,7 +96,15 @@ static int g_CombPos[][4] = {
 		{ 100 * 1 + 100 * 0, 40 * 3, 100, 20 }, //Comb_JF,
 		{ 100 * 2 + 100 * 1, 40 * 3, 100, 20 }, //Comb_BPQXH,
 		{ 100 * 3 + 100 * 2, 40 * 3, 100, 20 }, //Comb_BMQXH,
-		{ 100 * 2 + 100 * 1, 40 * 4, 100, 20 }	//Comb_MPZL,
+		{ 100 * 2 + 100 * 1, 40 * 4, 100, 20 },	//Comb_MPZL,
+		{ 100 * 1 + 100 * 0, 40 * 5, 100, 20 }, 
+		{ 100 * 2 + 100 * 1, 40 * 5, 100, 20 }, 
+		{ 100 * 3 + 100 * 2, 40 * 5, 100, 20 }, 
+		{ 100 * 4 + 100 * 3, 40 * 5, 100, 20 }, 
+		{ 100 * 1 + 100 * 0, 40 * 6, 100, 20 }, 
+		{ 100 * 2 + 100 * 1, 40 * 6, 100, 20 }, 
+		{ 100 * 3 + 100 * 2, 40 * 6, 100, 20 }, 
+		{ 100 * 4 + 100 * 3, 40 * 6, 100, 20 }
 };
 
 static int g_DatePickersPos[][4] = {
@@ -84,8 +116,8 @@ static int g_EditsPos[][4] = {
 		{ 100 * 4 + 100 * 3, 40 * 1, 100, 20 }, //Edit_SL,
 		{ 100 * 4 + 100 * 3, 40 * 3, 100, 20 }, //Edit_DLCD,
 		{ 100 * 1 + 100 * 0, 40 * 4, 100, 20 }, //Edit_ZXCD,
-		//{ 100 * 3 + 100 * 2, 40 * 4, 100, 20 }, //Edit_DDRQ,
 		{ 100 * 4 + 100 * 3, 40 * 4, 100, 20 }, //Edit_BZ,
+		{ 100 * 1 + 100 * 0, 40 * 7, 100, 20 } //Edit_GH,
 };
 
 static LPCTSTR g_EditItems[][1] = { //0: default text
@@ -94,7 +126,8 @@ static LPCTSTR g_EditItems[][1] = { //0: default text
 		{ _T("电缆长度") },
 		{ _T("闸线长度") },
 		{ _T("订单日期") },
-		{ _T("备注") }
+		{ _T("备注") },
+		{ _T("工号") },
 };
 
 inline void init(CEdit* edit, CString& val){
@@ -160,20 +193,14 @@ void CSaleAddDlg::InitHttpInstance()
 
 		//客户名称
 		CString url;
-		//url.Format(_T("http://%s:8080/BlueRay/itemquery/khxx"), IDS_HOST_NAME);
-		//m_pHttp->Get(url, QUERY_COMBO_VALUE_KHMC_URL_ID);
 		item.QuerySync(CItem::KHXX, m_DropList[CombId::Comb_KHMC]);
 		++m_iRef;
 
 		//规格型号
-		//url.Format(_T("http://%s:8080/BlueRay/itemquery/cpggxhxx"), IDS_HOST_NAME);
 		item.QuerySync(CItem::CPGGXHXX, m_DropList[CombId::Comb_GGBH]);
-		//m_pHttp->Get(url, QUERY_COMBO_VALUE_GGBH_URL_ID);
 		++m_iRef;
 
 		//轴承
-		//url.Format(_T("http://%s:8080/BlueRay/itemquery/zcxx"), IDS_HOST_NAME);
-		//m_pHttp->Get(url, QUERY_COMBO_VALUE_ZC_URL_ID);
 		item.QuerySync(CItem::ZCXX, m_DropList[CombId::Comb_ZC]);
 		++m_iRef;
 
@@ -182,14 +209,10 @@ void CSaleAddDlg::InitHttpInstance()
 		m_DropList[Comb_DFR].push_back(_T("否"));
 
 		//制动器电压
-		//url.Format(_T("http://%s:8080/BlueRay/itemquery/zdqdyflxx"), IDS_HOST_NAME);
-		//m_pHttp->Get(url, QUERY_COMBO_VALUE_ZDQDY_URL_ID);
 		item.QuerySync(CItem::ZDQDYFLXX, m_DropList[CombId::Comb_ZDQDY]);
 		++m_iRef;
 
 		//曳引轮规格
-		//url.Format(_T("http://%s:8080/BlueRay/itemquery/yylggflxx"), IDS_HOST_NAME);
-		//m_pHttp->Get(url, QUERY_COMBO_VALUE_YYLGG_URL_ID);
 		item.QuerySync(CItem::YYLGGFLXX, m_DropList[CombId::Comb_YYLGG]);
 		++m_iRef;
 
@@ -198,36 +221,41 @@ void CSaleAddDlg::InitHttpInstance()
 		m_DropList[Comb_JF].push_back(_T("否"));
 
 		//变频器型号
-		//url.Format(_T("http://%s:8080/BlueRay/itemquery/bpqxhflxx"), IDS_HOST_NAME);
-		//m_pHttp->Get(url, QUERY_COMBO_VALUE_BPQXH_URL_ID);
 		item.QuerySync(CItem::BPQXHFLXX, m_DropList[CombId::Comb_BPQXH]);
-		++m_iRef;
 
 		//编码器型号
-		//url.Format(_T("http://%s:8080/BlueRay/itemquery/bmqxhflxx"), IDS_HOST_NAME);
-		//m_pHttp->Get(url, QUERY_COMBO_VALUE_BMQXH_URL_ID);
 		item.QuerySync(CItem::BMQXHFLXX, m_DropList[CombId::Comb_BMQXH]);
-		++m_iRef;
 
 		//铭牌等资料
-		//url.Format(_T("http://%s:8080/BlueRay/itemquery/mpzlxx"), IDS_HOST_NAME);
-		//m_pHttp->Get(url, QUERY_COMBO_VALUE_MPZL_URL_ID);
 		item.QuerySync(CItem::MPZLXX, m_DropList[CombId::Comb_MPZL]);
-		//++m_iRef;
 
-		//StringArray testArray;
-		//item.QuerySync(CItem::ZJDY, testArray);
-		//item.QuerySync(CItem::ZJYS, testArray);
-		//item.QuerySync(CItem::ZDQXH, testArray);
-		//item.QuerySync(CItem::BZXDTGG, testArray);
-		//item.QuerySync(CItem::ZZS, testArray);
-		//item.QuerySync(CItem::KHQY, testArray);
+		//主机电压
+		item.QuerySync(CItem::ZJDY, m_DropList[CombId::Comb_ZJDY]);
 
+		//主机颜色
+		item.QuerySync(CItem::ZJYS, m_DropList[CombId::Comb_ZJYS]);
 
-		//EnableWindow(FALSE);
+		//制动器型号
+		item.QuerySync(CItem::ZDQXH, m_DropList[CombId::Comb_ZDQXH]);
+
+		//左 / 右置
+		m_DropList[Comb_ZYZ].push_back(_T("是"));
+		m_DropList[Comb_ZYZ].push_back(_T("否"));
+
+		//包装箱 / 底托规格
+		item.QuerySync(CItem::BZXDTGG, m_DropList[CombId::Comb_BZXDTGG]);
+
+		//制造商
+		item.QuerySync(CItem::ZZS, m_DropList[CombId::Comb_ZZS]);
+
+		//客户区域
+		item.QuerySync(CItem::KHQY, m_DropList[CombId::Comb_KHQY]);
+		
+		//优先级
+		m_DropList[Comb_YXJ].push_back(_T("无"));
+		m_DropList[Comb_YXJ].push_back(_T("高"));
+
 	}
-
-
 }
 
 void CSaleAddDlg::OnHttpSuccess(int id, LPCTSTR resp)
@@ -245,18 +273,12 @@ void CSaleAddDlg::OnHttpSuccess(int id, LPCTSTR resp)
 	case QUERY_COMBO_VALUE_ZC_URL_ID:
 		OnLoadComboDataSuccess(Comb_ZC, CString(resp));
 		break;
-		//case QUERY_COMBO_VALUE_DFR_URL_ID:	  
-		//	OnLoadComboDataSuccess(Comb_DFR, CString(resp));
-		//	break;
 	case QUERY_COMBO_VALUE_ZDQDY_URL_ID:
 		OnLoadComboDataSuccess(Comb_ZDQDY, CString(resp));
 		break;
 	case QUERY_COMBO_VALUE_YYLGG_URL_ID:
 		OnLoadComboDataSuccess(Comb_YYLGG, CString(resp));
 		break;
-		//case QUERY_COMBO_VALUE_JF_URL_ID:	  
-		//	OnLoadComboDataSuccess(Comb_JF, CString(resp));
-		//	break;
 	case QUERY_COMBO_VALUE_BPQXH_URL_ID:
 		OnLoadComboDataSuccess(Comb_BPQXH, CString(resp));
 		break;
@@ -266,6 +288,25 @@ void CSaleAddDlg::OnHttpSuccess(int id, LPCTSTR resp)
 	case QUERY_COMBO_VALUE_MPZL_URL_ID:
 		OnLoadComboDataSuccess(Comb_MPZL, CString(resp));
 		break;
+	case QUERY_COMBO_VALUE_ZJDY_URL_ID:
+		OnLoadComboDataSuccess(Comb_ZJDY, CString(resp));
+		break;
+	case QUERY_COMBO_VALUE_ZJYS_URL_ID:
+		OnLoadComboDataSuccess(Comb_ZJYS, CString(resp));
+		break;
+	case QUERY_COMBO_VALUE_ZDQXH_URL_ID:
+		OnLoadComboDataSuccess(Comb_ZDQXH, CString(resp));
+		break;
+	case QUERY_COMBO_VALUE_BZXDTGG_URL_ID:
+		OnLoadComboDataSuccess(Comb_BZXDTGG, CString(resp));
+		break;
+	case QUERY_COMBO_VALUE_ZZS_URL_ID:
+		OnLoadComboDataSuccess(Comb_ZZS, CString(resp));
+		break;
+	case QUERY_COMBO_VALUE_KHQY_URL_ID:
+		OnLoadComboDataSuccess(Comb_KHQY, CString(resp));
+		break;
+
 	default:
 		break;
 	}
@@ -286,6 +327,12 @@ void CSaleAddDlg::OnHttpFailed(int id)
 	case QUERY_COMBO_VALUE_BPQXH_URL_ID:
 	case QUERY_COMBO_VALUE_BMQXH_URL_ID:
 	case QUERY_COMBO_VALUE_MPZL_URL_ID:
+	case QUERY_COMBO_VALUE_ZJDY_URL_ID:
+	case QUERY_COMBO_VALUE_ZJYS_URL_ID:
+	case QUERY_COMBO_VALUE_ZDQXH_URL_ID:
+	case QUERY_COMBO_VALUE_BZXDTGG_URL_ID:
+	case QUERY_COMBO_VALUE_ZZS_URL_ID:
+	case QUERY_COMBO_VALUE_KHQY_URL_ID:
 	{
 		--m_iRef;
 		if (0 == m_iRef)
@@ -447,12 +494,6 @@ void CSaleAddDlg::OnOK()
 	m_aCombs[CombId::Comb_BMQXH]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bmqxh : 0));
 
-	//m_aCombs[CombId::Comb_DLCD]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->dlcd : 0));
-
-	//m_aCombs[CombId::Comb_ZXCD]->GetWindowText(strTmp);
-	//m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->zxcd : 0));
-
 	m_aEdits[EditId::Edit_DLCD]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->dlcd : _T("")));
 
@@ -476,6 +517,36 @@ void CSaleAddDlg::OnOK()
 	{
 		m_vecResult.push_back(_T(""));
 	}
+
+	m_aCombs[CombId::Comb_ZJDY]->GetWindowText(strTmp);
+	m_vecResult.push_back(strTmp);
+
+	m_aCombs[CombId::Comb_ZJYS]->GetWindowText(strTmp);
+	m_vecResult.push_back(strTmp);
+
+	m_aCombs[CombId::Comb_ZDQXH]->GetWindowText(strTmp);
+	m_vecResult.push_back(strTmp);
+
+	m_aCombs[CombId::Comb_ZYZ]->GetWindowText(strTmp);
+	m_vecResult.push_back(strTmp);
+
+	m_aCombs[CombId::Comb_BZXDTGG]->GetWindowText(strTmp);
+	m_vecResult.push_back(strTmp);
+
+	m_aEdits[EditId::Edit_GH]->GetWindowText(strTmp);
+	m_vecResult.push_back(strTmp);
+
+	m_aCombs[CombId::Comb_ZZS]->GetWindowText(strTmp);
+	m_vecResult.push_back(strTmp);
+
+	m_aCombs[CombId::Comb_KHQY]->GetWindowText(strTmp);
+	m_vecResult.push_back(strTmp);
+
+// 	m_vecResult.push_back(_T(""));	//for ywsh
+// 	m_vecResult.push_back(_T(""));	//for jhsh
+
+// 	m_aCombs[CombId::Comb_YXJ]->GetWindowText(strTmp);
+// 	m_vecResult.push_back(strTmp);
 
 	CPopupDlg::OnOK();
 }
@@ -526,6 +597,18 @@ void CSaleAddDlg::InitCtrlData()
 		init(m_aCombs[CombId::Comb_BPQXH], m_lpOption->bpqxh);
 		init(m_aCombs[CombId::Comb_BMQXH], m_lpOption->bmqxh);
 		init(m_aCombs[CombId::Comb_MPZL], m_lpOption->mpzl);
+
+		init(m_aEdits[EditId::Edit_GH], m_lpOption->gh);
+
+		init(m_aCombs[CombId::Comb_ZJDY], m_lpOption->zjdy);
+		init(m_aCombs[CombId::Comb_ZJYS], m_lpOption->zjys);
+		init(m_aCombs[CombId::Comb_ZDQXH], m_lpOption->zdqxh);
+		init(m_aCombs[CombId::Comb_ZYZ], m_lpOption->zyz);
+		init(m_aCombs[CombId::Comb_BZXDTGG], m_lpOption->bzxdtgg);
+		init(m_aCombs[CombId::Comb_ZZS], m_lpOption->zzs);
+		init(m_aCombs[CombId::Comb_KHQY], m_lpOption->khqy);
+		init(m_aCombs[CombId::Comb_YXJ], m_lpOption->yxj);
+
 	}
 	else
 	{
@@ -539,8 +622,15 @@ void CSaleAddDlg::InitCtrlData()
 		init(m_aCombs[CombId::Comb_BPQXH], 0);
 		init(m_aCombs[CombId::Comb_BMQXH], 0);
 		init(m_aCombs[CombId::Comb_MPZL], 0);
-		//init(m_aCombs[CombId::Comb_DLCD], 0);
-		//init(m_aCombs[CombId::Comb_ZXCD], 0);
+
+		init(m_aCombs[CombId::Comb_ZJDY], 0);
+		init(m_aCombs[CombId::Comb_ZJYS], 0);
+		init(m_aCombs[CombId::Comb_ZDQXH], 0);
+		init(m_aCombs[CombId::Comb_ZYZ], 0);
+		init(m_aCombs[CombId::Comb_BZXDTGG], 0);
+		init(m_aCombs[CombId::Comb_ZZS], 0);
+		init(m_aCombs[CombId::Comb_KHQY], 0);
+		init(m_aCombs[CombId::Comb_YXJ], 0);
 
 		CString val(_T(""));
 		init(m_aDatePickers[DatePickerId::DatePicker_DDRQ], val);

@@ -58,22 +58,6 @@ break;\
 class CSaleAddDlg :	public CPopupDlg
 {
 public:
-	enum CombId{
-		Comb_KHMC,
-		Comb_GGBH,
-		Comb_ZC,
-		Comb_DFR, 
-		Comb_ZDQDY,
-		Comb_YYLGG,
-		Comb_JF,
-		Comb_BPQXH,
-		Comb_BMQXH,
-		Comb_MPZL,
-		//Comb_DLCD,
-		//Comb_ZXCD,
-		Comb_END
-	};
-
 	typedef struct tagOption_t{
 		CString htbh;	//合同号
 		int khmc;		//客户名称
@@ -91,6 +75,15 @@ public:
 		int mpzl;		//铭牌等资料
 		CString ddrq;	//订单日期
 		CString bz;		//备注
+		int zjdy;		//主机电压
+		int zjys;		//主机颜色
+		int zdqxh;		//制动器型号
+		int zyz;		//左/右置
+		int bzxdtgg;	//包装箱/底托规格
+		CString gh;		//工号
+		int zzs;		//制造商
+		int khqy;		//客户区域
+		int yxj;		//优先级
 
 		tagOption_t(){
 			htbh = OPT_FALSE;			//合同号
@@ -109,6 +102,15 @@ public:
 			mpzl = OPT_FALSE_INT;		//铭牌等资料
 			ddrq = OPT_DATE_NULL;			//订单日期
 			bz = OPT_FALSE;				//备注
+			zjdy = OPT_FALSE_INT;
+			zjys = OPT_FALSE_INT;
+			zdqxh = OPT_FALSE_INT;
+			zyz = OPT_FALSE_INT;
+			bzxdtgg = OPT_FALSE_INT;
+			zzs = OPT_FALSE_INT;
+			khqy = OPT_FALSE_INT;
+			yxj = OPT_FALSE_INT;
+			gh = OPT_FALSE;
 		}
 
 		tagOption_t(std::vector<CString>& data){
@@ -131,6 +133,15 @@ public:
 				do_get_int(data, it, CombId::Comb_MPZL, mpzl);
 				do_get(data, it, bz);
 				do_get(data, it, ddrq);
+				do_get_int(data, it, CombId::Comb_ZJDY, zjdy);
+				do_get_int(data, it, CombId::Comb_ZJYS, zjys);
+				do_get_int(data, it, CombId::Comb_ZDQXH, zdqxh);
+				do_get_int(data, it, CombId::Comb_ZYZ, zyz);
+				do_get_int(data, it, CombId::Comb_BZXDTGG, bzxdtgg);
+				do_get(data, it, gh);
+				do_get_int(data, it, CombId::Comb_ZZS, zzs);
+				do_get_int(data, it, CombId::Comb_KHQY, khqy);
+				do_get_int(data, it, CombId::Comb_YXJ, yxj);
 
 			} while (false);
 		}
@@ -154,6 +165,16 @@ public:
 				do_get_int_merge(data, it, CombId::Comb_MPZL, mpzl);
 				do_get_merge(data, it, bz);
 				do_get_merge(data, it, ddrq);
+
+				do_get_int_merge(data, it, CombId::Comb_ZJDY, zjdy);
+				do_get_int_merge(data, it, CombId::Comb_ZJYS, zjys);
+				do_get_int_merge(data, it, CombId::Comb_ZDQXH, zdqxh);
+				do_get_int_merge(data, it, CombId::Comb_ZYZ, zyz);
+				do_get_int_merge(data, it, CombId::Comb_BZXDTGG, bzxdtgg);
+				do_get_merge(data, it, gh);
+				do_get_int_merge(data, it, CombId::Comb_ZZS, zzs);
+				do_get_int_merge(data, it, CombId::Comb_KHQY, khqy);
+				do_get_int_merge(data, it, CombId::Comb_YXJ, yxj);
 
 			} while (false);
 		}
@@ -182,7 +203,40 @@ private:
 		Static_MPZL,
 		Static_DDRQ,
 		Static_BZ,
+		Static_ZJDY,
+		Static_ZJYS,
+		Static_ZDQXH,
+		Static_ZYZ,
+		Static_BZXDTGG,
+		Static_ZZS,
+		Static_KHQY,
+		Static_YXJ,
+		Static_GH,
 		Static_END
+	};
+
+	enum CombId{
+		Comb_KHMC,
+		Comb_GGBH,
+		Comb_ZC,
+		Comb_DFR,
+		Comb_ZDQDY,
+		Comb_YYLGG,
+		Comb_JF,
+		Comb_BPQXH,
+		Comb_BMQXH,
+		Comb_MPZL,
+		//Comb_DLCD,
+		//Comb_ZXCD,
+		Comb_ZJDY,
+		Comb_ZJYS,
+		Comb_ZDQXH,
+		Comb_ZYZ,
+		Comb_BZXDTGG,
+		Comb_ZZS,
+		Comb_KHQY,
+		Comb_YXJ,
+		Comb_END
 	};
 
 	enum EditId{
@@ -191,6 +245,7 @@ private:
 		Edit_DLCD,
 		Edit_ZXCD,
 		Edit_BZ,
+		Edit_GH,
 		Edit_END
 	};
 
