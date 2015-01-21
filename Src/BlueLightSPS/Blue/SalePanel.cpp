@@ -317,7 +317,6 @@ void CSalePanel::OnBnClickedAdd()
 	if (IDOK == dlg.DoModal())
 	{
 		m_cacheRow = dlg.GetResult();
-		m_cacheRow.push_back(_T(""));//yxj
 
 		class CAddListener : public CPromise<int>::IHttpResponse{
 			CONSTRUCTOR_2(CAddListener, CSalePanel&, salePanel, StringArray&, cacheRow)
@@ -444,15 +443,15 @@ void CSalePanel::OnReApproveSuccess(CSale::ApproveType type)
 		{
 			if (CSale::ApproveType::BUSINESS == type)
 			{
-				m_table[checkedRowTableMap[i]].second[nsSale::Column_en::ywsh] = _T("¡Á");
-				m_pJqGridAPI->SetCell(checkedRows[i], nsSale::Column_en::ywsh + 1, _T("¡Á"));
+				m_table[checkedRowTableMap[i]].second[nsSale::Column_en::ywsh] = IDS_COMMON_NO;
+				m_pJqGridAPI->SetCell(checkedRows[i], nsSale::Column_en::ywsh + 1, IDS_COMMON_NO);
 
 				m_btnReApproveForBusiness->EnableWindow(FALSE);
 			}
 			else if (CSale::ApproveType::PLAN == type)
 			{
-				m_table[checkedRowTableMap[i]].second[nsSale::Column_en::jhsh] = _T("¡Á");
-				m_pJqGridAPI->SetCell(checkedRows[i], nsSale::Column_en::jhsh + 1, _T("¡Á"));
+				m_table[checkedRowTableMap[i]].second[nsSale::Column_en::jhsh] = IDS_COMMON_NO;
+				m_pJqGridAPI->SetCell(checkedRows[i], nsSale::Column_en::jhsh + 1, IDS_COMMON_NO);
 
 				m_btnReApproveForPlan->EnableWindow(FALSE);
 			}
@@ -470,7 +469,7 @@ void CSalePanel::OnBnClickedModify()
 	if (IDOK == dlg.DoModal())
 	{
 		m_cacheRow = dlg.GetResult();
-		m_cacheRow.push_back(L"");
+
 		std::map<CString, StringArrayPtr> attr;
 		StringArray tmpCheckRows;
 		std::vector<int> checkedRows;
@@ -574,7 +573,7 @@ void CSalePanel::OnRowChecked()
 			{
 				if (m_table[j].first == checkedRows[i])
 				{
-					if (_T("¡Ì") == m_table[j].second[nsSale::Column_en::ywsh])
+					if (IDS_COMMON_YES == m_table[j].second[nsSale::Column_en::ywsh])
 					{
 						m_btnReApproveForBusiness->EnableWindow(TRUE);
 						bIsAnyApproved = true;
@@ -584,7 +583,7 @@ void CSalePanel::OnRowChecked()
 						bIsToBeApproveBusiness = true;
 					}
 
-					if (_T("¡Ì") == m_table[j].second[nsSale::Column_en::jhsh])
+					if (IDS_COMMON_YES == m_table[j].second[nsSale::Column_en::jhsh])
 					{
 						m_btnReApproveForPlan->EnableWindow(TRUE);
 						bIsAnyApproved = true;
@@ -940,8 +939,8 @@ void CSalePanel::OnApproveDataSuccess()
 	}
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
-		m_table[checkedRowTableMap[i]].second[nsSale::Column_en::ywsh] = _T("¡Ì");
-		m_pJqGridAPI->SetCell(checkedRows[i], nsSale::Column_en::ywsh + 1, _T("¡Ì"));
+		m_table[checkedRowTableMap[i]].second[nsSale::Column_en::ywsh] = IDS_COMMON_YES;
+		m_pJqGridAPI->SetCell(checkedRows[i], nsSale::Column_en::ywsh + 1, IDS_COMMON_YES);
 	}
 	GetParent()->PostMessage(WM_SALE_UPDATED);
 	OnRowChecked();

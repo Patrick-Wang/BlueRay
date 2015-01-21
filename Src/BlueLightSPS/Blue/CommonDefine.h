@@ -53,9 +53,22 @@
 #define IDS_SETTING_ITEM_TABLEFILTER_TCBH		_T("TCBH")
 #define IDS_SETTING_ITEM_TABLEFILTER_CCBH		_T("CCBH")
 
+#define IDS_SETTING_ITEM_TABLEFILTER_ZJDY 		_T("ZJDY")
+#define IDS_SETTING_ITEM_TABLEFILTER_ZJYS 		_T("ZJYS")
+#define IDS_SETTING_ITEM_TABLEFILTER_ZDQXH		_T("ZDQXH")
+#define IDS_SETTING_ITEM_TABLEFILTER_ZYZ		_T("ZYZ")
+#define IDS_SETTING_ITEM_TABLEFILTER_BZXDTGG	_T("BZXDTGG")
+#define IDS_SETTING_ITEM_TABLEFILTER_ZZS		_T("ZZS")
+#define IDS_SETTING_ITEM_TABLEFILTER_KHQY		_T("KHQY")
+#define IDS_SETTING_ITEM_TABLEFILTER_YXJ		_T("YXJ")
+#define IDS_SETTING_ITEM_TABLEFILTER_GH			_T("GH")
+
 #define IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE			IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED
 #define IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED			_T("1")
 #define IDS_SETTING_ITEM_TABLEFILTER_VALUE_UNCHECKED		_T("0")
+
+#define IDS_COMMON_YES		_T("Y")
+#define IDS_COMMON_NO		_T("N")
 
 //#define SALE_PRIORITY_COL	18
 //#define PLAN_PRIORITY_COL	25
@@ -87,9 +100,9 @@ enum Column_en{
 	gh,	// 工号
 	zzs,	// 制造商
 	khqy,	// 客户区域
+	yxj,	//优先级"
 	ywsh,	//审核-业务
 	jhsh,	//审核-计划"
-	yxj,	//优先级"
 	end
 };
 
@@ -122,6 +135,7 @@ namespace nsPlan{
 		gh,	// 工号
 		zzs,	// 制造商
 		khqy,	// 客户区域
+		yxj,	//优先级"
 		scrq,	//生产日期"
 		jhshyw,	//计划审核-业务"
 		jhshjh,	//计划审核-计划"
@@ -131,11 +145,50 @@ namespace nsPlan{
 		fhrq,	//发货日期"
 		tcbh,	//投产编号"
 		ccbh,	//出厂编号"
-		yxj,	//优先级"
 		end
 	};
 }
 
+namespace nsNotification{
+
+	enum Column_en{
+		hth,	//合同号"
+		khmc,	//客户名称"
+		ggxh,	//规格型号"
+		sl,	//数量"
+		zc,	//轴承"
+		dfr,	//单复绕"
+		zdqdy,	//制动器电压"
+		yylgg,	//曳引轮规格"
+		jf,	//机房"
+		bpqxh,	//变频器型号"
+		bmqxh,	//编码器型号"
+		dlcd,	//电缆长度"
+		zxcd,	//闸线长度"
+		mpzl,	//铭牌等资料"
+		bz,	//备注"
+		ddrq,	//订单日期"
+		zjdy,	//主机电压
+		zjys,	//主机颜色
+		zdqxh,	//制动器型号
+		zyz,	// 左/右置
+		bzxdtgg,// 包装箱/底托规格
+		gh,	// 工号
+		zzs,	// 制造商
+		khqy,	// 客户区域
+		yxj,	//优先级"
+		scrq,	//生产日期"
+		jhshyw,	//计划审核-业务"
+		jhshjh,	//计划审核-计划"
+		bzrq,	//包装日期"
+		bzshyw,	//包装审核-业务"
+		bzshjh,	//包装审核-计划"
+		fhrq,	//发货日期"
+		tcbh,	//投产编号"
+		ccbh,	//出厂编号"
+		end
+	};
+}
 
 #define DEFINE_SALE_QUERY_PARAM(name) \
 	CJsonQueryParam name;\

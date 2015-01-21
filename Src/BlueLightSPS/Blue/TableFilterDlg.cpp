@@ -28,8 +28,20 @@ static LPCTSTR g_TableFilterSettingName[][1] = { //0: default text
 		{ IDS_SETTING_ITEM_TABLEFILTER_MPZL },
 		{ IDS_SETTING_ITEM_TABLEFILTER_BZ },
 		{ IDS_SETTING_ITEM_TABLEFILTER_DDRQ },
+
+		{ IDS_SETTING_ITEM_TABLEFILTER_ZJDY },
+		{ IDS_SETTING_ITEM_TABLEFILTER_ZJYS },
+		{ IDS_SETTING_ITEM_TABLEFILTER_ZDQXH },
+		{ IDS_SETTING_ITEM_TABLEFILTER_ZYZ },
+		{ IDS_SETTING_ITEM_TABLEFILTER_BZXDTGG },
+		{ IDS_SETTING_ITEM_TABLEFILTER_ZZS },
+		{ IDS_SETTING_ITEM_TABLEFILTER_KHQY },
+		{ IDS_SETTING_ITEM_TABLEFILTER_YXJ },
+		{ IDS_SETTING_ITEM_TABLEFILTER_GH },
+
 		{ IDS_SETTING_ITEM_TABLEFILTER_SHYW },
 		{ IDS_SETTING_ITEM_TABLEFILTER_SHJH },
+
 		{ IDS_SETTING_ITEM_TABLEFILTER_SCRQ },
 		{ IDS_SETTING_ITEM_TABLEFILTER_JHSHYW },
 		{ IDS_SETTING_ITEM_TABLEFILTER_JHSHJH },
@@ -59,6 +71,16 @@ static LPCTSTR g_CheckBoxCaptions[][1] = { //0: default text
 		{ _T("铭牌等资料") },
 		{ _T("备注") },
 		{ _T("订单日期") },
+
+		{ _T("主机电压") },
+		{ _T("主机颜色") },
+		{ _T("制动器型号") },
+		{ _T("左/右置") },
+		{ _T("包装箱/底托规格") },
+		{ _T("制造商") },
+		{ _T("客户区域") },
+		{ _T("优先级") },
+		{ _T("工号") },
 
 		{ _T("审核-业务") },
 		{ _T("审核-计划") },
@@ -93,16 +115,26 @@ static int g_CheckBoxPos[][4] = {
 		{ 80 * 4 + 80 * 3, 40 * 4, 100, 20 }, //CheckBox_DDRQ,
 		{ 80 * 1 + 80 * 0, 40 * 5, 100, 20 }, //CheckBox_SHYW,
 		{ 80 * 2 + 80 * 1, 40 * 5, 100, 20 }, //CheckBox_SHJH,
-								   
-		{ 80 * 3 + 80 * 2, 40 * 5, 100, 20 }, //CheckBox_SCRQ,
-		{ 80 * 4 + 80 * 3, 40 * 5, 100, 20 }, //CheckBox_JHSHYW,
-		{ 80 * 1 + 80 * 0, 40 * 6, 100, 20 }, //CheckBox_JHSHJH,
-		{ 80 * 2 + 80 * 1, 40 * 6, 100, 20 }, //CheckBox_BZRQ,
-		{ 80 * 3 + 80 * 2, 40 * 6, 100, 20 }, //CheckBox_BZSHYW,
-		{ 80 * 4 + 80 * 3, 40 * 6, 100, 20 }, //CheckBox_BZSHJH,
-		{ 80 * 1 + 80 * 0, 40 * 7, 100, 20 }, //CheckBox_FHRQ,
-		{ 80 * 2 + 80 * 1, 40 * 7, 100, 20 }, //CheckBox_TCBH,
-		{ 80 * 3 + 80 * 2, 40 * 7, 100, 20 }  //CheckBox_CCBH,
+						
+		{ 80 * 3 + 80 * 2, 40 * 5, 100, 20 }, //CheckBox_ZJDY,
+		{ 80 * 4 + 80 * 3, 40 * 5, 100, 20 }, //CheckBox_ZJYS,
+		{ 80 * 1 + 80 * 0, 40 * 6, 100, 20 }, //CheckBox_ZDQXH,
+		{ 80 * 2 + 80 * 1, 40 * 6, 100, 20 }, //CheckBox_ZYZ,
+		{ 80 * 3 + 80 * 2, 40 * 6, 100, 20 }, //CheckBox_BZXDTGG,
+		{ 80 * 4 + 80 * 3, 40 * 6, 100, 20 }, //CheckBox_ZZS,
+		{ 80 * 1 + 80 * 0, 40 * 7, 100, 20 }, //CheckBox_KHQY,
+		{ 80 * 2 + 80 * 1, 40 * 7, 100, 20 }, //CheckBox_YXJ,
+		{ 80 * 3 + 80 * 2, 40 * 7, 100, 20 },  //CheckBox_GH,
+
+		{ 80 * 4 + 80 * 3, 40 * 7, 100, 20 }, //CheckBox_SCRQ,
+		{ 80 * 1 + 80 * 0, 40 * 8, 100, 20 }, //CheckBox_JHSHYW,
+		{ 80 * 2 + 80 * 1, 40 * 8, 100, 20 }, //CheckBox_JHSHJH,
+		{ 80 * 3 + 80 * 2, 40 * 8, 100, 20 }, //CheckBox_BZRQ,
+		{ 80 * 4 + 80 * 3, 40 * 8, 100, 20 }, //CheckBox_BZSHYW,
+		{ 80 * 1 + 80 * 0, 40 * 9, 100, 20 }, //CheckBox_BZSHJH,
+		{ 80 * 2 + 80 * 1, 40 * 9, 100, 20 }, //CheckBox_FHRQ,
+		{ 80 * 3 + 80 * 2, 40 * 9, 100, 20 }, //CheckBox_TCBH,
+		{ 80 * 4 + 80 * 3, 40 * 9, 100, 20 }  //CheckBox_CCBH,
 };											 
 
 // CTableFilterDlg dialog
@@ -229,11 +261,13 @@ END_MESSAGE_MAP()
 BOOL CTableFilterDlg::OnInitDialog()
 {
 	__super::OnInitDialog();
-
+	Util_Tools::Util::SetClientSize(m_hWnd, 837, 480);
+	m_btnOK.MoveWindow(556, 40 * 11 - 20, 114, 30);
+	m_btnCancel.MoveWindow(690, 40 * 11 - 20, 114, 30);
 	CenterWindow();
 
 	m_checkboxSelectAll = Util_Tools::Util::CreateCheckBox(this, IDC_CHECKBOX_SELECTALL, _T("全选"), _T("Microsoft YaHei"), 12);
-	m_checkboxSelectAll->MoveWindow(80 * 1 + 80 * 0, 40 * 9, 100, 20);
+	m_checkboxSelectAll->MoveWindow(80 * 1 + 80 * 0, 40 * 11 - 20, 100, 20);
 
 	//const std::set<int>& hiddenCols = m_pJqGridAPI->getHiddenCols();
 

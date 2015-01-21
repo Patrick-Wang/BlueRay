@@ -252,7 +252,7 @@ void CSaleAddDlg::InitHttpInstance()
 		item.QuerySync(CItem::KHQY, m_DropList[CombId::Comb_KHQY]);
 		
 		//优先级
-		m_DropList[Comb_YXJ].push_back(_T("无"));
+		m_DropList[Comb_YXJ].push_back(_T("低"));
 		m_DropList[Comb_YXJ].push_back(_T("高"));
 
 	}
@@ -542,11 +542,8 @@ void CSaleAddDlg::OnOK()
 	m_aCombs[CombId::Comb_KHQY]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp);
 
-// 	m_vecResult.push_back(_T(""));	//for ywsh
-// 	m_vecResult.push_back(_T(""));	//for jhsh
-
-// 	m_aCombs[CombId::Comb_YXJ]->GetWindowText(strTmp);
-// 	m_vecResult.push_back(strTmp);
+ 	m_aCombs[CombId::Comb_YXJ]->GetWindowText(strTmp);
+ 	m_vecResult.push_back(strTmp);
 
 	CPopupDlg::OnOK();
 }
