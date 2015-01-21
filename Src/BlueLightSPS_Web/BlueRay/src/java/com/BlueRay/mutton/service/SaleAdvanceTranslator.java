@@ -6,7 +6,7 @@ public class SaleAdvanceTranslator extends IAdvanceTranslator {
 
 	@Override
 	public String out(String colName, String value) {
-		if ("dfr".equals(colName) || "sfjf".equals(colName)){
+		if ("dfr".equals(colName) || "sfjf".equals(colName)|| "zyz".equals(colName)){
 			if ("Y".equals(value)){
 				return "是";
 			}
@@ -16,10 +16,10 @@ public class SaleAdvanceTranslator extends IAdvanceTranslator {
 		} else if("sftgywsh".equals(colName)
 				|| "sftgjhsh".equals(colName)) {
 			if ("Y".equals(value)){
-				return "√";
+				return "Y";
 			}
 			else {
-				return "×";
+				return "N";
 			}
 		} else if ("yxj".equals(colName)){
 			if ("10".equals(value)){
@@ -37,6 +37,7 @@ public class SaleAdvanceTranslator extends IAdvanceTranslator {
 			if ("dfr".equals(colName) || "sfjf".equals(colName)
 					|| "sftgywsh".equals(colName)
 					|| "sftgjhsh".equals(colName)
+					|| "zyz".equals(colName)
 					|| "yxj".equals(colName)) {
 				return inMap.get(value);
 			}

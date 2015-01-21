@@ -115,6 +115,16 @@ public class PlanController {
 		return planService.export(out, JSONObject.fromObject(query));
 	}
 	
+	@RequestMapping(value = "/template/export", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String templateExport(
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		OutputStream out = response.getOutputStream();
+		JSONObject jparam = Util.parse(request.getInputStream());
+		BASE64Decoder decoder = new BASE64Decoder();
+		String query = new String(decoder.decodeBuffer(jparam.getString("query")), "utf-16le");
+		return planService.templateExport(out, JSONObject.fromObject(query));
+	}
 //	@RequestMapping(value = "/query", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 //	public @ResponseBody String getSaleQueryData(HttpServletRequest request,
 //			HttpServletResponse response) {

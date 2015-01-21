@@ -15,10 +15,10 @@ public class PlanAdvanceTranslator extends IAdvanceTranslator {
 					"bzsftgywsh".equals(colName) || 
 					"bzsftgjhsh".equals(colName)) {
 					if ("Y".equals(value)){
-						return "√";
+						return "Y";
 					}
 					else {
-						return "×";
+						return "N";
 					}
 				}
 		}

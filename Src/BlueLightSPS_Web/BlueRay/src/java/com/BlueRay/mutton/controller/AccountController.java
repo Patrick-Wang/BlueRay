@@ -23,6 +23,10 @@ public class AccountController {
 	@Autowired
 	AccountService service;
 
+	public AccountController(){
+		System.out.println(getClass().getClassLoader().getResource("/").getPath().substring(1) + "META-INF/template.xls");
+	}
+	
 	@RequestMapping(value = "/login/{userName}/{psw}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String login(
 			@PathVariable String userName,

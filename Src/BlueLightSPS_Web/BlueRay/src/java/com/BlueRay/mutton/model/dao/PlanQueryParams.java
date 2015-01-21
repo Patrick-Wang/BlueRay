@@ -70,10 +70,10 @@ public class PlanQueryParams {
 		for (int i = 0; i < 24; ++i) {
 			paramHtxxColMap.put(i, i + 1);
 		}
-		paramHtxxColMap.put(33, 27);
+		paramHtxxColMap.put(24, 27);//yxj
 		
-		for (int i = 24; i < 33; ++i) {
-			paramPcjhColMap.put(i, 2 + i - 24);
+		for (int i = 25; i < mColumnCount; ++i) {
+			paramPcjhColMap.put(i, 2 + i - 25);
 		}
 	}
 

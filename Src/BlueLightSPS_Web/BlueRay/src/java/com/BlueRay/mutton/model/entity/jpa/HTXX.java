@@ -39,9 +39,9 @@ public class HTXX implements Serializable {
 	private String gh;
 	private Integer zzsID;
 	private Integer khqyID;
+	private Integer yxj = 100;
 	private String sftgywsh = "N";
 	private String sftgjhsh = "N";
-	private Integer yxj = 100;
 	private String ddzt;
 //	 `zjdyID` int(11) DEFAULT NULL,
 //	  `zjysID` int(11) DEFAULT NULL,

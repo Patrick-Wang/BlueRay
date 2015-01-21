@@ -39,4 +39,6 @@ public interface PlanService {
 
 	String export(OutputStream out, JSONObject jquery);
 
+	String templateExport(OutputStream out, JSONObject jquery);
+
 }

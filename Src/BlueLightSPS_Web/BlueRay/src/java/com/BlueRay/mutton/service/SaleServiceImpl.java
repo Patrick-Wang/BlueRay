@@ -104,7 +104,7 @@ public class SaleServiceImpl implements SaleService {
 			ZDQXH zdqxh = null != htxx.getZdqxhID() ? itDao.queryZdqxhById(htxx.getZdqxhID()) : null;
 			row[19] = null == zdqxh ? "" : zdqxh.getZdqxh();
 			
-			row[20] = htxx.getZyz();
+			row[20] = translator.out("zyz", htxx.getZyz());
 			
 			BZXDTGG bzxdtgg = null != htxx.getBzxdtggID() ? itDao.queryBzxdtggById(htxx.getBzxdtggID()) : null;
 			row[21] = null == bzxdtgg ? "" : bzxdtgg.getBzxdtgg();
@@ -116,11 +116,11 @@ public class SaleServiceImpl implements SaleService {
 
 			KHQY khqy = null != htxx.getKhqyID() ? itDao.queryKHQYById(htxx.getKhqyID()) : null;
 			row[24] = null == khqy ? "" : khqy.getKhqy();
+			row[25] = translator.out("yxj", htxx.getYxj() + "");
 			
+			row[26] = translator.out("sftgywsh", htxx.getSftgywsh());
+			row[27] = translator.out("sftgjhsh", htxx.getSftgjhsh());
 			
-			row[25] = translator.out("sftgywsh", htxx.getSftgywsh());
-			row[26] = translator.out("sftgjhsh", htxx.getSftgjhsh());
-			row[27] = translator.out("yxj", htxx.getYxj() + "");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -150,8 +150,8 @@ public class SaleServiceImpl implements SaleService {
 			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setBpqxhID", HTXX.class, String.class));
 			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setBmqxhID", HTXX.class, String.class));
 			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setDlcd", HTXX.class, String.class));
-			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setMpzl", HTXX.class, String.class));
 			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setZxcd", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setMpzl", HTXX.class, String.class));
 			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setBz", HTXX.class, String.class));
 			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setDdrq", HTXX.class, String.class));		
 			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setZjdy", HTXX.class, String.class));
@@ -262,7 +262,7 @@ public class SaleServiceImpl implements SaleService {
 	}
 
 	private void setZyz(HTXX htxx, String val) {
-		htxx.setZyz(val);		
+		htxx.setZyz(translator.in("zyz", val));		
 	}
 
 	private void setZdqxh(HTXX htxx, String val) {
@@ -302,10 +302,9 @@ public class SaleServiceImpl implements SaleService {
 	}
 
 	private void setYxj(HTXX htxx, String val) {
-		if ("".equals(val))	{
-			htxx.setYxj(100);
-		} else if (10 == Integer.valueOf(val)){
-			htxx.setYxj(10);
+		val = translator.in("yxj", val);
+		if (null != val)	{
+			htxx.setYxj(Integer.valueOf(val));
 		}
 	}
 
