@@ -37,12 +37,23 @@ static int g_ButtoncPos[][4] = {
 
 static int g_TableToBeHiddenForPlan[]
 {
-	17, 18, 20, 21
+	nsNotification::Column_en::jhshyw,
+		nsNotification::Column_en::jhshjh,
+		nsNotification::Column_en::bzshyw,
+		nsNotification::Column_en::bzshjh
 };
 
 static int g_TableToBeHiddenForSale[]
 {
-	16, 17, 18, 19, 20, 21, 22, 23, 24
+	nsNotification::Column_en::scrq,
+		nsNotification::Column_en::jhshyw,
+		nsNotification::Column_en::jhshjh,
+		nsNotification::Column_en::bzrq,
+		nsNotification::Column_en::bzshyw,
+		nsNotification::Column_en::bzshjh,
+		nsNotification::Column_en::fhrq,
+		nsNotification::Column_en::tcbh,
+		nsNotification::Column_en::ccbh,
 };
 
 

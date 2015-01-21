@@ -65,6 +65,17 @@ private:
 		CheckBox_MPZL,
 		CheckBox_BZ,
 		CheckBox_DDRQ,
+
+		CheckBox_ZJDY,
+		CheckBox_ZJYS,
+		CheckBox_ZDQXH,
+		CheckBox_ZYZ,
+		CheckBox_BZXDTGG,
+		CheckBox_ZZS,
+		CheckBox_KHQY,
+		CheckBox_YXJ,
+		CheckBox_GH,
+
 		CheckBox_SHYW,
 		CheckBox_SHJH,
 
