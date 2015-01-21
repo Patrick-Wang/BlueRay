@@ -149,10 +149,11 @@ public class SaleServiceImpl implements SaleService {
 			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setSfjf", HTXX.class, String.class));
 			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setBpqxhID", HTXX.class, String.class));
 			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setBmqxhID", HTXX.class, String.class));
-			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setZxcd", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setDlcd", HTXX.class, String.class));
 			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setMpzl", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setZxcd", HTXX.class, String.class));
 			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setBz", HTXX.class, String.class));
-			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setDdrq", HTXX.class, String.class));
+			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setDdrq", HTXX.class, String.class));		
 			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setZjdy", HTXX.class, String.class));
 			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setZjys", HTXX.class, String.class));
 			setMethods.add(SaleServiceImpl.class.getDeclaredMethod("setZdqxh", HTXX.class, String.class));
