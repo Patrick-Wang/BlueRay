@@ -71,10 +71,10 @@ private:
 		CheckBox_ZDQXH,
 		CheckBox_ZYZ,
 		CheckBox_BZXDTGG,
+		CheckBox_GH,
 		CheckBox_ZZS,
 		CheckBox_KHQY,
 		CheckBox_YXJ,
-		CheckBox_GH,
 
 		CheckBox_SHYW,
 		CheckBox_SHJH,

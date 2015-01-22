@@ -260,8 +260,6 @@ void CSaleAddDlg::InitHttpInstance()
 
 void CSaleAddDlg::OnHttpSuccess(int id, LPCTSTR resp)
 {
-	//GetParent()->EnableWindow(TRUE);
-
 	switch (id)
 	{
 	case QUERY_COMBO_VALUE_KHMC_URL_ID:
@@ -376,10 +374,6 @@ BOOL CSaleAddDlg::OnInitDialog()
 	{
 		m_aCombs[i] = Util_Tools::Util::CreateComboBox(this, IDC_COMBO_BASE + i, _T("Microsoft YaHei"), 12);
 		m_aCombs[i]->MoveWindow(g_CombPos[i][0], g_CombPos[i][1], g_CombPos[i][2], g_CombPos[i][3]);
-		//for (int j = GetDropList()[i].size() - 1; j >= 0; --j)
-		//{
-		//	m_aCombs[i]->InsertString(0, GetDropList()[i][j]);
-		//}
 	}
 
 	//init static
@@ -405,14 +399,7 @@ BOOL CSaleAddDlg::OnInitDialog()
 
 
 	InitCtrlData();
-	//if (m_iRef > 0)
-	//{
-	//	EnableWindow(FALSE);
-	//}
-	//else
-	//{
-	//	
-	//}
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -567,8 +554,6 @@ void CSaleAddDlg::InitCtrlData()
 
 	for (int i = _countof(g_CombPos) - 1; i >= 0; --i)
 	{
-		//m_aCombs[i] = Util_Tools::Util::CreateComboBox(this, IDC_COMBO_BASE + i, _T("Microsoft YaHei"), 12);
-		//m_aCombs[i]->MoveWindow(g_CombPos[i][0], g_CombPos[i][1], g_CombPos[i][2], g_CombPos[i][3]);
 		for (int j = GetDropList()[i].size() - 1; j >= 0; --j)
 		{
 			m_aCombs[i]->InsertString(0, GetDropList()[i][j]);

@@ -97,6 +97,7 @@ CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI)
 	, m_bsMiddleLine(NULL)
 	, m_dtcSearchFrom(NULL)
 	, m_dtcSearchTo(NULL)
+	, m_bIfUpdateTableWhenTableFilter(false)
 {
 	m_tableFilterDlg.Initialize(m_pJqGridAPI.get(), Page_Sale);
 }
@@ -233,7 +234,6 @@ void CSalePanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	}
 	else
 	{
-		//m_dtcSearchFrom->GetWindowText(strFrom);
 		strFrom = L"";
 	}
 
@@ -246,7 +246,6 @@ void CSalePanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	else
 	{
 		strTo = L"";
-		//m_dtcSearchTo->GetWindowText(strTo);
 	}
 
 	if (bHasFrom || bHasTo)
@@ -278,7 +277,6 @@ void CSalePanel::OnCbnSelchangeProductionStatus()
 {
 	DEFINE_SALE_QUERY_PARAM(sqp);
 	MakeBasicSearchCondition(sqp);
-	//sqp.AddSortCondition(15, false);
 
 	CServer::GetInstance()->GetSale().Query(
 		1,
@@ -325,6 +323,7 @@ void CSalePanel::OnBnClickedAdd()
 				if (ret)
 				{
 					(m_salePanel.CSalePanel::OnAddDataSuccess)(ret, m_cacheRow);
+					m_salePanel.OnUpdateData(1, m_salePanel.m_pJqGridAPI->GetGridPageSize(), -1, true);
 				}
 				else
 				{
@@ -345,10 +344,14 @@ void CSalePanel::OnBnClickedAdd()
 
 void CSalePanel::OnBnClickedTableFilter()
 {
+	m_bIfUpdateTableWhenTableFilter = true;
+
 	if (IDOK == m_tableFilterDlg.DoModal())
 	{
 
 	}
+
+	m_bIfUpdateTableWhenTableFilter = false;
 }
 
 void CSalePanel::OnBnClickedReApproveBusiness()
@@ -482,6 +485,7 @@ void CSalePanel::OnBnClickedModify()
 				if (ret)
 				{
 					(m_salePanel.CSalePanel::OnModifyDataSuccess)(m_cacheRow);
+					m_salePanel.OnUpdateData(m_salePanel.m_pJqGridAPI->GetCurrentPage(), m_salePanel.m_pJqGridAPI->GetGridPageSize(), -1, true);
 				}
 				else
 				{
@@ -506,13 +510,8 @@ void CSalePanel::OnBnClickedDelete()
 	{
 		std::vector<int> checkedRows;
 		m_pJqGridAPI->GetCheckedRows(checkedRows);
-		//GetParent()->EnableWindow(FALSE);
 		std::map<CString, IntArrayPtr> attr;
 		attr[_T("del")] = &checkedRows;
-
-		//CString url;
-		//url.Format(_T("http://%s:8080/BlueRay/sale/delete"), IDS_HOST_NAME);
-		//m_pHttp->Post(url, DEL_URL_ID, attr);
 
 		class CDeleteListener : public CPromise<bool>::IHttpResponse{
 			CONSTRUCTOR_1(CDeleteListener, CSalePanel&, salePanel)
@@ -521,6 +520,7 @@ void CSalePanel::OnBnClickedDelete()
 				if (ret)
 				{
 					(m_salePanel.CSalePanel::OnDelDataSuccess)();
+					m_salePanel.OnUpdateData(1, m_salePanel.m_pJqGridAPI->GetGridPageSize(), -1, true);
 				}
 				else
 				{
@@ -536,13 +536,6 @@ void CSalePanel::OnBnClickedDelete()
 
 		CServer::GetInstance()->GetSale().Delete(checkedRows).then(new CDeleteListener(*this));
 		GetParent()->EnableWindow(FALSE);
-		//if (CServer::GetInstance()->GetSale().DeleteSync(checkedRows)){
-		//	OnDelDataSuccess();
-		//}
-		//else
-		//{
-		//	OnHttpFailed(DEL_URL_ID);
-		//}
 	}
 }
 
@@ -742,76 +735,12 @@ void CSalePanel::OnNcDestroy()
 	__super::OnNcDestroy();
 }
 
-//void CSalePanel::OnHttpSuccess(int id, LPCTSTR resp)
-//{
-//	GetParent()->EnableWindow(TRUE);
-//	switch (id)
-//	{
-//	case QUERY_URL_ID:
-//		OnLoadDataSuccess();
-//		break;
-//	case ADD_URL_ID:
-//		OnAddDataSuccess(_tstoi(resp), m_cacheRow);
-//		break;
-//	case DEL_URL_ID:
-//		OnDelDataSuccess();
-//		break;
-//	case MODIFY_URL_ID:
-//		OnModifyDataSuccess(m_cacheRow);
-//		break;
-//	case BUSSINESS_APPROVE_URL_ID:	//test purpose
-//		OnApproveDataSuccess();
-//		break;
-//	case BUSSINESS_REAPPROVE_BSN_URL_ID:
-//	case BUSSINESS_REAPPROVE_PLAN_URL_ID:
-//		MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
-//		break;
-//	default:
-//		break;
-//	}
-//}
-//
-//void CSalePanel::OnHttpFailed(int id)
-//{
-//	GetParent()->EnableWindow(TRUE);
-//	switch (id)
-//	{
-//	case QUERY_URL_ID:
-//		MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-//		break;
-//	case ADD_URL_ID:
-//		MessageBox(_T("添加数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-//		break;
-//	case DEL_URL_ID:
-//		MessageBox(_T("删除数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-//		break;
-//	case MODIFY_URL_ID:
-//		MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
-//		break;
-//	case BUSSINESS_REAPPROVE_BSN_URL_ID:
-//	case BUSSINESS_REAPPROVE_PLAN_URL_ID:
-//		MessageBox(_T("反审核失败"), _T("反审核"), MB_OK | MB_ICONWARNING);
-//		break;
-//	default:
-//		break;
-//	}
-//}
-
 void CSalePanel::OnLoadDataSuccess()
 {
-	//for (int j = 0; j < m_table.size(); ++j)
-	//{
-	//	m_pJqGridAPI->DelRow(m_table[j].first);
-	//}
-
-	//m_pJqGridAPI->Refresh();
-	//StringToTable(jsondata, m_table);
-
 	for (int j = 0; j < m_table.size(); ++j)
 	{
 		m_pJqGridAPI->AddRow(m_table[j].first, m_table[j].second);
 	}
-
 }
 
 void CSalePanel::OnDelDataSuccess()
@@ -953,7 +882,6 @@ void CSalePanel::OnInitData()
 	if (perm.getSale())
 	{
 		DEFINE_SALE_QUERY_PARAM(sqp);
-		//sqp.AddSortCondition(15, false);
 
 		CServer::GetInstance()->GetSale().Query(
 			1,
@@ -1042,23 +970,24 @@ void CSalePanel::OnDestroy()
 	m_pJqGridAPI->d_OnUpdateData -= std::make_pair(this, &CSalePanel::OnUpdateData);
 	m_pJqGridAPI->d_OnExportClicked -= std::make_pair(this, &CSalePanel::OnExprotClicked);
 	CBRPanel::OnDestroy();
-
-	// TODO: Add your message handler code here
 }
 
 void CSalePanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 {
-	DEFINE_SALE_QUERY_PARAM(jqp);
+	if (!m_bIfUpdateTableWhenTableFilter)
+	{
+		DEFINE_SALE_QUERY_PARAM(jqp);
 
-	MakeBasicSearchCondition(jqp);
-	if (colIndex >= 0){
-		jqp.AddSortCondition(colIndex, bAsc);
+		MakeBasicSearchCondition(jqp);
+		if (colIndex >= 0){
+			jqp.AddSortCondition(colIndex, bAsc);
+		}
+
+		CServer::GetInstance()->GetSale().Query(page, CJQGridAPI::GetPageSize(), jqp)
+			.then(new OnSaleLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+
+		GetParent()->EnableWindow(FALSE);
 	}
-
-	CServer::GetInstance()->GetSale().Query(page, CJQGridAPI::GetPageSize(), jqp)
-		.then(new OnSaleLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
-
-	GetParent()->EnableWindow(FALSE);
 }
 
 void CSalePanel::HighLight()

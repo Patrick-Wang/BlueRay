@@ -17,8 +17,7 @@ public:
 
 	void OnRowChecked();
 	void OnGridComplete();
-	//void OnHttpSuccess(int id, LPCTSTR resp);
-	//void OnHttpFailed(int id);
+
 	void OnSaleDlgGetModifyOption(CSaleAddDlg& dlg);
 	void HighLight();
 
@@ -68,6 +67,8 @@ private:
 	CTableFilterDlg m_tableFilterDlg;
 	CComboBox* m_comboProductionStatus;
 	
+	bool m_bIfUpdateTableWhenTableFilter;
+
 	enum enumProductionStatusForSale
 	{
 		ProductionStatus_All,

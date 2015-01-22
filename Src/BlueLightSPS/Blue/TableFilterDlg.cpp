@@ -77,10 +77,10 @@ static LPCTSTR g_CheckBoxCaptions[][1] = { //0: default text
 		{ _T("制动器型号") },
 		{ _T("左/右置") },
 		{ _T("包装箱/底托规格") },
+		{ _T("工号") },
 		{ _T("制造商") },
 		{ _T("客户区域") },
 		{ _T("优先级") },
-		{ _T("工号") },
 
 		{ _T("审核-业务") },
 		{ _T("审核-计划") },
@@ -242,14 +242,6 @@ bool CTableFilterDlg::Initialize(CJQGridAPI* pJqGridAPI, PageIDEnum pageID)
 
 	return bRet;
 }
-
-//void CTableFilterDlg::DoDataExchange(CDataExchange* pDX)
-//{
-//	CDialogEx::DoDataExchange(pDX);
-//	DDX_Control(pDX, IDOK, m_btnOK);
-//	DDX_Control(pDX, IDCANCEL, m_btnCancel);
-//}
-
 
 BEGIN_MESSAGE_MAP(CTableFilterDlg, CPopupDlg)
 	ON_BN_CLICKED(IDC_CHECKBOX_SELECTALL, &CTableFilterDlg::OnBnClickedSelectAll)

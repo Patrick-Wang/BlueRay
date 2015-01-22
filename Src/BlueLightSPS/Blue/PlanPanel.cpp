@@ -103,7 +103,7 @@ CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI)
 	, m_dtcSearchTo(NULL)
 	, m_bEnablePlanBtnForSCRQ(false)
 	, m_bEnablePlanBtnForBZRQ(false)
-
+	, m_bIfUpdateTableWhenTableFilter(false)
 {
 	m_tableFilterDlg.Initialize(m_pJqGridAPI.get(), Page_Plan);
 }
@@ -157,20 +157,12 @@ void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatu
 {
 	if (ProductionStatus_All == productionStatus)
 	{
-		//sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
-		//sqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
-		//sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
-		//sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
+
 	}
 	else if (ProductionStatus_SCRQ_ToBePlanned == productionStatus)
 	{
 		CUnitedQuery& uq = UQ(nsPlan::scrq, L"@==null");
 		sqp.SetUnitedQuery(uq);
-
-// 		StringArray advance;
-// 		advance.resize(nsPlan::Column_en::end);
-// 		advance[16] = L"@==null";
-// 		sqp.SetAdvancedCondition(&advance);
 
 		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
 		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
@@ -350,11 +342,6 @@ void CPlanPanel::OnInitChilds()
 	else
 	{
 		//first line
-
-		//m_staticProductionStatus = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_PROSTATUS, _T("根据订单状态筛选"), _T("Microsoft YaHei"), 12);
-		//m_staticProductionStatus->MoveWindow(20, 27, 120, 20);
-		//m_staticProductionStatus->SetTextAlign(DT_LEFT);
-
 		m_comboProductionStatus = Util_Tools::Util::CreateComboBox(this, IDC_PLAN_COMBO_PROSTATUS, _T("Microsoft YaHei"), 12, TRUE);
 		m_comboProductionStatus->MoveWindow(20, 23, 130, 18);
 
@@ -557,8 +544,12 @@ void CPlanPanel::OnBnClickedPlan()
 
 void CPlanPanel::OnBnClickedTableFilter()
 {
+	m_bIfUpdateTableWhenTableFilter = true;
+
 	if (IDOK == m_tableFilterDlg.DoModal()){
 	}
+
+	m_bIfUpdateTableWhenTableFilter = false;
 }
 
 void CPlanPanel::OnBnClickedModify()
@@ -1648,16 +1639,19 @@ void CPlanPanel::OnDestroy()
 
 void CPlanPanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 {
-	DEFINE_PLAN_QUERY_PARAM(jqp);
-	MakeBasicSearchCondition(jqp);
-	if (colIndex >= 0){
-		jqp.AddSortCondition(colIndex, bAsc);
+	if (!m_bIfUpdateTableWhenTableFilter)
+	{
+		DEFINE_PLAN_QUERY_PARAM(jqp);
+		MakeBasicSearchCondition(jqp);
+		if (colIndex >= 0){
+			jqp.AddSortCondition(colIndex, bAsc);
+		}
+
+		CServer::GetInstance()->GetPlan().Query(page, m_pJqGridAPI->GetPageSize(), jqp)
+			.then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+
+		GetParent()->EnableWindow(FALSE);
 	}
-
-	CServer::GetInstance()->GetPlan().Query(page, m_pJqGridAPI->GetPageSize(), jqp)
-		.then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
-
-	GetParent()->EnableWindow(FALSE);
 }
 
 void CPlanPanel::OnExprotClicked()
