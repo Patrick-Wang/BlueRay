@@ -70,22 +70,32 @@ void CPlanAddDlg::ConfigPlanBtns(bool scrq, bool bzrq)
 }
 
 static LPCTSTR g_StaticItems[][1] = { //0: default text
-		{ _T("合同号") },
-		{ _T("客户名称") },
-		{ _T("规格型号") },
-		{ _T("数量") },
-		{ _T("轴承") },
-		{ _T("单复绕") },
-		{ _T("制动器电压") },
-		{ _T("曳引轮规格") },
-		{ _T("机房") },
-		{ _T("变频器型号") },
-		{ _T("编码器型号") },
-		{ _T("电缆长度") },
-		{ _T("闸线长度") },
-		{ _T("铭牌等资料") },
-		{ _T("订单日期") },
-		{ _T("备注") },
+		{ _T("合同号:") },
+		{ _T("客户名称:") },
+		{ _T("规格型号:") },
+		{ _T("数量:") },
+		{ _T("轴承:") },
+		{ _T("单复绕:") },
+		{ _T("制动器电压:") },
+		{ _T("曳引轮规格:") },
+		{ _T("机房:") },
+		{ _T("变频器型号:") },
+		{ _T("编码器型号:") },
+		{ _T("电缆长度:") },
+		{ _T("闸线长度:") },
+		{ _T("铭牌等资料:") },
+		{ _T("订单日期:") },
+		{ _T("备注:") },
+
+		{ _T("主机电压:") },
+		{ _T("主机颜色:") },
+		{ _T("制动器型号:") },
+		{ _T("左/右置:") },
+		{ _T("包装箱/底托规格:") },
+		{ _T("制造商:") },
+		{ _T("客户区域:") },
+		{ _T("优先级:") },
+		{ _T("工号:") },
 
 		{ _T("生产日期") },
 		{ _T("包装日期") },
@@ -96,59 +106,80 @@ static LPCTSTR g_StaticItems[][1] = { //0: default text
 };
 
 static int g_StaticPos[][4] = {
-		{ 100 * 0 + 100 * 0, 40 * 1, 100, 20 }, //Static_HTH,
-		{ 100 * 1 + 100 * 1, 40 * 1, 100, 20 }, //Static_KHMC,
-		{ 100 * 2 + 100 * 2, 40 * 1, 100, 20 }, //Static_GGBH,
-		{ 100 * 3 + 100 * 3, 40 * 1, 100, 20 }, //Static_SL,
-		{ 100 * 0 + 100 * 0, 40 * 2, 100, 20 }, //Static_ZC,
-		{ 100 * 1 + 100 * 1, 40 * 2, 100, 20 }, //Static_DFR,
-		{ 100 * 2 + 100 * 2, 40 * 2, 100, 20 }, //Static_ZDQDY,
-		{ 100 * 3 + 100 * 3, 40 * 2, 100, 20 }, //Static_YYLGG,
-		{ 100 * 0 + 100 * 0, 40 * 3, 100, 20 }, //Static_JF,
-		{ 100 * 1 + 100 * 1, 40 * 3, 100, 20 }, //Static_BPQXH,
-		{ 100 * 2 + 100 * 2, 40 * 3, 100, 20 }, //Static_BMQXH,
-		{ 100 * 3 + 100 * 3, 40 * 3, 100, 20 }, //Static_DLCD,
-		{ 100 * 0 + 100 * 0, 40 * 4, 100, 20 }, //Static_ZXCD,
-		{ 100 * 1 + 100 * 1, 40 * 4, 100, 20 }, //Static_MPZL,
-		{ 100 * 2 + 100 * 2, 40 * 4, 100, 20 }, //Static_DDRQ,
-		{ 100 * 3 + 100 * 3, 40 * 4, 100, 20 },  //Static_BZ,
+		{ 100 * 0 + 100 * 0, 40 * 1 - 15, 100, 20 }, //Static_HTH,
+		{ 100 * 1 + 100 * 1, 40 * 1 - 15, 100, 20 }, //Static_KHMC,
+		{ 100 * 2 + 100 * 2, 40 * 1 - 15, 100, 20 }, //Static_GGBH,
+		{ 100 * 3 + 100 * 3, 40 * 1 - 15, 100, 20 }, //Static_SL,
+		{ 100 * 0 + 100 * 0, 40 * 2 - 15, 100, 20 }, //Static_ZC,
+		{ 100 * 1 + 100 * 1, 40 * 2 - 15, 100, 20 }, //Static_DFR,
+		{ 100 * 2 + 100 * 2, 40 * 2 - 15, 100, 20 }, //Static_ZDQDY,
+		{ 100 * 3 + 100 * 3, 40 * 2 - 15, 100, 20 }, //Static_YYLGG,
+		{ 100 * 0 + 100 * 0, 40 * 3 - 15, 100, 20 }, //Static_JF,
+		{ 100 * 1 + 100 * 1, 40 * 3 - 15, 100, 20 }, //Static_BPQXH,
+		{ 100 * 2 + 100 * 2, 40 * 3 - 15, 100, 20 }, //Static_BMQXH,
+		{ 100 * 3 + 100 * 3, 40 * 3 - 15, 100, 20 }, //Static_DLCD,
+		{ 100 * 0 + 100 * 0, 40 * 4 - 15, 100, 20 }, //Static_ZXCD,
+		{ 100 * 1 + 100 * 1, 40 * 4 - 15, 100, 20 }, //Static_MPZL,
+		{ 100 * 2 + 100 * 2, 40 * 4 - 15, 100, 20 }, //Static_DDRQ,
+		{ 100 * 3 + 100 * 3, 40 * 4 - 15, 100, 20 },  //Static_BZ,
 
-		{ 100 * 0 + 100 * 0, 40 * 6, 100, 20 },  //Static_SCRQ,
-		{ 100 * 1 + 100 * 1, 40 * 6, 100, 20 },  //Static_BZRQ,
-		{ 100 * 2 + 100 * 2, 40 * 6, 100, 20 },  //Static_FHRQ,
-		{ 100 * 0 + 100 * 0, 40 * 7, 100, 20 },  //Static_TCBH,
-		{ 100 * 1 + 100 * 1, 40 * 7, 100, 20 }   //Static_CCBH
+		{ 100 * 0 + 100 * 0, 40 * 5 - 15, 100, 20 },  
+		{ 100 * 1 + 100 * 1, 40 * 5 - 15, 100, 20 },  
+		{ 100 * 2 + 100 * 2, 40 * 5 - 15, 100, 20 },  
+		{ 100 * 3 + 100 * 3, 40 * 5 - 15, 100, 20 },  
+		{ 100 * 0 + 100 * 0, 40 * 6 - 15, 100, 20 },  
+		{ 100 * 1 + 100 * 1, 40 * 6 - 15, 100, 20 },  
+		{ 100 * 2 + 100 * 2, 40 * 6 - 15, 100, 20 },  
+		{ 100 * 3 + 100 * 3, 40 * 6 - 15, 100, 20 },  
+		{ 100 * 0 + 100 * 0, 40 * 7 - 15, 100, 20 },  
+
+		{ 100 * 0 + 100 * 0, 40 * 8, 100, 20 },  //Static_SCRQ,
+		{ 100 * 1 + 100 * 1, 40 * 8, 100, 20 },  //Static_BZRQ,
+		{ 100 * 2 + 100 * 2, 40 * 8, 100, 20 },  //Static_FHRQ,
+		{ 100 * 0 + 100 * 0, 40 * 9, 100, 20 },  //Static_TCBH,
+		{ 100 * 1 + 100 * 1, 40 * 9, 100, 20 }   //Static_CCBH
 };
 
 
 static int g_StaticToShowPos[][4] = {
-		{ 100 * 1 + 100 * 0, 40 * 1, 100, 20 }, //Edit_HTH,
-		{ 100 * 2 + 100 * 1, 40 * 1, 100, 20 }, //Comb_KHMC,
-		{ 100 * 3 + 100 * 2, 40 * 1, 100, 20 }, //Comb_GGBH,
-		{ 100 * 4 + 100 * 3, 40 * 1, 100, 20 }, //Edit_SL,
-		{ 100 * 1 + 100 * 0, 40 * 2, 100, 20 }, //Comb_ZC,
-		{ 100 * 2 + 100 * 1, 40 * 2, 100, 20 }, //Comb_DFR,
-		{ 100 * 3 + 100 * 2, 40 * 2, 100, 20 }, //Comb_ZDQDY,
-		{ 100 * 4 + 100 * 3, 40 * 2, 100, 20 }, //Comb_YYLGG,
-		{ 100 * 1 + 100 * 0, 40 * 3, 100, 20 }, //Comb_JF,
-		{ 100 * 2 + 100 * 1, 40 * 3, 100, 20 }, //Comb_BPQXH,
-		{ 100 * 3 + 100 * 2, 40 * 3, 100, 20 }, //Comb_BMQXH,
-		{ 100 * 4 + 100 * 3, 40 * 3, 100, 20 }, //Edit_DLCD,
-		{ 100 * 1 + 100 * 0, 40 * 4, 100, 20 }, //Edit_ZXCD,
-		{ 100 * 3 + 100 * 2, 40 * 4, 100, 20 }, //Edit_DDRQ,
-		{ 100 * 2 + 100 * 1, 40 * 4, 100, 20 },	//Comb_MPZL,
-		{ 100 * 4 + 100 * 3, 40 * 4, 100, 20 }  //Edit_BZ,
+		{ 100 * 1 + 100 * 0 + 8, 40 * 1 - 15, 100, 20 }, //Edit_HTH,
+		{ 100 * 2 + 100 * 1 + 8, 40 * 1 - 15, 100, 20 }, //Comb_KHMC,
+		{ 100 * 3 + 100 * 2 + 8, 40 * 1 - 15, 100, 20 }, //Comb_GGBH,
+		{ 100 * 4 + 100 * 3 + 8, 40 * 1 - 15, 100, 20 }, //Edit_SL,
+		{ 100 * 1 + 100 * 0 + 8, 40 * 2 - 15, 100, 20 }, //Comb_ZC,
+		{ 100 * 2 + 100 * 1 + 8, 40 * 2 - 15, 100, 20 }, //Comb_DFR,
+		{ 100 * 3 + 100 * 2 + 8, 40 * 2 - 15, 100, 20 }, //Comb_ZDQDY,
+		{ 100 * 4 + 100 * 3 + 8, 40 * 2 - 15, 100, 20 }, //Comb_YYLGG,
+		{ 100 * 1 + 100 * 0 + 8, 40 * 3 - 15, 100, 20 }, //Comb_JF,
+		{ 100 * 2 + 100 * 1 + 8, 40 * 3 - 15, 100, 20 }, //Comb_BPQXH,
+		{ 100 * 3 + 100 * 2 + 8, 40 * 3 - 15, 100, 20 }, //Comb_BMQXH,
+		{ 100 * 4 + 100 * 3 + 8, 40 * 3 - 15, 100, 20 }, //Edit_DLCD,
+		{ 100 * 1 + 100 * 0 + 8, 40 * 4 - 15, 100, 20 }, //Edit_ZXCD,
+		{ 100 * 3 + 100 * 2 + 8, 40 * 4 - 15, 100, 20 }, //Edit_DDRQ,
+		{ 100 * 2 + 100 * 1 + 8, 40 * 4 - 15, 100, 20 },	//Comb_MPZL,
+		{ 100 * 4 + 100 * 3 + 8, 40 * 4 - 15, 100, 20 },  //Edit_BZ,
+
+		{ 100 * 1 + 100 * 0 + 8, 40 * 5 - 15, 100, 20 },
+		{ 100 * 3 + 100 * 2 + 8, 40 * 5 - 15, 100, 20 },
+		{ 100 * 2 + 100 * 1 + 8, 40 * 5 - 15, 100, 20 },
+		{ 100 * 4 + 100 * 3 + 8, 40 * 5 - 15, 100, 20 },
+		{ 100 * 1 + 100 * 0 + 8, 40 * 6 - 15, 100, 20 },
+		{ 100 * 3 + 100 * 2 + 8, 40 * 6 - 15, 100, 20 },
+		{ 100 * 2 + 100 * 1 + 8, 40 * 6 - 15, 100, 20 },
+		{ 100 * 4 + 100 * 3 + 8, 40 * 6 - 15, 100, 20 },
+		{ 100 * 1 + 100 * 0 + 8, 40 * 7 - 15, 100, 20 }
+
 };
 
 static int g_EditsPos[][4] = {
-		{ 100 * 1 + 100 * 0, 40 * 7, 100, 20 }, //Edit_TCBH,
-		{ 100 * 2 + 100 * 1, 40 * 7, 100, 20 }  //Edit_CCBH,
+		{ 100 * 1 + 100 * 0 + 8, 40 * 9, 100, 20 }, //Edit_TCBH,
+		{ 100 * 2 + 100 * 1 + 8, 40 * 9, 100, 20 }  //Edit_CCBH,
 };
 
 static int g_DatePickersPos[][4] = {
-		{ 100 * 1 + 100 * 0, 40 * 6, 100, 20 }, //DatePicker_SCRQ,
-		{ 100 * 2 + 100 * 1, 40 * 6, 100, 20 }, //DatePicker_BZRQ,
-		{ 100 * 3 + 100 * 2, 40 * 6, 100, 20 }  //DatePicker_FHRQ,
+		{ 100 * 1 + 100 * 0 + 8, 40 * 8, 100, 20 }, //DatePicker_SCRQ,
+		{ 100 * 2 + 100 * 1 + 8, 40 * 8, 100, 20 }, //DatePicker_BZRQ,
+		{ 100 * 3 + 100 * 2 + 8, 40 * 8, 100, 20 }  //DatePicker_FHRQ,
 };
 
 static LPCTSTR g_EditItems[][1] = { //0: default text
@@ -160,6 +191,11 @@ static LPCTSTR g_EditItems[][1] = { //0: default text
 BOOL CPlanAddDlg::OnInitDialog()
 {
 	CPopupDlg::OnInitDialog();
+
+	Util_Tools::Util::SetClientSize(m_hWnd, 837, 480);
+	m_btnOK.MoveWindow(556, 40 * 11 - 20, 114, 30);
+	m_btnCancel.MoveWindow(690, 40 * 11 - 20, 114, 30);
+	
 	CenterWindow();
 
 	//init comb
@@ -169,6 +205,7 @@ BOOL CPlanAddDlg::OnInitDialog()
 	{
 		m_aStatics[i] = Util_Tools::Util::CreateStatic(this, IDC_STATIC_BASE + i, g_StaticItems[i][0], _T("Microsoft YaHei"), 12);
 		m_aStatics[i]->MoveWindow(g_StaticPos[i][0], g_StaticPos[i][1], g_StaticPos[i][2], g_StaticPos[i][3]);
+		m_aStatics[i]->SetTextAlign(DT_RIGHT);
 	}
 
 	//init static to show
@@ -176,6 +213,7 @@ BOOL CPlanAddDlg::OnInitDialog()
 	{
 		m_aStaticsToShow[i] = Util_Tools::Util::CreateStatic(this, IDC_STATIC_TOSHOW_BASE + i, _T(""), _T("Microsoft YaHei"), 12);
 		m_aStaticsToShow[i]->MoveWindow(g_StaticToShowPos[i][0], g_StaticToShowPos[i][1], g_StaticToShowPos[i][2], g_StaticToShowPos[i][3]);
+		m_aStaticsToShow[i]->SetTextAlign(DT_LEFT);
 	}
 
 	//init edit
@@ -212,6 +250,16 @@ BOOL CPlanAddDlg::OnInitDialog()
 		init(m_aStaticsToShow[StaticId2::Static2_DDRQ], m_lpOption->ddrq);
 		init(m_aStaticsToShow[StaticId2::Static2_BZ], m_lpOption->bz);
 	
+		init(m_aStaticsToShow[StaticId2::Static2_ZJDY], m_lpOption->zjdy);
+		init(m_aStaticsToShow[StaticId2::Static2_ZJYS], m_lpOption->zjys);
+		init(m_aStaticsToShow[StaticId2::Static2_ZDQXH], m_lpOption->zdqxh);
+		init(m_aStaticsToShow[StaticId2::Static2_ZYZ], m_lpOption->zyz);
+		init(m_aStaticsToShow[StaticId2::Static2_BZXDTGG], m_lpOption->bzxdtgg);
+		init(m_aStaticsToShow[StaticId2::Static2_ZZS], m_lpOption->zzs);
+		init(m_aStaticsToShow[StaticId2::Static2_KHQY], m_lpOption->khqy);
+		init(m_aStaticsToShow[StaticId2::Static2_YXJ], m_lpOption->yxj);
+		init(m_aStaticsToShow[StaticId2::Static2_GH], m_lpOption->gh);
+
 		init(m_aEdits[EditId::Edit_CCBH], m_lpOption->ccbh);
 		init(m_aEdits[EditId::Edit_TCBH], m_lpOption->tcbh);
 
@@ -238,6 +286,16 @@ BOOL CPlanAddDlg::OnInitDialog()
 		init(m_aStaticsToShow[StaticId2::Static2_MPZL], val);
 		init(m_aStaticsToShow[StaticId2::Static2_DDRQ], val);
 		init(m_aStaticsToShow[StaticId2::Static2_BZ], val);
+
+		init(m_aStaticsToShow[StaticId2::Static2_ZJDY], val);
+		init(m_aStaticsToShow[StaticId2::Static2_ZJYS], val);
+		init(m_aStaticsToShow[StaticId2::Static2_ZDQXH], val);
+		init(m_aStaticsToShow[StaticId2::Static2_ZYZ], val);
+		init(m_aStaticsToShow[StaticId2::Static2_BZXDTGG], val);
+		init(m_aStaticsToShow[StaticId2::Static2_ZZS], val);
+		init(m_aStaticsToShow[StaticId2::Static2_KHQY], val);
+		init(m_aStaticsToShow[StaticId2::Static2_YXJ], val);
+		init(m_aStaticsToShow[StaticId2::Static2_GH], val);
 
 		init(m_aEdits[EditId::Edit_CCBH], val);
 		init(m_aEdits[EditId::Edit_TCBH], val);
