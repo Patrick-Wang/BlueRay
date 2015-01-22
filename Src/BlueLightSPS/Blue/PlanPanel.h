@@ -86,6 +86,8 @@ private:
 	bool m_bEnablePlanBtnForSCRQ;
 	bool m_bEnablePlanBtnForBZRQ;
 
+	bool m_bIfUpdateTableWhenTableFilter;
+
 	enum enumProductionStatusForPlan
 	{
 		ProductionStatus_All = 0,						//È«²¿
