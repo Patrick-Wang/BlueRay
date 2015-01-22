@@ -1697,5 +1697,12 @@ void CPlanPanel::OnExprotClicked()
 		CString filePathName = hFileDlg.GetPathName();
 		CServer::GetInstance()->GetPlan().Export(filePathName, pqp).then(
 			new CPlanExportListener(*this, filePathName));
+
+		//DEFINE_PLAN_QUERY_PARAM(pqp1);
+		//MakeBasicSearchCondition(pqp1);
+		//CString fileNameNew = filePathName;
+		//fileNameNew.Replace(L".csv", L".xls");
+		//CServer::GetInstance()->GetPlan().TemplateExport(fileNameNew, pqp1).then(
+		//	new CPlanExportListener(*this, fileNameNew));
 	}
 }
