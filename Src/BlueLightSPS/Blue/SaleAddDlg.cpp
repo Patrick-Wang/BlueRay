@@ -372,7 +372,14 @@ BOOL CSaleAddDlg::OnInitDialog()
 	//init comb
 	for (int i = _countof(g_CombPos) - 1; i >= 0; --i)
 	{
-		m_aCombs[i] = Util_Tools::Util::CreateComboBox(this, IDC_COMBO_BASE + i, _T("Microsoft YaHei"), 12);
+		if (Comb_DFR == i || Comb_JF == i || Comb_ZYZ == i || Comb_YXJ == i)
+		{
+			m_aCombs[i] = Util_Tools::Util::CreateComboBox(this, IDC_COMBO_BASE + i, _T("Microsoft YaHei"), 12, TRUE);
+		}
+		else
+		{
+			m_aCombs[i] = Util_Tools::Util::CreateComboBox(this, IDC_COMBO_BASE + i, _T("Microsoft YaHei"), 12);
+		}
 		m_aCombs[i]->MoveWindow(g_CombPos[i][0], g_CombPos[i][1], g_CombPos[i][2], g_CombPos[i][3]);
 	}
 
@@ -451,34 +458,34 @@ void CSaleAddDlg::OnOK()
 	m_aEdits[EditId::Edit_HTH]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->htbh : _T("")));
 
-	m_aCombs[CombId::Comb_KHMC]->GetWindowText(strTmp);
+	GetText(m_aCombs[CombId::Comb_KHMC], CombId::Comb_KHMC, strTmp);
 	m_vecResult.push_back(strTmp);
 
-	m_aCombs[CombId::Comb_GGBH]->GetWindowText(strTmp);
+	GetText(m_aCombs[CombId::Comb_GGBH], CombId::Comb_GGBH, strTmp);
 	m_vecResult.push_back(strTmp);
 
 	m_aEdits[EditId::Edit_SL]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->sl : _T("")));
 
-	m_aCombs[CombId::Comb_ZC]->GetWindowText(strTmp);
+	GetText(m_aCombs[CombId::Comb_ZC], Comb_ZC, strTmp);
 	m_vecResult.push_back(strTmp);
 
 	m_aCombs[CombId::Comb_DFR]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp);
 
-	m_aCombs[CombId::Comb_ZDQDY]->GetWindowText(strTmp);
+	GetText(m_aCombs[CombId::Comb_ZDQDY], Comb_ZDQDY, strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->zdqdy : 0));
 
-	m_aCombs[CombId::Comb_YYLGG]->GetWindowText(strTmp);
+	GetText(m_aCombs[CombId::Comb_YYLGG], Comb_YYLGG, strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->yylgg : 0));
 
 	m_aCombs[CombId::Comb_JF]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->jf : 0));
 
-	m_aCombs[CombId::Comb_BPQXH]->GetWindowText(strTmp);
+	GetText(m_aCombs[CombId::Comb_BPQXH], Comb_BPQXH, strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bpqxh : 0));
 
-	m_aCombs[CombId::Comb_BMQXH]->GetWindowText(strTmp);
+	GetText(m_aCombs[CombId::Comb_BMQXH], Comb_BMQXH, strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bmqxh : 0));
 
 	m_aEdits[EditId::Edit_DLCD]->GetWindowText(strTmp);
@@ -487,7 +494,7 @@ void CSaleAddDlg::OnOK()
 	m_aEdits[EditId::Edit_ZXCD]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->zxcd : _T("")));
 
-	m_aCombs[CombId::Comb_MPZL]->GetWindowText(strTmp);
+	GetText(m_aCombs[CombId::Comb_MPZL], Comb_MPZL, strTmp);
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->bmqxh : 0));
 
 	m_aEdits[EditId::Edit_BZ]->GetWindowText(strTmp);
@@ -505,28 +512,28 @@ void CSaleAddDlg::OnOK()
 		m_vecResult.push_back(_T(""));
 	}
 
-	m_aCombs[CombId::Comb_ZJDY]->GetWindowText(strTmp);
+	GetText(m_aCombs[CombId::Comb_ZJDY], Comb_ZJDY, strTmp);
 	m_vecResult.push_back(strTmp);
 
-	m_aCombs[CombId::Comb_ZJYS]->GetWindowText(strTmp);
+	GetText(m_aCombs[CombId::Comb_ZJYS], Comb_ZJYS, strTmp);
 	m_vecResult.push_back(strTmp);
 
-	m_aCombs[CombId::Comb_ZDQXH]->GetWindowText(strTmp);
+	GetText(m_aCombs[CombId::Comb_ZDQXH], Comb_ZDQXH, strTmp);
 	m_vecResult.push_back(strTmp);
 
 	m_aCombs[CombId::Comb_ZYZ]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp);
 
-	m_aCombs[CombId::Comb_BZXDTGG]->GetWindowText(strTmp);
+	GetText(m_aCombs[CombId::Comb_BZXDTGG], Comb_BZXDTGG, strTmp);
 	m_vecResult.push_back(strTmp);
 
 	m_aEdits[EditId::Edit_GH]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp);
 
-	m_aCombs[CombId::Comb_ZZS]->GetWindowText(strTmp);
+	GetText(m_aCombs[CombId::Comb_ZZS], Comb_ZZS, strTmp);
 	m_vecResult.push_back(strTmp);
 
-	m_aCombs[CombId::Comb_KHQY]->GetWindowText(strTmp);
+	GetText(m_aCombs[CombId::Comb_KHQY], Comb_KHQY, strTmp);
 	m_vecResult.push_back(strTmp);
 
  	m_aCombs[CombId::Comb_YXJ]->GetWindowText(strTmp);
@@ -616,6 +623,24 @@ void CSaleAddDlg::InitCtrlData()
 
 		CString val(_T(""));
 		init(m_aDatePickers[DatePickerId::DatePicker_DDRQ], val);
+	}
+}
+
+void CSaleAddDlg::GetText(CComboBox* pComboBox, CombId comId, CString& text)
+{
+	pComboBox->GetWindowText(text);
+	CString strTmp;
+	int i = m_DropList[comId].size() - 1;
+	for (; i >= 0; --i)
+	{
+		if (m_DropList[comId][i] == text)
+		{
+			break;
+		}
+	}
+	if (i < 0)
+	{
+		m_DropList[comId].push_back(text);
 	}
 }
 
