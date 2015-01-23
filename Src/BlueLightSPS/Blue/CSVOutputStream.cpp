@@ -11,13 +11,21 @@ CCVSOutputStream::CCVSOutputStream(LPCTSTR lpFileName)
 		Util_Tools::Util::MakeDir(lpFileName);
 		_tfopen_s(&m_fp, lpFileName, L"wb");
 	}
+
+	if (NULL == m_fp)
+	{
+		throw std::exception("本地文件创建失败");
+	}
 	
 }
 
 
 CCVSOutputStream::~CCVSOutputStream()
 {
-	fclose(m_fp);
+	if (NULL != m_fp)
+	{
+		fclose(m_fp);
+	}
 }
 
 bool CCVSOutputStream::write(BYTE* pStart, int length)

@@ -74,6 +74,16 @@ public:
 		CString ddrq;	//订单日期
 		CString bz;		//备注
 
+		CString zjdy;		//主机电压
+		CString zjys;		//主机颜色
+		CString zdqxh;		//制动器型号
+		CString zyz;		//左/右置
+		CString bzxdtgg;	//包装箱/底托规格
+		CString gh;		//工号
+		CString zzs;		//制造商
+		CString khqy;		//客户区域
+		CString yxj;		//优先级
+
 		CString scrq;	//生产日期
 		CString jhywsh;	//计划审核-业务
 		CString jhjhsh;	//计划审核-计划
@@ -102,16 +112,22 @@ public:
 			ddrq = OPT_FALSE;			//订单日期
 			bz = OPT_FALSE;				//备注
 
-			scrq = OPT_FALSE;	//生产日期
+			zjdy = OPT_FALSE;
+			zjys = OPT_FALSE;
+			zdqxh = OPT_FALSE;
+			zyz = OPT_FALSE;
+			bzxdtgg = OPT_FALSE;
+			zzs = OPT_FALSE;
+			khqy = OPT_FALSE;
+			yxj = OPT_FALSE;
+			gh = OPT_FALSE;
 
+			scrq = OPT_FALSE;	//生产日期
 			jhywsh = OPT_FALSE;	//计划审核-业务
 			jhjhsh = OPT_FALSE;	//计划审核-计划
-
 			bzrq = OPT_FALSE;	//包装日期
-
 			bzywsh = OPT_FALSE;	//包装审核-业务
 			bzjhsh = OPT_FALSE;	//包装审核-计划
-
 			fhrq = OPT_FALSE;	//发货日期
 			tcbh = OPT_FALSE;	//投产编号
 			ccbh = OPT_FALSE;	//出厂编号
@@ -137,6 +153,16 @@ public:
 				do_get(data, it, mpzl);
 				do_get(data, it, bz);
 				do_get(data, it, ddrq);
+
+				do_get(data, it, zjdy);
+				do_get(data, it, zjys);
+				do_get(data, it, zdqxh);
+				do_get(data, it, zyz);
+				do_get(data, it, bzxdtgg);
+				do_get(data, it, gh);
+				do_get(data, it, zzs);
+				do_get(data, it, khqy);
+				do_get(data, it, yxj);
 
 				do_get(data, it, scrq);
 				
@@ -174,6 +200,16 @@ public:
 				do_get_merge(data, it, mpzl);
 				do_get_merge(data, it, bz);
 				do_get_merge(data, it, ddrq);
+
+				do_get_merge(data, it, zjdy);
+				do_get_merge(data, it, zjys);
+				do_get_merge(data, it, zdqxh);
+				do_get_merge(data, it, zyz);
+				do_get_merge(data, it, bzxdtgg);
+				do_get_merge(data, it, gh);
+				do_get_merge(data, it, zzs);
+				do_get_merge(data, it, khqy);
+				do_get_merge(data, it, yxj);
 
 				do_get_merge(data, it, scrq);
 
@@ -216,7 +252,17 @@ private:
 		Static_MPZL,
 		Static_DDRQ,
 		Static_BZ,
-		
+
+		Static_ZJDY,
+		Static_ZJYS,
+		Static_ZDQXH,
+		Static_ZYZ,
+		Static_BZXDTGG,
+		Static_ZZS,
+		Static_KHQY,
+		Static_YXJ,
+		Static_GH,
+
 		Static_SCRQ,
 		Static_BZRQ,
 		Static_FHRQ,
@@ -243,6 +289,16 @@ private:
 		Static2_MPZL,
 		Static2_DDRQ,
 		Static2_BZ,
+
+		Static2_ZJDY,
+		Static2_ZJYS,
+		Static2_ZDQXH,
+		Static2_ZYZ,
+		Static2_BZXDTGG,
+		Static2_ZZS,
+		Static2_KHQY,
+		Static2_YXJ,
+		Static2_GH,
 
 		Static2_END
 	};

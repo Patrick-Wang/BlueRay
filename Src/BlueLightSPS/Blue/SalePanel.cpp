@@ -79,25 +79,25 @@ BEGIN_MESSAGE_MAP(CSalePanel, CBRPanel)
 END_MESSAGE_MAP()
 
 CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI)
-	//: CBRPanel(pJqGridAPI, pHttp)
-	: CBRPanel(pJqGridAPI)
-	, m_tableFilterDlg(_T("表格设置"))
-	, m_btnAdd(NULL)
-	, m_btnSearch(NULL)
-	, m_btnModify(NULL)
-	, m_btnDelete(NULL)
-	, m_btnMore(NULL)
-	, m_btnTableFilter(NULL)
-	, m_btnReApproveForBusiness(NULL)
-	, m_btnReApproveForPlan(NULL)
-	, m_bsMoreWord(NULL)
-	, m_editSearch(NULL)
-	, m_iCountBtnOfReApprove(-1)
-	, m_bsDateRange(NULL)
-	, m_bsMiddleLine(NULL)
-	, m_dtcSearchFrom(NULL)
-	, m_dtcSearchTo(NULL)
-	, m_bIfUpdateTableWhenTableFilter(false)
+//: CBRPanel(pJqGridAPI, pHttp)
+: CBRPanel(pJqGridAPI)
+, m_tableFilterDlg(_T("表格设置"))
+, m_btnAdd(NULL)
+, m_btnSearch(NULL)
+, m_btnModify(NULL)
+, m_btnDelete(NULL)
+, m_btnMore(NULL)
+, m_btnTableFilter(NULL)
+, m_btnReApproveForBusiness(NULL)
+, m_btnReApproveForPlan(NULL)
+, m_bsMoreWord(NULL)
+, m_editSearch(NULL)
+, m_iCountBtnOfReApprove(-1)
+, m_bsDateRange(NULL)
+, m_bsMiddleLine(NULL)
+, m_dtcSearchFrom(NULL)
+, m_dtcSearchTo(NULL)
+, m_bIfUpdateTableWhenTableFilter(false)
 {
 	m_tableFilterDlg.Initialize(m_pJqGridAPI.get(), Page_Sale);
 }
@@ -137,7 +137,7 @@ void CSalePanel::OnInitChilds()
 	{
 		m_pJqGridAPI->SetWidths(strJsonWidths);
 	}
-	
+
 	m_pJqGridAPI->d_OnUpdateData += std::make_pair(this, &CSalePanel::OnUpdateData);
 	if (!perm.getSale())
 	{
@@ -631,9 +631,9 @@ void CSalePanel::OnBnClickedMore()
 	dlg.SetOption(new CSaleAddDlg::Option_t());
 	if (IDOK == dlg.DoModal()){
 		std::vector<CString>& searchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
-// 		searchVals.insert(searchVals.begin() + 16, L"");//插入业务审核
-// 		searchVals.insert(searchVals.begin() + 17, L"");//插入计划审核
-// 		searchVals.insert(searchVals.begin() + 18, L"");//插入优先级
+		// 		searchVals.insert(searchVals.begin() + 16, L"");//插入业务审核
+		// 		searchVals.insert(searchVals.begin() + 17, L"");//插入计划审核
+		// 		searchVals.insert(searchVals.begin() + 18, L"");//插入优先级
 		DEFINE_SALE_QUERY_PARAM(jqp);
 		jqp.SetAdvancedCondition(&searchVals);
 
@@ -1033,12 +1033,18 @@ void CSalePanel::OnExprotClicked()
 
 	if (hFileDlg.DoModal() == IDOK)
 	{
-		DEFINE_SALE_QUERY_PARAM(sqp);
+		try{
+			DEFINE_SALE_QUERY_PARAM(sqp);
 
-		MakeBasicSearchCondition(sqp);
+			MakeBasicSearchCondition(sqp);
 
-		CString filePathName = hFileDlg.GetPathName();
-		CServer::GetInstance()->GetSale().Export(filePathName, sqp).then(
-			new CSaleExportListener(*this, filePathName));
+			CString filePathName = hFileDlg.GetPathName();
+			CServer::GetInstance()->GetSale().Export(filePathName, sqp).then(
+				new CSaleExportListener(*this, filePathName));
+		}
+		catch (std::exception& e)
+		{
+			MessageBoxA(m_hWnd, (char*)e.what(), "导出失败", MB_OK | MB_ICONWARNING);
+		}
 	}
 }

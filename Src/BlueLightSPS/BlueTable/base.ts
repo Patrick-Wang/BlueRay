@@ -19,8 +19,8 @@ module base {
     export class GridView {
         private rowNum: number = mediator.onGetRowNum();
         private curPage: number;
-        private mTableName: string;
-        private mTable: any;
+        mTableName: string;
+        mTable: any;
         private mCols: string[];
         private mInit: boolean = false;
         private mDisabledRows: number[] = [];
@@ -248,11 +248,12 @@ module base {
                     }
                 }));
             var exporteId = name + "_export";
-            this.mTable.jqGrid('navGrid', "#" + name + 'pager', { search: false, refresh: false, edit: false, add: false, del: false })
+            this.mTable
+                .jqGrid('navGrid', "#" + name + 'pager', { search: false, refresh: false, edit: false, add: false, del: false })
                 .jqGrid('navButtonAdd', "#" + name + 'pager', {
-                         caption: "", buttonicon: "none", onClickButton: () => {
-                             mediator.onExportClicked(this.mTableName);
-                         }, position: "last", title: "导出", id: exporteId
+                    caption: "", buttonicon: "none", onClickButton: () => {
+                        mediator.onExportClicked(this.mTableName);
+                    }, position: "last", title: "按表格导出数据", id: exporteId
                 });
             this.reload();
            

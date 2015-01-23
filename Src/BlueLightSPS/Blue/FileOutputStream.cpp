@@ -12,12 +12,20 @@ CFileOutputStream::CFileOutputStream(LPCTSTR lpFileName)
 		_tfopen_s(&m_fp, lpFileName, L"wb");
 	}
 	
+	if (NULL == m_fp)
+	{
+		throw std::exception("本地文件创建失败");
+	}
+
 }
 
 
 CFileOutputStream::~CFileOutputStream()
 {
-	fclose(m_fp);
+	if (NULL != m_fp)
+	{
+		fclose(m_fp);
+	}
 }
 
 bool CFileOutputStream::write(BYTE* pStart, int length)

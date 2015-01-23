@@ -198,6 +198,7 @@ namespace Util_Tools
 	{
 		int start = 0;
 		int index = src.Find(split);
+		retData.clear();
 		while (index > 0)
 		{
 			retData.push_back(src.Mid(start, index - start));

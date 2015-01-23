@@ -324,6 +324,8 @@ void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatu
 void CPlanPanel::OnInitChilds()
 {
 	m_pJqGridAPI->d_OnExportClicked += std::make_pair(this, &CPlanPanel::OnExprotClicked);
+	m_pJqGridAPI->d_OnTemplateExportClicked += std::make_pair(this, &CPlanPanel::OnTemplateExprotClicked);
+
 	CString strJsonWidths;
 	if (CSettingManager::GetInstance()->GetColWidths(L"planCol", strJsonWidths))
 	{
@@ -1631,6 +1633,7 @@ void CPlanPanel::OnDestroy()
 	m_pJqGridAPI->GetWidths(strWidths);
 	CSettingManager::GetInstance()->SetColWidths(L"planCol", strWidths);
 	m_pJqGridAPI->d_OnExportClicked -= std::make_pair(this, &CPlanPanel::OnExprotClicked);
+	m_pJqGridAPI->d_OnExportClicked -= std::make_pair(this, &CPlanPanel::OnTemplateExprotClicked);
 
 	CBRPanel::OnDestroy();
 
@@ -1688,15 +1691,65 @@ void CPlanPanel::OnExprotClicked()
 		DEFINE_PLAN_QUERY_PARAM(pqp);
 		MakeBasicSearchCondition(pqp);
 
-		CString filePathName = hFileDlg.GetPathName();
-		CServer::GetInstance()->GetPlan().Export(filePathName, pqp).then(
-			new CPlanExportListener(*this, filePathName));
+		try
+		{
+			CString filePathName = hFileDlg.GetPathName();
+			CServer::GetInstance()->GetPlan().Export(filePathName, pqp).then(
+				new CPlanExportListener(*this, filePathName));
+		}
+		catch (std::exception& e)
+		{
+			MessageBoxA(m_hWnd, (char*)e.what(), "导出失败", MB_OK | MB_ICONWARNING);
+		}
+	}
+}
 
-		//DEFINE_PLAN_QUERY_PARAM(pqp1);
-		//MakeBasicSearchCondition(pqp1);
-		//CString fileNameNew = filePathName;
-		//fileNameNew.Replace(L".csv", L".xls");
-		//CServer::GetInstance()->GetPlan().TemplateExport(fileNameNew, pqp1).then(
-		//	new CPlanExportListener(*this, fileNameNew));
+void CPlanPanel::OnTemplateExprotClicked()
+{
+	class CPlanTemplateExportListener : public CPromise<bool>::IHttpResponse{
+		CONSTRUCTOR_2(CPlanTemplateExportListener, CPlanPanel&, panel, CString, fileName);
+	public:
+		virtual void OnSuccess(bool& ret){
+			if (ret)
+			{
+				m_panel.MessageBox(_T("计划数据已经成功导出到文件 : ") + m_fileName, _T("导出成功"), MB_OK | MB_ICONINFORMATION);
+			}
+			else
+			{
+				m_panel.MessageBox(_T("计划数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
+				DeleteFile(m_fileName);
+			}
+		}
+		virtual void OnFailed(){
+			m_panel.MessageBox(_T("计划数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
+			DeleteFile(m_fileName);
+		}
+	};
+
+	CFileDialog hFileDlg(FALSE, _T("(*.xls)|*.xls"), _T("计划数据导出.xls"), OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT, _T("Excel(*.xls)|*.xls||"), NULL);
+	hFileDlg.m_ofn.nFilterIndex = 1;
+	hFileDlg.m_ofn.hwndOwner = GetParent()->GetSafeHwnd();
+	hFileDlg.m_ofn.lStructSize = sizeof(OPENFILENAME);
+	hFileDlg.m_ofn.lpstrTitle = TEXT("选择导出文件位置");
+	hFileDlg.m_ofn.nMaxFile = MAX_PATH;
+
+	if (hFileDlg.DoModal() == IDOK)
+	{
+		DEFINE_PLAN_QUERY_PARAM(pqp);
+		MakeBasicSearchCondition(pqp);
+
+		try
+		{
+			CString filePathName = hFileDlg.GetPathName();
+			DEFINE_PLAN_QUERY_PARAM(pqp);
+			MakeBasicSearchCondition(pqp);
+			CString fileNameNew = filePathName;
+			CServer::GetInstance()->GetPlan().TemplateExport(fileNameNew, pqp).then(
+				new CPlanTemplateExportListener(*this, fileNameNew));
+		}
+		catch (std::exception& e)
+		{
+			MessageBoxA(m_hWnd, (char*)e.what(), "导出失败", MB_OK | MB_ICONWARNING);
+		}
 	}
 }

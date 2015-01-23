@@ -48,7 +48,7 @@ public:
 	CDelegate<void(void)> d_OnGridComplete;
 	CDelegate<void(int, int, int, bool)> d_OnUpdateData;
 	CDelegate<void(void)> d_OnExportClicked;
-
+	CDelegate<void(void)> d_OnTemplateExportClicked;
 	VARIANT JSCall(int id, const std::vector<VARIANT>& params);
 
 private:
@@ -59,6 +59,7 @@ private:
 	static CComJsFun m_JsfnOnComplete;
 	static CComJsFun m_JsfnOnUpdateData;
 	static CComJsFun m_JsfnOnExportClicked;
+	static CComJsFun m_JsfnOnTemplateExportClicked;
 	BSTR m_gridName;
 };
 

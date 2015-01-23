@@ -31,6 +31,16 @@ var ui;
         __extends(PlanView, _super);
         function PlanView(gridName) {
             _super.call(this, gridName, ["合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "主机电压", "主机颜色", "制动器型号", "左/右置", "包装箱/底托规格", "工号", "制造商", "客户区域", "优先级", "生产日期", "计划审核-业务", "计划审核-计划", "包装日期", "包装审核-业务", "包装审核-计划", "发货日期", "投产编号", "出厂编号"], PlanView.widths);
+            var templateExporteId = gridName + "_template_export";
+            this.mTable.jqGrid('navButtonAdd', "#" + gridName + 'pager', {
+                caption: "", buttonicon: "none", onClickButton: function () {
+                    //alert(gridName);
+                    mediator.onTemplateExportClicked(gridName);
+                }, position: "last", title: "按模板导出数据", id: templateExporteId
+            });
+            this.reload();
+            $("#" + templateExporteId + " div").addClass("ui-icon");
+            $("#" + templateExporteId + " div").addClass("ui-icon-disk");
         }
         PlanView.getInstance = function (gridName) {
             if (undefined == PlanView.ins) {
