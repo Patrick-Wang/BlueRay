@@ -559,12 +559,17 @@ void CSaleAddDlg::InitCtrlData()
 		d_GetOption(*this);
 	}
 
+	CFont* pFont = NULL;
+	pFont = CBSObject::GetFontPtr(_T("Microsoft YaHei"), 12, FALSE, FALSE, FALSE);
+
 	for (int i = _countof(g_CombPos) - 1; i >= 0; --i)
 	{
 		for (int j = GetDropList()[i].size() - 1; j >= 0; --j)
 		{
 			m_aCombs[i]->InsertString(0, GetDropList()[i][j]);
 		}
+
+		m_aCombs[i]->SetDroppedWidth(Util_Tools::Util::CaculateMaxWidthOfItems((m_aCombs[i])->GetOwner(), GetDropList()[i], pFont));
 	}
 
 	if (NULL != m_lpOption.get())

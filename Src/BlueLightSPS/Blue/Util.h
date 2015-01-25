@@ -27,6 +27,8 @@ namespace Util_Tools
 		static void Join(const std::vector<int>& retData, CString& dest);
 		static LPCTSTR ToString(bool bVal);
 
+		static int Util::CaculateMaxWidthOfItems(CWnd *pWnd, const vector<CString> &strItems, CFont *font);
+
 		static void StringToDate(CString &strData, COleDateTime& objDataTime);
 		static void StringToDataTime(CString &strData, COleDateTime& objDataTime);
 		static DOUBLE CompareTime(CString& strLeftUpdateTime, CString& strRightUpdateTime);

@@ -156,7 +156,7 @@ namespace Util_Tools
 
 		pFont = CBSObject::GetFontPtr(csFont, iFSize, FALSE, FALSE, FALSE);
 
-		pDateTimeCtrl->Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | DTS_RIGHTALIGN , CRect(0, 0, 0, 0), pParent, Id);
+		pDateTimeCtrl->Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | DTS_RIGHTALIGN, CRect(0, 0, 0, 0), pParent, Id);
 
 		pDateTimeCtrl->SetFont(pFont);
 
@@ -489,4 +489,29 @@ namespace Util_Tools
 		return true;
 	}
 
+	int Util::CaculateMaxWidthOfItems(CWnd *pWnd, const vector<CString> &strItems, CFont *pfont)
+	{
+		// Reset the dropped width
+		int nNumEntries = strItems.size();
+		int nWidth = 0;
+		CString str;
+
+		CClientDC dc(pWnd);
+		int nSave = dc.SaveDC();
+		dc.SelectObject(pfont);
+
+		int nScrollWidth = ::GetSystemMetrics(SM_CXVSCROLL);
+		for (int i = 0; i < nNumEntries; i++)
+		{
+			int nLength = dc.GetTextExtent(strItems[i]).cx + nScrollWidth;
+			nWidth = max(nWidth, nLength);
+		}
+
+		// Add margin space to the calculations
+		nWidth += dc.GetTextExtent(_T("0")).cx;
+
+		dc.RestoreDC(nSave);
+
+		return nWidth;
+	}
 }
