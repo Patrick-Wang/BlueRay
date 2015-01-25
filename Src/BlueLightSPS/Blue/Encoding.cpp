@@ -160,7 +160,7 @@ public:
 
 		int iTextLen = 0;
 		iTextLen = MultiByteToWideChar(CP_ACP, 0, (char*)srcBytesEncoded, -1, NULL, 0);
-		MultiByteToWideChar(CP_ACP, 0, (char*)srcBytesEncoded, -1, (LPWSTR)destUtf16leString.GetBuffer(iTextLen), iTextLen);
+		MultiByteToWideChar(CP_ACP, 0, (char*)srcBytesEncoded, -1, (LPWSTR)destUtf16leString.GetBuffer(iTextLen + 1), iTextLen + 1);
 		destUtf16leString.ReleaseBuffer(iTextLen);
 	}
 
@@ -173,7 +173,7 @@ public:
 
 		int iTextLen = 0;
 		iTextLen = MultiByteToWideChar(CP_ACP, 0, (char*)srcBytesEncoded, len, NULL, 0);
-		MultiByteToWideChar(CP_ACP, 0, (char*)srcBytesEncoded, len, (LPWSTR)destUtf16le.GetBuffer(iTextLen), iTextLen);
+		MultiByteToWideChar(CP_ACP, 0, (char*)srcBytesEncoded, len, (LPWSTR)destUtf16le.GetBuffer(iTextLen + 1), iTextLen + 1);
 		destUtf16le.ReleaseBuffer(iTextLen);
 	}
 };

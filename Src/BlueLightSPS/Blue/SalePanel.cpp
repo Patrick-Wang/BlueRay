@@ -129,7 +129,7 @@ void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
 
 void CSalePanel::OnInitChilds()
 {
-	m_pJqGridAPI->d_OnExportClicked += std::make_pair(this, &CSalePanel::OnExprotClicked);
+	m_pJqGridAPI->d_OnExportClicked += std::make_pair(this, &CSalePanel::OnExportClicked);
 
 	CPermission& perm = CUser::GetInstance()->GetPermission();
 	CString strJsonWidths;
@@ -139,6 +139,8 @@ void CSalePanel::OnInitChilds()
 	}
 
 	m_pJqGridAPI->d_OnUpdateData += std::make_pair(this, &CSalePanel::OnUpdateData);
+	m_pJqGridAPI->d_OnImportClicked += std::make_pair(this, &CSalePanel::OnImportClicked);
+	
 	if (!perm.getSale())
 	{
 		m_bsMoreWord = Util_Tools::Util::CreateStatic(this, IDC_SALE_BTN_MOREWORD, _T("您没有销售录入的权限"), _T("Microsoft YaHei"), 16);
@@ -968,7 +970,8 @@ void CSalePanel::OnDestroy()
 	m_pJqGridAPI->GetWidths(strWidths);
 	CSettingManager::GetInstance()->SetColWidths(L"saleCol", strWidths);
 	m_pJqGridAPI->d_OnUpdateData -= std::make_pair(this, &CSalePanel::OnUpdateData);
-	m_pJqGridAPI->d_OnExportClicked -= std::make_pair(this, &CSalePanel::OnExprotClicked);
+	m_pJqGridAPI->d_OnExportClicked -= std::make_pair(this, &CSalePanel::OnExportClicked);
+	m_pJqGridAPI->d_OnImportClicked -= std::make_pair(this, &CSalePanel::OnImportClicked);
 	CBRPanel::OnDestroy();
 }
 
@@ -1001,7 +1004,7 @@ void CSalePanel::HighLight()
 	}
 }
 
-void CSalePanel::OnExprotClicked()
+void CSalePanel::OnExportClicked()
 {
 
 	class CSaleExportListener : public CPromise<bool>::IHttpResponse{
@@ -1046,5 +1049,58 @@ void CSalePanel::OnExprotClicked()
 		{
 			MessageBoxA(m_hWnd, (char*)e.what(), "导出失败", MB_OK | MB_ICONWARNING);
 		}
+	}
+}
+
+void CSalePanel::OnImportClicked()
+{
+	//class CSaleImportListener : public CPromise<bool>::IHttpResponse{
+	//	CONSTRUCTOR_2(CSaleImportListener, CSalePanel&, panel, CString, fileName);
+	//public:
+	//	virtual void OnSuccess(bool& ret){
+	//		if (ret)
+	//		{
+	//			m_panel.MessageBox(_T("销售数据已经成功导出到文件 : ") + m_fileName, _T("导出成功"), MB_OK | MB_ICONINFORMATION);
+	//		}
+	//		else
+	//		{
+	//			m_panel.MessageBox(_T("销售数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
+	//			DeleteFile(m_fileName);
+	//		}
+	//	}
+	//	virtual void OnFailed(){
+	//		m_panel.MessageBox(_T("销售数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
+	//		DeleteFile(m_fileName);
+	//	}
+	//};
+
+	CFileDialog hFileDlg(FALSE, _T("(*.xls)|*.xls"), _T("销售数据导入.csv"), OFN_PATHMUSTEXIST | OFN_READONLY, _T("Excel(*.csv)|*.csv||"), NULL);
+	hFileDlg.m_ofn.nFilterIndex = 1;
+	hFileDlg.m_ofn.hwndOwner = GetParent()->GetSafeHwnd();
+	hFileDlg.m_ofn.lStructSize = sizeof(OPENFILENAME);
+	hFileDlg.m_ofn.lpstrTitle = TEXT("选择导入文件位置");
+	hFileDlg.m_ofn.nMaxFile = MAX_PATH;
+
+	if (hFileDlg.DoModal() == IDOK)
+	{
+		CSale::ImportResult_t ret;
+		CString filePathName = hFileDlg.GetPathName();
+		CServer::GetInstance()->GetSale().Import(filePathName, ret);
+		CString result;
+		result.Format(_T("数据总数 : %d\r\n导入成功 : %d\r\n导入失败 : %d"), ret.iTotal, ret.iSucceed, ret.iFailed);
+		this->MessageBox(_T("销售数据导入完成"), result, MB_OK | MB_ICONWARNING);
+		/*try{
+			DEFINE_SALE_QUERY_PARAM(sqp);
+
+			MakeBasicSearchCondition(sqp);
+
+			CString filePathName = hFileDlg.GetPathName();
+			CServer::GetInstance()->GetSale().Import(filePathName, sqp).then(
+			new CSaleImportListener(*this, filePathName));
+			}
+			catch (std::exception& e)
+			{
+			MessageBoxA(m_hWnd, (char*)e.what(), "导出失败", MB_OK | MB_ICONWARNING);
+			}*/
 	}
 }

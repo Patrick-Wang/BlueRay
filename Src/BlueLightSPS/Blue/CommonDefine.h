@@ -1,11 +1,8 @@
 #pragma once
 //Host
+extern CString g_strHostName;
 
-#ifdef _DEBUG
-#define IDS_HOST_NAME             _T("localhost")
-#else
-#define IDS_HOST_NAME             _T("192.168.104.2")
-#endif
+#define IDS_HOST_NAME             (LPCTSTR)g_strHostName
 
 //user setting location
 

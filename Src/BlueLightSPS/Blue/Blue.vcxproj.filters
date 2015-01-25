@@ -240,6 +240,9 @@
     <ClInclude Include="FileOutputStream.h">
       <Filter>server</Filter>
     </ClInclude>
+    <ClInclude Include="FileInputStream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blue.cpp">
@@ -400,6 +403,9 @@
     </ClCompile>
     <ClCompile Include="FileOutputStream.cpp">
       <Filter>server</Filter>
+    </ClCompile>
+    <ClCompile Include="FileInputStream.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

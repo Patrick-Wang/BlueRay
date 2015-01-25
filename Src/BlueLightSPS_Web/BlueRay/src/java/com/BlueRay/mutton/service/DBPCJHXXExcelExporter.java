@@ -66,7 +66,6 @@ class DBPCJHXXExcelExporter implements IExcelExporter<PCJHXX> {
 				 HSSFRichTextString text = new HSSFRichTextString(ret[j]);
 			     cell.setCellValue(text);
 			}
-			
 		}
 		try {
 			workbook.write(os);

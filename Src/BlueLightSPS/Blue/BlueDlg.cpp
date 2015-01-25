@@ -17,7 +17,7 @@
 #include "ProductPanel.h"
 #include "NotificationPanel.h"
 #include "User.h"
-
+CString g_strHostName(_T("localhost"));
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -380,6 +380,9 @@ BOOL CBlueDlg::PreTranslateMessage(MSG* pMsg)
 	{
 		return TRUE;
 	}
+	else if (WM_KEYDOWN == pMsg->message && VK_F4 == pMsg->wParam){
+		return TRUE;
+	}
 
 	return CDialogEx::PreTranslateMessage(pMsg);
 }
@@ -426,6 +429,13 @@ void CBlueDlg::InitWebView()
 	url.vt = VT_BSTR;
 	url.bstrVal = (BSTR)::SysAllocString(path);
 	m_webView.OpenURL(&url);
+#ifndef _DEBUG
+	path.Replace(_T("tables.html"), _T("test.txt"));
+	if (!PathFileExists(path))
+	{
+		g_strHostName = _T("192.168.104.2");
+	}
+#endif
 }
 
 void CBlueDlg::OnSaleChanged()

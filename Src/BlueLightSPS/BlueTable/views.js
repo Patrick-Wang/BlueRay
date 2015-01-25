@@ -13,6 +13,16 @@ var ui;
         __extends(SaleView, _super);
         function SaleView(gridName) {
             _super.call(this, gridName, ["合同号", "客户名称", "规格型号", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "主机电压", "主机颜色", "制动器型号", "左/右置", "包装箱/底托规格", "工号", "制造商", "客户区域", "优先级", "审核-业务", "审核-计划"], SaleView.widths);
+            var importId = gridName + "_import";
+            this.mTable.jqGrid('navButtonAdd', "#" + gridName + 'pager', {
+                caption: "", buttonicon: "none", onClickButton: function () {
+                    //alert(gridName);
+                    mediator.onImportClicked(gridName);
+                }, position: "last", title: "导入数据", id: importId
+            });
+            this.reload();
+            $("#" + importId + " div").addClass("ui-icon");
+            $("#" + importId + " div").addClass("ui-icon-circle-arrow-n");
         }
         SaleView.getInstance = function (gridName) {
             if (undefined == SaleView.ins) {
@@ -40,7 +50,7 @@ var ui;
             });
             this.reload();
             $("#" + templateExporteId + " div").addClass("ui-icon");
-            $("#" + templateExporteId + " div").addClass("ui-icon-disk");
+            $("#" + templateExporteId + " div").addClass("ui-icon-image");
         }
         PlanView.getInstance = function (gridName) {
             if (undefined == PlanView.ins) {

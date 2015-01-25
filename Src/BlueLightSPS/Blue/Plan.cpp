@@ -159,7 +159,7 @@ CPromise<bool>& CPlan::Export(LPCTSTR lpFileName, CJsonQueryParam& jqParam)
 	jqParam.toJson(rawData, this);
 	Util_Tools::Util::base64_encode((unsigned char*)(LPCTSTR)rawData, rawData.GetLength() * 2, base64);
 	attr[L"query"] = base64;
-	m_lpHttp->Download(url, promise->GetId(), attr, std::shared_ptr<IHttp::IOutputStream>(new CCVSOutputStream(lpFileName)));
+	m_lpHttp->Download(url, promise->GetId(), attr, std::shared_ptr<IHttp::IOutputStream>(new CFileOutputStream(lpFileName)));
 	return *promise;
 }
 

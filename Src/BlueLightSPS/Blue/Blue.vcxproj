@@ -113,6 +113,7 @@
     <ClInclude Include="BRPanel.h" />
     <ClInclude Include="CommonDefine.h" />
     <ClInclude Include="Encoding.h" />
+    <ClInclude Include="FileInputStream.h" />
     <ClInclude Include="FileOutputStream.h" />
     <ClInclude Include="CSVOutputStream.h" />
     <ClInclude Include="HttpServerInterface.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="Account.cpp" />
     <ClCompile Include="BRPanel.cpp" />
     <ClCompile Include="Encoding.cpp" />
+    <ClCompile Include="FileInputStream.cpp" />
     <ClCompile Include="FileOutputStream.cpp" />
     <ClCompile Include="CSVOutputStream.cpp" />
     <ClCompile Include="HttpServerInterface.cpp" />

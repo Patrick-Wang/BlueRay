@@ -20,6 +20,12 @@ public:
 	CSale();
 	~CSale();
 
+	typedef struct tagImportResult_t{
+		int iTotal;
+		int iSucceed;
+		int iFailed;
+	}ImportResult_t;
+
 	CPromise<PageData_t>& Query(
 		int page,
 		int rows,
@@ -43,6 +49,8 @@ public:
 
 	bool UnapproveSync(ApproveType type, IntArray& rows);
 	CPromise<bool>& Unapprove(ApproveType type, IntArray& rows);
+
+	void Import(LPCTSTR lpFileName, ImportResult_t& ret);
 
 private:
 	bool doApproveSync(CString& url, IntArray& rows);

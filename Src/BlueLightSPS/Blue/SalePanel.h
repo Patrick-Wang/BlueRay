@@ -22,7 +22,8 @@ public:
 	void HighLight();
 
 protected:
-	void OnExprotClicked();
+	void OnExportClicked();
+	void OnImportClicked();
 	virtual void OnInitData();
 	virtual void OnInitChilds();
 	void OnUpdateData(int page, int rows, int colIndex, bool bAsc);

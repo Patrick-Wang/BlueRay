@@ -258,7 +258,7 @@ module base {
             this.reload();
            
             $("#" + exporteId + " div").addClass("ui-icon");
-            $("#" + exporteId + " div").addClass("ui-icon-folder-open");
+            $("#" + exporteId + " div").addClass("ui-icon-circle-arrow-s");
             $("#" + name + "pager_left").css("padding-top", "3px");
            
                 //.navGrid('#pager', { search: false, reloadGrid: false, edit: false, add: false, del: false });

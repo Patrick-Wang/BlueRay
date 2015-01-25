@@ -5,6 +5,8 @@
 #include "User.h"
 #include "Server.h"
 #include "FileOutputStream.h"
+#include "FileInputStream.h"
+#include "Encoding.h"
 CSale::CSale()
 {
 
@@ -213,4 +215,54 @@ CPromise<bool>& CSale::Export(LPCTSTR lpFileName, CJsonQueryParam& jqParam)
 	attr[L"query"] = base64;
 	m_lpHttp->Download(traceSession(url), promise->GetId(), attr, std::shared_ptr<IHttp::IOutputStream>(new CFileOutputStream(lpFileName)));
 	return *promise;
+}
+
+int FindReturn(BYTE* pBufCopy, int len){
+	for (int i = 0; i < len - 1; ++i)
+	{
+		if ('\r' == pBufCopy[i] && '\n' == pBufCopy[i + 1])
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
+void CSale::Import(LPCTSTR lpFileName, ImportResult_t& ret)
+{
+	int iBufSize = 1024 * 4;
+	CFileInputStream pFile(lpFileName, iBufSize);
+	int iStart = 0;
+	int iCount = 0;
+	BYTE* pBuf = new BYTE[pFile.size()];
+	while ((iCount = pFile.next()) > 0)
+	{
+		memcpy_s(pBuf + iStart, iCount, pFile.value(), iCount);
+		iStart += iCount;
+	}
+	CString strCSV;
+	CEncoding::Ansi()->GetString(pBuf, iStart, strCSV);
+	delete[] pBuf;
+	int index = 0;
+	iStart = 0;
+	CString strLine;
+	StringArray strArray;
+	int id;
+	SecureZeroMemory(&ret, sizeof(ret));
+	while ((index = strCSV.Find(_T("\n"), iStart)) >= 0)
+	{
+		strLine = strCSV.Mid(iStart, index - 1);
+		iStart = index + 1;
+		strArray.clear();
+		Util_Tools::Util::Split(strLine, _T(','), strArray);
+		++ret.iTotal;
+		if (AddSync(strArray, id))
+		{
+			++ret.iSucceed;
+		}
+		else
+		{
+			++ret.iFailed;
+		}
+	}
 }
