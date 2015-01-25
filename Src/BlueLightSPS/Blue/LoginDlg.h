@@ -28,6 +28,7 @@ protected:
 	CBSStatic m_bsUserName;
 	CBSStatic m_bsPassword;
 	CBSStatic m_bsLogo;
+	CBSStatic m_bsCopyright;;
 	CWebView m_webHttpView;
 	HICON m_hIcon;
 	CBRButton m_btnClose;

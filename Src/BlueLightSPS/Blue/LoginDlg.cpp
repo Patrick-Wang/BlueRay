@@ -134,6 +134,13 @@ BOOL CLoginDlg::OnInitDialog()
 	m_bsVersion.SetTextAlign(DT_LEFT | DT_SINGLELINE);
 	m_bsVersion.MoveWindow(300, 180, 450, 45);
 
+	m_bsCopyright.Create(this, IDC_LOGIN_COPYRIGHT);
+	m_bsCopyright.SetTextColor(COL_BLACK);
+	CString strCopyright(_T("2015 @ À¶¹â¼¯ÍÅ .  All rights reserved.\r\n \r\n build number: "));
+	m_bsCopyright.SetWindowText(strCopyright+IDS_VERSION_NUMBER);
+	m_bsCopyright.SetBSFont(_T("Microsoft YaHei"), 12, FALSE, TRUE);
+	m_bsCopyright.SetTextAlign(DT_CENTER | DT_SINGLELINE);
+	m_bsCopyright.MoveWindow(rt.Width()/2 - 150, rt.Height() - 70, 300, 70);
 
 	m_bsUserName.Create(this, IDC_LOGIN_USERNAME);
 	m_bsUserName.SetTextColor(COL_BLACK);
