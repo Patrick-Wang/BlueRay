@@ -17,10 +17,10 @@
 #define REAPPROVE_URL_ID IDP_PLAN + 5
 
 static int g_ReApproveBtnPos[][4] = {
-		{ 610, 115, 120, 25 },
-		{ 470, 115, 120, 25 },
-		{ 330, 115, 120, 25 },
-		{ 190, 115, 120, 25 }
+		{ 610 - 12, 124, 120, 25 },
+		{ 470 - 12, 124, 120, 25 },
+		{ 330 - 12, 124, 120, 25 },
+		{ 190 - 12, 124, 120, 25 }
 };
 
 BEGIN_MESSAGE_MAP(CPlanPanel, CBRPanel)
@@ -345,7 +345,7 @@ void CPlanPanel::OnInitChilds()
 	{
 		//first line
 		m_comboProductionStatus = Util_Tools::Util::CreateComboBox(this, IDC_PLAN_COMBO_PROSTATUS, _T("Microsoft YaHei"), 12, TRUE);
-		m_comboProductionStatus->MoveWindow(20, 23, 130, 18);
+		m_comboProductionStatus->MoveWindow(20, /*23*/10, 200, 18);
 
 		m_comboProductionStatus->InsertString(0, _T("全部"));
 		m_comboProductionStatus->InsertString(1, _T("生产日期未计划"));
@@ -361,93 +361,96 @@ void CPlanPanel::OnInitChilds()
 		m_comboProductionStatus->InsertString(11, _T("全部已审核已计划"));
 		m_comboProductionStatus->SetCurSel(0);
 
-		m_bsDateRange = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_DATERANGE, _T("订单日期"), _T("Microsoft YaHei"), 12);
-		m_bsDateRange->MoveWindow(160, 25, 60, 20);
+		m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_PLAN_BTN_SEARCH, _T("请输入关键字"), _T("Microsoft YaHei"), 12);
+		m_editSearch->MoveWindow(485 - 220, 12, 227, 20);
 
-		m_dtcSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHFROM, _T("Microsoft YaHei"), 12);
-		m_dtcSearchFrom->MoveWindow(220, 25, 108, 20);
+		m_btnMore = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_MORE, _T("更多筛选"), _T("Microsoft YaHei"), 12);
+		m_btnMore->MoveWindow(640 - 123, 10, 90, 25);
 
-		COleDateTime oletimeTime;
-		oletimeTime.SetStatus(COleDateTime::null);
-		m_dtcSearchFrom->SetTime(oletimeTime);
+		m_btnSearch = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_SEARCH, _T("查询"), _T("Microsoft YaHei"), 12);
+		m_btnSearch->MoveWindow(750 - 123, 10, 90, 25);
 
-		m_bsMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_MIDDLELINE, _T("--"), _T("Microsoft YaHei"), 12);
-		m_bsMiddleLine->MoveWindow(335, 25, 20, 20);
-
-		m_dtcSearchTo = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHTO, _T("Microsoft YaHei"), 12);
-		m_dtcSearchTo->MoveWindow(360, 25, 108, 20);
-		m_dtcSearchTo->SetTime(oletimeTime);
+		m_btnTableFilter = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_TABLEFILTER, _T("表格设置"), _T("Microsoft YaHei"), 12);
+		m_btnTableFilter->MoveWindow(750, 10, 90, 25);
 
 		//生产日期
+		COleDateTime oletimeTime;
+
+		oletimeTime.SetStatus(COleDateTime::null);
+
 		m_bsSCRQDateRange = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_DATERANGE_SCRQ, _T("生产日期"), _T("Microsoft YaHei"), 12);
-		m_bsSCRQDateRange->MoveWindow(20, 70, 60, 20);
+		m_bsSCRQDateRange->MoveWindow(20, 52, 60, 20);
 
 		m_dtcSCRQSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHFROM_SCRQ, _T("Microsoft YaHei"), 12);
-		m_dtcSCRQSearchFrom->MoveWindow(80, 70, 108, 20);
+		m_dtcSCRQSearchFrom->MoveWindow(80, 52, 108, 20);
 
 		m_dtcSCRQSearchFrom->SetTime(oletimeTime);
 
 		m_bsSCRQMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_MIDDLELINE_SCRQ, _T("--"), _T("Microsoft YaHei"), 12);
-		m_bsSCRQMiddleLine->MoveWindow(195, 70, 20, 20);
+		m_bsSCRQMiddleLine->MoveWindow(195, 52, 20, 20);
 
 		m_dtcSCRQSearchTo = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHTO_SCRQ, _T("Microsoft YaHei"), 12);
-		m_dtcSCRQSearchTo->MoveWindow(220, 70, 108, 20);
+		m_dtcSCRQSearchTo->MoveWindow(220, /*70*/52, 108, 20);
 		m_dtcSCRQSearchTo->SetTime(oletimeTime);
 
 		//包装日期
 		m_bsBZRQDateRange = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_DATERANGE_BZRQ, _T("包装日期"), _T("Microsoft YaHei"), 12);
-		m_bsBZRQDateRange->MoveWindow(350, 70, 60, 20);
+		m_bsBZRQDateRange->MoveWindow(350 + 60, 52, 60, 20);
 
 		m_dtcBZRQSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHFROM_BZRQ, _T("Microsoft YaHei"), 12);
-		m_dtcBZRQSearchFrom->MoveWindow(410, 70, 108, 20);
+		m_dtcBZRQSearchFrom->MoveWindow(410 + 60, 52, 108, 20);
 
 		m_dtcBZRQSearchFrom->SetTime(oletimeTime);
 
 		m_bsBZRQMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_MIDDLELINE_BZRQ, _T("--"), _T("Microsoft YaHei"), 12);
-		m_bsBZRQMiddleLine->MoveWindow(525, 70, 20, 20);
+		m_bsBZRQMiddleLine->MoveWindow(525 + 60, 52, 20, 20);
 
 		m_dtcBZRQSearchTo = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHTO_BZRQ, _T("Microsoft YaHei"), 12);
-		m_dtcBZRQSearchTo->MoveWindow(550, 70, 108, 20);
+		m_dtcBZRQSearchTo->MoveWindow(550 + 60, 52, 108, 20);
 		m_dtcBZRQSearchTo->SetTime(oletimeTime);
 
 		//发货日期
 		m_bsFHRQDateRange = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_DATERANGE_FHRQ, _T("发货日期"), _T("Microsoft YaHei"), 12);
-		m_bsFHRQDateRange->MoveWindow(680, 70, 60, 20);
+		m_bsFHRQDateRange->MoveWindow(20, 88, 60, 20);
 
 		m_dtcFHRQSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHFROM_FHRQ, _T("Microsoft YaHei"), 12);
-		m_dtcFHRQSearchFrom->MoveWindow(740, 70, 108, 20);
+		m_dtcFHRQSearchFrom->MoveWindow(80, 88, 108, 20);
 
 		m_dtcFHRQSearchFrom->SetTime(oletimeTime);
 
 		m_bsFHRQMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_MIDDLELINE_FHRQ, _T("--"), _T("Microsoft YaHei"), 12);
-		m_bsFHRQMiddleLine->MoveWindow(855, 70, 20, 20);
+		m_bsFHRQMiddleLine->MoveWindow(195, 88, 20, 20);
 
 		m_dtcFHRQSearchTo = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHTO_FHRQ, _T("Microsoft YaHei"), 12);
-		m_dtcFHRQSearchTo->MoveWindow(880, 70, 108, 20);
+		m_dtcFHRQSearchTo->MoveWindow(220, /*70*/88, 108, 20);
 		m_dtcFHRQSearchTo->SetTime(oletimeTime);
 
+		//订单日期
+		m_bsDateRange = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_DATERANGE, _T("订单日期"), _T("Microsoft YaHei"), 12);
+		m_bsDateRange->MoveWindow(350 + 60, 88, 60, 20);
 
-		m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_PLAN_BTN_SEARCH, _T("请输入关键字"), _T("Microsoft YaHei"), 12);
-		m_editSearch->MoveWindow(485, 25, 130, 20);
+		m_dtcSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHFROM, _T("Microsoft YaHei"), 12);
+		m_dtcSearchFrom->MoveWindow(410 + 60, 88, 108, 20);
+		m_dtcSearchFrom->SetTime(oletimeTime);
 
-		m_btnMore = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_MORE, _T("更多筛选"), _T("Microsoft YaHei"), 12);
-		m_btnMore->MoveWindow(640, 23, 90, 25);
+		m_bsMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_PLAN_STATIC_MIDDLELINE, _T("--"), _T("Microsoft YaHei"), 12);
+		m_bsMiddleLine->MoveWindow(525 + 60, 88, 20, 20);
 
-		// 		m_bsMoreWord = Util_Tools::Util::CreateStatic(this, IDC_SALE_BTN_MOREWORD, _T("..."), _T("Microsoft YaHei"), 12);
-		// 		m_bsMoreWord->MoveWindow(485, 27, 63, 20);
+		m_dtcSearchTo = Util_Tools::Util::CreateDateTimePicker(this, IDC_PLAN_DATETIME_SEARCHTO, _T("Microsoft YaHei"), 12);
+		m_dtcSearchTo->MoveWindow(550 + 60, 88, 108, 20);
+		m_dtcSearchTo->SetTime(oletimeTime);
 
-		m_btnSearch = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_SEARCH, _T("查询"), _T("Microsoft YaHei"), 12);
-		m_btnSearch->MoveWindow(750, 23, 90, 25);
-
-		//second line
+		//forth line
 		m_btnPlan = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_PLAN, _T("计划"), _T("Microsoft YaHei"), 12);
-		m_btnPlan->MoveWindow(20, 115, 90, 25);
+		m_btnPlan->MoveWindow(20, 124, 90, 25);
 
+		//no display//////////////////////////////////////////////////////////////
 		m_btnModify = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_MODIFY, _T("修改"), _T("Microsoft YaHei"), 12);
-		m_btnModify->MoveWindow(130, 115, 90, 255);
+		m_btnModify->MoveWindow(130, 124, 90, 255);
 
 		m_btnRestore = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_RESTORE, _T("重置"), _T("Microsoft YaHei"), 12);
-		m_btnRestore->MoveWindow(240, 115, 90, 25);
+		m_btnRestore->MoveWindow(240, 124, 90, 25);
+		//////////////////////////////////////////////////////////////////////////
 
 		m_btnReApproveSCRQBusiness = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVESCRQBUSINESS, _T("反审核-生产业务"), _T("Microsoft YaHei"), 12);
 		m_btnReApproveSCRQPlan = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_REAPPROVESCRQPLAN, _T("反审核-生产计划"), _T("Microsoft YaHei"), 12);
@@ -467,8 +470,6 @@ void CPlanPanel::OnInitChilds()
 		m_btnReApproveBZRQBusiness->EnableWindow(FALSE);
 		m_btnReApproveBZRQPlan->EnableWindow(FALSE);
 
-		m_btnTableFilter = Util_Tools::Util::CreateButton(this, IDC_PLAN_BTN_TABLEFILTER, _T("表格设置"), _T("Microsoft YaHei"), 12);
-		m_btnTableFilter->MoveWindow(750, 115, 90, 25);
 	}
 }
 

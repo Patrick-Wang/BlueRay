@@ -230,7 +230,7 @@ void CNotificationPanel::OnInitChilds()
 
 		m_btnTableFilter.Create(this, IDC_NOTIFICATION_BTN_TABFILTER);
 		m_btnTableFilter.SetWindowText(_T("±Ì∏Ò…Ë÷√"));
-		m_btnTableFilter.MoveWindow(750, 23, 90, 25);
+		m_btnTableFilter.MoveWindow(20, 73, 90, 25);
 		m_btnTableFilter.ShowWindow(SW_HIDE);
 	}
 }
