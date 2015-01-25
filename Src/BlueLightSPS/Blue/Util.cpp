@@ -89,11 +89,11 @@ namespace Util_Tools
 
 		if (isReadOnly)
 		{
-			pComb->Create(WS_CHILD | WS_TABSTOP | WS_VISIBLE | CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL, CRect(0, 0, 0, 0), pParent, Id);
+			pComb->Create(WS_CHILD | /*WS_TABSTOP | */WS_VISIBLE | CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL, CRect(0, 0, 0, 0), pParent, Id);
 		}
 		else
 		{
-			pComb->Create(WS_CHILD | WS_TABSTOP | WS_VISIBLE | CBS_DROPDOWN | CBS_HASSTRINGS | WS_VSCROLL, CRect(0, 0, 0, 0), pParent, Id);
+			pComb->Create(WS_CHILD | /*WS_TABSTOP |*/ WS_VISIBLE | CBS_DROPDOWN | CBS_HASSTRINGS | WS_VSCROLL, CRect(0, 0, 0, 0), pParent, Id);
 		}
 
 		pComb->SetFont(pFont);
@@ -121,7 +121,7 @@ namespace Util_Tools
 		pFont = CBSObject::GetFontPtr(csFont, iFSize, FALSE, FALSE, FALSE);
 
 		pEdit->CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), NULL,
-			WS_CHILD | WS_TABSTOP | WS_VISIBLE/* | WS_BORDER | WS_HSCROLL |
+			WS_CHILD | /*WS_TABSTOP |*/ WS_VISIBLE/* | WS_BORDER | WS_HSCROLL |
 								 WS_VSCROLL | ES_MULTILINE */ | ES_WANTRETURN,
 								 CRect(0, 0, 0, 0), pParent, Id);
 
@@ -138,7 +138,7 @@ namespace Util_Tools
 
 		pFont = CBSObject::GetFontPtr(csFont, iFSize, FALSE, FALSE, FALSE);
 
-		pDateTimeCtrl->Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | DTS_RIGHTALIGN | DTS_SHOWNONE, CRect(0, 0, 0, 0), pParent, Id);
+		pDateTimeCtrl->Create(WS_VISIBLE | WS_CHILD | /*WS_TABSTOP |*/ DTS_RIGHTALIGN | DTS_SHOWNONE, CRect(0, 0, 0, 0), pParent, Id);
 
 		pDateTimeCtrl->SetFont(pFont);
 
@@ -156,7 +156,7 @@ namespace Util_Tools
 
 		pFont = CBSObject::GetFontPtr(csFont, iFSize, FALSE, FALSE, FALSE);
 
-		pDateTimeCtrl->Create(WS_VISIBLE | WS_CHILD | WS_TABSTOP | DTS_RIGHTALIGN, CRect(0, 0, 0, 0), pParent, Id);
+		pDateTimeCtrl->Create(WS_VISIBLE | WS_CHILD | /*WS_TABSTOP |*/ DTS_RIGHTALIGN, CRect(0, 0, 0, 0), pParent, Id);
 
 		pDateTimeCtrl->SetFont(pFont);
 
@@ -183,7 +183,7 @@ namespace Util_Tools
 	{
 		CFont* pFont = NULL;
 		CButton* pButton = new CButton();
-		pButton->Create(csWindowText, WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_AUTOCHECKBOX, CRect(0, 0, 0, 0), pParent, Id);;
+		pButton->Create(csWindowText, /*WS_TABSTOP |*/ WS_VISIBLE | WS_CHILD | BS_AUTOCHECKBOX, CRect(0, 0, 0, 0), pParent, Id);;
 
 		pButton->SetWindowText(csWindowText);
 
