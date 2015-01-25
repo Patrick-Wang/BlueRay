@@ -14,6 +14,7 @@ class CNotificationPanel :
 		virtual void OnSuccess(PageData_t& page){
 			(m_panel.OnLoadDataSuccess)(page);
 			m_panel.GetParent()->EnableWindow(TRUE);
+			m_panel.HighLight();
 		}
 		virtual void OnFailed(){
 			m_panel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
@@ -39,6 +40,7 @@ private:
 	void AdjustTableStyleForPlan();
 	void AdjustTableStyleForSale();
 	void AdjustTableStyleForNotification();
+	void HighLight();
 
 private:
 	std::vector<std::pair<int, std::vector<CString>>> m_table;

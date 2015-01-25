@@ -6,7 +6,7 @@ module ui {
     export class SaleView extends base.GridView{
         private static ins: SaleView;
         public static widths: number[] = [
-            53, 96, 81, 40, 34, 56, 78, 81, 44, 77, 80, 80, 80, 126, 89, 80, 80, 80, 80, 80, 80, 80, 80, 86, 63, 63
+            66, 136, 63, 35, 35, 42, 62, 127, 34, 72, 60, 47, 46, 107, 62, 72, 48, 45, 70, 47, 120, 34, 39, 48, 41, 51, 51
         ];
         public static getInstance(gridName: string): SaleView {
             if (undefined == SaleView.ins) {
@@ -22,7 +22,7 @@ module ui {
     export class PlanView extends base.GridView {
         private static ins: PlanView;
         public static widths: number[] = [
-            68, 82, 69, 34, 48, 80, 80, 124, 80, 80, 80, 80, 80, 123, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80
+            66, 136, 63, 35, 35, 42, 62, 127, 34, 72, 60, 47, 46, 107, 62, 72, 48, 45, 70, 47, 120, 34, 39, 48, 41, 71, 71, 80, 75, 80, 80, 70, 50, 52
         ];
         public static getInstance(gridName: string): PlanView {
             if (undefined == PlanView.ins) {
@@ -86,31 +86,7 @@ module ui {
     export class NotificationView extends base.GridView {
         private static ins: NotificationView;
         public static widths: number[] = [
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80,
-            80
+            66, 136, 63, 35, 35, 42, 62, 127, 34, 72, 60, 47, 46, 107, 62, 72, 48, 45, 70, 47, 120, 34, 39, 48, 41, 71, 71, 80, 75, 80, 80, 70, 50, 52
         ];
         public static getInstance(gridName: string): NotificationView {
             if (undefined == NotificationView.ins) {
