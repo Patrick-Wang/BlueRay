@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,10 +29,18 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	PlanDao planDao;
 	AbstractExcel<PCJHXX> excel;
 	OutputStream os;
-	private static String path = DBPCJHXXTemplateExporter.class
-			.getClassLoader().getResource("/").getPath().substring(1)
-			+ "META-INF/template.xls";
-
+	private static String path = null;
+	static 
+	{
+		try {
+			path = new URI(DBPCJHXXTemplateExporter.class
+					.getClassLoader().getResource("").getPath()).getPath() + "META-INF/template.xls";
+			System.out.println(path);
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	
 	static class Location{

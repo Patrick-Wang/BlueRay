@@ -1074,7 +1074,7 @@ void CSalePanel::OnImportClicked()
 	//	}
 	//};
 
-	CFileDialog hFileDlg(FALSE, _T("(*.xls)|*.xls"), _T("销售数据导入.csv"), OFN_PATHMUSTEXIST | OFN_READONLY, _T("Excel(*.csv)|*.csv||"), NULL);
+	CFileDialog hFileDlg(TRUE, _T("(*.xls)|*.xls"), _T("*.csv"), OFN_FILEMUSTEXIST | OFN_READONLY, _T("Excel(*.csv)|*.csv||"), NULL);
 	hFileDlg.m_ofn.nFilterIndex = 1;
 	hFileDlg.m_ofn.hwndOwner = GetParent()->GetSafeHwnd();
 	hFileDlg.m_ofn.lStructSize = sizeof(OPENFILENAME);
@@ -1085,10 +1085,15 @@ void CSalePanel::OnImportClicked()
 	{
 		CSale::ImportResult_t ret;
 		CString filePathName = hFileDlg.GetPathName();
-		CServer::GetInstance()->GetSale().Import(filePathName, ret);
-		CString result;
-		result.Format(_T("数据总数 : %d\r\n导入成功 : %d\r\n导入失败 : %d"), ret.iTotal, ret.iSucceed, ret.iFailed);
-		this->MessageBox(_T("销售数据导入完成"), result, MB_OK | MB_ICONWARNING);
+		try{
+			CServer::GetInstance()->GetSale().Import(filePathName, ret);
+			CString result;
+			result.Format(_T("数据总数 : %d\r\n导入成功 : %d\r\n导入失败 : %d"), ret.iTotal, ret.iSucceed, ret.iFailed);
+			this->MessageBox(_T("销售数据导入完成"), result, MB_OK | MB_ICONWARNING);
+		}catch (std::exception& e)
+		{
+			MessageBoxA(m_hWnd, (char*)e.what(), "导出失败", MB_OK | MB_ICONWARNING);
+		}
 		/*try{
 			DEFINE_SALE_QUERY_PARAM(sqp);
 

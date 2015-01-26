@@ -429,13 +429,6 @@ void CBlueDlg::InitWebView()
 	url.vt = VT_BSTR;
 	url.bstrVal = (BSTR)::SysAllocString(path);
 	m_webView.OpenURL(&url);
-#ifndef _DEBUG
-	path.Replace(_T("tables.html"), _T("test.txt"));
-	if (!PathFileExists(path))
-	{
-		g_strHostName = _T("192.168.104.2");
-	}
-#endif
 }
 
 void CBlueDlg::OnSaleChanged()

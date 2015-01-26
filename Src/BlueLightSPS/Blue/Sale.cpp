@@ -251,7 +251,7 @@ void CSale::Import(LPCTSTR lpFileName, ImportResult_t& ret)
 	SecureZeroMemory(&ret, sizeof(ret));
 	while ((index = strCSV.Find(_T("\n"), iStart)) >= 0)
 	{
-		strLine = strCSV.Mid(iStart, index - 1);
+		strLine = strCSV.Mid(iStart, index - iStart);
 		iStart = index + 1;
 		strArray.clear();
 		Util_Tools::Util::Split(strLine, _T(','), strArray);
