@@ -1680,7 +1680,14 @@ void CPlanPanel::OnExprotClicked()
 		}
 	};
 
-	CFileDialog hFileDlg(FALSE, _T("(*.xls)|*.xls"), _T("计划数据导出.xls"), OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT, _T("Excel(*.xls)|*.xls||"), NULL);
+
+	COleDateTime time(COleDateTime::GetCurrentTime());
+	CString strFileName(_T("计划订单数据"));
+	CString strTimestamp;
+	strTimestamp.Format(_T("(%4d%02d%02d_%02d_%02d_%02d).xls"), time.GetYear(), time.GetMonth(), time.GetDay(), time.GetHour(), time.GetMinute(), time.GetSecond());
+	strFileName += strTimestamp;
+
+	CFileDialog hFileDlg(FALSE, _T("(*.xls)|*.xls"), strFileName, OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT, _T("Excel(*.xls)|*.xls||"), NULL);
 	hFileDlg.m_ofn.nFilterIndex = 1;
 	hFileDlg.m_ofn.hwndOwner = GetParent()->GetSafeHwnd();
 	hFileDlg.m_ofn.lStructSize = sizeof(OPENFILENAME);
@@ -1727,7 +1734,13 @@ void CPlanPanel::OnTemplateExprotClicked()
 		}
 	};
 
-	CFileDialog hFileDlg(FALSE, _T("(*.xls)|*.xls"), _T("计划数据导出.xls"), OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT, _T("Excel(*.xls)|*.xls||"), NULL);
+	COleDateTime time(COleDateTime::GetCurrentTime());
+	CString strFileName(_T("生产订单数据"));
+	CString strTimestamp;
+	strTimestamp.Format(_T("(%4d%02d%02d_%02d_%02d_%02d).xls"), time.GetYear(), time.GetMonth(), time.GetDay(), time.GetHour(), time.GetMinute(), time.GetSecond());
+	strFileName += strTimestamp;
+
+	CFileDialog hFileDlg(FALSE, _T("(*.xls)|*.xls"), strFileName, OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT, _T("Excel(*.xls)|*.xls||"), NULL);
 	hFileDlg.m_ofn.nFilterIndex = 1;
 	hFileDlg.m_ofn.hwndOwner = GetParent()->GetSafeHwnd();
 	hFileDlg.m_ofn.lStructSize = sizeof(OPENFILENAME);
