@@ -1,4 +1,5 @@
 ﻿/// <reference path="base.ts" />
+/// <reference path="util.ts" />
 //var instance: base.GridView;
 var grids = {}
 var mediator: any = window.external;
@@ -30,7 +31,7 @@ function enableSelect(gridName: string, rowId: number) {
 }
 
 function getDisabledRows(gridName: string) {
-    return grids[gridName].getDisabledRows().toString();
+    return Util.stringify(grids[gridName].getDisabledRows());
 }
 
 function showGrid(gridName: string) {
@@ -45,7 +46,7 @@ function hideGrid(gridName: string) {
 }
 
 function addRowData(gridName: string, rdata: string) {
-    var ardata: string[] = rdata.split(',');
+    var ardata: string[] = Util.parse(rdata);
     var targetData = {};
     for (var i = 0; i < ardata.length; ++i) {
         targetData[gridName + "_col_" + i] = ardata[i];
@@ -59,7 +60,7 @@ function update(gridName: string, tdata: string) {
 }
 
 function addRowDataById(gridName: string, id: number, rdata: string) : void{
-    var ardata: string[] = rdata.split(',');
+    var ardata: string[] = Util.parse(rdata);
     var targetData = {};
     for (var i = 0; i < ardata.length; ++i) {
         targetData[gridName + "_col_" + i] = ardata[i];
@@ -77,7 +78,7 @@ function showHideRow(gridName: string, rowId: number, show: string) {
 }
 
 function getSelectedRows(gridName: string) {
-    return grids[gridName].getSelectedRowData().toString();
+    return Util.stringify(grids[gridName].getSelectedRowData());
 }
 
 function getRowCount(gridName: string) {
@@ -97,12 +98,7 @@ function reload(gridName: string): void {
 }
 
 function getRowData(gridName: string,rowId: number): string {
-    var rw: any = grids[gridName].getRowData(rowId);
-    var ret: string = "";
-    for (var i in rw) {
-        ret += rw[i] + ',';
-    }
-    return ret.substring(0, ret.length - 1);
+    return Util.stringify(grids[gridName].getRowData(rowId));
 }
 
 function setCellData(gridName: string, row: number, col: number, data: string) {
@@ -129,7 +125,7 @@ function getWidths(gridName: string) {
     for (var i = 0; i < colModel.length; ++i) {
         widths.push(colModel[i].width);
     }
-    return "[" + widths + "]";
+    return Util.stringify(widths);
 }
 
 function curPage(gridName: string) {

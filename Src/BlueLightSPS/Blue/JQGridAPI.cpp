@@ -4,7 +4,10 @@
 
 #include "JsonObjects.h"
 
+#include "JsonFactory.h"
+
 #include "JQGridAPI.h"
+
 
 #include "Util.h"
 
@@ -61,15 +64,21 @@ CJQGridAPI::~CJQGridAPI()
 
 int CJQGridAPI::AddRow(const std::vector<CString>& rowData)
 {
-	CString strArray;
-	Util_Tools::Util::Join(rowData, strArray);
+	std::auto_ptr<Json::JsonArray> pRows(Json::JsonFactory::createArray());
+	for (int i = 0; i < rowData.size(); ++i)
+	{
+		pRows->add(Json::JsonFactory::createString((LPTSTR)(LPCTSTR)rowData[i]));
+	}
+	Json::json_stringstream jstream;
+	pRows->asJson(jstream);
+
 	std::vector<VARIANT> params;
 	VARIANT vt;
 	vt.vt = VT_BSTR;
 	vt.bstrVal = m_gridName;
 	params.push_back(vt);
 	vt.vt = VT_BSTR;
-	vt.bstrVal = strArray.AllocSysString();
+	vt.bstrVal = ::SysAllocString(jstream.str().c_str());
 	params.push_back(vt);
 	VARIANT vtRet = m_pMedia->CallJsFunction(_T("addRowData"), params);
 	::SysFreeString(vt.bstrVal);
@@ -82,8 +91,14 @@ int CJQGridAPI::AddRow(const std::vector<CString>& rowData)
 
 void CJQGridAPI::AddRow(int id, const std::vector<CString>& rowData)
 {
-	CString strArray;
-	Util_Tools::Util::Join(rowData, strArray);
+	std::auto_ptr<Json::JsonArray> pRows(Json::JsonFactory::createArray());
+	for (int i = 0; i < rowData.size(); ++i)
+	{
+		pRows->add(Json::JsonFactory::createString((LPTSTR)(LPCTSTR)rowData[i]));
+	}
+	Json::json_stringstream jstream;
+	pRows->asJson(jstream);
+
 	std::vector<VARIANT> params;
 	VARIANT vt = {};
 	vt.vt = VT_BSTR;
@@ -93,7 +108,7 @@ void CJQGridAPI::AddRow(int id, const std::vector<CString>& rowData)
 	vt.intVal = id;
 	params.push_back(vt);
 	vt.vt = VT_BSTR;
-	vt.bstrVal = strArray.AllocSysString();
+	vt.bstrVal = ::SysAllocString(jstream.str().c_str());
 	params.push_back(vt);
 	VARIANT vtRet = m_pMedia->CallJsFunction(_T("addRowDataById"), params);
 	::SysFreeString(vt.bstrVal);
@@ -132,7 +147,13 @@ void CJQGridAPI::GetRow(int rowId, std::vector<CString>& rowData)
 {
 	CString result;
 	GetRow(rowId, result);
-	Util_Tools::Util::Split(result, _T(','), rowData);
+
+	Json::JsonParser parser;
+	std::auto_ptr<Json::JsonArray> row((Json::JsonArray*)parser.Parse((LPTSTR)(LPCTSTR)result));
+	for (int i = 0; i < row->size(); ++i)
+	{
+		rowData.push_back(row->asString(i).c_str());
+	}
 }
 
 void CJQGridAPI::GetRow(int rowId, CString& rowData)
@@ -154,6 +175,15 @@ void CJQGridAPI::GetRow(int rowId, CString& rowData)
 
 void CJQGridAPI::SetRow(int rowId, const std::vector<CString>& rowData)
 {
+	std::auto_ptr<Json::JsonArray> pRows(Json::JsonFactory::createArray());
+	for (int i = 0; i < rowData.size(); ++i)
+	{
+		pRows->add(Json::JsonFactory::createString((LPTSTR)(LPCTSTR)rowData[i]));
+	}
+	Json::json_stringstream jstream;
+	pRows->asJson(jstream);
+
+
 	std::vector<VARIANT> params;
 	VARIANT vt;
 	vt.vt = VT_BSTR;
@@ -162,10 +192,8 @@ void CJQGridAPI::SetRow(int rowId, const std::vector<CString>& rowData)
 	vt.vt = VT_I4;
 	vt.intVal = rowId;
 	params.push_back(vt);
-	CString strArray;
-	Util_Tools::Util::Join(rowData, strArray);
 	vt.vt = VT_BSTR;
-	vt.bstrVal = strArray.AllocSysString();
+	vt.bstrVal = ::SysAllocString(jstream.str().c_str());
 	params.push_back(vt);
 	m_pMedia->CallJsFunction(_T("setRowData"), params);
 	::SysFreeString(vt.bstrVal);
@@ -181,8 +209,12 @@ void CJQGridAPI::GetCheckedRows(std::vector<int>& checkedRows)
 	VARIANT ret = m_pMedia->CallJsFunction(_T("getSelectedRows"), params);
 	if (VT_BSTR == ret.vt)
 	{
-		CString result = ret.bstrVal;
-		Util_Tools::Util::Split(result, _T(','), checkedRows);
+		Json::JsonParser parser;
+		std::auto_ptr<Json::JsonArray> rows((Json::JsonArray*)parser.Parse(ret.bstrVal));
+		for (int i = 0; i < rows->size(); ++i)
+		{
+			checkedRows.push_back(_tstoi(rows->asString(i).c_str()));
+		}
 	}
 
 }
@@ -491,7 +523,12 @@ void CJQGridAPI::GetDisabledRows(std::vector<int>& disabledRows)
 	vt = m_pMedia->CallJsFunction(_T("getDisabledRows"), params);
 	if (vt.vt == VT_BSTR)
 	{
-		Util_Tools::Util::Split(CString(vt.bstrVal), L',', disabledRows);
+		Json::JsonParser parser;
+		std::auto_ptr<Json::JsonArray> disableRows((Json::JsonArray*)parser.Parse(vt.bstrVal));
+		for (int i = 0; i < disableRows->size(); ++i)
+		{
+			disabledRows.push_back(_tstoi(disableRows->asString(i).c_str()));
+		}
 	}
 }
 

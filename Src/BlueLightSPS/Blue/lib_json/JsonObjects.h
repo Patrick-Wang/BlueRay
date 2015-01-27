@@ -2,6 +2,8 @@
 #include "JsonType.h"
 #include <map>
 #include <vector>
+#define quotation J("&quot;")
+
 namespace Json
 {
 	class JsonObject : public JsonType{

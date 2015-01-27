@@ -1,4 +1,5 @@
 ﻿/// <reference path="base.ts" />
+/// <reference path="util.ts" />
 //var instance: base.GridView;
 var grids = {};
 var mediator = window.external;
@@ -30,7 +31,7 @@ function enableSelect(gridName, rowId) {
 }
 
 function getDisabledRows(gridName) {
-    return grids[gridName].getDisabledRows().toString();
+    return Util.stringify(grids[gridName].getDisabledRows());
 }
 
 function showGrid(gridName) {
@@ -45,7 +46,7 @@ function hideGrid(gridName) {
 }
 
 function addRowData(gridName, rdata) {
-    var ardata = rdata.split(',');
+    var ardata = Util.parse(rdata);
     var targetData = {};
     for (var i = 0; i < ardata.length; ++i) {
         targetData[gridName + "_col_" + i] = ardata[i];
@@ -59,7 +60,7 @@ function update(gridName, tdata) {
 }
 
 function addRowDataById(gridName, id, rdata) {
-    var ardata = rdata.split(',');
+    var ardata = Util.parse(rdata);
     var targetData = {};
     for (var i = 0; i < ardata.length; ++i) {
         targetData[gridName + "_col_" + i] = ardata[i];
@@ -77,7 +78,7 @@ function showHideRow(gridName, rowId, show) {
 }
 
 function getSelectedRows(gridName) {
-    return grids[gridName].getSelectedRowData().toString();
+    return Util.stringify(grids[gridName].getSelectedRowData());
 }
 
 function getRowCount(gridName) {
@@ -95,12 +96,7 @@ function reload(gridName) {
 }
 
 function getRowData(gridName, rowId) {
-    var rw = grids[gridName].getRowData(rowId);
-    var ret = "";
-    for (var i in rw) {
-        ret += rw[i] + ',';
-    }
-    return ret.substring(0, ret.length - 1);
+    return Util.stringify(grids[gridName].getRowData(rowId));
 }
 
 function setCellData(gridName, row, col, data) {
@@ -127,7 +123,7 @@ function getWidths(gridName) {
     for (var i = 0; i < colModel.length; ++i) {
         widths.push(colModel[i].width);
     }
-    return "[" + widths + "]";
+    return Util.stringify(widths);
 }
 
 function curPage(gridName) {

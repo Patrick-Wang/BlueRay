@@ -1,19 +1,39 @@
 
 #include "JsonFactory.h"
 #include "JsonObjects.h"
-
+#include "JsonType.h"
 namespace Json{
 
 	class JsonValueString : public JsonValue<json_string>{
 	public:
-		JsonValueString(json_string& str) : JsonValue<json_string>(str){}
-		JsonValueString(json_char* str) : JsonValue<json_string>(json_string(str)){}
+		JsonValueString(json_string& str) 
+			: JsonValue<json_string>(str){
+			replace(value(), quotation, J("\""));
+		}
+
+		JsonValueString(json_char* str) 
+			: JsonValue<json_string>(json_string(str)){
+			replace(value(), quotation, J("\""));
+		}
 		virtual JsonTypeTag tag(){
 			return jstring;
 		}
 
 		virtual void asJson(json_stringstream& os){
-			os << J("\"") << value() << J("\"");
+			json_string strTmp = value();
+			replace(strTmp, J("\""), quotation);
+			os << J("\"") << strTmp << J("\"");
+		}
+	private:
+
+		json_string& replace(json_string& src, json_char* jsrc, json_char* jdest){
+			int len = json_strlen(jsrc);
+			int index = -len;
+			while ((index = src.find(src, index + len)) >= 0)
+			{
+				src.replace(index, len, jdest);
+			}
+			return src;
 		}
 	};
 

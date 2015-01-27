@@ -6,6 +6,29 @@ module Util {
         return jsonValue;
     }
 
+    export function stringify(json : any) : string{
+        var s = '';
+
+        if (typeof (json) == "string") {
+            s = '"' + json + '"';
+        } else if (typeof (json) == "object") {
+            if (json instanceof Array) {
+                for (var k in json) {
+                    s += "," + stringify(json[k]);
+                }
+                s = '[' + s.substring(1) + ']';
+            } else {
+                for (var k in json) {
+                    s += ',"' + k + '":' + stringify(json[k]);
+                }
+                s = '{' + s.substring(1) + '}';
+            }
+        } else {
+            s += json;
+        }
+        return s;
+    }
+
 	export function formatCurrency (val: string): string{
 		
 		if (val == "--" || val == ""){
