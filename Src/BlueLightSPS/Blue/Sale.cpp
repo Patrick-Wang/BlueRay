@@ -7,6 +7,7 @@
 #include "FileOutputStream.h"
 #include "FileInputStream.h"
 #include "Encoding.h"
+#include "CSVParser.h"
 CSale::CSale()
 {
 
@@ -230,31 +231,13 @@ int FindReturn(BYTE* pBufCopy, int len){
 
 void CSale::Import(LPCTSTR lpFileName, ImportResult_t& ret)
 {
-	int iBufSize = 1024 * 4;
-	CFileInputStream pFile(lpFileName, iBufSize);
-	int iStart = 0;
-	int iCount = 0;
-	BYTE* pBuf = new BYTE[pFile.size()];
-	while ((iCount = pFile.next()) > 0)
-	{
-		memcpy_s(pBuf + iStart, iCount, pFile.value(), iCount);
-		iStart += iCount;
-	}
-	CString strCSV;
-	CEncoding::Ansi()->GetString(pBuf, iStart, strCSV);
-	delete[] pBuf;
-	int index = 0;
-	iStart = 0;
-	CString strLine;
+	CCSVParser csvParser;
+	csvParser.parse(lpFileName);
 	StringArray strArray;
-	int id;
+	int id = 0;
 	SecureZeroMemory(&ret, sizeof(ret));
-	while ((index = strCSV.Find(_T("\n"), iStart)) >= 0)
+	while (csvParser.next(strArray))
 	{
-		strLine = strCSV.Mid(iStart, index - iStart);
-		iStart = index + 1;
-		strArray.clear();
-		Util_Tools::Util::Split(strLine, _T(','), strArray);
 		++ret.iTotal;
 		if (AddSync(strArray, id))
 		{
@@ -264,5 +247,6 @@ void CSale::Import(LPCTSTR lpFileName, ImportResult_t& ret)
 		{
 			++ret.iFailed;
 		}
+		strArray.clear();
 	}
 }

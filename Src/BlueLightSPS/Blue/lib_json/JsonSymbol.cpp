@@ -75,7 +75,7 @@ namespace Json{
 	JsonString& JsonSymbol::nextString( JsonString& jstr )
 	{
 		int start = m_cursor;
-		int end = m_jstr.find('\"', m_cursor);
+		int end = m_jstr.find(J('\"'), m_cursor);
 		if (end > 0 && start  > 0)
 		{
 			m_cursor = end + 1;

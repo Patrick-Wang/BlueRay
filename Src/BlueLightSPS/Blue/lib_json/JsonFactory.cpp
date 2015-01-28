@@ -28,8 +28,9 @@ namespace Json{
 
 		json_string& replace(json_string& src, json_char* jsrc, json_char* jdest){
 			int len = json_strlen(jsrc);
-			int index = -len;
-			while ((index = src.find(src, index + len)) >= 0)
+			int lenDest = json_strlen(jdest);
+			int index = -lenDest;
+			while ((index = src.find(jsrc, index + lenDest)) >= 0)
 			{
 				src.replace(index, len, jdest);
 			}
