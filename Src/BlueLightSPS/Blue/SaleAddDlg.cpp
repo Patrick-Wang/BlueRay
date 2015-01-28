@@ -6,6 +6,9 @@
 #include "CommonDefine.h"
 #include "Util.h"
 #include "JQGridAPI.h"
+#include "Association.h"
+
+
 
 #define IDC_EDIT_BASE (IDC_SALE_ADD_Control_BASE)
 #define IDC_COMBO_BASE (IDC_SALE_ADD_Control_BASE + 10)
@@ -29,6 +32,11 @@
 #define QUERY_COMBO_VALUE_ZZS_URL_ID		IDP_SALE_ADD + 15
 #define QUERY_COMBO_VALUE_KHQY_URL_ID		IDP_SALE_ADD + 16
 
+BEGIN_MESSAGE_MAP(CSaleAddDlg, CPopupDlg)
+	//ON_WM_TIMER()
+	ON_CBN_SELCHANGE(IDC_COMBO_BASE, &CSaleAddDlg::OnCbnSelchangeKhOrGg)
+	ON_CBN_SELCHANGE(IDC_COMBO_BASE + 1, &CSaleAddDlg::OnCbnSelchangeKhOrGg)
+END_MESSAGE_MAP()
 
 static LPCTSTR g_StaticItems[][1] = { //0: default text
 		{ _T("合同号") },
@@ -649,6 +657,114 @@ void CSaleAddDlg::GetText(CComboBox* pComboBox, CombId comId, CString& text)
 	}
 }
 
+void CSaleAddDlg::Assosication()
+{
+	CString kh;
+	GetText(m_aCombs[CombId::Comb_KHMC], CombId::Comb_KHMC, kh);
+	CString gg;
+	GetText(m_aCombs[CombId::Comb_GGBH], CombId::Comb_GGBH, gg);
+	if (!kh.IsEmpty() && !gg.IsEmpty())
+	{
+		StringArray* pFields = (StringArray*)CAssociation::GetInstance()->find(kh, gg);
+		if (NULL != pFields)
+		{
+			CString temp;
+
+			m_aEdits[Edit_SL]->GetWindowText(temp);
+			if (/*temp.IsEmpty() && */!pFields->at(nsSale::sl - nsSale::sl).IsEmpty()){
+				m_aEdits[Edit_SL]->SetWindowText(pFields->at(nsSale::sl - nsSale::sl));
+			}
+			
+
+			GetText(m_aCombs[Comb_ZC], Comb_ZC, temp);
+			if (/*temp.IsEmpty() && */!pFields->at(nsSale::zc - nsSale::sl).IsEmpty()){
+				SetText(m_aCombs[Comb_ZC], Comb_ZC, pFields->at(nsSale::zc - nsSale::sl));
+			}
+
+			GetText(m_aCombs[Comb_DFR], Comb_DFR, temp);
+			if (/*temp.IsEmpty() && */!pFields->at(nsSale::dfr - nsSale::sl).IsEmpty()){
+				CString dfr = (0 == pFields->at(nsSale::dfr - nsSale::sl).Compare(L"单")) ? L"是" : L"否";
+				SetText(m_aCombs[Comb_DFR], Comb_DFR, dfr);
+			}
+
+			GetText(m_aCombs[Comb_ZDQDY], Comb_ZDQDY, temp);
+			if (/*temp.IsEmpty() && */!pFields->at(nsSale::zdqdy - nsSale::sl).IsEmpty()){
+				SetText(m_aCombs[Comb_ZDQDY], Comb_ZDQDY, pFields->at(nsSale::zdqdy - nsSale::sl));
+			}
+
+			GetText(m_aCombs[Comb_YYLGG], Comb_YYLGG, temp);
+			if (/*temp.IsEmpty() && */!pFields->at(nsSale::yylgg - nsSale::sl).IsEmpty()){
+				SetText(m_aCombs[Comb_YYLGG], Comb_YYLGG, pFields->at(nsSale::yylgg - nsSale::sl));
+			}
+
+			GetText(m_aCombs[Comb_JF], Comb_JF, temp);
+			if (/*temp.IsEmpty() && */!pFields->at(nsSale::jf - nsSale::sl).IsEmpty()){
+				CString jf = (0 == pFields->at(nsSale::jf - nsSale::sl).Compare(L"单")) ? L"是" : L"否";
+				SetText(m_aCombs[Comb_JF], Comb_JF, jf);
+			}
+
+			GetText(m_aCombs[Comb_BPQXH], Comb_BPQXH, temp);
+			if (/*temp.IsEmpty() && */!pFields->at(nsSale::bpqxh - nsSale::sl).IsEmpty()){
+				SetText(m_aCombs[Comb_BPQXH], Comb_BPQXH, pFields->at(nsSale::bpqxh - nsSale::sl));
+			}
+
+			GetText(m_aCombs[Comb_BMQXH], Comb_BMQXH, temp);
+			if (/*temp.IsEmpty() && */!pFields->at(nsSale::bmqxh - nsSale::sl).IsEmpty()){
+				SetText(m_aCombs[Comb_BMQXH], Comb_BMQXH, pFields->at(nsSale::bmqxh - nsSale::sl));
+			}
+
+			m_aEdits[Edit_DLCD]->GetWindowText(temp);
+			if (/*temp.IsEmpty() && */!pFields->at(nsSale::dlcd - nsSale::sl).IsEmpty()){
+				m_aEdits[Edit_DLCD]->SetWindowText(pFields->at(nsSale::dlcd - nsSale::sl));
+			}
+
+			m_aEdits[Edit_ZXCD]->GetWindowText(temp);
+			if (/*temp.IsEmpty() && */!pFields->at(nsSale::zxcd - nsSale::sl).IsEmpty()){
+				m_aEdits[Edit_ZXCD]->SetWindowText(pFields->at(nsSale::zxcd - nsSale::sl));
+			}
+		}
+	}
+}
+
+void CSaleAddDlg::OnCbnSelchangeKhOrGg()
+{
+	Assosication();
+}
+
+void CSaleAddDlg::SetText(CComboBox* pComboBox, CombId comId, CString& text)
+{
+	CString strTmp;
+	int i = m_DropList[comId].size() - 1;
+	for (; i >= 0; --i)
+	{
+		if (m_DropList[comId][i] == text)
+		{
+			break;
+		}
+	}
+	if (i < 0)
+	{
+		m_DropList[comId].push_back(text);
+		pComboBox->AddString(text);
+		pComboBox->SetCurSel(pComboBox->GetCount() - 1);
+	}
+	else
+	{
+		pComboBox->SetCurSel(i);
+	}
+}
+
 int CSaleAddDlg::m_iRef = 0;
 
-std::vector<std::vector<CString>> CSaleAddDlg::m_DropList;
+std::vector<std::vector<CString>> CSaleAddDlg::m_DropList; 
+
+
+
+
+
+//void CSaleAddDlg::OnTimer(UINT_PTR nIDEvent)
+//{
+//	// TODO: Add your message handler code here and/or call default
+//
+//	CPopupDlg::OnTimer(nIDEvent);
+//}

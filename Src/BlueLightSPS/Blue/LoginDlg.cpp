@@ -11,6 +11,7 @@
 #include "JsHttpImpl.h"
 #include "CommonDefine.h"
 #include "Account.h"
+#include "Association.h"
 #include "Server.h"
 // CLoginDlg dialog
 
@@ -174,6 +175,7 @@ BOOL CLoginDlg::OnInitDialog()
 		g_strHostName = _T("192.168.104.2");
 	}
 #endif
+	CAssociation* asso = CAssociation::GetInstance();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE

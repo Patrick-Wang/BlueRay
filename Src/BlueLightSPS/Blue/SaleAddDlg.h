@@ -261,10 +261,12 @@ public:
 	static const std::vector<std::vector<CString>>& GetDropList();
 	CDelegate<void(CSaleAddDlg&)> d_GetOption;
 protected:
+	void Assosication();
 	void InitHttpInstance();
 	virtual void OnOK();
 	void InitCtrlData();
 	void GetText(CComboBox* pComboBox, CombId comId, CString& text);
+	void SetText(CComboBox* pComboBox, CombId comId, CString& text);
 private:
 	std::auto_ptr<Option_t> m_lpOption;
 	static std::vector<std::vector<CString>> m_DropList;
@@ -275,7 +277,11 @@ private:
 	CDateTimeCtrl* m_aDatePickers[DatePickerId::DatePicker_END];
 
 private:
+	void OnCbnSelchangeKhOrGg();
 	virtual void PostNcDestroy();
 	void OnLoadComboDataSuccess(int id, CString strValList);
+public:
+	DECLARE_MESSAGE_MAP()
+//	afx_msg void OnTimer(UINT_PTR nIDEvent);
 };
 
