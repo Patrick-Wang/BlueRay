@@ -17,6 +17,7 @@
 #include "ProductPanel.h"
 #include "NotificationPanel.h"
 #include "User.h"
+#include "Association.h"
 CString g_strHostName(_T("localhost"));
 
 #ifdef _DEBUG
@@ -42,6 +43,8 @@ CBlueDlg::CBlueDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CBlueDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	CAssociation* asso = CAssociation::GetInstance();
+	asso->find(L"北方个人", L"TA1.0D-H");
 }
 
 void CBlueDlg::DoDataExchange(CDataExchange* pDX)

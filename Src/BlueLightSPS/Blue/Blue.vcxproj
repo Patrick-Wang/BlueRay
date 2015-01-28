@@ -110,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Account.h" />
+    <ClInclude Include="Association.h" />
     <ClInclude Include="BRPanel.h" />
     <ClInclude Include="CommonDefine.h" />
     <ClInclude Include="CSVParser.h" />
@@ -179,6 +180,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Account.cpp" />
+    <ClCompile Include="Association.cpp" />
     <ClCompile Include="BRPanel.cpp" />
     <ClCompile Include="CSVParser.cpp" />
     <ClCompile Include="Encoding.cpp" />
