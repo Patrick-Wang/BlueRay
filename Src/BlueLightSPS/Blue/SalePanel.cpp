@@ -314,6 +314,8 @@ void CSalePanel::FilterTableByStatus(enumProductionStatusForSale productionStatu
 void CSalePanel::OnBnClickedAdd()
 {
 	CSaleAddDlg dlg(_T("Ìí¼Ó"));
+	dlg.SetOption(new CSaleAddDlg::Option_t());
+
 	if (IDOK == dlg.DoModal())
 	{
 		m_cacheRow = dlg.GetResult();
@@ -884,6 +886,7 @@ void CSalePanel::OnInitData()
 	if (perm.getSale())
 	{
 		DEFINE_SALE_QUERY_PARAM(sqp);
+		MakeBasicSearchCondition(sqp);
 
 		CServer::GetInstance()->GetSale().Query(
 			1,

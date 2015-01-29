@@ -1476,6 +1476,7 @@ void CPlanPanel::OnInitData()
 
 		DEFINE_PLAN_QUERY_PARAM(pqp);
 
+		MakeBasicSearchCondition(pqp);
 		// (nsPlan::bzrq != null and nsPlan::scrq !=null) or (nsPlan::bzrq == null and nsPlan::scrq==null)
 		//CUnitedQuery& pUq =
 		//	UQ(nsPlan::bzrq, L"@!=null").and(UQ(nsPlan::scrq, L"@!=null")).group().or(
@@ -1749,8 +1750,8 @@ void CPlanPanel::OnTemplateExprotClicked()
 
 	if (hFileDlg.DoModal() == IDOK)
 	{
-		DEFINE_PLAN_QUERY_PARAM(pqp);
-		MakeBasicSearchCondition(pqp);
+// 		DEFINE_PLAN_QUERY_PARAM(pqp);
+// 		MakeBasicSearchCondition(pqp);
 
 		try
 		{
