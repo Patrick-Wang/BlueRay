@@ -158,7 +158,7 @@ void CSalePanel::OnInitChilds()
 		m_comboProductionStatus->InsertString(1, _T("未审核订单"));
 		m_comboProductionStatus->InsertString(2, _T("审核中订单"));
 		m_comboProductionStatus->InsertString(3, _T("已审核订单"));
-		m_comboProductionStatus->SetCurSel(0);
+		m_comboProductionStatus->SetCurSel(1);
 
 		m_bsDateRange = Util_Tools::Util::CreateStatic(this, IDC_SALE_STATIC_DATERANGE, _T("查询日期"), _T("Microsoft YaHei"), 12);
 		m_bsDateRange->MoveWindow(140, 25, 60, 20);
