@@ -95,6 +95,7 @@ BOOL CPopupDlg::PreTranslateMessage(MSG* pMsg)
 {
 	if (WM_KEYDOWN == pMsg->message && VK_RETURN == pMsg->wParam)
 	{
+		OnOK();
 		return TRUE;
 	}
 	return CDialogEx::PreTranslateMessage(pMsg);
