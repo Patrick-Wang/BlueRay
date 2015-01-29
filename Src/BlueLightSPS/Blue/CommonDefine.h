@@ -12,6 +12,7 @@ extern CString g_strHostName;
 #define IDS_SETTING_ROOT_SETTINGFOLDER		_T("\\settings")
 #define IDS_SETTING_ROOT_FOLDER				_T("%appdata%")
 #define IDS_SETTING_LOCATION				_T("%appdata%\\BlueLightPLM\\settings\\")
+#define IDS_SETTING_LOCATION_WITHOUTSLASH				_T("%appdata%\\BlueLightPLM\\settings")
 
 //setting item define
 
@@ -21,6 +22,8 @@ extern CString g_strHostName;
 #define IDS_SETTING_ITEM_TABLEFILTER_PLAN	_T("Plan")
 #define IDS_SETTING_ITEM_TABLEFILTER_NOTIFICATION	_T("Notification")
 #define IDS_SETTING_ITEM_COL_WIDTH	_T("ColWidths")
+#define IDS_SETTING_ITEM_USERS	_T("Users")
+#define IDS_SETTING_ITEM_LASTLOGINUSER	_T("LastLoginUser")
 
 
 #define IDS_SETTING_ITEM_TABLEFILTER_HTH		_T("HTH")

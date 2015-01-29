@@ -1,6 +1,8 @@
 #pragma once
 #include "UILib/BSStatic.h"
 #include "BRButton.h"
+#include "XMLParser.h"
+#include "CommonDefine.h"
 #include <vector>
 #include <Windows.h>
 #include <memory>
@@ -29,6 +31,9 @@ namespace Util_Tools
 
 		static int Util::CaculateMaxWidthOfItems(CWnd *pWnd, const vector<CString> &strItems, CFont *font);
 
+		static bool GetLatestLogonUser(CString& strUserName);
+		static bool SetLatestLogonUser(CString& strUserName);
+
 		static void StringToDate(CString &strData, COleDateTime& objDataTime);
 		static void StringToDataTime(CString &strData, COleDateTime& objDataTime);
 		static DOUBLE CompareTime(CString& strLeftUpdateTime, CString& strRightUpdateTime);
@@ -36,6 +41,9 @@ namespace Util_Tools
 		static bool MakeDir(LPCTSTR lpPath);
 		static bool DeleteFiles(LPCTSTR strFolderPath);
 		static bool GetExpandPath(LPCTSTR pszEnvironmentPath, CString &csExpandPath);
+
+		static bool FindSubFolders(LPCTSTR strFolderPath, vector<CString> &vecFolderNames);
+
 		static void Utf16leToUtf8(const CString& unicodeString, std::string& str)
 		{
 			int stringLength = ::WideCharToMultiByte(CP_UTF8, NULL, unicodeString, wcslen(unicodeString), NULL, 0, NULL, NULL);

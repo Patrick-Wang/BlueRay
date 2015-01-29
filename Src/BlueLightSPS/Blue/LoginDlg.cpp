@@ -13,6 +13,7 @@
 #include "Account.h"
 #include "Association.h"
 #include "Server.h"
+#include "SettingManager.h"
 // CLoginDlg dialog
 
 #define TM_INITUI	100
@@ -29,6 +30,17 @@ CLoginDlg::CLoginDlg(CWnd* pParent /*=NULL*/)
 
 CLoginDlg::~CLoginDlg()
 {
+}
+
+void CLoginDlg::OnNcDestroy()
+{
+	if (NULL != m_combUserName)
+	{
+		delete m_combUserName;
+		m_combUserName = NULL;
+	}
+
+	__super::OnNcDestroy();
 }
 
 void CLoginDlg::DoDataExchange(CDataExchange* pDX)
@@ -161,7 +173,35 @@ BOOL CLoginDlg::OnInitDialog()
 	m_bsLogo.MoveWindow(90,120, 180, 180);
 
 	m_editPsw.MoveWindow(696, 405, 181, 20);
-	m_editUserName.MoveWindow(696, 362, 181, 20);
+	m_editUserName.MoveWindow(0, 0, 0, 0);
+	m_combUserName = Util_Tools::Util::CreateComboBox(this, IDC_LOGIN_COMB_USERNAME, _T("Microsoft YaHei"), 12, FALSE);
+	m_combUserName->MoveWindow(696, 362, 181, 18);
+	m_combUserName->SetCurSel(0);
+
+	CString rootFolder;
+	Util_Tools::Util::GetExpandPath(IDS_SETTING_LOCATION, rootFolder);
+	vector<CString> vecFolderNames;
+	vecFolderNames.clear();
+	Util_Tools::Util::FindSubFolders(rootFolder, vecFolderNames);
+
+	CString strLastUser;
+	int iCulSel = 0;
+	bool bGetUser = Util_Tools::Util::GetLatestLogonUser(strLastUser);
+
+	for (int i = 0; i < vecFolderNames.size(); i++)
+	{
+		if (bGetUser)
+		{
+			if (0 == strLastUser.CompareNoCase(vecFolderNames[i]))
+			{
+				iCulSel = i;
+			}
+		}
+		m_combUserName->InsertString(i, vecFolderNames[i]);
+	}
+
+	m_combUserName->SetCurSel(iCulSel);
+
 	SetTimer(TM_INITUI, 500, NULL);
 	
 	CString path;
@@ -191,8 +231,8 @@ void CLoginDlg::OnBnClickedLogin()
 	CString psw;
 	m_editPsw.GetWindowText(psw);
 	CString usrName;
-	m_editUserName.GetWindowText(usrName);
-
+	//m_editUserName.GetWindowText(usrName);
+	m_combUserName->GetWindowTextW(usrName);
 
 	class OnLoginListener : public CPromise<CUser*>::IHttpResponse{
 		CONSTRUCTOR_1(OnLoginListener, CLoginDlg*, loginDlg)
@@ -201,6 +241,7 @@ void CLoginDlg::OnBnClickedLogin()
 		{
 			if (NULL != usr)
 			{
+				Util_Tools::Util::SetLatestLogonUser(CUser::GetInstance()->GetUserName());
 				m_loginDlg->OnOK();
 			}
 			else

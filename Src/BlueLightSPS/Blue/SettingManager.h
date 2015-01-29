@@ -18,6 +18,7 @@ public:
 	bool GetTableFilterSettingForPlan(LPCTSTR lpSettingName, CString& lpIsSelected);
 	bool SetTableFilterSettingForNotification(LPCTSTR lpSettingName, LPCTSTR lpIsSelected);
 	bool GetTableFilterSettingForNotification(LPCTSTR lpSettingName, CString& lpIsSelected);
+
 private:
 	CXMLParser m_objXMLParser;
 	MSXML2::IXMLDOMNodePtr m_pSettingRootNode;

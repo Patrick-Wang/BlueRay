@@ -420,6 +420,76 @@ namespace Util_Tools
 		return bResult;
 	}
 
+	bool Util::FindSubFolders(LPCTSTR strFolderPath, vector<CString> &vecFolderNames)
+	{
+		CString strPath = strFolderPath;
+		if (strPath.Right(1) != _T("\\"))
+		{
+			strPath += _T("\\");
+		}
+		CString strFilePath(strPath);
+		strPath += _T("*.*");
+
+		HANDLE hFind;
+		WIN32_FIND_DATA fd;
+		bool bResult = false;
+		hFind = ::FindFirstFile(strPath, &fd);
+		if (INVALID_HANDLE_VALUE != hFind)
+		{
+			if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+			{
+// 				CString fileName(fd.cFileName);
+// 				fileName = strFilePath + fileName;
+//  				SetFileAttributes(fileName, FILE_ATTRIBUTE_NORMAL);
+// 
+// 				vecFolderNames.push_back(fileName);
+				//is a file but not folder
+			}
+			else
+			{
+				CString fullpath;
+				CString fileName(fd.cFileName);
+				if (0 != fileName.Compare(_T(".")) &&
+					0 != fileName.Compare(_T("..")))
+				{
+					fullpath = strFilePath + fileName;
+					SetFileAttributes(fullpath, FILE_ATTRIBUTE_NORMAL);
+
+					vecFolderNames.push_back(fileName);
+				}
+			}
+			while (::FindNextFile(hFind, &fd))
+			{
+				if (!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY))
+				{
+// 					CString fileName(fd.cFileName);
+// 					fileName = strFilePath + fileName;
+// 					SetFileAttributes(fileName, FILE_ATTRIBUTE_NORMAL);
+// 					
+// 					vecFolderNames.push_back(fileName);
+				}
+				else
+				{
+					CString fullpath;
+					CString fileName(fd.cFileName);
+					if (0 != fileName.Compare(_T(".")) &&
+						0 != fileName.Compare(_T("..")))
+					{
+						fullpath = strFilePath + fileName;
+						SetFileAttributes(fullpath, FILE_ATTRIBUTE_NORMAL);
+						vecFolderNames.push_back(fileName);
+					}
+				}
+			}
+			::FindClose(hFind);
+
+			bResult = true;
+		}
+		SetFileAttributes(strFolderPath, FILE_ATTRIBUTE_NORMAL);
+
+		return bResult;
+	}
+
 	bool Util::GetExpandPath(LPCTSTR pszEnvironmentPath, CString &csExpandPath)
 	{
 		bool bRet(false);
@@ -513,5 +583,166 @@ namespace Util_Tools
 		dc.RestoreDC(nSave);
 
 		return nWidth;
+	}
+
+
+	bool Util::GetLatestLogonUser(CString& strUserName)
+	{
+		bool bRet = false;
+		bool bInitialized = false;
+		CXMLParser objXMLParser;
+		do
+		{
+			int iRet = objXMLParser.Initialize();
+
+			if (ERR_OK != iRet)
+			{
+				break;
+			}
+
+			bInitialized = true;
+			CString strPath;
+
+			if (!Util_Tools::Util::GetExpandPath(IDS_SETTING_LOCATION_WITHOUTSLASH, strPath))
+			{
+				break;
+			}
+
+			strPath += IDS_SETTING_FILENAME;
+			if (!PathFileExists(strPath))
+			{
+				break;
+			}
+			else
+			{
+				iRet = objXMLParser.LoadXML(strPath);
+				if (ERR_OK != iRet)
+				{
+					break;
+				}
+
+				MSXML2::IXMLDOMNodePtr pSettingRootNode = objXMLParser.QueryRootNode();
+				if (NULL == pSettingRootNode)
+				{
+					break;
+				}
+
+				MSXML2::IXMLDOMNodePtr pUsers = objXMLParser.QueryNode(pSettingRootNode, IDS_SETTING_ITEM_USERS);
+				if (NULL == pUsers)
+				{
+					break;
+				}
+
+				CString strLastUser;
+				iRet = objXMLParser.GetNodeAttribute(pUsers, IDS_SETTING_ITEM_LASTLOGINUSER, strUserName);
+
+				if (ERR_OK != iRet)
+				{
+					break;
+				}
+			}
+
+			bRet = true;
+		} while (false);
+
+
+		if (bInitialized)
+		{
+			objXMLParser.Uninitialize();
+		}
+
+		return bRet;
+	}
+
+	bool Util::SetLatestLogonUser(CString& strUserName)
+	{
+		bool bRet = false;
+		bool bInitialized = false;
+		CXMLParser objXMLParser;
+		do
+		{
+			int iRet = objXMLParser.Initialize();
+
+			if (ERR_OK != iRet)
+			{
+				break;
+			}
+
+			CString strPath;
+			bInitialized = true;
+
+			if (!Util_Tools::Util::GetExpandPath(IDS_SETTING_LOCATION_WITHOUTSLASH, strPath))
+			{
+				break;
+			}
+
+			strPath += IDS_SETTING_FILENAME;
+			if (!PathFileExists(strPath))
+			{
+				if (!Util_Tools::Util::MakeDir(strPath))
+				{
+					break;
+				}
+
+				//create file
+
+				MSXML2::IXMLDOMNodePtr pSettingRootNode = objXMLParser.CreateRoot(IDS_SETTING_ITEM_ROOT);
+				if (NULL == pSettingRootNode)
+				{
+					break;
+				}
+
+				MSXML2::IXMLDOMNodePtr pUsersNode = objXMLParser.CreateChildNode(pSettingRootNode, IDS_SETTING_ITEM_USERS, _T(""));
+				if (NULL == pUsersNode)
+				{
+					break;
+				}
+
+				iRet = objXMLParser.SetNodeAttribute(pUsersNode, IDS_SETTING_ITEM_LASTLOGINUSER, strUserName);
+
+				if (ERR_OK == iRet)
+				{
+					objXMLParser.SaveXML(strPath);
+				}
+			}
+			else
+			{
+				iRet = objXMLParser.LoadXML(strPath);
+				if (ERR_OK != iRet)
+				{
+					break;
+				}
+
+				MSXML2::IXMLDOMNodePtr pSettingRootNode = objXMLParser.QueryRootNode();
+				if (NULL == pSettingRootNode)
+				{
+					break;
+				}
+
+				MSXML2::IXMLDOMNodePtr pUsers = objXMLParser.QueryNode(pSettingRootNode, IDS_SETTING_ITEM_USERS);
+				if (NULL == pUsers)
+				{
+					break;
+				}
+
+				CString strLastUser;
+				iRet = objXMLParser.SetNodeAttribute(pUsers, IDS_SETTING_ITEM_LASTLOGINUSER, strUserName);
+
+				if (ERR_OK == iRet)
+				{
+					objXMLParser.SaveXML(strPath);
+				}
+
+			}
+
+			bRet = true;
+		} while (false);
+
+		if (bInitialized)
+		{
+			objXMLParser.Uninitialize();
+		}
+
+		return bRet;
 	}
 }

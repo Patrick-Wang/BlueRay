@@ -33,6 +33,11 @@ protected:
 	HICON m_hIcon;
 	CBRButton m_btnClose;
 	CBRButton m_btnMin;
+
+	CEdit m_editUserName;
+	CComboBox *m_combUserName;
+	CEdit m_editPsw;
+
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
@@ -40,9 +45,8 @@ public:
 	afx_msg void OnBnMinmumClicked();
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBnClickedLogin();
-	CEdit m_editUserName;
-	CEdit m_editPsw;
 	afx_msg void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
+	afx_msg void OnNcDestroy();
 };
