@@ -5,6 +5,8 @@ priority high
 29. 确认崩溃问题是否是由本地配置文件导致的
 31. 数据有效性验证
 32. 修改资料时，只修改变动部分，其余没变动的不进行修改，避免哪个不填写被修改为空白
+33. CServer::GetInstance()->GetSale().Update(checkedRows, m_cacheRow).then(new CUpdateListener(*this, m_cacheRow));
+如果server接到m_cacheRow中某个字段为空 则不更新这些订单的这个字段 只更新不为空的字段
 
 QA：
 1. 铭牌资料是下拉还是输入
