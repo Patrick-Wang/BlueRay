@@ -482,6 +482,39 @@ void CSalePanel::OnBnClickedModify()
 		std::vector<int> checkedRows;
 		m_pJqGridAPI->GetCheckedRows(checkedRows);
 
+		//已审核或部分审核的订单不允许修改
+		std::vector<CString>* pRowData = NULL;
+		std::vector<int>::iterator iter;
+
+		for (iter = checkedRows.begin(); iter != checkedRows.end(); )
+		{
+			for (int j = 0; j < m_table.size(); ++j)
+			{
+				if (m_table[j].first == *iter)
+				{
+					pRowData = &(m_table[j].second);
+					break;
+				}
+			}
+
+			if (NULL != pRowData)
+			{
+				if ((pRowData->at(nsSale::Column_en::ywsh).CompareNoCase(_T("Y")) == 0) ||
+					(pRowData->at(nsSale::Column_en::jhsh).CompareNoCase(_T("Y")) == 0))
+				{
+					iter = checkedRows.erase(iter);
+				}
+				else
+				{
+					iter++;
+				}
+			}
+			else
+			{
+				iter++;
+			}
+		}
+
 		class CUpdateListener : public CPromise<bool>::IHttpResponse{
 			CONSTRUCTOR_2(CUpdateListener, CSalePanel&, salePanel, StringArray&, cacheRow)
 		public:
@@ -774,37 +807,37 @@ void CSalePanel::OnDelDataSuccess()
 
 void CSalePanel::OnModifyDataSuccess(std::vector<CString>& newData)
 {
-	std::vector<int> checkedRows;
-	m_pJqGridAPI->GetCheckedRows(checkedRows);
-
-	std::vector<int> checkedRowTableMap;
-	checkedRowTableMap.resize(checkedRows.size(), -1);
-	for (int i = checkedRows.size() - 1; i >= 0; --i)
-	{
-		for (int j = 0; j < m_table.size(); ++j)
-		{
-			if (m_table[j].first == checkedRows[i])
-			{
-				checkedRowTableMap[i] = j;
-				break;
-			}
-		}
-	}
-
-	for (int j = newData.size() - 1; j >= 0; --j)
-	{
-		if (!newData[j].IsEmpty())
-		{
-			for (int i = checkedRows.size() - 1; i >= 0; --i)
-			{
-				if (checkedRowTableMap[i] >= 0)
-				{
-					m_table[checkedRowTableMap[i]].second[j] = newData[j];
-				}
-				m_pJqGridAPI->SetCell(checkedRows[i], j + 1, newData[j]);
-			}
-		}
-	}
+// 	std::vector<int> checkedRows;
+// 	m_pJqGridAPI->GetCheckedRows(checkedRows);
+// 
+// 	std::vector<int> checkedRowTableMap;
+// 	checkedRowTableMap.resize(checkedRows.size(), -1);
+// 	for (int i = checkedRows.size() - 1; i >= 0; --i)
+// 	{
+// 		for (int j = 0; j < m_table.size(); ++j)
+// 		{
+// 			if (m_table[j].first == checkedRows[i])
+// 			{
+// 				checkedRowTableMap[i] = j;
+// 				break;
+// 			}
+// 		}
+// 	}
+// 
+// 	for (int j = newData.size() - 1; j >= 0; --j)
+// 	{
+// 		if (!newData[j].IsEmpty())
+// 		{
+// 			for (int i = checkedRows.size() - 1; i >= 0; --i)
+// 			{
+// 				if (checkedRowTableMap[i] >= 0)
+// 				{
+// 					m_table[checkedRowTableMap[i]].second[j] = newData[j];
+// 				}
+// 				m_pJqGridAPI->SetCell(checkedRows[i], j + 1, newData[j]);
+// 			}
+// 		}
+// 	}
 
 	GetParent()->PostMessage(WM_SALE_UPDATED);
 }
@@ -837,8 +870,15 @@ void CSalePanel::OnSaleDlgGetModifyOption(CSaleAddDlg& dlg)
 			}
 		}
 
+
 		if (NULL != pRowData)
 		{
+			if ((pRowData->at(nsSale::Column_en::ywsh).CompareNoCase(_T("Y")) == 0) || 
+				(pRowData->at(nsSale::Column_en::jhsh).CompareNoCase(_T("Y")) == 0))
+			{
+				continue;
+			}
+
 			if (pstOpt == NULL)
 			{
 				pstOpt = new CSaleAddDlg::Option_t(*pRowData);
