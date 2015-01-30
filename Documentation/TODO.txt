@@ -7,6 +7,13 @@ priority high
 32. 修改资料时，只修改变动部分，其余没变动的不进行修改，避免哪个不填写被修改为空白
 33. CServer::GetInstance()->GetSale().Update(checkedRows, m_cacheRow).then(new CUpdateListener(*this, m_cacheRow));
 如果server接到m_cacheRow中某个字段为空 则不更新这些订单的这个字段 只更新不为空的字段
+34. Sale修改时 只修改变更部分 没有变更的 不修改
+35. plan 同上问题
+		CServer::GetInstance()->GetPlan().Update(checkedRows, m_cacheRow)
+			.then(new OnPlanUpdateListener(m_cacheRow, *this));
+如果某字段为空 则不进行修改
+36. Plan计划时，判断出厂生产编号是否重复应该判断除了该订单之外的是否使用 自己使用不应该弹提示
+37. 计划更新时，生产日期和包装日期两个审核有一个已经是Y了 那就不能修改 其他字段可以修改
 
 QA：
 1. 铭牌资料是下拉还是输入

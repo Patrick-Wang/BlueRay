@@ -508,13 +508,12 @@ void CPlanPanel::OnBnClickedPlan()
 		}
 	}
 
+	dlg.SetOption(pstOpt.get());
+
 	if (checkedRows.size() > 1)
 	{
-		pstOpt->ccbh = OPT_FALSE;
-		pstOpt->tcbh = OPT_FALSE;
+		dlg.DisableBHEdits(FALSE, FALSE);
 	}
-
-	dlg.SetOption(pstOpt.get());
 
 	if (IDOK == dlg.DoModal())
 	{
@@ -528,6 +527,7 @@ void CPlanPanel::OnBnClickedPlan()
 				if (bRet)
 				{
 					(m_planPanel.CPlanPanel::OnModifyDataSuccess)(m_cacheRow);
+					m_planPanel.OnUpdateData(m_planPanel.m_pJqGridAPI->GetCurrentPage(), m_planPanel.m_pJqGridAPI->GetGridPageSize(), -1, true);
 				}
 				m_planPanel.GetParent()->EnableWindow(TRUE);
 			}
@@ -1387,39 +1387,39 @@ void CPlanPanel::OnLoadDataSuccess(CString& jsondata)
 
 void CPlanPanel::OnModifyDataSuccess(std::vector<CString>& newData)
 {
-	std::vector<int> checkedRows;
-	m_pJqGridAPI->GetCheckedRows(checkedRows);
-	std::vector<int> checkedRowTableMap;
-	checkedRowTableMap.resize(checkedRows.size(), -1);
-	for (int i = checkedRows.size() - 1; i >= 0; --i)
-	{
-		for (int j = 0; j < m_table.size(); ++j)
-		{
-			if (m_table[j].first == checkedRows[i])
-			{
-				checkedRowTableMap[i] = j;
-				break;
-			}
-		}
-	}
-
-	for (int i = checkedRows.size() - 1; i >= 0; --i)
-	{
-		if (checkedRowTableMap[i] >= 0)
-		{
-			m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::scrq] = newData[0];
-			m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzrq] = newData[1];
-			m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::fhrq] = newData[2];
-			m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::tcbh] = newData[3];
-			m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::ccbh] = newData[4];
-		}
-
-		m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::scrq + 1, newData[0]);
-		m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::bzrq + 1, newData[1]);
-		m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::fhrq + 1, newData[2]);
-		m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::tcbh + 1, newData[3]);
-		m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::ccbh + 1, newData[4]);
-	}
+// 	std::vector<int> checkedRows;
+// 	m_pJqGridAPI->GetCheckedRows(checkedRows);
+// 	std::vector<int> checkedRowTableMap;
+// 	checkedRowTableMap.resize(checkedRows.size(), -1);
+// 	for (int i = checkedRows.size() - 1; i >= 0; --i)
+// 	{
+// 		for (int j = 0; j < m_table.size(); ++j)
+// 		{
+// 			if (m_table[j].first == checkedRows[i])
+// 			{
+// 				checkedRowTableMap[i] = j;
+// 				break;
+// 			}
+// 		}
+// 	}
+// 
+// 	for (int i = checkedRows.size() - 1; i >= 0; --i)
+// 	{
+// 		if (checkedRowTableMap[i] >= 0)
+// 		{
+// 			m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::scrq] = newData[0];
+// 			m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzrq] = newData[1];
+// 			m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::fhrq] = newData[2];
+// 			m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::tcbh] = newData[3];
+// 			m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::ccbh] = newData[4];
+// 		}
+// 
+// 		m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::scrq + 1, newData[0]);
+// 		m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::bzrq + 1, newData[1]);
+// 		m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::fhrq + 1, newData[2]);
+// 		m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::tcbh + 1, newData[3]);
+// 		m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::ccbh + 1, newData[4]);
+// 	}
 }
 
 void CPlanPanel::OnInitData()

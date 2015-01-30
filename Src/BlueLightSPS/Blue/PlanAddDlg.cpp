@@ -69,6 +69,12 @@ void CPlanAddDlg::ConfigPlanBtns(bool scrq, bool bzrq)
 	m_bEnablePlanBtnForBZRQ = bzrq;
 }
 
+void CPlanAddDlg::DisableBHEdits(BOOL tcbh, BOOL ccbh)
+{
+	m_bEnablePlanEditForTCBH = tcbh;
+	m_bEnablePlanEditForCCBH = ccbh;
+}
+
 static LPCTSTR g_StaticItems[][1] = { //0: default text
 		{ _T("合同号:") },
 		{ _T("客户名称:") },
@@ -309,6 +315,9 @@ BOOL CPlanAddDlg::OnInitDialog()
 
 	m_aDatePickers[DatePicker_SCRQ]->EnableWindow(m_bEnablePlanBtnForSCRQ);
 	m_aDatePickers[DatePicker_BZRQ]->EnableWindow(m_bEnablePlanBtnForBZRQ);
+
+	m_aEdits[Edit_TCBH]->EnableWindow(m_bEnablePlanEditForTCBH);
+	m_aEdits[Edit_CCBH]->EnableWindow(m_bEnablePlanEditForCCBH);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE

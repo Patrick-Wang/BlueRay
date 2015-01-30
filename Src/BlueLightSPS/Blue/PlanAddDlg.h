@@ -319,6 +319,7 @@ private:
 public:
 	virtual BOOL OnInitDialog();
 	void ConfigPlanBtns(bool scrq, bool bzrq);
+	void DisableBHEdits(BOOL tcbh, BOOL ccbh);
 
 protected:
 	virtual void OnOK();
@@ -333,6 +334,9 @@ private:
 
 	bool m_bEnablePlanBtnForSCRQ;
 	bool m_bEnablePlanBtnForBZRQ;
+
+	bool m_bEnablePlanEditForTCBH;
+	bool m_bEnablePlanEditForCCBH;
 
 	virtual void PostNcDestroy();
 };
