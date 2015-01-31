@@ -6,7 +6,7 @@ public class SaleAdvanceTranslator extends IAdvanceTranslator {
 
 	@Override
 	public String out(String colName, String value) {
-		if ("dfr".equals(colName)) 
+		if ("sfjf".equals(colName)) 
 		{	
 			if ("Y".equals(value)){
 				return "有";
@@ -14,7 +14,7 @@ public class SaleAdvanceTranslator extends IAdvanceTranslator {
 			else {
 				return "无";
 			}
-		}else if("sfjf".equals(colName)){
+		}else if("dfr".equals(colName)){
 			if ("Y".equals(value)){
 				return "单绕";
 			}

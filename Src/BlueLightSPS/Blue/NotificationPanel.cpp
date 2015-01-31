@@ -337,6 +337,7 @@ void CNotificationPanel::OnBnClickedSaleBusinessApprove()
 	HideFirstViewOfNotificationPanel(FALSE);
 	DEFINE_SALE_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CSale::BUSINESS, false);
+
 	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
 	/*CString url;
@@ -368,10 +369,7 @@ void CNotificationPanel::OnBnClickedPlanSCRQBusinessApprove()
 	HideFirstViewOfNotificationPanel(FALSE);
 	DEFINE_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
-	StringArray advance;
-	advance.resize(26);
-	advance[16] = L"@!=null";
-	jqp.SetAdvancedCondition(&advance);
+	jqp.SetUnitedQuery(UQ(nsPlan::scrq, L"@!=null"));
 	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
 	//CString url;
@@ -407,7 +405,7 @@ void CNotificationPanel::OnBnClickedPlanBZRQBusinessApprove()
 	HideFirstViewOfNotificationPanel(FALSE);
 	DEFINE_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
-	CUnitedQuery& uq = UQ(nsPlan::fhrq, L"@!=null");
+	CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
 	jqp.SetUnitedQuery(uq);
 	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
@@ -426,10 +424,8 @@ void CNotificationPanel::OnBnClickedPlanBZRQPlanApprove()
 
 	DEFINE_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PACK_PLAN, false);
-	StringArray advance;
-	advance.resize(26);
-	advance[19] = L"@!=null";
-	jqp.SetAdvancedCondition(&advance);
+	CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
+	jqp.SetUnitedQuery(uq);
 	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
 
 	//CString url;
