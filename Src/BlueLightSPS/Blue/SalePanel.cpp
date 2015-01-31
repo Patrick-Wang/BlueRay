@@ -464,6 +464,8 @@ void CSalePanel::OnReApproveSuccess(CSale::ApproveType type)
 			}
 		}
 	}
+
+	OnRowChecked();
 }
 
 
