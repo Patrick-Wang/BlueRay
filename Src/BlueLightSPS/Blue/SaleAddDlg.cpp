@@ -247,8 +247,8 @@ void CSaleAddDlg::InitHttpInstance()
 		item.QuerySync(CItem::ZDQXH, m_DropList[CombId::Comb_ZDQXH]);
 
 		//左 / 右置
-		m_DropList[Comb_ZYZ].push_back(_T("是"));
-		m_DropList[Comb_ZYZ].push_back(_T("否"));
+		m_DropList[Comb_ZYZ].push_back(_T("左置"));
+		m_DropList[Comb_ZYZ].push_back(_T("右置"));
 
 		//包装箱 / 底托规格
 		item.QuerySync(CItem::BZXDTGG, m_DropList[CombId::Comb_BZXDTGG]);
