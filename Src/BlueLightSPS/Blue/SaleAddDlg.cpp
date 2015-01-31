@@ -213,8 +213,8 @@ void CSaleAddDlg::InitHttpInstance()
 		++m_iRef;
 
 		//单复绕
-		m_DropList[Comb_DFR].push_back(_T("是"));
-		m_DropList[Comb_DFR].push_back(_T("否"));
+		m_DropList[Comb_DFR].push_back(_T("单绕"));
+		m_DropList[Comb_DFR].push_back(_T("复绕"));
 
 		//制动器电压
 		item.QuerySync(CItem::ZDQDYFLXX, m_DropList[CombId::Comb_ZDQDY]);
