@@ -177,7 +177,9 @@ public class SaleServiceImpl implements SaleService {
 		try {
 			for (int i = ja.size() > setMethods.size() ? setMethods.size() - 1
 					: ja.size() - 1; i >= 0; --i) {
-				setMethods.get(i).invoke(this, htxx, ja.getString(i));
+				if (!"".equals(ja.getString(i))){
+					setMethods.get(i).invoke(this, htxx, ja.getString(i));
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -186,9 +188,9 @@ public class SaleServiceImpl implements SaleService {
 	
 	public String add(JSONArray ja) throws Exception {
 		HTXX htxx = new HTXX();
-		if ("".equals(ja.getString(0))) {
-			throw new Exception("Id cannot be none");
-		}
+		//if ("".equals(ja.getString(0))) {
+			//throw new Exception("Id cannot be none");
+		//}
 		updateHtxx(ja, htxx);
 //		setHtID(htxx, ja.getString(0));
 //		setClientID(htxx, ja.getString(1));

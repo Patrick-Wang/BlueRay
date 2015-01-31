@@ -42,6 +42,8 @@ public:
 	void SetRow(int rowId, const std::vector<CString>& rowData);
 	void SetCell(int rowId, int colIndex, const CString& data);
 	void GetCheckedRows(std::vector<int>& checkedRows);
+	void SetChecked(int rowId, bool bCheck);
+	void UncheckedAll();
 	void SetWidths(LPCTSTR jsonArray);
 	void GetWidths(CString& strJson);
 	CDelegate<void(void)> d_OnRowChecked;

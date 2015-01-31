@@ -85,6 +85,13 @@ function getRowCount(gridName: string) {
     return grids[gridName].getRowCount();
 }
 
+function setSelect(gridName: string, rowId: number, sel: boolean) {
+    return grids[gridName].setSelect(rowId, sel);
+}
+
+function cleanSelectedRow(gridName: string): void {
+    return grids[gridName].cleanSelectedRow();
+}
 
 function delRowData(gridName: string, rowId: number): void {
     //alert("delRow" + row);

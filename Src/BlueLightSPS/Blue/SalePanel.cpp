@@ -130,7 +130,6 @@ void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
 void CSalePanel::OnInitChilds()
 {
 	m_pJqGridAPI->d_OnExportClicked += std::make_pair(this, &CSalePanel::OnExportClicked);
-
 	CPermission& perm = CUser::GetInstance()->GetPermission();
 	CString strJsonWidths;
 	if (CSettingManager::GetInstance()->GetColWidths(L"saleCol", strJsonWidths))
@@ -140,7 +139,6 @@ void CSalePanel::OnInitChilds()
 
 	m_pJqGridAPI->d_OnUpdateData += std::make_pair(this, &CSalePanel::OnUpdateData);
 	m_pJqGridAPI->d_OnImportClicked += std::make_pair(this, &CSalePanel::OnImportClicked);
-	
 	if (!perm.getSale())
 	{
 		m_bsMoreWord = Util_Tools::Util::CreateStatic(this, IDC_SALE_BTN_MOREWORD, _T("您没有销售录入的权限"), _T("Microsoft YaHei"), 16);
@@ -652,6 +650,7 @@ void CSalePanel::OnRowChecked()
 
 void CSalePanel::OnBnClickedSearch()
 {
+	m_pJqGridAPI->UncheckedAll();
 	DEFINE_SALE_QUERY_PARAM(sqp);
 	MakeBasicSearchCondition(sqp);
 	//sqp.AddSortCondition(15, false);

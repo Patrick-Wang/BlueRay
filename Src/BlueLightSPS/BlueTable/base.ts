@@ -141,11 +141,25 @@ module base {
             this.mTable.jqGrid('delRowData', rowId)
         }
 
+        public setSelect(rowId: number, sel: boolean) {
+            this.mTable.jqGrid('setSelection', rowId, sel);
+        }
+
+        public cleanSelectedRow(): void {
+            var rowIds : Array<string> = [].concat(this.getSelectedRowData());
+            if (null != rowIds) {
+                alert(rowIds);
+                for (var id in rowIds) {
+                    this.mTable.jqGrid('setSelection', rowIds[id], false);
+                }
+            }
+        }
+
         public getRowData(rowId: number): void {
             return this.mTable.jqGrid('getRowData', rowId);
         }
 
-        public getSelectedRowData(): void {
+        public getSelectedRowData(): Array<string> {
             return this.mTable.jqGrid('getGridParam', 'selarrrow');
         }
 

@@ -6,12 +6,20 @@ public class SaleAdvanceTranslator extends IAdvanceTranslator {
 
 	@Override
 	public String out(String colName, String value) {
-		if ("dfr".equals(colName) || "sfjf".equals(colName)|| "zyz".equals(colName)){
+		if ("dfr".equals(colName)) 
+		{	
 			if ("Y".equals(value)){
-				return "是";
+				return "有";
 			}
 			else {
-				return "否";
+				return "无";
+			}
+		}else if("sfjf".equals(colName)){
+			if ("Y".equals(value)){
+				return "单绕";
+			}
+			else {
+				return "复绕";
 			}
 		} else if("sftgywsh".equals(colName)
 				|| "sftgjhsh".equals(colName)) {
@@ -26,6 +34,13 @@ public class SaleAdvanceTranslator extends IAdvanceTranslator {
 				return "高";
 			} else {
 				return "低";
+			}
+		} else if ("zyz".equals(colName)){
+			if ("Y".equals(value)){
+				return "左置";
+			}
+			else {
+				return "右置";
 			}
 		}
 		return null;

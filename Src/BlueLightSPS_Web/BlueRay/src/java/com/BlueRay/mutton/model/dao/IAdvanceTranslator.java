@@ -10,8 +10,14 @@ public abstract class IAdvanceTranslator{
 	public IAdvanceTranslator(){
 		inMap.put("是", "Y");
 		inMap.put("√", "Y");
+		inMap.put("左置", "Y");
+		inMap.put("单饶", "Y");
+		inMap.put("有", "Y");
 		inMap.put("否", "N");
 		inMap.put("×", "N");
+		inMap.put("右置", "N");
+		inMap.put("复绕", "N");
+		inMap.put("无", "N");
 		inMap.put("高", "10");
 		inMap.put("低", "100");
 	}

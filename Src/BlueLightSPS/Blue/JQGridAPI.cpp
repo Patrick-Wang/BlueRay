@@ -201,6 +201,7 @@ void CJQGridAPI::SetRow(int rowId, const std::vector<CString>& rowData)
 
 void CJQGridAPI::GetCheckedRows(std::vector<int>& checkedRows)
 {
+	checkedRows.clear();
 	std::vector<VARIANT> params;
 	VARIANT vt;
 	vt.vt = VT_BSTR;
@@ -584,6 +585,32 @@ int CJQGridAPI::GetPageSize()
 void CJQGridAPI::SetPageSize(int pageSize)
 {
 	m_pageSize = pageSize;
+}
+
+void CJQGridAPI::SetChecked(int rowId, bool bCheck)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_BSTR;
+	vt.bstrVal = m_gridName;
+	params.push_back(vt);
+	vt.vt = VT_I4;
+	vt.intVal = rowId;
+	params.push_back(vt);
+	vt.vt = VT_BOOL;
+	vt.boolVal = bCheck ? VARIANT_TRUE : VARIANT_FALSE;
+	params.push_back(vt);
+	m_pMedia->CallJsFunction(_T("setSelect"), params);
+}
+
+void CJQGridAPI::UncheckedAll()
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_BSTR;
+	vt.bstrVal = m_gridName;
+	params.push_back(vt);
+	m_pMedia->CallJsFunction(_T("cleanSelectedRow"), params);
 }
 
 

@@ -85,6 +85,14 @@ function getRowCount(gridName) {
     return grids[gridName].getRowCount();
 }
 
+function setSelect(gridName, rowId, sel) {
+    return grids[gridName].setSelect(rowId, sel);
+}
+
+function cleanSelectedRow(gridName) {
+    return grids[gridName].cleanSelectedRow();
+}
+
 function delRowData(gridName, rowId) {
     //alert("delRow" + row);
     grids[gridName].delRowData(rowId);
