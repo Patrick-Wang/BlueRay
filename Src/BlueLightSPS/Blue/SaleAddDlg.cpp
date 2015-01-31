@@ -225,8 +225,8 @@ void CSaleAddDlg::InitHttpInstance()
 		++m_iRef;
 
 		//机房
-		m_DropList[Comb_JF].push_back(_T("是"));
-		m_DropList[Comb_JF].push_back(_T("否"));
+		m_DropList[Comb_JF].push_back(_T("有"));
+		m_DropList[Comb_JF].push_back(_T("无"));
 
 		//变频器型号
 		item.QuerySync(CItem::BPQXHFLXX, m_DropList[CombId::Comb_BPQXH]);
