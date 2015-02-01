@@ -592,6 +592,8 @@ void CNotificationPanel::OnLoadDataSuccess(PageData_t& page)
 	//	m_pJqGridAPI->AddRow(m_table[j].first, m_table[j].second);
 	//}
 
+	m_bIfUpdateTableWhenTableFilter = true;
+
 	if ((m_enumCurrentApprovingItem == Approving_SaleBusiness) || (m_enumCurrentApprovingItem == Approving_SalePlan))
 	{
 		AdjustTableStyleForSale();
@@ -600,6 +602,9 @@ void CNotificationPanel::OnLoadDataSuccess(PageData_t& page)
 	{
 		AdjustTableStyleForPlan();
 	}
+
+	m_bIfUpdateTableWhenTableFilter = false;
+
 	
 	CTableFilterDlg *objTableFilter();
 
