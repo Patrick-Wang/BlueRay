@@ -18,7 +18,7 @@
 #define QUERY_URL_UNAPPROVED_PLANBZRQPLAN		QUERY_URL_UNAPPROVED_PLANBZRQBUSINESS + 1
 #define POST_URL_APPROVE		QUERY_URL_UNAPPROVED_PLANBZRQPLAN + 1
 
-static int g_static_width = 220;
+static int g_static_width = 235;
 static int g_button_width = 90;
 static int g_space_between = 80;
 
@@ -743,7 +743,7 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 	int iSalePlan = stUnapproved.iSalePlan;//销售-计划未审批数
 
 	CString strSaleBussiness;
-	strSaleBussiness.Format(_T("您有 %d条 未审核的 订单（业务部）"), iSaleBussiness);
+	strSaleBussiness.Format(_T("您有 %3d条 未审核的 订单（业务部）"), iSaleBussiness);
 	m_bsSaleBusinessApprove.SetWindowText(strSaleBussiness);
 
 	int iPosIndex = 0;
@@ -772,7 +772,7 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 	}
 
 	CString strSalePlan;
-	strSalePlan.Format(_T("您有 %d条 未审核的 订单（计划科）"), iSalePlan);
+	strSalePlan.Format(_T("您有 %3d条 未审核的 订单（计划科）"), iSalePlan);
 	m_bsSalePlanApprove.SetWindowText(strSalePlan);
 
 	if (0 < iSalePlan && perm.getXsjhsh())
@@ -796,7 +796,7 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 	}
 
 	CString strPlanBussiness;
-	strPlanBussiness.Format(_T("您有 %d条 未审核的 生产日期（业务部）"), iPlanBussiness);
+	strPlanBussiness.Format(_T("您有 %3d条 未审核的 生产日期（业务部）"), iPlanBussiness);
 	m_bsPlanSCRQBusinessApprove.SetWindowText(strPlanBussiness);
 
 	if (0 < iPlanBussiness && perm.getJhywsh())
@@ -819,7 +819,7 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 	}
 
 	CString strPlanPlan;
-	strPlanPlan.Format(_T("您有 %d条 未审核的 生产日期（计划科）"), iPlanPlan);
+	strPlanPlan.Format(_T("您有 %3d条 未审核的 生产日期（计划科）"), iPlanPlan);
 	m_bsPlanSCRQPlanApprove.SetWindowText(strPlanPlan);
 
 	if (0 < iPlanPlan && perm.getJhjhsh())
@@ -843,7 +843,7 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 	}
 
 	CString strPackBussiness;
-	strPackBussiness.Format(_T("您有 %d条 未审核的 包装日期（业务部）"), iPackBussiness);
+	strPackBussiness.Format(_T("您有 %3d条 未审核的 包装日期（业务部）"), iPackBussiness);
 	m_bsPlanBZRQBusinessApprove.SetWindowText(strPackBussiness);
 
 	if (0 < iPackBussiness && perm.getJhbzywsh())
@@ -868,7 +868,7 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 	}
 
 	CString strPackPlan;
-	strPackPlan.Format(_T("您有 %d条 未审核的 包装日期（计划科）"), iPackPlan);
+	strPackPlan.Format(_T("您有 %3d条 未审核的 包装日期（计划科）"), iPackPlan);
 	m_bsPlanBZRQPlanApprove.SetWindowText(strPackPlan);
 
 	if (0 < iPackPlan && perm.getJhbzjhsh())
