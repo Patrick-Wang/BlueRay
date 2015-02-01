@@ -129,14 +129,82 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 {
 	if (!m_bIfUpdateTableWhenTableFilter)
 	{
-		DEFINE_PLAN_QUERY_PARAM(jqp);
-
-		if (colIndex >= 0){
-			jqp.AddSortCondition(colIndex, bAsc);
+		switch (m_enumCurrentApprovingItem)
+		{
+		case CNotificationPanel::Approving_NULL:
+			break;
+		case CNotificationPanel::Approving_SaleBusiness:
+		{
+			DEFINE_SALE_QUERY_PARAM(jqp);
+			if (colIndex >= 0){
+				jqp.AddSortCondition(colIndex, bAsc);
+			}
+			jqp.AddApproveCondition(CSale::BUSINESS, false);
+			CServer::GetInstance()->GetSale().Query(page, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
+			break;
 		}
-
-		CServer::GetInstance()->GetPlan().Query(page, CJQGridAPI::GetPageSize(), jqp)
-			.then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
+		case CNotificationPanel::Approving_SalePlan:
+		{
+			DEFINE_SALE_QUERY_PARAM(jqp);
+			if (colIndex >= 0){
+				jqp.AddSortCondition(colIndex, bAsc);
+			}
+			jqp.AddApproveCondition(CSale::PLAN, false);
+			CServer::GetInstance()->GetSale().Query(page, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
+			break;
+		}
+		case CNotificationPanel::Approving_PlanSCRQBusiness:
+		{
+			DEFINE_PLAN_QUERY_PARAM(jqp);
+			if (colIndex >= 0){
+				jqp.AddSortCondition(colIndex, bAsc);
+			}
+			jqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
+			jqp.SetUnitedQuery(UQ(nsPlan::scrq, L"@!=null"));
+			CServer::GetInstance()->GetPlan().Query(page, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
+			break;
+		}
+		case CNotificationPanel::Approving_PlanSCRQPlan:
+		{
+			DEFINE_PLAN_QUERY_PARAM(jqp);
+			if (colIndex >= 0){
+				jqp.AddSortCondition(colIndex, bAsc);
+			}
+			jqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
+			CUnitedQuery& uq = UQ(nsPlan::scrq, L"@!=null");
+			jqp.SetUnitedQuery(uq);
+			CServer::GetInstance()->GetPlan().Query(page, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
+			break;
+		}
+		case CNotificationPanel::Approving_PlanBZRQBusiness:
+		{
+			DEFINE_PLAN_QUERY_PARAM(jqp);
+			if (colIndex >= 0){
+				jqp.AddSortCondition(colIndex, bAsc);
+			}
+			jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
+			CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
+			jqp.SetUnitedQuery(uq);
+			CServer::GetInstance()->GetPlan().Query(page, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
+			break;
+		}
+		case CNotificationPanel::Approving_PlanBZRQPlan:
+		{
+			DEFINE_PLAN_QUERY_PARAM(jqp);
+			if (colIndex >= 0){
+				jqp.AddSortCondition(colIndex, bAsc);
+			}
+			jqp.AddApproveCondition(CPlan::PACK_PLAN, false);
+			CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
+			jqp.SetUnitedQuery(uq);
+			CServer::GetInstance()->GetPlan().Query(page, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
+			break;
+		}
+		case CNotificationPanel::Approving_END:
+			break;
+		default:
+			break;
+		}
 
 		GetParent()->EnableWindow(FALSE);
 	}
