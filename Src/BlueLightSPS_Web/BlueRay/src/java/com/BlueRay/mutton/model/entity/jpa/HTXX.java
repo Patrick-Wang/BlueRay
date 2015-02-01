@@ -15,34 +15,34 @@ import javax.persistence.Table;
 public class HTXX implements Serializable {
 
 	private Integer ID;
-	private String htID;
-	private Integer clientID;
-	private Integer ggxhID;
+	private String htID = "";
+	private Integer clientID = 1;
+	private Integer ggxhID = 1;
 	private Integer sl;
-	private Integer zcID;
+	private Integer zcID = 1;
 	private String dfr = "N";
-	private Integer zdqdyID;
-	private Integer yylggID;
+	private Integer zdqdyID = 1;
+	private Integer yylggID = 1;
 	private String sfjf = "N";
-	private Integer bpqxhID;
-	private Integer bmqxhID;
-	private String dlcd;
-	private String zxcd;
-	private Integer mpzl;
-	private String bz;
+	private Integer bpqxhID = 1;
+	private Integer bmqxhID = 1;
+	private String dlcd = "";
+	private String zxcd = "";
+	private Integer mpzl = 1;
+	private String bz = "";
 	private Date ddrq;
-	private Integer zjdyID;
-	private Integer zjysID;
-	private Integer zdqxhID;
-	private String zyz;
-	private Integer bzxdtggID;
-	private String gh;
-	private Integer zzsID;
-	private Integer khqyID;
+	private Integer zjdyID = 1;
+	private Integer zjysID = 1;
+	private Integer zdqxhID = 1;
+	private String zyz = "";
+	private Integer bzxdtggID = 1;
+	private String gh = "";
+	private Integer zzsID = 1;
+	private Integer khqyID = 1;
 	private Integer yxj = 100;
 	private String sftgywsh = "N";
 	private String sftgjhsh = "N";
-	private String ddzt;
+	private String ddzt = "";
 //	 `zjdyID` int(11) DEFAULT NULL,
 //	  `zjysID` int(11) DEFAULT NULL,
 //	  `zdqxhID` int(11) DEFAULT NULL,

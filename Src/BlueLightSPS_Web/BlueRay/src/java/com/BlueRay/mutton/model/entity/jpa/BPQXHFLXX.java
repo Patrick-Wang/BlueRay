@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Table(name = "bpqxhflxx")
 public class BPQXHFLXX {
 	private Integer bpqxhID;
-	private String bpqxh;
+	private String bpqxh = "";
 	
 	/**
 	 * @return the bpqxhID

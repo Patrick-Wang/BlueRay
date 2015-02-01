@@ -10,11 +10,11 @@ import javax.persistence.Table;
 @Table(name = "khxx")
 public class KHXX {
 	private Integer clientID;
-	private String khmc;
-	private String khcz;
-	private String lxr;
-	private String lxdh;
-	private String qtnr;
+	private String khmc = "";
+	private String khcz = "";
+	private String lxr = "";
+	private String lxdh = "";
+	private String qtnr = "";
 	/**
 	 * @return the clientID
 	 */

@@ -11,7 +11,7 @@ CFileInputStream::CFileInputStream(LPCTSTR lpFileName, int iBufSize)
 {
 	if (NULL != lpFileName)
 	{
-		_tfopen_s(&m_fp, lpFileName, L"r");
+		_tfopen_s(&m_fp, lpFileName, L"rb");
 	}
 
 	if (NULL == m_fp)
@@ -50,13 +50,13 @@ int CFileInputStream::next()
 	int iReadCount = m_iBufSize;
 	if (m_iCur < m_size)
 	{
-		if ((m_size - m_iCur - 1) >= m_iBufSize)
+		if ((m_size - m_iCur) >= m_iBufSize)
 		{
 			iReadCount = m_iBufSize;
 		}
 		else
 		{
-			iReadCount = m_size - m_iCur - 1;
+			iReadCount = m_size - m_iCur;
 		}
 		m_iCur += iReadCount;
 		fread_s(pBuffer, m_iBufSize, 1, iReadCount, m_fp);

@@ -22,10 +22,10 @@ public class PCJHXX {
 	String bzsftgjhsh = "N";
 	
 	Date jhfhrq;
-	String tcbh;
-	String ccbh;
+	String tcbh = "";
+	String ccbh = "";
 	
-	String ddzt;
+	String ddzt = "";
 	/**
 	 * @return the pcjhID
 	 */

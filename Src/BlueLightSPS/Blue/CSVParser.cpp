@@ -4,6 +4,7 @@
 #include <fstream>
 #include "Encoding.h"
 #include "FileInputStream.h"
+#include "FileOutputStream.h"
 // split: split line into fields
 void CCSVParser::split(CString& line, std::vector<CString>& fields)
 {
@@ -84,13 +85,18 @@ void CCSVParser::readFile(LPCTSTR lpPath, CString& strCSV)
 		iStart += iCount;
 	}
 	CEncoding::Ansi()->GetString(pBuf.get(), iStart, strCSV);
+
+	//CFileOutputStream fo(L"log1");
+	//fo.write((BYTE*)(LPCTSTR)strCSV, strCSV.GetLength() * 2);
+	//CFileOutputStream fo2(L"log2");
+	//fo2.write(pBuf.get(), pFile.size());
 }
 
 bool CCSVParser::next(vector<CString>& fields)
 {
 	CString strLine;
 
-	if ((index = m_strCSV.Find(_T("\n"), iStart)) >= 0)
+	if ((index = GetLine(m_strCSV, iStart)) >= 0)
 	{
 		strLine = m_strCSV.Mid(iStart, index - iStart);
 		iStart = index + 1;
@@ -99,4 +105,34 @@ bool CCSVParser::next(vector<CString>& fields)
 	}
 
 	return false;
+}
+
+int CCSVParser::GetLine(CString& line, int start)
+{
+	for (int i = start, len = line.GetLength(); i < len; ++i)
+	{
+		if (line[i] == _T('"'))
+		{
+			int j = i + 1;
+			for (; j < len; ++j)
+			{
+				if (line[j] == _T('"') && line[++j] != _T('"'))
+				{
+					i = j;
+					break;
+				}
+			}
+			if (j != i)
+			{
+				i = len - 1;
+			}
+		}
+		
+
+		if (line[i] == _T('\n'))
+		{
+			return i;
+		}
+	}
+	return -1;
 }

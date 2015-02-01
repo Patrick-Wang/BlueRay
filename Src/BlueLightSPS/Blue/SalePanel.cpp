@@ -1146,7 +1146,7 @@ void CSalePanel::OnImportClicked()
 			CServer::GetInstance()->GetSale().Import(filePathName, ret);
 			CString result;
 			result.Format(_T("数据总数 : %d\r\n导入成功 : %d\r\n导入失败 : %d"), ret.iTotal, ret.iSucceed, ret.iFailed);
-			this->MessageBox(_T("销售数据导入完成"), result, MB_OK | MB_ICONWARNING);
+			this->MessageBox(result, _T("销售数据导入完成"), MB_OK | MB_ICONWARNING);
 		}catch (std::exception& e)
 		{
 			MessageBoxA(m_hWnd, (char*)e.what(), "导出失败", MB_OK | MB_ICONWARNING);

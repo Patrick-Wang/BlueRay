@@ -8,7 +8,7 @@
 #define _CSVPARSE_
 
 #include <vector>
-
+#include <iostream>
 
 using namespace std;
 class CCSVParser {
@@ -25,6 +25,7 @@ private:
 	int advquoted(const CString& line, CString& field, int iCurrent);
 	void readFile(LPCTSTR lpPath, CString& strCSV);
 	void split(CString& line, vector<CString>& fields);
+	int GetLine(CString& line, int start);
 public: 
     void parse(LPCTSTR lpPath);
 	bool next(vector<CString>& line);

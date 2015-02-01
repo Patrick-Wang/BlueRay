@@ -13,13 +13,15 @@ public class SaleAdvanceTranslator extends IAdvanceTranslator {
 			}
 			else {
 				return "无";
-			}
+			} 
 		}else if("dfr".equals(colName)){
 			if ("Y".equals(value)){
 				return "单绕";
 			}
-			else {
+			else  if ("N".equals(value)){
 				return "复绕";
+			}else if ("W".equals(value)){
+				return "无";
 			}
 		} else if("sftgywsh".equals(colName)
 				|| "sftgjhsh".equals(colName)) {
@@ -49,12 +51,21 @@ public class SaleAdvanceTranslator extends IAdvanceTranslator {
 	@Override
 	public String in(String colName, String value) {
 		if (inMap.containsKey(value)){
-			if ("dfr".equals(colName) || "sfjf".equals(colName)
+			if ("sfjf".equals(colName)
 					|| "sftgywsh".equals(colName)
 					|| "sftgjhsh".equals(colName)
 					|| "zyz".equals(colName)
 					|| "yxj".equals(colName)) {
 				return inMap.get(value);
+			} else if ("dfr".equals(colName)){
+				if ("单绕".equals(value)){
+					return "Y";
+				}
+				else  if ("复绕".equals(value)){
+					return "N";
+				}else if ("无".equals(value)){
+					return "W";
+				}
 			}
 		}
 		return null;

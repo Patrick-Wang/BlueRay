@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Table(name = "bzxdtgg")
 public class BZXDTGG {
 	private Integer id;
-	private String bzxdtgg;
+	private String bzxdtgg = "";
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

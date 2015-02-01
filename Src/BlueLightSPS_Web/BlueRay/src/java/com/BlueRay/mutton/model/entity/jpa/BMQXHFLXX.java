@@ -15,7 +15,7 @@ public class BMQXHFLXX implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Integer bmqxhID;
-	private String bmqxh;
+	private String bmqxh = "";
 	/**
 	 * @return the bmqxhID
 	 */
