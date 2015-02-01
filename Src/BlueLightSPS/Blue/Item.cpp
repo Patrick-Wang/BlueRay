@@ -2,6 +2,8 @@
 #include "Item.h"
 #include "CommonDefine.h"
 #include "Util.h"
+#include "JsonParser.h"
+#include "JsonObjects.h"
 CItem::CItem()
 {
 }
@@ -20,8 +22,13 @@ bool CItem::QuerySync(ItemType type, StringArray& retArray)
 	{
 		CString strJson;
 		if (m_lpHttp->SyncGet(traceSession(url), strJson)){
-			std::vector<CString> vec;
-			Util_Tools::Util::Split(strJson, _T(','), retArray);
+			//Util_Tools::Util::Split(strJson, _T(','), retArray);
+			Json::JsonParser jp;
+			std::shared_ptr<Json::JsonArray> jar((Json::JsonArray*)jp.Parse((LPTSTR)(LPCTSTR)strJson, strJson.GetLength()));
+			for (int i = 0; i < jar->size(); ++i)
+			{
+				retArray.push_back(jar->asString(i).c_str());
+			}
 			return true;
 		}
 	}
@@ -35,7 +42,13 @@ CPromise<StringArray>& CItem::Query(ItemType type)
 		class CItemQueryParser : public CPromise<StringArray>::IRespParser{
 		public:
 			virtual StringArray& OnParse(LPCTSTR strJson){
-				Util_Tools::Util::Split(CString(strJson), _T(','), m_vec);
+				//Util_Tools::Util::Split(CString(strJson), _T(','), m_vec);
+				Json::JsonParser jp;
+				std::shared_ptr<Json::JsonArray> jar((Json::JsonArray*)jp.Parse((LPTSTR)(LPCTSTR)strJson));
+				for (int i = 0; i < jar->size(); ++i)
+				{
+					m_vec.push_back(jar->asString(i).c_str());
+				}
 				return m_vec;
 			}
 		private:

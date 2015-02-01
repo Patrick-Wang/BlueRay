@@ -28,11 +28,12 @@ CREATE TABLE `bmqxhflxx` (
 -- ----------------------------
 -- Records of bmqxhflxx
 -- ----------------------------
-INSERT INTO `bmqxhflxx` VALUES ('1', '海1387');
-INSERT INTO `bmqxhflxx` VALUES ('2', '多8192');
-INSERT INTO `bmqxhflxx` VALUES ('3', '海1313');
-INSERT INTO `bmqxhflxx` VALUES ('4', '海1321');
-INSERT INTO `bmqxhflxx` VALUES ('5', '无');
+INSERT INTO `bmqxhflxx` VALUES ('1', '');
+INSERT INTO `bmqxhflxx` VALUES ('2', '海1387');
+INSERT INTO `bmqxhflxx` VALUES ('3', '多8192');
+INSERT INTO `bmqxhflxx` VALUES ('4', '海1313');
+INSERT INTO `bmqxhflxx` VALUES ('5', '海1321');
+INSERT INTO `bmqxhflxx` VALUES ('6', '无');
 
 -- ----------------------------
 -- Table structure for bpqxhflxx
@@ -47,41 +48,42 @@ CREATE TABLE `bpqxhflxx` (
 -- ----------------------------
 -- Records of bpqxhflxx
 -- ----------------------------
-INSERT INTO `bpqxhflxx` VALUES ('1', '新时达');
-INSERT INTO `bpqxhflxx` VALUES ('2', '安川L1000A');
-INSERT INTO `bpqxhflxx` VALUES ('3', '富士');
-INSERT INTO `bpqxhflxx` VALUES ('4', '蓝光一体化');
-INSERT INTO `bpqxhflxx` VALUES ('5', '默纳克');
-INSERT INTO `bpqxhflxx` VALUES ('6', '华为');
-INSERT INTO `bpqxhflxx` VALUES ('7', '富士VG7S');
-INSERT INTO `bpqxhflxx` VALUES ('8', '爱默生');
-INSERT INTO `bpqxhflxx` VALUES ('9', '施耐德');
-INSERT INTO `bpqxhflxx` VALUES ('10', '安川');
-INSERT INTO `bpqxhflxx` VALUES ('11', '科比');
-INSERT INTO `bpqxhflxx` VALUES ('12', '蒙德');
-INSERT INTO `bpqxhflxx` VALUES ('13', '爱默生EV3100');
-INSERT INTO `bpqxhflxx` VALUES ('14', '蓝光一体机');
-INSERT INTO `bpqxhflxx` VALUES ('15', 'FD450VL43A 60HP 45K');
-INSERT INTO `bpqxhflxx` VALUES ('16', ' 安川');
-INSERT INTO `bpqxhflxx` VALUES ('17', ' 默纳克');
-INSERT INTO `bpqxhflxx` VALUES ('18', '新时达');
-INSERT INTO `bpqxhflxx` VALUES ('19', ' 科比');
-INSERT INTO `bpqxhflxx` VALUES ('20', 'CTRL70A系统');
-INSERT INTO `bpqxhflxx` VALUES ('21', 'CTRL90系统');
-INSERT INTO `bpqxhflxx` VALUES ('22', 'CTRL80系统');
-INSERT INTO `bpqxhflxx` VALUES ('23', '富士LIFT');
-INSERT INTO `bpqxhflxx` VALUES ('24', 'CTRL70A');
-INSERT INTO `bpqxhflxx` VALUES ('25', 'CTRL90A系统');
-INSERT INTO `bpqxhflxx` VALUES ('26', '酷马');
-INSERT INTO `bpqxhflxx` VALUES ('27', '安川L7B');
-INSERT INTO `bpqxhflxx` VALUES ('28', '安川CIMR-L5IP4015');
-INSERT INTO `bpqxhflxx` VALUES ('29', '艾默生');
-INSERT INTO `bpqxhflxx` VALUES ('30', 'CTRL90');
-INSERT INTO `bpqxhflxx` VALUES ('31', '西威');
-INSERT INTO `bpqxhflxx` VALUES ('32', '安川L1000E');
-INSERT INTO `bpqxhflxx` VALUES ('33', ' 新时达');
-INSERT INTO `bpqxhflxx` VALUES ('34', '台达一体机');
-INSERT INTO `bpqxhflxx` VALUES ('35', '无');
+INSERT INTO `bpqxhflxx` VALUES ('1', '');
+INSERT INTO `bpqxhflxx` VALUES ('2', '新时达');
+INSERT INTO `bpqxhflxx` VALUES ('3', '安川L1000A');
+INSERT INTO `bpqxhflxx` VALUES ('4', '富士');
+INSERT INTO `bpqxhflxx` VALUES ('5', '蓝光一体化');
+INSERT INTO `bpqxhflxx` VALUES ('6', '默纳克');
+INSERT INTO `bpqxhflxx` VALUES ('7', '华为');
+INSERT INTO `bpqxhflxx` VALUES ('8', '富士VG7S');
+INSERT INTO `bpqxhflxx` VALUES ('9', '爱默生');
+INSERT INTO `bpqxhflxx` VALUES ('10', '施耐德');
+INSERT INTO `bpqxhflxx` VALUES ('11', '安川');
+INSERT INTO `bpqxhflxx` VALUES ('12', '科比');
+INSERT INTO `bpqxhflxx` VALUES ('13', '蒙德');
+INSERT INTO `bpqxhflxx` VALUES ('14', '爱默生EV3100');
+INSERT INTO `bpqxhflxx` VALUES ('15', '蓝光一体机');
+INSERT INTO `bpqxhflxx` VALUES ('16', 'FD450VL43A 60HP 45K');
+INSERT INTO `bpqxhflxx` VALUES ('17', ' 安川');
+INSERT INTO `bpqxhflxx` VALUES ('18', ' 默纳克');
+INSERT INTO `bpqxhflxx` VALUES ('19', '新时达');
+INSERT INTO `bpqxhflxx` VALUES ('20', ' 科比');
+INSERT INTO `bpqxhflxx` VALUES ('21', 'CTRL70A系统');
+INSERT INTO `bpqxhflxx` VALUES ('22', 'CTRL90系统');
+INSERT INTO `bpqxhflxx` VALUES ('23', 'CTRL80系统');
+INSERT INTO `bpqxhflxx` VALUES ('24', '富士LIFT');
+INSERT INTO `bpqxhflxx` VALUES ('25', 'CTRL70A');
+INSERT INTO `bpqxhflxx` VALUES ('26', 'CTRL90A系统');
+INSERT INTO `bpqxhflxx` VALUES ('27', '酷马');
+INSERT INTO `bpqxhflxx` VALUES ('28', '安川L7B');
+INSERT INTO `bpqxhflxx` VALUES ('29', '安川CIMR-L5IP4015');
+INSERT INTO `bpqxhflxx` VALUES ('30', '艾默生');
+INSERT INTO `bpqxhflxx` VALUES ('31', 'CTRL90');
+INSERT INTO `bpqxhflxx` VALUES ('32', '西威');
+INSERT INTO `bpqxhflxx` VALUES ('33', '安川L1000E');
+INSERT INTO `bpqxhflxx` VALUES ('34', ' 新时达');
+INSERT INTO `bpqxhflxx` VALUES ('35', '台达一体机');
+INSERT INTO `bpqxhflxx` VALUES ('36', '无');
 
 -- ----------------------------
 -- Table structure for bzxdtgg
@@ -96,46 +98,49 @@ CREATE TABLE `bzxdtgg` (
 -- ----------------------------
 -- Records of bzxdtgg
 -- ----------------------------
-INSERT INTO `bzxdtgg` VALUES ('1', 'WYT-S包装底盘(170)');
-INSERT INTO `bzxdtgg` VALUES ('2', 'Y2D包装箱底盘');
-INSERT INTO `bzxdtgg` VALUES ('3', 'WYT-S包装底盘(140)');
-INSERT INTO `bzxdtgg` VALUES ('4', 'WYT－U－BZX.1包装底盘');
-INSERT INTO `bzxdtgg` VALUES ('5', 'WYT-TA包装底盘(170)');
-INSERT INTO `bzxdtgg` VALUES ('6', 'BOMCO4(H)-BZX.1包装底盘');
-INSERT INTO `bzxdtgg` VALUES ('7', 'WYT-TA主机包装箱(免熏蒸)(170)');
-INSERT INTO `bzxdtgg` VALUES ('8', 'WYT-S包装箱(出口)(140)');
-INSERT INTO `bzxdtgg` VALUES ('9', 'WYT-S包装箱(出口)(170)');
-INSERT INTO `bzxdtgg` VALUES ('10', 'WYT-TA/T出口主机包装箱(140)');
-INSERT INTO `bzxdtgg` VALUES ('11', 'Y1C包装箱底盘');
-INSERT INTO `bzxdtgg` VALUES ('12', 'WYT-TA/T出口主机包装箱(170)');
-INSERT INTO `bzxdtgg` VALUES ('13', 'WYT-Y1C出口主机包装箱');
-INSERT INTO `bzxdtgg` VALUES ('14', 'WYT-Y2D出口主机包装箱');
-INSERT INTO `bzxdtgg` VALUES ('15', 'WYT-TA三洋包装底盘');
-INSERT INTO `bzxdtgg` VALUES ('16', 'WYT-S主机包装箱(康力出口)(170)');
-INSERT INTO `bzxdtgg` VALUES ('17', 'WYT-S主机包装箱(康力)(170)');
-INSERT INTO `bzxdtgg` VALUES ('18', 'WYT-Y1C主机包装箱(康力出口)');
-INSERT INTO `bzxdtgg` VALUES ('19', 'WYT-Y2D主机包装箱(康力出口)');
-INSERT INTO `bzxdtgg` VALUES ('20', 'WYT-S主机包装箱(康力)(140)');
-INSERT INTO `bzxdtgg` VALUES ('21', 'WYT-TA主机包装箱(免熏蒸)(140)');
-INSERT INTO `bzxdtgg` VALUES ('22', 'WYT-S主机包装箱(康力出口)(140)');
-INSERT INTO `bzxdtgg` VALUES ('23', 'WYT-Y1AS出口主机包装箱(单绕)');
-INSERT INTO `bzxdtgg` VALUES ('24', 'TA包装箱底盘(通用)(140)');
-INSERT INTO `bzxdtgg` VALUES ('25', 'TA包装箱底盘(通用)(170)');
-INSERT INTO `bzxdtgg` VALUES ('26', 'TA出口包装箱(2层)(140)');
-INSERT INTO `bzxdtgg` VALUES ('27', 'TA出口包装箱(2层)(170)');
-INSERT INTO `bzxdtgg` VALUES ('28', 'S出口包装箱(2层)(140)');
-INSERT INTO `bzxdtgg` VALUES ('29', 'S出口包装箱(2层)(170)');
-INSERT INTO `bzxdtgg` VALUES ('30', '康力U机出口包装箱');
-INSERT INTO `bzxdtgg` VALUES ('31', 'WYT-U出口包装箱(2层)');
-INSERT INTO `bzxdtgg` VALUES ('32', 'TAM包装箱（锁扣）');
-INSERT INTO `bzxdtgg` VALUES ('33', 'Y2D出口包装箱（2层）');
-INSERT INTO `bzxdtgg` VALUES ('34', 'Y1C出口包装箱（2层）');
-INSERT INTO `bzxdtgg` VALUES ('35', '三洋TA出口包装箱(2层)');
-INSERT INTO `bzxdtgg` VALUES ('36', 'TAM出口包装箱（2层）');
-INSERT INTO `bzxdtgg` VALUES ('37', 'U包装箱底盘（舌扣）');
-INSERT INTO `bzxdtgg` VALUES ('38', '舌扣包装底盘（140）');
-INSERT INTO `bzxdtgg` VALUES ('39', '舌扣包装底盘（170）');
-INSERT INTO `bzxdtgg` VALUES ('40', 'TAM出口免熏蒸包装箱');
+INSERT INTO `bzxdtgg` VALUES ('1', '');
+INSERT INTO `bzxdtgg` VALUES ('2', 'WYT-S包装底盘(170)');
+INSERT INTO `bzxdtgg` VALUES ('3', 'Y2D包装箱底盘');
+INSERT INTO `bzxdtgg` VALUES ('4', 'WYT-S包装底盘(140)');
+INSERT INTO `bzxdtgg` VALUES ('5', 'WYT－U－BZX.1包装底盘');
+INSERT INTO `bzxdtgg` VALUES ('6', 'WYT-TA包装底盘(170)');
+INSERT INTO `bzxdtgg` VALUES ('7', 'BOMCO4(H)-BZX.1包装底盘');
+INSERT INTO `bzxdtgg` VALUES ('8', 'WYT-TA主机包装箱(免熏蒸)(170)');
+INSERT INTO `bzxdtgg` VALUES ('9', 'WYT-S包装箱(出口)(140)');
+INSERT INTO `bzxdtgg` VALUES ('10', 'WYT-S包装箱(出口)(170)');
+INSERT INTO `bzxdtgg` VALUES ('11', 'WYT-TA/T出口主机包装箱(140)');
+INSERT INTO `bzxdtgg` VALUES ('12', 'Y1C包装箱底盘');
+INSERT INTO `bzxdtgg` VALUES ('13', 'WYT-TA/T出口主机包装箱(170)');
+INSERT INTO `bzxdtgg` VALUES ('14', 'WYT-Y1C出口主机包装箱');
+INSERT INTO `bzxdtgg` VALUES ('15', 'WYT-Y2D出口主机包装箱');
+INSERT INTO `bzxdtgg` VALUES ('16', 'WYT-TA三洋包装底盘');
+INSERT INTO `bzxdtgg` VALUES ('17', 'WYT-S主机包装箱(康力出口)(170)');
+INSERT INTO `bzxdtgg` VALUES ('18', 'WYT-S主机包装箱(康力)(170)');
+INSERT INTO `bzxdtgg` VALUES ('19', 'WYT-Y1C主机包装箱(康力出口)');
+INSERT INTO `bzxdtgg` VALUES ('20', 'WYT-Y2D主机包装箱(康力出口)');
+INSERT INTO `bzxdtgg` VALUES ('21', 'WYT-S主机包装箱(康力)(140)');
+INSERT INTO `bzxdtgg` VALUES ('22', 'WYT-TA主机包装箱(免熏蒸)(140)');
+INSERT INTO `bzxdtgg` VALUES ('23', 'WYT-S主机包装箱(康力出口)(140)');
+INSERT INTO `bzxdtgg` VALUES ('24', 'WYT-Y1AS出口主机包装箱(单绕)');
+INSERT INTO `bzxdtgg` VALUES ('25', 'TA包装箱底盘(通用)(140)');
+INSERT INTO `bzxdtgg` VALUES ('26', 'TA包装箱底盘(通用)(170)');
+INSERT INTO `bzxdtgg` VALUES ('27', 'TA出口包装箱(2层)(140)');
+INSERT INTO `bzxdtgg` VALUES ('28', 'TA出口包装箱(2层)(170)');
+INSERT INTO `bzxdtgg` VALUES ('29', 'S出口包装箱(2层)(140)');
+INSERT INTO `bzxdtgg` VALUES ('30', 'S出口包装箱(2层)(170)');
+INSERT INTO `bzxdtgg` VALUES ('31', '康力U机出口包装箱');
+INSERT INTO `bzxdtgg` VALUES ('32', 'WYT-U出口包装箱(2层)');
+INSERT INTO `bzxdtgg` VALUES ('33', 'TAM包装箱（锁扣）');
+INSERT INTO `bzxdtgg` VALUES ('34', 'Y2D出口包装箱（2层）');
+INSERT INTO `bzxdtgg` VALUES ('35', 'Y1C出口包装箱（2层）');
+INSERT INTO `bzxdtgg` VALUES ('36', '三洋TA出口包装箱(2层)');
+INSERT INTO `bzxdtgg` VALUES ('37', 'TAM出口包装箱（2层）');
+INSERT INTO `bzxdtgg` VALUES ('38', 'U包装箱底盘（舌扣）');
+INSERT INTO `bzxdtgg` VALUES ('39', '舌扣包装底盘（140）');
+INSERT INTO `bzxdtgg` VALUES ('40', '舌扣包装底盘（170）');
+INSERT INTO `bzxdtgg` VALUES ('41', 'TAM出口免熏蒸包装箱');
+
+
 
 -- ----------------------------
 -- Table structure for cpggxhxx
@@ -150,28 +155,29 @@ CREATE TABLE `cpggxhxx` (
 -- ----------------------------
 -- Records of cpggxhxx
 -- ----------------------------
-INSERT INTO `cpggxhxx` VALUES ('1', 'S0.5A-N');
-INSERT INTO `cpggxhxx` VALUES ('2', 'S1.0A-N');
-INSERT INTO `cpggxhxx` VALUES ('3', 'S1.5A-N');
-INSERT INTO `cpggxhxx` VALUES ('4', 'S1.6A-N');
-INSERT INTO `cpggxhxx` VALUES ('5', 'S1.75A-N');
-INSERT INTO `cpggxhxx` VALUES ('6', 'S2.0A-N');
-INSERT INTO `cpggxhxx` VALUES ('7', 'S2.5AL-N');
-INSERT INTO `cpggxhxx` VALUES ('8', 'S1.0B-N');
-INSERT INTO `cpggxhxx` VALUES ('9', 'S1.5B-N');
-INSERT INTO `cpggxhxx` VALUES ('10', 'S1.6B-N');
-INSERT INTO `cpggxhxx` VALUES ('11', 'S1.75B-N');
-INSERT INTO `cpggxhxx` VALUES ('12', 'S2.0B-N');
-INSERT INTO `cpggxhxx` VALUES ('13', 'S2.5B-N');
-INSERT INTO `cpggxhxx` VALUES ('14', 'S0.5C-N');
-INSERT INTO `cpggxhxx` VALUES ('15', 'S1.0C-N');
-INSERT INTO `cpggxhxx` VALUES ('16', 'S1.5C-N');
-INSERT INTO `cpggxhxx` VALUES ('17', 'S1.6C-N');
-INSERT INTO `cpggxhxx` VALUES ('18', 'S1.75C-N');
-INSERT INTO `cpggxhxx` VALUES ('19', 'S2.0C-N');
-INSERT INTO `cpggxhxx` VALUES ('20', 'S2.5C-N');
-INSERT INTO `cpggxhxx` VALUES ('21', 'S0.5D-N');
-INSERT INTO `cpggxhxx` VALUES ('22', 'S1.0D-N');
+INSERT INTO `cpggxhxx` VALUES ('1', '');
+INSERT INTO `cpggxhxx` VALUES ('2', 'S0.5A-N');
+INSERT INTO `cpggxhxx` VALUES ('3', 'S1.0A-N');
+INSERT INTO `cpggxhxx` VALUES ('4', 'S1.5A-N');
+INSERT INTO `cpggxhxx` VALUES ('5', 'S1.6A-N');
+INSERT INTO `cpggxhxx` VALUES ('6', 'S1.75A-N');
+INSERT INTO `cpggxhxx` VALUES ('7', 'S2.0A-N');
+INSERT INTO `cpggxhxx` VALUES ('8', 'S2.5AL-N');
+INSERT INTO `cpggxhxx` VALUES ('9', 'S1.0B-N');
+INSERT INTO `cpggxhxx` VALUES ('10', 'S1.5B-N');
+INSERT INTO `cpggxhxx` VALUES ('11', 'S1.6B-N');
+INSERT INTO `cpggxhxx` VALUES ('12', 'S1.75B-N');
+INSERT INTO `cpggxhxx` VALUES ('13', 'S2.0B-N');
+INSERT INTO `cpggxhxx` VALUES ('14', 'S2.5B-N');
+INSERT INTO `cpggxhxx` VALUES ('15', 'S0.5C-N');
+INSERT INTO `cpggxhxx` VALUES ('16', 'S1.0C-N');
+INSERT INTO `cpggxhxx` VALUES ('17', 'S1.5C-N');
+INSERT INTO `cpggxhxx` VALUES ('18', 'S1.6C-N');
+INSERT INTO `cpggxhxx` VALUES ('19', 'S1.75C-N');
+INSERT INTO `cpggxhxx` VALUES ('20', 'S2.0C-N');
+INSERT INTO `cpggxhxx` VALUES ('21', 'S2.5C-N');
+INSERT INTO `cpggxhxx` VALUES ('22', 'S0.5D-N');
+INSERT INTO `cpggxhxx` VALUES ('23', 'S1.0D-N');
 INSERT INTO `cpggxhxx` VALUES ('24', 'S1.5D-N');
 INSERT INTO `cpggxhxx` VALUES ('25', 'S1.6D-N');
 INSERT INTO `cpggxhxx` VALUES ('26', 'S1.75D-N');
@@ -666,6 +672,7 @@ INSERT INTO `cpggxhxx` VALUES ('514', 'Y3.0F3-N');
 INSERT INTO `cpggxhxx` VALUES ('515', 'Y4.0F3-N');
 INSERT INTO `cpggxhxx` VALUES ('516', 'Y1.5G3-N');
 
+
 -- ----------------------------
 -- Table structure for ddztb
 -- ----------------------------
@@ -679,16 +686,18 @@ CREATE TABLE `ddztb` (
 -- ----------------------------
 -- Records of ddztb
 -- ----------------------------
-INSERT INTO `ddztb` VALUES ('1', '销售录入中');
-INSERT INTO `ddztb` VALUES ('2', '销售审核中');
-INSERT INTO `ddztb` VALUES ('3', '销售已审核/待计划排产');
-INSERT INTO `ddztb` VALUES ('4', '销售审核未通过');
-INSERT INTO `ddztb` VALUES ('5', '计划排产中');
-INSERT INTO `ddztb` VALUES ('6', '计划排产审核中');
-INSERT INTO `ddztb` VALUES ('7', '计划排产已审核');
-INSERT INTO `ddztb` VALUES ('8', '计划排产审核未通过');
-INSERT INTO `ddztb` VALUES ('9', '生产中');
-INSERT INTO `ddztb` VALUES ('10', '生产完成');
+INSERT INTO `ddztb` VALUES ('1', '');
+INSERT INTO `ddztb` VALUES ('2', '销售录入中');
+INSERT INTO `ddztb` VALUES ('3', '销售审核中');
+INSERT INTO `ddztb` VALUES ('4', '销售已审核/待计划排产');
+INSERT INTO `ddztb` VALUES ('5', '销售审核未通过');
+INSERT INTO `ddztb` VALUES ('6', '计划排产中');
+INSERT INTO `ddztb` VALUES ('7', '计划排产审核中');
+INSERT INTO `ddztb` VALUES ('8', '计划排产已审核');
+INSERT INTO `ddztb` VALUES ('9', '计划排产审核未通过');
+INSERT INTO `ddztb` VALUES ('10', '生产中');
+INSERT INTO `ddztb` VALUES ('11', '生产完成');
+
 
 -- ----------------------------
 -- Table structure for htxx
@@ -769,12 +778,13 @@ CREATE TABLE `khqy` (
 -- ----------------------------
 -- Records of khqy
 -- ----------------------------
-INSERT INTO `khqy` VALUES ('1', 'YA');
-INSERT INTO `khqy` VALUES ('2', 'YE1');
-INSERT INTO `khqy` VALUES ('3', 'YE2');
-INSERT INTO `khqy` VALUES ('4', 'YN');
-INSERT INTO `khqy` VALUES ('5', 'YS');
-INSERT INTO `khqy` VALUES ('6', 'YW');
+INSERT INTO `khqy` VALUES ('1', '');
+INSERT INTO `khqy` VALUES ('2', 'YA');
+INSERT INTO `khqy` VALUES ('3', 'YE1');
+INSERT INTO `khqy` VALUES ('4', 'YE2');
+INSERT INTO `khqy` VALUES ('5', 'YN');
+INSERT INTO `khqy` VALUES ('6', 'YS');
+INSERT INTO `khqy` VALUES ('7', 'YW');
 
 -- ----------------------------
 -- Table structure for khxx
@@ -1289,11 +1299,12 @@ CREATE TABLE `mpzlxx` (
 -- ----------------------------
 -- Records of mpzlxx
 -- ----------------------------
-INSERT INTO `mpzlxx` VALUES ('1', '蓝光英文铭牌');
-INSERT INTO `mpzlxx` VALUES ('2', '蓝光铭牌');
-INSERT INTO `mpzlxx` VALUES ('3', '蓝光英文西门子监制');
-INSERT INTO `mpzlxx` VALUES ('4', '主机用西德英文铭牌');
-INSERT INTO `mpzlxx` VALUES ('5', '制动器和上行超速铭牌用蓝光英文');
+INSERT INTO `mpzlxx` VALUES ('1', '');
+INSERT INTO `mpzlxx` VALUES ('2', '蓝光英文铭牌');
+INSERT INTO `mpzlxx` VALUES ('3', '蓝光铭牌');
+INSERT INTO `mpzlxx` VALUES ('4', '蓝光英文西门子监制');
+INSERT INTO `mpzlxx` VALUES ('5', '主机用西德英文铭牌');
+INSERT INTO `mpzlxx` VALUES ('6', '制动器和上行超速铭牌用蓝光英文');
 
 -- ----------------------------
 -- Table structure for pcjhxxb
@@ -1396,126 +1407,128 @@ CREATE TABLE `yylggflxx` (
 -- ----------------------------
 -- Records of yylggflxx
 -- ----------------------------
-INSERT INTO `yylggflxx` VALUES ('1', '410*12*10*14-3F(A)');
-INSERT INTO `yylggflxx` VALUES ('2', '480*6*12*18-3');
-INSERT INTO `yylggflxx` VALUES ('3', '480*7*10*16-3G');
-INSERT INTO `yylggflxx` VALUES ('4', '480*10*12*15-3F(C)');
-INSERT INTO `yylggflxx` VALUES ('5', '480*12*12*15-3F(C)');
-INSERT INTO `yylggflxx` VALUES ('6', '400*6*10*16-3G');
-INSERT INTO `yylggflxx` VALUES ('7', '400*5*10*16-2(SB)');
-INSERT INTO `yylggflxx` VALUES ('8', '400*4*10*16-2(SA)');
-INSERT INTO `yylggflxx` VALUES ('9', '480*10*12*15-3F(D)');
-INSERT INTO `yylggflxx` VALUES ('10', '480*7*12*18-3D');
-INSERT INTO `yylggflxx` VALUES ('11', '410*6*10*16-3E');
-INSERT INTO `yylggflxx` VALUES ('12', '480*14*12*16-3F(P)');
-INSERT INTO `yylggflxx` VALUES ('13', '410*5*10*16-3C');
-INSERT INTO `yylggflxx` VALUES ('14', '480*8*12*18-3D');
-INSERT INTO `yylggflxx` VALUES ('15', '340*8*8*12-3');
-INSERT INTO `yylggflxx` VALUES ('16', '400*3*10*16-3W');
-INSERT INTO `yylggflxx` VALUES ('17', '410*6*10*16-3');
-INSERT INTO `yylggflxx` VALUES ('18', '410*5*10*16-3E');
-INSERT INTO `yylggflxx` VALUES ('19', '480*6*10*16-3J');
-INSERT INTO `yylggflxx` VALUES ('20', '480*12*10*14-3F(F)');
-INSERT INTO `yylggflxx` VALUES ('21', '480*10*10*14-3F(F)');
-INSERT INTO `yylggflxx` VALUES ('22', '400*6*10*16-2(SB)');
-INSERT INTO `yylggflxx` VALUES ('23', '400*6*10*15-3AC');
-INSERT INTO `yylggflxx` VALUES ('24', '410*6*10*16-3N');
-INSERT INTO `yylggflxx` VALUES ('25', '410*7*10*16-3C');
-INSERT INTO `yylggflxx` VALUES ('26', '480*4*12*20.5-2E');
-INSERT INTO `yylggflxx` VALUES ('27', '480*7*10*16-2B');
-INSERT INTO `yylggflxx` VALUES ('28', '480*7*12*18-3L');
-INSERT INTO `yylggflxx` VALUES ('29', '410*6*10*16-3C');
-INSERT INTO `yylggflxx` VALUES ('30', '480*6*12*18-3D');
-INSERT INTO `yylggflxx` VALUES ('31', '480*8*12*18-3I');
-INSERT INTO `yylggflxx` VALUES ('32', '400*5*10*16-2J');
-INSERT INTO `yylggflxx` VALUES ('33', '480*6*10*16-2D');
-INSERT INTO `yylggflxx` VALUES ('34', '410*8*10*16-3P');
-INSERT INTO `yylggflxx` VALUES ('35', '480*7*10*16-2D');
-INSERT INTO `yylggflxx` VALUES ('36', '410*8*10*16-3C');
-INSERT INTO `yylggflxx` VALUES ('37', '410*8*10*14-3F(A)');
-INSERT INTO `yylggflxx` VALUES ('38', '480*12*11*15-3F(N)');
-INSERT INTO `yylggflxx` VALUES ('39', '400*5*10*16-3T');
-INSERT INTO `yylggflxx` VALUES ('40', '400*5*10*16-3N');
-INSERT INTO `yylggflxx` VALUES ('41', '410*10*10*14-3F(A)');
-INSERT INTO `yylggflxx` VALUES ('42', '400*6*10*16-2E');
-INSERT INTO `yylggflxx` VALUES ('43', '410*6*10*16-Y.1-8B');
-INSERT INTO `yylggflxx` VALUES ('44', '480*5*10*16-3AD');
-INSERT INTO `yylggflxx` VALUES ('45', '480*6*10*16-3AD');
-INSERT INTO `yylggflxx` VALUES ('46', '410*6*10*16-3C');
-INSERT INTO `yylggflxx` VALUES ('47', '480*8*10*16-3J');
-INSERT INTO `yylggflxx` VALUES ('48', '480*8*10*15-2C');
-INSERT INTO `yylggflxx` VALUES ('49', '480*7*10*16-2G');
-INSERT INTO `yylggflxx` VALUES ('50', '400*5*8*12-2F');
-INSERT INTO `yylggflxx` VALUES ('51', '410*6*10*16-PM-1');
-INSERT INTO `yylggflxx` VALUES ('52', '480*5*10*16-3U');
-INSERT INTO `yylggflxx` VALUES ('53', '410*9*10*16-3DD');
-INSERT INTO `yylggflxx` VALUES ('54', '400*4*8*12-2F');
-INSERT INTO `yylggflxx` VALUES ('55', '480*4*10*16-3U');
-INSERT INTO `yylggflxx` VALUES ('56', 'V480*7*10*16-2G');
-INSERT INTO `yylggflxx` VALUES ('57', '530*10*12*15-3F(Q)');
-INSERT INTO `yylggflxx` VALUES ('58', '400*6*10*16-2I');
-INSERT INTO `yylggflxx` VALUES ('59', '480*14*10*15-3F(D)');
-INSERT INTO `yylggflxx` VALUES ('60', '410*6*10*16-3K');
-INSERT INTO `yylggflxx` VALUES ('61', '480*5*10*16-3J');
-INSERT INTO `yylggflxx` VALUES ('62', '480*8*10*16-2D');
-INSERT INTO `yylggflxx` VALUES ('63', '480*12*10*14-3F(R)');
-INSERT INTO `yylggflxx` VALUES ('64', '410*7*10*16-3Q');
-INSERT INTO `yylggflxx` VALUES ('65', '400*5*10*16-2K');
-INSERT INTO `yylggflxx` VALUES ('66', '410*8*10*16-3Q');
-INSERT INTO `yylggflxx` VALUES ('67', '400*4*8*16-3R');
-INSERT INTO `yylggflxx` VALUES ('68', '410*6*10*16-3R');
-INSERT INTO `yylggflxx` VALUES ('69', '400*6*10*16-3AE');
-INSERT INTO `yylggflxx` VALUES ('70', '480*7*10*16-3S');
-INSERT INTO `yylggflxx` VALUES ('71', '400*4*10*16-3AF');
-INSERT INTO `yylggflxx` VALUES ('72', '480*12*12*15-3F（C）');
-INSERT INTO `yylggflxx` VALUES ('73', '400*5*10*16-3AF');
-INSERT INTO `yylggflxx` VALUES ('74', '480*7*12*18-2A');
-INSERT INTO `yylggflxx` VALUES ('75', '480*14*10*14-3F(S)');
-INSERT INTO `yylggflxx` VALUES ('76', '410*6*10*16-8B');
-INSERT INTO `yylggflxx` VALUES ('77', '400*5*10*16-2C');
-INSERT INTO `yylggflxx` VALUES ('78', '480*7*10*16-3U');
-INSERT INTO `yylggflxx` VALUES ('79', '480*16*10*14-3F（H）');
-INSERT INTO `yylggflxx` VALUES ('80', '400*6*10*16-3AG');
-INSERT INTO `yylggflxx` VALUES ('81', '480*6*12*18-3M');
-INSERT INTO `yylggflxx` VALUES ('82', '480*12*10*14-3F（F）');
-INSERT INTO `yylggflxx` VALUES ('83', '410*6*10*16-6B');
-INSERT INTO `yylggflxx` VALUES ('84', '480*9*12*18-3P');
-INSERT INTO `yylggflxx` VALUES ('85', '480*7*10*16-3W');
-INSERT INTO `yylggflxx` VALUES ('86', '400*6*8*14-2L');
-INSERT INTO `yylggflxx` VALUES ('87', '400*5*10*16-2H');
-INSERT INTO `yylggflxx` VALUES ('88', '480*7*10*16-3H');
-INSERT INTO `yylggflxx` VALUES ('89', '410*8*10*16-3R');
-INSERT INTO `yylggflxx` VALUES ('90', 'V410*6*10*16-3T');
-INSERT INTO `yylggflxx` VALUES ('91', '410*5*10*16-3');
-INSERT INTO `yylggflxx` VALUES ('92', '480*10*12*15-3F（C）');
-INSERT INTO `yylggflxx` VALUES ('93', '480*3*12*20.5-2G');
-INSERT INTO `yylggflxx` VALUES ('94', '480*10*12*18-3F（E）');
-INSERT INTO `yylggflxx` VALUES ('95', '480*9*10*16-3N');
-INSERT INTO `yylggflxx` VALUES ('96', '480*12*12*15-3F（C)');
-INSERT INTO `yylggflxx` VALUES ('97', '480*6*10*16-3AI');
-INSERT INTO `yylggflxx` VALUES ('98', '400*5*10*16-2B');
-INSERT INTO `yylggflxx` VALUES ('99', '325*5*8*12-2A');
-INSERT INTO `yylggflxx` VALUES ('100', '410*9*10*16-3X');
-INSERT INTO `yylggflxx` VALUES ('101', '410*7*10*16-3R');
-INSERT INTO `yylggflxx` VALUES ('102', '480*7*12*18-3M');
-INSERT INTO `yylggflxx` VALUES ('103', '400*5*10.2*16-2(XN）');
-INSERT INTO `yylggflxx` VALUES ('104', 'V400*6*8*14-2L');
-INSERT INTO `yylggflxx` VALUES ('105', '340*6*8*13-3');
-INSERT INTO `yylggflxx` VALUES ('106', '400*4*10*16-2C');
-INSERT INTO `yylggflxx` VALUES ('107', '410*7*10*16-3T');
-INSERT INTO `yylggflxx` VALUES ('108', '480*14*12*16-3F(K)');
-INSERT INTO `yylggflxx` VALUES ('109', '480*10*12.4*15-3F(T)');
-INSERT INTO `yylggflxx` VALUES ('110', '480*6*12*18-3Y');
-INSERT INTO `yylggflxx` VALUES ('111', '400*5*8*14-2M');
-INSERT INTO `yylggflxx` VALUES ('112', 'V480*6*10*16-2H');
-INSERT INTO `yylggflxx` VALUES ('113', 'V480*5*10*16-2H');
-INSERT INTO `yylggflxx` VALUES ('114', 'V480*7*10*16-2I');
-INSERT INTO `yylggflxx` VALUES ('115', '480*10*10*15-3F(H)');
-INSERT INTO `yylggflxx` VALUES ('116', 'V400*5*8*14-2M');
-INSERT INTO `yylggflxx` VALUES ('117', '480*7*10*16-2J');
-INSERT INTO `yylggflxx` VALUES ('118', '400*6*8*12-2F');
-INSERT INTO `yylggflxx` VALUES ('119', '480*7*10*14-2K');
-INSERT INTO `yylggflxx` VALUES ('120', '480*8*10*15-3Q');
+INSERT INTO `yylggflxx` VALUES ('1', '');
+INSERT INTO `yylggflxx` VALUES ('2', '410*12*10*14-3F(A)');
+INSERT INTO `yylggflxx` VALUES ('3', '480*6*12*18-3');
+INSERT INTO `yylggflxx` VALUES ('4', '480*7*10*16-3G');
+INSERT INTO `yylggflxx` VALUES ('5', '480*10*12*15-3F(C)');
+INSERT INTO `yylggflxx` VALUES ('6', '480*12*12*15-3F(C)');
+INSERT INTO `yylggflxx` VALUES ('7', '400*6*10*16-3G');
+INSERT INTO `yylggflxx` VALUES ('8', '400*5*10*16-2(SB)');
+INSERT INTO `yylggflxx` VALUES ('9', '400*4*10*16-2(SA)');
+INSERT INTO `yylggflxx` VALUES ('10', '480*10*12*15-3F(D)');
+INSERT INTO `yylggflxx` VALUES ('11', '480*7*12*18-3D');
+INSERT INTO `yylggflxx` VALUES ('12', '410*6*10*16-3E');
+INSERT INTO `yylggflxx` VALUES ('13', '480*14*12*16-3F(P)');
+INSERT INTO `yylggflxx` VALUES ('14', '410*5*10*16-3C');
+INSERT INTO `yylggflxx` VALUES ('15', '480*8*12*18-3D');
+INSERT INTO `yylggflxx` VALUES ('16', '340*8*8*12-3');
+INSERT INTO `yylggflxx` VALUES ('17', '400*3*10*16-3W');
+INSERT INTO `yylggflxx` VALUES ('18', '410*6*10*16-3');
+INSERT INTO `yylggflxx` VALUES ('19', '410*5*10*16-3E');
+INSERT INTO `yylggflxx` VALUES ('20', '480*6*10*16-3J');
+INSERT INTO `yylggflxx` VALUES ('21', '480*12*10*14-3F(F)');
+INSERT INTO `yylggflxx` VALUES ('22', '480*10*10*14-3F(F)');
+INSERT INTO `yylggflxx` VALUES ('23', '400*6*10*16-2(SB)');
+INSERT INTO `yylggflxx` VALUES ('24', '400*6*10*15-3AC');
+INSERT INTO `yylggflxx` VALUES ('25', '410*6*10*16-3N');
+INSERT INTO `yylggflxx` VALUES ('26', '410*7*10*16-3C');
+INSERT INTO `yylggflxx` VALUES ('27', '480*4*12*20.5-2E');
+INSERT INTO `yylggflxx` VALUES ('28', '480*7*10*16-2B');
+INSERT INTO `yylggflxx` VALUES ('29', '480*7*12*18-3L');
+INSERT INTO `yylggflxx` VALUES ('30', '410*6*10*16-3C');
+INSERT INTO `yylggflxx` VALUES ('31', '480*6*12*18-3D');
+INSERT INTO `yylggflxx` VALUES ('32', '480*8*12*18-3I');
+INSERT INTO `yylggflxx` VALUES ('33', '400*5*10*16-2J');
+INSERT INTO `yylggflxx` VALUES ('34', '480*6*10*16-2D');
+INSERT INTO `yylggflxx` VALUES ('35', '410*8*10*16-3P');
+INSERT INTO `yylggflxx` VALUES ('36', '480*7*10*16-2D');
+INSERT INTO `yylggflxx` VALUES ('37', '410*8*10*16-3C');
+INSERT INTO `yylggflxx` VALUES ('38', '410*8*10*14-3F(A)');
+INSERT INTO `yylggflxx` VALUES ('39', '480*12*11*15-3F(N)');
+INSERT INTO `yylggflxx` VALUES ('40', '400*5*10*16-3T');
+INSERT INTO `yylggflxx` VALUES ('41', '400*5*10*16-3N');
+INSERT INTO `yylggflxx` VALUES ('42', '410*10*10*14-3F(A)');
+INSERT INTO `yylggflxx` VALUES ('43', '400*6*10*16-2E');
+INSERT INTO `yylggflxx` VALUES ('44', '410*6*10*16-Y.1-8B');
+INSERT INTO `yylggflxx` VALUES ('45', '480*5*10*16-3AD');
+INSERT INTO `yylggflxx` VALUES ('46', '480*6*10*16-3AD');
+INSERT INTO `yylggflxx` VALUES ('47', '410*6*10*16-3C');
+INSERT INTO `yylggflxx` VALUES ('48', '480*8*10*16-3J');
+INSERT INTO `yylggflxx` VALUES ('49', '480*8*10*15-2C');
+INSERT INTO `yylggflxx` VALUES ('50', '480*7*10*16-2G');
+INSERT INTO `yylggflxx` VALUES ('51', '400*5*8*12-2F');
+INSERT INTO `yylggflxx` VALUES ('52', '410*6*10*16-PM-1');
+INSERT INTO `yylggflxx` VALUES ('53', '480*5*10*16-3U');
+INSERT INTO `yylggflxx` VALUES ('54', '410*9*10*16-3DD');
+INSERT INTO `yylggflxx` VALUES ('55', '400*4*8*12-2F');
+INSERT INTO `yylggflxx` VALUES ('56', '480*4*10*16-3U');
+INSERT INTO `yylggflxx` VALUES ('57', 'V480*7*10*16-2G');
+INSERT INTO `yylggflxx` VALUES ('58', '530*10*12*15-3F(Q)');
+INSERT INTO `yylggflxx` VALUES ('59', '400*6*10*16-2I');
+INSERT INTO `yylggflxx` VALUES ('60', '480*14*10*15-3F(D)');
+INSERT INTO `yylggflxx` VALUES ('61', '410*6*10*16-3K');
+INSERT INTO `yylggflxx` VALUES ('62', '480*5*10*16-3J');
+INSERT INTO `yylggflxx` VALUES ('63', '480*8*10*16-2D');
+INSERT INTO `yylggflxx` VALUES ('64', '480*12*10*14-3F(R)');
+INSERT INTO `yylggflxx` VALUES ('65', '410*7*10*16-3Q');
+INSERT INTO `yylggflxx` VALUES ('66', '400*5*10*16-2K');
+INSERT INTO `yylggflxx` VALUES ('67', '410*8*10*16-3Q');
+INSERT INTO `yylggflxx` VALUES ('68', '400*4*8*16-3R');
+INSERT INTO `yylggflxx` VALUES ('69', '410*6*10*16-3R');
+INSERT INTO `yylggflxx` VALUES ('70', '400*6*10*16-3AE');
+INSERT INTO `yylggflxx` VALUES ('71', '480*7*10*16-3S');
+INSERT INTO `yylggflxx` VALUES ('72', '400*4*10*16-3AF');
+INSERT INTO `yylggflxx` VALUES ('73', '480*12*12*15-3F（C）');
+INSERT INTO `yylggflxx` VALUES ('74', '400*5*10*16-3AF');
+INSERT INTO `yylggflxx` VALUES ('75', '480*7*12*18-2A');
+INSERT INTO `yylggflxx` VALUES ('76', '480*14*10*14-3F(S)');
+INSERT INTO `yylggflxx` VALUES ('77', '410*6*10*16-8B');
+INSERT INTO `yylggflxx` VALUES ('78', '400*5*10*16-2C');
+INSERT INTO `yylggflxx` VALUES ('79', '480*7*10*16-3U');
+INSERT INTO `yylggflxx` VALUES ('80', '480*16*10*14-3F（H）');
+INSERT INTO `yylggflxx` VALUES ('81', '400*6*10*16-3AG');
+INSERT INTO `yylggflxx` VALUES ('82', '480*6*12*18-3M');
+INSERT INTO `yylggflxx` VALUES ('83', '480*12*10*14-3F（F）');
+INSERT INTO `yylggflxx` VALUES ('84', '410*6*10*16-6B');
+INSERT INTO `yylggflxx` VALUES ('85', '480*9*12*18-3P');
+INSERT INTO `yylggflxx` VALUES ('86', '480*7*10*16-3W');
+INSERT INTO `yylggflxx` VALUES ('87', '400*6*8*14-2L');
+INSERT INTO `yylggflxx` VALUES ('88', '400*5*10*16-2H');
+INSERT INTO `yylggflxx` VALUES ('89', '480*7*10*16-3H');
+INSERT INTO `yylggflxx` VALUES ('90', '410*8*10*16-3R');
+INSERT INTO `yylggflxx` VALUES ('91', 'V410*6*10*16-3T');
+INSERT INTO `yylggflxx` VALUES ('92', '410*5*10*16-3');
+INSERT INTO `yylggflxx` VALUES ('93', '480*10*12*15-3F（C）');
+INSERT INTO `yylggflxx` VALUES ('94', '480*3*12*20.5-2G');
+INSERT INTO `yylggflxx` VALUES ('95', '480*10*12*18-3F（E）');
+INSERT INTO `yylggflxx` VALUES ('96', '480*9*10*16-3N');
+INSERT INTO `yylggflxx` VALUES ('97', '480*12*12*15-3F（C)');
+INSERT INTO `yylggflxx` VALUES ('98', '480*6*10*16-3AI');
+INSERT INTO `yylggflxx` VALUES ('99', '400*5*10*16-2B');
+INSERT INTO `yylggflxx` VALUES ('100', '325*5*8*12-2A');
+INSERT INTO `yylggflxx` VALUES ('101', '410*9*10*16-3X');
+INSERT INTO `yylggflxx` VALUES ('102', '410*7*10*16-3R');
+INSERT INTO `yylggflxx` VALUES ('103', '480*7*12*18-3M');
+INSERT INTO `yylggflxx` VALUES ('104', '400*5*10.2*16-2(XN）');
+INSERT INTO `yylggflxx` VALUES ('105', 'V400*6*8*14-2L');
+INSERT INTO `yylggflxx` VALUES ('106', '340*6*8*13-3');
+INSERT INTO `yylggflxx` VALUES ('107', '400*4*10*16-2C');
+INSERT INTO `yylggflxx` VALUES ('108', '410*7*10*16-3T');
+INSERT INTO `yylggflxx` VALUES ('109', '480*14*12*16-3F(K)');
+INSERT INTO `yylggflxx` VALUES ('110', '480*10*12.4*15-3F(T)');
+INSERT INTO `yylggflxx` VALUES ('111', '480*6*12*18-3Y');
+INSERT INTO `yylggflxx` VALUES ('112', '400*5*8*14-2M');
+INSERT INTO `yylggflxx` VALUES ('113', 'V480*6*10*16-2H');
+INSERT INTO `yylggflxx` VALUES ('114', 'V480*5*10*16-2H');
+INSERT INTO `yylggflxx` VALUES ('115', 'V480*7*10*16-2I');
+INSERT INTO `yylggflxx` VALUES ('116', '480*10*10*15-3F(H)');
+INSERT INTO `yylggflxx` VALUES ('117', 'V400*5*8*14-2M');
+INSERT INTO `yylggflxx` VALUES ('118', '480*7*10*16-2J');
+INSERT INTO `yylggflxx` VALUES ('119', '400*6*8*12-2F');
+INSERT INTO `yylggflxx` VALUES ('120', '480*7*10*14-2K');
+INSERT INTO `yylggflxx` VALUES ('121', '480*8*10*15-3Q');
+
 
 -- ----------------------------
 -- Table structure for zcxx
@@ -1530,25 +1543,28 @@ CREATE TABLE `zcxx` (
 -- ----------------------------
 -- Records of zcxx
 -- ----------------------------
-INSERT INTO `zcxx` VALUES ('1', 'MC');
-INSERT INTO `zcxx` VALUES ('2', 'BWW');
-INSERT INTO `zcxx` VALUES ('3', 'BCW');
-INSERT INTO `zcxx` VALUES ('4', 'CWW');
-INSERT INTO `zcxx` VALUES ('5', 'DWW');
-INSERT INTO `zcxx` VALUES ('6', 'DWN');
-INSERT INTO `zcxx` VALUES ('7', 'EWW');
-INSERT INTO `zcxx` VALUES ('8', 'BCC');
-INSERT INTO `zcxx` VALUES ('9', 'MM');
-INSERT INTO `zcxx` VALUES ('10', 'BNN');
-INSERT INTO `zcxx` VALUES ('11', 'AWW');
-INSERT INTO `zcxx` VALUES ('12', 'BCN');
-INSERT INTO `zcxx` VALUES ('13', 'BWN');
-INSERT INTO `zcxx` VALUES ('14', 'MW');
-INSERT INTO `zcxx` VALUES ('15', 'TA');
-INSERT INTO `zcxx` VALUES ('16', 'DNN');
-INSERT INTO `zcxx` VALUES ('17', 'CNN');
-INSERT INTO `zcxx` VALUES ('18', 'DCC');
-INSERT INTO `zcxx` VALUES ('19', 'MN');
+INSERT INTO `zcxx` VALUES ('1', '');
+INSERT INTO `zcxx` VALUES ('2', 'MC');
+INSERT INTO `zcxx` VALUES ('3', 'BWW');
+INSERT INTO `zcxx` VALUES ('4', 'BCW');
+INSERT INTO `zcxx` VALUES ('5', 'CWW');
+INSERT INTO `zcxx` VALUES ('6', 'DWW');
+INSERT INTO `zcxx` VALUES ('7', 'DWN');
+INSERT INTO `zcxx` VALUES ('8', 'EWW');
+INSERT INTO `zcxx` VALUES ('9', 'BCC');
+INSERT INTO `zcxx` VALUES ('10', 'MM');
+INSERT INTO `zcxx` VALUES ('11', 'BNN');
+INSERT INTO `zcxx` VALUES ('12', 'AWW');
+INSERT INTO `zcxx` VALUES ('13', 'BCN');
+INSERT INTO `zcxx` VALUES ('14', 'BWN');
+INSERT INTO `zcxx` VALUES ('15', 'MW');
+INSERT INTO `zcxx` VALUES ('16', 'TA');
+INSERT INTO `zcxx` VALUES ('17', 'DNN');
+INSERT INTO `zcxx` VALUES ('18', 'CNN');
+INSERT INTO `zcxx` VALUES ('19', 'DCC');
+INSERT INTO `zcxx` VALUES ('20', 'MN');
+
+
 
 -- ----------------------------
 -- Table structure for zdqdyflxx
@@ -1563,11 +1579,12 @@ CREATE TABLE `zdqdyflxx` (
 -- ----------------------------
 -- Records of zdqdyflxx
 -- ----------------------------
-INSERT INTO `zdqdyflxx` VALUES ('1', 'DC110V');
-INSERT INTO `zdqdyflxx` VALUES ('2', 'DC220V');
-INSERT INTO `zdqdyflxx` VALUES ('3', 'AC110V');
-INSERT INTO `zdqdyflxx` VALUES ('4', 'AC220V');
-INSERT INTO `zdqdyflxx` VALUES ('5', 'DC90V');
+INSERT INTO `zdqdyflxx` VALUES ('1', '');
+INSERT INTO `zdqdyflxx` VALUES ('2', 'DC110V');
+INSERT INTO `zdqdyflxx` VALUES ('3', 'DC220V');
+INSERT INTO `zdqdyflxx` VALUES ('4', 'AC110V');
+INSERT INTO `zdqdyflxx` VALUES ('5', 'AC220V');
+INSERT INTO `zdqdyflxx` VALUES ('6', 'DC90V');
 
 -- ----------------------------
 -- Table structure for zdqxh
@@ -1582,21 +1599,23 @@ CREATE TABLE `zdqxh` (
 -- ----------------------------
 -- Records of zdqxh
 -- ----------------------------
-INSERT INTO `zdqxh` VALUES ('1', 'DZE-14EB2');
-INSERT INTO `zdqxh` VALUES ('2', 'DZE-14EA');
-INSERT INTO `zdqxh` VALUES ('3', 'DZE-14EB2S');
-INSERT INTO `zdqxh` VALUES ('4', 'DZE-14EAS');
-INSERT INTO `zdqxh` VALUES ('5', 'DZE-16E3B2(上出线）');
-INSERT INTO `zdqxh` VALUES ('6', 'DZE-16E3B2(下出线）');
-INSERT INTO `zdqxh` VALUES ('7', 'DZE-16E3B2A(上出线）');
-INSERT INTO `zdqxh` VALUES ('8', 'DZE-16E3B2A(下出线）');
-INSERT INTO `zdqxh` VALUES ('9', 'WYT-TA.3（10簧）');
-INSERT INTO `zdqxh` VALUES ('10', 'WYT-TA.3（12簧）');
-INSERT INTO `zdqxh` VALUES ('11', 'WYT－TA.3A（8簧）');
-INSERT INTO `zdqxh` VALUES ('12', 'WYT－TA.3A（10簧）');
-INSERT INTO `zdqxh` VALUES ('13', 'WYT-TA.3-YA');
-INSERT INTO `zdqxh` VALUES ('14', 'WYT-U.3');
-INSERT INTO `zdqxh` VALUES ('15', 'WYT-U.3（2吨以下）');
+INSERT INTO `zdqxh` VALUES ('1', '');
+INSERT INTO `zdqxh` VALUES ('2', 'DZE-14EB2');
+INSERT INTO `zdqxh` VALUES ('3', 'DZE-14EA');
+INSERT INTO `zdqxh` VALUES ('4', 'DZE-14EB2S');
+INSERT INTO `zdqxh` VALUES ('5', 'DZE-14EAS');
+INSERT INTO `zdqxh` VALUES ('6', 'DZE-16E3B2(上出线）');
+INSERT INTO `zdqxh` VALUES ('7', 'DZE-16E3B2(下出线）');
+INSERT INTO `zdqxh` VALUES ('8', 'DZE-16E3B2A(上出线）');
+INSERT INTO `zdqxh` VALUES ('9', 'DZE-16E3B2A(下出线）');
+INSERT INTO `zdqxh` VALUES ('10', 'WYT-TA.3（10簧）');
+INSERT INTO `zdqxh` VALUES ('11', 'WYT-TA.3（12簧）');
+INSERT INTO `zdqxh` VALUES ('12', 'WYT－TA.3A（8簧）');
+INSERT INTO `zdqxh` VALUES ('13', 'WYT－TA.3A（10簧）');
+INSERT INTO `zdqxh` VALUES ('14', 'WYT-TA.3-YA');
+INSERT INTO `zdqxh` VALUES ('15', 'WYT-U.3');
+INSERT INTO `zdqxh` VALUES ('16', 'WYT-U.3（2吨以下）');
+
 
 -- ----------------------------
 -- Table structure for zjdy
@@ -1611,8 +1630,9 @@ CREATE TABLE `zjdy` (
 -- ----------------------------
 -- Records of zjdy
 -- ----------------------------
-INSERT INTO `zjdy` VALUES ('1', '220');
-INSERT INTO `zjdy` VALUES ('2', '380');
+INSERT INTO `zjdy` VALUES ('1', '');
+INSERT INTO `zjdy` VALUES ('2', '220');
+INSERT INTO `zjdy` VALUES ('3', '380');
 
 -- ----------------------------
 -- Table structure for zjys
@@ -1627,17 +1647,19 @@ CREATE TABLE `zjys` (
 -- ----------------------------
 -- Records of zjys
 -- ----------------------------
-INSERT INTO `zjys` VALUES ('1', '红色');
-INSERT INTO `zjys` VALUES ('2', '中酞兰');
-INSERT INTO `zjys` VALUES ('3', '黄色');
-INSERT INTO `zjys` VALUES ('4', '开普蓝RAL5019');
-INSERT INTO `zjys` VALUES ('5', '银灰色');
-INSERT INTO `zjys` VALUES ('6', '电机灰（船牌色卡号510）');
-INSERT INTO `zjys` VALUES ('7', '豆绿色');
-INSERT INTO `zjys` VALUES ('8', '煤灰色-黑色水性漆（RAL7016）');
-INSERT INTO `zjys` VALUES ('9', '朱红色（GSB05-1426-2001 61R02）');
-INSERT INTO `zjys` VALUES ('10', '信号黑色-黑色水性漆（RAL9004）');
-INSERT INTO `zjys` VALUES ('11', '墨绿色');
+INSERT INTO `zjys` VALUES ('1', '');
+INSERT INTO `zjys` VALUES ('2', '红色');
+INSERT INTO `zjys` VALUES ('3', '中酞兰');
+INSERT INTO `zjys` VALUES ('4', '黄色');
+INSERT INTO `zjys` VALUES ('5', '开普蓝RAL5019');
+INSERT INTO `zjys` VALUES ('6', '银灰色');
+INSERT INTO `zjys` VALUES ('7', '电机灰（船牌色卡号510）');
+INSERT INTO `zjys` VALUES ('8', '豆绿色');
+INSERT INTO `zjys` VALUES ('9', '煤灰色-黑色水性漆（RAL7016）');
+INSERT INTO `zjys` VALUES ('10', '朱红色（GSB05-1426-2001 61R02）');
+INSERT INTO `zjys` VALUES ('11', '信号黑色-黑色水性漆（RAL9004）');
+INSERT INTO `zjys` VALUES ('12', '墨绿色');
+
 
 -- ----------------------------
 -- Table structure for zzs
@@ -1652,6 +1674,7 @@ CREATE TABLE `zzs` (
 -- ----------------------------
 -- Records of zzs
 -- ----------------------------
-INSERT INTO `zzs` VALUES ('1', '抚顺');
-INSERT INTO `zzs` VALUES ('2', '佛山');
-INSERT INTO `zzs` VALUES ('3', '苏州');
+INSERT INTO `zzs` VALUES ('1', '');
+INSERT INTO `zzs` VALUES ('2', '抚顺');
+INSERT INTO `zzs` VALUES ('3', '佛山');
+INSERT INTO `zzs` VALUES ('4', '苏州');

@@ -41,37 +41,37 @@ public class ItemDaoImpl implements ItemDao{
 	private EntityManager entityManager;
 	
 	public List<BMQXHFLXX> queryBmqxhflxx() {
-		Query q = entityManager.createQuery("select t from BMQXHFLXX t");
+		Query q = entityManager.createQuery("select t from BMQXHFLXX t where t.bmqxhID > 1");
 		return q.getResultList();
 	}
 
 	public List<ZDQDYFLXX> queryZdqdyflxx() {
-		Query q = entityManager.createQuery("select t from ZDQDYFLXX t");
+		Query q = entityManager.createQuery("select t from ZDQDYFLXX t where t.zdqdyID > 1");
 		return q.getResultList();
 	}
 
 	public List<ZCXX> queryZcxx() {
-		Query q = entityManager.createQuery("select t from ZCXX t");
+		Query q = entityManager.createQuery("select t from ZCXX t where t.zcxhID > 1");
 		return q.getResultList();
 	}
 
 	public List<YYLGGFLXX> queryYylggflxx() {
-		Query q = entityManager.createQuery("select t from YYLGGFLXX t");
+		Query q = entityManager.createQuery("select t from YYLGGFLXX t where t.yylggID > 1");
 		return q.getResultList();
 	}
 
 	public List<KHXX> queryKhxx() {
-		Query q = entityManager.createQuery("select t from KHXX t");
+		Query q = entityManager.createQuery("select t from KHXX t where t.clientID > 1");
 		return q.getResultList();
 	}
 
 	public List<DDZTB> queryDdztb() {
-		Query q = entityManager.createQuery("select t from DDZTB t");
+		Query q = entityManager.createQuery("select t from DDZTB t where t.ddztID > 1");
 		return q.getResultList();
 	}
 
 	public List<BPQXHFLXX> queryBpqxhflxx() {
-		Query q = entityManager.createQuery("select t from BPQXHFLXX t");
+		Query q = entityManager.createQuery("select t from BPQXHFLXX t where t.bpqxhID > 1");
 		return q.getResultList();
 	}
 
@@ -146,7 +146,7 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public List<CPGGXHXX> queryCpggxhxx() {
-		Query q = entityManager.createQuery("select t from CPGGXHXX t");
+		Query q = entityManager.createQuery("select t from CPGGXHXX t where t.cpggxhID > 1");
 		return q.getResultList();
 	}
 
@@ -285,7 +285,7 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public List<MPZLXX> queryMpzlxx() {
-		Query q = entityManager.createQuery("select t from MPZLXX t");
+		Query q = entityManager.createQuery("select t from MPZLXX t where t.id > 1");
 		return q.getResultList();
 	}
 
@@ -315,7 +315,7 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public List<BZXDTGG> queryBzxdtgg() {
-		Query q = entityManager.createQuery("select t from BZXDTGG t");
+		Query q = entityManager.createQuery("select t from BZXDTGG t where t.id > 1");
 		return q.getResultList();
 	}
 
@@ -345,7 +345,7 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public List<ZDQXH> queryZdqxh() {
-		Query q = entityManager.createQuery("select t from ZDQXH t");
+		Query q = entityManager.createQuery("select t from ZDQXH t where t.id > 1");
 		return q.getResultList();
 	}
 
@@ -375,7 +375,7 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public List<ZJDY> queryZJDY() {
-		Query q = entityManager.createQuery("select t from ZJDY t");
+		Query q = entityManager.createQuery("select t from ZJDY t where t.id > 1");
 		return q.getResultList();
 	}
 
@@ -405,7 +405,7 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public List<ZJYS> queryZJYS() {
-		Query q = entityManager.createQuery("select t from ZJYS t");
+		Query q = entityManager.createQuery("select t from ZJYS t where t.id > 1");
 		return q.getResultList();
 	}
 
@@ -435,7 +435,7 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public List<KHQY> queryKHQY() {
-		Query q = entityManager.createQuery("select t from KHQY t");
+		Query q = entityManager.createQuery("select t from KHQY t where t.id > 1");
 		return q.getResultList();
 	}
 
@@ -465,7 +465,7 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public List<ZZS> queryZZS() {
-		Query q = entityManager.createQuery("select t from ZZS t");
+		Query q = entityManager.createQuery("select t from ZZS t where t.id > 1");
 		return q.getResultList();
 	}
 

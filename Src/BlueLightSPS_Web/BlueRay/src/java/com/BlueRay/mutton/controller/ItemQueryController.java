@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -27,14 +29,7 @@ public class ItemQueryController {
 	public @ResponseBody String getValueById(@PathVariable String tableName, HttpServletRequest request,
 			HttpServletResponse response) {
 		List<String> list = service.queryItems(tableName);
-		String ret = "";
-		if (null != list){
-			for (int i = 0; i < list.size() - 1; ++i){
-				ret += list.get(i) + ",";
-			}
-			ret += list.get(list.size() - 1);
-		}
-		return ret;
+		return JSONArray.fromObject(list).toString() ;
 	}
 
 }
