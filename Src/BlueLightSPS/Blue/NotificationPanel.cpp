@@ -8,6 +8,7 @@
 #include "JsonType.h"
 #include "User.h"
 #include "Server.h"
+
 #define GET_UNAPPROVED_URL_ID					IDP_NOTIFICATION + 1
 #define QUERY_URL_UNAPPROVED_SALEBUSINESS		GET_UNAPPROVED_URL_ID + 1
 #define QUERY_URL_UNAPPROVED_SALEPLAN			QUERY_URL_UNAPPROVED_SALEBUSINESS + 1
@@ -61,13 +62,12 @@ static int g_TableToBeHiddenForSale[]
 };
 
 
-//CNotificationPanel::CNotificationPanel(CJQGridAPI* pJqGridAPI, IHttp* pHttp)
 CNotificationPanel::CNotificationPanel(CJQGridAPI* pJqGridAPI)
-//: CBRPanel(pJqGridAPI, pHttp)
 	: CBRPanel(pJqGridAPI)
 	, m_enumCurrentApprovingItem(Approving_NULL)
 	, m_pTableFilter(NULL)
 	, m_staticPromotion(NULL)
+	, m_bIfUpdateTableWhenTableFilter(false)
 {
 
 }
@@ -79,6 +79,12 @@ CNotificationPanel::~CNotificationPanel()
 		delete m_pTableFilter;
 		m_pTableFilter = NULL;
 	}
+}
+
+void CNotificationPanel::OnDestroy()
+{
+	m_pJqGridAPI->d_OnUpdateData -= std::make_pair(this, &CNotificationPanel::OnUpdateData);
+	CBRPanel::OnDestroy();
 }
 
 void CNotificationPanel::AdjustTableStyleForPlan()
@@ -119,8 +125,28 @@ void CNotificationPanel::HighLight()
 	}
 }
 
+void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
+{
+	if (!m_bIfUpdateTableWhenTableFilter)
+	{
+		DEFINE_PLAN_QUERY_PARAM(jqp);
+
+		if (colIndex >= 0){
+			jqp.AddSortCondition(colIndex, bAsc);
+		}
+
+		CServer::GetInstance()->GetPlan().Query(page, CJQGridAPI::GetPageSize(), jqp)
+			.then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
+
+		GetParent()->EnableWindow(FALSE);
+	}
+}
+
+
 void CNotificationPanel::OnInitChilds()
 {
+	m_pJqGridAPI->d_OnUpdateData += std::make_pair(this, &CNotificationPanel::OnUpdateData);
+
 	CPermission& perm = CUser::GetInstance()->GetPermission();
 
 	if (!perm.getXsywsh() && !perm.getXsjhsh() && !perm.getJhywsh() && !perm.getJhjhsh() && !perm.getJhbzywsh() && !perm.getJhbzjhsh())
@@ -325,8 +351,13 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 
 void CNotificationPanel::OnBnClickedBtnTableFilter()
 {
-	if (IDOK == m_pTableFilter->DoModal()){
+	m_bIfUpdateTableWhenTableFilter = true;
+
+	if (IDOK == m_pTableFilter->DoModal())
+	{
 	}
+
+	m_bIfUpdateTableWhenTableFilter = false;
 }
 
 void CNotificationPanel::OnBnClickedSaleBusinessApprove()
@@ -338,7 +369,7 @@ void CNotificationPanel::OnBnClickedSaleBusinessApprove()
 	DEFINE_SALE_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CSale::BUSINESS, false);
 
-	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
+	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
 
 	/*CString url;
 	url.Format(_T("http://%s:8080/BlueRay/sale/query/business/unapproved"), IDS_HOST_NAME);
@@ -354,7 +385,7 @@ void CNotificationPanel::OnBnClickedSalePlanApprove()
 	HideFirstViewOfNotificationPanel(FALSE);
 	DEFINE_SALE_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CSale::PLAN, false);
-	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
+	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
 	//CString url;
 	//url.Format(_T("http://%s:8080/BlueRay/sale/query/plan/unapproved"), IDS_HOST_NAME);
 	//m_pHttp->Get(url, QUERY_URL_UNAPPROVED_SALEPLAN);
@@ -370,7 +401,7 @@ void CNotificationPanel::OnBnClickedPlanSCRQBusinessApprove()
 	DEFINE_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
 	jqp.SetUnitedQuery(UQ(nsPlan::scrq, L"@!=null"));
-	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
+	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
 
 	//CString url;
 	//url.Format(_T("http://%s:8080/BlueRay/plan/query/plan_businessApprove/unapproved"), IDS_HOST_NAME);
@@ -389,7 +420,7 @@ void CNotificationPanel::OnBnClickedPlanSCRQPlanApprove()
 	jqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
 	CUnitedQuery& uq = UQ(nsPlan::scrq, L"@!=null");
 	jqp.SetUnitedQuery(uq);
-	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
+	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
 
 	//CString url;
 	//url.Format(_T("http://%s:8080/BlueRay/plan/query/plan_planApprove/unapproved"), IDS_HOST_NAME);
@@ -407,7 +438,7 @@ void CNotificationPanel::OnBnClickedPlanBZRQBusinessApprove()
 	jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
 	CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
 	jqp.SetUnitedQuery(uq);
-	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
+	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
 
 	//CString url;
 	//url.Format(_T("http://%s:8080/BlueRay/plan/query/pack_businessApprove/unapproved"), IDS_HOST_NAME);
@@ -426,7 +457,7 @@ void CNotificationPanel::OnBnClickedPlanBZRQPlanApprove()
 	jqp.AddApproveCondition(CPlan::PACK_PLAN, false);
 	CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
 	jqp.SetUnitedQuery(uq);
-	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this));
+	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
 
 	//CString url;
 	//url.Format(_T("http://%s:8080/BlueRay/plan/query/pack_planApprove/unapproved"), IDS_HOST_NAME);
@@ -552,8 +583,8 @@ void CNotificationPanel::OnLoadDataSuccess(PageData_t& page)
 	//{
 	//	m_pJqGridAPI->DelRow(m_table[j].first);
 	//}
-	m_table = page.rows;
-	m_pJqGridAPI->Refresh(page.rawData);
+// 	m_table = page.rows;
+// 	m_pJqGridAPI->Refresh(page.rawData);
 	
 	//StringToTable(jsondata, m_table);
 	//for (int j = 0; j < m_table.size(); ++j)

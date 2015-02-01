@@ -30,6 +30,8 @@ public:
 		m_tb = tb.rows;
 		m_salePanel.HighLight();
 		m_salePanel.GetParent()->EnableWindow(TRUE);
+		m_pJqGridAPI->UncheckedAll();
+		m_salePanel.OnRowChecked();
 	}
 	virtual void OnFailed(){
 		m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
@@ -42,6 +44,7 @@ class CSaleSearchListener : public CPromise<PageData_t>::IHttpResponse{
 public:
 	virtual void OnSuccess(PageData_t& tb){
 		m_pJqGridAPI->Refresh(tb.rawData);
+
 		m_tb = tb.rows;
 		if (m_tb.empty())
 		{
@@ -49,6 +52,8 @@ public:
 		}
 		m_salePanel.HighLight();
 		m_salePanel.GetParent()->EnableWindow(TRUE);
+		m_pJqGridAPI->UncheckedAll();
+		m_salePanel.OnRowChecked();
 	}
 	virtual void OnFailed(){
 		m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
@@ -125,6 +130,8 @@ void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
 	{
 		m_pJqGridAPI->HideGrid();
 	}
+
+	m_pJqGridAPI->UncheckedAll();
 }
 
 void CSalePanel::OnInitChilds()

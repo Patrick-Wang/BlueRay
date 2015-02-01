@@ -54,6 +54,8 @@ public:
 		}
 		m_panel.HighLight();
 		m_panel.GetParent()->EnableWindow(TRUE);
+		m_pJqGridAPI->UncheckedAll();
+		m_panel.OnRowChecked();
 	}
 	virtual void OnFailed(){
 		m_panel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
@@ -71,6 +73,8 @@ public:
 		m_tb = tb.rows;
 		m_panel.HighLight();
 		m_panel.GetParent()->EnableWindow(TRUE);
+		m_pJqGridAPI->UncheckedAll();
+		m_panel.OnRowChecked();
 	}
 	virtual void OnFailed(){
 		m_panel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
@@ -1073,6 +1077,7 @@ void CPlanPanel::OnReApproveSuccess(CPlan::ApproveType type)
 			}
 		}
 	}
+	OnRowChecked();
 }
 
 void CPlanPanel::OnNcDestroy()
@@ -1636,6 +1641,7 @@ void CPlanPanel::OnDestroy()
 	CSettingManager::GetInstance()->SetColWidths(L"planCol", strWidths);
 	m_pJqGridAPI->d_OnExportClicked -= std::make_pair(this, &CPlanPanel::OnExprotClicked);
 	m_pJqGridAPI->d_OnExportClicked -= std::make_pair(this, &CPlanPanel::OnTemplateExprotClicked);
+	m_pJqGridAPI->d_OnUpdateData -= std::make_pair(this, &CPlanPanel::OnUpdateData);
 
 	CBRPanel::OnDestroy();
 

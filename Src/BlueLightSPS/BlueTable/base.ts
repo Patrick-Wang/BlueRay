@@ -148,7 +148,7 @@ module base {
         public cleanSelectedRow(): void {
             var rowIds : Array<string> = [].concat(this.getSelectedRowData());
             if (null != rowIds) {
-                alert(rowIds);
+                //alert(rowIds);
                 for (var id in rowIds) {
                     this.mTable.jqGrid('setSelection', rowIds[id], false);
                 }
