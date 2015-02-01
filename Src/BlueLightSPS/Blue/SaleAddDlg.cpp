@@ -66,6 +66,26 @@ static LPCTSTR g_StaticItems[][1] = { //0: default text
 		{ _T("工号") }
 };
 
+
+static LPCTSTR g_EditItems[][1] = { //0: default text
+		{ _T("合同号") },
+		{ _T("数量") },
+		{ _T("电缆长度") },
+		{ _T("闸线长度") },
+		{ _T("订单日期") },
+		{ _T("备注") },
+		{ _T("工号") },
+};
+
+static int g_EditsPos[][4] = {
+		{ 100 * 1 + 100 * 0, 40 * 1, 100, 20 }, //Edit_HTH,
+		{ 100 * 4 + 100 * 3, 40 * 1, 100, 20 }, //Edit_SL,
+		{ 100 * 4 + 100 * 3, 40 * 3, 100, 20 }, //Edit_DLCD,
+		{ 100 * 1 + 100 * 0, 40 * 4, 100, 20 }, //Edit_ZXCD,
+		{ 100 * 4 + 100 * 3, 40 * 4, 100, 20 }, //Edit_BZ,
+		{ 100 * 1 + 100 * 0, 40 * 7, 100, 20 } //Edit_GH,
+};
+
 static int g_StaticPos[][4] = {
 		{ 100 * 0 + 100 * 0, 40 * 1, 100, 20 }, //Static_HTH,
 		{ 100 * 1 + 100 * 1, 40 * 1, 100, 20 }, //Static_KHMC,
@@ -119,24 +139,6 @@ static int g_DatePickersPos[][4] = {
 		{ 100 * 3 + 100 * 2, 40 * 4, 100, 20 }, //Edit_DDRQ,
 };
 
-static int g_EditsPos[][4] = {
-		{ 100 * 1 + 100 * 0, 40 * 1, 100, 20 }, //Edit_HTH,
-		{ 100 * 4 + 100 * 3, 40 * 1, 100, 20 }, //Edit_SL,
-		{ 100 * 4 + 100 * 3, 40 * 3, 100, 20 }, //Edit_DLCD,
-		{ 100 * 1 + 100 * 0, 40 * 4, 100, 20 }, //Edit_ZXCD,
-		{ 100 * 4 + 100 * 3, 40 * 4, 100, 20 }, //Edit_BZ,
-		{ 100 * 1 + 100 * 0, 40 * 7, 100, 20 } //Edit_GH,
-};
-
-static LPCTSTR g_EditItems[][1] = { //0: default text
-		{ _T("合同号") },
-		{ _T("数量") },
-		{ _T("电缆长度") },
-		{ _T("闸线长度") },
-		{ _T("订单日期") },
-		{ _T("备注") },
-		{ _T("工号") },
-};
 
 inline void init(CEdit* edit, CString& val){
 	if (val != OPT_FALSE)

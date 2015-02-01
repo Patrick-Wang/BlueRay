@@ -1,7 +1,4 @@
-﻿/// <reference path="base.ts" />
-/// <reference path="util.ts" />
-//var instance: base.GridView;
-var grids = {};
+﻿var grids = {};
 var mediator = window.external;
 
 function setRowBgColor(gridName, rowId, r, g, b) {
@@ -36,13 +33,10 @@ function getDisabledRows(gridName) {
 
 function showGrid(gridName) {
     $("#" + gridName + "p").css("display", "");
-    //grids[gridName] = grids[gridName];
-    //alert("show" + gridName);
 }
 
 function hideGrid(gridName) {
     $("#" + gridName + "p").css("display", "none");
-    //alert("hide" + gridName);
 }
 
 function addRowData(gridName, rdata) {
@@ -73,7 +67,6 @@ function getRowId(gridName, rowIndex) {
 }
 
 function showHideRow(gridName, rowId, show) {
-    //alert(show + gridName);
     grids[gridName].showHideRow(rowId, show == "true");
 }
 
@@ -94,12 +87,10 @@ function cleanSelectedRow(gridName) {
 }
 
 function delRowData(gridName, rowId) {
-    //alert("delRow" + row);
     grids[gridName].delRowData(rowId);
 }
 
 function reload(gridName) {
-    //alert("delRow" + row);
     grids[gridName].reload();
 }
 
@@ -141,4 +132,3 @@ function curPage(gridName) {
 function rowNum(gridName) {
     return grids[gridName].getRowNum();
 }
-//# sourceMappingURL=jqgridapi.js.map
