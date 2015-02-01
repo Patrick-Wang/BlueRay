@@ -4,7 +4,7 @@ extern CString g_strHostName;
 
 #define IDS_HOST_NAME             (LPCTSTR)g_strHostName
 
-#define IDS_VERSION_NUMBER	 _T("1.0.0.01250")
+#define IDS_VERSION_NUMBER	 _T("1.0.0.02010")
 //user setting location
 
 #define IDS_SETTING_FILENAME				_T("\\setting.xml")
