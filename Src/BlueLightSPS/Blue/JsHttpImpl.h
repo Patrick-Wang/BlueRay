@@ -3,7 +3,7 @@
 #include "IJSMediator.h"
 #include "ComJsFun.h"
 #include <thread>
-
+#include "STDThreadPool.h"
 class CJsHttpImpl :
 	public IHttp
 {
@@ -25,8 +25,9 @@ public:
 	virtual bool SyncGet(LPCTSTR lpAddr, StringArrayPtr rest, CString& ret);
 	virtual bool SyncGet(LPCTSTR lpAddr, CString& ret);
 protected:
-	void DoUpload(CString lpAddr, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IInputStream> pStream);
-	void DoDownload(CString lpAddr, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IOutputStream> pStream);
+	void OnThreadComplete(GUID* pThreadId);
+	void DoUpload(CString lpAddr, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IInputStream> pStream, GUID guid);
+	void DoDownload(CString lpAddr, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IOutputStream> pStream, GUID guid);
 	VARIANT OnPost(int id, const std::vector<VARIANT>& params);
 	VARIANT OnGet(int id, const std::vector<VARIANT>& params);
 	void MakeUrl(LPCTSTR lpAddr, std::map<CString, CString>& attr, CString& url);
@@ -42,8 +43,7 @@ protected:
 	);
 private:
 	IJSMediator* m_lpJsMediator;
-	std::shared_ptr<std::thread> m_lpUploadThread;
-	std::shared_ptr<std::thread> m_lpDownloadThread;
+	CSTDThreadPool m_threadPool;
 	static CComJsFun m_funPost;
 	static CComJsFun m_funGet;
 	static WNDPROC m_lpfnOldProc;

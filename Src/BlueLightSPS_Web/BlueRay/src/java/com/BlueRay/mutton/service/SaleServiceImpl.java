@@ -188,37 +188,9 @@ public class SaleServiceImpl implements SaleService {
 	
 	public String add(JSONArray ja) throws Exception {
 		HTXX htxx = new HTXX();
-		//if ("".equals(ja.getString(0))) {
-			//throw new Exception("Id cannot be none");
-		//}
+
 		updateHtxx(ja, htxx);
-//		setHtID(htxx, ja.getString(0));
-//		setClientID(htxx, ja.getString(1));
-//		setGgxhID(htxx, ja.getString(2));
-//		setSl(htxx, ja.getString(3));
-//		setZcID(htxx, ja.getString(4));
-//		setDfr(htxx, ja.getString(5));
-//		setZdqdyID(htxx, ja.getString(6));
-//		setYylggID(htxx, ja.getString(7));
-//		setSfjf(htxx, ja.getString(8));
-//		setBpqxhID(htxx, ja.getString(9));
-//		setBmqxhID(htxx, ja.getString(10));
-//		setDlcd(htxx, ja.getString(11));
-//
-//		setZxcd(htxx, ja.getString(12));
-//		setMpzl(htxx, ja.getString(13));
-//		setBz(htxx, ja.getString(14));
-//		setDdrq(htxx, ja.getString(15));
-//		setZjdy(htxx, ja.getString(16));
-//		setZjys(htxx, ja.getString(17));
-//		setZdqxh(htxx, ja.getString(18));
-//		setZyz(htxx, ja.getString(19));
-//		setBzxdtgg(htxx, ja.getString(20));
-//		setGh(htxx, ja.getString(21));
-//		setZzs(htxx, ja.getString(22));
-//		setKhqy(htxx, ja.getString(23));
-//		setYxj(htxx, ja.getString(24));
-		
+
 		saleDao.insert(htxx);
 		return htxx.getID() + "";
 	}
@@ -275,7 +247,7 @@ public class SaleServiceImpl implements SaleService {
 				item.setZdqxh(val);
 				itemDao.insert(item);
 			}
-			htxx.setBzxdtggID(item.getId());
+			htxx.setZdqxhID(item.getId());
 		}			
 	}
 

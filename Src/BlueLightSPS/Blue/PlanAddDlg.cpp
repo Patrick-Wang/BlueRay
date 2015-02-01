@@ -410,7 +410,7 @@ void CPlanAddDlg::OnOK()
 	m_aEdits[EditId::Edit_TCBH]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp);
 	bool bCanBeUse = false;
-	if (!strTmp.IsEmpty() && NULL != m_lpOption && (OPT_FALSE == m_lpOption->tcbh || m_lpOption->tcbh.IsEmpty())){
+	if (!strTmp.IsEmpty() && NULL != m_lpOption && strTmp != m_lpOption->tcbh){
 		if (CServer::GetInstance()->GetPlan().ValidateTcbhSync(strTmp, bCanBeUse))
 		{
 			if (!bCanBeUse)
@@ -427,7 +427,7 @@ void CPlanAddDlg::OnOK()
 	
 	m_aEdits[EditId::Edit_CCBH]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp);
-	if (!strTmp.IsEmpty() && (NULL != m_lpOption && OPT_FALSE == m_lpOption->ccbh || m_lpOption->ccbh.IsEmpty())){
+	if (!strTmp.IsEmpty() && NULL != m_lpOption && strTmp != m_lpOption->ccbh){
 		if (CServer::GetInstance()->GetPlan().ValidateCcbhSync(strTmp, bCanBeUse))
 		{
 			if (!bCanBeUse)

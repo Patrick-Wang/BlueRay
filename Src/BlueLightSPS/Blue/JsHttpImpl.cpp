@@ -8,6 +8,7 @@
 #include "Encoding.h"
 #define WM_SUCCESS	WM_APP + 27657
 #define WM_FAILED	WM_APP + 27658
+#define WM_THREAD_COMPLETE	WM_APP + 27659
 
 typedef struct tagSuccess_t{
 	int id;
@@ -123,13 +124,13 @@ void CJsHttpImpl::Post(LPCTSTR lpAddr, int id, std::map<CString, StringArrayPtr>
 	::SysFreeString(param.bstrVal);
 }
 
-void CJsHttpImpl::Upload(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IInputStream> pStreamIterator)
+void CJsHttpImpl::Upload(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IInputStream> pStream)
 {
 	if (NULL == m_lpfnOldProc){
 		m_lpfnOldProc = (WNDPROC)SetWindowLong(m_pWnd->GetSafeHwnd(), GWL_WNDPROC, (LONG)&CJsHttpImpl::WindowProc);
 	}
-
-	m_lpUploadThread.reset(new std::thread(&CJsHttpImpl::DoUpload, this, lpAddr, id, mapAttr, pStreamIterator));
+	GUID threadId;
+	m_threadPool.RunThread(threadId, &CJsHttpImpl::DoUpload, this, lpAddr, id, mapAttr, pStream);
 }
 
 void CJsHttpImpl::Get(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr)
@@ -485,16 +486,24 @@ bool CJsHttpImpl::SyncGet(LPCTSTR lpAddr, CString& ret)
 
 }
 
-void CJsHttpImpl::DoUpload(CString strUrl, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IInputStream> pStreamIterator)
+void CJsHttpImpl::DoUpload(CString strUrl, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IInputStream> pStream, GUID guid)
 {
 	Success_t success;
 	success.id = id;
-	LPSTR pszData = "WinHttpWriteData Example";
 	DWORD dwBytesWritten = 0;
 	BOOL  bResults = FALSE;
 	HINTERNET hSession = NULL,
 		hConnect = NULL,
 		hRequest = NULL;
+
+	strUrl.Replace(L"http://", L"");
+	int index = strUrl.Find(_T("/"));
+	CString strHostPort = strUrl.Left(index);
+	strUrl = strUrl.Right(strUrl.GetLength() - index - 1);
+	index = strHostPort.Find(_T(":"));
+	CString strHost = strHostPort.Left(index);
+	int port = _tstoi(strHostPort.Right(strHostPort.GetLength() - index - 1));
+
 
 	// Use WinHttpOpen to obtain a session handle.
 	hSession = WinHttpOpen(L"A WinHTTP Example Program/1.0",
@@ -505,8 +514,8 @@ void CJsHttpImpl::DoUpload(CString strUrl, int id, std::map<CString, CString> ma
 
 	// Specify an HTTP server.
 	if (hSession)
-		hConnect = WinHttpConnect(hSession, L"localhost",
-		8080, 0);
+		hConnect = WinHttpConnect(hSession, strHost,
+		port, 0);
 
 	// Create an HTTP Request handle.
 	if (hConnect)
@@ -521,12 +530,12 @@ void CJsHttpImpl::DoUpload(CString strUrl, int id, std::map<CString, CString> ma
 		bResults = WinHttpSendRequest(hRequest,
 		WINHTTP_NO_ADDITIONAL_HEADERS,
 		0, WINHTTP_NO_REQUEST_DATA, 0,
-		(DWORD)pStreamIterator->size(), 0);
+		(DWORD)pStream->size(), 0);
 
 	int len = 0;
 
-	while (bResults && 0 < (len = pStreamIterator->next())){
-		bResults = WinHttpWriteData(hRequest, pStreamIterator->value(),
+	while (bResults && 0 < (len = pStream->next())){
+		bResults = WinHttpWriteData(hRequest, pStream->value(),
 			(DWORD)len,
 			&dwBytesWritten);
 	}
@@ -585,7 +594,7 @@ void CJsHttpImpl::DoUpload(CString strUrl, int id, std::map<CString, CString> ma
 		m_pWnd->SendMessage(WM_FAILED, (WPARAM)this, (LPARAM)&success);
 	else
 	{
-
+		m_pWnd->SendMessage(WM_SUCCESS, (WPARAM)this, (LPARAM)&success);
 	}
 
 	// Close any open handles.
@@ -593,6 +602,7 @@ void CJsHttpImpl::DoUpload(CString strUrl, int id, std::map<CString, CString> ma
 	if (hConnect) WinHttpCloseHandle(hConnect);
 	if (hSession) WinHttpCloseHandle(hSession);
 
+	m_pWnd->SendMessage(WM_THREAD_COMPLETE, (WPARAM)this, (LPARAM)&guid);
 }
 
 LRESULT CALLBACK CJsHttpImpl::WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam)
@@ -604,6 +614,9 @@ LRESULT CALLBACK CJsHttpImpl::WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WP
 		break;
 	case WM_FAILED:
 		((CJsHttpImpl*)wParam)->d_OnFailed(((Success_t*)lParam)->id);
+		break;
+	case WM_THREAD_COMPLETE:
+		((CJsHttpImpl*)wParam)->OnThreadComplete((GUID*)lParam);
 		break;
 	default:
 		break;
@@ -618,11 +631,14 @@ void CJsHttpImpl::Download(LPCTSTR lpAddr, int id, std::map<CString, CString>& m
 	}
 	try
 	{
-		if (m_lpDownloadThread.get() != NULL){
-			m_lpDownloadThread->join();
-		}
+		GUID guid;
 		CString url = lpAddr;
-		m_lpDownloadThread.reset(new std::thread(&CJsHttpImpl::DoDownload, this, url, id, mapAttr, pStream));
+		m_threadPool.RunThread(guid, &CJsHttpImpl::DoDownload, this, url, id, mapAttr, pStream);
+		//if (m_lpDownloadThread.get() != NULL){
+		//	m_lpDownloadThread->join();
+		//}
+		//
+		//m_lpDownloadThread.reset(new std::thread(&CJsHttpImpl::DoDownload, this, url, id, mapAttr, pStream));
 	}
 	catch (std::exception e)
 	{
@@ -631,11 +647,10 @@ void CJsHttpImpl::Download(LPCTSTR lpAddr, int id, std::map<CString, CString>& m
 	
 }
 
-void CJsHttpImpl::DoDownload(CString strUrl, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IOutputStream> pStream)
+void CJsHttpImpl::DoDownload(CString strUrl, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IOutputStream> pStream, GUID guid)
 {
 	Success_t success;
 	success.id = id;
-	LPSTR pszData = "WinHttpWriteData Example";
 	DWORD dwBytesWritten = 0;
 	BOOL  bResults = FALSE;
 	HINTERNET hSession = NULL,
@@ -769,6 +784,16 @@ void CJsHttpImpl::DoDownload(CString strUrl, int id, std::map<CString, CString> 
 	if (hRequest) WinHttpCloseHandle(hRequest);
 	if (hConnect) WinHttpCloseHandle(hConnect);
 	if (hSession) WinHttpCloseHandle(hSession);
+
+	m_pWnd->SendMessage(WM_THREAD_COMPLETE, (WPARAM)this, (LPARAM)&guid);
+}
+
+void CJsHttpImpl::OnThreadComplete(GUID* pThreadId)
+{
+	if (NULL != pThreadId)
+	{
+		m_threadPool.Collect(*pThreadId);
+	}
 }
 
 WNDPROC CJsHttpImpl::m_lpfnOldProc = NULL;
