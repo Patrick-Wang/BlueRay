@@ -50,7 +50,7 @@ public:
 	bool UnapproveSync(ApproveType type, IntArray& rows);
 	CPromise<bool>& Unapprove(ApproveType type, IntArray& rows);
 
-	void Import(LPCTSTR lpFileName, ImportResult_t& ret);
+	CPromise<ImportResult_t>& Import(LPCTSTR lpFileName);
 
 private:
 	bool doApproveSync(CString& url, IntArray& rows);

@@ -1,7 +1,9 @@
 package com.BlueRay.mutton.controller;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 
@@ -32,6 +34,42 @@ public class SaleController {
 	@Autowired
 	SaleService service;
 
+	@RequestMapping(value = "/import", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody ImportResult ImportData(
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException, InterruptedException {
+
+//		ByteArrayOutputStream outSteam = new ByteArrayOutputStream();  
+//        byte[] buffer = new byte[4 * 1024];  
+//        int len = -1;  
+//        InputStream is = request.getInputStream();
+//        while ((len = is.read(buffer)) != -1) {  
+//            outSteam.write(buffer, 0, len);  
+//            Thread.sleep(100);
+//        }  
+//        outSteam.close(); 
+//        
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				request.getInputStream(), "UTF-16LE"));
+		String line = null;
+		StringBuilder sb = new StringBuilder();
+		while ((line = br.readLine()) != null) {
+			sb.append(line);
+		}
+		ImportResult ret = new ImportResult();
+		JSONArray ja = JSONArray.fromObject(sb.toString());
+		ret.total = ja.size();
+		for (int i = 0, len = ja.size(); i < len; ++i){
+			try {
+				service.add(ja.getJSONArray(i));
+				++ret.succeed;
+			} catch (Exception e) {
+				++ret.failed;
+				e.printStackTrace();
+			}
+		}
+		return ret;
+	}
 	
 	@RequestMapping(value = "/export", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String exportData(

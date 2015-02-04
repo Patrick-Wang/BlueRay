@@ -234,9 +234,6 @@
     <ClInclude Include="Encoding.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CSVOutputStream.h">
-      <Filter>server</Filter>
-    </ClInclude>
     <ClInclude Include="FileOutputStream.h">
       <Filter>server</Filter>
     </ClInclude>
@@ -251,6 +248,9 @@
     </ClInclude>
     <ClInclude Include="STDThreadPool.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CSVStream.h">
+      <Filter>server</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -407,9 +407,6 @@
     <ClCompile Include="Encoding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CSVOutputStream.cpp">
-      <Filter>server</Filter>
-    </ClCompile>
     <ClCompile Include="FileOutputStream.cpp">
       <Filter>server</Filter>
     </ClCompile>
@@ -424,6 +421,9 @@
     </ClCompile>
     <ClCompile Include="STDThreadPool.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CSVStream.cpp">
+      <Filter>server</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

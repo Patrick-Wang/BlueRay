@@ -130,7 +130,8 @@ void CJsHttpImpl::Upload(LPCTSTR lpAddr, int id, std::map<CString, CString>& map
 		m_lpfnOldProc = (WNDPROC)SetWindowLong(m_pWnd->GetSafeHwnd(), GWL_WNDPROC, (LONG)&CJsHttpImpl::WindowProc);
 	}
 	GUID threadId;
-	m_threadPool.RunThread(threadId, &CJsHttpImpl::DoUpload, this, lpAddr, id, mapAttr, pStream);
+	CString url = lpAddr;
+	m_threadPool.RunThread(threadId, &CJsHttpImpl::DoUpload, this, url, id, mapAttr, pStream);
 }
 
 void CJsHttpImpl::Get(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr)
@@ -512,10 +513,13 @@ void CJsHttpImpl::DoUpload(CString strUrl, int id, std::map<CString, CString> ma
 		WINHTTP_NO_PROXY_BYPASS,
 		0);
 
+	WinHttpSetTimeouts(hSession, 0, 0, 0, 0);
+
 	// Specify an HTTP server.
 	if (hSession)
 		hConnect = WinHttpConnect(hSession, strHost,
 		port, 0);
+
 
 	// Create an HTTP Request handle.
 	if (hConnect)
@@ -539,6 +543,7 @@ void CJsHttpImpl::DoUpload(CString strUrl, int id, std::map<CString, CString> ma
 			(DWORD)len,
 			&dwBytesWritten);
 	}
+
 	DWORD dwErr = GetLastError();
 
 	// End the request.
@@ -547,6 +552,7 @@ void CJsHttpImpl::DoUpload(CString strUrl, int id, std::map<CString, CString> ma
 	DWORD dwSize;
 	BYTE* pszOutBuffer;
 	DWORD dwDownloaded;
+	CStringA ret;
 	do
 	{
 		// Check for available data.
@@ -579,6 +585,8 @@ void CJsHttpImpl::DoUpload(CString strUrl, int id, std::map<CString, CString> ma
 			break;
 		}
 
+		ret += (char*)pszOutBuffer;
+
 		// Free the memory allocated to the buffer.
 		delete[] pszOutBuffer;
 
@@ -588,12 +596,14 @@ void CJsHttpImpl::DoUpload(CString strUrl, int id, std::map<CString, CString> ma
 			break;
 
 	} while (dwSize > 0);
-
 	// Report any errors.
 	if (!bResults)
 		m_pWnd->SendMessage(WM_FAILED, (WPARAM)this, (LPARAM)&success);
 	else
 	{
+		CString utf16Ret;
+		CEncoding::Utf8()->GetString((unsigned char*)(LPCSTR)ret, utf16Ret);
+		success.ret = (LPCTSTR)utf16Ret;
 		m_pWnd->SendMessage(WM_SUCCESS, (WPARAM)this, (LPARAM)&success);
 	}
 

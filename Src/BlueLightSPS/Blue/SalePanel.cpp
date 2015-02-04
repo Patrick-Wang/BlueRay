@@ -1111,27 +1111,21 @@ void CSalePanel::OnExportClicked()
 
 void CSalePanel::OnImportClicked()
 {
-	//class CSaleImportListener : public CPromise<bool>::IHttpResponse{
-	//	CONSTRUCTOR_2(CSaleImportListener, CSalePanel&, panel, CString, fileName);
-	//public:
-	//	virtual void OnSuccess(bool& ret){
-	//		if (ret)
-	//		{
-	//			m_panel.MessageBox(_T("销售数据已经成功导出到文件 : ") + m_fileName, _T("导出成功"), MB_OK | MB_ICONINFORMATION);
-	//		}
-	//		else
-	//		{
-	//			m_panel.MessageBox(_T("销售数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
-	//			DeleteFile(m_fileName);
-	//		}
-	//	}
-	//	virtual void OnFailed(){
-	//		m_panel.MessageBox(_T("销售数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
-	//		DeleteFile(m_fileName);
-	//	}
-	//};
+	class CSaleImportListener : public CPromise<CSale::ImportResult_t>::IHttpResponse{
+		CONSTRUCTOR_2(CSaleImportListener, CSalePanel&, panel, CString, fileName);
+	public:
+		virtual void OnSuccess(CSale::ImportResult_t& ret){
 
-	CFileDialog hFileDlg(TRUE, _T("(*.xls)|*.xls"), _T("*.csv"), OFN_FILEMUSTEXIST | OFN_READONLY, _T("Excel(*.csv)|*.csv||"), NULL);
+			CString result;
+			result.Format(_T("数据总数 : %d\r\n导入成功 : %d\r\n导入失败 : %d"), ret.iTotal, ret.iSucceed, ret.iFailed);
+			m_panel.MessageBox(result, _T("导入完成"), MB_OK | MB_ICONWARNING);
+		}
+		virtual void OnFailed(){
+			m_panel.MessageBox(_T("销售数据导入失败"), L"导入失败", MB_OK | MB_ICONWARNING);
+		}
+	};
+
+	CFileDialog hFileDlg(TRUE, _T("(*.csv)|*.csv"), _T("*.csv"), OFN_FILEMUSTEXIST | OFN_READONLY, _T("Excel(*.csv)|*.csv||"), NULL);
 	hFileDlg.m_ofn.nFilterIndex = 1;
 	hFileDlg.m_ofn.hwndOwner = GetParent()->GetSafeHwnd();
 	hFileDlg.m_ofn.lStructSize = sizeof(OPENFILENAME);
@@ -1143,26 +1137,10 @@ void CSalePanel::OnImportClicked()
 		CSale::ImportResult_t ret;
 		CString filePathName = hFileDlg.GetPathName();
 		try{
-			CServer::GetInstance()->GetSale().Import(filePathName, ret);
-			CString result;
-			result.Format(_T("数据总数 : %d\r\n导入成功 : %d\r\n导入失败 : %d"), ret.iTotal, ret.iSucceed, ret.iFailed);
-			this->MessageBox(result, _T("销售数据导入完成"), MB_OK | MB_ICONWARNING);
+			CServer::GetInstance()->GetSale().Import(filePathName).then(new CSaleImportListener(*this, filePathName));
 		}catch (std::exception& e)
 		{
-			MessageBoxA(m_hWnd, (char*)e.what(), "导出失败", MB_OK | MB_ICONWARNING);
+			MessageBoxA(m_hWnd, (char*)e.what(), "导入失败", MB_OK | MB_ICONWARNING);
 		}
-		/*try{
-			DEFINE_SALE_QUERY_PARAM(sqp);
-
-			MakeBasicSearchCondition(sqp);
-
-			CString filePathName = hFileDlg.GetPathName();
-			CServer::GetInstance()->GetSale().Import(filePathName, sqp).then(
-			new CSaleImportListener(*this, filePathName));
-			}
-			catch (std::exception& e)
-			{
-			MessageBoxA(m_hWnd, (char*)e.what(), "导出失败", MB_OK | MB_ICONWARNING);
-			}*/
 	}
 }

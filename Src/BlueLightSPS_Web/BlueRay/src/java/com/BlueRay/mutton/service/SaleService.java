@@ -2,6 +2,7 @@ package com.BlueRay.mutton.service;
 
 import java.io.OutputStream;
 
+import com.BlueRay.mutton.controller.ImportResult;
 import com.BlueRay.mutton.controller.PageData;
 
 import net.sf.json.JSONArray;
@@ -30,4 +31,6 @@ public interface SaleService{
 			JSONObject jparam);
 
 	String export(OutputStream out, JSONObject jparam);
+
+	ImportResult importData(JSONArray fromObject);
 }

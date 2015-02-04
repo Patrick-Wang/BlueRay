@@ -8,6 +8,8 @@
 #include "FileInputStream.h"
 #include "Encoding.h"
 #include "CSVParser.h"
+#include "CSVStream.h"
+#include "JsonObjects.h"
 CSale::CSale()
 {
 
@@ -228,25 +230,53 @@ int FindReturn(BYTE* pBufCopy, int len){
 	}
 	return -1;
 }
+//
+//void CSale::Import(LPCTSTR lpFileName, ImportResult_t& ret)
+//{
+//	CCSVParser csvParser;
+//	csvParser.parse(lpFileName);
+//	StringArray strArray;
+//	int id = 0;
+//	SecureZeroMemory(&ret, sizeof(ret));
+//	while (csvParser.next(strArray))
+//	{
+//		++ret.iTotal;
+//		if (AddSync(strArray, id))
+//		{
+//			++ret.iSucceed;
+//		}
+//		else
+//		{
+//			++ret.iFailed;
+//		}
+//		strArray.clear();
+//	}
+//}
 
-void CSale::Import(LPCTSTR lpFileName, ImportResult_t& ret)
+CPromise<CSale::ImportResult_t>& CSale::Import(LPCTSTR lpFileName)
 {
-	CCSVParser csvParser;
-	csvParser.parse(lpFileName);
-	StringArray strArray;
-	int id = 0;
-	SecureZeroMemory(&ret, sizeof(ret));
-	while (csvParser.next(strArray))
-	{
-		++ret.iTotal;
-		if (AddSync(strArray, id))
-		{
-			++ret.iSucceed;
+	class CImportParser : public CPromise<ImportResult_t>::IRespParser{
+	public:
+		virtual ImportResult_t& OnParse(LPCTSTR strRet){
+			Json::JsonParser jparser;
+			std::auto_ptr<Json::JsonObject> jp((Json::JsonObject*)jparser.Parse((LPTSTR)strRet));
+			m_ret.iTotal = jp->asInt(L"total");
+			m_ret.iSucceed = jp->asInt(L"succeed");
+			m_ret.iFailed = jp->asInt(L"failed");
+			return m_ret;
 		}
-		else
-		{
-			++ret.iFailed;
-		}
-		strArray.clear();
-	}
+	private:
+		ImportResult_t m_ret;
+	};
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/sale/import"),
+		IDS_HOST_NAME);
+	CPromise<ImportResult_t>* promise = CPromise<ImportResult_t>::MakePromise(m_lpHttp, new CImportParser());
+	std::map<CString, CString> attr;
+	m_lpHttp->Upload(
+		traceSession(url), 
+		promise->GetId(), 
+		attr, 
+		std::shared_ptr<IHttp::IInputStream>(new CCSVInputStream(lpFileName)));
+	return *promise;
 }

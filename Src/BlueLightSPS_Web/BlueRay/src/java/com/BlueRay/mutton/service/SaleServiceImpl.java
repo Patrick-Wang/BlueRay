@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.BlueRay.mutton.controller.ImportResult;
 import com.BlueRay.mutton.controller.PageData;
 import com.BlueRay.mutton.model.dao.IAdvanceTranslator;
 import com.BlueRay.mutton.model.dao.ItemDao;
@@ -582,5 +583,20 @@ public class SaleServiceImpl implements SaleService {
 			e.printStackTrace();
 		}
 		return "error";
+	}
+
+	public ImportResult importData(JSONArray data) {
+		ImportResult ret = new ImportResult();
+		ret.total = data.size();
+		for (int i = 0, len = data.size(); i < len; ++i){
+			try {
+				add(data.getJSONArray(i));
+				++ret.succeed;
+			} catch (Exception e) {
+				++ret.failed;
+				e.printStackTrace();
+			}
+		}
+		return ret;
 	}
 }

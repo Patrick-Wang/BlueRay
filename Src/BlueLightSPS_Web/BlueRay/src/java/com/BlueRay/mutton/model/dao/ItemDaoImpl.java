@@ -196,7 +196,7 @@ public class ItemDaoImpl implements ItemDao{
 		entityManager.persist(item);		// TODO Auto-generated method stub
 	}
 
-	public BMQXHFLXX queryBmqxhflxxByValue(String colName, Object val) {
+	public BMQXHFLXX queryBmqxhflxxByValue(String colName, String val) {
 		Query q = entityManager.createQuery("select t from BMQXHFLXX t where t." + colName + "  = :val");
 		
 		q.setParameter("val", val);
@@ -207,7 +207,7 @@ public class ItemDaoImpl implements ItemDao{
 		return null;
 	}
 
-	public ZDQDYFLXX queryZdqdyflxxByValue(String colName, Object val) {
+	public ZDQDYFLXX queryZdqdyflxxByValue(String colName, String val) {
 		Query q = entityManager.createQuery("select t from ZDQDYFLXX t where t." + colName + "  = :val");
 		
 		q.setParameter("val", val);
@@ -218,7 +218,7 @@ public class ItemDaoImpl implements ItemDao{
 		return null;
 	}
 
-	public ZCXX queryZcxxByValue(String colName, Object val) {
+	public ZCXX queryZcxxByValue(String colName, String val) {
 		Query q = entityManager.createQuery("select t from ZCXX t where t." + colName + "  = :val");
 		
 		q.setParameter("val", val);
@@ -229,7 +229,7 @@ public class ItemDaoImpl implements ItemDao{
 		return null;
 	}
 
-	public YYLGGFLXX queryYylggflxxByValue(String colName, Object val) {
+	public YYLGGFLXX queryYylggflxxByValue(String colName, String val) {
 		Query q = entityManager.createQuery("select t from YYLGGFLXX t where t." + colName + "  = :val");
 		
 		q.setParameter("val", val);
@@ -240,7 +240,7 @@ public class ItemDaoImpl implements ItemDao{
 		return null;
 	}
 
-	public KHXX queryKhxxByValue(String colName, Object val) {
+	public KHXX queryKhxxByValue(String colName, String val) {
 		Query q = entityManager.createQuery("select t from KHXX t where t." + colName + " = :val");
 		//
 		q.setParameter("val", val);
@@ -251,7 +251,7 @@ public class ItemDaoImpl implements ItemDao{
 		return null;
 	}
 
-	public DDZTB queryDdztbByValue(String colName, Object val) {
+	public DDZTB queryDdztbByValue(String colName, String val) {
 		Query q = entityManager.createQuery("select t from DDZTB t where t." + colName + "  = :val");
 		
 		q.setParameter("val", val);
@@ -262,7 +262,7 @@ public class ItemDaoImpl implements ItemDao{
 		return null;
 	}
 
-	public BPQXHFLXX queryBpqxhflxxByValue(String colName, Object val) {
+	public BPQXHFLXX queryBpqxhflxxByValue(String colName, String val) {
 		Query q = entityManager.createQuery("select t from BPQXHFLXX t where t." + colName + "  = :val");
 		
 		q.setParameter("val", val);
@@ -273,7 +273,7 @@ public class ItemDaoImpl implements ItemDao{
 		return null;
 	}
 
-	public CPGGXHXX queryCpggxhxxByValue(String colName, Object val) {
+	public CPGGXHXX queryCpggxhxxByValue(String colName, String val) {
 		Query q = entityManager.createQuery("select t from CPGGXHXX t where t." + colName + "  = :val");
 		
 		q.setParameter("val", val);
@@ -299,7 +299,7 @@ public class ItemDaoImpl implements ItemDao{
 		return null;
 	}
 
-	public MPZLXX queryMpzlxxByValue(String colName, Object val) {
+	public MPZLXX queryMpzlxxByValue(String colName, String val) {
 		Query q = entityManager.createQuery("select t from MPZLXX t where t." + colName + "  = :val");
 		
 		q.setParameter("val", val);
@@ -329,7 +329,7 @@ public class ItemDaoImpl implements ItemDao{
 		return null;
 	}
 
-	public BZXDTGG queryBzxdtggByValue(String colName, Object val) {
+	public BZXDTGG queryBzxdtggByValue(String colName, String val) {
 		Query q = entityManager.createQuery("select t from BZXDTGG t where t." + colName + "  = :val");
 		
 		q.setParameter("val", val);
@@ -359,7 +359,7 @@ public class ItemDaoImpl implements ItemDao{
 		return null;
 	}
 
-	public ZDQXH queryZdqxhByValue(String colName, Object val) {
+	public ZDQXH queryZdqxhByValue(String colName, String val) {
 		Query q = entityManager.createQuery("select t from ZDQXH t where t." + colName + "  = :val");
 		
 		q.setParameter("val", val);
@@ -389,7 +389,7 @@ public class ItemDaoImpl implements ItemDao{
 		return null;
 	}
 
-	public ZJDY queryZJDYByValue(String colName, Object val) {
+	public ZJDY queryZJDYByValue(String colName, String val) {
 		Query q = entityManager.createQuery("select t from ZJDY t where t." + colName + "  = :val");
 		
 		q.setParameter("val", val);
@@ -419,7 +419,7 @@ public class ItemDaoImpl implements ItemDao{
 		return null;
 	}
 
-	public ZJYS queryZJYSByValue(String colName, Object val) {
+	public ZJYS queryZJYSByValue(String colName, String val) {
 		Query q = entityManager.createQuery("select t from ZJYS t where t." + colName + "  = :val");
 		
 		q.setParameter("val", val);
@@ -449,7 +449,7 @@ public class ItemDaoImpl implements ItemDao{
 		return null;
 	}
 
-	public KHQY queryKHQYByValue(String colName, Object val) {
+	public KHQY queryKHQYByValue(String colName, String val) {
 		Query q = entityManager.createQuery("select t from KHQY t where t." + colName + "  = :val");
 		
 		q.setParameter("val", val);
@@ -479,7 +479,7 @@ public class ItemDaoImpl implements ItemDao{
 		return null;
 	}
 
-	public ZZS queryZZSByValue(String colName, Object val) {
+	public ZZS queryZZSByValue(String colName, String val) {
 		Query q = entityManager.createQuery("select t from ZZS t where t." + colName + "  = :val");
 		
 		q.setParameter("val", val);
