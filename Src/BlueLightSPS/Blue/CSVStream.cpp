@@ -117,8 +117,8 @@ void CCSVInputStream::Parse()
 	GetJson(strJson);
 	m_size = strJson.GetLength() * 2 + 2;
 	m_buf.reset(new BYTE[m_size]);
-	memcpy_s(m_buf.get(), strJson.GetLength() * 2 + 2, 
-		(LPCTSTR)strJson, strJson.GetLength() * 2 + 2);
+	memcpy_s(m_buf.get(), m_size,
+		(LPCTSTR)strJson, m_size);
 }
 
 void CCSVInputStream::GetJson(CString& strJson)
