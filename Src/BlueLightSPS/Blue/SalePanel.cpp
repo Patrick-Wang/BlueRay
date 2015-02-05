@@ -103,7 +103,6 @@ CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI)
 , m_dtcSearchFrom(NULL)
 , m_dtcSearchTo(NULL)
 , m_bIfUpdateTableWhenTableFilter(false)
-, m_cacheAddedSaleInfo(NULL)
 {
 	m_tableFilterDlg.Initialize(m_pJqGridAPI.get(), Page_Sale);
 }
@@ -321,18 +320,15 @@ void CSalePanel::OnBnClickedAdd()
 {
 	CSaleAddDlg dlg(_T("Ìí¼Ó"));
 
-	if (m_cacheAddedSaleInfo == NULL)
-	{
-		m_cacheAddedSaleInfo = new CSaleAddDlg::Option_t();
-	}
+	CSaleAddDlg::Option_t *option = new CSaleAddDlg::Option_t(m_cacheAddedSaleInfo);
 
-	dlg.SetOption(m_cacheAddedSaleInfo);
+	dlg.SetOption(option);
 
 	if (IDOK == dlg.DoModal())
 	{
 		m_cacheRow = dlg.GetResult();
 
-		m_cacheAddedSaleInfo = new CSaleAddDlg::Option_t(m_cacheRow);
+		m_cacheAddedSaleInfo = CSaleAddDlg::Option_t(m_cacheRow);
 
 		class CAddListener : public CPromise<int>::IHttpResponse{
 			CONSTRUCTOR_2(CAddListener, CSalePanel&, salePanel, StringArray&, cacheRow)

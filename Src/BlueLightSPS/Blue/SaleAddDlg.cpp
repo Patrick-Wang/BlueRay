@@ -52,9 +52,9 @@ static LPCTSTR g_StaticItems[][1] = { //0: default text
 		{ _T("编码器型号") },
 		{ _T("电缆长度") },
 		{ _T("闸线长度") },
-		{ _T("铭牌等资料") },
+		{ _T("优先级") },
 		{ _T("订单日期") },
-		{ _T("备注") },
+		{ _T("工号") },
 		{ _T("主机电压") },
 		{ _T("主机颜色") },
 		{ _T("制动器型号") },
@@ -62,8 +62,8 @@ static LPCTSTR g_StaticItems[][1] = { //0: default text
 		{ _T("包装箱/底托规格") },
 		{ _T("制造商") },
 		{ _T("客户区域") },
-		{ _T("优先级") },
-		{ _T("工号") }
+		{ _T("铭牌等资料") },
+		{ _T("备注") }
 };
 
 
@@ -82,8 +82,8 @@ static int g_EditsPos[][4] = {
 		{ 100 * 4 + 100 * 3, 40 * 1, 100, 20 }, //Edit_SL,
 		{ 100 * 4 + 100 * 3, 40 * 3, 100, 20 }, //Edit_DLCD,
 		{ 100 * 1 + 100 * 0, 40 * 4, 100, 20 }, //Edit_ZXCD,
-		{ 100 * 4 + 100 * 3, 40 * 4, 100, 20 }, //Edit_BZ,
-		{ 100 * 1 + 100 * 0, 40 * 7, 100, 20 } //Edit_GH,
+		{ 100 * 4 + 100 * 3, 40 * 4, 100, 20 }, //Edit_GH,
+		{ 100 * 1 + 100 * 0, 40 * 8, 500, 60 } //Edit_BZ,
 };
 
 static int g_StaticPos[][4] = {
@@ -100,9 +100,9 @@ static int g_StaticPos[][4] = {
 		{ 100 * 2 + 100 * 2, 40 * 3, 100, 20 }, //Static_BMQXH,
 		{ 100 * 3 + 100 * 3, 40 * 3, 100, 20 }, //Static_DLCD,
 		{ 100 * 0 + 100 * 0, 40 * 4, 100, 20 }, //Static_ZXCD,
-		{ 100 * 1 + 100 * 1, 40 * 4, 100, 20 }, //Static_MPZL,
+		{ 100 * 1 + 100 * 1, 40 * 4, 100, 20 }, 
 		{ 100 * 2 + 100 * 2, 40 * 4, 100, 20 }, //Static_DDRQ,
-		{ 100 * 3 + 100 * 3, 40 * 4, 100, 20 },  //Static_BZ,
+		{ 100 * 3 + 100 * 3, 40 * 4, 100, 20 },  
 		{ 100 * 0 + 100 * 0, 40 * 5, 100, 20 }, 
 		{ 100 * 1 + 100 * 1, 40 * 5, 100, 20 }, 
 		{ 100 * 2 + 100 * 2, 40 * 5, 100, 20 }, 
@@ -110,8 +110,8 @@ static int g_StaticPos[][4] = {
 		{ 100 * 0 + 100 * 0, 40 * 6, 100, 20 }, 
 		{ 100 * 1 + 100 * 1, 40 * 6, 100, 20 }, 
 		{ 100 * 2 + 100 * 2, 40 * 6, 100, 20 }, 
-		{ 100 * 3 + 100 * 3, 40 * 6, 100, 20 },
-		{ 100 * 0 + 100 * 0, 40 * 7, 100, 20 }
+		{ 100 * 0 + 100 * 0, 40 * 7, 100, 20 }, //Static_MPZL,
+		{ 100 * 0 + 100 * 0, 40 * 8, 100, 20 }  //Static_BZ,
 };
 
 static int g_CombPos[][4] = {
@@ -124,7 +124,7 @@ static int g_CombPos[][4] = {
 		{ 100 * 1 + 100 * 0, 40 * 3, 100, 20 }, //Comb_JF,
 		{ 100 * 2 + 100 * 1, 40 * 3, 100, 20 }, //Comb_BPQXH,
 		{ 100 * 3 + 100 * 2, 40 * 3, 100, 20 }, //Comb_BMQXH,
-		{ 100 * 2 + 100 * 1, 40 * 4, 100, 20 },	//Comb_MPZL,
+		{ 100 * 2 + 100 * 1, 40 * 4, 100, 20 },	
 		{ 100 * 1 + 100 * 0, 40 * 5, 100, 20 }, 
 		{ 100 * 2 + 100 * 1, 40 * 5, 100, 20 }, 
 		{ 100 * 3 + 100 * 2, 40 * 5, 100, 20 }, 
@@ -132,7 +132,7 @@ static int g_CombPos[][4] = {
 		{ 100 * 1 + 100 * 0, 40 * 6, 100, 20 }, 
 		{ 100 * 2 + 100 * 1, 40 * 6, 100, 20 }, 
 		{ 100 * 3 + 100 * 2, 40 * 6, 100, 20 }, 
-		{ 100 * 4 + 100 * 3, 40 * 6, 100, 20 }
+		{ 100 * 1 + 100 * 0, 40 * 7, 500, 20 } //Comb_MPZL,
 };
 
 static int g_DatePickersPos[][4] = {
@@ -404,8 +404,16 @@ BOOL CSaleAddDlg::OnInitDialog()
 	//init edit
 	for (int i = 0; i < _countof(g_EditItems); ++i)
 	{
-		m_aEdits[i] = Util_Tools::Util::CreateEdit(this, IDC_EDIT_BASE + i, g_EditItems[i][0], _T("Microsoft YaHei"), 12);
-		m_aEdits[i]->MoveWindow(g_EditsPos[i][0], g_EditsPos[i][1], g_EditsPos[i][2], g_EditsPos[i][3]);
+		if (i == EditId::Edit_BZ)
+		{
+			m_aEdits[i] = Util_Tools::Util::CreateEdit(this, IDC_EDIT_BASE + i, g_EditItems[i][0], _T("Microsoft YaHei"), 12, true);
+			m_aEdits[i]->MoveWindow(g_EditsPos[i][0], g_EditsPos[i][1], g_EditsPos[i][2], g_EditsPos[i][3]);
+		}
+		else
+		{
+			m_aEdits[i] = Util_Tools::Util::CreateEdit(this, IDC_EDIT_BASE + i, g_EditItems[i][0], _T("Microsoft YaHei"), 12);
+			m_aEdits[i]->MoveWindow(g_EditsPos[i][0], g_EditsPos[i][1], g_EditsPos[i][2], g_EditsPos[i][3]);
+		}
 	}
 
 	//init date picker

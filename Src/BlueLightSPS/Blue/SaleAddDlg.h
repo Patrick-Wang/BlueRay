@@ -225,7 +225,7 @@ private:
 		Comb_JF,
 		Comb_BPQXH,
 		Comb_BMQXH,
-		Comb_MPZL,
+		Comb_YXJ,
 		//Comb_DLCD,
 		//Comb_ZXCD,
 		Comb_ZJDY,
@@ -235,7 +235,7 @@ private:
 		Comb_BZXDTGG,
 		Comb_ZZS,
 		Comb_KHQY,
-		Comb_YXJ,
+		Comb_MPZL,
 		Comb_END
 	};
 
@@ -244,8 +244,8 @@ private:
 		Edit_SL,
 		Edit_DLCD,
 		Edit_ZXCD,
-		Edit_BZ,
 		Edit_GH,
+		Edit_BZ,
 		Edit_END
 	};
 
