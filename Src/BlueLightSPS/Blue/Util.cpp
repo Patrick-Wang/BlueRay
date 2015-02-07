@@ -113,17 +113,28 @@ namespace Util_Tools
 		return pStatic;
 	}
 
-	CEdit* Util::CreateEdit(CWnd* pParent, UINT Id, CString csDefaultText, CString csFont, int iFSize)
+	CEdit* Util::CreateEdit(CWnd* pParent, UINT Id, CString csDefaultText, CString csFont, int iFSize, bool bMulLine)
 	{
 		CFont* pFont = NULL;
 		CEdit* pEdit = new CEdit();
 
 		pFont = CBSObject::GetFontPtr(csFont, iFSize, FALSE, FALSE, FALSE);
 
-		pEdit->CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), NULL,
-			WS_CHILD | /*WS_TABSTOP |*/ WS_VISIBLE/* | WS_BORDER | WS_HSCROLL |
-								 WS_VSCROLL | ES_MULTILINE */ | ES_WANTRETURN,
-								 CRect(0, 0, 0, 0), pParent, Id);
+		if (!bMulLine)
+		{
+			pEdit->CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), NULL,
+				WS_CHILD | /*WS_TABSTOP |*/ WS_VISIBLE/* | WS_BORDER | WS_HSCROLL |
+													  WS_VSCROLL | ES_MULTILINE */ | ES_WANTRETURN,
+													  CRect(0, 0, 0, 0), pParent, Id);
+		}
+		else
+		{
+			pEdit->CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), NULL,
+				WS_CHILD | /*WS_TABSTOP |*/ WS_VISIBLE/* | WS_BORDER | WS_HSCROLL | ES_WANTRETURN*/ |
+													  WS_VSCROLL  | ES_MULTILINE ,
+													  CRect(0, 0, 0, 0), pParent, Id);
+		}
+
 
 		pEdit->SetFont(pFont);
 

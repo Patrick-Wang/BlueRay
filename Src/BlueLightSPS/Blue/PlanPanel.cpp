@@ -526,6 +526,11 @@ void CPlanPanel::OnBnClickedPlan()
 	{
 		dlg.DisableBHEdits(FALSE, FALSE);
 	}
+	else
+	{
+		dlg.DisableBHEdits((_T("N") == pstOpt->jhywsh && _T("N") == pstOpt->jhjhsh),
+			(_T("N") == pstOpt->bzywsh && _T("N") == pstOpt->bzjhsh));
+	}
 
 	if (IDOK == dlg.DoModal())
 	{

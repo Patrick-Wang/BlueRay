@@ -47,15 +47,15 @@ END_MESSAGE_MAP()
 BOOL CPopupDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-	Util_Tools::Util::SetClientSize(m_hWnd, 837, 421);
+	Util_Tools::Util::SetClientSize(m_hWnd, 837, 471);
 	SetWindowText(m_Title);
 	m_btnOK.Create(this, IDC_SALE_ADD_BTN_OK);
-	m_btnOK.MoveWindow(556, 366, 114, 30);
+	m_btnOK.MoveWindow(556, 416, 114, 30);
 
 	m_btnOK.SetWindowText(_T("确定"));
 	m_btnCancel.Create(this, IDC_SALE_ADD_BTN_CANCEL);
 
-	m_btnCancel.MoveWindow(690, 366, 114, 30);
+	m_btnCancel.MoveWindow(690, 416, 114, 30);
 	m_btnCancel.SetWindowText(_T("取消"));
 	// TODO:  Add extra initialization here
 		return TRUE;  // return TRUE unless you set the focus to a control

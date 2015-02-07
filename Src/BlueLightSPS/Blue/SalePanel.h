@@ -68,6 +68,8 @@ private:
 	CTableFilterDlg m_tableFilterDlg;
 	CComboBox* m_comboProductionStatus;
 	
+	CSaleAddDlg::Option_t m_cacheAddedSaleInfo;
+
 	bool m_bIfUpdateTableWhenTableFilter;
 
 	enum enumProductionStatusForSale

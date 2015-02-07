@@ -327,11 +327,16 @@ void CSalePanel::FilterTableByStatus(enumProductionStatusForSale productionStatu
 void CSalePanel::OnBnClickedAdd()
 {
 	CSaleAddDlg dlg(_T("Ìí¼Ó"));
-	dlg.SetOption(new CSaleAddDlg::Option_t());
+
+	CSaleAddDlg::Option_t *option = new CSaleAddDlg::Option_t(m_cacheAddedSaleInfo);
+
+	dlg.SetOption(option);
 
 	if (IDOK == dlg.DoModal())
 	{
 		m_cacheRow = dlg.GetResult();
+
+		m_cacheAddedSaleInfo = CSaleAddDlg::Option_t(m_cacheRow);
 
 		class CAddListener : public CPromise<int>::IHttpResponse{
 			CONSTRUCTOR_2(CAddListener, CSalePanel&, salePanel, StringArray&, cacheRow)
