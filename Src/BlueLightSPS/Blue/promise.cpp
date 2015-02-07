@@ -35,3 +35,14 @@ PageData_t& CPageDataParser::OnParse(LPCTSTR strJson)
 	}
 	return m_retData;
 }
+
+StringArray& CStringArrayParser::OnParse(LPCTSTR strJson)
+{
+	Json::JsonParser jp;
+	std::auto_ptr<Json::JsonArray> jarows((Json::JsonArray*)(jp.Parse((LPTSTR)strJson)));
+	for (int i = 0; i < jarows->size(); ++i)
+	{
+		m_retData.push_back(jarows->asString(i).c_str());
+	}
+	return m_retData;
+}

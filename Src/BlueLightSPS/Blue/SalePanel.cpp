@@ -26,12 +26,20 @@ class OnSaleLoadDataListener : public CPromise<PageData_t>::IHttpResponse
 	CONSTRUCTOR_3(OnSaleLoadDataListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
 public:
 	virtual void OnSuccess(PageData_t& tb){
+		//IntArray ia;
+		//m_pJqGridAPI->GetCheckedRows(ia);
+		//CString strFmt;
+		//strFmt.Format(L"%d", ia.size());
+		//m_salePanel.MessageBox(strFmt, strFmt);
 		m_pJqGridAPI->Refresh(tb.rawData);
 		m_tb = tb.rows;
 		m_salePanel.HighLight();
 		m_salePanel.GetParent()->EnableWindow(TRUE);
-		m_pJqGridAPI->UncheckedAll();
+//		m_pJqGridAPI->UncheckedAll();
 		m_salePanel.OnRowChecked();
+		//m_pJqGridAPI->GetCheckedRows(ia);
+		//strFmt.Format(L"%d", ia.size());
+		//m_salePanel.MessageBox(strFmt, strFmt);
 	}
 	virtual void OnFailed(){
 		m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
@@ -52,7 +60,7 @@ public:
 		}
 		m_salePanel.HighLight();
 		m_salePanel.GetParent()->EnableWindow(TRUE);
-		m_pJqGridAPI->UncheckedAll();
+//		m_pJqGridAPI->UncheckedAll();
 		m_salePanel.OnRowChecked();
 	}
 	virtual void OnFailed(){
@@ -131,7 +139,7 @@ void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
 		m_pJqGridAPI->HideGrid();
 	}
 
-	m_pJqGridAPI->UncheckedAll();
+//	m_pJqGridAPI->UncheckedAll();
 }
 
 void CSalePanel::OnInitChilds()
@@ -365,15 +373,42 @@ void CSalePanel::OnBnClickedTableFilter()
 
 void CSalePanel::OnBnClickedReApproveBusiness()
 {
-	class OnReApproveBusinessListener : public CPromise<bool>::IHttpResponse{
-		CONSTRUCTOR_1(OnReApproveBusinessListener, CSalePanel&, salePanel)
+	class OnReApproveBusinessListener : public CPromise<StringArray>::IHttpResponse{
+		CONSTRUCTOR_2(OnReApproveBusinessListener, CSalePanel&, salePanel, CJQGridAPI*, pJqGridAPI)
 	public:
-		virtual void OnSuccess(bool& bRet){
-			if (bRet)
+		virtual void OnSuccess(StringArray& arrRet){
+			std::vector<int> checkedRows;
+			m_pJqGridAPI->GetCheckedRows(checkedRows);
+			CString strFmt;
+			strFmt.Format(L"%d 条未删除相关排产计划 \r\n", arrRet.size());
+			std::vector<int>::iterator it;
+			StringArray row;
+			for (int i = 0; i < arrRet.size(); ++i)
 			{
-				m_salePanel.MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
-				(m_salePanel.CSalePanel::OnReApproveSuccess)(CSale::ApproveType::BUSINESS);
+				it = std::find(checkedRows.begin(), checkedRows.end(), _tstoi(arrRet[i]));
+				if (it != checkedRows.end())
+				{
+					m_pJqGridAPI->GetRow(*it, row);
+					strFmt += row[0] + L" ";
+					checkedRows.erase(it);
+					row.clear();
+				}
 			}
+
+
+			CString strFmtTmp;
+			strFmtTmp.Format(L"%d 条成功完成反审核 \r\n", checkedRows.size());
+			for (int i = 0; i < checkedRows.size(); ++i)
+			{
+				m_pJqGridAPI->GetRow(checkedRows[i], row);
+				strFmtTmp += row[0] + L" ";
+				row.clear();
+			}
+			strFmt = strFmtTmp + L"\r\n" + strFmt;
+
+			m_salePanel.MessageBox(strFmt, _T("反审核"), MB_OK | MB_ICONWARNING);
+			(m_salePanel.CSalePanel::OnReApproveSuccess)(CSale::ApproveType::BUSINESS);
+
 			m_salePanel.GetParent()->EnableWindow(TRUE);
 		}
 		virtual void OnFailed(){
@@ -390,7 +425,7 @@ void CSalePanel::OnBnClickedReApproveBusiness()
 		if (IDOK == MessageBox(_T("反审核会导致数据的永久改变，请确认是否继续？"), _T("反审核"), MB_OKCANCEL | MB_ICONWARNING))
 		{
 			CSale& sale = CServer::GetInstance()->GetSale();
-			sale.Unapprove(CSale::BUSINESS, checkedRows).then(new OnReApproveBusinessListener(*this));
+			sale.Unapprove(CSale::BUSINESS, checkedRows).then(new OnReApproveBusinessListener(*this, m_pJqGridAPI.get()));
 			GetParent()->EnableWindow(FALSE);
 		}
 	}
@@ -399,15 +434,41 @@ void CSalePanel::OnBnClickedReApproveBusiness()
 
 void CSalePanel::OnBnClickedReApprovePlan()
 {
-	class OnReApprovePlanListener : public CPromise<bool>::IHttpResponse{
-		CONSTRUCTOR_1(OnReApprovePlanListener, CSalePanel&, salePanel)
+	class OnReApprovePlanListener : public CPromise<StringArray>::IHttpResponse{
+		CONSTRUCTOR_2(OnReApprovePlanListener, CSalePanel&, salePanel, CJQGridAPI*, pJqGridAPI)
 	public:
-		virtual void OnSuccess(bool& bRet){
-			if (bRet)
+		virtual void OnSuccess(StringArray& arrRet){
+			std::vector<int> checkedRows;
+			m_pJqGridAPI->GetCheckedRows(checkedRows);
+			CString strFmt;
+			strFmt.Format(L"%d 条未删除相关排产计划 \r\n", arrRet.size());
+			std::vector<int>::iterator it;
+			StringArray row;
+			for (int i = 0; i < arrRet.size(); ++i)
 			{
-				m_salePanel.MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
-				(m_salePanel.CSalePanel::OnReApproveSuccess)(CSale::ApproveType::PLAN);
+				it = std::find(checkedRows.begin(), checkedRows.end(), _tstoi(arrRet[i]));
+				if (it != checkedRows.end())
+				{
+					m_pJqGridAPI->GetRow(*it, row);
+					strFmt += row[0] + L" ";
+					checkedRows.erase(it);
+					row.clear();
+				}
 			}
+
+
+			CString strFmtTmp;
+			strFmtTmp.Format(L"%d 条成功完成反审核 \r\n", checkedRows.size());
+			for (int i = 0; i < checkedRows.size(); ++i)
+			{
+				m_pJqGridAPI->GetRow(checkedRows[i], row);
+				strFmtTmp += row[0] + L" ";
+				row.clear();
+			}
+			strFmt = strFmtTmp + L"\r\n" + strFmt;
+			m_salePanel.MessageBox(strFmt, _T("反审核"), MB_OK | MB_ICONWARNING);
+			(m_salePanel.CSalePanel::OnReApproveSuccess)(CSale::ApproveType::PLAN);
+			
 			m_salePanel.GetParent()->EnableWindow(TRUE);
 		}
 		virtual void OnFailed(){
@@ -424,7 +485,7 @@ void CSalePanel::OnBnClickedReApprovePlan()
 		if (IDOK == MessageBox(_T("反审核会导致数据的永久改变，请确认是否继续？"), _T("反审核"), MB_OKCANCEL | MB_ICONWARNING))
 		{
 			CSale& sale = CServer::GetInstance()->GetSale();
-			sale.Unapprove(CSale::PLAN, checkedRows).then(new OnReApprovePlanListener(*this));
+			sale.Unapprove(CSale::PLAN, checkedRows).then(new OnReApprovePlanListener(*this, m_pJqGridAPI.get()));
 			GetParent()->EnableWindow(FALSE);
 		}
 	}
@@ -657,7 +718,7 @@ void CSalePanel::OnRowChecked()
 
 void CSalePanel::OnBnClickedSearch()
 {
-	m_pJqGridAPI->UncheckedAll();
+//	m_pJqGridAPI->UncheckedAll();
 	DEFINE_SALE_QUERY_PARAM(sqp);
 	MakeBasicSearchCondition(sqp);
 	//sqp.AddSortCondition(15, false);
@@ -782,10 +843,10 @@ void CSalePanel::OnNcDestroy()
 
 void CSalePanel::OnLoadDataSuccess()
 {
-	for (int j = 0; j < m_table.size(); ++j)
-	{
-		m_pJqGridAPI->AddRow(m_table[j].first, m_table[j].second);
-	}
+	//for (int j = 0; j < m_table.size(); ++j)
+	//{
+	//	m_pJqGridAPI->AddRow(m_table[j].first, m_table[j].second);
+	//}
 }
 
 void CSalePanel::OnDelDataSuccess()

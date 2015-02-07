@@ -214,6 +214,7 @@ module base {
                             this.curPage = postdata.page;
                             if (!this.mInit) {
                                 this.mInit = true;
+                                this.cleanSelectedRow();
                                 mediator.onGridComplete(this.mTableName);
                             } else {
                                 var index = -1;
@@ -221,6 +222,7 @@ module base {
                                     index = parseInt(postdata.sidx.replace(name + "_col_", ""));
                                 }
                                 //alert("onupdate");
+                                this.cleanSelectedRow();
                                 mediator.onUpdate(this.mTableName, postdata.page, postdata.rows, index, ("asc" == postdata.sord));
                             }
                         }
@@ -252,10 +254,10 @@ module base {
                         return !this.isDisabled(rowId);
                     },
                     onSelectRow: (a, b, c) => {
-                        mediator.onRowChecked(this.mTableName);
+                       mediator.onRowChecked(this.mTableName);
                     },
                     onSelectAll: (a, b, c) => {
-                        mediator.onRowChecked(this.mTableName);
+                       mediator.onRowChecked(this.mTableName);
                     },
                     gridComplete: () => {
 

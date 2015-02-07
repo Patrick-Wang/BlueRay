@@ -54,7 +54,7 @@ public:
 		}
 		m_panel.HighLight();
 		m_panel.GetParent()->EnableWindow(TRUE);
-		m_pJqGridAPI->UncheckedAll();
+//		m_pJqGridAPI->UncheckedAll();
 		m_panel.OnRowChecked();
 	}
 	virtual void OnFailed(){
@@ -69,12 +69,20 @@ class OnPlanLoadDataListener : public CPromise<PageData_t>::IHttpResponse
 	CONSTRUCTOR_3(OnPlanLoadDataListener, CPlanPanel&, panel, table&, tb, CJQGridAPI*, pJqGridAPI)
 public:
 	virtual void OnSuccess(PageData_t& tb){
+		//IntArray ia;
+		//m_pJqGridAPI->GetCheckedRows(ia);
+		//CString strFmt;
+		//strFmt.Format(L"%d", ia.size());
+		//m_panel.MessageBox(strFmt, strFmt);
 		m_pJqGridAPI->Refresh(tb.rawData);
 		m_tb = tb.rows;
 		m_panel.HighLight();
 		m_panel.GetParent()->EnableWindow(TRUE);
-		m_pJqGridAPI->UncheckedAll();
+//		m_pJqGridAPI->UncheckedAll();
 		m_panel.OnRowChecked();
+		//m_pJqGridAPI->GetCheckedRows(ia);
+		//strFmt.Format(L"%d", ia.size());
+		//m_panel.MessageBox(strFmt, strFmt);
 	}
 	virtual void OnFailed(){
 		m_panel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
@@ -869,15 +877,14 @@ void CPlanPanel::OnBnClickedMore()
 
 void CPlanPanel::OnBnClickedReApproveBZRQBusiness()
 {
-	class OnReApproveBZRQBusinessListener : public CPromise<bool>::IHttpResponse{
+	class OnReApproveBZRQBusinessListener : public CPromise<StringArray>::IHttpResponse{
 		CONSTRUCTOR_1(OnReApproveBZRQBusinessListener, CPlanPanel&, planPanel)
 	public:
-		virtual void OnSuccess(bool& bRet){
-			if (bRet)
-			{
+		virtual void OnSuccess(StringArray& strRet){
+
 				m_planPanel.MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
 				(m_planPanel.CPlanPanel::OnReApproveSuccess)(CPlan::ApproveType::PACK_BUSINESS);
-			}
+	
 			m_planPanel.GetParent()->EnableWindow(TRUE);
 		}
 		virtual void OnFailed(){
@@ -902,15 +909,14 @@ void CPlanPanel::OnBnClickedReApproveBZRQBusiness()
 
 void CPlanPanel::OnBnClickedReApproveBZRQPlan()
 {
-	class OnReApproveBZRQPlanListener : public CPromise<bool>::IHttpResponse{
+	class OnReApproveBZRQPlanListener : public CPromise<StringArray>::IHttpResponse{
 		CONSTRUCTOR_1(OnReApproveBZRQPlanListener, CPlanPanel&, planPanel)
 	public:
-		virtual void OnSuccess(bool& bRet){
-			if (bRet)
-			{
+		virtual void OnSuccess(StringArray& strRet){
+	
 				m_planPanel.MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
 				(m_planPanel.CPlanPanel::OnReApproveSuccess)(CPlan::ApproveType::PACK_PLAN);
-			}
+			
 			m_planPanel.GetParent()->EnableWindow(TRUE);
 		}
 		virtual void OnFailed(){
@@ -935,15 +941,14 @@ void CPlanPanel::OnBnClickedReApproveBZRQPlan()
 
 void CPlanPanel::OnBnClickedReApproveSCRQBusiness()
 {
-	class OnReApproveSCRQBusinessListener : public CPromise<bool>::IHttpResponse{
+	class OnReApproveSCRQBusinessListener : public CPromise<StringArray>::IHttpResponse{
 		CONSTRUCTOR_1(OnReApproveSCRQBusinessListener, CPlanPanel&, planPanel)
 	public:
-		virtual void OnSuccess(bool& bRet){
-			if (bRet)
-			{
-				m_planPanel.MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
-				(m_planPanel.CPlanPanel::OnReApproveSuccess)(CPlan::ApproveType::PLAN_BUSINESS);
-			}
+		virtual void OnSuccess(StringArray& strRet){
+
+			m_planPanel.MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
+			(m_planPanel.CPlanPanel::OnReApproveSuccess)(CPlan::ApproveType::PLAN_BUSINESS);
+
 			m_planPanel.GetParent()->EnableWindow(TRUE);
 		}
 		virtual void OnFailed(){
@@ -968,15 +973,14 @@ void CPlanPanel::OnBnClickedReApproveSCRQBusiness()
 
 void CPlanPanel::OnBnClickedReApproveSCRQPlan()
 {
-	class OnReApproveSCRQPlanListener : public CPromise<bool>::IHttpResponse{
+	class OnReApproveSCRQPlanListener : public CPromise<StringArray>::IHttpResponse{
 		CONSTRUCTOR_1(OnReApproveSCRQPlanListener, CPlanPanel&, planPanel)
 	public:
-		virtual void OnSuccess(bool& bRet){
-			if (bRet)
-			{
-				m_planPanel.MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
-				(m_planPanel.CPlanPanel::OnReApproveSuccess)(CPlan::ApproveType::PLAN_PLAN);
-			}
+		virtual void OnSuccess(StringArray& strRet){
+
+			m_planPanel.MessageBox(_T("反审核成功"), _T("反审核"), MB_OK | MB_ICONWARNING);
+			(m_planPanel.CPlanPanel::OnReApproveSuccess)(CPlan::ApproveType::PLAN_PLAN);
+
 			m_planPanel.GetParent()->EnableWindow(TRUE);
 		}
 		virtual void OnFailed(){
@@ -1376,18 +1380,18 @@ void CPlanPanel::OnUIPrepared()
 
 void CPlanPanel::OnLoadDataSuccess(CString& jsondata)
 {
-	for (int j = 0; j < m_table.size(); ++j)
-	{
-		m_pJqGridAPI->DelRow(m_table[j].first);
-	}
+	//for (int j = 0; j < m_table.size(); ++j)
+	//{
+	//	m_pJqGridAPI->DelRow(m_table[j].first);
+	//}
 
-	m_pJqGridAPI->Refresh();
+	//m_pJqGridAPI->Refresh();
 
-	//StringToTable(jsondata, m_table);
-	for (int j = 0; j < m_table.size(); ++j)
-	{
-		m_pJqGridAPI->AddRow(m_table[j].first, m_table[j].second);
-	}
+	////StringToTable(jsondata, m_table);
+	//for (int j = 0; j < m_table.size(); ++j)
+	//{
+	//	m_pJqGridAPI->AddRow(m_table[j].first, m_table[j].second);
+	//}
 }
 
 void CPlanPanel::OnModifyDataSuccess(std::vector<CString>& newData)

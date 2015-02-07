@@ -9,11 +9,13 @@ namespace Json{
 		JsonValueString(json_string& str) 
 			: JsonValue<json_string>(str){
 			replace(value(), quotation, J("\""));
+			replace(value(), backslash, J("\\"));
 		}
 
 		JsonValueString(json_char* str) 
 			: JsonValue<json_string>(json_string(str)){
 			replace(value(), quotation, J("\""));
+			replace(value(), backslash, J("\\"));
 		}
 		virtual JsonTypeTag tag(){
 			return jstring;
@@ -21,6 +23,7 @@ namespace Json{
 
 		virtual void asJson(json_stringstream& os){
 			json_string strTmp = value();
+			replace(strTmp, J("\\"), backslash);
 			replace(strTmp, J("\""), quotation);
 			os << J("\"") << strTmp << J("\"");
 		}

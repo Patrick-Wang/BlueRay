@@ -436,32 +436,6 @@ public class SaleServiceImpl implements SaleService {
 			HTXX htxx = saleDao
 					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
 			if (htxx != null) {
-//				setHtID(htxx, data.getString(0));
-//				setClientID(htxx, data.getString(1));
-//				setGgxhID(htxx, data.getString(2));
-//				setSl(htxx, data.getString(3));
-//				setZcID(htxx, data.getString(4));
-//				setDfr(htxx, data.getString(5));
-//				setZdqdyID(htxx, data.getString(6));
-//				setYylggID(htxx, data.getString(7));
-//				setSfjf(htxx, data.getString(8));
-//				setBpqxhID(htxx, data.getString(9));
-//				setBmqxhID(htxx, data.getString(10));
-//				setDlcd(htxx, data.getString(11));
-//
-//				setZxcd(htxx, data.getString(12));
-//				setMpzl(htxx, data.getString(13));
-//				setBz(htxx, data.getString(14));
-//				setDdrq(htxx, data.getString(15));
-//				setZjdy(htxx, data.getString(16));
-//				setZjys(htxx, data.getString(17));
-//				setZdqxh(htxx, data.getString(18));
-//				setZyz(htxx, data.getString(19));
-//				setBzxdtgg(htxx, data.getString(20));
-//				setGh(htxx, data.getString(21));
-//				setZzs(htxx, data.getString(22));
-//				setKhqy(htxx, data.getString(23));
-//				setYxj(htxx, data.getString(24));
 				updateHtxx(data, htxx);
 				saleDao.update(htxx);
 			}
@@ -470,75 +444,107 @@ public class SaleServiceImpl implements SaleService {
 	}
 
 	
-	private void validatePassApprove(HTXX htxx) {
+	private boolean validatePassApprove(HTXX htxx) {
 		if ("Y".equals(htxx.getSftgjhsh()) && "Y".equals(htxx.getSftgywsh())) {
+			if (htxx.getSl() == null){
+				return false;
+			}
 			for (int j = htxx.getSl() - 1; j >= 0; j--) {
 				PCJHXX pcjhxx = new PCJHXX();
 				pcjhxx.setHtxxID(htxx.getID());
 				planDao.insert(pcjhxx);
 			}
 		}
+		return true;
 	}
 	
 	public String businessApprove(JSONArray rows) {
+		JSONArray jaRet = new JSONArray();
 		for (int i = rows.size() - 1; i >= 0; --i) {
 			HTXX htxx = saleDao
 					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
 			if (!"Y".equals(htxx.getSftgywsh())) {
 				htxx.setSftgywsh("Y");
-				saleDao.update(htxx);
-				validatePassApprove(htxx);
+				if (validatePassApprove(htxx)){
+					saleDao.update(htxx);
+				}else{
+					jaRet.add(rows.getInt(i) + "");
+				}
 			}
 		}
-		return "success";
+		return jaRet.toString();
 	}
 
 	public String planApprove(JSONArray rows) {
+		JSONArray jaRet = new JSONArray();
 		for (int i = rows.size() - 1; i >= 0; --i) {
 			HTXX htxx = saleDao
 					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
 			if (!"Y".equals(htxx.getSftgjhsh())) {
 				htxx.setSftgjhsh("Y");
-				saleDao.update(htxx);
-				validatePassApprove(htxx);
+				if (validatePassApprove(htxx)){
+					saleDao.update(htxx);
+				}else{
+					jaRet.add(rows.getInt(i) + "");
+				}
 			}
 		}
-		return "success";
+		return jaRet.toString();
 	}
 
 	public String businessUnapprove(JSONArray rows) {
+		JSONArray jaRet = new JSONArray();
 		for (int i = rows.size() - 1; i >= 0; --i) {
 			HTXX htxx = saleDao
 					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
-			if ("Y".equals(htxx.getSftgywsh())) {
-				htxx.setSftgywsh("N");
-				saleDao.update(htxx);
-				validatePassUnapprove(htxx);
+			if (null != htxx) {
+				if ("Y".equals(htxx.getSftgywsh())) {
+					htxx.setSftgywsh("N");
+					saleDao.update(htxx);
+					if (!validatePassUnapprove(htxx)) {
+						jaRet.add(rows.getInt(i) + "");
+					}
+				}
+			} else {
+				jaRet.add(rows.getInt(i) + "");
 			}
 		}
-		return "success";
+		return jaRet.toString();
 	}
 
-	private void validatePassUnapprove(HTXX htxx) {
-		if (!"Y".equals(htxx.getSftgjhsh()) && !"Y".equals(htxx.getSftgywsh())) {
-			List<PCJHXX> pcjhs = planDao.getDateByHtxxId(htxx.getID());
-			for (PCJHXX pcjh : pcjhs){
-				planDao.delete(pcjh);
+	private boolean validatePassUnapprove(HTXX htxx) {
+		if (!"Y".equals(htxx.getSftgjhsh()) || !"Y".equals(htxx.getSftgywsh())) {
+			int approvedCount = planDao.getArpprovedDataCount(htxx.getID());
+			if (approvedCount == 0) {
+				List<PCJHXX> pcjhs = planDao.getDateByHtxxId(htxx.getID());
+				for (PCJHXX pcjh : pcjhs) {
+					planDao.delete(pcjh);
+				}
+			}
+			else {
+				return false;
 			}
 		}
+		return true;
 	}
 
 	public String planUnapprove(JSONArray rows) {
+		JSONArray jaRet = new JSONArray();
 		for (int i = rows.size() - 1; i >= 0; --i) {
-			HTXX htxx = saleDao
-					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
-			if ("Y".equals(htxx.getSftgjhsh())) {
-				htxx.setSftgjhsh("N");
-				saleDao.update(htxx);
-				validatePassUnapprove(htxx);
+			HTXX htxx = saleDao.getSaleDataById(rows.getInt(i));
+			if (null != htxx) {
+				if ("Y".equals(htxx.getSftgjhsh())) {
+					htxx.setSftgjhsh("N");
+					saleDao.update(htxx);
+					if (!validatePassUnapprove(htxx)) {
+						jaRet.add(rows.getInt(i) + "");
+					}
+				}
+			} else {
+				jaRet.add(rows.getInt(i) + "");
 			}
 		}
-		return "success";
+		return jaRet.toString();
 	}
 
 

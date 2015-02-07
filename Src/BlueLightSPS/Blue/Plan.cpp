@@ -32,7 +32,7 @@ CPromise<bool>& CPlan::Update(IntArray& rows, StringArray& record)
 }
 
 
-CPromise<bool>& CPlan::Approve(ApproveType type, IntArray& rows)
+CPromise<StringArray>& CPlan::Approve(ApproveType type, IntArray& rows)
 {
 	CString url;
 	switch (type)
@@ -55,7 +55,7 @@ CPromise<bool>& CPlan::Approve(ApproveType type, IntArray& rows)
 	return doApprove(url, rows);
 }
 
-CPromise<bool>& CPlan::Unapprove(ApproveType type, IntArray& rows)
+CPromise<StringArray>& CPlan::Unapprove(ApproveType type, IntArray& rows)
 {
 	CString url;
 	switch (type)
@@ -79,11 +79,11 @@ CPromise<bool>& CPlan::Unapprove(ApproveType type, IntArray& rows)
 	return doApprove(url, rows);
 }
 
-CPromise<bool>& CPlan::doApprove(CString& url, IntArray& rows)
+CPromise<StringArray>& CPlan::doApprove(CString& url, IntArray& rows)
 {
 	std::map<CString, IntArrayPtr> attr;
 	attr[_T("rows")] = &rows;
-	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_lpHttp, new CBoolParser());
+	CPromise<StringArray>* promise = CPromise<StringArray>::MakePromise(m_lpHttp, new CStringArrayParser());
 	m_lpHttp->Post(traceSession(url), promise->GetId(), attr);
 	return *promise;
 }

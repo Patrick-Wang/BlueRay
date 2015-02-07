@@ -70,7 +70,7 @@ namespace Json{
 		return false;
 	}
 
-	int JsonString::find( json_char ch, int start /*= 0*/ )
+	int JsonString::indexOf( json_char ch, int start /*= 0*/ )
 	{
 		while (start < m_length)
 		{
@@ -81,5 +81,19 @@ namespace Json{
 		return -1;
 	}
 
+	int JsonString::lastIndexOf(json_char ch, int index /*= -1*/)
+	{
+		if (index < 0)
+		{
+			index = m_length - 1;
+		}
+		while (index >= 0)
+		{
+			if (ch == m_begin[index--]){
+				return index + 1;
+			}
+		}
+		return -1;
+	}
 
 }

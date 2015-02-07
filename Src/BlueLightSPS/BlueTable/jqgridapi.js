@@ -1,4 +1,7 @@
-﻿var grids = {};
+﻿/// <reference path="base.ts" />
+/// <reference path="util.ts" />
+//var instance: base.GridView;
+var grids = {};
 var mediator = window.external;
 
 function setRowBgColor(gridName, rowId, r, g, b) {
@@ -33,10 +36,13 @@ function getDisabledRows(gridName) {
 
 function showGrid(gridName) {
     $("#" + gridName + "p").css("display", "");
+    //grids[gridName] = grids[gridName];
+    //alert("show" + gridName);
 }
 
 function hideGrid(gridName) {
     $("#" + gridName + "p").css("display", "none");
+    //alert("hide" + gridName);
 }
 
 function addRowData(gridName, rdata) {
@@ -50,6 +56,7 @@ function addRowData(gridName, rdata) {
 
 function update(gridName, tdata) {
     var jdata = Util.parse(tdata);
+    cleanSelectedRow(gridName);
     $("#" + gridName)[0].addJSONData(jdata);
 }
 
@@ -67,6 +74,7 @@ function getRowId(gridName, rowIndex) {
 }
 
 function showHideRow(gridName, rowId, show) {
+    //alert(show + gridName);
     grids[gridName].showHideRow(rowId, show == "true");
 }
 
@@ -87,15 +95,29 @@ function cleanSelectedRow(gridName) {
 }
 
 function delRowData(gridName, rowId) {
+    //alert("delRow" + row);
     grids[gridName].delRowData(rowId);
 }
 
 function reload(gridName) {
+    //alert("delRow" + row);
     grids[gridName].reload();
 }
 
 function getRowData(gridName, rowId) {
-    return Util.stringify(grids[gridName].getRowData(rowId));
+    var rowData = grids[gridName].getRowData(rowId);
+    var count = 0;
+
+    for (var i in rowData) {
+        ++count;
+    }
+    var retData = [];
+    for (var i = 0; i < count; ++i) {
+        retData.push(rowData[gridName + "_col_" + i]);
+    }
+
+    //alert(retData);
+    return Util.stringify(retData);
 }
 
 function setCellData(gridName, row, col, data) {
@@ -132,3 +154,4 @@ function curPage(gridName) {
 function rowNum(gridName) {
     return grids[gridName].getRowNum();
 }
+//# sourceMappingURL=jqgridapi.js.map

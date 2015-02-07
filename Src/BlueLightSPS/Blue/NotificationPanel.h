@@ -19,7 +19,7 @@ class CNotificationPanel :
 			(m_panel.OnLoadDataSuccess)(page);
 			m_panel.GetParent()->EnableWindow(TRUE);
 			m_panel.HighLight();
-			m_pJqGridAPI->UncheckedAll();
+//			m_pJqGridAPI->UncheckedAll();
 			m_panel.OnRowChecked();
 		}
 		virtual void OnFailed(){

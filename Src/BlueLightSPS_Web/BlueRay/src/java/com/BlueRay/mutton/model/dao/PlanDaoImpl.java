@@ -159,4 +159,18 @@ public class PlanDaoImpl implements PlanDao{
 		return ((Long) objs.get(0)).intValue();
 	}
 
+	public int getArpprovedDataCount(Integer htId) {
+		Query q = entityManager.createQuery(
+				"select count(t) from PCJHXX t, HTXX h where t.htxxID = h.ID and h.htID = '" + htId + "' and (t.bzsftgywsh = 'Y' or t.bzsftgjhsh = 'Y' or t.sftgywsh = 'Y' or t.sftgjhsh = 'Y')");
+		List<Object> objs = q.getResultList();
+		return ((Long) objs.get(0)).intValue(); 
+	}
+
+	public int getDataCount(Integer id) {
+		Query q = entityManager.createQuery(
+				"select count(t) from PCJHXX t, HTXX h where t.htxxID = h.ID and h.htID = '" + id + "'");
+		List<Object> objs = q.getResultList();
+		return ((Long) objs.get(0)).intValue(); 
+	}
+
 }

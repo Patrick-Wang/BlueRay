@@ -56,6 +56,7 @@ function addRowData(gridName: string, rdata: string) {
 
 function update(gridName: string, tdata: string) {
     var jdata = Util.parse(tdata);
+    cleanSelectedRow(gridName);
     $("#" + gridName)[0].addJSONData(jdata);
 }
 
@@ -105,7 +106,18 @@ function reload(gridName: string): void {
 }
 
 function getRowData(gridName: string,rowId: number): string {
-    return Util.stringify(grids[gridName].getRowData(rowId));
+    var rowData = grids[gridName].getRowData(rowId);
+    var count = 0;
+    //alert(rowData);
+    for (var i in rowData) {
+        ++count;
+    }
+    var retData = [];
+    for (var i : any = 0; i < count; ++i) {
+        retData.push(rowData[gridName + "_col_" + i]);
+    }
+    //alert(retData);
+    return Util.stringify(retData);
 }
 
 function setCellData(gridName: string, row: number, col: number, data: string) {

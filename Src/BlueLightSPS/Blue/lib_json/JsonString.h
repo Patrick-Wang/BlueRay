@@ -20,7 +20,9 @@ namespace Json{
 
 		bool equals(json_char* val);
 
-		int find(json_char ch, int start = 0);
+		int indexOf(json_char ch, int index = 0);
+
+		int lastIndexOf(json_char ch, int index = -1);
 
 		int length(){
 			return m_length;

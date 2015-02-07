@@ -39,4 +39,8 @@ public interface PlanDao {
 	int getPackPlanUnapproved();
 
 	int getPackBusinessUnapproved();
+
+	int getArpprovedDataCount(Integer htId);
+
+	int getDataCount(Integer id);
 }

@@ -288,40 +288,40 @@ int CJQGridAPI::GetRowCount()
 	}
 	return -1;
 }
-
-void CJQGridAPI::ShowRow(int rowId)
-{
-	std::vector<VARIANT> params;
-	VARIANT vt = {};
-	vt.vt = VT_BSTR;
-	vt.bstrVal = m_gridName;
-	params.push_back(vt);
-	vt.vt = VT_I4;
-	vt.intVal = rowId;
-	params.push_back(vt);
-	vt.vt = VT_BSTR;
-	vt.bstrVal = ::SysAllocString(_T("true"));
-	params.push_back(vt);
-	m_pMedia->CallJsFunction(_T("showHideRow"), params);
-	::SysFreeString(vt.bstrVal);
-}
-
-void CJQGridAPI::HideRow(int rowId)
-{
-	std::vector<VARIANT> params;
-	VARIANT vt = {};
-	vt.vt = VT_BSTR;
-	vt.bstrVal = m_gridName;
-	params.push_back(vt);
-	vt.vt = VT_I4;
-	vt.intVal = rowId;
-	params.push_back(vt);
-	vt.vt = VT_BSTR;
-	vt.bstrVal = ::SysAllocString(_T("false"));
-	params.push_back(vt);
-	m_pMedia->CallJsFunction(_T("showHideRow"), params);
-	::SysFreeString(vt.bstrVal);
-}
+//
+//void CJQGridAPI::ShowRow(int rowId)
+//{
+//	std::vector<VARIANT> params;
+//	VARIANT vt = {};
+//	vt.vt = VT_BSTR;
+//	vt.bstrVal = m_gridName;
+//	params.push_back(vt);
+//	vt.vt = VT_I4;
+//	vt.intVal = rowId;
+//	params.push_back(vt);
+//	vt.vt = VT_BSTR;
+//	vt.bstrVal = ::SysAllocString(_T("true"));
+//	params.push_back(vt);
+//	m_pMedia->CallJsFunction(_T("showHideRow"), params);
+//	::SysFreeString(vt.bstrVal);
+//}
+//
+//void CJQGridAPI::HideRow(int rowId)
+//{
+//	std::vector<VARIANT> params;
+//	VARIANT vt = {};
+//	vt.vt = VT_BSTR;
+//	vt.bstrVal = m_gridName;
+//	params.push_back(vt);
+//	vt.vt = VT_I4;
+//	vt.intVal = rowId;
+//	params.push_back(vt);
+//	vt.vt = VT_BSTR;
+//	vt.bstrVal = ::SysAllocString(_T("false"));
+//	params.push_back(vt);
+//	m_pMedia->CallJsFunction(_T("showHideRow"), params);
+//	::SysFreeString(vt.bstrVal);
+//}
 
 int CJQGridAPI::GetRowId(int index)
 {
@@ -603,15 +603,15 @@ void CJQGridAPI::SetChecked(int rowId, bool bCheck)
 	m_pMedia->CallJsFunction(_T("setSelect"), params);
 }
 
-void CJQGridAPI::UncheckedAll()
-{
-	std::vector<VARIANT> params;
-	VARIANT vt = {};
-	vt.vt = VT_BSTR;
-	vt.bstrVal = m_gridName;
-	params.push_back(vt);
-	m_pMedia->CallJsFunction(_T("cleanSelectedRow"), params);
-}
+//void CJQGridAPI::UncheckedAll()
+//{
+//	std::vector<VARIANT> params;
+//	VARIANT vt = {};
+//	vt.vt = VT_BSTR;
+//	vt.bstrVal = m_gridName;
+//	params.push_back(vt);
+//	m_pMedia->CallJsFunction(_T("cleanSelectedRow"), params);
+//}
 
 
 

@@ -364,11 +364,40 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 	std::vector<int> checkedRows;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 
-	class CApproveListener : public CPromise<bool>::IHttpResponse{
-		CONSTRUCTOR_1(CApproveListener, CNotificationPanel&, panel)
+	class CApproveListener : public CPromise<StringArray>::IHttpResponse{
+		CONSTRUCTOR_2(CApproveListener, CNotificationPanel&, panel, CJQGridAPI*, pJqGridAPI)
 	public:
-		virtual void OnSuccess(bool& ret){
-			m_panel.MessageBox(_T("审核成功"), _T("审核结果"), MB_OK | MB_ICONWARNING);
+		virtual void OnSuccess(StringArray& arrRet){
+			std::vector<int> checkedRows;
+			m_pJqGridAPI->GetCheckedRows(checkedRows);
+			CString strFmt;
+			strFmt.Format(L"%d 条审核失败 \r\n", arrRet.size());
+			std::vector<int>::iterator it;
+			StringArray row;
+			for (int i = 0; i < arrRet.size(); ++i)
+			{
+				it = std::find(checkedRows.begin(), checkedRows.end(), _tstoi(arrRet[i]));
+				if (it != checkedRows.end())
+				{
+					m_pJqGridAPI->GetRow(*it, row);
+					strFmt += row[0] + L" ";
+					checkedRows.erase(it);
+					row.clear();
+				}
+			}
+
+			CString strFmtTmp;
+			strFmtTmp.Format(L"%d 条审核成功 \r\n", checkedRows.size());
+				for (int i = 0; i < checkedRows.size(); ++i)
+				{
+					m_pJqGridAPI->GetRow(checkedRows[i], row);
+					strFmtTmp += row[0] + L" ";
+					row.clear();
+				}
+			
+			strFmt = strFmtTmp + L"\r\n" + strFmt;
+
+			m_panel.MessageBox(strFmt, _T("审核结果"), MB_OK | MB_ICONWARNING);
 			m_panel.OnBnClickedBtnReturn();
 			m_panel.GetParent()->EnableWindow(TRUE);
 		}
@@ -386,27 +415,27 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 		break;
 	case CNotificationPanel::Approving_SaleBusiness:
 		//url.Format(_T("http://%s:8080/BlueRay/sale/approve/business"), IDS_HOST_NAME);
-		CServer::GetInstance()->GetSale().Approve(CSale::BUSINESS, checkedRows).then(new CApproveListener(*this));
+		CServer::GetInstance()->GetSale().Approve(CSale::BUSINESS, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
 		break;
 	case CNotificationPanel::Approving_SalePlan:
 		//url.Format(_T("http://%s:8080/BlueRay/sale/approve/plan"), IDS_HOST_NAME);
-		CServer::GetInstance()->GetSale().Approve(CSale::PLAN, checkedRows).then(new CApproveListener(*this));
+		CServer::GetInstance()->GetSale().Approve(CSale::PLAN, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
 		break;
 	case CNotificationPanel::Approving_PlanSCRQBusiness:
 		//url.Format(_T("http://%s:8080/BlueRay/plan/approve/business"), IDS_HOST_NAME);
-		CServer::GetInstance()->GetPlan().Approve(CPlan::PLAN_BUSINESS, checkedRows).then(new CApproveListener(*this));
+		CServer::GetInstance()->GetPlan().Approve(CPlan::PLAN_BUSINESS, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
 		break;
 	case CNotificationPanel::Approving_PlanSCRQPlan:
 		//url.Format(_T("http://%s:8080/BlueRay/plan/approve/plan"), IDS_HOST_NAME);
-		CServer::GetInstance()->GetPlan().Approve(CPlan::PLAN_PLAN, checkedRows).then(new CApproveListener(*this));
+		CServer::GetInstance()->GetPlan().Approve(CPlan::PLAN_PLAN, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
 		break;
 	case CNotificationPanel::Approving_PlanBZRQBusiness:
 		//url.Format(_T("http://%s:8080/BlueRay/plan/approve/pack/business"), IDS_HOST_NAME);
-		CServer::GetInstance()->GetPlan().Approve(CPlan::PACK_BUSINESS, checkedRows).then(new CApproveListener(*this));
+		CServer::GetInstance()->GetPlan().Approve(CPlan::PACK_BUSINESS, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
 		break;
 	case CNotificationPanel::Approving_PlanBZRQPlan:
 		//url.Format(_T("http://%s:8080/BlueRay/plan/approve/pack/plan"), IDS_HOST_NAME);
-		CServer::GetInstance()->GetPlan().Approve(CPlan::PACK_PLAN, checkedRows).then(new CApproveListener(*this));
+		CServer::GetInstance()->GetPlan().Approve(CPlan::PACK_PLAN, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
 		break;
 	case CNotificationPanel::Approving_END:
 		break;

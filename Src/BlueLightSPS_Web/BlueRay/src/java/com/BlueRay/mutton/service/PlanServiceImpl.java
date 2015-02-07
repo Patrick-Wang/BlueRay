@@ -189,7 +189,7 @@ public class PlanServiceImpl implements PlanService {
 				planDao.update(pcjhxx);
 			}
 		}
-		return "success";
+		return "[]";
 	}
 
 	public String planApprove(JSONArray rows) {
@@ -200,7 +200,7 @@ public class PlanServiceImpl implements PlanService {
 				planDao.update(pcjhxx);
 			}
 		}
-		return "success";
+		return "[]";
 	}
 
 	public String packBusinessApprove(JSONArray rows) {
@@ -211,7 +211,7 @@ public class PlanServiceImpl implements PlanService {
 				planDao.update(pcjhxx);
 			}
 		}
-		return "success";
+		return "[]";
 	}
 
 	public String packPlanApprove(JSONArray rows) {
@@ -222,26 +222,26 @@ public class PlanServiceImpl implements PlanService {
 				planDao.update(pcjhxx);
 			}
 		}
-		return "success";
+		return "[]";
 	}
 
 	
-	private void validatePlanUnapprove(PCJHXX pcjhxx){
-		if (!"Y".equals(pcjhxx.getSftgywsh()) && !"Y".equals(pcjhxx.getSftgjhsh())){
-			pcjhxx.setJhscrq(null);
-		}
-	}
+//	private void validatePlanUnapprove(PCJHXX pcjhxx){
+//		if (!"Y".equals(pcjhxx.getSftgywsh()) && !"Y".equals(pcjhxx.getSftgjhsh())){
+//			pcjhxx.setJhscrq(null);
+//		}
+//	}
 	
 	public String businessUnapprove(JSONArray rows) {
 		for (int i = rows.size() - 1; i >= 0; --i) {
 			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
 			if ("Y".equals(pcjhxx.getSftgywsh())) {
 				pcjhxx.setSftgywsh("N");
-				validatePlanUnapprove(pcjhxx);
+//				validatePlanUnapprove(pcjhxx);
 				planDao.update(pcjhxx);
 			}
 		}
-		return "success";
+		return "[]";
 	}
 
 	public String planUnapprove(JSONArray rows) {
@@ -249,18 +249,18 @@ public class PlanServiceImpl implements PlanService {
 			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
 			if ("Y".equals(pcjhxx.getSftgjhsh())) {
 				pcjhxx.setSftgjhsh("N");
-				validatePlanUnapprove(pcjhxx);
+//				validatePlanUnapprove(pcjhxx);
 				planDao.update(pcjhxx);
 			}
 		}
-		return "success";
+		return "[]";
 	}
 
-	private void validatePackUnapprove(PCJHXX pcjhxx){
-		if (!"Y".equals(pcjhxx.getBzsftgywsh()) && !"Y".equals(pcjhxx.getBzsftgjhsh())){
-			pcjhxx.setJhbzrq(null);
-		}
-	}
+//	private void validatePackUnapprove(PCJHXX pcjhxx){
+//		if (!"Y".equals(pcjhxx.getBzsftgywsh()) && !"Y".equals(pcjhxx.getBzsftgjhsh())){
+//			pcjhxx.setJhbzrq(null);
+//		}
+//	}
 	
 	
 	public String packBusinessUnapprove(JSONArray rows) {
@@ -268,11 +268,11 @@ public class PlanServiceImpl implements PlanService {
 			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
 			if ("Y".equals(pcjhxx.getBzsftgywsh())) {
 				pcjhxx.setBzsftgywsh("N");
-				validatePackUnapprove(pcjhxx);
+//				validatePackUnapprove(pcjhxx);
 				planDao.update(pcjhxx);
 			}
 		}
-		return "success";
+		return "[]";
 	}
 
 	public String packPlanUnapprove(JSONArray rows) {
@@ -280,11 +280,11 @@ public class PlanServiceImpl implements PlanService {
 			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
 			if ("Y".equals(pcjhxx.getBzsftgjhsh())) {
 				pcjhxx.setBzsftgjhsh("N");
-				validatePackUnapprove(pcjhxx);
+//				validatePackUnapprove(pcjhxx);
 				planDao.update(pcjhxx);
 			}
 		}
-		return "success";
+		return "[]";
 	}
 
 	public String export(OutputStream outputStream, JSONObject jparam) {

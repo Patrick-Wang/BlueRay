@@ -4,6 +4,9 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
+/// <reference path="jqgrid/jqassist.ts" />
+/// <reference path="util.ts" />
+/// <reference path="base.ts" />
 var ui;
 (function (ui) {
     var SaleView = (function (_super) {
@@ -13,6 +16,7 @@ var ui;
             var importId = gridName + "_import";
             this.mTable.jqGrid('navButtonAdd', "#" + gridName + 'pager', {
                 caption: "", buttonicon: "none", onClickButton: function () {
+                    //alert(gridName);
                     mediator.onImportClicked(gridName);
                 }, position: "last", title: "导入数据", id: importId
             });
@@ -40,6 +44,7 @@ var ui;
             var templateExporteId = gridName + "_template_export";
             this.mTable.jqGrid('navButtonAdd', "#" + gridName + 'pager', {
                 caption: "", buttonicon: "none", onClickButton: function () {
+                    //alert(gridName);
                     mediator.onTemplateExportClicked(gridName);
                 }, position: "last", title: "按模板导出数据", id: templateExporteId
             });
@@ -117,3 +122,4 @@ var ui;
     })(base.GridView);
     ui.NotificationView = NotificationView;
 })(ui || (ui = {}));
+//# sourceMappingURL=views.js.map

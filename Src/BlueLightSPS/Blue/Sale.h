@@ -44,17 +44,17 @@ public:
 	bool DeleteSync(IntArray& rows);
 	CPromise<bool>& Delete(IntArray& rows);
 
-	bool ApproveSync(ApproveType type, IntArray& rows);
-	CPromise<bool>& Approve(ApproveType type, IntArray& rows);
+	//bool ApproveSync(ApproveType type, IntArray& rows);
+	CPromise<StringArray>& Approve(ApproveType type, IntArray& rows);
 
-	bool UnapproveSync(ApproveType type, IntArray& rows);
-	CPromise<bool>& Unapprove(ApproveType type, IntArray& rows);
+	//bool UnapproveSync(ApproveType type, IntArray& rows);
+	CPromise<StringArray>& Unapprove(ApproveType type, IntArray& rows);
 
 	CPromise<ImportResult_t>& Import(LPCTSTR lpFileName);
 
 private:
 	bool doApproveSync(CString& url, IntArray& rows);
-	CPromise<bool>& doApprove(CString& url, IntArray& rows);
+	CPromise<StringArray>& doApprove(CString& url, IntArray& rows);
 	LPCTSTR ToString(ApproveType type);
 	LPCTSTR ToString(bool approved);
 

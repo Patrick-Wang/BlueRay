@@ -141,6 +141,15 @@ private:
 	table m_retTable;
 };
 
+
+class CStringArrayParser : public CPromise<StringArray>::IRespParser{
+public:
+	virtual StringArray& OnParse(LPCTSTR strJson);
+private:
+	StringArray m_retData;
+};
+
+
 class CPageDataParser : public CPromise<PageData_t>::IRespParser{
 public:
 	virtual PageData_t& OnParse(LPCTSTR strJson);

@@ -2,8 +2,8 @@
 #include "JsonType.h"
 #include <map>
 #include <vector>
-#define quotation J("&quot;")
-
+#define quotation J("\\\"")
+#define backslash J("\\\\")
 namespace Json
 {
 	class JsonObject : public JsonType{

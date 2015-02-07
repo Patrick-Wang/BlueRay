@@ -43,6 +43,7 @@ namespace Json{
 		void nextFake();
 		void nextNull();
 		bool isDigit(json_char jsymbol);
+		bool isQuot(int index);
 	private:
 		JsonString m_jstr;
 		int m_cursor;

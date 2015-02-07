@@ -75,11 +75,21 @@ namespace Json{
 	JsonString& JsonSymbol::nextString( JsonString& jstr )
 	{
 		int start = m_cursor;
-		int end = m_jstr.find(J('\"'), m_cursor);
+		int end = m_jstr.indexOf(J('\"'), m_cursor);
 		if (end > 0 && start  > 0)
 		{
-			m_cursor = end + 1;
-			return jstr.setString(m_jstr.str() + start,  end - start);
+			// check \"
+			
+			while (end >= 0 && !isQuot(end))
+			{
+				end = m_jstr.indexOf(J('\"'), end + 1);
+			}
+			
+			if (end > 0)
+			{
+				m_cursor = end + 1;
+				return jstr.setString(m_jstr.str() + start, end - start);
+			}
 		}
 		throw std::exception("invalid json string format");
 	}
@@ -130,6 +140,23 @@ namespace Json{
 	void JsonSymbol::back()
 	{
 		--m_cursor;
+	}
+
+	bool JsonSymbol::isQuot(int index)
+	{
+		bool bRet = false;
+		// check \"
+		int start = index;
+		if (Symbol::string == m_jstr[index])
+		{
+			bRet = true;
+			while (--start >= 0 && J('\\') == m_jstr[start]);
+			if ((index - start - 1) % 2 == 1)
+			{
+				bRet = false;
+			}
+		}
+		return bRet;
 	}
 
 }

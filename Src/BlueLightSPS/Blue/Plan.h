@@ -23,11 +23,11 @@ public:
 	CPromise<bool>& Export(LPCTSTR lpFileName, CJsonQueryParam& jqParam);
 	CPromise<bool>& TemplateExport(LPCTSTR lpFileName, CJsonQueryParam& jqParam);
 	CPromise<bool>& Update(IntArray& rows, StringArray& record);
-	CPromise<bool>& Approve(ApproveType type, IntArray& rows);
-	CPromise<bool>& Unapprove(ApproveType type, IntArray& rows);
+	CPromise<StringArray>& Approve(ApproveType type, IntArray& rows);
+	CPromise<StringArray>& Unapprove(ApproveType type, IntArray& rows);
 	bool ValidateTcbhSync(LPCTSTR tcbh, bool& bRet);
 	bool ValidateCcbhSync(LPCTSTR ccbh, bool& bRet);
 private:
-	CPromise<bool>& doApprove(CString& url, IntArray& rows);
+	CPromise<StringArray>& doApprove(CString& url, IntArray& rows);
 };
 

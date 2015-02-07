@@ -10,7 +10,7 @@ module Util {
         var s = '';
 
         if (typeof (json) == "string") {
-            s = '"' + json + '"';
+            s = '"' + json.replace(new RegExp('\\\\',"g"), '\\\\\\\\').replace(new RegExp('"', "g"), '\\"') + '"';
         } else if (typeof (json) == "object") {
             if (json instanceof Array) {
                 for (var k in json) {

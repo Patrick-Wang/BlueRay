@@ -194,9 +194,11 @@ namespace nsNotification{
 #define DEFINE_SALE_QUERY_PARAM(name) \
 	CJsonQueryParam name;\
 	name.AddSortCondition(nsSale::Column_en::ddrq, false); \
-	name.AddSortCondition(nsSale::Column_en::yxj, true);
+	name.AddSortCondition(nsSale::Column_en::yxj, true);\
+	name.AddSortCondition(nsSale::Column_en::hth, true); 
 
 #define DEFINE_PLAN_QUERY_PARAM(name) \
 	CJsonQueryParam name;\
 	name.AddSortCondition(nsPlan::Column_en::ddrq, false); \
-	name.AddSortCondition(nsPlan::Column_en::yxj, true);//sort for yxj 
+	name.AddSortCondition(nsPlan::Column_en::yxj, true); \
+	name.AddSortCondition(nsPlan::Column_en::hth, true); 

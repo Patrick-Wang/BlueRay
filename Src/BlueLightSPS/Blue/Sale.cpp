@@ -62,41 +62,41 @@ bool CSale::DeleteSync(IntArray& rows)
 	m_lpHttp->SyncPost(traceSession(url), attr, strRet);
 	return strRet.Compare(L"success") == 0;
 }
+//
+//bool CSale::ApproveSync(ApproveType type, IntArray& rows)
+//{
+//	CString url;
+//	switch (type)
+//	{
+//	case CSale::PLAN:
+//		url.Format(_T("http://%s:8080/BlueRay/sale/approve/plan"), IDS_HOST_NAME);
+//		break;
+//	case CSale::BUSINESS:
+//		url.Format(_T("http://%s:8080/BlueRay/sale/approve/business"), IDS_HOST_NAME);
+//		break;
+//	default:
+//		break;
+//	}
+//	return doApproveSync(url, rows);
+//}
 
-bool CSale::ApproveSync(ApproveType type, IntArray& rows)
-{
-	CString url;
-	switch (type)
-	{
-	case CSale::PLAN:
-		url.Format(_T("http://%s:8080/BlueRay/sale/approve/plan"), IDS_HOST_NAME);
-		break;
-	case CSale::BUSINESS:
-		url.Format(_T("http://%s:8080/BlueRay/sale/approve/business"), IDS_HOST_NAME);
-		break;
-	default:
-		break;
-	}
-	return doApproveSync(url, rows);
-}
-
-bool CSale::UnapproveSync(ApproveType type, IntArray& rows)
-{
-	CString url;
-	switch (type)
-	{
-	case CSale::PLAN:
-		url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/plan"), IDS_HOST_NAME);
-		break;
-	case CSale::BUSINESS:
-		url.Format(_T("http://%s:8080/BlueRay/sale/approve/business"), IDS_HOST_NAME);
-		break;
-	default:
-		break;
-	}
-
-	return doApproveSync(url, rows  );
-}
+//bool CSale::UnapproveSync(ApproveType type, IntArray& rows)
+//{
+//	CString url;
+//	switch (type)
+//	{
+//	case CSale::PLAN:
+//		url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/plan"), IDS_HOST_NAME);
+//		break;
+//	case CSale::BUSINESS:
+//		url.Format(_T("http://%s:8080/BlueRay/sale/approve/business"), IDS_HOST_NAME);
+//		break;
+//	default:
+//		break;
+//	}
+//
+//	return doApproveSync(url, rows  );
+//}
 
 bool CSale::doApproveSync(CString& url, IntArray& rows)
 {
@@ -163,23 +163,23 @@ CPromise<bool>& CSale::Delete(IntArray& rows)
 	return *promise;
 }
 
-CPromise<bool>& CSale::Approve(ApproveType type, IntArray& rows)
+CPromise<StringArray>& CSale::Approve(ApproveType type, IntArray& rows)
 {
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/sale/approve/%s"), IDS_HOST_NAME, Translate(type));
 	return doApprove(url, rows);
 }
 
-CPromise<bool>& CSale::doApprove(CString& url, IntArray& rows)
+CPromise<StringArray>& CSale::doApprove(CString& url, IntArray& rows)
 {
 	std::map<CString, IntArrayPtr> attr;
 	attr[_T("rows")] = &rows;
-	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_lpHttp, new CBoolParser());
+	CPromise<StringArray>* promise = CPromise<StringArray>::MakePromise(m_lpHttp, new CStringArrayParser());
 	m_lpHttp->Post(traceSession(url), promise->GetId(), attr);
 	return *promise;
 }
 
-CPromise<bool>& CSale::Unapprove(ApproveType type, IntArray& rows)
+CPromise<StringArray>& CSale::Unapprove(ApproveType type, IntArray& rows)
 {
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/sale/unapprove/%s"), IDS_HOST_NAME, Translate(type));
