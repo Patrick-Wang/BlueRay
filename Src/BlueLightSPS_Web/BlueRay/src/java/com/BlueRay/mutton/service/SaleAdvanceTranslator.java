@@ -20,7 +20,7 @@ public class SaleAdvanceTranslator extends IAdvanceTranslator {
 			}
 			else  if ("N".equals(value)){
 				return "复绕";
-			}else if ("W".equals(value)){
+			}else {
 				return "无";
 			}
 		} else if("sftgywsh".equals(colName)
@@ -58,12 +58,12 @@ public class SaleAdvanceTranslator extends IAdvanceTranslator {
 					|| "yxj".equals(colName)) {
 				return inMap.get(value);
 			} else if ("dfr".equals(colName)){
-				if ("单绕".equals(value)){
+				if ("单绕".equals(value) || "单".equals(value)){
 					return "Y";
 				}
-				else  if ("复绕".equals(value)){
+				else  if ("复绕".equals(value) || "复".equals(value)){
 					return "N";
-				}else if ("无".equals(value)){
+				}else {
 					return "W";
 				}
 			}

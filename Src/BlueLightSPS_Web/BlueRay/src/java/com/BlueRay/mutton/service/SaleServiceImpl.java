@@ -2,6 +2,7 @@ package com.BlueRay.mutton.service;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -174,17 +175,15 @@ public class SaleServiceImpl implements SaleService {
 		}
 	}
 
-	private void updateHtxx(JSONArray ja, HTXX htxx) {
-		try {
+	private void updateHtxx(JSONArray ja, HTXX htxx) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+
 			for (int i = ja.size() > setMethods.size() ? setMethods.size() - 1
 					: ja.size() - 1; i >= 0; --i) {
 				if (!"".equals(ja.getString(i))){
 					setMethods.get(i).invoke(this, htxx, ja.getString(i));
 				}
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 	}
 	
 	public String add(JSONArray ja) throws Exception {
@@ -438,8 +437,13 @@ public class SaleServiceImpl implements SaleService {
 			HTXX htxx = saleDao
 					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
 			if (htxx != null && !"Y".equals(htxx.getSftgjhsh()) && !"Y".equals(htxx.getSftgywsh())) {
-				updateHtxx(data, htxx);
-				saleDao.update(htxx);
+				try {
+					updateHtxx(data, htxx);
+					saleDao.update(htxx);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 			}
 		}
 		return "success";

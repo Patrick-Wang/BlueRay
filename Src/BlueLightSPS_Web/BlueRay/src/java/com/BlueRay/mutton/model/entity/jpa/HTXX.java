@@ -20,7 +20,7 @@ public class HTXX implements Serializable {
 	private Integer ggxhID = 1;
 	private Integer sl;
 	private Integer zcID = 1;
-	private String dfr = "N";
+	private String dfr = "W";
 	private Integer zdqdyID = 1;
 	private Integer yylggID = 1;
 	private String sfjf = "N";

@@ -1298,7 +1298,7 @@ INSERT INTO `khxx` VALUES ('491', '', null, null, null, null);
 DROP TABLE IF EXISTS `mpzlxx`;
 CREATE TABLE `mpzlxx` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `mpzl` char(100) COLLATE utf8_unicode_ci NOT NULL,
+  `mpzl` VARCHAR(1024) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
