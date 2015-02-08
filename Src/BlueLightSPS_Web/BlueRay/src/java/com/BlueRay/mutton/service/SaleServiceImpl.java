@@ -500,9 +500,10 @@ public class SaleServiceImpl implements SaleService {
 			if (null != htxx) {
 				if ("Y".equals(htxx.getSftgywsh())) {
 					htxx.setSftgywsh("N");
-					saleDao.update(htxx);
 					if (!validatePassUnapprove(htxx)) {
 						jaRet.add(rows.getInt(i) + "");
+					} else{
+						saleDao.update(htxx);
 					}
 				}
 			} else {
@@ -535,9 +536,10 @@ public class SaleServiceImpl implements SaleService {
 			if (null != htxx) {
 				if ("Y".equals(htxx.getSftgjhsh())) {
 					htxx.setSftgjhsh("N");
-					saleDao.update(htxx);
 					if (!validatePassUnapprove(htxx)) {
 						jaRet.add(rows.getInt(i) + "");
+					}else{
+						saleDao.update(htxx);
 					}
 				}
 			} else {

@@ -54,6 +54,15 @@ void CJsonQueryParam::SetDateSearchCondition(LPCTSTR startDate, LPCTSTR endDate)
 
 void CJsonQueryParam::AddSortCondition(int col, bool asc)
 {
+	for (int i = 0; i < m_scs.size(); ++i)
+	{
+		if (m_scs[i].col == col)
+		{
+			m_scs[i].asc = asc;
+			return;
+		}
+	}
+
 	SortCondition_t sc;
 	sc.col = col;
 	sc.asc = asc;
