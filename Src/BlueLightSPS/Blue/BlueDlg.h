@@ -30,7 +30,7 @@ public:
 // Implementation
 protected:
 	HICON m_hIcon;
-	afx_msg void OnSaleChanged();
+	//afx_msg void OnSaleChanged();
 	// Generated message map functions
 	void InitWebView();
 	virtual BOOL OnInitDialog();

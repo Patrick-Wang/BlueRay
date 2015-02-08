@@ -1036,12 +1036,12 @@ void CPlanPanel::OnReApproveSuccess(CPlan::ApproveType type)
 				m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::jhshyw] = IDS_COMMON_NO;
 				m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::jhshyw + 1, IDS_COMMON_NO);
 
-				if (m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::jhshjh] == IDS_COMMON_NO)
-				{
-					//如果生产日期的业务和计划都被反审核，设置生产日期为空
-					m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::scrq] = _T("");
-					m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::scrq + 1, _T(""));
-				}
+				//if (m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::jhshjh] == IDS_COMMON_NO)
+				//{
+				//	//如果生产日期的业务和计划都被反审核，设置生产日期为空
+				//	m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::scrq] = _T("");
+				//	m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::scrq + 1, _T(""));
+				//}
 
 				m_btnReApproveSCRQBusiness->EnableWindow(FALSE);
 			}
@@ -1050,11 +1050,11 @@ void CPlanPanel::OnReApproveSuccess(CPlan::ApproveType type)
 				m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::jhshjh] = IDS_COMMON_NO;
 				m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::jhshjh + 1, IDS_COMMON_NO);
 
-				if (m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::jhshyw] == IDS_COMMON_NO)
-				{
-					m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::scrq] = _T("");
-					m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::scrq + 1, _T(""));
-				}
+				//if (m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::jhshyw] == IDS_COMMON_NO)
+				//{
+				//	m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::scrq] = _T("");
+				//	m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::scrq + 1, _T(""));
+				//}
 
 				m_btnReApproveSCRQPlan->EnableWindow(FALSE);
 			}
@@ -1063,11 +1063,11 @@ void CPlanPanel::OnReApproveSuccess(CPlan::ApproveType type)
 				m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzshyw] = IDS_COMMON_NO;
 				m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::bzshyw + 1, IDS_COMMON_NO);
 
-				if (m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzshjh] == IDS_COMMON_NO)
-				{
-					m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzrq] = _T("");
-					m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::bzrq + 1, _T(""));
-				}
+				//if (m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzshjh] == IDS_COMMON_NO)
+				//{
+				//	m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzrq] = _T("");
+				//	m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::bzrq + 1, _T(""));
+				//}
 
 				m_btnReApproveBZRQBusiness->EnableWindow(FALSE);
 			}
@@ -1076,11 +1076,11 @@ void CPlanPanel::OnReApproveSuccess(CPlan::ApproveType type)
 				m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzshjh] = IDS_COMMON_NO;
 				m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::bzshjh + 1, IDS_COMMON_NO);
 
-				if (m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzshyw] == IDS_COMMON_NO)
-				{
-					m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzrq] = _T("");
-					m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::bzrq + 1, _T(""));
-				}
+				//if (m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzshyw] == IDS_COMMON_NO)
+				//{
+				//	m_table[checkedRowTableMap[i]].second[nsPlan::Column_en::bzrq] = _T("");
+				//	m_pJqGridAPI->SetCell(checkedRows[i], nsPlan::Column_en::bzrq + 1, _T(""));
+				//}
 
 				m_btnReApproveBZRQPlan->EnableWindow(FALSE);
 			}

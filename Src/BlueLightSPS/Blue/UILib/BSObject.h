@@ -164,7 +164,7 @@ public:
    
     CFont* GetFont();
     void SetBackgroundColor(COLORREF crBGColor);
-
+	void EnablePaintDC();
     void PaintGrandpa();
 	virtual void SetPaintDC(HDC hPaintDC, int ix, int iy, int iCx, int iCy);
 	virtual void RePaintDC(RECT rect, BOOL bRShow = FALSE);

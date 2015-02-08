@@ -10,7 +10,9 @@ import javax.persistence.Query;
 
 
 
+
 import net.sf.json.JSONObject;
+
 
 
 
@@ -93,5 +95,4 @@ public class SaleDaoImpl implements SaleDao {
 		List<Object> objs = q.getResultList();
 		return ((Long) objs.get(0)).intValue();
 	}
-
 }

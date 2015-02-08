@@ -710,7 +710,7 @@ CREATE TABLE `htxx` (
   `dlcd` char(20) DEFAULT NULL,
   `zxcd` char(20) DEFAULT NULL,
   `mpzl` int(11) DEFAULT NULL,
-  `bz` char(100) DEFAULT NULL,
+  `bz` VARCHAR(1024) DEFAULT NULL,
   `ddrq` date DEFAULT NULL,
   `ddzt` char(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `zjdyID` int(11) DEFAULT NULL,

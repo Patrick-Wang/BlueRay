@@ -424,8 +424,10 @@ public class SaleServiceImpl implements SaleService {
 	public String delete(JSONArray ja) {
 		HTXX htxx = new HTXX();
 		for (int i = 0; i < ja.size(); ++i) {
-			htxx.setID(Integer.valueOf(ja.getString(i)));
-			saleDao.del(htxx);
+			htxx = saleDao.getSaleDataById(Integer.valueOf(ja.getString(i)));
+			if (htxx != null && !"Y".equals(htxx.getSftgjhsh()) && !"Y".equals(htxx.getSftgywsh())){
+				saleDao.del(htxx);
+			}
 		}
 
 		return "success";
@@ -435,7 +437,7 @@ public class SaleServiceImpl implements SaleService {
 		for (int i = rows.size() - 1; i >= 0; --i) {
 			HTXX htxx = saleDao
 					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
-			if (htxx != null) {
+			if (htxx != null && !"Y".equals(htxx.getSftgjhsh()) && !"Y".equals(htxx.getSftgywsh())) {
 				updateHtxx(data, htxx);
 				saleDao.update(htxx);
 			}

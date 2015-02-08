@@ -54,7 +54,7 @@ BEGIN_MESSAGE_MAP(CBlueDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_WM_ERASEBKGND()
-	ON_MESSAGE_VOID(WM_SALE_UPDATED, CBlueDlg::OnSaleChanged)
+	//ON_MESSAGE_VOID(WM_SALE_UPDATED, CBlueDlg::OnSaleChanged)
 	//ON_BN_CLICKED(IDB_SETTINGPAGE, &CBlueDlg::OnBnClickedSetting)
 	//ON_BN_CLICKED(IDB_PLANPAGE, &CBlueDlg::OnBnClickedPlan)
 	ON_BN_CLICKED(IDC_MIN, &CBlueDlg::OnBnMinmumClicked)
@@ -431,10 +431,10 @@ void CBlueDlg::InitWebView()
 	m_webView.OpenURL(&url);
 }
 
-void CBlueDlg::OnSaleChanged()
-{
-	m_pPanelMap[IDC_PLANPAGE]->HasUpdate();
-}
+//void CBlueDlg::OnSaleChanged()
+//{
+//	m_pPanelMap[IDC_PLANPAGE]->HasUpdate();
+//}
 
 VARIANT CBlueDlg::JSCall(int id, const std::vector<VARIANT>& params)
 {

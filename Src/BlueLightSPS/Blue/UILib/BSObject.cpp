@@ -761,6 +761,29 @@ void CBSObject::EnablePaintDC(BOOL bEnable)
 	m_bHasPaintDC = bEnable;
 }
 
+void CBSObject::EnablePaintDC()
+{
+	EnablePaintDC(true);
+	RECT rt;
+	GetWindowRect(&rt);
+	ScreenToClient(&rt);
+
+	if (NULL != m_hPaintDC)
+	{
+		::DeleteDC(m_hPaintDC);
+	}
+
+	m_hPaintDC = ::CreateCompatibleDC(GetDC()->GetSafeHdc());
+	HBITMAP hBmp = ::CreateCompatibleBitmap(GetDC()->GetSafeHdc(), rt.right - rt.left, rt.bottom - rt.top);
+	::SelectObject(m_hPaintDC, hBmp);
+	//CDC memDc;
+	//memDc.CreateCompatibleDC(&dc);
+	//HDC hDC = memDc.GetSafeHdc();
+	//CBitmap btScreen;
+	//btScreen.CreateCompatibleBitmap(&dc, rt.right - rt.left, rt.bottom - rt.top);
+	//memDc.SelectObject(&btScreen);
+}
+
 enumBSBtnState CBSObject::GetState()
 {
     enumBSBtnState btnState = BS_NORMAL;
