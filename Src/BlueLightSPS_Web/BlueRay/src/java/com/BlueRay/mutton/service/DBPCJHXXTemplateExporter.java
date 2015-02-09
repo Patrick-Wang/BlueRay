@@ -301,7 +301,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 				//updateUTemplate(ret, workbook.cloneSheet(4));
 			} else if (ret[Column.ggxh.ordinal()].length() > 1
 					&& "TA".equalsIgnoreCase(ret[Column.ggxh.ordinal()]
-							.substring(0, 1))) {
+							.substring(0, 2))) {
 				sheet = workbook.cloneSheet(2);
 				locs = mTALocs;
 				//updateTATemplate(ret, workbook.cloneSheet(2));

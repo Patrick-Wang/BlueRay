@@ -29,6 +29,7 @@ import com.BlueRay.mutton.model.dao.PlanDao;
 import com.BlueRay.mutton.model.dao.SaleDao;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
+import com.BlueRay.mutton.model.entity.jpa.ZCXX;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
 
@@ -122,13 +123,30 @@ public class PlanServiceImpl implements PlanService {
 					setTcbh(pcjhxx, data.getString(3));
 				if (!"".equals(data.getString(4)))
 					setCcbh(pcjhxx, data.getString(4));
-
+				if (data.size() > 5 && !"".equals(data.getString(5))){
+					HTXX htxx = saleDao.getSaleDataById(pcjhxx.getHtxxID());
+					if (null != htxx){
+						setZcID(htxx, data.getString(5));
+					}
+				}
 				planDao.update(pcjhxx);
 			}
 
 		}
 		return "success";
 	}
+		private void setZcID(HTXX htxx, String value) {
+			if (!"".equals(value)) {
+				ZCXX item = itemDao.queryZcxxByValue("zcxh", value);
+				if (null == item) {
+					item = new ZCXX();
+					item.setZcxh(value);
+					itemDao.insert(item);
+				}
+				htxx.setZcID(item.getZcxhID());
+			}
+
+		}
 
 	private void setTcbh(PCJHXX pcjhxx, String data) {
 		pcjhxx.setTcbh(data);
