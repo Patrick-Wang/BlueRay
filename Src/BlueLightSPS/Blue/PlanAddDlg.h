@@ -1,6 +1,8 @@
 #pragma once
 #include "PopupDlg.h"
 #include "UILib/BSStatic.h"
+#include "IHttp.h"
+
 #define OPT_FALSE _T("-1")
 #define OPT_FALSE_INT -1
 #define do_get(data, it, dest) \
@@ -21,7 +23,7 @@ break;\
 }
 
 #define do_get_int(data, it, drops, dest) \
-																																																																{\
+				{\
 std::vector<CString>::const_iterator itRet = std::find(CPlanAddDlg::GetDropList()[drops].begin(), CPlanAddDlg::GetDropList()[drops].end(), *it); \
 if (itRet != CPlanAddDlg::GetDropList()[drops].end())\
 {\
@@ -94,6 +96,8 @@ public:
 		CString tcbh;	//投产编号
 		CString ccbh;	//出厂编号
 
+		int zc_forPlan; //轴承 供planner修改用
+
 		tagOption_t(){
 			htbh = OPT_FALSE;			//合同号
 			khmc = OPT_FALSE;		//客户名称
@@ -131,6 +135,8 @@ public:
 			fhrq = OPT_FALSE;	//发货日期
 			tcbh = OPT_FALSE;	//投产编号
 			ccbh = OPT_FALSE;	//出厂编号
+
+			zc_forPlan = OPT_FALSE_INT; //轴承 for plan
 		}
 
 		tagOption_t(std::vector<CString>& data){
@@ -177,6 +183,8 @@ public:
 				do_get(data, it, fhrq);
 				do_get(data, it, tcbh);
 				do_get(data, it, ccbh);
+
+				do_get_int(data, it, CombId::Comb_ZC_ForPlan, zc_forPlan);
 
 			} while (false);
 		}
@@ -225,6 +233,8 @@ public:
 				do_get_merge(data, it, tcbh);
 				do_get_merge(data, it, ccbh);
 
+				do_get_int_merge(data, it, CombId::Comb_ZC_ForPlan, zc_forPlan);
+
 			} while (false);
 		}
 	}Option_t;
@@ -268,6 +278,8 @@ private:
 		Static_FHRQ,
 		Static_TCBH,
 		Static_CCBH,
+
+		Static_ZC_ForPlan,
 
 		Static_END
 	};
@@ -316,21 +328,36 @@ private:
 		DatePicker_END
 	};
 
+	enum CombId{
+		Comb_ZC_ForPlan,
+		Comb_END
+	};
+
 public:
 	virtual BOOL OnInitDialog();
 	void ConfigPlanBtns(bool scrq, bool bzrq);
 	void DisableBHEdits(BOOL tcbh, BOOL ccbh);
+	void OnHttpSuccess(int id, LPCTSTR resp);
+	void OnHttpFailed(int id);
+	static const std::vector<std::vector<CString>>& GetDropList();
+	CDelegate<void(CPlanAddDlg&)> d_GetOption;
 
 protected:
 	virtual void OnOK();
+	void InitCtrlData();
+	void GetText(CComboBox* pComboBox, CombId comId, CString& text);
+	void SetText(CComboBox* pComboBox, CombId comId, CString& text);
 
 private:
+	//std::auto_ptr<Option_t> m_lpOption;
 	Option_t* m_lpOption;
-
+	static std::vector<std::vector<CString>> m_DropList;
+	static int m_iRef;
 	CBSStatic* m_aStatics[StaticId::Static_END];
 	CBSStatic* m_aStaticsToShow[StaticId2::Static2_END];
 	CEdit* m_aEdits[EditId::Edit_END];
 	CDateTimeCtrl* m_aDatePickers[DatePickerId::DatePicker_END];
+	CComboBox* m_aCombs[CombId::Comb_END];
 
 	bool m_bEnablePlanBtnForSCRQ;
 	bool m_bEnablePlanBtnForBZRQ;
@@ -339,5 +366,7 @@ private:
 	bool m_bEnablePlanEditForCCBH;
 
 	virtual void PostNcDestroy();
+	void InitHttpInstance();
+	void OnLoadComboDataSuccess(int id, CString strValList);
 };
 

@@ -8,107 +8,13 @@
 #define IDC_STATIC_BASE (IDC_PLAN_ADD_Control_BASE + 20)
 #define IDC_STATIC_TOSHOW_BASE (IDC_STATIC_BASE + 20)
 #define IDC_DATETIME_BASE (IDC_STATIC_TOSHOW_BASE + 20)
+#define IDC_COMBO_BASE (IDC_DATETIME_BASE + 20)
 
-inline void init(CEdit* edit, CString& val){
-	if (val != OPT_FALSE)
-	{
-		edit->SetWindowText(val);
-	}
-	else
-	{
-		edit->EnableWindow(TRUE);
-	}
-
-}
-
-inline void init(CDateTimeCtrl* dateTime, CString& val){
-	if (val != OPT_FALSE)
-	{
-		if (_T("") == val)
-		{
-     		COleDateTime oletimeTime;
-			oletimeTime.SetStatus(COleDateTime::null);
-			dateTime->SetTime(oletimeTime);    
-		}
-		else
-		{
-			COleVariant VariantTime;
-			VariantTime = val;
-			VariantTime.ChangeType(VT_DATE);
-			COleDateTime DataTime = VariantTime;
-
-			dateTime->SetTime(DataTime);
-		}
-	}
-}
-
-inline void init(CBSStatic* sta, CString& val){
-	if (val != OPT_FALSE)
-	{
-		sta->SetWindowText(val);
-	}
-}
-
-CPlanAddDlg::CPlanAddDlg(LPCTSTR title, CWnd* pParent /*= NULL*/)
-	: CPopupDlg(title, pParent)
-	, m_lpOption(NULL)
-	, m_bEnablePlanBtnForSCRQ(false)
-	, m_bEnablePlanBtnForBZRQ(false)
-{
-
-}
+#define QUERY_COMBO_VALUE_ZC_URL_ID		(IDC_COMBO_BASE + 21)
 
 
-CPlanAddDlg::~CPlanAddDlg()
-{
-}
-
-void CPlanAddDlg::ConfigPlanBtns(bool scrq, bool bzrq)
-{
-	m_bEnablePlanBtnForSCRQ = scrq;
-	m_bEnablePlanBtnForBZRQ = bzrq;
-}
-
-void CPlanAddDlg::DisableBHEdits(BOOL tcbh, BOOL ccbh)
-{
-	m_bEnablePlanEditForTCBH = tcbh;
-	m_bEnablePlanEditForCCBH = ccbh;
-}
-
-static LPCTSTR g_StaticItems[][1] = { //0: default text
-		{ _T("合同号:") },
-		{ _T("客户名称:") },
-		{ _T("规格型号:") },
-		{ _T("数量:") },
-		{ _T("轴承:") },
-		{ _T("单复绕:") },
-		{ _T("制动器电压:") },
-		{ _T("曳引轮规格:") },
-		{ _T("机房:") },
-		{ _T("变频器型号:") },
-		{ _T("编码器型号:") },
-		{ _T("电缆长度:") },
-		{ _T("闸线长度:") },
-		{ _T("铭牌等资料:") },
-		{ _T("订单日期:") },
-		{ _T("备注:") },
-
-		{ _T("主机电压:") },
-		{ _T("主机颜色:") },
-		{ _T("制动器型号:") },
-		{ _T("左/右置:") },
-		{ _T("包装箱/底托规格:") },
-		{ _T("制造商:") },
-		{ _T("客户区域:") },
-		{ _T("优先级:") },
-		{ _T("工号:") },
-
-		{ _T("生产日期") },
-		{ _T("包装日期") },
-		{ _T("发货日期") },
-		{ _T("投产编号") },
-		{ _T("出厂编号") }
-
+static int g_CombPos[][4] = {
+		{ 100 * 3 + 100 * 2 + 8, 40 * 9, 100, 20 }  //Comb_ZC,
 };
 
 static int g_StaticPos[][4] = {
@@ -129,21 +35,22 @@ static int g_StaticPos[][4] = {
 		{ 100 * 2 + 100 * 2, 40 * 4 - 15, 100, 20 }, //Static_DDRQ,
 		{ 100 * 3 + 100 * 3, 40 * 4 - 15, 100, 20 },  //Static_BZ,
 
-		{ 100 * 0 + 100 * 0, 40 * 5 - 15, 100, 20 },  
-		{ 100 * 1 + 100 * 1, 40 * 5 - 15, 100, 20 },  
-		{ 100 * 2 + 100 * 2, 40 * 5 - 15, 100, 20 },  
-		{ 100 * 3 + 100 * 3, 40 * 5 - 15, 100, 20 },  
-		{ 100 * 0 + 100 * 0, 40 * 6 - 15, 100, 20 },  
-		{ 100 * 1 + 100 * 1, 40 * 6 - 15, 100, 20 },  
-		{ 100 * 2 + 100 * 2, 40 * 6 - 15, 100, 20 },  
-		{ 100 * 3 + 100 * 3, 40 * 6 - 15, 100, 20 },  
-		{ 100 * 0 + 100 * 0, 40 * 7 - 15, 100, 20 },  
+		{ 100 * 0 + 100 * 0, 40 * 5 - 15, 100, 20 },
+		{ 100 * 1 + 100 * 1, 40 * 5 - 15, 100, 20 },
+		{ 100 * 2 + 100 * 2, 40 * 5 - 15, 100, 20 },
+		{ 100 * 3 + 100 * 3, 40 * 5 - 15, 100, 20 },
+		{ 100 * 0 + 100 * 0, 40 * 6 - 15, 100, 20 },
+		{ 100 * 1 + 100 * 1, 40 * 6 - 15, 100, 20 },
+		{ 100 * 2 + 100 * 2, 40 * 6 - 15, 100, 20 },
+		{ 100 * 3 + 100 * 3, 40 * 6 - 15, 100, 20 },
+		{ 100 * 0 + 100 * 0, 40 * 7 - 15, 100, 20 },
 
 		{ 100 * 0 + 100 * 0, 40 * 8, 100, 20 },  //Static_SCRQ,
 		{ 100 * 1 + 100 * 1, 40 * 8, 100, 20 },  //Static_BZRQ,
 		{ 100 * 2 + 100 * 2, 40 * 8, 100, 20 },  //Static_FHRQ,
 		{ 100 * 0 + 100 * 0, 40 * 9, 100, 20 },  //Static_TCBH,
-		{ 100 * 1 + 100 * 1, 40 * 9, 100, 20 }   //Static_CCBH
+		{ 100 * 1 + 100 * 1, 40 * 9, 100, 20 },   //Static_CCBH
+		{ 100 * 2 + 100 * 2, 40 * 9, 100, 20 }   //Static_CCBH
 };
 
 
@@ -193,6 +100,213 @@ static LPCTSTR g_EditItems[][1] = { //0: default text
 		{ _T("出厂编号") }
 };
 
+inline void init(CEdit* edit, CString& val){
+	if (val != OPT_FALSE)
+	{
+		edit->SetWindowText(val);
+	}
+	else
+	{
+		edit->EnableWindow(TRUE);
+	}
+
+}
+
+inline void init(CDateTimeCtrl* dateTime, CString& val){
+	if (val != OPT_FALSE)
+	{
+		if (_T("") == val)
+		{
+     		COleDateTime oletimeTime;
+			oletimeTime.SetStatus(COleDateTime::null);
+			dateTime->SetTime(oletimeTime);    
+		}
+		else
+		{
+			COleVariant VariantTime;
+			VariantTime = val;
+			VariantTime.ChangeType(VT_DATE);
+			COleDateTime DataTime = VariantTime;
+
+			dateTime->SetTime(DataTime);
+		}
+	}
+}
+
+inline void init(CBSStatic* sta, CString& val){
+	if (val != OPT_FALSE)
+	{
+		sta->SetWindowText(val);
+	}
+}
+
+inline void init(CComboBox* comb, int val){
+	if (val != OPT_FALSE_INT)
+	{
+		comb->SetCurSel(val);
+	}
+}
+
+CPlanAddDlg::CPlanAddDlg(LPCTSTR title, CWnd* pParent /*= NULL*/)
+	: CPopupDlg(title, pParent)
+	, m_lpOption(NULL)
+	, m_bEnablePlanBtnForSCRQ(false)
+	, m_bEnablePlanBtnForBZRQ(false)
+{
+	InitHttpInstance();
+}
+
+
+CPlanAddDlg::~CPlanAddDlg()
+{
+}
+
+void CPlanAddDlg::InitHttpInstance()
+{
+	if (m_DropList.empty())
+	{
+		m_DropList.resize(CombId::Comb_END);
+		CItem& item = CServer::GetInstance()->GetItem();
+
+		//轴承
+		item.QuerySync(CItem::ZCXX, m_DropList[CombId::Comb_ZC_ForPlan]);
+		++m_iRef;
+	}
+}
+
+void CPlanAddDlg::OnHttpFailed(int id)
+{
+	switch (id)
+	{
+	case QUERY_COMBO_VALUE_ZC_URL_ID:
+	{
+		--m_iRef;
+		if (0 == m_iRef)
+		{
+			EnableWindow(TRUE);
+			InitCtrlData();
+		}
+	}
+		break;
+	default:
+		break;
+	}
+
+}
+
+void CPlanAddDlg::OnHttpSuccess(int id, LPCTSTR resp)
+{
+	switch (id)
+	{
+	case QUERY_COMBO_VALUE_ZC_URL_ID:
+		OnLoadComboDataSuccess(Comb_ZC_ForPlan, CString(resp));
+		break;
+	default:
+		break;
+	}
+}
+
+void CPlanAddDlg::OnLoadComboDataSuccess(int id, CString strValList)
+{
+	--m_iRef;
+	std::vector<CString> vec;
+	Util_Tools::Util::Split(strValList, _T(','), vec);
+
+	for (int i = 0; i < vec.size(); i++)
+	{
+		m_DropList[id].push_back(vec[i]);
+	}
+
+	if (0 == m_iRef)
+	{
+		EnableWindow(TRUE);
+		InitCtrlData();
+	}
+}
+
+const std::vector<std::vector<CString>>& CPlanAddDlg::GetDropList()
+{
+	return m_DropList;
+}
+
+void CPlanAddDlg::InitCtrlData()
+{
+	if (NULL == m_lpOption)
+	{
+		d_GetOption(*this);
+	}
+
+	CFont* pFont = NULL;
+	pFont = CBSObject::GetFontPtr(_T("Microsoft YaHei"), 12, FALSE, FALSE, FALSE);
+
+	for (int i = _countof(g_CombPos) - 1; i >= 0; --i)
+	{
+		for (int j = GetDropList()[i].size() - 1; j >= 0; --j)
+		{
+			m_aCombs[i]->InsertString(0, GetDropList()[i][j]);
+		}
+
+		m_aCombs[i]->SetDroppedWidth(Util_Tools::Util::CaculateMaxWidthOfItems((m_aCombs[i])->GetOwner(), GetDropList()[i], pFont));
+	}
+
+	if (NULL != m_lpOption)
+	{
+		init(m_aCombs[CombId::Comb_ZC_ForPlan], m_lpOption->zc_forPlan);
+	}
+	else
+	{
+		init(m_aCombs[CombId::Comb_ZC_ForPlan], 0);
+	}
+}
+
+void CPlanAddDlg::ConfigPlanBtns(bool scrq, bool bzrq)
+{
+	m_bEnablePlanBtnForSCRQ = scrq;
+	m_bEnablePlanBtnForBZRQ = bzrq;
+}
+
+void CPlanAddDlg::DisableBHEdits(BOOL tcbh, BOOL ccbh)
+{
+	m_bEnablePlanEditForTCBH = tcbh;
+	m_bEnablePlanEditForCCBH = ccbh;
+}
+
+static LPCTSTR g_StaticItems[][1] = { //0: default text
+		{ _T("合同号:") },
+		{ _T("客户名称:") },
+		{ _T("规格型号:") },
+		{ _T("数量:") },
+		{ _T("轴承:") },
+		{ _T("单复绕:") },
+		{ _T("制动器电压:") },
+		{ _T("曳引轮规格:") },
+		{ _T("机房:") },
+		{ _T("变频器型号:") },
+		{ _T("编码器型号:") },
+		{ _T("电缆长度:") },
+		{ _T("闸线长度:") },
+		{ _T("铭牌等资料:") },
+		{ _T("订单日期:") },
+		{ _T("备注:") },
+
+		{ _T("主机电压:") },
+		{ _T("主机颜色:") },
+		{ _T("制动器型号:") },
+		{ _T("左/右置:") },
+		{ _T("包装箱/底托规格:") },
+		{ _T("制造商:") },
+		{ _T("客户区域:") },
+		{ _T("优先级:") },
+		{ _T("工号:") },
+
+		{ _T("生产日期") },
+		{ _T("包装日期") },
+		{ _T("发货日期") },
+		{ _T("投产编号") },
+		{ _T("出厂编号") },
+		{ _T("轴承") }
+
+};
 
 BOOL CPlanAddDlg::OnInitDialog()
 {
@@ -205,6 +319,11 @@ BOOL CPlanAddDlg::OnInitDialog()
 	CenterWindow();
 
 	//init comb
+	for (int i = _countof(g_CombPos) - 1; i >= 0; --i)
+	{
+		m_aCombs[i] = Util_Tools::Util::CreateComboBox(this, IDC_COMBO_BASE + i, _T("Microsoft YaHei"), 12);
+		m_aCombs[i]->MoveWindow(g_CombPos[i][0], g_CombPos[i][1], g_CombPos[i][2], g_CombPos[i][3]);
+	}
 
 	//init static
 	for (int i = 0; i < _countof(g_StaticItems); ++i)
@@ -319,6 +438,8 @@ BOOL CPlanAddDlg::OnInitDialog()
 	m_aEdits[Edit_TCBH]->EnableWindow(m_bEnablePlanEditForTCBH);
 	m_aEdits[Edit_CCBH]->EnableWindow(m_bEnablePlanEditForCCBH);
 
+	InitCtrlData();
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
 }
@@ -328,6 +449,15 @@ void CPlanAddDlg::PostNcDestroy()
 {
 	// TODO: Add your specialized code here and/or call the base class
 	CFont* pFont = NULL;
+
+	for (int i = 0; i < _countof(m_aCombs); ++i)
+	{
+		if (NULL != m_aCombs[i])
+		{
+			delete m_aCombs[i];
+		}
+	}
+
 	for (int i = 0; i < _countof(m_aStaticsToShow); ++i)
 	{
 		if (NULL != m_aStaticsToShow[i])
@@ -442,11 +572,59 @@ void CPlanAddDlg::OnOK()
 		}
 	}
 	
+	GetText(m_aCombs[CombId::Comb_ZC_ForPlan], Comb_ZC_ForPlan, strTmp);
+	m_vecResult.push_back(strTmp);
 
 	CPopupDlg::OnOK();
 }
+
+void CPlanAddDlg::GetText(CComboBox* pComboBox, CombId comId, CString& text)
+{
+	pComboBox->GetWindowText(text);
+	CString strTmp;
+	int i = m_DropList[comId].size() - 1;
+	for (; i >= 0; --i)
+	{
+		if (m_DropList[comId][i] == text)
+		{
+			break;
+		}
+	}
+	if (i < 0)
+	{
+		m_DropList[comId].push_back(text);
+	}
+}
+
+void CPlanAddDlg::SetText(CComboBox* pComboBox, CombId comId, CString& text)
+{
+	CString strTmp;
+	int i = m_DropList[comId].size() - 1;
+	for (; i >= 0; --i)
+	{
+		if (m_DropList[comId][i] == text)
+		{
+			break;
+		}
+	}
+	if (i < 0)
+	{
+		m_DropList[comId].push_back(text);
+		pComboBox->AddString(text);
+		pComboBox->SetCurSel(pComboBox->GetCount() - 1);
+	}
+	else
+	{
+		pComboBox->SetCurSel(i);
+	}
+}
+
 
 void CPlanAddDlg::SetOption(Option_t* lpOpt)
 {
 	m_lpOption = lpOpt;
 }
+
+int CPlanAddDlg::m_iRef = 0;
+
+std::vector<std::vector<CString>> CPlanAddDlg::m_DropList;
