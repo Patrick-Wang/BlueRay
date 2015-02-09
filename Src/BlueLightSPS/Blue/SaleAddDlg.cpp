@@ -670,10 +670,22 @@ void CSaleAddDlg::GetText(CComboBox* pComboBox, CombId comId, CString& text)
 
 void CSaleAddDlg::Assosication()
 {
-	CString kh;
-	GetText(m_aCombs[CombId::Comb_KHMC], CombId::Comb_KHMC, kh);
-	CString gg;
-	GetText(m_aCombs[CombId::Comb_GGBH], CombId::Comb_GGBH, gg);
+	CString kh(_T(""));
+	//GetText(m_aCombs[CombId::Comb_KHMC], CombId::Comb_KHMC, kh);
+	int iCurSel = m_aCombs[CombId::Comb_KHMC]->GetCurSel();
+	if (0 <= iCurSel)
+	{
+		kh = m_DropList[CombId::Comb_KHMC][iCurSel];
+	}
+
+	CString gg(_T(""));
+	//GetText(m_aCombs[CombId::Comb_GGBH], CombId::Comb_GGBH, gg);
+	iCurSel = m_aCombs[CombId::Comb_GGBH]->GetCurSel();
+	if (0 <= iCurSel)
+	{
+		gg = m_DropList[CombId::Comb_GGBH][iCurSel];
+	}
+
 	if (!kh.IsEmpty() && !gg.IsEmpty())
 	{
 		StringArray* pFields = (StringArray*)CAssociation::GetInstance()->find(kh, gg);
