@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50621
 File Encoding         : 65001
 
-Date: 2015-01-31 22:02:46
+Date: 2015-02-09 22:16:36
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -23,7 +23,7 @@ CREATE TABLE `bmqxhflxx` (
   `bmqxhID` int(11) NOT NULL AUTO_INCREMENT,
   `bmqxh` char(100) NOT NULL,
   PRIMARY KEY (`bmqxhID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bmqxhflxx
@@ -43,7 +43,7 @@ CREATE TABLE `bpqxhflxx` (
   `bpqxhID` int(11) NOT NULL AUTO_INCREMENT,
   `bpqxh` char(100) NOT NULL,
   PRIMARY KEY (`bpqxhID`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bpqxhflxx
@@ -93,7 +93,7 @@ CREATE TABLE `bzxdtgg` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `bzxdtgg` char(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of bzxdtgg
@@ -139,8 +139,6 @@ INSERT INTO `bzxdtgg` VALUES ('38', 'U包装箱底盘（舌扣）');
 INSERT INTO `bzxdtgg` VALUES ('39', '舌扣包装底盘（140）');
 INSERT INTO `bzxdtgg` VALUES ('40', '舌扣包装底盘（170）');
 INSERT INTO `bzxdtgg` VALUES ('41', 'TAM出口免熏蒸包装箱');
-
-
 
 -- ----------------------------
 -- Table structure for cpggxhxx
@@ -672,7 +670,6 @@ INSERT INTO `cpggxhxx` VALUES ('514', 'Y3.0F3-N');
 INSERT INTO `cpggxhxx` VALUES ('515', 'Y4.0F3-N');
 INSERT INTO `cpggxhxx` VALUES ('516', 'Y1.5G3-N');
 
-
 -- ----------------------------
 -- Table structure for ddztb
 -- ----------------------------
@@ -681,7 +678,7 @@ CREATE TABLE `ddztb` (
   `ddztID` int(11) NOT NULL AUTO_INCREMENT,
   `ddzt` char(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`ddztID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of ddztb
@@ -697,7 +694,6 @@ INSERT INTO `ddztb` VALUES ('8', '计划排产已审核');
 INSERT INTO `ddztb` VALUES ('9', '计划排产审核未通过');
 INSERT INTO `ddztb` VALUES ('10', '生产中');
 INSERT INTO `ddztb` VALUES ('11', '生产完成');
-
 
 -- ----------------------------
 -- Table structure for htxx
@@ -719,7 +715,7 @@ CREATE TABLE `htxx` (
   `dlcd` char(20) DEFAULT NULL,
   `zxcd` char(20) DEFAULT NULL,
   `mpzl` int(11) DEFAULT NULL,
-  `bz` char(100) DEFAULT NULL,
+  `bz` varchar(1024) DEFAULT NULL,
   `ddrq` date DEFAULT NULL,
   `ddzt` char(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `zjdyID` int(11) DEFAULT NULL,
@@ -773,7 +769,7 @@ CREATE TABLE `khqy` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `khqy` char(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of khqy
@@ -798,13 +794,13 @@ CREATE TABLE `khxx` (
   `lxdh` char(255) DEFAULT NULL,
   `qtnr` char(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`clientID`)
-) ENGINE=InnoDB AUTO_INCREMENT=492 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=507 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of khxx
 -- ----------------------------
 INSERT INTO `khxx` VALUES ('1', '', '', '', null, '');
-INSERT INTO `khxx` VALUES ('2', '北京航天金羊电梯有限公司', '北京通州区永乐经济开发区(河北省廊坊市)', '徐智健1113969966 赵爽1383369631', null, '010-80114178');
+INSERT INTO `khxx` VALUES ('2', '北京航天金羊', '北京通州区永乐经济开发区(河北省廊坊市)', '徐智健1113969966 赵爽1383369631', null, '010-80114178');
 INSERT INTO `khxx` VALUES ('3', '北京升华电梯有限公司', '北京市顺义区京密路西牛栏山段7号', '孙峰 1366363860  010-1138899-1103传真 舒薇熹010-1398899-1101', null, '010-69410840');
 INSERT INTO `khxx` VALUES ('4', '北京升华北京分公司', '北京市朝阳区大郊亭中街2号院华腾国际甲5#2楼', '罗学铸 010-1836903 1101036169', null, '010-87912909');
 INSERT INTO `khxx` VALUES ('5', '北京九方基业电梯设备有限公司', '北京市丰台区嘉园一里3号楼601室', '010-8916318朱方伍', null, null);
@@ -842,7 +838,7 @@ INSERT INTO `khxx` VALUES ('36', '北京广船伟华机电设备有限公司', '
 INSERT INTO `khxx` VALUES ('37', '天津宏翔电梯有限公司', '天津市西青区辛口镇水高庄工业园2号院', '陈龙033-36396363  13803019913', null, '022-26374243');
 INSERT INTO `khxx` VALUES ('38', '天津市盛诚电梯装璜有限公司', '天津市河北区宜白路玉琢里后下卫道88号', '周大立13103136189', null, '022-26710338');
 INSERT INTO `khxx` VALUES ('39', '天津中江公司', '天津市河西区福建路福盛花园物业办公楼', '孟德艳033-33330318', null, null);
-INSERT INTO `khxx` VALUES ('40', '天津奥富特电梯有限公司', '天津市北辰区津围公路LG电子对面 北辰科技园 景观路', '吴刚11803396069', null, '022-86313711');
+INSERT INTO `khxx` VALUES ('40', '天津奥富特', '天津市北辰区津围公路LG电子对面 北辰科技园 景观路', '吴刚11803396069', null, '022-86313711');
 INSERT INTO `khxx` VALUES ('41', '天津市澳士达电梯销售有限公司', '天津市南开区庆丰路十号', '辛云刚13831619008', null, null);
 INSERT INTO `khxx` VALUES ('42', '天津市塘沽区同正电梯有限公司', '塘沽区贻成东园13号楼1门102', '程恩全13930136339   033-66361099（传真）', null, '022-21301614说明给同正发传真');
 INSERT INTO `khxx` VALUES ('43', '天津市得利信电梯有限公司', '收货地址:天津市西青区张窝(津涞公路距津沧高速公路200米)于建军 13920176035', '张书信033-38368666*13930830190', null, '022-28348646');
@@ -902,7 +898,7 @@ INSERT INTO `khxx` VALUES ('96', '沈阳三洋电梯安装分公司', null, '胡
 INSERT INTO `khxx` VALUES ('97', '辽宁三洋', '沈阳市于洪区银山路59号5楼', '马学杰 86606989 13998833386', null, '024-86601391');
 INSERT INTO `khxx` VALUES ('98', '辽宁三洋(营口)', '营口市西市区科飞路33号', '李元春 13960911381  沈锦营11961911968', null, '0417-6669161');
 INSERT INTO `khxx` VALUES ('99', '辽宁北方三洋电梯制造有限公司', '沈阳市皇姑区百花山路1-4号', '焦清惠（焦总）13906018339 86118691 86131963', null, '86121743');
-INSERT INTO `khxx` VALUES ('100', '沈阳博林特电梯有限公司（老厂区）', '沈阳市东陵区东陵路30-2号', '杨恒88616986 11006060691 88616696 88616618              唐行涛 88616918   13019391016', null, '88416420');
+INSERT INTO `khxx` VALUES ('100', '沈阳博林特', '沈阳市东陵区东陵路30-2号', '杨恒88616986 11006060691 88616696 88616618              唐行涛 88616918   13019391016', null, '88416420');
 INSERT INTO `khxx` VALUES ('101', '沈阳博林特电梯有限公司(新厂区)', '沈阳市经济技术开发区开发大道27#(16号街 博林特电梯) 发票都寄到新厂区', '杨恒11006060691  兰天 31163936  13889399133', null, '21162110');
 INSERT INTO `khxx` VALUES ('102', '沈阳正通电梯配件有限公司', '沈阳虎石台经济开发区兴隆街26号', '郑徽13313633333/89913819张工 63331199', null, '89712819');
 INSERT INTO `khxx` VALUES ('103', '沈阳市兰菱电梯维修中心', '沈阳市北站路78号邮政大厦转电梯', '何联华13386880608', null, null);
@@ -1273,20 +1269,21 @@ INSERT INTO `khxx` VALUES ('467', '浙江德尔法', '浙江湖州市吴兴区�
 INSERT INTO `khxx` VALUES ('468', '浙江快客电梯', '浙江杭州市萧山区南阳街道阳城路66号 田涛 13486396242', '田涛13686396363', null, null);
 INSERT INTO `khxx` VALUES ('469', '上海崇友', '上海市嘉定区浏翔公路2555号', '冯晓萍031-19111610', null, null);
 INSERT INTO `khxx` VALUES ('470', '浙江汉诺威电梯', '浙江省桐庐县经济开发区柴梅路777号', '陈国杰18868969333', null, null);
-INSERT INTO `khxx` VALUES ('471', '', null, null, null, null);
-INSERT INTO `khxx` VALUES ('472', '', null, null, null, null);
-INSERT INTO `khxx` VALUES ('473', '', null, null, null, null);
-INSERT INTO `khxx` VALUES ('474', '', null, null, null, null);
-INSERT INTO `khxx` VALUES ('475', '', null, null, null, null);
-INSERT INTO `khxx` VALUES ('476', '', null, null, null, null);
-INSERT INTO `khxx` VALUES ('477', '', null, null, null, null);
-INSERT INTO `khxx` VALUES ('478', '', null, null, null, null);
-INSERT INTO `khxx` VALUES ('479', '', null, null, null, null);
-INSERT INTO `khxx` VALUES ('480', '', null, null, null, null);
-INSERT INTO `khxx` VALUES ('481', '', null, null, null, null);
-INSERT INTO `khxx` VALUES ('482', '', null, null, null, null);
-INSERT INTO `khxx` VALUES ('483', '', null, null, null, null);
-
+INSERT INTO `khxx` VALUES ('492', '苏州铃木', null, null, null, null);
+INSERT INTO `khxx` VALUES ('493', '台州富士', null, null, null, null);
+INSERT INTO `khxx` VALUES ('494', '台州浙奥', null, null, null, null);
+INSERT INTO `khxx` VALUES ('495', '沃克斯电梯', null, null, null, null);
+INSERT INTO `khxx` VALUES ('496', '浙江西尼', null, null, null, null);
+INSERT INTO `khxx` VALUES ('497', '浙江喜来登', null, null, null, null);
+INSERT INTO `khxx` VALUES ('498', '成都康力', null, null, null, null);
+INSERT INTO `khxx` VALUES ('499', '大连得利', null, null, null, null);
+INSERT INTO `khxx` VALUES ('500', '大众电梯', null, null, null, null);
+INSERT INTO `khxx` VALUES ('501', '德尔法电梯', null, null, null, null);
+INSERT INTO `khxx` VALUES ('502', '德森克', null, null, null, null);
+INSERT INTO `khxx` VALUES ('503', '东莞快意', null, null, null, null);
+INSERT INTO `khxx` VALUES ('504', '佛山住友富士', null, null, null, null);
+INSERT INTO `khxx` VALUES ('505', '江苏广日', null, null, null, null);
+INSERT INTO `khxx` VALUES ('506', '康力', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for mpzlxx
@@ -1296,7 +1293,7 @@ CREATE TABLE `mpzlxx` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `mpzl` char(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of mpzlxx
@@ -1404,7 +1401,7 @@ CREATE TABLE `yylggflxx` (
   `yylggID` int(11) NOT NULL AUTO_INCREMENT,
   `yylgg` char(100) NOT NULL,
   PRIMARY KEY (`yylggID`)
-) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of yylggflxx
@@ -1531,7 +1528,6 @@ INSERT INTO `yylggflxx` VALUES ('119', '400*6*8*12-2F');
 INSERT INTO `yylggflxx` VALUES ('120', '480*7*10*14-2K');
 INSERT INTO `yylggflxx` VALUES ('121', '480*8*10*15-3Q');
 
-
 -- ----------------------------
 -- Table structure for zcxx
 -- ----------------------------
@@ -1540,7 +1536,7 @@ CREATE TABLE `zcxx` (
   `zcxhID` int(11) NOT NULL AUTO_INCREMENT,
   `zcxh` char(100) NOT NULL,
   PRIMARY KEY (`zcxhID`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of zcxx
@@ -1566,8 +1562,6 @@ INSERT INTO `zcxx` VALUES ('18', 'CNN');
 INSERT INTO `zcxx` VALUES ('19', 'DCC');
 INSERT INTO `zcxx` VALUES ('20', 'MN');
 
-
-
 -- ----------------------------
 -- Table structure for zdqdyflxx
 -- ----------------------------
@@ -1576,7 +1570,7 @@ CREATE TABLE `zdqdyflxx` (
   `zdqdyID` int(11) NOT NULL AUTO_INCREMENT,
   `zdqdy` char(100) NOT NULL,
   PRIMARY KEY (`zdqdyID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of zdqdyflxx
@@ -1596,7 +1590,7 @@ CREATE TABLE `zdqxh` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `zdqxh` char(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of zdqxh
@@ -1618,7 +1612,6 @@ INSERT INTO `zdqxh` VALUES ('14', 'WYT-TA.3-YA');
 INSERT INTO `zdqxh` VALUES ('15', 'WYT-U.3');
 INSERT INTO `zdqxh` VALUES ('16', 'WYT-U.3（2吨以下）');
 
-
 -- ----------------------------
 -- Table structure for zjdy
 -- ----------------------------
@@ -1627,7 +1620,7 @@ CREATE TABLE `zjdy` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `zjdy` char(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of zjdy
@@ -1644,7 +1637,7 @@ CREATE TABLE `zjys` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `zjys` char(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of zjys
@@ -1662,7 +1655,6 @@ INSERT INTO `zjys` VALUES ('10', '朱红色（GSB05-1426-2001 61R02）');
 INSERT INTO `zjys` VALUES ('11', '信号黑色-黑色水性漆（RAL9004）');
 INSERT INTO `zjys` VALUES ('12', '墨绿色');
 
-
 -- ----------------------------
 -- Table structure for zzs
 -- ----------------------------
@@ -1671,7 +1663,7 @@ CREATE TABLE `zzs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `zzs` char(100) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of zzs
