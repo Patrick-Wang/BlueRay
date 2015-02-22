@@ -135,18 +135,18 @@ public class PlanServiceImpl implements PlanService {
 		}
 		return "success";
 	}
-		private void setZcID(HTXX htxx, String value) {
-			if (!"".equals(value)) {
-				ZCXX item = itemDao.queryZcxxByValue("zcxh", value);
-				if (null == item) {
-					item = new ZCXX();
-					item.setZcxh(value);
-					itemDao.insert(item);
-				}
-				htxx.setZcID(item.getZcxhID());
+	private void setZcID(HTXX htxx, String value) {
+		if (!"".equals(value)) {
+			ZCXX item = itemDao.queryZcxxByValue("zcxh", value);
+			if (null == item) {
+				item = new ZCXX();
+				item.setZcxh(value);
+				itemDao.insert(item);
 			}
-
+			htxx.setZcID(item.getZcxhID());
 		}
+
+	}
 
 	private void setTcbh(PCJHXX pcjhxx, String data) {
 		pcjhxx.setTcbh(data);
