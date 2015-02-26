@@ -437,6 +437,26 @@ BOOL CPlanAddDlg::OnInitDialog()
 
 	m_aEdits[Edit_TCBH]->EnableWindow(m_bEnablePlanEditForTCBH);
 	m_aEdits[Edit_CCBH]->EnableWindow(m_bEnablePlanEditForCCBH);
+	if (m_bEnablePlanEditForTCBH){
+		CString text;
+		m_aEdits[Edit_TCBH]->GetWindowText(text);
+		if (text.IsEmpty())
+		{
+			CServer::GetInstance()->GetPlan().GetTcbhSync(text);
+			m_aEdits[Edit_TCBH]->SetWindowText(text);
+		}
+	}
+
+	if (m_bEnablePlanEditForCCBH){
+		CString text;
+		m_aEdits[Edit_CCBH]->GetWindowText(text);
+		if (text.IsEmpty())
+		{
+			CServer::GetInstance()->GetPlan().GetCcbhSync(text);
+			m_aEdits[Edit_CCBH]->SetWindowText(text);
+		}
+	}
+
 
 	InitCtrlData();
 

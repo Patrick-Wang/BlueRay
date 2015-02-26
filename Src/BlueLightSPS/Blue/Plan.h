@@ -25,6 +25,8 @@ public:
 	CPromise<bool>& Update(IntArray& rows, StringArray& record);
 	CPromise<StringArray>& Approve(ApproveType type, IntArray& rows);
 	CPromise<StringArray>& Unapprove(ApproveType type, IntArray& rows);
+	bool GetTcbhSync(CString& tcbh);
+	bool GetCcbhSync(CString& ccbh);
 	bool ValidateTcbhSync(LPCTSTR tcbh, bool& bRet);
 	bool ValidateCcbhSync(LPCTSTR ccbh, bool& bRet);
 private:

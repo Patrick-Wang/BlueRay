@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,9 +27,11 @@ import com.BlueRay.mutton.controller.PageData.Row;
 import com.BlueRay.mutton.model.dao.IAdvanceTranslator;
 import com.BlueRay.mutton.model.dao.ItemDao;
 import com.BlueRay.mutton.model.dao.PlanDao;
+import com.BlueRay.mutton.model.dao.SNDao;
 import com.BlueRay.mutton.model.dao.SaleDao;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
+import com.BlueRay.mutton.model.entity.jpa.SerialNumber;
 import com.BlueRay.mutton.model.entity.jpa.ZCXX;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
@@ -40,6 +43,9 @@ public class PlanServiceImpl implements PlanService {
 
 	@Autowired
 	PlanDao planDao;
+	
+	@Autowired
+	SNDao snDao;
 
 	@Autowired
 	private SaleDao saleDao;
@@ -380,6 +386,29 @@ public class PlanServiceImpl implements PlanService {
 			e.printStackTrace();
 		}
 		return "error";
+	}
+
+	public String getBh(String item) {
+		SerialNumber snNumber = null;
+		String ret = "";
+		if("tcbh".equalsIgnoreCase(item)){
+			snNumber = snDao.getSNById(1);
+			snNumber.setMax((snNumber.getMax() + 1) % 100000);
+			snDao.saveSN(snNumber);
+			Calendar cal = Calendar.getInstance();
+			int year = cal.get(Calendar.YEAR);
+			ret = String.format("%c%05d", 'A' + (year - 2015), snNumber.getMax() % 100000);
+		} else if("ccbh".equalsIgnoreCase(item)){
+			snNumber = snDao.getSNById(2);
+			snNumber.setMax((snNumber.getMax() + 1) % 10000);
+			snDao.saveSN(snNumber);
+			Calendar cal = Calendar.getInstance();
+			int year = cal.get(Calendar.YEAR);
+			int month = cal.get(Calendar.MONTH) + 1;
+			ret = String.format("%d%X%04d", year % 100, month, snNumber.getMax() % 10000);
+		}
+
+		return ret;
 	}
 
 }

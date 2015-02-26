@@ -41,4 +41,6 @@ public interface PlanService {
 
 	String templateExport(OutputStream out, JSONObject jquery);
 
+	String getBh(String item);
+
 }

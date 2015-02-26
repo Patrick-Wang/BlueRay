@@ -18,6 +18,19 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 -- Table structure for bmqxhflxx
 -- ----------------------------
+DROP TABLE IF EXISTS `serialnumber`;
+CREATE TABLE `serialnumber` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `max` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+INSERT INTO `serialnumber` VALUES (1, 1);
+INSERT INTO `serialnumber` VALUES (2, 1);
+
+-- ----------------------------
+-- Table structure for bmqxhflxx
+-- ----------------------------
 DROP TABLE IF EXISTS `bmqxhflxx`;
 CREATE TABLE `bmqxhflxx` (
   `bmqxhID` int(11) NOT NULL AUTO_INCREMENT,

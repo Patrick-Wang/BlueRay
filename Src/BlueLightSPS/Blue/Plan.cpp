@@ -179,3 +179,19 @@ CPromise<bool>& CPlan::TemplateExport(LPCTSTR lpFileName, CJsonQueryParam& jqPar
 	return *promise;
 
 }
+
+bool CPlan::GetTcbhSync(CString& tcbh)
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/plan/getbh/tcbh"),
+		IDS_HOST_NAME);
+	return m_lpHttp->SyncGet(url, tcbh);
+}
+
+bool CPlan::GetCcbhSync(CString& ccbh)
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/plan/getbh/ccbh"),
+		IDS_HOST_NAME);
+	return m_lpHttp->SyncGet(url, ccbh);
+}

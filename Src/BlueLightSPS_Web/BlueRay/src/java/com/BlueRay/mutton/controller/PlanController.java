@@ -67,6 +67,15 @@ public class PlanController {
 //		return "";
 //	}
 
+	@RequestMapping(value = "/getbh/{item}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String getbh(
+			@PathVariable String item,
+			HttpServletRequest request,
+			HttpServletResponse response) {
+
+		return planService.getBh(item);
+	}
+	
 	@RequestMapping(value = "/validate/{item}/{value}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String validate(
 			@PathVariable String item,
