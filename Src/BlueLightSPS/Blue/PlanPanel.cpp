@@ -558,7 +558,7 @@ void CPlanPanel::OnBnClickedPlan()
 				m_planPanel.GetParent()->EnableWindow(TRUE);
 			}
 		};
-
+		//m_cacheRow.push_back(L"123332");
 		CServer::GetInstance()->GetPlan().Update(checkedRows, m_cacheRow)
 			.then(new OnPlanUpdateListener(m_cacheRow, *this));
 

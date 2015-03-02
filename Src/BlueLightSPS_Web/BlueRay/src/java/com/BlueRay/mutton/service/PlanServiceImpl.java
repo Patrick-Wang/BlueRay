@@ -133,8 +133,13 @@ public class PlanServiceImpl implements PlanService {
 					HTXX htxx = saleDao.getSaleDataById(pcjhxx.getHtxxID());
 					if (null != htxx){
 						setZcID(htxx, data.getString(5));
+						if (data.size() > 6 && !"".equals(data.getString(6))){
+							htxx.setBz(data.getString(6));
+						}
+						saleDao.update(htxx);
 					}
 				}
+				
 				planDao.update(pcjhxx);
 			}
 
