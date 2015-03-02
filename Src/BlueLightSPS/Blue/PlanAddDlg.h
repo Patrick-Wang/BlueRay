@@ -97,6 +97,7 @@ public:
 		CString ccbh;	//出厂编号
 
 		int zc_forPlan; //轴承 供planner修改用
+		CString bz_forPlan; //备注 供planner修改用
 
 		tagOption_t(){
 			htbh = OPT_FALSE;			//合同号
@@ -137,6 +138,7 @@ public:
 			ccbh = OPT_FALSE;	//出厂编号
 
 			zc_forPlan = OPT_FALSE_INT; //轴承 for plan
+			bz_forPlan = OPT_FALSE; //轴承 for plan
 		}
 
 		tagOption_t(std::vector<CString>& data){
@@ -185,6 +187,7 @@ public:
 				do_get(data, it, ccbh);
 
 				do_get_int(data, it, CombId::Comb_ZC_ForPlan, zc_forPlan);
+				do_get(data, it, bz_forPlan);
 
 			} while (false);
 		}
@@ -234,6 +237,7 @@ public:
 				do_get_merge(data, it, ccbh);
 
 				do_get_int_merge(data, it, CombId::Comb_ZC_ForPlan, zc_forPlan);
+				do_get_merge(data, it, bz_forPlan);
 
 			} while (false);
 		}
@@ -280,6 +284,7 @@ private:
 		Static_CCBH,
 
 		Static_ZC_ForPlan,
+		Static_BZ_ForPlan,
 
 		Static_END
 	};
@@ -318,6 +323,7 @@ private:
 	enum EditId{
 		Edit_TCBH,
 		Edit_CCBH,
+		Edit_BZ_ForPlan,
 		Edit_END
 	};
 

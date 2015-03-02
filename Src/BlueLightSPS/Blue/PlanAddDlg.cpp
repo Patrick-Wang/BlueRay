@@ -50,7 +50,8 @@ static int g_StaticPos[][4] = {
 		{ 100 * 2 + 100 * 2, 40 * 8, 100, 20 },  //Static_FHRQ,
 		{ 100 * 0 + 100 * 0, 40 * 9, 100, 20 },  //Static_TCBH,
 		{ 100 * 1 + 100 * 1, 40 * 9, 100, 20 },   //Static_CCBH
-		{ 100 * 2 + 100 * 2, 40 * 9, 100, 20 }   //Static_CCBH
+		{ 100 * 2 + 100 * 2, 40 * 9, 100, 20 },   //zc
+		{ 100 * 0 + 100 * 0, 40 * 10, 100, 20 },   //bz
 };
 
 
@@ -86,7 +87,8 @@ static int g_StaticToShowPos[][4] = {
 
 static int g_EditsPos[][4] = {
 		{ 100 * 1 + 100 * 0 + 8, 40 * 9, 100, 20 }, //Edit_TCBH,
-		{ 100 * 2 + 100 * 1 + 8, 40 * 9, 100, 20 }  //Edit_CCBH,
+		{ 100 * 2 + 100 * 1 + 8, 40 * 9, 100, 20 },  //Edit_CCBH,
+		{ 100 * 1 + 100 * 0 + 8, 40 * 10, 500, 60 }  //bz
 };
 
 static int g_DatePickersPos[][4] = {
@@ -97,7 +99,8 @@ static int g_DatePickersPos[][4] = {
 
 static LPCTSTR g_EditItems[][1] = { //0: default text
 		{ _T("投产编号") },
-		{ _T("出厂编号") }
+		{ _T("出厂编号") },
+		{ _T("备注") }
 };
 
 inline void init(CEdit* edit, CString& val){
@@ -251,7 +254,8 @@ void CPlanAddDlg::InitCtrlData()
 
 	if (NULL != m_lpOption)
 	{
-		init(m_aCombs[CombId::Comb_ZC_ForPlan], m_lpOption->zc_forPlan);
+		SetText(m_aCombs[CombId::Comb_ZC_ForPlan], CombId::Comb_ZC_ForPlan, m_lpOption->zc);
+		m_aEdits[EditId::Edit_BZ_ForPlan]->SetWindowTextW(m_lpOption->bz);
 	}
 	else
 	{
@@ -304,7 +308,8 @@ static LPCTSTR g_StaticItems[][1] = { //0: default text
 		{ _T("发货日期") },
 		{ _T("投产编号") },
 		{ _T("出厂编号") },
-		{ _T("轴承") }
+		{ _T("轴承") },
+		{ _T("备注") }
 
 };
 
@@ -312,9 +317,9 @@ BOOL CPlanAddDlg::OnInitDialog()
 {
 	CPopupDlg::OnInitDialog();
 
-	Util_Tools::Util::SetClientSize(m_hWnd, 837, 480);
-	m_btnOK.MoveWindow(556, 40 * 11 - 20, 114, 30);
-	m_btnCancel.MoveWindow(690, 40 * 11 - 20, 114, 30);
+	Util_Tools::Util::SetClientSize(m_hWnd, 837, 550);
+	m_btnOK.MoveWindow(556, 40 * 11 + 50, 114, 30);
+	m_btnCancel.MoveWindow(690, 40 * 11 + 50, 114, 30);
 	
 	CenterWindow();
 
@@ -344,7 +349,15 @@ BOOL CPlanAddDlg::OnInitDialog()
 	//init edit
 	for (int i = 0; i < _countof(g_EditItems); ++i)
 	{
-		m_aEdits[i] = Util_Tools::Util::CreateEdit(this, IDC_EDIT_BASE + i, g_EditItems[i][0], _T("Microsoft YaHei"), 12);
+		if (i == Edit_BZ_ForPlan)
+		{
+			m_aEdits[i] = Util_Tools::Util::CreateEdit(this, IDC_EDIT_BASE + i, g_EditItems[i][0], _T("Microsoft YaHei"), 12, true);
+		}
+		else
+		{
+			m_aEdits[i] = Util_Tools::Util::CreateEdit(this, IDC_EDIT_BASE + i, g_EditItems[i][0], _T("Microsoft YaHei"), 12);
+		}
+
 		m_aEdits[i]->MoveWindow(g_EditsPos[i][0], g_EditsPos[i][1], g_EditsPos[i][2], g_EditsPos[i][3]);
 	}
 
@@ -593,6 +606,9 @@ void CPlanAddDlg::OnOK()
 	}
 	
 	GetText(m_aCombs[CombId::Comb_ZC_ForPlan], Comb_ZC_ForPlan, strTmp);
+	m_vecResult.push_back(strTmp);
+
+	m_aEdits[EditId::Edit_BZ_ForPlan]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp);
 
 	CPopupDlg::OnOK();
