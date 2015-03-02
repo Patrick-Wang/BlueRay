@@ -25,8 +25,8 @@ CREATE TABLE `serialnumber` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
-INSERT INTO `serialnumber` VALUES (1, 1);
-INSERT INTO `serialnumber` VALUES (2, 1);
+INSERT INTO `serialnumber` VALUES ('1', '1');
+INSERT INTO `serialnumber` VALUES ('2', '1');
 
 -- ----------------------------
 -- Table structure for bmqxhflxx
