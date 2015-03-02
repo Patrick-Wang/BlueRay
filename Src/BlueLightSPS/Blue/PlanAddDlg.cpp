@@ -450,6 +450,7 @@ BOOL CPlanAddDlg::OnInitDialog()
 
 	m_aEdits[Edit_TCBH]->EnableWindow(m_bEnablePlanEditForTCBH);
 	m_aEdits[Edit_CCBH]->EnableWindow(m_bEnablePlanEditForCCBH);
+
 	if (m_bEnablePlanEditForTCBH){
 		CString text;
 		m_aEdits[Edit_TCBH]->GetWindowText(text);

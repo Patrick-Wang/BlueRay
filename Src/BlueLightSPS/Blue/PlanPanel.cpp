@@ -532,8 +532,8 @@ void CPlanPanel::OnBnClickedPlan()
 	}
 	else
 	{
-		dlg.DisableBHEdits((_T("N") == pstOpt->jhywsh && _T("N") == pstOpt->jhjhsh),
-			(_T("N") == pstOpt->bzywsh && _T("N") == pstOpt->bzjhsh));
+		dlg.DisableBHEdits((/*_T("N") == pstOpt->jhywsh && */_T("N") == pstOpt->jhjhsh),
+			(/*_T("N") == pstOpt->bzywsh &&*/ _T("N") == pstOpt->bzjhsh));
 	}
 
 	if (IDOK == dlg.DoModal())
@@ -558,7 +558,7 @@ void CPlanPanel::OnBnClickedPlan()
 				m_planPanel.GetParent()->EnableWindow(TRUE);
 			}
 		};
-		//m_cacheRow.push_back(L"123332");
+
 		CServer::GetInstance()->GetPlan().Update(checkedRows, m_cacheRow)
 			.then(new OnPlanUpdateListener(m_cacheRow, *this));
 
@@ -1284,12 +1284,12 @@ void CPlanPanel::OnRowChecked()
 						bIsToBeApprovePlanForBZRQ = true;
 					}
 
-					if (bIsToBeApproveBusinessForSCRQ && bIsToBeApprovePlanForSCRQ)
+					if (bIsToBeApproveBusinessForSCRQ /*&& bIsToBeApprovePlanForSCRQ*/)
 					{
 						m_bEnablePlanBtnForSCRQ = true;
 					}
 
-					if (bIsToBeApproveBusinessForBZRQ && bIsToBeApprovePlanForBZRQ)
+					if (bIsToBeApproveBusinessForBZRQ /*&& bIsToBeApprovePlanForBZRQ*/)
 					{
 						m_bEnablePlanBtnForBZRQ = true;
 					}
