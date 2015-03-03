@@ -210,7 +210,7 @@ namespace Util_Tools
 		int start = 0;
 		int index = src.Find(split);
 		retData.clear();
-		while (index > 0)
+		while (index >= 0)
 		{
 			retData.push_back(src.Mid(start, index - start));
 			start = index + 1;
@@ -226,7 +226,7 @@ namespace Util_Tools
 	{
 		int start = 0;
 		int index = src.Find(split);
-		while (index > 0)
+		while (index >= 0)
 		{
 			retData.push_back(_tstoi(src.Mid(start, index - start)));
 			start = index + 1;

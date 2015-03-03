@@ -53,6 +53,12 @@ bool CSettingManager::Initialize()
 					break;
 				}
 
+				m_pDefaultValueNode = m_objXMLParser.CreateChildNode(m_pSettingRootNode, IDS_SETTING_ITEM_DEFAULTVALUE, _T(""));
+				if (NULL == m_pDefaultValueNode)
+				{
+					break;
+				}
+
 				m_pTableFilterNode = m_objXMLParser.CreateChildNode(m_pSettingRootNode, IDS_SETTING_ITEM_TABLEFILTER, _T(""));
 				if (NULL == m_pTableFilterNode)
 				{
@@ -714,6 +720,12 @@ bool CSettingManager::Initialize()
 					break;
 				}
 
+				m_pDefaultValueNode = m_objXMLParser.QueryNode(m_pSettingRootNode, IDS_SETTING_ITEM_DEFAULTVALUE);
+// 				if (NULL == m_pDefaultValueNode)
+// 				{
+// 					break;
+// 				}
+				
 				m_pTableFilterNode = m_objXMLParser.QueryNode(m_pSettingRootNode, IDS_SETTING_ITEM_TABLEFILTER);
 				if (NULL == m_pTableFilterNode)
 				{
@@ -1004,6 +1016,81 @@ bool CSettingManager::SetColWidths(LPCTSTR lpSettingName, LPCTSTR jsonWidthArr)
 		}
 
 		int iRet = m_objXMLParser.SetChildNodeData(m_pColWidthNode, lpSettingName, jsonWidthArr);
+		if (ERR_OK != iRet)
+		{
+			break;
+		}
+
+		iRet = m_objXMLParser.SaveXML(strPath);
+		if (ERR_OK != iRet)
+		{
+			break;
+		}
+
+		bRet = true;
+
+	} while (false);
+
+	return bRet;
+}
+
+
+
+bool CSettingManager::GetDafaultSaleAddValue(CString& value)
+{
+	bool bRet = false;
+
+	do
+	{
+		if (!m_bParserInitialized)
+		{
+			break;
+		}
+
+		if (NULL == m_pDefaultValueNode)
+		{
+			break;
+		}
+
+		int iRet = m_objXMLParser.GetChildNodeData(m_pDefaultValueNode, IDS_SETTING_ITEM_DEFAULT_SALEADD, value);
+		if (ERR_OK != iRet)
+		{
+			break;
+		}
+
+		bRet = true;
+
+	} while (false);
+
+	return bRet;
+}
+
+bool CSettingManager::SetDafaultSaleAddValue(CString& value)
+{
+	bool bRet = false;
+
+	do
+	{
+		if (!m_bParserInitialized)
+		{
+			break;
+		}
+
+		if (NULL == m_pDefaultValueNode)
+		{
+			m_pDefaultValueNode = m_objXMLParser.CreateChildNode(m_pSettingRootNode, IDS_SETTING_ITEM_DEFAULTVALUE, _T(""));
+			if (NULL == m_pDefaultValueNode)
+			{
+				m_pDefaultValueNode = m_objXMLParser.CreateChildNode(m_pSettingRootNode, IDS_SETTING_ITEM_DEFAULTVALUE, _T(""));
+			}
+		}
+
+		if (NULL == m_pDefaultValueNode)
+		{
+			break;
+		}
+
+		int iRet = m_objXMLParser.SetChildNodeData(m_pDefaultValueNode, IDS_SETTING_ITEM_DEFAULT_SALEADD, value);
 		if (ERR_OK != iRet)
 		{
 			break;

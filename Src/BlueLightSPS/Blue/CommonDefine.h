@@ -24,6 +24,8 @@ extern CString g_strHostName;
 #define IDS_SETTING_ITEM_COL_WIDTH	_T("ColWidths")
 #define IDS_SETTING_ITEM_USERS	_T("Users")
 #define IDS_SETTING_ITEM_LASTLOGINUSER	_T("LastLoginUser")
+#define IDS_SETTING_ITEM_DEFAULTVALUE	_T("DefaultValue")
+#define IDS_SETTING_ITEM_DEFAULT_SALEADD	_T("SaleAdd")
 
 
 #define IDS_SETTING_ITEM_TABLEFILTER_HTH		_T("HTH")

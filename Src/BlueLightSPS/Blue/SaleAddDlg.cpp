@@ -591,62 +591,124 @@ void CSaleAddDlg::InitCtrlData()
 		m_aCombs[i]->SetDroppedWidth(Util_Tools::Util::CaculateMaxWidthOfItems((m_aCombs[i])->GetOwner(), GetDropList()[i], pFont));
 	}
 
-	if (NULL != m_lpOption.get())
+	CString strValue(_T(""));
+	CSettingManager::GetInstance()->GetDafaultSaleAddValue(strValue);
+
+	if (strValue.Compare(_T("")) != 0)
 	{
-		init(m_aEdits[EditId::Edit_HTH], m_lpOption->htbh);
-		init(m_aEdits[EditId::Edit_SL], m_lpOption->sl);
-		init(m_aEdits[EditId::Edit_DLCD], m_lpOption->dlcd);
-		init(m_aEdits[EditId::Edit_ZXCD], m_lpOption->zxcd);
-		init(m_aDatePickers[DatePickerId::DatePicker_DDRQ], m_lpOption->ddrq);
-		init(m_aEdits[EditId::Edit_BZ], m_lpOption->bz);
+		std::vector<CString> vecValue;
+		Util_Tools::Util::Split(strValue, _T(','), vecValue);
 
-		init(m_aCombs[CombId::Comb_KHMC], m_lpOption->khmc);
-		init(m_aCombs[CombId::Comb_GGBH], m_lpOption->ggbh);
-		init(m_aCombs[CombId::Comb_ZC], m_lpOption->zc);
-		init(m_aCombs[CombId::Comb_DFR], m_lpOption->dfr);
-		init(m_aCombs[CombId::Comb_ZDQDY], m_lpOption->zdqdy);
-		init(m_aCombs[CombId::Comb_YYLGG], m_lpOption->yylgg);
-		init(m_aCombs[CombId::Comb_JF], m_lpOption->jf);
-		init(m_aCombs[CombId::Comb_BPQXH], m_lpOption->bpqxh);
-		init(m_aCombs[CombId::Comb_BMQXH], m_lpOption->bmqxh);
-		init(m_aCombs[CombId::Comb_MPZL], m_lpOption->mpzl);
+		SetText(m_aCombs[CombId::Comb_KHMC], Comb_KHMC, vecValue[nsSale::Column_en::khmc]);
+		SetText(m_aCombs[CombId::Comb_GGBH], Comb_GGBH, vecValue[nsSale::Column_en::ggxh]);
+		SetText(m_aCombs[CombId::Comb_ZC], Comb_ZC, vecValue[nsSale::Column_en::zc]);
+		SetText(m_aCombs[CombId::Comb_DFR], Comb_DFR, vecValue[nsSale::Column_en::dfr]);
+		SetText(m_aCombs[CombId::Comb_ZDQDY], Comb_ZDQDY, vecValue[nsSale::Column_en::zdqdy]);
+		SetText(m_aCombs[CombId::Comb_YYLGG], Comb_YYLGG, vecValue[nsSale::Column_en::yylgg]);
+		SetText(m_aCombs[CombId::Comb_JF], Comb_JF, vecValue[nsSale::Column_en::jf]);
+		SetText(m_aCombs[CombId::Comb_BPQXH], Comb_BPQXH, vecValue[nsSale::Column_en::bpqxh]);
+		SetText(m_aCombs[CombId::Comb_BMQXH], Comb_BMQXH, vecValue[nsSale::Column_en::bmqxh]);
+		SetText(m_aCombs[CombId::Comb_MPZL], Comb_MPZL, vecValue[nsSale::Column_en::mpzl]);
+		SetText(m_aCombs[CombId::Comb_ZJDY], Comb_ZJDY, vecValue[nsSale::Column_en::zjdy]);
+		SetText(m_aCombs[CombId::Comb_ZJYS], Comb_ZJYS, vecValue[nsSale::Column_en::zjys]);
+		SetText(m_aCombs[CombId::Comb_ZDQXH], Comb_ZDQXH, vecValue[nsSale::Column_en::zdqxh]);
+		SetText(m_aCombs[CombId::Comb_ZYZ], Comb_ZYZ, vecValue[nsSale::Column_en::zyz]);
+		SetText(m_aCombs[CombId::Comb_BZXDTGG], Comb_BZXDTGG, vecValue[nsSale::Column_en::bzxdtgg]);
+		SetText(m_aCombs[CombId::Comb_ZZS], Comb_ZZS, vecValue[nsSale::Column_en::zzs]);
+		SetText(m_aCombs[CombId::Comb_KHQY], Comb_KHQY, vecValue[nsSale::Column_en::khqy]);
+		SetText(m_aCombs[CombId::Comb_YXJ], Comb_YXJ, vecValue[nsSale::Column_en::yxj]);
 
-		init(m_aEdits[EditId::Edit_GH], m_lpOption->gh);
 
-		init(m_aCombs[CombId::Comb_ZJDY], m_lpOption->zjdy);
-		init(m_aCombs[CombId::Comb_ZJYS], m_lpOption->zjys);
-		init(m_aCombs[CombId::Comb_ZDQXH], m_lpOption->zdqxh);
-		init(m_aCombs[CombId::Comb_ZYZ], m_lpOption->zyz);
-		init(m_aCombs[CombId::Comb_BZXDTGG], m_lpOption->bzxdtgg);
-		init(m_aCombs[CombId::Comb_ZZS], m_lpOption->zzs);
-		init(m_aCombs[CombId::Comb_KHQY], m_lpOption->khqy);
-		init(m_aCombs[CombId::Comb_YXJ], m_lpOption->yxj);
+// 		m_aCombs[CombId::Comb_KHMC ]->SetWindowText(vecValue[nsSale::Column_en::KHMC]);
+// 		m_aCombs[CombId::Comb_GGBH ]->SetWindowText(vecValue[nsSale::Column_en::GGBH]);
+// 		m_aCombs[CombId::Comb_ZC   ]->SetWindowText(vecValue[nsSale::Column_en::ZC]);
+// 		m_aCombs[CombId::Comb_DFR  ]->SetWindowText(vecValue[nsSale::Column_en::DFR]);
+// 		m_aCombs[CombId::Comb_ZDQDY]->SetWindowText(vecValue[nsSale::Column_en::ZDQDY]);
+// 		m_aCombs[CombId::Comb_YYLGG]->SetWindowText(vecValue[nsSale::Column_en::YYLGG]);
+// 		m_aCombs[CombId::Comb_JF   ]->SetWindowText(vecValue[nsSale::Column_en::JF]);
+// 		m_aCombs[CombId::Comb_BPQXH]->SetWindowText(vecValue[nsSale::Column_en::BPQXH]);
+// 		m_aCombs[CombId::Comb_BMQXH]->SetWindowText(vecValue[nsSale::Column_en::BMQXH]);
+// 		m_aCombs[CombId::Comb_MPZL ]->SetWindowText(vecValue[nsSale::Column_en::MPZL]);
+// 
+// 		m_aCombs[CombId::Comb_ZJDY   ]->SetWindowText(vecValue[nsSale::Column_en::ZJDY]);
+// 		m_aCombs[CombId::Comb_ZJYS   ]->SetWindowText(vecValue[nsSale::Column_en::ZJYS]);
+// 		m_aCombs[CombId::Comb_ZDQXH  ]->SetWindowText(vecValue[nsSale::Column_en::ZDQXH]);
+// 		m_aCombs[CombId::Comb_ZYZ    ]->SetWindowText(vecValue[nsSale::Column_en::ZYZ]);
+// 		m_aCombs[CombId::Comb_BZXDTGG]->SetWindowText(vecValue[nsSale::Column_en::BZXDTGG]);
+// 		m_aCombs[CombId::Comb_ZZS    ]->SetWindowText(vecValue[nsSale::Column_en::ZZS]);
+// 		m_aCombs[CombId::Comb_KHQY   ]->SetWindowText(vecValue[nsSale::Column_en::KHQY]);
+// 		m_aCombs[CombId::Comb_YXJ    ]->SetWindowText(vecValue[nsSale::Column_en::YXJ]);
+
+		init(m_aEdits[EditId::Edit_GH], vecValue[nsSale::Column_en::gh]);
+		init(m_aEdits[EditId::Edit_HTH], vecValue[nsSale::Column_en::hth]);
+		init(m_aEdits[EditId::Edit_SL], vecValue[nsSale::Column_en::sl]);
+		init(m_aEdits[EditId::Edit_DLCD], vecValue[nsSale::Column_en::dlcd]);
+		init(m_aEdits[EditId::Edit_ZXCD], vecValue[nsSale::Column_en::zxcd]);
+		init(m_aEdits[EditId::Edit_BZ], vecValue[nsSale::Column_en::bz]);
+
+		init(m_aDatePickers[DatePickerId::DatePicker_DDRQ], vecValue[nsSale::Column_en::ddrq]);
 
 	}
 	else
 	{
-		init(m_aCombs[CombId::Comb_KHMC], 0);
-		init(m_aCombs[CombId::Comb_GGBH], 0);
-		init(m_aCombs[CombId::Comb_ZC], 0);
-		init(m_aCombs[CombId::Comb_DFR], 0);
-		init(m_aCombs[CombId::Comb_ZDQDY], 0);
-		init(m_aCombs[CombId::Comb_YYLGG], 0);
-		init(m_aCombs[CombId::Comb_JF], 0);
-		init(m_aCombs[CombId::Comb_BPQXH], 0);
-		init(m_aCombs[CombId::Comb_BMQXH], 0);
-		init(m_aCombs[CombId::Comb_MPZL], 0);
 
-		init(m_aCombs[CombId::Comb_ZJDY], 0);
-		init(m_aCombs[CombId::Comb_ZJYS], 0);
-		init(m_aCombs[CombId::Comb_ZDQXH], 0);
-		init(m_aCombs[CombId::Comb_ZYZ], 0);
-		init(m_aCombs[CombId::Comb_BZXDTGG], 0);
-		init(m_aCombs[CombId::Comb_ZZS], 0);
-		init(m_aCombs[CombId::Comb_KHQY], 0);
-		init(m_aCombs[CombId::Comb_YXJ], 0);
+		if (NULL != m_lpOption.get())
+		{
+			init(m_aEdits[EditId::Edit_HTH], m_lpOption->htbh);
+			init(m_aEdits[EditId::Edit_SL], m_lpOption->sl);
+			init(m_aEdits[EditId::Edit_DLCD], m_lpOption->dlcd);
+			init(m_aEdits[EditId::Edit_ZXCD], m_lpOption->zxcd);
+			init(m_aDatePickers[DatePickerId::DatePicker_DDRQ], m_lpOption->ddrq);
+			init(m_aEdits[EditId::Edit_BZ], m_lpOption->bz);
 
-		CString val(_T(""));
-		init(m_aDatePickers[DatePickerId::DatePicker_DDRQ], val);
+			init(m_aCombs[CombId::Comb_KHMC], m_lpOption->khmc);
+			init(m_aCombs[CombId::Comb_GGBH], m_lpOption->ggbh);
+			init(m_aCombs[CombId::Comb_ZC], m_lpOption->zc);
+			init(m_aCombs[CombId::Comb_DFR], m_lpOption->dfr);
+			init(m_aCombs[CombId::Comb_ZDQDY], m_lpOption->zdqdy);
+			init(m_aCombs[CombId::Comb_YYLGG], m_lpOption->yylgg);
+			init(m_aCombs[CombId::Comb_JF], m_lpOption->jf);
+			init(m_aCombs[CombId::Comb_BPQXH], m_lpOption->bpqxh);
+			init(m_aCombs[CombId::Comb_BMQXH], m_lpOption->bmqxh);
+			init(m_aCombs[CombId::Comb_MPZL], m_lpOption->mpzl);
+
+			init(m_aEdits[EditId::Edit_GH], m_lpOption->gh);
+
+			init(m_aCombs[CombId::Comb_ZJDY], m_lpOption->zjdy);
+			init(m_aCombs[CombId::Comb_ZJYS], m_lpOption->zjys);
+			init(m_aCombs[CombId::Comb_ZDQXH], m_lpOption->zdqxh);
+			init(m_aCombs[CombId::Comb_ZYZ], m_lpOption->zyz);
+			init(m_aCombs[CombId::Comb_BZXDTGG], m_lpOption->bzxdtgg);
+			init(m_aCombs[CombId::Comb_ZZS], m_lpOption->zzs);
+			init(m_aCombs[CombId::Comb_KHQY], m_lpOption->khqy);
+			init(m_aCombs[CombId::Comb_YXJ], m_lpOption->yxj);
+
+		}
+		else
+		{
+			init(m_aCombs[CombId::Comb_KHMC], 0);
+			init(m_aCombs[CombId::Comb_GGBH], 0);
+			init(m_aCombs[CombId::Comb_ZC], 0);
+			init(m_aCombs[CombId::Comb_DFR], 0);
+			init(m_aCombs[CombId::Comb_ZDQDY], 0);
+			init(m_aCombs[CombId::Comb_YYLGG], 0);
+			init(m_aCombs[CombId::Comb_JF], 0);
+			init(m_aCombs[CombId::Comb_BPQXH], 0);
+			init(m_aCombs[CombId::Comb_BMQXH], 0);
+			init(m_aCombs[CombId::Comb_MPZL], 0);
+
+			init(m_aCombs[CombId::Comb_ZJDY], 0);
+			init(m_aCombs[CombId::Comb_ZJYS], 0);
+			init(m_aCombs[CombId::Comb_ZDQXH], 0);
+			init(m_aCombs[CombId::Comb_ZYZ], 0);
+			init(m_aCombs[CombId::Comb_BZXDTGG], 0);
+			init(m_aCombs[CombId::Comb_ZZS], 0);
+			init(m_aCombs[CombId::Comb_KHQY], 0);
+			init(m_aCombs[CombId::Comb_YXJ], 0);
+
+			CString val(_T(""));
+			init(m_aDatePickers[DatePickerId::DatePicker_DDRQ], val);
+		}
 	}
 }
 

@@ -33,6 +33,8 @@ protected:
 	afx_msg void OnBnClickedSearch();
 	afx_msg void OnBnClickedTableFilter();
 	afx_msg void OnBnClickedMore();
+	afx_msg void OnBnClickedSetAsDefault();
+	afx_msg void OnBnClickedReSetAsDefault();
 
 	afx_msg void OnBnClickedReApproveBusiness();
 	afx_msg void OnBnClickedReApprovePlan();
@@ -55,6 +57,9 @@ private:
 	CBRButton* m_btnReApproveForPlan;
 	CBSStatic* m_bsMoreWord;
 	CEdit* m_editSearch;
+
+	CBRButton* m_btnSetAsDefaultValue;
+	CBRButton* m_btnReSetAsDefaultValue;
 
 	CBSStatic* m_bsDateRange;
 	CBSStatic* m_bsMiddleLine;

@@ -89,6 +89,8 @@ BEGIN_MESSAGE_MAP(CSalePanel, CBRPanel)
 	ON_WM_DESTROY()
 	ON_WM_SHOWWINDOW()
 	ON_CBN_SELCHANGE(IDC_SALE_COMBO_PROSTATUS, &CSalePanel::OnCbnSelchangeProductionStatus)
+	ON_BN_CLICKED(IDC_SALE_BTN_SETASDEFAULT, &CSalePanel::OnBnClickedSetAsDefault)
+	ON_BN_CLICKED(IDC_SALE_BTN_RESETASDEFAULT, &CSalePanel::OnBnClickedReSetAsDefault)
 END_MESSAGE_MAP()
 
 CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI)
@@ -96,6 +98,8 @@ CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI)
 : CBRPanel(pJqGridAPI)
 , m_tableFilterDlg(_T("表格设置"))
 , m_btnAdd(NULL)
+, m_btnSetAsDefaultValue(NULL)
+, m_btnReSetAsDefaultValue(NULL)
 , m_btnSearch(NULL)
 , m_btnModify(NULL)
 , m_btnDelete(NULL)
@@ -221,6 +225,13 @@ void CSalePanel::OnInitChilds()
 
 		m_btnTableFilter = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_TABLEFILTER, _T("表格设置"), _T("Microsoft YaHei"), 12);
 		m_btnTableFilter->MoveWindow(750, 70, 90, 25);
+
+		//third line
+		m_btnSetAsDefaultValue = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_SETASDEFAULT, _T("设为默认"), _T("Microsoft YaHei"), 12);
+		m_btnSetAsDefaultValue->MoveWindow(20, 117, 90, 25);
+
+		m_btnReSetAsDefaultValue = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_RESETASDEFAULT, _T("取消默认"), _T("Microsoft YaHei"), 12);
+		m_btnReSetAsDefaultValue->MoveWindow(130, 117, 90, 25);
 	}
 }
 
@@ -661,11 +672,22 @@ void CSalePanel::OnRowChecked()
 
 		m_btnReApproveForBusiness->EnableWindow(FALSE);
 		m_btnReApproveForPlan->EnableWindow(FALSE);
+
+		m_btnSetAsDefaultValue->EnableWindow(FALSE);
 	}
 	else
 	{
 		bool bIsAnyApproved = false;
 		bool bIfShowModifyAndDelete = false;
+
+		if (checkedRows.size() > 1)
+		{
+			m_btnSetAsDefaultValue->EnableWindow(FALSE);
+		}
+		else
+		{
+			m_btnSetAsDefaultValue->EnableWindow(TRUE);
+		}
 
 		for (int i = checkedRows.size() - 1; i >= 0; --i)
 		{
@@ -763,6 +785,18 @@ void CSalePanel::OnNcDestroy()
 	{
 		delete m_btnAdd;
 		m_btnAdd = NULL;
+	}
+
+	if (NULL != m_btnSetAsDefaultValue)
+	{
+		delete m_btnSetAsDefaultValue;
+		m_btnSetAsDefaultValue = NULL;
+	}
+	
+	if (NULL != m_btnReSetAsDefaultValue)
+	{
+		delete m_btnReSetAsDefaultValue;
+		m_btnReSetAsDefaultValue = NULL;
 	}
 
 	if (NULL != m_btnSearch)
@@ -1209,4 +1243,50 @@ void CSalePanel::OnImportClicked()
 			MessageBoxA(m_hWnd, (char*)e.what(), "导入失败", MB_OK | MB_ICONWARNING);
 		}
 	}
+}
+
+void CSalePanel::OnBnClickedSetAsDefault()
+{
+	std::vector<int> checkedRows;
+	m_pJqGridAPI->GetCheckedRows(checkedRows);
+
+	if (checkedRows.empty())
+	{
+		return;
+	}
+	else if (checkedRows.size() > 1)
+	{
+		return;
+	}
+	else
+	{
+		CString strValue;
+
+		if (checkedRows.size() == 1)
+		{
+			for (int j = 0; j < m_table.size(); ++j)
+			{
+				if (m_table[j].first == checkedRows[0])
+				{
+					for (int i = 0; i < (m_table[j].second).size(); i++)
+					{
+						strValue += m_table[j].second[i];
+						strValue += _T(",");
+					}
+
+					break;
+				}
+			}
+		}
+
+		if (CSettingManager::GetInstance()->SetDafaultSaleAddValue(strValue))
+		{
+			MessageBox(_T("销售添加默认数据设置成功！"), _T("设为默认"), MB_OK | MB_ICONWARNING);
+		}
+	}
+}
+
+void CSalePanel::OnBnClickedReSetAsDefault()
+{
+	//reset default value
 }

@@ -2,7 +2,7 @@
 #include "PopupDlg.h"
 #include "UILib/BSStatic.h"
 #include "IHttp.h"
-
+#include "SettingManager.h"
 
 #define OPT_DATE_NULL _T("")
 #define OPT_FALSE _T("-1")
