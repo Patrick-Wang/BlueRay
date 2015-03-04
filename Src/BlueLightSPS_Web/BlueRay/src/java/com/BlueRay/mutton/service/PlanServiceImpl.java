@@ -116,11 +116,11 @@ public class PlanServiceImpl implements PlanService {
 			PCJHXX pcjhxx = planDao.getDataById(rows.getInt(i));
 			if (pcjhxx != null) {
 				if (!"".equals(data.getString(0)) && 
-						!"Y".equals(pcjhxx.getSftgjhsh()) && 
+						//!"Y".equals(pcjhxx.getSftgjhsh()) && 
 						!"Y".equals(pcjhxx.getSftgywsh()) )
 					setJhscrq(pcjhxx, data.getString(0));
 				if (!"".equals(data.getString(1)) && 
-						!"Y".equals(pcjhxx.getBzsftgjhsh()) && 
+						//!"Y".equals(pcjhxx.getBzsftgjhsh()) && 
 						!"Y".equals(pcjhxx.getBzsftgywsh()))
 					setJhbzrq(pcjhxx, data.getString(1));
 				if (!"".equals(data.getString(2)))
