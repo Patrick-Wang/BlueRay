@@ -1108,3 +1108,47 @@ bool CSettingManager::SetDafaultSaleAddValue(CString& value)
 
 	return bRet;
 }
+
+bool CSettingManager::ReSetDafaultSaleAddValue()
+{
+	bool bRet = false;
+
+	do
+	{
+		if (!m_bParserInitialized)
+		{
+			break;
+		}
+
+		if (NULL == m_pDefaultValueNode)
+		{
+			bRet = true;
+			break;
+		}
+
+		
+		MSXML2::IXMLDOMNodePtr pDefaultValueSaleAddNode = m_objXMLParser.QueryNode(m_pDefaultValueNode, IDS_SETTING_ITEM_DEFAULT_SALEADD);
+		if (NULL == pDefaultValueSaleAddNode)
+		{
+			bRet = true;
+			break;
+		}
+
+		int iRet = m_objXMLParser.DelSingleChildNode(m_pDefaultValueNode, pDefaultValueSaleAddNode);
+		if (ERR_OK != iRet)
+		{
+			break;
+		}
+
+		iRet = m_objXMLParser.SaveXML(strPath);
+		if (ERR_OK != iRet)
+		{
+			break;
+		}
+
+		bRet = true;
+
+	} while (false);
+
+	return bRet;
+}

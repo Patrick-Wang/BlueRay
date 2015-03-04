@@ -20,6 +20,7 @@ public:
 	bool GetTableFilterSettingForNotification(LPCTSTR lpSettingName, CString& lpIsSelected);
 	bool GetDafaultSaleAddValue(CString& value);
 	bool SetDafaultSaleAddValue(CString& value);
+	bool ReSetDafaultSaleAddValue();
 
 private:
 	CXMLParser m_objXMLParser;

@@ -1283,10 +1283,22 @@ void CSalePanel::OnBnClickedSetAsDefault()
 		{
 			MessageBox(_T("销售添加默认数据设置成功！"), _T("设为默认"), MB_OK | MB_ICONWARNING);
 		}
+		else
+		{
+			MessageBox(_T("销售添加默认数据设置失败，请重试！"), _T("设为默认"), MB_OK | MB_ICONWARNING);
+		}
 	}
 }
 
 void CSalePanel::OnBnClickedReSetAsDefault()
 {
 	//reset default value
+	if (CSettingManager::GetInstance()->ReSetDafaultSaleAddValue())
+	{
+		MessageBox(_T("销售添加默认数据清除成功！"), _T("清除默认"), MB_OK | MB_ICONWARNING);
+	}
+	else
+	{
+		MessageBox(_T("销售添加默认数据清除失败！"), _T("清除默认"), MB_OK | MB_ICONWARNING);
+	}
 }
