@@ -339,6 +339,8 @@ private:
 		Comb_END
 	};
 
+	DECLARE_MESSAGE_MAP()
+
 public:
 	virtual BOOL OnInitDialog();
 	void ConfigPlanBtns(bool scrq, bool bzrq);
@@ -347,6 +349,7 @@ public:
 	void OnHttpFailed(int id);
 	static const std::vector<std::vector<CString>>& GetDropList();
 	CDelegate<void(CPlanAddDlg&)> d_GetOption;
+	afx_msg void OnNcDestroy();
 
 protected:
 	virtual void OnOK();
@@ -365,6 +368,9 @@ private:
 	CDateTimeCtrl* m_aDatePickers[DatePickerId::DatePicker_END];
 	CComboBox* m_aCombs[CombId::Comb_END];
 
+	CBRButton* m_btnNewIDForSCRQ;
+	CBRButton* m_btnNewIDForBZRQ;
+
 	bool m_bEnablePlanBtnForSCRQ;
 	bool m_bEnablePlanBtnForBZRQ;
 
@@ -374,5 +380,8 @@ private:
 	virtual void PostNcDestroy();
 	void InitHttpInstance();
 	void OnLoadComboDataSuccess(int id, CString strValList);
+	afx_msg void OnBnClickedNewIDForSCRQ();
+	afx_msg void OnBnClickedNewIDForBZRQ();
+
 };
 

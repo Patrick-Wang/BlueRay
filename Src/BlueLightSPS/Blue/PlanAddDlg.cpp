@@ -14,7 +14,7 @@
 
 
 static int g_CombPos[][4] = {
-		{ 100 * 3 + 100 * 2 + 8, 40 * 9, 100, 20 }  //Comb_ZC,
+		{ 100 * 3 + 100 * 2 + 8, 40 * 9, 120, 20 }  //Comb_ZC,
 };
 
 static int g_StaticPos[][4] = {
@@ -49,8 +49,8 @@ static int g_StaticPos[][4] = {
 		{ 100 * 1 + 100 * 1, 40 * 8, 100, 20 },  //Static_BZRQ,
 		{ 100 * 2 + 100 * 2, 40 * 8, 100, 20 },  //Static_FHRQ,
 		{ 100 * 0 + 100 * 0, 40 * 9, 100, 20 },  //Static_TCBH,
-		{ 100 * 1 + 100 * 1, 40 * 9, 100, 20 },   //Static_CCBH
-		{ 100 * 2 + 100 * 2, 40 * 9, 100, 20 },   //zc
+		{ 100 * 1 + 40 + 100 * 1, 40 * 9, 100 - 40, 20 },   //Static_CCBH
+		{ 100 * 2 + 40 + 100 * 2, 40 * 9, 100 - 40, 20 },   //zc
 		{ 100 * 0 + 100 * 0, 40 * 10, 100, 20 },   //bz
 };
 
@@ -86,15 +86,15 @@ static int g_StaticToShowPos[][4] = {
 };
 
 static int g_EditsPos[][4] = {
-		{ 100 * 1 + 100 * 0 + 8, 40 * 9, 100, 20 }, //Edit_TCBH,
-		{ 100 * 2 + 100 * 1 + 8, 40 * 9, 100, 20 },  //Edit_CCBH,
+		{ 100 * 1 + 100 * 0 + 8, 40 * 9, 80, 20 }, //Edit_TCBH,
+		{ 100 * 2 + 100 * 1 + 8, 40 * 9, 80, 20 },  //Edit_CCBH,
 		{ 100 * 1 + 100 * 0 + 8, 40 * 10, 500, 60 }  //bz
 };
 
 static int g_DatePickersPos[][4] = {
-		{ 100 * 1 + 100 * 0 + 8, 40 * 8, 100, 20 }, //DatePicker_SCRQ,
-		{ 100 * 2 + 100 * 1 + 8, 40 * 8, 100, 20 }, //DatePicker_BZRQ,
-		{ 100 * 3 + 100 * 2 + 8, 40 * 8, 100, 20 }  //DatePicker_FHRQ,
+		{ 100 * 1 + 100 * 0 + 8, 40 * 8, 120, 20 }, //DatePicker_SCRQ,
+		{ 100 * 2 + 100 * 1 + 8, 40 * 8, 120, 20 }, //DatePicker_BZRQ,
+		{ 100 * 3 + 100 * 2 + 8, 40 * 8, 120, 20 }  //DatePicker_FHRQ,
 };
 
 static LPCTSTR g_EditItems[][1] = { //0: default text
@@ -120,9 +120,9 @@ inline void init(CDateTimeCtrl* dateTime, CString& val){
 	{
 		if (_T("") == val)
 		{
-     		COleDateTime oletimeTime;
+			COleDateTime oletimeTime;
 			oletimeTime.SetStatus(COleDateTime::null);
-			dateTime->SetTime(oletimeTime);    
+			dateTime->SetTime(oletimeTime);
 		}
 		else
 		{
@@ -150,11 +150,18 @@ inline void init(CComboBox* comb, int val){
 	}
 }
 
+BEGIN_MESSAGE_MAP(CPlanAddDlg, CPopupDlg)
+	ON_BN_CLICKED(IDC_PLAN_ADD_BTN_NEWIDFORSCRQ, &CPlanAddDlg::OnBnClickedNewIDForSCRQ)
+	ON_BN_CLICKED(IDC_PLAN_ADD_BTN_NEWIDFORBZRQ, &CPlanAddDlg::OnBnClickedNewIDForBZRQ)
+END_MESSAGE_MAP()
+
 CPlanAddDlg::CPlanAddDlg(LPCTSTR title, CWnd* pParent /*= NULL*/)
 	: CPopupDlg(title, pParent)
 	, m_lpOption(NULL)
 	, m_bEnablePlanBtnForSCRQ(false)
 	, m_bEnablePlanBtnForBZRQ(false)
+	, m_btnNewIDForSCRQ(NULL)
+	, m_btnNewIDForBZRQ(NULL)
 {
 	InitHttpInstance();
 }
@@ -162,6 +169,45 @@ CPlanAddDlg::CPlanAddDlg(LPCTSTR title, CWnd* pParent /*= NULL*/)
 
 CPlanAddDlg::~CPlanAddDlg()
 {
+
+}
+
+void CPlanAddDlg::OnBnClickedNewIDForSCRQ()
+{
+	if (m_bEnablePlanEditForTCBH)
+	{
+		CString text;
+		CServer::GetInstance()->GetPlan().GetTcbhSync(text);
+		m_aEdits[Edit_TCBH]->SetWindowText(text);
+	}
+
+}
+
+void CPlanAddDlg::OnBnClickedNewIDForBZRQ()
+{
+	if (m_bEnablePlanEditForCCBH)
+	{
+ 		CString text;
+		CServer::GetInstance()->GetPlan().GetCcbhSync(text);
+		m_aEdits[Edit_CCBH]->SetWindowText(text);
+	}
+}
+
+void CPlanAddDlg::OnNcDestroy()
+{
+	if (NULL != m_btnNewIDForSCRQ)
+	{
+		delete m_btnNewIDForSCRQ;
+		m_btnNewIDForSCRQ = NULL;
+	}
+
+	if (NULL != m_btnNewIDForBZRQ)
+	{
+		delete m_btnNewIDForBZRQ;
+		m_btnNewIDForBZRQ = NULL;
+	}
+
+	__super::OnNcDestroy();
 }
 
 void CPlanAddDlg::InitHttpInstance()
@@ -320,7 +366,7 @@ BOOL CPlanAddDlg::OnInitDialog()
 	Util_Tools::Util::SetClientSize(m_hWnd, 837, 550);
 	m_btnOK.MoveWindow(556, 40 * 11 + 50, 114, 30);
 	m_btnCancel.MoveWindow(690, 40 * 11 + 50, 114, 30);
-	
+
 	CenterWindow();
 
 	//init comb
@@ -368,6 +414,11 @@ BOOL CPlanAddDlg::OnInitDialog()
 		m_aDatePickers[i]->MoveWindow(g_DatePickersPos[i][0], g_DatePickersPos[i][1], g_DatePickersPos[i][2], g_DatePickersPos[i][3]);
 	}
 
+	m_btnNewIDForSCRQ = Util_Tools::Util::CreateButton(this, IDC_PLAN_ADD_BTN_NEWIDFORSCRQ, _T("<-"), _T("Microsoft YaHei"), 12);
+	m_btnNewIDForSCRQ->MoveWindow(100 * 1 + 100 * 0 + 8 + 85, 40 * 9, 35, 20);
+
+	m_btnNewIDForBZRQ = Util_Tools::Util::CreateButton(this, IDC_PLAN_ADD_BTN_NEWIDFORBZRQ, _T("<-"), _T("Microsoft YaHei"), 12);
+	m_btnNewIDForBZRQ->MoveWindow(100 * 2 + 100 * 1 + 8 + 85, 40 * 9, 35, 20);
 
 	if (NULL != m_lpOption)
 	{
@@ -387,7 +438,7 @@ BOOL CPlanAddDlg::OnInitDialog()
 		init(m_aStaticsToShow[StaticId2::Static2_MPZL], m_lpOption->mpzl);
 		init(m_aStaticsToShow[StaticId2::Static2_DDRQ], m_lpOption->ddrq);
 		init(m_aStaticsToShow[StaticId2::Static2_BZ], m_lpOption->bz);
-	
+
 		init(m_aStaticsToShow[StaticId2::Static2_ZJDY], m_lpOption->zjdy);
 		init(m_aStaticsToShow[StaticId2::Static2_ZJYS], m_lpOption->zjys);
 		init(m_aStaticsToShow[StaticId2::Static2_ZDQXH], m_lpOption->zdqxh);
@@ -450,27 +501,8 @@ BOOL CPlanAddDlg::OnInitDialog()
 
 	m_aEdits[Edit_TCBH]->EnableWindow(m_bEnablePlanEditForTCBH);
 	m_aEdits[Edit_CCBH]->EnableWindow(m_bEnablePlanEditForCCBH);
-
-	if (m_bEnablePlanEditForTCBH){
-		CString text;
-		m_aEdits[Edit_TCBH]->GetWindowText(text);
-		if (text.IsEmpty())
-		{
-			CServer::GetInstance()->GetPlan().GetTcbhSync(text);
-			m_aEdits[Edit_TCBH]->SetWindowText(text);
-		}
-	}
-
-	if (m_bEnablePlanEditForCCBH){
-		CString text;
-		m_aEdits[Edit_CCBH]->GetWindowText(text);
-		if (text.IsEmpty())
-		{
-			CServer::GetInstance()->GetPlan().GetCcbhSync(text);
-			m_aEdits[Edit_CCBH]->SetWindowText(text);
-		}
-	}
-
+	m_btnNewIDForSCRQ->EnableWindow(m_bEnablePlanEditForTCBH);
+	m_btnNewIDForBZRQ->EnableWindow(m_bEnablePlanEditForCCBH);
 
 	InitCtrlData();
 
@@ -564,7 +596,7 @@ void CPlanAddDlg::OnOK()
 	{
 		m_vecResult.push_back(_T(""));
 	}
-	
+
 	//m_aDatePickers[DatePickerId::DatePicker_BZRQ]->GetWindowText(strTmp);
 	//m_vecResult.push_back(strTmp);
 
@@ -588,7 +620,7 @@ void CPlanAddDlg::OnOK()
 			return;
 		}
 	}
-	
+
 	m_aEdits[EditId::Edit_CCBH]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp);
 	if (!strTmp.IsEmpty() && NULL != m_lpOption && strTmp != m_lpOption->ccbh){
@@ -605,7 +637,7 @@ void CPlanAddDlg::OnOK()
 			return;
 		}
 	}
-	
+
 	GetText(m_aCombs[CombId::Comb_ZC_ForPlan], Comb_ZC_ForPlan, strTmp);
 	m_vecResult.push_back(strTmp);
 
