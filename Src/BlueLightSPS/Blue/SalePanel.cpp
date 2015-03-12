@@ -557,6 +557,8 @@ void CSalePanel::OnBnClickedModify()
 	CSaleAddDlg dlg(_T("ÐÞ¸Ä"));
 	dlg.d_GetOption += std::make_pair(this, &CSalePanel::OnSaleDlgGetModifyOption);
 
+	dlg.SetIfUseDefaultValue(false);
+
 	if (IDOK == dlg.DoModal())
 	{
 		m_cacheRow = dlg.GetResult();

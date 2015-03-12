@@ -183,11 +183,15 @@ inline void init(CComboBox* comb, int val){
 CSaleAddDlg::CSaleAddDlg(LPCTSTR title, CWnd* pParent /*= NULL*/)
 	: CPopupDlg(title, pParent)
 	, m_lpOption(NULL)
+	, m_bIfUseDefaultValue(true)
 {
 	InitHttpInstance();
 }
 
-
+void CSaleAddDlg::SetIfUseDefaultValue(bool ifuse)
+{
+	m_bIfUseDefaultValue = ifuse;
+}
 
 CSaleAddDlg::~CSaleAddDlg()
 {
@@ -592,7 +596,11 @@ void CSaleAddDlg::InitCtrlData()
 	}
 
 	CString strValue(_T(""));
-	CSettingManager::GetInstance()->GetDafaultSaleAddValue(strValue);
+
+	if (m_bIfUseDefaultValue)
+	{
+		CSettingManager::GetInstance()->GetDafaultSaleAddValue(strValue);
+	}
 
 	if (strValue.Compare(_T("")) != 0)
 	{
