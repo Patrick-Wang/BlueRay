@@ -714,7 +714,7 @@ INSERT INTO `ddztb` VALUES ('11', '生产完成');
 DROP TABLE IF EXISTS `htxx`;
 CREATE TABLE `htxx` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `htID` char(16) DEFAULT NULL,
+  `htID` char(128) DEFAULT NULL,
   `ClientID` int(11) DEFAULT NULL,
   `ggxhID` int(11) DEFAULT NULL,
   `sl` int(8) DEFAULT NULL,
@@ -736,7 +736,7 @@ CREATE TABLE `htxx` (
   `zdqxhID` int(11) DEFAULT NULL,
   `zyz` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT 'Y',
   `bzxdtggID` int(11) DEFAULT NULL,
-  `gh` char(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `gh` char(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `zzsID` int(11) DEFAULT NULL,
   `khqyID` int(11) DEFAULT NULL,
   `sftgywsh` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
