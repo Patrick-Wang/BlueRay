@@ -260,6 +260,7 @@ public:
 	void OnHttpFailed(int id);
 	static const std::vector<std::vector<CString>>& GetDropList();
 	CDelegate<void(CSaleAddDlg&)> d_GetOption;
+	void SetIfUseDefaultValue(bool ifuse);
 protected:
 	void Assosication();
 	void InitHttpInstance();
@@ -275,7 +276,7 @@ private:
 	CComboBox* m_aCombs[CombId::Comb_END];
 	CEdit* m_aEdits[EditId::Edit_END];
 	CDateTimeCtrl* m_aDatePickers[DatePickerId::DatePicker_END];
-
+	bool m_bIfUseDefaultValue;
 private:
 	void OnCbnSelchangeKhOrGg();
 	virtual void PostNcDestroy();
