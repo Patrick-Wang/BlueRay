@@ -14,6 +14,7 @@ namespace Util_Tools
 		Util();
 		~Util();
 		static void base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len, CString& strBase64);
+		static void base64_decode(CString& strBase64Src, CString& strBase64Dest);
 		static void SetWindowSize(HWND hWnd, int iWheight, int iHeight);
 		static void SetClientSize(HWND hWnd, int iWheight, int iHeight);
 		static CComboBox* CreateComboBox(CWnd* pParent, UINT Id, CString csFont, int iFSize, BOOL isReadOnly = FALSE);
