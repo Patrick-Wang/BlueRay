@@ -212,7 +212,7 @@ BOOL CLoginDlg::OnInitDialog()
 	path.Replace(_T("BlueLightPLM.exe"), _T("test.txt"));
 	if (!PathFileExists(path))
 	{
-		g_strHostName = _T("192.168.104.2");
+		g_strHostName = _T("192.168.104.253");
 	}
 #endif
 	CAssociation* asso = CAssociation::GetInstance();
