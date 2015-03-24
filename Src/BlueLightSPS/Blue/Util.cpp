@@ -762,6 +762,13 @@ namespace Util_Tools
 		return (isalnum(c) || (c == '+') || (c == '/'));
 	}
 
+	CString Util::base64_decode(CString& strBase64Src)
+	{
+		CString strDest;
+		base64_decode(strBase64Src, strDest);
+		return strDest;
+	}
+
 	void Util::base64_decode(CString& strBase64Src, CString& strBase64Dest)
 	{
 		int in_len = strBase64Src.GetLength();

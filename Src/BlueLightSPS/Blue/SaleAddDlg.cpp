@@ -607,24 +607,24 @@ void CSaleAddDlg::InitCtrlData()
 		std::vector<CString> vecValue;
 		Util_Tools::Util::Split(strValue, _T(','), vecValue);
 
-		SetText(m_aCombs[CombId::Comb_KHMC], Comb_KHMC, vecValue[nsSale::Column_en::khmc]);
-		SetText(m_aCombs[CombId::Comb_GGBH], Comb_GGBH, vecValue[nsSale::Column_en::ggxh]);
-		SetText(m_aCombs[CombId::Comb_ZC], Comb_ZC, vecValue[nsSale::Column_en::zc]);
-		SetText(m_aCombs[CombId::Comb_DFR], Comb_DFR, vecValue[nsSale::Column_en::dfr]);
-		SetText(m_aCombs[CombId::Comb_ZDQDY], Comb_ZDQDY, vecValue[nsSale::Column_en::zdqdy]);
-		SetText(m_aCombs[CombId::Comb_YYLGG], Comb_YYLGG, vecValue[nsSale::Column_en::yylgg]);
-		SetText(m_aCombs[CombId::Comb_JF], Comb_JF, vecValue[nsSale::Column_en::jf]);
-		SetText(m_aCombs[CombId::Comb_BPQXH], Comb_BPQXH, vecValue[nsSale::Column_en::bpqxh]);
-		SetText(m_aCombs[CombId::Comb_BMQXH], Comb_BMQXH, vecValue[nsSale::Column_en::bmqxh]);
-		SetText(m_aCombs[CombId::Comb_MPZL], Comb_MPZL, vecValue[nsSale::Column_en::mpzl]);
-		SetText(m_aCombs[CombId::Comb_ZJDY], Comb_ZJDY, vecValue[nsSale::Column_en::zjdy]);
-		SetText(m_aCombs[CombId::Comb_ZJYS], Comb_ZJYS, vecValue[nsSale::Column_en::zjys]);
-		SetText(m_aCombs[CombId::Comb_ZDQXH], Comb_ZDQXH, vecValue[nsSale::Column_en::zdqxh]);
-		SetText(m_aCombs[CombId::Comb_ZYZ], Comb_ZYZ, vecValue[nsSale::Column_en::zyz]);
-		SetText(m_aCombs[CombId::Comb_BZXDTGG], Comb_BZXDTGG, vecValue[nsSale::Column_en::bzxdtgg]);
-		SetText(m_aCombs[CombId::Comb_ZZS], Comb_ZZS, vecValue[nsSale::Column_en::zzs]);
-		SetText(m_aCombs[CombId::Comb_KHQY], Comb_KHQY, vecValue[nsSale::Column_en::khqy]);
-		SetText(m_aCombs[CombId::Comb_YXJ], Comb_YXJ, vecValue[nsSale::Column_en::yxj]);
+		SetText(m_aCombs[CombId::Comb_KHMC], Comb_KHMC, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::khmc]));
+		SetText(m_aCombs[CombId::Comb_GGBH], Comb_GGBH, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::ggxh]));
+		SetText(m_aCombs[CombId::Comb_ZC], Comb_ZC, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::zc]));
+		SetText(m_aCombs[CombId::Comb_DFR], Comb_DFR, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::dfr]));
+		SetText(m_aCombs[CombId::Comb_ZDQDY], Comb_ZDQDY, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::zdqdy]));
+		SetText(m_aCombs[CombId::Comb_YYLGG], Comb_YYLGG, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::yylgg]));
+		SetText(m_aCombs[CombId::Comb_JF], Comb_JF, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::jf]));
+		SetText(m_aCombs[CombId::Comb_BPQXH], Comb_BPQXH, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::bpqxh]));
+		SetText(m_aCombs[CombId::Comb_BMQXH], Comb_BMQXH, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::bmqxh]));
+		SetText(m_aCombs[CombId::Comb_MPZL], Comb_MPZL, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::mpzl]));
+		SetText(m_aCombs[CombId::Comb_ZJDY], Comb_ZJDY, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::zjdy]));
+		SetText(m_aCombs[CombId::Comb_ZJYS], Comb_ZJYS, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::zjys]));
+		SetText(m_aCombs[CombId::Comb_ZDQXH], Comb_ZDQXH, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::zdqxh]));
+		SetText(m_aCombs[CombId::Comb_ZYZ], Comb_ZYZ, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::zyz]));
+		SetText(m_aCombs[CombId::Comb_BZXDTGG], Comb_BZXDTGG, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::bzxdtgg]));
+		SetText(m_aCombs[CombId::Comb_ZZS], Comb_ZZS, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::zzs]));
+		SetText(m_aCombs[CombId::Comb_KHQY], Comb_KHQY, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::khqy]));
+		SetText(m_aCombs[CombId::Comb_YXJ], Comb_YXJ, Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::yxj]));
 
 
 // 		m_aCombs[CombId::Comb_KHMC ]->SetWindowText(vecValue[nsSale::Column_en::KHMC]);
@@ -647,14 +647,14 @@ void CSaleAddDlg::InitCtrlData()
 // 		m_aCombs[CombId::Comb_KHQY   ]->SetWindowText(vecValue[nsSale::Column_en::KHQY]);
 // 		m_aCombs[CombId::Comb_YXJ    ]->SetWindowText(vecValue[nsSale::Column_en::YXJ]);
 
-		init(m_aEdits[EditId::Edit_GH], vecValue[nsSale::Column_en::gh]);
-		init(m_aEdits[EditId::Edit_HTH], vecValue[nsSale::Column_en::hth]);
-		init(m_aEdits[EditId::Edit_SL], vecValue[nsSale::Column_en::sl]);
-		init(m_aEdits[EditId::Edit_DLCD], vecValue[nsSale::Column_en::dlcd]);
-		init(m_aEdits[EditId::Edit_ZXCD], vecValue[nsSale::Column_en::zxcd]);
-		init(m_aEdits[EditId::Edit_BZ], vecValue[nsSale::Column_en::bz]);
+		init(m_aEdits[EditId::Edit_GH], Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::gh]));
+		init(m_aEdits[EditId::Edit_HTH], Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::hth]));
+		init(m_aEdits[EditId::Edit_SL], Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::sl]));
+		init(m_aEdits[EditId::Edit_DLCD], Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::dlcd]));
+		init(m_aEdits[EditId::Edit_ZXCD], Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::zxcd]));
+		init(m_aEdits[EditId::Edit_BZ], Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::bz]));
 
-		init(m_aDatePickers[DatePickerId::DatePicker_DDRQ], vecValue[nsSale::Column_en::ddrq]);
+		init(m_aDatePickers[DatePickerId::DatePicker_DDRQ], Util_Tools::Util::base64_decode(vecValue[nsSale::Column_en::ddrq]));
 
 	}
 	else

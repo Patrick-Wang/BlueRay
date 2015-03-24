@@ -1263,7 +1263,8 @@ void CSalePanel::OnBnClickedSetAsDefault()
 	else
 	{
 		CString strValue;
-
+		CString strItem;
+		CString strBASE64;
 		if (checkedRows.size() == 1)
 		{
 			for (int j = 0; j < m_table.size(); ++j)
@@ -1272,7 +1273,10 @@ void CSalePanel::OnBnClickedSetAsDefault()
 				{
 					for (int i = 0; i < (m_table[j].second).size(); i++)
 					{
-						strValue += m_table[j].second[i];
+						strItem = m_table[j].second[i];
+						Util_Tools::Util::base64_encode((unsigned char*)(LPCTSTR)strItem, strItem.GetLength() * 2, strBASE64);
+
+						strValue += strBASE64;
 						strValue += _T(",");
 					}
 
