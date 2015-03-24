@@ -104,6 +104,7 @@ BOOL CLoginDlg::OnInitDialog()
 	//m_btnVPN.MoveWindow(695, 452, 130, 24);
 	//m_btnVPN.SetBackgroundColor(COL_GRAY);
 
+	this->SetWindowTextW(_T("蓝光集团生产管控平台"));
 
 	m_btnClose.Create(this, IDC_CLOSE);
 	m_btnClose.SetWindowText(_T("×"));

@@ -104,7 +104,7 @@ BOOL CBlueDlg::OnInitDialog()
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &rt, 0);
 	Util_Tools::Util::SetWindowSize(m_hWnd, rt.Width(), rt.Height());
 	//InitWebView();
-	
+	this->SetWindowTextW(_T("蓝光集团生产管控平台"));
 
 	m_btnClose.Create(this, IDC_CLOSE);
 	m_btnClose.SetWindowText(_T("×"));
