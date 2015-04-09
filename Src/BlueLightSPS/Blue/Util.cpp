@@ -90,11 +90,11 @@ namespace Util_Tools
 
 		if (isReadOnly)
 		{
-			pComb->Create(WS_CHILD | /*WS_TABSTOP | */WS_VISIBLE | CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL, CRect(0, 0, 0, 0), pParent, Id);
+			pComb->Create(WS_CHILD | /*WS_TABSTOP | */WS_VISIBLE | CBS_DROPDOWNLIST | CBS_HASSTRINGS | WS_VSCROLL , CRect(0, 0, 0, 0), pParent, Id);
 		}
 		else
 		{
-			pComb->Create(WS_CHILD | /*WS_TABSTOP |*/ WS_VISIBLE | CBS_DROPDOWN | CBS_HASSTRINGS | WS_VSCROLL, CRect(0, 0, 0, 0), pParent, Id);
+			pComb->Create(WS_CHILD | /*WS_TABSTOP |*/ WS_VISIBLE | CBS_DROPDOWN | CBS_HASSTRINGS | WS_VSCROLL | CBS_AUTOHSCROLL, CRect(0, 0, 0, 0), pParent, Id);
 		}
 
 		pComb->SetFont(pFont);
@@ -125,14 +125,14 @@ namespace Util_Tools
 		{
 			pEdit->CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), NULL,
 				WS_CHILD | /*WS_TABSTOP |*/ WS_VISIBLE/* | WS_BORDER | WS_HSCROLL |
-													  WS_VSCROLL | ES_MULTILINE */ | ES_WANTRETURN,
+													  WS_VSCROLL | ES_MULTILINE */ | ES_WANTRETURN | ES_AUTOHSCROLL,
 													  CRect(0, 0, 0, 0), pParent, Id);
 		}
 		else
 		{
 			pEdit->CreateEx(WS_EX_CLIENTEDGE, _T("EDIT"), NULL,
 				WS_CHILD | /*WS_TABSTOP |*/ WS_VISIBLE/* | WS_BORDER | WS_HSCROLL | ES_WANTRETURN*/ |
-													  WS_VSCROLL  | ES_MULTILINE ,
+				WS_VSCROLL | ES_MULTILINE ,
 													  CRect(0, 0, 0, 0), pParent, Id);
 		}
 
