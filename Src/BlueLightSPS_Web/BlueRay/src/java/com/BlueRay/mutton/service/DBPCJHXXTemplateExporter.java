@@ -1,5 +1,7 @@
 package com.BlueRay.mutton.service;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -11,8 +13,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+
+import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
+import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.jbarcode.JBarcode;
+import org.jbarcode.encode.Code11Encoder;
+import org.jbarcode.encode.Code128Encoder;
+import org.jbarcode.encode.Code39Encoder;
+import org.jbarcode.encode.EAN13Encoder;
+import org.jbarcode.encode.InvalidAtributeException;
+import org.jbarcode.encode.UPCAEncoder;
+import org.jbarcode.encode.UPCEEncoder;
+import org.jbarcode.paint.BaseLineTextPainter;
+import org.jbarcode.paint.EAN13TextPainter;
+import org.jbarcode.paint.UPCATextPainter;
+import org.jbarcode.paint.UPCETextPainter;
+import org.jbarcode.paint.WideRatioCodedPainter;
+import org.jbarcode.paint.WidthCodedPainter;
+import org.jbarcode.util.ImageUtil;
 
 import com.BlueRay.mutton.model.dao.ItemDao;
 import com.BlueRay.mutton.model.dao.PlanDao;
@@ -85,6 +106,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 		gh, // 工号
 		zzs, // 制造商
 		khqy, // 客户区域
+		yxj, // 优先级"
 		scrq, // 生产日期"
 		jhshyw, // 计划审核-业务"
 		jhshjh, // 计划审核-计划"
@@ -94,7 +116,6 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 		fhrq, // 发货日期"
 		tcbh, // 投产编号"
 		ccbh, // 出厂编号"
-		yxj, // 优先级"
 		end
 	};
 
@@ -137,9 +158,9 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 		mSLocs[Column.bzshyw.ordinal()] = null; // 包装审核-业务
 		mSLocs[Column.bzshjh.ordinal()] = null; // 包装审核-计划
 		mSLocs[Column.fhrq.ordinal()] = null; // 发货日期
-		mSLocs[Column.tcbh.ordinal()] = null; // 投产编号
-		mSLocs[Column.ccbh.ordinal()] = new Location('C', 3); // 出厂编号 U
-		mSLocs[Column.yxj.ordinal()] = new Location('C', 8); // 优先级 V
+		mSLocs[Column.tcbh.ordinal()] = new Location('C', 3); // 投产编号U
+		mSLocs[Column.ccbh.ordinal()] = new Location('C', 8); // 出厂编号V 
+		mSLocs[Column.yxj.ordinal()] = null; // 优先级 
 	}
 	
 	static {
@@ -175,9 +196,9 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 		mYLocs[Column.bzshyw.ordinal()] = null; // 包装审核-业务
 		mYLocs[Column.bzshjh.ordinal()] = null; // 包装审核-计划
 		mYLocs[Column.fhrq.ordinal()] = null; // 发货日期
-		mYLocs[Column.tcbh.ordinal()] = null; // 投产编号
-		mYLocs[Column.ccbh.ordinal()] = new Location('C', 3); // 出厂编号 U
-		mYLocs[Column.yxj.ordinal()] = new Location('C', 8); // 优先级 V
+		mYLocs[Column.tcbh.ordinal()] = new Location('C', 3); // 投产编号U
+		mYLocs[Column.ccbh.ordinal()] = new Location('C', 8); // 出厂编号V 
+		mYLocs[Column.yxj.ordinal()] = null; // 优先级 
 	}
 	
 	static {
@@ -213,9 +234,9 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 		mULocs[Column.bzshyw.ordinal()] = null; // 包装审核-业务
 		mULocs[Column.bzshjh.ordinal()] = null; // 包装审核-计划
 		mULocs[Column.fhrq.ordinal()] = null; // 发货日期
-		mULocs[Column.tcbh.ordinal()] = null; // 投产编号
-		mULocs[Column.ccbh.ordinal()] = new Location('C', 3); // 出厂编号 U
-		mULocs[Column.yxj.ordinal()] = new Location('C', 8); // 优先级 V
+		mULocs[Column.tcbh.ordinal()] = new Location('C', 3); // 投产编号U
+		mULocs[Column.ccbh.ordinal()] = new Location('C', 8); // 出厂编号V 
+		mULocs[Column.yxj.ordinal()] = null; // 优先级 
 	}
 	
 	static {
@@ -251,9 +272,9 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 		mTALocs[Column.bzshyw.ordinal()] = null; // 包装审核-业务
 		mTALocs[Column.bzshjh.ordinal()] = null; // 包装审核-计划
 		mTALocs[Column.fhrq.ordinal()] = null; // 发货日期
-		mTALocs[Column.tcbh.ordinal()] = null; // 投产编号
-		mTALocs[Column.ccbh.ordinal()] = new Location('C', 3); // 出厂编号 U
-		mTALocs[Column.yxj.ordinal()] = new Location('C', 8); // 优先级 V
+		mTALocs[Column.tcbh.ordinal()] = new Location('C', 3); // 投产编号U
+		mTALocs[Column.ccbh.ordinal()] = new Location('C', 8); // 出厂编号V 
+		mTALocs[Column.yxj.ordinal()] = null; // 优先级 
 	}
 	public DBPCJHXXTemplateExporter(ItemDao itemDao, SaleDao saleDao,
 			PlanDao planDao, AbstractExcel<PCJHXX> excel, OutputStream os) {
@@ -291,25 +312,54 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 				locs = mSLocs;
 			} else if ("Y".equalsIgnoreCase(ret[Column.ggxh.ordinal()]
 					.substring(0, 1))) {
-				//updateYTemplate(ret, workbook.cloneSheet(3));
 				sheet = workbook.cloneSheet(3);
 				locs = mYLocs;
 			} else if ("U".equalsIgnoreCase(ret[Column.ggxh.ordinal()]
 					.substring(0, 1))) {
 				sheet = workbook.cloneSheet(4);
 				locs = mULocs;
-				//updateUTemplate(ret, workbook.cloneSheet(4));
 			} else if (ret[Column.ggxh.ordinal()].length() > 1
 					&& "TA".equalsIgnoreCase(ret[Column.ggxh.ordinal()]
 							.substring(0, 2))) {
 				sheet = workbook.cloneSheet(2);
 				locs = mTALocs;
-				//updateTATemplate(ret, workbook.cloneSheet(2));
 			}
 			if (sheet != null){
 				updateTemplate(ret, locs, sheet);
-			}
+				
+		        
+		        JBarcode localJBarcode = new JBarcode(Code128Encoder.getInstance(),
+						WidthCodedPainter.getInstance(),
+						BaseLineTextPainter.getInstance());
 
+				localJBarcode.setShowCheckDigit(false);
+			
+				BufferedImage localBufferedImage;
+				try {
+					localJBarcode.setBarHeight(20);
+					localJBarcode.setXDimension(0.4);
+					localBufferedImage = localJBarcode.createBarcode(ret[Column.tcbh.ordinal()]);
+					ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+				
+			        ImageIO.write(localBufferedImage, "PNG", byteArrayOut);
+			        //ImageUtil.encodeAndWrite(localBufferedImage, ImageUtil.PNG, byteArrayOut, 96, 96);
+					
+					//画图的顶级管理器，一个sheet只能获取一个（一定要注意这点）
+			        HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
+			        //anchor主要用于设置图片的属性
+			        HSSFClientAnchor anchor = new HSSFClientAnchor(10, 6, 0, 0,(short) 13, 2, (short) 17, 6);
+			        anchor.setAnchorType(3);
+					
+			        //插入图片
+			        patriarch.createPicture(anchor, workbook.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_PNG)).resize(1.0);
+
+				} catch (InvalidAtributeException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				//ImageUtil.encodeAndWrite(localBufferedImage, ImageUtil.PNG, arg2);
+				
+							}
 		}
 		workbook.removeSheetAt(4);
 		workbook.removeSheetAt(3);
