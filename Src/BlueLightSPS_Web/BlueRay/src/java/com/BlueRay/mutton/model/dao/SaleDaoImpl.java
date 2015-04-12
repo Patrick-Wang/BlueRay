@@ -85,7 +85,7 @@ public class SaleDaoImpl implements SaleDao {
 	}
 
 	public int getSalePlanUnapproved() {
-		Query q = entityManager.createQuery("select count(h) from HTXX h where h.sftgjhsh = 'N'");
+		Query q = entityManager.createQuery("select count(h) from HTXX h where h.sftgjhsh = 'N' and h.sftgywsh = 'Y'");
 		List<Object> objs = q.getResultList();
 		return ((Long) objs.get(0)).intValue();
 	}

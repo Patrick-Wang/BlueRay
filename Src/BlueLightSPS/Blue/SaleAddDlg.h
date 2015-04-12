@@ -284,5 +284,7 @@ private:
 public:
 	DECLARE_MESSAGE_MAP()
 //	afx_msg void OnTimer(UINT_PTR nIDEvent);
+//	virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
+	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
 };
 
