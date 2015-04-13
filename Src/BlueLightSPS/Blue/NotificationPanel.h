@@ -5,6 +5,8 @@
 #include "BRButton.h"
 #include "TableFilterDlg.h"
 #include "Notification.h"
+#include "JsonQueryParam.h"
+
 class CNotificationPanel :
 	public CBRPanel
 {
@@ -41,6 +43,8 @@ protected:
 	virtual void OnRowChecked();
 	void OnUpdateData(int page, int rows, int colIndex, bool bAsc);
 	void HighLight();
+	afx_msg void OnBnClickedSearch();
+	afx_msg void OnBnClickedMore();
 
 private:
 	void OnReturnApprovedNum(CNotification::Unapproved_t& stUnapproved);
@@ -49,6 +53,7 @@ private:
 	void AdjustTableStyleForPlan();
 	void AdjustTableStyleForSale();
 	void AdjustTableStyleForNotification();
+	void MakeBasicSearchCondition(CJsonQueryParam &sqp);
 
 private:
 	std::vector<std::pair<int, std::vector<CString>>> m_table;

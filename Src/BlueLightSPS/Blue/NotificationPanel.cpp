@@ -8,6 +8,7 @@
 #include "JsonType.h"
 #include "User.h"
 #include "Server.h"
+#include "SaleAddDlg.h"
 
 #define GET_UNAPPROVED_URL_ID					IDP_NOTIFICATION + 1
 #define QUERY_URL_UNAPPROVED_SALEBUSINESS		GET_UNAPPROVED_URL_ID + 1
@@ -59,6 +60,28 @@ static int g_TableToBeHiddenForSale[]
 		nsNotification::Column_en::fhrq,
 		nsNotification::Column_en::tcbh,
 		nsNotification::Column_en::ccbh,
+};
+
+
+class CNotificationSearchListener : public CPromise<PageData_t>::IHttpResponse{
+	CONSTRUCTOR_3(CNotificationSearchListener, CNotificationPanel&, notificationPanel, table&, tb, CJQGridAPI*, pJqGridAPI)
+public:
+	virtual void OnSuccess(PageData_t& tb){
+		m_pJqGridAPI->Refresh(tb.rawData);
+
+		m_tb = tb.rows;
+		if (m_tb.empty())
+		{
+			m_notificationPanel.MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
+		}
+		m_notificationPanel.GetParent()->EnableWindow(TRUE);
+		//////////////////////////////////////////////////////////////////////////
+		//m_notificationPanel.OnRowChecked();
+	}
+	virtual void OnFailed(){
+		m_notificationPanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+		m_notificationPanel.GetParent()->EnableWindow(TRUE);
+	}
 };
 
 
@@ -426,7 +449,88 @@ BEGIN_MESSAGE_MAP(CNotificationPanel, CControlPanel)
 	ON_WM_SHOWWINDOW()
 	ON_WM_NCDESTROY()
 	ON_WM_DESTROY()
+	ON_BN_CLICKED(IDC_NOTIFICATION_BTN_SEARCH, &CNotificationPanel::OnBnClickedSearch)
+	ON_BN_CLICKED(IDC_NOTIFICATION_BTN_MORE, &CNotificationPanel::OnBnClickedMore)
 END_MESSAGE_MAP()
+
+void CNotificationPanel::OnBnClickedSearch()
+{
+	//	m_pJqGridAPI->UncheckedAll();
+	DEFINE_SALE_QUERY_PARAM(sqp);
+	MakeBasicSearchCondition(sqp);
+	//sqp.AddSortCondition(15, false);
+
+	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), sqp)
+		.then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
+	GetParent()->EnableWindow(FALSE);
+}
+
+void CNotificationPanel::OnBnClickedMore()
+{
+	int iCountShot = 0;
+	CSaleAddDlg dlg(_T("高级搜索"));
+
+	dlg.SetOption(new CSaleAddDlg::Option_t());
+	if (IDOK == dlg.DoModal()){
+		std::vector<CString>& searchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
+		// 		searchVals.insert(searchVals.begin() + 16, L"");//插入业务审核
+		// 		searchVals.insert(searchVals.begin() + 17, L"");//插入计划审核
+		// 		searchVals.insert(searchVals.begin() + 18, L"");//插入优先级
+		DEFINE_SALE_QUERY_PARAM(jqp);
+		jqp.SetAdvancedCondition(&searchVals);
+
+		MakeBasicSearchCondition(jqp);
+		//jqp.AddSortCondition(15, false);
+
+		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
+			.then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
+		GetParent()->EnableWindow(FALSE);
+	}
+}
+
+void CNotificationPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
+{
+	int iCountShot = 0;
+	CString searchText;
+	m_editSearch->GetWindowText(searchText);
+
+	if (!searchText.IsEmpty()){
+		sqp.SetBasicSearchCondition(searchText, false);
+	}
+
+	CString strFrom;
+	CString strTo;
+	bool bHasFrom = false;
+	bool bHasTo = false;
+	CTime time;
+
+	DWORD dwResult = m_dtcSearchFrom->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		bHasFrom = true;
+		m_dtcSearchFrom->GetWindowText(strFrom);
+	}
+	else
+	{
+		strFrom = L"";
+	}
+
+	dwResult = m_dtcSearchTo->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		bHasFrom = true;
+		m_dtcSearchTo->GetWindowText(strTo);
+	}
+	else
+	{
+		strTo = L"";
+	}
+
+	if (bHasFrom || bHasTo)
+	{
+		sqp.SetDateSearchCondition(strFrom, strTo);
+	}
+}
 
 void CNotificationPanel::OnBnClickedBtnReturn()
 {
@@ -673,7 +777,7 @@ void CNotificationPanel::HideFirstViewOfNotificationPanel(BOOL bShow)
 		HideChild(m_bsMiddleLine);
 		HideChild(m_dtcSearchFrom);
 		HideChild(m_dtcSearchTo);
-		m_editSearch->ShowWindow(SW_HIDE);
+		HideChild(this->m_editSearch);
 		HideChild(m_btnSearch);
 		HideChild(m_btnMore);
 	}
@@ -702,7 +806,7 @@ void CNotificationPanel::HideFirstViewOfNotificationPanel(BOOL bShow)
 		ShowChild(m_bsMiddleLine);
 		ShowChild(m_dtcSearchFrom);
 		ShowChild(m_dtcSearchTo);
-		m_editSearch->ShowWindow(SW_SHOW);
+		ShowChild(m_editSearch);
 		ShowChild(m_btnSearch);
 		ShowChild(m_btnMore);
 	}
