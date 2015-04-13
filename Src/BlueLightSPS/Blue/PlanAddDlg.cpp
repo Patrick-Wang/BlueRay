@@ -698,68 +698,68 @@ int CPlanAddDlg::m_iRef = 0;
 
 std::vector<std::vector<CString>> CPlanAddDlg::m_DropList;
 
-BOOL CPlanAddDlg::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
-{
-	if (CBN_SELCHANGE == nCode)
-	{
-		//MessageBox(L"ok");
-	}
-	else if (CBN_DROPDOWN == nCode)
-	{
-		SendMessage(WM_SETCURSOR, 0, 0);
-	}
-	else if (CBN_CLOSEUP == nCode)
-	{
-		int count = m_aCombs[nID - IDC_COMBO_BASE]->GetCount();
-		for (int i = 0; i < count; ++i)
-		{
-			m_aCombs[nID - IDC_COMBO_BASE]->DeleteString(0);
-		}
-
-		for (int j = GetDropList()[nID - IDC_COMBO_BASE].size() - 1; j >= 0; --j)
-		{
-			m_aCombs[nID - IDC_COMBO_BASE]->InsertString(0, GetDropList()[nID - IDC_COMBO_BASE][j]);
-		}
-	}
-	else if (CBN_EDITCHANGE == nCode)
-	{
-		CString text;
-		m_aCombs[nID - IDC_COMBO_BASE]->GetWindowText(text);
-		if (text.IsEmpty())
-		{
-			int count = m_aCombs[nID - IDC_COMBO_BASE]->GetCount();
-			for (int i = 0; i < count; ++i)
-			{
-				m_aCombs[nID - IDC_COMBO_BASE]->DeleteString(0);
-			}
-			for (int j = GetDropList()[nID - IDC_COMBO_BASE].size() - 1; j >= 0; --j)
-			{
-				m_aCombs[nID - IDC_COMBO_BASE]->InsertString(0, GetDropList()[nID - IDC_COMBO_BASE][j]);
-			}
-		}
-		else
-		{
-			std::vector<CString> tmpVals;
-			for (int i = 0; i < GetDropList()[nID - IDC_COMBO_BASE].size(); ++i)
-			{
-				if (GetDropList()[nID - IDC_COMBO_BASE][i].Find(text) >= 0)
-				{
-					tmpVals.push_back(GetDropList()[nID - IDC_COMBO_BASE][i]);
-				}
-			}
-
-			int count = m_aCombs[nID - IDC_COMBO_BASE]->GetCount();
-			for (int i = 0; i < count; ++i)
-			{
-				m_aCombs[nID - IDC_COMBO_BASE]->DeleteString(0);
-			}
-			for (int i = 0; i < tmpVals.size(); ++i)
-			{
-				m_aCombs[nID - IDC_COMBO_BASE]->AddString(tmpVals[i]);
-			}
-		}
-		m_aCombs[nID - IDC_COMBO_BASE]->ShowDropDown(TRUE);
-	}
-
-	return CPopupDlg::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
-}
+//BOOL CPlanAddDlg::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
+//{
+//	if (CBN_SELCHANGE == nCode)
+//	{
+//		//MessageBox(L"ok");
+//	}
+//	else if (CBN_DROPDOWN == nCode)
+//	{
+//		SendMessage(WM_SETCURSOR, 0, 0);
+//	}
+//	else if (CBN_CLOSEUP == nCode)
+//	{
+//		int count = m_aCombs[nID - IDC_COMBO_BASE]->GetCount();
+//		for (int i = 0; i < count; ++i)
+//		{
+//			m_aCombs[nID - IDC_COMBO_BASE]->DeleteString(0);
+//		}
+//
+//		for (int j = GetDropList()[nID - IDC_COMBO_BASE].size() - 1; j >= 0; --j)
+//		{
+//			m_aCombs[nID - IDC_COMBO_BASE]->InsertString(0, GetDropList()[nID - IDC_COMBO_BASE][j]);
+//		}
+//	}
+//	else if (CBN_EDITCHANGE == nCode)
+//	{
+//		CString text;
+//		m_aCombs[nID - IDC_COMBO_BASE]->GetWindowText(text);
+//		if (text.IsEmpty())
+//		{
+//			int count = m_aCombs[nID - IDC_COMBO_BASE]->GetCount();
+//			for (int i = 0; i < count; ++i)
+//			{
+//				m_aCombs[nID - IDC_COMBO_BASE]->DeleteString(0);
+//			}
+//			for (int j = GetDropList()[nID - IDC_COMBO_BASE].size() - 1; j >= 0; --j)
+//			{
+//				m_aCombs[nID - IDC_COMBO_BASE]->InsertString(0, GetDropList()[nID - IDC_COMBO_BASE][j]);
+//			}
+//		}
+//		else
+//		{
+//			std::vector<CString> tmpVals;
+//			for (int i = 0; i < GetDropList()[nID - IDC_COMBO_BASE].size(); ++i)
+//			{
+//				if (GetDropList()[nID - IDC_COMBO_BASE][i].Find(text) >= 0)
+//				{
+//					tmpVals.push_back(GetDropList()[nID - IDC_COMBO_BASE][i]);
+//				}
+//			}
+//
+//			int count = m_aCombs[nID - IDC_COMBO_BASE]->GetCount();
+//			for (int i = 0; i < count; ++i)
+//			{
+//				m_aCombs[nID - IDC_COMBO_BASE]->DeleteString(0);
+//			}
+//			for (int i = 0; i < tmpVals.size(); ++i)
+//			{
+//				m_aCombs[nID - IDC_COMBO_BASE]->AddString(tmpVals[i]);
+//			}
+//		}
+//		m_aCombs[nID - IDC_COMBO_BASE]->ShowDropDown(TRUE);
+//	}
+//
+//	return CPopupDlg::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
+//}
