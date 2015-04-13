@@ -30,3 +30,10 @@ Documentation/~$DB.docx
 Src/BlueLightSPS/Blue/Blue.aps
 Src/BlueLightSPS/Blue/Blue.aps
 Src/BlueLightSPS_Web/BlueRay/target
+Src/BlueLightSPS/ComboBoxDemo/Debug/ComboBoxDemo.log
+*.obj
+Src/BlueLightSPS/ComboBoxDemo/Debug/ComboBoxDemo.res
+*.tlog
+Src/BlueLightSPS/ComboBoxDemo/Debug/vc120.idb
+*.pdb
+Src/BlueLightSPS/ComboBoxDemo/Debug/ComboBoxDemo.pch

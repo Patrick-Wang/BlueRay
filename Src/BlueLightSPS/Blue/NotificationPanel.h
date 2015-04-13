@@ -73,10 +73,18 @@ private:
 	CBRButton m_btnTableFilter;
 
 	CTableFilterDlg *m_pTableFilter;
-
 	CBSStatic* m_staticPromotion;
-
 	bool m_bIfUpdateTableWhenTableFilter;
+
+	//add for search/filter
+	CBSStatic* m_bsDateRange;
+	CBSStatic* m_bsMiddleLine;
+	CDateTimeCtrl* m_dtcSearchFrom;
+	CDateTimeCtrl* m_dtcSearchTo;
+	CEdit* m_editSearch;
+	CBRButton* m_btnSearch;
+	CBRButton* m_btnMore;
+
 	enum enumApprovingItem{
 		Approving_NULL = -1,
 		Approving_SaleBusiness,
@@ -93,6 +101,7 @@ private:
 public:
 	DECLARE_MESSAGE_MAP()
 	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
+	afx_msg void OnNcDestroy();
 
 	afx_msg void OnBnClickedSaleBusinessApprove();
 	afx_msg void OnBnClickedSalePlanApprove();

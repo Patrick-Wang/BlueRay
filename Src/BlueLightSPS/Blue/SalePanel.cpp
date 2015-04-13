@@ -194,7 +194,7 @@ void CSalePanel::OnInitChilds()
 		m_dtcSearchTo->MoveWindow(350, 25, 108, 20);
 		m_dtcSearchTo->SetTime(oletimeTime);
 
-		m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_SALE_BTN_SEARCH, _T("请输入关键字"), _T("Microsoft YaHei"), 12);
+		m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_SALE_EDIT_SEARCH, _T("请输入关键字"), _T("Microsoft YaHei"), 12);
 		m_editSearch->MoveWindow(470, 25, 150, 20);
 
 		m_btnMore = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_MORE, _T("更多筛选"), _T("Microsoft YaHei"), 12);

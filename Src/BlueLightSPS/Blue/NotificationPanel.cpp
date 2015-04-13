@@ -68,6 +68,13 @@ CNotificationPanel::CNotificationPanel(CJQGridAPI* pJqGridAPI)
 	, m_pTableFilter(NULL)
 	, m_staticPromotion(NULL)
 	, m_bIfUpdateTableWhenTableFilter(false)
+	, m_btnSearch(NULL)
+	, m_bsDateRange(NULL)
+	, m_bsMiddleLine(NULL)
+	, m_dtcSearchFrom(NULL)
+	, m_dtcSearchTo(NULL)
+	, m_btnMore(NULL)
+	, m_editSearch(NULL)
 {
 
 }
@@ -79,6 +86,53 @@ CNotificationPanel::~CNotificationPanel()
 		delete m_pTableFilter;
 		m_pTableFilter = NULL;
 	}
+}
+
+void CNotificationPanel::OnNcDestroy()
+{
+	if (NULL != m_btnSearch)
+	{
+		delete m_btnSearch;
+		m_btnSearch = NULL;
+	}
+
+	if (NULL != m_editSearch)
+	{
+		delete m_editSearch;
+		m_editSearch = NULL;
+	}
+
+	if (NULL != m_btnMore)
+	{
+		delete m_btnMore;
+		m_btnMore = NULL;
+	}
+
+	if (NULL != m_bsDateRange)
+	{
+		delete m_bsDateRange;
+		m_bsDateRange = NULL;
+	}
+
+	if (NULL != m_bsMiddleLine)
+	{
+		delete m_bsMiddleLine;
+		m_bsMiddleLine = NULL;
+	}
+
+	if (NULL != m_dtcSearchFrom)
+	{
+		delete m_dtcSearchFrom;
+		m_dtcSearchFrom = NULL;
+	}
+
+	if (NULL != m_dtcSearchTo)
+	{
+		delete m_dtcSearchTo;
+		m_dtcSearchTo = NULL;
+	}
+
+	__super::OnNcDestroy();
 }
 
 void CNotificationPanel::OnDestroy()
@@ -310,21 +364,51 @@ void CNotificationPanel::OnInitChilds()
 		m_bsPlanBZRQPlanApprove.ShowWindow(SW_HIDE);
 		m_btnPlanBZRQPlanApprove.ShowWindow(SW_HIDE);
 
-		//审批和返回
+		//Second page 
+		//first line
+		m_bsDateRange = Util_Tools::Util::CreateStatic(this, IDC_NOTIFICATION_STATIC_DATERANGE, _T("查询日期"), _T("Microsoft YaHei"), 12);
+		m_bsDateRange->MoveWindow(140 - 100, 25, 60, 20);
+
+		m_dtcSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_NOTIFICATION_DATETIME_SEARCHFROM, _T("Microsoft YaHei"), 12);
+		m_dtcSearchFrom->MoveWindow(210 - 100, 25, 108, 20);
+
+		COleDateTime oletimeTime;
+		oletimeTime.SetStatus(COleDateTime::null);
+		m_dtcSearchFrom->SetTime(oletimeTime);
+
+		m_bsMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_NOTIFICATION_STATIC_MIDDLELINE, _T("--"), _T("Microsoft YaHei"), 12);
+		m_bsMiddleLine->MoveWindow(325 - 100, 25, 20, 20);
+
+		m_dtcSearchTo = Util_Tools::Util::CreateDateTimePicker(this, IDC_NOTIFICATION_DATETIME_SEARCHTO, _T("Microsoft YaHei"), 12);
+		m_dtcSearchTo->MoveWindow(350 - 100, 25, 108, 20);
+		m_dtcSearchTo->SetTime(oletimeTime);
+
+		m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_NOTIFICATION_EDIT_SEARCH, _T("请输入关键字"), _T("Microsoft YaHei"), 12);
+		m_editSearch->MoveWindow(470 - 100, 25, 150, 20);
+		m_editSearch->ShowWindow(SW_HIDE);
+
+		m_btnMore = Util_Tools::Util::CreateButton(this, IDC_NOTIFICATION_BTN_MORE, _T("更多筛选"), _T("Microsoft YaHei"), 12);
+		m_btnMore->MoveWindow(640 - 100, 23, 90, 25);
+
+		m_btnSearch = Util_Tools::Util::CreateButton(this, IDC_NOTIFICATION_BTN_SEARCH, _T("查询"), _T("Microsoft YaHei"), 12);
+		m_btnSearch->MoveWindow(750 - 100, 23, 90, 25);
+
+		//second line
+		m_btnReturnToFirst.Create(this, IDC_NOTIFICATION_BTN_RETURN);
+		m_btnReturnToFirst.SetWindowText(_T("返回"));
+		m_btnReturnToFirst.MoveWindow(20, 70, 90, 25);
+		m_btnReturnToFirst.ShowWindow(SW_HIDE);
+
 		m_btnApproveInSecond.Create(this, IDC_NOTIFICATION_BTN_APPROVE);
 		m_btnApproveInSecond.SetWindowText(_T("通过审核"));
-		m_btnApproveInSecond.MoveWindow(160, 23, 90, 25);
+		m_btnApproveInSecond.MoveWindow(130, 70, 90, 25);
 		m_btnApproveInSecond.ShowWindow(SW_HIDE);
 		m_btnApproveInSecond.EnableWindow(FALSE);
 
-		m_btnReturnToFirst.Create(this, IDC_NOTIFICATION_BTN_RETURN);
-		m_btnReturnToFirst.SetWindowText(_T("返回"));
-		m_btnReturnToFirst.MoveWindow(20, 23, 90, 25);
-		m_btnReturnToFirst.ShowWindow(SW_HIDE);
 
 		m_btnTableFilter.Create(this, IDC_NOTIFICATION_BTN_TABFILTER);
 		m_btnTableFilter.SetWindowText(_T("表格设置"));
-		m_btnTableFilter.MoveWindow(20, 73, 90, 25);
+		m_btnTableFilter.MoveWindow(750, 70, 90, 25);
 		m_btnTableFilter.ShowWindow(SW_HIDE);
 	}
 }
@@ -340,17 +424,16 @@ BEGIN_MESSAGE_MAP(CNotificationPanel, CControlPanel)
 	ON_BN_CLICKED(IDC_NOTIFICATION_BTN_APPROVE, &CNotificationPanel::OnBnClickedBtnApprove)
 	ON_BN_CLICKED(IDC_NOTIFICATION_BTN_TABFILTER, &CNotificationPanel::OnBnClickedBtnTableFilter)
 	ON_WM_SHOWWINDOW()
+	ON_WM_NCDESTROY()
+	ON_WM_DESTROY()
 END_MESSAGE_MAP()
 
 void CNotificationPanel::OnBnClickedBtnReturn()
 {
 	m_pJqGridAPI->HideGrid();
-
-	HideChild(&m_btnReturnToFirst);
-	HideChild(&m_btnApproveInSecond);
-	HideChild(&m_btnTableFilter);
 		
 	OnInitData();
+	//HideFirstViewOfNotificationPanel(TRUE);
 
 	m_enumCurrentApprovingItem = Approving_NULL;
 }
@@ -585,6 +668,14 @@ void CNotificationPanel::HideFirstViewOfNotificationPanel(BOOL bShow)
 		HideChild(&m_btnReturnToFirst);
 		HideChild(&m_btnApproveInSecond);
 		HideChild(&m_btnTableFilter);
+
+		HideChild(m_bsDateRange);
+		HideChild(m_bsMiddleLine);
+		HideChild(m_dtcSearchFrom);
+		HideChild(m_dtcSearchTo);
+		m_editSearch->ShowWindow(SW_HIDE);
+		HideChild(m_btnSearch);
+		HideChild(m_btnMore);
 	}
 	else
 	{
@@ -606,6 +697,14 @@ void CNotificationPanel::HideFirstViewOfNotificationPanel(BOOL bShow)
 		ShowChild(&m_btnReturnToFirst);
 		ShowChild(&m_btnApproveInSecond);
 		ShowChild(&m_btnTableFilter);
+
+		ShowChild(m_bsDateRange);
+		ShowChild(m_bsMiddleLine);
+		ShowChild(m_dtcSearchFrom);
+		ShowChild(m_dtcSearchTo);
+		m_editSearch->ShowWindow(SW_SHOW);
+		ShowChild(m_btnSearch);
+		ShowChild(m_btnMore);
 	}
 }
 
