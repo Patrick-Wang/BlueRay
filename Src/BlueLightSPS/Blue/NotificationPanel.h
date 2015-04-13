@@ -11,6 +11,29 @@ class CNotificationPanel :
 	public CBRPanel
 {
 
+	class CNotificationSearchListener : public CPromise<PageData_t>::IHttpResponse{
+		CONSTRUCTOR_3(CNotificationSearchListener, CNotificationPanel&, notificationPanel, table&, tb, CJQGridAPI*, pJqGridAPI)
+	public:
+		virtual void OnSuccess(PageData_t& tb){
+			m_pJqGridAPI->Refresh(tb.rawData);
+
+			m_tb = tb.rows;
+			if (m_tb.empty())
+			{
+				m_notificationPanel.MessageBox(_T("没有符合条件的记录"), _T("查询结果"), MB_OK | MB_ICONWARNING);
+			}
+			m_notificationPanel.GetParent()->EnableWindow(TRUE);
+
+			m_notificationPanel.HighLight();
+			//			m_pJqGridAPI->UncheckedAll();
+			m_notificationPanel.OnRowChecked();
+		}
+		virtual void OnFailed(){
+			m_notificationPanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+			m_notificationPanel.GetParent()->EnableWindow(TRUE);
+		}
+	};
+
 	class CQueryListener : public CPromise<PageData_t>::IHttpResponse{
 		CONSTRUCTOR_3(CQueryListener, CNotificationPanel&, panel, table&, page, CJQGridAPI*, pJqGridAPI)
 	public:
