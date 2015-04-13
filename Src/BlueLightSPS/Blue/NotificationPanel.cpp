@@ -373,31 +373,32 @@ void CNotificationPanel::OnInitChilds()
 		//Second page 
 		//first line
 		m_bsDateRange = Util_Tools::Util::CreateStatic(this, IDC_NOTIFICATION_STATIC_DATERANGE, _T("查询日期"), _T("Microsoft YaHei"), 12);
-		m_bsDateRange->MoveWindow(140 - 100, 25, 60, 20);
+		m_bsDateRange->MoveWindow(20, 25, 60, 20);
+		m_bsDateRange->SetTextAlign(DT_LEFT);
 
 		m_dtcSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_NOTIFICATION_DATETIME_SEARCHFROM, _T("Microsoft YaHei"), 12);
-		m_dtcSearchFrom->MoveWindow(210 - 100, 25, 108, 20);
+		m_dtcSearchFrom->MoveWindow(210 - 120, 25, 108, 20);
 
 		COleDateTime oletimeTime;
 		oletimeTime.SetStatus(COleDateTime::null);
 		m_dtcSearchFrom->SetTime(oletimeTime);
 
 		m_bsMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_NOTIFICATION_STATIC_MIDDLELINE, _T("--"), _T("Microsoft YaHei"), 12);
-		m_bsMiddleLine->MoveWindow(325 - 100, 25, 20, 20);
+		m_bsMiddleLine->MoveWindow(325 - 120, 25, 20, 20);
 
 		m_dtcSearchTo = Util_Tools::Util::CreateDateTimePicker(this, IDC_NOTIFICATION_DATETIME_SEARCHTO, _T("Microsoft YaHei"), 12);
-		m_dtcSearchTo->MoveWindow(350 - 100, 25, 108, 20);
+		m_dtcSearchTo->MoveWindow(350 - 120, 25, 108, 20);
 		m_dtcSearchTo->SetTime(oletimeTime);
 
 		m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_NOTIFICATION_EDIT_SEARCH, _T("请输入关键字"), _T("Microsoft YaHei"), 12);
-		m_editSearch->MoveWindow(470 - 100, 25, 150, 20);
+		m_editSearch->MoveWindow(470 - 120, 25, 150, 20);
 		m_editSearch->ShowWindow(SW_HIDE);
 
 		m_btnMore = Util_Tools::Util::CreateButton(this, IDC_NOTIFICATION_BTN_MORE, _T("更多筛选"), _T("Microsoft YaHei"), 12);
-		m_btnMore->MoveWindow(640 - 100, 23, 90, 25);
+		m_btnMore->MoveWindow(640 - 120, 23, 90, 25);
 
 		m_btnSearch = Util_Tools::Util::CreateButton(this, IDC_NOTIFICATION_BTN_SEARCH, _T("查询"), _T("Microsoft YaHei"), 12);
-		m_btnSearch->MoveWindow(750 - 100, 23, 90, 25);
+		m_btnSearch->MoveWindow(750 - 120, 23, 90, 25);
 
 		//second line
 		m_btnReturnToFirst.Create(this, IDC_NOTIFICATION_BTN_RETURN);
@@ -414,7 +415,7 @@ void CNotificationPanel::OnInitChilds()
 
 		m_btnTableFilter.Create(this, IDC_NOTIFICATION_BTN_TABFILTER);
 		m_btnTableFilter.SetWindowText(_T("表格设置"));
-		m_btnTableFilter.MoveWindow(750, 70, 90, 25);
+		m_btnTableFilter.MoveWindow(750 - 120, 70, 90, 25);
 		m_btnTableFilter.ShowWindow(SW_HIDE);
 	}
 }
