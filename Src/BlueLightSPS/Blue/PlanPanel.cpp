@@ -859,6 +859,7 @@ void CPlanPanel::OnBnClickedMore()
 	CSaleAddDlg dlg(_T("¸ß¼¶ËÑË÷"));
 
 	dlg.SetOption(new CSaleAddDlg::Option_t());
+	dlg.SetIfUseDefaultValue(false);
 
 	if (IDOK == dlg.DoModal()){
 		std::vector<CString>& searchVals = const_cast<std::vector<CString>&>(dlg.GetResult());

@@ -764,6 +764,7 @@ void CSalePanel::OnBnClickedMore()
 	CSaleAddDlg dlg(_T("高级搜索"));
 
 	dlg.SetOption(new CSaleAddDlg::Option_t());
+	dlg.SetIfUseDefaultValue(false);
 	if (IDOK == dlg.DoModal()){
 		std::vector<CString>& searchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
 		// 		searchVals.insert(searchVals.begin() + 16, L"");//插入业务审核

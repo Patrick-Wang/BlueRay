@@ -203,3 +203,8 @@ namespace nsNotification{
 	name.AddSortCondition(nsPlan::Column_en::hth, true); \
 	name.AddSortCondition(nsPlan::Column_en::ddrq, false); \
 	name.AddSortCondition(nsPlan::Column_en::yxj, true);
+
+#define DEFINE_NOTIFICATION_QUERY_PARAM(name) \
+	CJsonQueryParam name;\
+	name.AddSortCondition(nsSale::Column_en::ddrq, false); \
+	name.AddSortCondition(nsSale::Column_en::yxj, true);
