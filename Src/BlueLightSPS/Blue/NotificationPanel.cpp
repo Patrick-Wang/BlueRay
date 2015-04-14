@@ -190,6 +190,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		case CNotificationPanel::Approving_SaleBusiness:
 		{
 			DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+			jqp.SetAdvancedCondition(&advanceSearchVals);
 			MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(colIndex, bAsc);
@@ -201,6 +202,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		case CNotificationPanel::Approving_SalePlan:
 		{
 			DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+			jqp.SetAdvancedCondition(&advanceSearchVals);
 			MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(colIndex, bAsc);
@@ -212,6 +214,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		case CNotificationPanel::Approving_PlanSCRQBusiness:
 		{
 			DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+			jqp.SetAdvancedCondition(&advanceSearchVals);
 			MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(colIndex, bAsc);
@@ -224,6 +227,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		case CNotificationPanel::Approving_PlanSCRQPlan:
 		{
 			DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+			jqp.SetAdvancedCondition(&advanceSearchVals);
 			MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(colIndex, bAsc);
@@ -237,6 +241,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		case CNotificationPanel::Approving_PlanBZRQBusiness:
 		{
 			DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+			jqp.SetAdvancedCondition(&advanceSearchVals);
 			MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(colIndex, bAsc);
@@ -250,6 +255,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		case CNotificationPanel::Approving_PlanBZRQPlan:
 		{
 			DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+			jqp.SetAdvancedCondition(&advanceSearchVals);
 			MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(colIndex, bAsc);
@@ -508,13 +514,13 @@ void CNotificationPanel::OnBnClickedMore()
 	CSaleAddDlg dlg(_T("¸ß¼¶ËÑË÷"));
 	dlg.SetIfUseDefaultValue(false);
 
-	dlg.SetOption(new CSaleAddDlg::Option_t());
+	dlg.SetOption(new CSaleAddDlg::Option_t(advanceSearchVals));
 	if (IDOK == dlg.DoModal()){
-		std::vector<CString>& searchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
+		advanceSearchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
 
 		DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
 		MakeBasicSearchCondition(jqp);
-		jqp.SetAdvancedCondition(&searchVals);
+		jqp.SetAdvancedCondition(&advanceSearchVals);
 
 // 		switch (m_enumCurrentApprovingItem)
 // 		{
