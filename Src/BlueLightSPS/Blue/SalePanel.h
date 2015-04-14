@@ -74,7 +74,7 @@ private:
 	CComboBox* m_comboProductionStatus;
 	
 	CSaleAddDlg::Option_t m_cacheAddedSaleInfo;
-
+	std::vector<CString> advanceSearchVals;
 	bool m_bIfUpdateTableWhenTableFilter;
 
 	enum enumProductionStatusForSale

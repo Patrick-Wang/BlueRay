@@ -6,6 +6,10 @@
 #define OPT_FALSE _T("-1")
 #define OPT_FALSE_INT -1
 #define do_get(data, it, dest) \
+if (data.end() == it)\
+{\
+break;\
+}\
 dest = *it;\
 if (data.end() == ++it)\
 {\
@@ -13,6 +17,10 @@ break;\
 }
 
 #define do_get_merge(data, it, dest) \
+if (data.end() == it)\
+{\
+break;\
+}\
 if (dest != OPT_FALSE && dest != *it)\
 {\
 	dest = OPT_FALSE;\
@@ -23,7 +31,11 @@ break;\
 }
 
 #define do_get_int(data, it, drops, dest) \
-				{\
+if (data.end() == it)\
+{\
+break;\
+}\
+{\
 std::vector<CString>::const_iterator itRet = std::find(CPlanAddDlg::GetDropList()[drops].begin(), CPlanAddDlg::GetDropList()[drops].end(), *it); \
 if (itRet != CPlanAddDlg::GetDropList()[drops].end())\
 {\
@@ -39,6 +51,10 @@ break; \
 }
 
 #define do_get_int_merge(data, it, drops, dest) \
+if (data.end() == it)\
+{\
+break;\
+}\
 if(OPT_FALSE_INT != dest){\
 	std::vector<CString>::const_iterator itRet = std::find(CPlanAddDlg::GetDropList()[drops].begin(), CPlanAddDlg::GetDropList()[drops].end(), *it);\
 	if (itRet != CPlanAddDlg::GetDropList()[drops].end())\

@@ -858,11 +858,11 @@ void CPlanPanel::OnBnClickedMore()
 	int iCountShot = 0;
 	CSaleAddDlg dlg(_T("高级搜索"));
 
-	dlg.SetOption(new CSaleAddDlg::Option_t());
+	dlg.SetOption(new CSaleAddDlg::Option_t(advanceSearchVals));
 	dlg.SetIfUseDefaultValue(false);
 
 	if (IDOK == dlg.DoModal()){
-		std::vector<CString>& searchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
+		advanceSearchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
 // 		searchVals.insert(searchVals.begin() + 16, L"");//插入生产日期
 // 		searchVals.insert(searchVals.begin() + 17, L"");//插入生产日期业务审核
 // 		searchVals.insert(searchVals.begin() + 18, L"");//插入生产日期计划审核
@@ -874,7 +874,7 @@ void CPlanPanel::OnBnClickedMore()
 // 		searchVals.insert(searchVals.begin() + 24, L"");//插入出厂编码
 // 		searchVals.insert(searchVals.begin() + 25, L"");//插入优先级
 		DEFINE_PLAN_QUERY_PARAM(jqp);
-		jqp.SetAdvancedCondition(&searchVals);
+		jqp.SetAdvancedCondition(&advanceSearchVals);
 
 		MakeBasicSearchCondition(jqp);
 // 		jqp.AddSortCondition(15, false);
@@ -1667,6 +1667,7 @@ void CPlanPanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 	if (!m_bIfUpdateTableWhenTableFilter)
 	{
 		DEFINE_PLAN_QUERY_PARAM(jqp);
+		jqp.SetAdvancedCondition(&advanceSearchVals);
 		MakeBasicSearchCondition(jqp);
 		if (colIndex >= 0){
 			jqp.AddSortCondition(colIndex, bAsc);

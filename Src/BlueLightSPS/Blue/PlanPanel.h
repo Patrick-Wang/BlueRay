@@ -41,7 +41,7 @@ protected:
 private:
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
 	std::vector<CString> m_cacheRow;
-
+	std::vector<CString> advanceSearchVals;
 	CBRButton* m_btnPlan;
 	CBRButton* m_btnModify;
 	CBRButton* m_btnRestore;
