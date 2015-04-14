@@ -479,6 +479,14 @@ void CTableFilterDlg::PostNcDestroy()
 
 	for (int i = 0; i < _countof(m_aCheckBoxs); ++i)
 	{
+		if ((Page_Sale == m_enumPage) || (Page_Notification_Sale == m_enumPage))
+		{
+			if (i == m_breakPointOfPlanPage)
+			{
+				break;
+			}
+		}
+
 		if (NULL != m_aCheckBoxs[i])
 		{
 			delete m_aCheckBoxs[i];
