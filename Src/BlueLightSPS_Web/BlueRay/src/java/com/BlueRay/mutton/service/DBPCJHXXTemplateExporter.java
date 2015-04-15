@@ -304,7 +304,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 					&& ret[Column.ggxh.ordinal()].isEmpty()) {
 				continue;
 			}
-			
+
 			Location locs[] = null;
 			HSSFSheet sheet = null;
 			if ("S".equalsIgnoreCase(ret[Column.ggxh.ordinal()].substring(0, 1))) {
@@ -324,42 +324,49 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 				sheet = workbook.cloneSheet(2);
 				locs = mTALocs;
 			}
-			if (sheet != null){
+			if (sheet != null) {
 				updateTemplate(ret, locs, sheet);
-				
-		        
-		        JBarcode localJBarcode = new JBarcode(Code128Encoder.getInstance(),
+
+				JBarcode localJBarcode = new JBarcode(
+						Code128Encoder.getInstance(),
 						WidthCodedPainter.getInstance(),
 						BaseLineTextPainter.getInstance());
 
 				localJBarcode.setShowCheckDigit(false);
-			
+
 				BufferedImage localBufferedImage;
 				try {
 					localJBarcode.setBarHeight(20);
 					localJBarcode.setXDimension(0.4);
-					localBufferedImage = localJBarcode.createBarcode(ret[Column.tcbh.ordinal()]);
+					localBufferedImage = localJBarcode
+							.createBarcode(ret[Column.tcbh.ordinal()]);
 					ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
-				
-			        ImageIO.write(localBufferedImage, "PNG", byteArrayOut);
-			        //ImageUtil.encodeAndWrite(localBufferedImage, ImageUtil.PNG, byteArrayOut, 96, 96);
-					
-					//画图的顶级管理器，一个sheet只能获取一个（一定要注意这点）
-			        HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
-			        //anchor主要用于设置图片的属性
-			        HSSFClientAnchor anchor = new HSSFClientAnchor(10, 6, 0, 0,(short) 14, 3, (short) 17, 6);
-			        anchor.setAnchorType(3);
-					
-			        //插入图片
-			        patriarch.createPicture(anchor, workbook.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_PNG)).resize(1.0);
+
+					ImageIO.write(localBufferedImage, "PNG", byteArrayOut);
+					// ImageUtil.encodeAndWrite(localBufferedImage,
+					// ImageUtil.PNG, byteArrayOut, 96, 96);
+
+					// 画图的顶级管理器，一个sheet只能获取一个（一定要注意这点）
+					HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
+					// anchor主要用于设置图片的属性
+					HSSFClientAnchor anchor = new HSSFClientAnchor(10, 6, 0, 0,
+							(short) 14, 3, (short) 17, 6);
+					anchor.setAnchorType(3);
+
+					// 插入图片
+					patriarch.createPicture(
+							anchor,
+							workbook.addPicture(byteArrayOut.toByteArray(),
+									HSSFWorkbook.PICTURE_TYPE_PNG)).resize(1.0);
 
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				//ImageUtil.encodeAndWrite(localBufferedImage, ImageUtil.PNG, arg2);
-				
-							}
+				// ImageUtil.encodeAndWrite(localBufferedImage, ImageUtil.PNG,
+				// arg2);
+
+			}
 		}
 		workbook.removeSheetAt(4);
 		workbook.removeSheetAt(3);

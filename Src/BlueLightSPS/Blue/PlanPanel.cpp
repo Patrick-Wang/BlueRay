@@ -152,6 +152,7 @@ void CPlanPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 void CPlanPanel::OnCbnSelchangeProductionStatus()
 {
 	DEFINE_PLAN_QUERY_PARAM(sqp);
+	sqp.SetAdvancedCondition(&m_advanceSearchVals);
 	MakeBasicSearchCondition(sqp);
 	//sqp.AddSortCondition(15, false);
 
@@ -339,8 +340,8 @@ void CPlanPanel::OnInitChilds()
 	CServer::GetInstance()->GetPlan().GetCcbhSync(bh);
 	CServer::GetInstance()->GetPlan().GetTcbhSync(bh);
 
-	m_pJqGridAPI->d_OnExportClicked += std::make_pair(this, &CPlanPanel::OnExprotClicked);
-	m_pJqGridAPI->d_OnTemplateExportClicked += std::make_pair(this, &CPlanPanel::OnTemplateExprotClicked);
+	m_pJqGridAPI->d_OnExportClicked += std::make_pair(this, &CPlanPanel::OnExportClicked);
+	m_pJqGridAPI->d_OnTemplateExportClicked += std::make_pair(this, &CPlanPanel::OnTemplateExportClicked);
 
 	CString strJsonWidths;
 	if (CSettingManager::GetInstance()->GetColWidths(L"planCol", strJsonWidths))
@@ -858,11 +859,11 @@ void CPlanPanel::OnBnClickedMore()
 	int iCountShot = 0;
 	CSaleAddDlg dlg(_T("高级搜索"));
 
-	dlg.SetOption(new CSaleAddDlg::Option_t(advanceSearchVals));
+	dlg.SetOption(new CSaleAddDlg::Option_t(m_advanceSearchVals));
 	dlg.SetIfUseDefaultValue(false);
 
 	if (IDOK == dlg.DoModal()){
-		advanceSearchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
+		m_advanceSearchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
 // 		searchVals.insert(searchVals.begin() + 16, L"");//插入生产日期
 // 		searchVals.insert(searchVals.begin() + 17, L"");//插入生产日期业务审核
 // 		searchVals.insert(searchVals.begin() + 18, L"");//插入生产日期计划审核
@@ -874,7 +875,7 @@ void CPlanPanel::OnBnClickedMore()
 // 		searchVals.insert(searchVals.begin() + 24, L"");//插入出厂编码
 // 		searchVals.insert(searchVals.begin() + 25, L"");//插入优先级
 		DEFINE_PLAN_QUERY_PARAM(jqp);
-		jqp.SetAdvancedCondition(&advanceSearchVals);
+		jqp.SetAdvancedCondition(&m_advanceSearchVals);
 
 		MakeBasicSearchCondition(jqp);
 // 		jqp.AddSortCondition(15, false);
@@ -1653,8 +1654,8 @@ void CPlanPanel::OnDestroy()
 	CString strWidths;
 	m_pJqGridAPI->GetWidths(strWidths);
 	CSettingManager::GetInstance()->SetColWidths(L"planCol", strWidths);
-	m_pJqGridAPI->d_OnExportClicked -= std::make_pair(this, &CPlanPanel::OnExprotClicked);
-	m_pJqGridAPI->d_OnExportClicked -= std::make_pair(this, &CPlanPanel::OnTemplateExprotClicked);
+	m_pJqGridAPI->d_OnExportClicked -= std::make_pair(this, &CPlanPanel::OnExportClicked);
+	m_pJqGridAPI->d_OnExportClicked -= std::make_pair(this, &CPlanPanel::OnTemplateExportClicked);
 	m_pJqGridAPI->d_OnUpdateData -= std::make_pair(this, &CPlanPanel::OnUpdateData);
 
 	CBRPanel::OnDestroy();
@@ -1667,7 +1668,7 @@ void CPlanPanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 	if (!m_bIfUpdateTableWhenTableFilter)
 	{
 		DEFINE_PLAN_QUERY_PARAM(jqp);
-		jqp.SetAdvancedCondition(&advanceSearchVals);
+		jqp.SetAdvancedCondition(&m_advanceSearchVals);
 		MakeBasicSearchCondition(jqp);
 		if (colIndex >= 0){
 			jqp.AddSortCondition(colIndex, bAsc);
@@ -1680,7 +1681,7 @@ void CPlanPanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 	}
 }
 
-void CPlanPanel::OnExprotClicked()
+void CPlanPanel::OnExportClicked()
 {
 	class CPlanExportListener : public CPromise<bool>::IHttpResponse{
 		CONSTRUCTOR_2(CPlanExportListener, CPlanPanel&, panel, CString, fileName);
@@ -1719,6 +1720,7 @@ void CPlanPanel::OnExprotClicked()
 	if (hFileDlg.DoModal() == IDOK)
 	{
 		DEFINE_PLAN_QUERY_PARAM(pqp);
+		pqp.SetAdvancedCondition(&m_advanceSearchVals);
 		MakeBasicSearchCondition(pqp);
 
 		try
@@ -1734,7 +1736,7 @@ void CPlanPanel::OnExprotClicked()
 	}
 }
 
-void CPlanPanel::OnTemplateExprotClicked()
+void CPlanPanel::OnTemplateExportClicked()
 {
 	class CPlanTemplateExportListener : public CPromise<bool>::IHttpResponse{
 		CONSTRUCTOR_2(CPlanTemplateExportListener, CPlanPanel&, panel, CString, fileName);
@@ -1771,13 +1773,11 @@ void CPlanPanel::OnTemplateExprotClicked()
 
 	if (hFileDlg.DoModal() == IDOK)
 	{
-// 		DEFINE_PLAN_QUERY_PARAM(pqp);
-// 		MakeBasicSearchCondition(pqp);
-
 		try
 		{
 			CString filePathName = hFileDlg.GetPathName();
 			DEFINE_PLAN_QUERY_PARAM(pqp);
+			pqp.SetAdvancedCondition(&m_advanceSearchVals);
 			MakeBasicSearchCondition(pqp);
 			CString fileNameNew = filePathName;
 			CServer::GetInstance()->GetPlan().TemplateExport(fileNameNew, pqp).then(

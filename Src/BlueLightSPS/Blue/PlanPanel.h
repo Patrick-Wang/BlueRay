@@ -33,15 +33,15 @@ protected:
 	afx_msg void OnBnClickedReApproveSCRQBusiness();
 	afx_msg void OnBnClickedReApproveSCRQPlan();
 	afx_msg void OnCbnSelchangeProductionStatus();
-	void OnExprotClicked();
-	void OnTemplateExprotClicked();
+	void OnExportClicked();
+	void OnTemplateExportClicked();
 	void OnModifyDataSuccess(std::vector<CString>& newData);
 	void OnReApproveSuccess(CPlan::ApproveType type);
 
 private:
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
 	std::vector<CString> m_cacheRow;
-	std::vector<CString> advanceSearchVals;
+	std::vector<CString> m_advanceSearchVals;
 	CBRButton* m_btnPlan;
 	CBRButton* m_btnModify;
 	CBRButton* m_btnRestore;
