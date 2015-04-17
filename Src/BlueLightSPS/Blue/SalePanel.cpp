@@ -297,12 +297,13 @@ void CSalePanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	{
 		FilterTableByStatus(ProductionStatus_Approved, sqp);
 	}
+
+	sqp.SetAdvancedCondition(&m_advanceSearchVals);
 }
 
 void CSalePanel::OnCbnSelchangeProductionStatus()
 {
 	DEFINE_SALE_QUERY_PARAM(sqp);
-	sqp.SetAdvancedCondition(&m_advanceSearchVals);
 	MakeBasicSearchCondition(sqp);
 
 	CServer::GetInstance()->GetSale().Query(
@@ -749,9 +750,11 @@ void CSalePanel::OnRowChecked()
 void CSalePanel::OnBnClickedSearch()
 {
 //	m_pJqGridAPI->UncheckedAll();
+	m_advanceSearchVals.clear();
 	DEFINE_SALE_QUERY_PARAM(sqp);
 	MakeBasicSearchCondition(sqp);
 	//sqp.AddSortCondition(15, false);
+
 
 	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), sqp)
 		.then(new CSaleSearchListener(*this, m_table, m_pJqGridAPI.get()));
@@ -764,7 +767,7 @@ void CSalePanel::OnBnClickedMore()
 	int iCountShot = 0;
 	CSaleAddDlg dlg(_T("高级搜索"));
 
-	dlg.SetOption(new CSaleAddDlg::Option_t(m_advanceSearchVals));
+	dlg.SetOption(new CSaleAddDlg::Option_t());
 	dlg.SetIfUseDefaultValue(false);
 	if (IDOK == dlg.DoModal()){
 		m_advanceSearchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
@@ -772,7 +775,6 @@ void CSalePanel::OnBnClickedMore()
 		// 		searchVals.insert(searchVals.begin() + 17, L"");//插入计划审核
 		// 		searchVals.insert(searchVals.begin() + 18, L"");//插入优先级
 		DEFINE_SALE_QUERY_PARAM(jqp);
-		jqp.SetAdvancedCondition(&m_advanceSearchVals);
 
 		MakeBasicSearchCondition(jqp);
 		//jqp.AddSortCondition(15, false);
@@ -1037,6 +1039,8 @@ void CSalePanel::OnInitData()
 
 	if (perm.getSale())
 	{
+		m_advanceSearchVals.clear();
+
 		DEFINE_SALE_QUERY_PARAM(sqp);
 		MakeBasicSearchCondition(sqp);
 
@@ -1135,7 +1139,6 @@ void CSalePanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 	if (!m_bIfUpdateTableWhenTableFilter)
 	{
 		DEFINE_SALE_QUERY_PARAM(jqp);
-		jqp.SetAdvancedCondition(&m_advanceSearchVals);
 		MakeBasicSearchCondition(jqp);
 		if (colIndex >= 0){
 			jqp.AddSortCondition(colIndex, bAsc);

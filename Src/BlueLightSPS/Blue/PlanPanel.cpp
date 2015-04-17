@@ -152,7 +152,6 @@ void CPlanPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 void CPlanPanel::OnCbnSelchangeProductionStatus()
 {
 	DEFINE_PLAN_QUERY_PARAM(sqp);
-	sqp.SetAdvancedCondition(&m_advanceSearchVals);
 	MakeBasicSearchCondition(sqp);
 	//sqp.AddSortCondition(15, false);
 
@@ -830,13 +829,16 @@ void CPlanPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	//{
 	//	FilterTableByStatus(ProductionStatus_All_PlannedAndApproved, sqp);
 	//}
+
+	sqp.SetAdvancedCondition(&m_advanceSearchVals);
+
 }
 
 void CPlanPanel::OnBnClickedSearch()
 {
+	m_advanceSearchVals.clear(); //必须在MakeBasicSearchCondition之前调用
 	DEFINE_PLAN_QUERY_PARAM(sqp);
 	MakeBasicSearchCondition(sqp);
-	//sqp.AddSortCondition(15, false);
 
 	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), sqp)
 		.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
@@ -859,7 +861,7 @@ void CPlanPanel::OnBnClickedMore()
 	int iCountShot = 0;
 	CSaleAddDlg dlg(_T("高级搜索"));
 
-	dlg.SetOption(new CSaleAddDlg::Option_t(m_advanceSearchVals));
+	dlg.SetOption(new CSaleAddDlg::Option_t());
 	dlg.SetIfUseDefaultValue(false);
 
 	if (IDOK == dlg.DoModal()){
@@ -874,11 +876,10 @@ void CPlanPanel::OnBnClickedMore()
 // 		searchVals.insert(searchVals.begin() + 23, L"");//插入生产编码
 // 		searchVals.insert(searchVals.begin() + 24, L"");//插入出厂编码
 // 		searchVals.insert(searchVals.begin() + 25, L"");//插入优先级
+
 		DEFINE_PLAN_QUERY_PARAM(jqp);
-		jqp.SetAdvancedCondition(&m_advanceSearchVals);
 
 		MakeBasicSearchCondition(jqp);
-// 		jqp.AddSortCondition(15, false);
 
 		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
 			.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
@@ -1494,8 +1495,10 @@ void CPlanPanel::OnInitData()
 				}
 				};*/
 
-		DEFINE_PLAN_QUERY_PARAM(pqp);
+		m_advanceSearchVals.clear();
 
+		DEFINE_PLAN_QUERY_PARAM(pqp);
+			
 		MakeBasicSearchCondition(pqp);
 		// (nsPlan::bzrq != null and nsPlan::scrq !=null) or (nsPlan::bzrq == null and nsPlan::scrq==null)
 		//CUnitedQuery& pUq =
@@ -1668,7 +1671,6 @@ void CPlanPanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 	if (!m_bIfUpdateTableWhenTableFilter)
 	{
 		DEFINE_PLAN_QUERY_PARAM(jqp);
-		jqp.SetAdvancedCondition(&m_advanceSearchVals);
 		MakeBasicSearchCondition(jqp);
 		if (colIndex >= 0){
 			jqp.AddSortCondition(colIndex, bAsc);
@@ -1720,7 +1722,6 @@ void CPlanPanel::OnExportClicked()
 	if (hFileDlg.DoModal() == IDOK)
 	{
 		DEFINE_PLAN_QUERY_PARAM(pqp);
-		pqp.SetAdvancedCondition(&m_advanceSearchVals);
 		MakeBasicSearchCondition(pqp);
 
 		try
@@ -1777,7 +1778,6 @@ void CPlanPanel::OnTemplateExportClicked()
 		{
 			CString filePathName = hFileDlg.GetPathName();
 			DEFINE_PLAN_QUERY_PARAM(pqp);
-			pqp.SetAdvancedCondition(&m_advanceSearchVals);
 			MakeBasicSearchCondition(pqp);
 			CString fileNameNew = filePathName;
 			CServer::GetInstance()->GetPlan().TemplateExport(fileNameNew, pqp).then(

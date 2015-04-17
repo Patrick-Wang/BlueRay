@@ -103,7 +103,7 @@ private:
 	CTableFilterDlg *m_pTableFilter;
 	CBSStatic* m_staticPromotion;
 	bool m_bIfUpdateTableWhenTableFilter;
-	std::vector<CString> advanceSearchVals;
+	std::vector<CString> m_advanceSearchVals;
 	//add for search/filter
 	CBSStatic* m_bsDateRange;
 	CBSStatic* m_bsMiddleLine;
