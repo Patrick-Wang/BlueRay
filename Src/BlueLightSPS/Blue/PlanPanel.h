@@ -113,7 +113,7 @@ private:
 	void ShowReApproveBZRQPlanBtn(BOOL bShow);
 	void ShowReApproveSCRQBusinessBtn(BOOL bShow);
 	void ShowReApproveBtns();
-	void FilterTableByStatus(enumProductionStatusForPlan productionStatus, CJsonQueryParam &sqp);
+	void FilterTableByStatus(enumProductionStatusForPlan productionStatus, CJsonQueryParam &sqp, CUnitedQuery* uq);
 	void MakeBasicSearchCondition(CJsonQueryParam &sqp);
 
 public:

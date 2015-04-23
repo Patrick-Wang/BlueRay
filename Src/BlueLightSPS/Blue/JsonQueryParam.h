@@ -126,7 +126,7 @@ public:
 	void AddSortCondition(int col, bool asc);
 	void AddApproveCondition(int type, bool approved, int group = 0);
 	void SetAdvancedCondition(StringArrayPtr pac);
-	void SetUnitedQuery(CUnitedQuery& pAq);
+	void SetUnitedQuery(CUnitedQuery& uq);
 	void toJson(CString& json, IApproveTypeTranslator* translator);
 private:
 	BasicSearchCondition_t* m_pbsc;

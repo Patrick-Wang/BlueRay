@@ -150,7 +150,10 @@ void CJsonQueryParam::toJson(CString& json, IApproveTypeTranslator* translator)
 
 void CJsonQueryParam::SetUnitedQuery(CUnitedQuery& pAq)
 {
-	m_pAq.reset(&pAq);
+	if (m_pAq.get() != &pAq)
+	{
+		m_pAq.reset(&pAq);
+	}	
 }
 
 CUnitedQuery::CUnitedQuery(int index, LPCTSTR param)

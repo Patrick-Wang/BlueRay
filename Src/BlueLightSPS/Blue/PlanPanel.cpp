@@ -165,7 +165,7 @@ void CPlanPanel::OnCbnSelchangeProductionStatus()
 	GetParent()->EnableWindow(FALSE);
 }
 
-void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatus, CJsonQueryParam &sqp)
+void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatus, CJsonQueryParam &sqp, CUnitedQuery* pUq)
 {
 	if (ProductionStatus_All == productionStatus)
 	{
@@ -173,24 +173,43 @@ void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatu
 	}
 	else if (ProductionStatus_SCRQ_ToBePlanned == productionStatus)
 	{
-		CUnitedQuery& uq = UQ(nsPlan::scrq, L"@==null");
-		sqp.SetUnitedQuery(uq);
+		if (NULL == pUq)
+		{
+			pUq = &UQ(nsPlan::scrq, L"@==null");
+		}
+		else{
+			pUq->and(UQ(nsPlan::scrq, L"@==null"));
+		}
+		sqp.SetUnitedQuery(*pUq);
 
 		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
 		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
 	}
 	else if (ProductionStatus_SCRQ_ToBeApproved == productionStatus)
 	{
-		CUnitedQuery& uq = UQ(nsPlan::scrq, L"@!=null");
-		sqp.SetUnitedQuery(uq);
+		if (NULL == pUq)
+		{
+			pUq = &UQ(nsPlan::scrq, L"@!=null");
+		}
+		else{
+			pUq->and(UQ(nsPlan::scrq, L"@!=null"));
+		}
+		sqp.SetUnitedQuery(*pUq);
 
 		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
 		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
 	}
 	else if (ProductionStatus_SCRQ_Planning == productionStatus)
 	{
-		CUnitedQuery& uq = UQ(nsPlan::scrq, L"@!=null");
-		sqp.SetUnitedQuery(uq);
+		if (NULL == pUq)
+		{
+			pUq = &UQ(nsPlan::scrq, L"@!=null");
+		}
+		else{
+			pUq->and(UQ(nsPlan::scrq, L"@!=null"));
+		}
+		sqp.SetUnitedQuery(*pUq);
+
 		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
 		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true);
 
@@ -199,30 +218,57 @@ void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatu
 	}
 	else if (ProductionStatus_SCRQ_Planned == productionStatus)
 	{
-		CUnitedQuery& uq = UQ(nsPlan::scrq, L"@!=null");
-		sqp.SetUnitedQuery(uq);
+		if (NULL == pUq)
+		{
+			pUq = &UQ(nsPlan::scrq, L"@!=null");
+		}
+		else{
+			pUq->and(UQ(nsPlan::scrq, L"@!=null"));
+		}
+		sqp.SetUnitedQuery(*pUq);
+
 		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true);
 		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true);
 	}
 	else if (ProductionStatus_BZRQ_ToBePlanned == productionStatus)
 	{
-		CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@==null");
-		sqp.SetUnitedQuery(uq);
+		if (NULL == pUq)
+		{
+			pUq = &UQ(nsPlan::bzrq, L"@==null");
+		}
+		else{
+			pUq->and(UQ(nsPlan::bzrq, L"@==null"));
+		}
+		sqp.SetUnitedQuery(*pUq);
+
 		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
 		sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
 	}
 	else if (ProductionStatus_BZRQ_ToBeApproved == productionStatus)
 	{
-		CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
-		sqp.SetUnitedQuery(uq);
+		if (NULL == pUq)
+		{
+			pUq = &UQ(nsPlan::bzrq, L"@!=null");
+		}
+		else{
+			pUq->and(UQ(nsPlan::bzrq, L"@!=null"));
+		}
+		sqp.SetUnitedQuery(*pUq);
+
 
 		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
 		sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
 	}
 	else if (ProductionStatus_BZRQ_Planning == productionStatus)
 	{
-		CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
-		sqp.SetUnitedQuery(uq);
+		if (NULL == pUq)
+		{
+			pUq = &UQ(nsPlan::bzrq, L"@!=null");
+		}
+		else{
+			pUq->and(UQ(nsPlan::bzrq, L"@!=null"));
+		}
+		sqp.SetUnitedQuery(*pUq);
 
 		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true);
 		sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
@@ -232,26 +278,51 @@ void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatu
 	}
 	else if (ProductionStatus_BZRQ_Planned == productionStatus)
 	{
-		CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
-		sqp.SetUnitedQuery(uq);
+		if (NULL == pUq)
+		{
+			pUq = &UQ(nsPlan::bzrq, L"@!=null");
+		}
+		else{
+			pUq->and(UQ(nsPlan::bzrq, L"@!=null"));
+		}
+		sqp.SetUnitedQuery(*pUq);
 
 		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true);
 		sqp.AddApproveCondition(CPlan::PACK_PLAN, true);
 	}
 	else if (ProductionStatus_FHRQ_Planned == productionStatus)
 	{
-		CUnitedQuery& uq = UQ(nsPlan::fhrq, L"@!=null");
-		sqp.SetUnitedQuery(uq);
+		if (NULL == pUq)
+		{
+			pUq = &UQ(nsPlan::fhrq, L"@!=null");
+		}
+		else{
+			pUq->and(UQ(nsPlan::fhrq, L"@!=null"));
+		}
+		sqp.SetUnitedQuery(*pUq);
+
 	}
 	else if (ProductionStatus_FHRQ_ToBePlanned == productionStatus)
 	{
-		CUnitedQuery& uq = UQ(nsPlan::fhrq, L"@==null");
-		sqp.SetUnitedQuery(uq);
+		if (NULL == pUq)
+		{
+			pUq = &UQ(nsPlan::fhrq, L"@==null");
+		}
+		else{
+			pUq->and(UQ(nsPlan::fhrq, L"@==null"));
+		}
+		sqp.SetUnitedQuery(*pUq);
 	}
 	else if (ProductionStatus_All_PlannedAndApproved == productionStatus)
 	{
-		CUnitedQuery& uq = UQ(nsPlan::fhrq, L"@!=null");
-		sqp.SetUnitedQuery(uq);
+		if (NULL == pUq)
+		{
+			pUq = &UQ(nsPlan::fhrq, L"@!=null");
+		}
+		else{
+			pUq->and(UQ(nsPlan::fhrq, L"@!=null"));
+		}
+		sqp.SetUnitedQuery(*pUq);
 
 		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true);
 		sqp.AddApproveCondition(CPlan::PLAN_PLAN, true);
@@ -779,7 +850,7 @@ void CPlanPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 		sqp.SetUnitedQuery(*pUq);
 	}
 
-	FilterTableByStatus(enumProductionStatusForPlan(m_comboProductionStatus->GetCurSel()), sqp);
+	FilterTableByStatus(enumProductionStatusForPlan(m_comboProductionStatus->GetCurSel()), sqp, pUq);
 
 	//if (0 == iIndex)
 	//{
