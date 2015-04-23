@@ -206,6 +206,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 				jqp.AddSortCondition(colIndex, bAsc);
 			}
 			jqp.AddApproveCondition(CSale::PLAN, false);
+			jqp.AddApproveCondition(CSale::BUSINESS, true);
 			CServer::GetInstance()->GetSale().Query(page, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
 			break;
 		}
@@ -461,6 +462,7 @@ void CNotificationPanel::OnBnClickedSearch()
 	case CNotificationPanel::Approving_SalePlan:
 	{
 		jqp.AddApproveCondition(CSale::PLAN, false);
+		jqp.AddApproveCondition(CSale::BUSINESS, true);
 		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		break;
 	}
@@ -554,6 +556,7 @@ void CNotificationPanel::OnBnClickedMore()
 		case CNotificationPanel::Approving_SalePlan:
 		{
 			jqp.AddApproveCondition(CSale::PLAN, false);
+			jqp.AddApproveCondition(CSale::BUSINESS, true);
 			CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
 			break;
 		}
@@ -832,6 +835,7 @@ void CNotificationPanel::OnBnClickedSalePlanApprove()
 	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
 	MakeBasicSearchCondition(jqp);
 	jqp.AddApproveCondition(CSale::PLAN, false);
+	jqp.AddApproveCondition(CSale::BUSINESS, true);
 	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
 	//CString url;
 	//url.Format(_T("http://%s:8080/BlueRay/sale/query/plan/unapproved"), IDS_HOST_NAME);
