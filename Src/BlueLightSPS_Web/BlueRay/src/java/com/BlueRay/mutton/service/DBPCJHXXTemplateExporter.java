@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -294,8 +295,9 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 
 		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(new File(
 				path)));
-
+		Calendar cal = Calendar.getInstance();
 		String[] ret = new String[35];
+		Location rq = new Location('A', 2);
 		for (int i = 0, len = excel.getRowCount(); i < len; ++i) {
 			pcxxs.set(0, excel.getRow(i));
 			PlanServiceImpl.getHtxxMap(pcxxs, saleDao, planDao, htxxMap);
@@ -326,42 +328,55 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 			}
 			if (sheet != null) {
 				updateTemplate(ret, locs, sheet);
+				String tcrq = sheet.getRow(rq.getX()).getCell(rq.getY())
+						.getStringCellValue();
 
-				JBarcode localJBarcode = new JBarcode(
-						Code128Encoder.getInstance(),
-						WidthCodedPainter.getInstance(),
-						BaseLineTextPainter.getInstance());
+				tcrq = tcrq.replace(" ", "")
+						.replace("投", "                                                          投")
+						.replace("年", " " + cal.get(Calendar.YEAR) + "年")
+						.replace("月日", " " + (cal.get(Calendar.MONTH) + 1) + "月" + " " + cal.get(Calendar.DAY_OF_MONTH) + "日");
+				sheet.getRow(rq.getX()).getCell(rq.getY()).setCellValue(tcrq);
 
-				localJBarcode.setShowCheckDigit(false);
+				if (!ret[Column.tcbh.ordinal()].isEmpty()) {
 
-				BufferedImage localBufferedImage;
-				try {
-					localJBarcode.setBarHeight(20);
-					localJBarcode.setXDimension(0.4);
-					localBufferedImage = localJBarcode
-							.createBarcode(ret[Column.tcbh.ordinal()]);
-					ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+					JBarcode localJBarcode = new JBarcode(
+							Code128Encoder.getInstance(),
+							WidthCodedPainter.getInstance(),
+							BaseLineTextPainter.getInstance());
 
-					ImageIO.write(localBufferedImage, "PNG", byteArrayOut);
-					// ImageUtil.encodeAndWrite(localBufferedImage,
-					// ImageUtil.PNG, byteArrayOut, 96, 96);
+					localJBarcode.setShowCheckDigit(false);
 
-					// 画图的顶级管理器，一个sheet只能获取一个（一定要注意这点）
-					HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
-					// anchor主要用于设置图片的属性
-					HSSFClientAnchor anchor = new HSSFClientAnchor(10, 6, 0, 0,
-							(short) 14, 3, (short) 17, 6);
-					anchor.setAnchorType(3);
+					BufferedImage localBufferedImage;
+					try {
+						localJBarcode.setBarHeight(20);
+						localJBarcode.setXDimension(0.4);
+						localBufferedImage = localJBarcode
+								.createBarcode(ret[Column.tcbh.ordinal()]);
+						ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
 
-					// 插入图片
-					patriarch.createPicture(
-							anchor,
-							workbook.addPicture(byteArrayOut.toByteArray(),
-									HSSFWorkbook.PICTURE_TYPE_PNG)).resize(1.0);
+						ImageIO.write(localBufferedImage, "PNG", byteArrayOut);
+						// ImageUtil.encodeAndWrite(localBufferedImage,
+						// ImageUtil.PNG, byteArrayOut, 96, 96);
 
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+						// 画图的顶级管理器，一个sheet只能获取一个（一定要注意这点）
+						HSSFPatriarch patriarch = sheet
+								.createDrawingPatriarch();
+						// anchor主要用于设置图片的属性
+						HSSFClientAnchor anchor = new HSSFClientAnchor(10, 6,
+								0, 0, (short) 14, 3, (short) 17, 6);
+						anchor.setAnchorType(3);
+
+						// 插入图片
+						patriarch.createPicture(
+								anchor,
+								workbook.addPicture(byteArrayOut.toByteArray(),
+										HSSFWorkbook.PICTURE_TYPE_PNG)).resize(
+								1.0);
+
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				// ImageUtil.encodeAndWrite(localBufferedImage, ImageUtil.PNG,
 				// arg2);
