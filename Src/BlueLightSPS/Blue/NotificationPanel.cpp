@@ -441,7 +441,7 @@ END_MESSAGE_MAP()
 void CNotificationPanel::OnBnClickedSearch()
 {
 	//m_pJqGridAPI->UncheckedAll();
-	m_advanceSearchVals.clear();
+	//m_advanceSearchVals.clear();
 
 	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
 	MakeBasicSearchCondition(jqp);
@@ -512,7 +512,7 @@ void CNotificationPanel::OnBnClickedMore()
 	CSaleAddDlg dlg(_T("高级搜索"));
 	dlg.SetIfUseDefaultValue(false);
 
-	dlg.SetOption(new CSaleAddDlg::Option_t());
+	dlg.SetOption(new CSaleAddDlg::Option_t(m_advanceSearchVals));
 	if (IDOK == dlg.DoModal()){
 		m_advanceSearchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
 
@@ -611,6 +611,7 @@ void CNotificationPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 		sqp.SetBasicSearchCondition(searchText, false);
 	}
 
+	CString strAdvanceCondition;
 	CString strFrom;
 	CString strTo;
 	bool bHasFrom = false;
@@ -641,57 +642,59 @@ void CNotificationPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 
 	if (bHasFrom || bHasTo)
 	{
-		sqp.SetDateSearchCondition(strFrom, strTo);
+		switch (m_enumCurrentApprovingItem)
+		{
+		case CNotificationPanel::Approving_NULL:
+			break;
+		case CNotificationPanel::Approving_SaleBusiness:
+		case CNotificationPanel::Approving_SalePlan:
+		{
+			sqp.SetDateSearchCondition(strFrom, strTo);
+			break;
+		}
+		case CNotificationPanel::Approving_PlanSCRQBusiness:
+		case CNotificationPanel::Approving_PlanSCRQPlan:
+		{
+			Util_Tools::Util::MakeDateQueryCommand(bHasFrom, bHasTo, strFrom, strTo, strAdvanceCondition);
+
+			CUnitedQuery* pUq = NULL;
+			if (!strAdvanceCondition.IsEmpty())
+			{
+				pUq = &UQ(nsPlan::scrq, strAdvanceCondition);
+
+				if (NULL != pUq)
+				{
+					sqp.SetUnitedQuery(*pUq);
+				}
+			}
+			break;
+		}
+		case CNotificationPanel::Approving_PlanBZRQBusiness:
+		case CNotificationPanel::Approving_PlanBZRQPlan:
+		{
+			Util_Tools::Util::MakeDateQueryCommand(bHasFrom, bHasTo, strFrom, strTo, strAdvanceCondition);
+
+			CUnitedQuery* pUq = NULL;
+			if (!strAdvanceCondition.IsEmpty())
+			{
+				pUq = &UQ(nsPlan::bzrq, strAdvanceCondition);
+
+				if (NULL != pUq)
+				{
+					sqp.SetUnitedQuery(*pUq);
+				}
+			}
+			break;
+		}
+		case CNotificationPanel::Approving_END:
+			break;
+		default:
+			break;
+		}
 	}
 
 	sqp.SetAdvancedCondition(&m_advanceSearchVals);
 
-// 	switch (m_enumCurrentApprovingItem)
-// 	{
-// 	case CNotificationPanel::Approving_NULL:
-// 		break;
-// 	case CNotificationPanel::Approving_SaleBusiness:
-// 	{
-// 		sqp.AddApproveCondition(CSale::BUSINESS, false);
-// 		break;
-// 	}
-// 	case CNotificationPanel::Approving_SalePlan:
-// 	{
-// 		sqp.AddApproveCondition(CSale::PLAN, false);
-// 		break;
-// 	}
-// 	case CNotificationPanel::Approving_PlanSCRQBusiness:
-// 	{
-// 		sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
-// 		sqp.SetUnitedQuery(UQ(nsPlan::scrq, L"@!=null"));
-// 		break;
-// 	}
-// 	case CNotificationPanel::Approving_PlanSCRQPlan:
-// 	{
-// 		sqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
-// 		CUnitedQuery& uq = UQ(nsPlan::scrq, L"@!=null");
-// 		sqp.SetUnitedQuery(uq);
-// 		break;
-// 	}
-// 	case CNotificationPanel::Approving_PlanBZRQBusiness:
-// 	{
-// 		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
-// 		CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
-// 		sqp.SetUnitedQuery(uq);
-// 		break;
-// 	}
-// 	case CNotificationPanel::Approving_PlanBZRQPlan:
-// 	{
-// 		sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
-// 		CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
-// 		sqp.SetUnitedQuery(uq);
-// 		break;
-// 	}
-// 	case CNotificationPanel::Approving_END:
-// 		break;
-// 	default:
-// 		break;
-// 	}
 }
 
 void CNotificationPanel::OnBnClickedBtnReturn()
@@ -811,6 +814,8 @@ void CNotificationPanel::OnBnClickedSaleBusinessApprove()
 	m_enumCurrentApprovingItem = Approving_SaleBusiness;
 	m_advanceSearchVals.clear();
 
+	m_bsDateRange->SetWindowTextW(_T("订单日期"));
+
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
@@ -830,6 +835,8 @@ void CNotificationPanel::OnBnClickedSalePlanApprove()
 	m_enumCurrentApprovingItem = Approving_SalePlan;
 	m_advanceSearchVals.clear();
 
+	m_bsDateRange->SetWindowTextW(_T("订单日期"));
+
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
@@ -847,6 +854,8 @@ void CNotificationPanel::OnBnClickedPlanSCRQBusinessApprove()
 {
 	m_enumCurrentApprovingItem = Approving_PlanSCRQBusiness;
 	m_advanceSearchVals.clear();
+
+	m_bsDateRange->SetWindowTextW(_T("生产日期"));
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
@@ -866,6 +875,8 @@ void CNotificationPanel::OnBnClickedPlanSCRQPlanApprove()
 {
 	m_enumCurrentApprovingItem = Approving_PlanSCRQPlan;
 	m_advanceSearchVals.clear();
+
+	m_bsDateRange->SetWindowTextW(_T("生产日期"));
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
@@ -888,6 +899,8 @@ void CNotificationPanel::OnBnClickedPlanBZRQBusinessApprove()
 	m_enumCurrentApprovingItem = Approving_PlanBZRQBusiness;
 	m_advanceSearchVals.clear();
 
+	m_bsDateRange->SetWindowTextW(_T("包装日期"));
+
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
@@ -908,6 +921,8 @@ void CNotificationPanel::OnBnClickedPlanBZRQPlanApprove()
 	m_enumCurrentApprovingItem = Approving_PlanBZRQPlan;
 	m_advanceSearchVals.clear();
 
+	m_bsDateRange->SetWindowTextW(_T("包装日期"));
+	
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 
