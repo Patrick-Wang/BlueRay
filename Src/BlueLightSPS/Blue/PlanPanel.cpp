@@ -619,7 +619,7 @@ void CPlanPanel::OnBnClickedPlan()
 				if (bRet)
 				{
 					(m_planPanel.CPlanPanel::OnModifyDataSuccess)(m_cacheRow);
-					m_planPanel.OnUpdateData(m_planPanel.m_pJqGridAPI->GetCurrentPage(), m_planPanel.m_pJqGridAPI->GetGridPageSize(), -1, true);
+					m_planPanel.OnUpdateData(m_planPanel.m_pJqGridAPI->GetCurrentPage(), m_planPanel.m_pJqGridAPI->GetGridPageSize(), m_planPanel.m_iCurSortCol, m_planPanel.m_bCurSortAsc);
 				}
 				m_planPanel.GetParent()->EnableWindow(TRUE);
 			}
@@ -910,7 +910,8 @@ void CPlanPanel::OnBnClickedSearch()
 	m_advanceSearchVals.clear(); //必须在MakeBasicSearchCondition之前调用
 	DEFINE_PLAN_QUERY_PARAM(sqp);
 	MakeBasicSearchCondition(sqp);
-
+	m_iCurSortCol = -1;
+	m_bCurSortAsc = false;
 	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), sqp)
 		.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
 	GetParent()->EnableWindow(FALSE);
@@ -951,7 +952,8 @@ void CPlanPanel::OnBnClickedMore()
 		DEFINE_PLAN_QUERY_PARAM(jqp);
 
 		MakeBasicSearchCondition(jqp);
-
+		m_iCurSortCol = -1;
+		m_bCurSortAsc = false;
 		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
 			.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
@@ -1519,7 +1521,8 @@ void CPlanPanel::OnInitData()
 	//CString url;
 	//url.Format(_T("http://%s:8080/BlueRay/plan/query/all/none"), IDS_HOST_NAME);
 	//m_pHttp->Get(url, QUERY_URL_ID);
-
+	m_iCurSortCol = -1;
+	m_bCurSortAsc = false;
 	CPermission& perm = CUser::GetInstance()->GetPermission();
 
 	if (perm.getPlan())
@@ -1739,12 +1742,17 @@ void CPlanPanel::OnDestroy()
 
 void CPlanPanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 {
+	m_iCurSortCol = colIndex;
+	m_bCurSortAsc = bAsc;
 	if (!m_bIfUpdateTableWhenTableFilter)
 	{
-		DEFINE_PLAN_QUERY_PARAM(jqp);
+		CJsonQueryParam jqp;
 		MakeBasicSearchCondition(jqp);
 		if (colIndex >= 0){
 			jqp.AddSortCondition(colIndex, bAsc);
+		}
+		else{
+			MAKE_PLAN_QUERY_PARAM(jqp);
 		}
 
 		CServer::GetInstance()->GetPlan().Query(page, m_pJqGridAPI->GetPageSize(), jqp)

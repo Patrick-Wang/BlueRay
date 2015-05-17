@@ -67,7 +67,8 @@ private:
 	CDateTimeCtrl* m_dtcSearchTo;
 
 	int m_iCountBtnOfReApprove;
-
+	int m_iCurSortCol;
+	bool m_bCurSortAsc;
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
 	std::vector<CString> m_cacheRow;
 	CTableFilterDlg m_tableFilterDlg;

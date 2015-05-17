@@ -88,7 +88,8 @@ private:
 	bool m_bEnablePlanBtnForBZRQ;
 
 	bool m_bIfUpdateTableWhenTableFilter;
-
+	int m_iCurSortCol;
+	bool m_bCurSortAsc;
 	enum enumProductionStatusForPlan
 	{
 		ProductionStatus_All = 0,						//È«²¿

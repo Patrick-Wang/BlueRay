@@ -115,6 +115,8 @@ CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI)
 , m_dtcSearchFrom(NULL)
 , m_dtcSearchTo(NULL)
 , m_bIfUpdateTableWhenTableFilter(false)
+, m_iCurSortCol(-1)
+, m_bCurSortAsc(false)
 {
 	m_tableFilterDlg.Initialize(m_pJqGridAPI.get(), Page_Sale);
 }
@@ -358,7 +360,7 @@ void CSalePanel::OnBnClickedAdd()
 				if (ret)
 				{
 					(m_salePanel.CSalePanel::OnAddDataSuccess)(ret, m_cacheRow);
-					m_salePanel.OnUpdateData(1, m_salePanel.m_pJqGridAPI->GetGridPageSize(), -1, true);
+					m_salePanel.OnUpdateData(1, m_salePanel.m_pJqGridAPI->GetGridPageSize(), m_salePanel.m_iCurSortCol, m_salePanel.m_bCurSortAsc);
 				}
 				else
 				{
@@ -645,7 +647,7 @@ void CSalePanel::OnBnClickedDelete()
 				if (ret)
 				{
 					(m_salePanel.CSalePanel::OnDelDataSuccess)();
-					m_salePanel.OnUpdateData(1, m_salePanel.m_pJqGridAPI->GetGridPageSize(), -1, true);
+					m_salePanel.OnUpdateData(1, m_salePanel.m_pJqGridAPI->GetGridPageSize(), m_salePanel.m_iCurSortCol, m_salePanel.m_bCurSortAsc);
 				}
 				else
 				{
@@ -755,7 +757,8 @@ void CSalePanel::OnBnClickedSearch()
 	MakeBasicSearchCondition(sqp);
 	//sqp.AddSortCondition(15, false);
 
-
+	m_iCurSortCol = -1;
+	m_bCurSortAsc = false;
 	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), sqp)
 		.then(new CSaleSearchListener(*this, m_table, m_pJqGridAPI.get()));
 	GetParent()->EnableWindow(FALSE);
@@ -770,6 +773,8 @@ void CSalePanel::OnBnClickedMore()
 	dlg.SetOption(new CSaleAddDlg::Option_t());
 	dlg.SetIfUseDefaultValue(false);
 	if (IDOK == dlg.DoModal()){
+		m_iCurSortCol = -1;
+		m_bCurSortAsc = false;
 		m_advanceSearchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
 		// 		searchVals.insert(searchVals.begin() + 16, L"");//插入业务审核
 		// 		searchVals.insert(searchVals.begin() + 17, L"");//插入计划审核
@@ -1036,7 +1041,8 @@ void CSalePanel::OnApproveDataSuccess()
 void CSalePanel::OnInitData()
 {
 	CPermission& perm = CUser::GetInstance()->GetPermission();
-
+	m_iCurSortCol = -1;
+	m_bCurSortAsc = false;
 	if (perm.getSale())
 	{
 		m_advanceSearchVals.clear();
@@ -1136,12 +1142,17 @@ void CSalePanel::OnDestroy()
 
 void CSalePanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 {
+    m_iCurSortCol = colIndex; 
+	m_bCurSortAsc = bAsc;
 	if (!m_bIfUpdateTableWhenTableFilter)
 	{
-		DEFINE_SALE_QUERY_PARAM(jqp);
+		CJsonQueryParam jqp;
 		MakeBasicSearchCondition(jqp);
 		if (colIndex >= 0){
 			jqp.AddSortCondition(colIndex, bAsc);
+		}
+		else{
+			MAKE_SALE_QUERY_PARAM(jqp);
 		}
 
 		CServer::GetInstance()->GetSale().Query(page, CJQGridAPI::GetPageSize(), jqp)
