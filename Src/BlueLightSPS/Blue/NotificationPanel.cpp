@@ -213,12 +213,20 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		case CNotificationPanel::Approving_PlanSCRQBusiness:
 		{
 			DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
-			MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(colIndex, bAsc);
 			}
 			jqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
-			jqp.SetUnitedQuery(UQ(nsPlan::scrq, L"@!=null"));
+			CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
+			if (NULL != pUq)
+			{
+				pUq->and(UQ(nsPlan::scrq, L"@!=null"));
+			}
+			else
+			{
+				jqp.SetUnitedQuery(UQ(nsPlan::scrq, L"@!=null"));
+			}
+
 			CServer::GetInstance()->GetPlan().Query(page, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
 			break;
 		}
@@ -238,26 +246,40 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		case CNotificationPanel::Approving_PlanBZRQBusiness:
 		{
 			DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
-			MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(colIndex, bAsc);
 			}
 			jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
-			CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
-			jqp.SetUnitedQuery(uq);
+			CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
+			if (NULL != pUq)
+			{
+				pUq->and(UQ(nsPlan::bzrq, L"@!=null"));
+			}
+			else
+			{
+				jqp.SetUnitedQuery(UQ(nsPlan::bzrq, L"@!=null"));
+			}
+			
 			CServer::GetInstance()->GetPlan().Query(page, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
 			break;
 		}
 		case CNotificationPanel::Approving_PlanBZRQPlan:
 		{
 			DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
-			MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(colIndex, bAsc);
 			}
 			jqp.AddApproveCondition(CPlan::PACK_PLAN, false);
-			CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
-			jqp.SetUnitedQuery(uq);
+			CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
+			if (NULL != pUq)
+			{
+				pUq->and(UQ(nsPlan::bzrq, L"@!=null"));
+			}
+			else
+			{
+				jqp.SetUnitedQuery(UQ(nsPlan::bzrq, L"@!=null"));
+			}
+		
 			CServer::GetInstance()->GetPlan().Query(page, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
 			break;
 		}
@@ -444,7 +466,8 @@ void CNotificationPanel::OnBnClickedSearch()
 	//m_advanceSearchVals.clear();
 
 	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
-	MakeBasicSearchCondition(jqp);
+	CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
+
 
 // 	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), sqp)
 // 		.then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
@@ -469,31 +492,59 @@ void CNotificationPanel::OnBnClickedSearch()
 	case CNotificationPanel::Approving_PlanSCRQBusiness:
 	{
 		jqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
-		jqp.SetUnitedQuery(UQ(nsPlan::scrq, L"@!=null"));
+		if (NULL != pUq)
+		{
+			pUq->and(UQ(nsPlan::scrq, L"@!=null"));
+		}
+		else
+		{
+			jqp.SetUnitedQuery(UQ(nsPlan::scrq, L"@!=null"));
+		}
 		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		break;
 	}
 	case CNotificationPanel::Approving_PlanSCRQPlan:
 	{
 		jqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
-		CUnitedQuery& uq = UQ(nsPlan::scrq, L"@!=null");
-		jqp.SetUnitedQuery(uq);
+		
+		if (NULL != pUq)
+		{
+			pUq->and(UQ(nsPlan::scrq, L"@!=null"));
+		}
+		else
+		{
+			jqp.SetUnitedQuery(UQ(nsPlan::scrq, L"@!=null"));
+		}
 		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		break;
 	}
 	case CNotificationPanel::Approving_PlanBZRQBusiness:
 	{
 		jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
-		CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
-		jqp.SetUnitedQuery(uq);
+
+		if (NULL != pUq)
+		{
+			pUq->and(UQ(nsPlan::bzrq, L"@!=null"));
+		}
+		else
+		{
+			jqp.SetUnitedQuery(UQ(nsPlan::bzrq, L"@!=null"));
+		}
 		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		break;
 	}
 	case CNotificationPanel::Approving_PlanBZRQPlan:
 	{
 		jqp.AddApproveCondition(CPlan::PACK_PLAN, false);
-		CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
-		jqp.SetUnitedQuery(uq);
+
+		if (NULL != pUq)
+		{
+			pUq->and(UQ(nsPlan::bzrq, L"@!=null"));
+		}
+		else
+		{
+			jqp.SetUnitedQuery(UQ(nsPlan::bzrq, L"@!=null"));
+		}
 		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		break;
 	}
@@ -517,7 +568,7 @@ void CNotificationPanel::OnBnClickedMore()
 		m_advanceSearchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
 
 		DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
-		MakeBasicSearchCondition(jqp);
+		CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
 
 // 		switch (m_enumCurrentApprovingItem)
 // 		{
@@ -563,31 +614,59 @@ void CNotificationPanel::OnBnClickedMore()
 		case CNotificationPanel::Approving_PlanSCRQBusiness:
 		{
 			jqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
-			jqp.SetUnitedQuery(UQ(nsPlan::scrq, L"@!=null"));
+			if (NULL != pUq)
+			{
+				pUq->and(UQ(nsPlan::scrq, L"@!=null"));
+			}
+			else
+			{
+				jqp.SetUnitedQuery(UQ(nsPlan::scrq, L"@!=null"));
+			}
 			CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
 			break;
 		}
 		case CNotificationPanel::Approving_PlanSCRQPlan:
 		{
 			jqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
-			CUnitedQuery& uq = UQ(nsPlan::scrq, L"@!=null");
-			jqp.SetUnitedQuery(uq);
+			
+			if (NULL != pUq)
+			{
+				pUq->and(UQ(nsPlan::scrq, L"@!=null"));
+			}
+			else
+			{
+				jqp.SetUnitedQuery(UQ(nsPlan::scrq, L"@!=null"));
+			}
 			CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
 			break;
 		}
 		case CNotificationPanel::Approving_PlanBZRQBusiness:
 		{
 			jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
-			CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
-			jqp.SetUnitedQuery(uq);
+
+			if (NULL != pUq)
+			{
+				pUq->and(UQ(nsPlan::bzrq, L"@!=null"));
+			}
+			else
+			{
+				jqp.SetUnitedQuery(UQ(nsPlan::bzrq, L"@!=null"));
+			}
 			CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
 			break;
 		}
 		case CNotificationPanel::Approving_PlanBZRQPlan:
 		{
 			jqp.AddApproveCondition(CPlan::PACK_PLAN, false);
-			CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
-			jqp.SetUnitedQuery(uq);
+
+			if (NULL != pUq)
+			{
+				pUq->and(UQ(nsPlan::bzrq, L"@!=null"));
+			}
+			else
+			{
+				jqp.SetUnitedQuery(UQ(nsPlan::bzrq, L"@!=null"));
+			}
 			CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
 			break;
 		}
@@ -601,8 +680,9 @@ void CNotificationPanel::OnBnClickedMore()
 	}
 }
 
-void CNotificationPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
+CUnitedQuery* CNotificationPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 {
+	CUnitedQuery* pUq = NULL;
 	int iCountShot = 0;
 	CString searchText;
 	m_editSearch->GetWindowText(searchText);
@@ -632,7 +712,7 @@ void CNotificationPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	dwResult = m_dtcSearchTo->GetTime(time);
 	if (dwResult == GDT_VALID)
 	{
-		bHasFrom = true;
+		bHasTo = true;
 		m_dtcSearchTo->GetWindowText(strTo);
 	}
 	else
@@ -657,7 +737,7 @@ void CNotificationPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 		{
 			Util_Tools::Util::MakeDateQueryCommand(bHasFrom, bHasTo, strFrom, strTo, strAdvanceCondition);
 
-			CUnitedQuery* pUq = NULL;
+			//CUnitedQuery* pUq = NULL;
 			if (!strAdvanceCondition.IsEmpty())
 			{
 				pUq = &UQ(nsPlan::scrq, strAdvanceCondition);
@@ -674,7 +754,7 @@ void CNotificationPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 		{
 			Util_Tools::Util::MakeDateQueryCommand(bHasFrom, bHasTo, strFrom, strTo, strAdvanceCondition);
 
-			CUnitedQuery* pUq = NULL;
+			//CUnitedQuery* pUq = NULL;
 			if (!strAdvanceCondition.IsEmpty())
 			{
 				pUq = &UQ(nsPlan::bzrq, strAdvanceCondition);
@@ -694,6 +774,7 @@ void CNotificationPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	}
 
 	sqp.SetAdvancedCondition(&m_advanceSearchVals);
+	return pUq;
 
 }
 
@@ -860,9 +941,18 @@ void CNotificationPanel::OnBnClickedPlanSCRQBusinessApprove()
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
-	MakeBasicSearchCondition(jqp);
+	CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
 	jqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
-	jqp.SetUnitedQuery(UQ(nsPlan::scrq, L"@!=null"));
+	if (NULL != pUq)
+	{
+		pUq->and(UQ(nsPlan::scrq, L"@!=null"));
+	}
+	else
+	{
+		jqp.SetUnitedQuery(UQ(nsPlan::scrq, L"@!=null"));
+	}
+
+	
 	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
 
 	//CString url;
@@ -882,10 +972,16 @@ void CNotificationPanel::OnBnClickedPlanSCRQPlanApprove()
 	HideFirstViewOfNotificationPanel(FALSE);
 
 	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
-	MakeBasicSearchCondition(jqp);
 	jqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
-	CUnitedQuery& uq = UQ(nsPlan::scrq, L"@!=null");
-	jqp.SetUnitedQuery(uq);
+	CUnitedQuery* pUq = MakeBasicSearchCondition(jqp); 
+	if (NULL != pUq)
+	{
+		pUq->and(UQ(nsPlan::scrq, L"@!=null"));
+	}
+	else
+	{
+		jqp.SetUnitedQuery(UQ(nsPlan::scrq, L"@!=null"));
+	}
 	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
 
 	//CString url;
@@ -904,10 +1000,18 @@ void CNotificationPanel::OnBnClickedPlanBZRQBusinessApprove()
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
-	MakeBasicSearchCondition(jqp);
+
 	jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
-	CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
-	jqp.SetUnitedQuery(uq);
+	CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
+	if (NULL != pUq)
+	{
+		pUq->and(UQ(nsPlan::bzrq, L"@!=null"));
+	}
+	else
+	{
+		jqp.SetUnitedQuery(UQ(nsPlan::bzrq, L"@!=null"));
+	}
+	
 	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
 
 	//CString url;
@@ -927,10 +1031,17 @@ void CNotificationPanel::OnBnClickedPlanBZRQPlanApprove()
 	HideFirstViewOfNotificationPanel(FALSE);
 
 	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
-	MakeBasicSearchCondition(jqp);
 	jqp.AddApproveCondition(CPlan::PACK_PLAN, false);
-	CUnitedQuery& uq = UQ(nsPlan::bzrq, L"@!=null");
-	jqp.SetUnitedQuery(uq);
+	CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
+	if (NULL != pUq)
+	{
+		pUq->and(UQ(nsPlan::bzrq, L"@!=null"));
+	}
+	else
+	{
+		jqp.SetUnitedQuery(UQ(nsPlan::bzrq, L"@!=null"));
+	}
+
 	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
 
 	//CString url;

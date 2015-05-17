@@ -76,7 +76,7 @@ private:
 	void AdjustTableStyleForPlan();
 	void AdjustTableStyleForSale();
 	void AdjustTableStyleForNotification();
-	void MakeBasicSearchCondition(CJsonQueryParam &sqp);
+	CUnitedQuery* MakeBasicSearchCondition(CJsonQueryParam &sqp);
 
 private:
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
