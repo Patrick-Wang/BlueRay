@@ -912,6 +912,7 @@ void CPlanPanel::OnBnClickedSearch()
 	MakeBasicSearchCondition(sqp);
 	m_iCurSortCol = -1;
 	m_bCurSortAsc = false;
+	m_pJqGridAPI->CancelSort();
 	CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), sqp)
 		.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
 	GetParent()->EnableWindow(FALSE);
@@ -954,6 +955,7 @@ void CPlanPanel::OnBnClickedMore()
 		MakeBasicSearchCondition(jqp);
 		m_iCurSortCol = -1;
 		m_bCurSortAsc = false;
+		m_pJqGridAPI->CancelSort();
 		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
 			.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
@@ -1523,6 +1525,7 @@ void CPlanPanel::OnInitData()
 	//m_pHttp->Get(url, QUERY_URL_ID);
 	m_iCurSortCol = -1;
 	m_bCurSortAsc = false;
+	m_pJqGridAPI->CancelSort();
 	CPermission& perm = CUser::GetInstance()->GetPermission();
 
 	if (perm.getPlan())

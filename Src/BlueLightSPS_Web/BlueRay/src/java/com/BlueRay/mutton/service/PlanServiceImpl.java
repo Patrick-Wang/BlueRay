@@ -60,6 +60,7 @@ public class PlanServiceImpl implements PlanService {
 		SaleServiceImpl.setHtxx(ret, htxxMap.get(id), itemDao);
 		ret[0] = pcjhxx.getPcjhID() + "";
 		ret[4] = "1";// 鏁伴噺
+		ret[15] = pcjhxx.getBz();
 		ret[18 + 8] = (null != pcjhxx.getJhscrq()) ? pcjhxx.getJhscrq()
 				.toString() : "";
 		ret[19 + 8] = planTranslator.out("sftgywsh", pcjhxx.getSftgywsh());
@@ -133,16 +134,14 @@ public class PlanServiceImpl implements PlanService {
 					HTXX htxx = saleDao.getSaleDataById(pcjhxx.getHtxxID());
 					if (null != htxx){
 						setZcID(htxx, data.getString(5));
-						if (data.size() > 6 && !"".equals(data.getString(6))){
-							htxx.setBz(data.getString(6));
-						}
 						saleDao.update(htxx);
 					}
 				}
-				
+				if (data.size() > 6 && !"".equals(data.getString(6))){
+					pcjhxx.setBz(data.getString(6));
+				}
 				planDao.update(pcjhxx);
 			}
-
 		}
 		return "success";
 	}

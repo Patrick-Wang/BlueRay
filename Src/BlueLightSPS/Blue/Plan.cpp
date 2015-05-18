@@ -91,9 +91,12 @@ CPromise<StringArray>& CPlan::doApprove(CString& url, IntArray& rows)
 bool CPlan::ValidateTcbhSync(LPCTSTR tcbh, bool& bRet)
 {
 	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/plan/validate/tcbh/%s"), IDS_HOST_NAME, tcbh);
+	url.Format(_T("http://%s:8080/BlueRay/plan/validate"), IDS_HOST_NAME);
 	CString strRet;
-	if (m_lpHttp->SyncGet(url, strRet)){
+	std::map<CString, CString> mapAttr;
+	mapAttr[L"item"] = L"tcbh";
+	mapAttr[L"value"] = tcbh;
+	if (m_lpHttp->SyncGet(url, mapAttr, strRet)){
 		bRet = (_tcscmp(strRet, L"true") == 0);
 		return true;
 	}
@@ -103,9 +106,12 @@ bool CPlan::ValidateTcbhSync(LPCTSTR tcbh, bool& bRet)
 bool CPlan::ValidateCcbhSync(LPCTSTR ccbh, bool& bRet)
 {
 	CString url;
-	url.Format(_T("http://%s:8080/BlueRay/plan/validate/ccbh/%s"), IDS_HOST_NAME, ccbh);
+	url.Format(_T("http://%s:8080/BlueRay/plan/validate"), IDS_HOST_NAME);
 	CString strRet;
-	if (m_lpHttp->SyncGet(url, strRet)){
+	std::map<CString, CString> mapAttr;
+	mapAttr[L"item"] = L"ccbh";
+	mapAttr[L"value"] = ccbh;
+	if (m_lpHttp->SyncGet(url, mapAttr, strRet)){
 		bRet = (_tcscmp(strRet, L"true") == 0);
 		return true;
 	}

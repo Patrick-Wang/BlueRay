@@ -759,6 +759,7 @@ void CSalePanel::OnBnClickedSearch()
 
 	m_iCurSortCol = -1;
 	m_bCurSortAsc = false;
+	m_pJqGridAPI->CancelSort();
 	CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), sqp)
 		.then(new CSaleSearchListener(*this, m_table, m_pJqGridAPI.get()));
 	GetParent()->EnableWindow(FALSE);
@@ -775,6 +776,7 @@ void CSalePanel::OnBnClickedMore()
 	if (IDOK == dlg.DoModal()){
 		m_iCurSortCol = -1;
 		m_bCurSortAsc = false;
+		m_pJqGridAPI->CancelSort();
 		m_advanceSearchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
 		// 		searchVals.insert(searchVals.begin() + 16, L"");//插入业务审核
 		// 		searchVals.insert(searchVals.begin() + 17, L"");//插入计划审核
@@ -1043,6 +1045,7 @@ void CSalePanel::OnInitData()
 	CPermission& perm = CUser::GetInstance()->GetPermission();
 	m_iCurSortCol = -1;
 	m_bCurSortAsc = false;
+	m_pJqGridAPI->CancelSort();
 	if (perm.getSale())
 	{
 		m_advanceSearchVals.clear();

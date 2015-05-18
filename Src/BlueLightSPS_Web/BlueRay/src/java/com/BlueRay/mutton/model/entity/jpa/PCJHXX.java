@@ -11,6 +11,14 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "pcjhxxb")
 public class PCJHXX {
+	public String getBz() {
+		return bz;
+	}
+
+	public void setBz(String bz) {
+		this.bz = bz;
+	}
+
 	Integer pcjhID;
 	Integer htxxID;
 	Date jhscrq;
@@ -26,6 +34,7 @@ public class PCJHXX {
 	String ccbh = "";
 	
 	String ddzt = "";
+	String bz="";
 	/**
 	 * @return the pcjhID
 	 */

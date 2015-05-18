@@ -603,6 +603,17 @@ void CJQGridAPI::SetChecked(int rowId, bool bCheck)
 	m_pMedia->CallJsFunction(_T("setSelect"), params);
 }
 
+void CJQGridAPI::CancelSort()
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_BSTR;
+	vt.bstrVal = m_gridName;
+	params.push_back(vt);
+	m_pMedia->CallJsFunction(_T("cancelSort"), params);
+
+}
+
 //void CJQGridAPI::UncheckedAll()
 //{
 //	std::vector<VARIANT> params;

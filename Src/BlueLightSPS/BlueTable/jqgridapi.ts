@@ -4,6 +4,10 @@
 var grids = {}
 var mediator: any = window.external;
 
+function cancelSort(gridName: string) {
+    $(".s-ico").hide();
+}
+
 function setRowBgColor(gridName: string, rowId: number, r: number, g: number, b: number) {
     grids[gridName].setRowBgColor(rowId, r, g, b);
 }

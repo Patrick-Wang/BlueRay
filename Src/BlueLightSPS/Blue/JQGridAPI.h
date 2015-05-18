@@ -14,6 +14,7 @@ public:
 	~CJQGridAPI();
 	const std::set<int>& getHiddenCols();
 	void ShowGrid();
+	void CancelSort();
 	void HideGrid();
 	int GetCurrentPage();
 	int GetGridPageSize();

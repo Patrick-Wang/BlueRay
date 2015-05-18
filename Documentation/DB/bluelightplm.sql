@@ -1,4 +1,4 @@
-/*
+﻿/*
 Navicat MySQL Data Transfer
 
 Source Server         : localhost_3306
@@ -1335,6 +1335,7 @@ CREATE TABLE `pcjhxxb` (
   `bzsftgywsh` char(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `bzsftgjhsh` char(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ddzt` char(16) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `bz`  varchar(1024) DEFAULT NULL,
   PRIMARY KEY (`pcjhID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

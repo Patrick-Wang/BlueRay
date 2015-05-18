@@ -458,6 +458,7 @@ public class SaleServiceImpl implements SaleService {
 			for (int j = htxx.getSl() - 1; j >= 0; j--) {
 				PCJHXX pcjhxx = new PCJHXX();
 				pcjhxx.setHtxxID(htxx.getID());
+				pcjhxx.setBz(htxx.getBz());
 				planDao.insert(pcjhxx);
 			}
 		}

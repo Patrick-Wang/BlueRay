@@ -67,7 +67,7 @@ public class PlanController {
 //		return "";
 //	}
 
-	@RequestMapping(value = "/getbh/{item}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/getbh/{item}", method = RequestMethod.GET)
 	public @ResponseBody String getbh(
 			@PathVariable String item,
 			HttpServletRequest request,
@@ -76,13 +76,12 @@ public class PlanController {
 		return planService.getBh(item);
 	}
 	
-	@RequestMapping(value = "/validate/{item}/{value}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/validate", method = RequestMethod.GET)
 	public @ResponseBody String validate(
-			@PathVariable String item,
-			@PathVariable String value,
 			HttpServletRequest request,
 			HttpServletResponse response) {
-
+		String item = (String)request.getParameter("item");
+		String value = (String)request.getParameter("value");
 		return planService.validate(item, value);
 	}
 
