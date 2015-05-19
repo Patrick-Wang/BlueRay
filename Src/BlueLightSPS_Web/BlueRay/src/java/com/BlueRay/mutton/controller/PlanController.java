@@ -1,9 +1,6 @@
 package com.BlueRay.mutton.controller;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +20,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sun.misc.BASE64Decoder;
 
 import com.BlueRay.mutton.service.PlanService;
-import com.BlueRay.mutton.service.SaleService;
 import com.BlueRay.mutton.tool.Util;
 
 @Controller
