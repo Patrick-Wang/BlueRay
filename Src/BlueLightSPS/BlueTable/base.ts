@@ -24,6 +24,7 @@ module base {
         private mCols: string[];
         private mInit: boolean = false;
         private mDisabledRows: number[] = [];
+        private mIsShowHideTriggered: boolean = false;
         constructor(tableId: string, cols: string[], widths : number[]) {
             this.mCols = cols;
             grids[tableId] = this;
@@ -176,13 +177,14 @@ module base {
         }
 
         public showHideCol(colId: string, show: boolean) {
+            this.mIsShowHideTriggered = true;
             if (show) {
-                $("#" + this.mTableName).setGridParam().showCol(colId).trigger("reloadGrid");
+                $("#" + this.mTableName).setGridParam().showCol(colId);
             }
             else {
-                $("#" + this.mTableName).setGridParam().hideCol(colId).trigger("reloadGrid");
+                $("#" + this.mTableName).setGridParam().hideCol(colId);
             }
-
+            this.mIsShowHideTriggered = false;
         }
 
         private updateTable(name: string, widths : number[]): void {
@@ -216,7 +218,7 @@ module base {
                                 this.mInit = true;
                                 this.cleanSelectedRow();
                                 mediator.onGridComplete(this.mTableName);
-                            } else {
+                            } else if (!this.mIsShowHideTriggered){
                                 var index = -1;
                                 if ("" != postdata.sidx) {
                                     index = parseInt(postdata.sidx.replace(name + "_col_", ""));
