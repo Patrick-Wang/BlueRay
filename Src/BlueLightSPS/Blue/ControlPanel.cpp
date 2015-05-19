@@ -75,6 +75,10 @@ void CControlPanel::HideChild(CWnd* pChild)
 		pChild->GetClientRect(rt);
 		pChild->ClientToScreen(rt);
 		GetParent()->ScreenToClient(rt);
+		rt.left -= 2;
+		rt.top -= 2;
+		rt.right += 2;
+		rt.bottom += 2;
 		GetParent()->InvalidateRect(rt);
 	}
 }
