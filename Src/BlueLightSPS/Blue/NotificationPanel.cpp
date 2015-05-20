@@ -233,13 +233,18 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		case CNotificationPanel::Approving_PlanSCRQPlan:
 		{
 			DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
-			MakeBasicSearchCondition(jqp);
+			CUnitedQuery* uq = MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(colIndex, bAsc);
 			}
 			jqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
-			CUnitedQuery& uq = UQ(nsPlan::scrq, L"@!=null");
-			jqp.SetUnitedQuery(uq);
+			if (NULL != uq){
+				uq->and(UQ(nsPlan::scrq, L"@!=null"));
+			}
+			else{
+				jqp.SetUnitedQuery(UQ(nsPlan::scrq, L"@!=null"));
+			}
+			
 			CServer::GetInstance()->GetPlan().Query(page, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
 			break;
 		}
@@ -897,6 +902,11 @@ void CNotificationPanel::OnBnClickedSaleBusinessApprove()
 
 	m_bsDateRange->SetWindowTextW(_T("订单日期"));
 
+	COleDateTime oletimeTime;
+	oletimeTime.SetStatus(COleDateTime::null);
+	m_dtcSearchFrom->SetTime(oletimeTime);
+	m_dtcSearchTo->SetTime(oletimeTime);
+
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
@@ -918,6 +928,11 @@ void CNotificationPanel::OnBnClickedSalePlanApprove()
 
 	m_bsDateRange->SetWindowTextW(_T("订单日期"));
 
+	COleDateTime oletimeTime;
+	oletimeTime.SetStatus(COleDateTime::null);
+	m_dtcSearchFrom->SetTime(oletimeTime);
+	m_dtcSearchTo->SetTime(oletimeTime);
+
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
@@ -937,6 +952,11 @@ void CNotificationPanel::OnBnClickedPlanSCRQBusinessApprove()
 	m_advanceSearchVals.clear();
 
 	m_bsDateRange->SetWindowTextW(_T("生产日期"));
+
+	COleDateTime oletimeTime;
+	oletimeTime.SetStatus(COleDateTime::null);
+	m_dtcSearchFrom->SetTime(oletimeTime);
+	m_dtcSearchTo->SetTime(oletimeTime);
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
@@ -968,6 +988,11 @@ void CNotificationPanel::OnBnClickedPlanSCRQPlanApprove()
 
 	m_bsDateRange->SetWindowTextW(_T("生产日期"));
 
+	COleDateTime oletimeTime;
+	oletimeTime.SetStatus(COleDateTime::null);
+	m_dtcSearchFrom->SetTime(oletimeTime);
+	m_dtcSearchTo->SetTime(oletimeTime);
+
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 
@@ -996,6 +1021,11 @@ void CNotificationPanel::OnBnClickedPlanBZRQBusinessApprove()
 	m_advanceSearchVals.clear();
 
 	m_bsDateRange->SetWindowTextW(_T("包装日期"));
+
+	COleDateTime oletimeTime;
+	oletimeTime.SetStatus(COleDateTime::null);
+	m_dtcSearchFrom->SetTime(oletimeTime);
+	m_dtcSearchTo->SetTime(oletimeTime);
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
@@ -1027,6 +1057,11 @@ void CNotificationPanel::OnBnClickedPlanBZRQPlanApprove()
 
 	m_bsDateRange->SetWindowTextW(_T("包装日期"));
 	
+	COleDateTime oletimeTime;
+	oletimeTime.SetStatus(COleDateTime::null);
+	m_dtcSearchFrom->SetTime(oletimeTime);
+	m_dtcSearchTo->SetTime(oletimeTime);
+
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 
