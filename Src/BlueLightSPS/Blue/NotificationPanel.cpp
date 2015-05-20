@@ -902,6 +902,11 @@ void CNotificationPanel::OnBnClickedSaleBusinessApprove()
 
 	m_bsDateRange->SetWindowTextW(_T("订单日期"));
 
+	COleDateTime oletimeTime;
+	oletimeTime.SetStatus(COleDateTime::null);
+	m_dtcSearchFrom->SetTime(oletimeTime);
+	m_dtcSearchTo->SetTime(oletimeTime);
+
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
@@ -923,6 +928,11 @@ void CNotificationPanel::OnBnClickedSalePlanApprove()
 
 	m_bsDateRange->SetWindowTextW(_T("订单日期"));
 
+	COleDateTime oletimeTime;
+	oletimeTime.SetStatus(COleDateTime::null);
+	m_dtcSearchFrom->SetTime(oletimeTime);
+	m_dtcSearchTo->SetTime(oletimeTime);
+
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
@@ -942,6 +952,11 @@ void CNotificationPanel::OnBnClickedPlanSCRQBusinessApprove()
 	m_advanceSearchVals.clear();
 
 	m_bsDateRange->SetWindowTextW(_T("生产日期"));
+
+	COleDateTime oletimeTime;
+	oletimeTime.SetStatus(COleDateTime::null);
+	m_dtcSearchFrom->SetTime(oletimeTime);
+	m_dtcSearchTo->SetTime(oletimeTime);
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
@@ -973,6 +988,11 @@ void CNotificationPanel::OnBnClickedPlanSCRQPlanApprove()
 
 	m_bsDateRange->SetWindowTextW(_T("生产日期"));
 
+	COleDateTime oletimeTime;
+	oletimeTime.SetStatus(COleDateTime::null);
+	m_dtcSearchFrom->SetTime(oletimeTime);
+	m_dtcSearchTo->SetTime(oletimeTime);
+
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 
@@ -1001,6 +1021,11 @@ void CNotificationPanel::OnBnClickedPlanBZRQBusinessApprove()
 	m_advanceSearchVals.clear();
 
 	m_bsDateRange->SetWindowTextW(_T("包装日期"));
+
+	COleDateTime oletimeTime;
+	oletimeTime.SetStatus(COleDateTime::null);
+	m_dtcSearchFrom->SetTime(oletimeTime);
+	m_dtcSearchTo->SetTime(oletimeTime);
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
@@ -1032,6 +1057,11 @@ void CNotificationPanel::OnBnClickedPlanBZRQPlanApprove()
 
 	m_bsDateRange->SetWindowTextW(_T("包装日期"));
 	
+	COleDateTime oletimeTime;
+	oletimeTime.SetStatus(COleDateTime::null);
+	m_dtcSearchFrom->SetTime(oletimeTime);
+	m_dtcSearchTo->SetTime(oletimeTime);
+
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 
