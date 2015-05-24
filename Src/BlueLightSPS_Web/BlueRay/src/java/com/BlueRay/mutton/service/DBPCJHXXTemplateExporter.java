@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -129,28 +130,28 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	
 	static {
 		mSLocs[Column.id.ordinal()] = null;
-		mSLocs[Column.hth.ordinal()] = new Location('D', 32/*+ 1*/); // 合同号 A
+		mSLocs[Column.hth.ordinal()] = new Location('C', 32/*+ 1*/); // 合同号 A
 		mSLocs[Column.khmc.ordinal()] = new Location('H', 3); // 客户名称 B
 		mSLocs[Column.ggxh.ordinal()] = new Location('C', 4/*+ 1*/); // 规格型号 C
 		mSLocs[Column.sl.ordinal()] = null; // 数量
 		mSLocs[Column.zc.ordinal()] = new Location('C', 5/*+ 1*/); // 轴承 D
 		mSLocs[Column.dfr.ordinal()] = null; // 单复绕
-		mSLocs[Column.zdqdy.ordinal()] = new Location('C', 7/*+ 1*/); // 制动器电压 E
+		mSLocs[Column.zdqdy.ordinal()] = new Location('H', 7/*+ 1*/); // 制动器电压 E
 		mSLocs[Column.yylgg.ordinal()] = new Location('H', 4/*+ 1*/); // 曳引轮规格 F
 		mSLocs[Column.jf.ordinal()] = new Location('N', 7/*+ 1*/); // 机房 G
-		mSLocs[Column.bpqxh.ordinal()] = new Location('D', 33/*+ 1*/); // 变频器型号 H
+		mSLocs[Column.bpqxh.ordinal()] = new Location('C', 33/*+ 1*/); // 变频器型号 H
 		mSLocs[Column.bmqxh.ordinal()] = new Location('C', 6/*+ 1*/); // 编码器型号 I
 		mSLocs[Column.dlcd.ordinal()] = new Location('H', 33/*+ 1*/); // 电缆长度 J
 		mSLocs[Column.zxcd.ordinal()] = new Location('H', 32/*+ 1*/); // 闸线长度 K
 		mSLocs[Column.mpzl.ordinal()] = new Location('D', 38/*+ 1*/); // 铭牌等资料 L
 		mSLocs[Column.bz.ordinal()] = new Location('D', 36/*+ 1*/); // 备注 M
 		mSLocs[Column.ddrq.ordinal()] = null; // 订单日期
-		mSLocs[Column.zjdy.ordinal()] = new Location('H', 5 /*+ 1*/); // 主机电压 N
-		mSLocs[Column.zjys.ordinal()] = new Location('H', 7 /*+ 1*/); // 主机颜色 O
+		mSLocs[Column.zjdy.ordinal()] = new Location('C', 7 /*+ 1*/); // 主机电压 N
+		mSLocs[Column.zjys.ordinal()] = new Location('H', 5 /*+ 1*/); // 主机颜色 O
 		mSLocs[Column.zdqxh.ordinal()] = new Location('H', 6 /*+ 1*/); // 制动器型号 P
 		mSLocs[Column.zyz.ordinal()] = new Location('Q', 7 /*+ 1*/); // 左/右置 Q
 		mSLocs[Column.bzxdtgg.ordinal()] = new Location('D', 35 /*+ 1*/); // 包装箱/底托规格 R
-		mSLocs[Column.gh.ordinal()] = new Location('D', 34 /*+ 1*/); // 工号 S
+		mSLocs[Column.gh.ordinal()] = new Location('C', 34 /*+ 1*/); // 工号 S
 		mSLocs[Column.zzs.ordinal()] = new Location('H', 8 /*+ 1*/); // 制造商 T
 		mSLocs[Column.khqy.ordinal()] = null; // 客户区域
 		mSLocs[Column.scrq.ordinal()] = null; // 生产日期
@@ -167,28 +168,28 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	
 	static {
 		mYLocs[Column.id.ordinal()] = null;
-		mYLocs[Column.hth.ordinal()] = new Location('D', 33 /*+ 1*/); // 合同号 A
+		mYLocs[Column.hth.ordinal()] = new Location('C', 33 /*+ 1*/); // 合同号 A
 		mYLocs[Column.khmc.ordinal()] = new Location('H', 3); // 客户名称 B
 		mYLocs[Column.ggxh.ordinal()] = new Location('C', 4 /*+ 1*/); // 规格型号 C
 		mYLocs[Column.sl.ordinal()] = null; // 数量
 		mYLocs[Column.zc.ordinal()] = new Location('C', 5 /*+ 1*/); // 轴承 D
 		mYLocs[Column.dfr.ordinal()] = null; // 单复绕
-		mYLocs[Column.zdqdy.ordinal()] = new Location('C', 7 /*+ 1*/); // 制动器电压 E
+		mYLocs[Column.zdqdy.ordinal()] = new Location('H', 7 /*+ 1*/); // 制动器电压 E
 		mYLocs[Column.yylgg.ordinal()] = new Location('H', 4 /*+ 1*/); // 曳引轮规格 F
 		mYLocs[Column.jf.ordinal()] = new Location('N', 7 /*+ 1*/); // 机房 G
-		mYLocs[Column.bpqxh.ordinal()] = new Location('D', 34 /*+ 1*/); // 变频器型号 H
+		mYLocs[Column.bpqxh.ordinal()] = new Location('C', 34 /*+ 1*/); // 变频器型号 H
 		mYLocs[Column.bmqxh.ordinal()] = new Location('C', 6 /*+ 1*/); // 编码器型号 I
 		mYLocs[Column.dlcd.ordinal()] = new Location('H', 34 /*+ 1*/); // 电缆长度 J
 		mYLocs[Column.zxcd.ordinal()] = new Location('H', 33 /*+ 1*/); // 闸线长度 K
 		mYLocs[Column.mpzl.ordinal()] = new Location('D', 39 /*+ 1*/); // 铭牌等资料 L
 		mYLocs[Column.bz.ordinal()] = new Location('D', 37 /*+ 1*/); // 备注 M
 		mYLocs[Column.ddrq.ordinal()] = null; // 订单日期
-		mYLocs[Column.zjdy.ordinal()] = new Location('H', 5 /*+ 1*/); // 主机电压 N
-		mYLocs[Column.zjys.ordinal()] = new Location('H', 7 /*+ 1*/); // 主机颜色 O
+		mYLocs[Column.zjdy.ordinal()] = new Location('C', 7 /*+ 1*/); // 主机电压 N
+		mYLocs[Column.zjys.ordinal()] = new Location('H', 5 /*+ 1*/); // 主机颜色 O
 		mYLocs[Column.zdqxh.ordinal()] = new Location('H', 6 /*+ 1*/); // 制动器型号 P
 		mYLocs[Column.zyz.ordinal()] = new Location('Q', 7 /*+ 1*/); // 左/右置 Q
 		mYLocs[Column.bzxdtgg.ordinal()] = new Location('D', 36 /*+ 1*/); // 包装箱/底托规格 R
-		mYLocs[Column.gh.ordinal()] = new Location('D', 35 /*+ 1*/); // 工号 S
+		mYLocs[Column.gh.ordinal()] = new Location('C', 35 /*+ 1*/); // 工号 S
 		mYLocs[Column.zzs.ordinal()] = new Location('H', 8 /*+ 1*/); // 制造商 T
 		mYLocs[Column.khqy.ordinal()] = null; // 客户区域
 		mYLocs[Column.scrq.ordinal()] = null; // 生产日期
@@ -205,28 +206,28 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	
 	static {
 		mULocs[Column.id.ordinal()] = null;
-		mULocs[Column.hth.ordinal()] = new Location('D', 32 /*+ 1*/); // 合同号 A
+		mULocs[Column.hth.ordinal()] = new Location('C', 32 /*+ 1*/); // 合同号 A
 		mULocs[Column.khmc.ordinal()] = new Location('H', 3); // 客户名称 B
 		mULocs[Column.ggxh.ordinal()] = new Location('C', 4 /*+ 1*/); // 规格型号 C
 		mULocs[Column.sl.ordinal()] = null; // 数量
 		mULocs[Column.zc.ordinal()] = new Location('C', 5 /*+ 1*/); // 轴承 D
 		mULocs[Column.dfr.ordinal()] = null; // 单复绕
-		mULocs[Column.zdqdy.ordinal()] = new Location('C', 7 /*+ 1*/); // 制动器电压 E
+		mULocs[Column.zdqdy.ordinal()] = new Location('H', 7 /*+ 1*/); // 制动器电压 E
 		mULocs[Column.yylgg.ordinal()] = new Location('H', 4 /*+ 1*/); // 曳引轮规格 F
 		mULocs[Column.jf.ordinal()] = new Location('N', 7 /*+ 1*/); // 机房 G
-		mULocs[Column.bpqxh.ordinal()] = new Location('D', 33 /*+ 1*/); // 变频器型号 H
+		mULocs[Column.bpqxh.ordinal()] = new Location('C', 33 /*+ 1*/); // 变频器型号 H
 		mULocs[Column.bmqxh.ordinal()] = new Location('C', 6 /*+ 1*/); // 编码器型号 I
 		mULocs[Column.dlcd.ordinal()] = new Location('H', 33 /*+ 1*/); // 电缆长度 J
 		mULocs[Column.zxcd.ordinal()] = new Location('H', 32 /*+ 1*/); // 闸线长度 K
 		mULocs[Column.mpzl.ordinal()] = new Location('D', 38 /*+ 1*/); // 铭牌等资料 L
 		mULocs[Column.bz.ordinal()] = new Location('D', 36 /*+ 1*/); // 备注 M
 		mULocs[Column.ddrq.ordinal()] = null; // 订单日期
-		mULocs[Column.zjdy.ordinal()] = new Location('H', 5 /*+ 1*/); // 主机电压 N
-		mULocs[Column.zjys.ordinal()] = new Location('H', 7 /*+ 1*/); // 主机颜色 O
+		mULocs[Column.zjdy.ordinal()] = new Location('C', 7 /*+ 1*/); // 主机电压 N
+		mULocs[Column.zjys.ordinal()] = new Location('H', 5 /*+ 1*/); // 主机颜色 O
 		mULocs[Column.zdqxh.ordinal()] = new Location('H', 6 /*+ 1*/); // 制动器型号 P
 		mULocs[Column.zyz.ordinal()] = new Location('Q', 7 /*+ 1*/); // 左/右置 Q
 		mULocs[Column.bzxdtgg.ordinal()] = new Location('D', 35 /*+ 1*/); // 包装箱/底托规格 R
-		mULocs[Column.gh.ordinal()] = new Location('D', 34 /*+ 1*/); // 工号 S
+		mULocs[Column.gh.ordinal()] = new Location('C', 34 /*+ 1*/); // 工号 S
 		mULocs[Column.zzs.ordinal()] = new Location('H', 8 /*+ 1*/); // 制造商 T
 		mULocs[Column.khqy.ordinal()] = null; // 客户区域
 		mULocs[Column.scrq.ordinal()] = null; // 生产日期
@@ -243,28 +244,28 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	
 	static {
 		mTALocs[Column.id.ordinal()] = null;
-		mTALocs[Column.hth.ordinal()] = new Location('D', 33 /*+ 1*/); // 合同号 A
+		mTALocs[Column.hth.ordinal()] = new Location('C', 33 /*+ 1*/); // 合同号 A
 		mTALocs[Column.khmc.ordinal()] = new Location('H', 3); // 客户名称 B
 		mTALocs[Column.ggxh.ordinal()] = new Location('C', 4 /*+ 1*/); // 规格型号 C
 		mTALocs[Column.sl.ordinal()] = null; // 数量
 		mTALocs[Column.zc.ordinal()] = new Location('C', 5 /*+ 1*/); // 轴承 D
 		mTALocs[Column.dfr.ordinal()] = null; // 单复绕
-		mTALocs[Column.zdqdy.ordinal()] = new Location('C', 7 /*+ 1*/); // 制动器电压 E
+		mTALocs[Column.zdqdy.ordinal()] = new Location('H', 7 /*+ 1*/); // 制动器电压 E
 		mTALocs[Column.yylgg.ordinal()] = new Location('H', 4 /*+ 1*/); // 曳引轮规格 F
 		mTALocs[Column.jf.ordinal()] = new Location('N', 7 /*+ 1*/); // 机房 G
-		mTALocs[Column.bpqxh.ordinal()] = new Location('D', 34 /*+ 1*/); // 变频器型号 H
+		mTALocs[Column.bpqxh.ordinal()] = new Location('C', 34 /*+ 1*/); // 变频器型号 H
 		mTALocs[Column.bmqxh.ordinal()] = new Location('C', 6 /*+ 1*/); // 编码器型号 I
 		mTALocs[Column.dlcd.ordinal()] = new Location('H', 34 /*+ 1*/); // 电缆长度 J
 		mTALocs[Column.zxcd.ordinal()] = new Location('H', 33 /*+ 1*/); // 闸线长度 K
 		mTALocs[Column.mpzl.ordinal()] = new Location('D', 39 /*+ 1*/); // 铭牌等资料 L
 		mTALocs[Column.bz.ordinal()] = new Location('D', 37 /*+ 1*/); // 备注 M
 		mTALocs[Column.ddrq.ordinal()] = null; // 订单日期
-		mTALocs[Column.zjdy.ordinal()] = new Location('H', 5 /*+ 1*/); // 主机电压 N
-		mTALocs[Column.zjys.ordinal()] = new Location('H', 7 /*+ 1*/); // 主机颜色 O
+		mTALocs[Column.zjdy.ordinal()] = new Location('C', 7 /*+ 1*/); // 主机电压 N
+		mTALocs[Column.zjys.ordinal()] = new Location('H', 5 /*+ 1*/); // 主机颜色 O
 		mTALocs[Column.zdqxh.ordinal()] = new Location('H', 6 /*+ 1*/); // 制动器型号 P
 		mTALocs[Column.zyz.ordinal()] = new Location('Q', 7 /*+ 1*/); // 左/右置 Q
 		mTALocs[Column.bzxdtgg.ordinal()] = new Location('D', 36 /*+ 1*/); // 包装箱/底托规格 R
-		mTALocs[Column.gh.ordinal()] = new Location('D', 35 /*+ 1*/); // 工号 S
+		mTALocs[Column.gh.ordinal()] = new Location('C', 35 /*+ 1*/); // 工号 S
 		mTALocs[Column.zzs.ordinal()] = new Location('H', 8 /*+ 1*/); // 制造商 T
 		mTALocs[Column.khqy.ordinal()] = null; // 客户区域
 		mTALocs[Column.scrq.ordinal()] = null; // 生产日期
@@ -296,7 +297,6 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 
 		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(new File(
 				path)));
-		Calendar cal = Calendar.getInstance();
 		String[] ret = new String[35];
 		Location rq = new Location('A', 2);
 		for (int i = 0, len = excel.getRowCount(); i < len; ++i) {
@@ -305,6 +305,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 			PlanServiceImpl.setPCJH(ret, pcxxs.get(0), htxxMap, itemDao);
 			if (null == ret[Column.ggxh.ordinal()]
 					|| ret[Column.ggxh.ordinal()].isEmpty()) {
+				System.out.println("row : " + i + "ggxh : " + ret[Column.ggxh.ordinal()] + " could not find template.");
 				continue;
 			}
 
@@ -338,15 +339,22 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 			
 			if (sheet != null) {
 				updateTemplate(ret, locs, sheet);
-				String tcrq = sheet.getRow(rq.getX()).getCell(rq.getY())
-						.getStringCellValue();
 
-				tcrq = tcrq.replace(" ", "")
-						.replace("投", "                                                          投")
-						.replace("年", " " + cal.get(Calendar.YEAR) + "年")
-						.replace("月日", " " + (cal.get(Calendar.MONTH) + 1) + "月" + " " + cal.get(Calendar.DAY_OF_MONTH) + "日");
-				sheet.getRow(rq.getX()).getCell(rq.getY()).setCellValue(tcrq);
+				try{
+					Calendar calTmp = Calendar.getInstance();
+					calTmp.setTime(Date.valueOf(ret[Column.scrq.ordinal()]));
+					String tcrq = sheet.getRow(rq.getX()).getCell(rq.getY())
+							.getStringCellValue();
 
+					tcrq = tcrq.replace(" ", "")
+							.replace("投", "                                                          投")
+							.replace("年", " " + calTmp.get(Calendar.YEAR) + "年")
+							.replace("月日", " " + (calTmp.get(Calendar.MONTH) + 1) + "月" + " " + calTmp.get(Calendar.DAY_OF_MONTH) + "日");
+					sheet.getRow(rq.getX()).getCell(rq.getY()).setCellValue(tcrq);
+				} catch(Exception e){
+					e.printStackTrace();
+				}
+				
 				if (!ret[Column.tcbh.ordinal()].isEmpty()) {
 
 					JBarcode localJBarcode = new JBarcode(
@@ -377,7 +385,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 						
 						// anchor主要用于设置图片的属性
 						HSSFClientAnchor anchor = new HSSFClientAnchor(10, 6,
-								0, 0, (short) 14, 2, (short) 16, 6);
+								0, 0, (short) 14, 3, (short) 16, 7);
 						anchor.setAnchorType(3);
 						
 						// 插入图片
