@@ -222,6 +222,7 @@ void CSaleAddDlg::InitHttpInstance()
 		m_DropList[Comb_DFR].push_back(_T("单绕"));
 		m_DropList[Comb_DFR].push_back(_T("复绕"));
 		m_DropList[Comb_DFR].push_back(_T("无"));
+		m_DropList[Comb_DFR].push_back(_T(""));
 
 		//制动器电压
 		item.QuerySync(CItem::ZDQDYFLXX, m_DropList[CombId::Comb_ZDQDY]);
@@ -234,6 +235,7 @@ void CSaleAddDlg::InitHttpInstance()
 		//机房
 		m_DropList[Comb_JF].push_back(_T("有"));
 		m_DropList[Comb_JF].push_back(_T("无"));
+		m_DropList[Comb_JF].push_back(_T(""));
 
 		//变频器型号
 		item.QuerySync(CItem::BPQXHFLXX, m_DropList[CombId::Comb_BPQXH]);
@@ -256,6 +258,7 @@ void CSaleAddDlg::InitHttpInstance()
 		//左 / 右置
 		m_DropList[Comb_ZYZ].push_back(_T("左置"));
 		m_DropList[Comb_ZYZ].push_back(_T("右置"));
+		m_DropList[Comb_ZYZ].push_back(_T(""));
 
 		//包装箱 / 底托规格
 		item.QuerySync(CItem::BZXDTGG, m_DropList[CombId::Comb_BZXDTGG]);
@@ -269,6 +272,7 @@ void CSaleAddDlg::InitHttpInstance()
 		//优先级
 		m_DropList[Comb_YXJ].push_back(_T("高"));
 		m_DropList[Comb_YXJ].push_back(_T("低"));
+		m_DropList[Comb_YXJ].push_back(_T(""));
 
 	}
 }

@@ -37,3 +37,6 @@ Src/BlueLightSPS/ComboBoxDemo/Debug/ComboBoxDemo.res
 Src/BlueLightSPS/ComboBoxDemo/Debug/vc120.idb
 *.pdb
 Src/BlueLightSPS/ComboBoxDemo/Debug/ComboBoxDemo.pch
+*.log
+Src/BlueLightSPS/ComboBoxDemo/Release/ComboBoxDemo.pch
+*.res

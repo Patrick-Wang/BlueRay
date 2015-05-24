@@ -907,7 +907,7 @@ void CPlanPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 
 void CPlanPanel::OnBnClickedSearch()
 {
-	m_advanceSearchVals.clear(); //必须在MakeBasicSearchCondition之前调用
+	//m_advanceSearchVals.clear(); //必须在MakeBasicSearchCondition之前调用
 	DEFINE_PLAN_QUERY_PARAM(sqp);
 	MakeBasicSearchCondition(sqp);
 	m_iCurSortCol = -1;
@@ -934,8 +934,18 @@ void CPlanPanel::OnBnClickedMore()
 	int iCountShot = 0;
 	CSaleAddDlg dlg(_T("高级搜索"));
 
-	dlg.SetOption(new CSaleAddDlg::Option_t());
 	dlg.SetIfUseDefaultValue(false);
+
+	//dlg.SetOption(new CSaleAddDlg::Option_t());
+
+	if (m_advanceSearchVals.size() <= 0)
+	{
+		dlg.SetOption(new CSaleAddDlg::Option_t());
+	}
+	else
+	{
+		dlg.SetOption(new CSaleAddDlg::Option_t(m_advanceSearchVals));
+	}
 
 	if (IDOK == dlg.DoModal()){
 		m_advanceSearchVals = const_cast<std::vector<CString>&>(dlg.GetResult());

@@ -752,7 +752,7 @@ void CSalePanel::OnRowChecked()
 void CSalePanel::OnBnClickedSearch()
 {
 //	m_pJqGridAPI->UncheckedAll();
-	m_advanceSearchVals.clear();
+	//m_advanceSearchVals.clear();
 	DEFINE_SALE_QUERY_PARAM(sqp);
 	MakeBasicSearchCondition(sqp);
 	//sqp.AddSortCondition(15, false);
@@ -771,7 +771,17 @@ void CSalePanel::OnBnClickedMore()
 	int iCountShot = 0;
 	CSaleAddDlg dlg(_T("¸ß¼¶ËÑË÷"));
 
-	dlg.SetOption(new CSaleAddDlg::Option_t());
+	//dlg.SetOption(new CSaleAddDlg::Option_t());
+
+	if (m_advanceSearchVals.size() <= 0)
+	{
+		dlg.SetOption(new CSaleAddDlg::Option_t());
+	}
+	else
+	{
+		dlg.SetOption(new CSaleAddDlg::Option_t(m_advanceSearchVals));
+	}
+
 	dlg.SetIfUseDefaultValue(false);
 	if (IDOK == dlg.DoModal()){
 		m_iCurSortCol = -1;

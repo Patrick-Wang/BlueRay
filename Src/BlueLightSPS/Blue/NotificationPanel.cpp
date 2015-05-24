@@ -567,8 +567,16 @@ void CNotificationPanel::OnBnClickedMore()
 	int iCountShot = 0;
 	CSaleAddDlg dlg(_T("¸ß¼¶ËÑË÷"));
 	dlg.SetIfUseDefaultValue(false);
+	
+	if (m_advanceSearchVals.size() <= 0)
+	{
+		dlg.SetOption(new CSaleAddDlg::Option_t());
+	}
+	else
+	{
+		dlg.SetOption(new CSaleAddDlg::Option_t(m_advanceSearchVals));
+	}
 
-	dlg.SetOption(new CSaleAddDlg::Option_t(m_advanceSearchVals));
 	if (IDOK == dlg.DoModal()){
 		m_advanceSearchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
 
