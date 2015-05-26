@@ -330,11 +330,11 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 			} else if ("V".equalsIgnoreCase(ret[Column.ggxh.ordinal()]
 					.substring(0, 1))) {
 				sheet = workbook.cloneSheet(5);
-				locs = mULocs;
+				//locs = mULocs;
 			} else if ("L".equalsIgnoreCase(ret[Column.ggxh.ordinal()]
 					.substring(0, 1))) {
 				sheet = workbook.cloneSheet(6);
-				locs = mULocs;
+				//locs = mULocs;
 			}
 			
 			if (sheet != null) {
