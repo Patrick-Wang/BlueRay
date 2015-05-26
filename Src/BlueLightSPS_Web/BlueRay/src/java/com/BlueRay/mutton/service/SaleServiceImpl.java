@@ -179,7 +179,7 @@ public class SaleServiceImpl implements SaleService {
 
 			for (int i = ja.size() > setMethods.size() ? setMethods.size() - 1
 					: ja.size() - 1; i >= 0; --i) {
-				if (!"".equals(ja.getString(i))){
+				if (!"".equals(ja.getString(i)) || setMethods.get(i).getName().equals("setDdrq")){
 					setMethods.get(i).invoke(this, htxx, ja.getString(i));
 				}
 			}
