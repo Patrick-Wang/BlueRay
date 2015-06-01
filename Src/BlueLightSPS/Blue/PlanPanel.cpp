@@ -140,6 +140,11 @@ void CPlanPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 		m_btnReApproveBZRQBusiness->EnableWindow(FALSE);
 		m_btnReApproveBZRQPlan->EnableWindow(FALSE);
 	}
+	else
+	{
+		m_pJqGridAPI->HideCol(nsPlan::Column_en::yxj);
+		m_pJqGridAPI->HideCol(nsPlan::Column_en::dfr);
+	}
 
 	CPermission& perm = CUser::GetInstance()->GetPermission();
 
@@ -920,13 +925,13 @@ void CPlanPanel::OnBnClickedSearch()
 
 void CPlanPanel::HighLight()
 {
-	for (size_t i = 0, len = m_table.size(); i < len; i++)
-	{
-		if (0 == m_table[i].second[nsPlan::yxj].Compare(L"¸ß"))
-		{
-			m_pJqGridAPI->HighLightRow(m_table[i].first);
-		}
-	}
+	//for (size_t i = 0, len = m_table.size(); i < len; i++)
+	//{
+	//	if (0 == m_table[i].second[nsPlan::yxj].Compare(L"¸ß"))
+	//	{
+	//		m_pJqGridAPI->HighLightRow(m_table[i].first);
+	//	}
+	//}
 }
 
 void CPlanPanel::OnBnClickedMore()
