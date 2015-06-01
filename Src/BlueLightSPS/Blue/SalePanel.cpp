@@ -137,6 +137,11 @@ void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
 		m_btnReApproveForBusiness->EnableWindow(FALSE);
 		m_btnReApproveForPlan->EnableWindow(FALSE);
 	}
+	else{
+		m_pJqGridAPI->HideCol(nsSale::Column_en::yxj);
+			m_pJqGridAPI->HideCol(nsSale::Column_en::dfr);
+			m_pJqGridAPI->HideCol(nsSale::Column_en::zc);
+	}
 
 	CPermission& perm = CUser::GetInstance()->GetPermission();
 
@@ -1177,13 +1182,13 @@ void CSalePanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 
 void CSalePanel::HighLight()
 {
-	for (size_t i = 0, len = m_table.size(); i < len; i++)
-	{
-		if (0 == m_table[i].second[nsSale::yxj].Compare(L"¸ß"))
-		{
-			m_pJqGridAPI->HighLightRow(m_table[i].first);
-		}
-	}
+	//for (size_t i = 0, len = m_table.size(); i < len; i++)
+	//{
+	//	if (0 == m_table[i].second[nsSale::yxj].Compare(L"¸ß"))
+	//	{
+	//		m_pJqGridAPI->HighLightRow(m_table[i].first);
+	//	}
+	//}
 }
 
 void CSalePanel::OnExportClicked()

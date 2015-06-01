@@ -212,4 +212,4 @@ namespace nsNotification{
 #define DEFINE_NOTIFICATION_QUERY_PARAM(name) \
 	CJsonQueryParam name;\
 	name.AddSortCondition(nsSale::Column_en::ddrq, false); \
-	name.AddSortCondition(nsSale::Column_en::yxj, true);
+	name.AddSortCondition(nsSale::Column_en::khmc, true);
