@@ -11,7 +11,9 @@ import javax.persistence.Query;
 
 
 
+
 import net.sf.json.JSONObject;
+
 
 
 
@@ -94,5 +96,12 @@ public class SaleDaoImpl implements SaleDao {
 		Query q = entityManager.createQuery("select count(h) from HTXX h where h.sftgywsh = 'N'");
 		List<Object> objs = q.getResultList();
 		return ((Long) objs.get(0)).intValue();
+	}
+
+	public boolean containsHtid(String id) {
+		Query q = entityManager.createQuery("select count(h) from HTXX h where h.htID = :id");
+		q.setParameter("id", id);
+		List<Object> objs = q.getResultList();
+		return ((Long) objs.get(0)).intValue() > 0;
 	}
 }

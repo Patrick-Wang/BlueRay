@@ -176,4 +176,13 @@ public class SaleController {
 		return service.planUnapprove(rows);
 	}
 	
+	@RequestMapping(value = "/isHtIDExist")
+	public @ResponseBody String isHtIDExist(HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		String htId = request.getParameter("HtID");
+		Result ret = new Result(service.isHtidExist(htId));
+		JSONObject jo = JSONObject.fromObject(ret);
+		return jo.toString();
+	}
+	
 }

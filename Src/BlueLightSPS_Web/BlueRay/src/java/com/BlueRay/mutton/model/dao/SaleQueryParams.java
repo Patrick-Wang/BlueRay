@@ -683,20 +683,39 @@ public class SaleQueryParams {
 					sqlBuilder.append(",");
 				}
 				Class<?> cls = HTXX.getFroeignClass(col);
+				String order = jsort.getJSONObject(i).getBoolean(
+						"order") ? " asc " : " desc ";
 				if (null != cls) {
 					connectMap.put(fields[col].getName(), cls);
-					sqlBuilder
-							.append(cls.getSimpleName()
-									+ "_."
-									+ getForginName(cls)
-									+ (jsort.getJSONObject(i).getBoolean(
-											"order") ? " asc " : " desc "));
+					
+					if (CPGGXHXX.class.equals(cls)){
+						sqlBuilder
+						.append(cls.getSimpleName()
+								+ "_.xh"
+								+ order + ",");
+						sqlBuilder
+						.append(cls.getSimpleName()
+								+ "_.dw"
+								+ order + ",");
+						sqlBuilder
+						.append(cls.getSimpleName()
+								+ "_.ts"
+								+ order);
+					}
+					else {
+						sqlBuilder
+						.append(cls.getSimpleName()
+								+ "_."
+								+ getForginName(cls)
+								+ order);
+					}
+					
+				
 				} else {
 					sqlBuilder
 							.append("HTXX_."
 									+ fields[col].getName()
-									+ (jsort.getJSONObject(i).getBoolean(
-											"order") ? " asc " : " desc "));
+									+ order);
 				}
 			}
 		}

@@ -6,7 +6,9 @@ import java.util.List;
 
 
 
+
 import net.sf.json.JSONObject;
+
 
 
 
@@ -51,5 +53,7 @@ public interface SaleDao {
 	int getSalePlanUnapproved();
 
 	int getSaleBussinessUnapproved();
+
+	boolean containsHtid(String id);
 
 }

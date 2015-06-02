@@ -33,4 +33,6 @@ public interface SaleService{
 	String export(OutputStream out, JSONObject jparam);
 
 	ImportResult importData(JSONArray fromObject);
+	
+	boolean isHtidExist(String id);
 }

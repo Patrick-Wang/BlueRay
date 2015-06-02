@@ -396,12 +396,41 @@ public class SaleServiceImpl implements SaleService {
 		}
 	}
 
+	private void upgradeGgxh(CPGGXHXX ggxh, String value){
+		ggxh.setGg(value);
+		if (!value.isEmpty() && ggxh.getDw().isEmpty()){
+			int num = -1;
+			for (int i = 0; i < value.length(); ++i){
+				if (value.charAt(i) >= '0' && value.charAt(i) <= '9'){
+					num = i;
+					break;
+				}
+			}
+			
+			if (num >= 0){
+				int letter = -1;
+				for (int i = num + 1; i < value.length(); ++i){
+					if ((value.charAt(i) >= 'a' && value.charAt(i) <= 'z') || (value.charAt(i) >= 'A' && value.charAt(i) <= 'Z') ){
+						letter = i;
+						break;
+					}
+				}
+				ggxh.setXh(value.substring(0, num));
+				
+				if (letter > 0){
+					ggxh.setDw(value.substring(num, letter));
+					ggxh.setTs(value.substring(letter));
+				}
+			}
+		}
+	}
+	
 	private void setGgxhID(HTXX htxx, String value) {
 		if (!"".equals(value)) {
 			CPGGXHXX item = itemDao.queryCpggxhxxByValue("gg", value);
 			if (null == item) {
 				item = new CPGGXHXX();
-				item.setGg(value);
+				upgradeGgxh(item, value);
 				itemDao.insert(item);
 			}
 			htxx.setGgxhID(item.getCpggxhID());
@@ -613,5 +642,9 @@ public class SaleServiceImpl implements SaleService {
 			}
 		}
 		return ret;
+	}
+	
+	public boolean isHtidExist(String id){
+		return saleDao.containsHtid(id);
 	}
 }
