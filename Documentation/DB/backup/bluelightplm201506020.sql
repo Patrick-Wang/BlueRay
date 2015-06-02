@@ -170,6 +170,7 @@ CREATE TABLE `pcjhxxb` (
   `bzsftgjhsh` char(1) collate utf8_unicode_ci default NULL,
   `bz` varchar(256) collate utf8_unicode_ci default NULL,
   `ddzt` char(16) collate utf8_unicode_ci default NULL,
+  `zcID` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY  (`pcjhID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

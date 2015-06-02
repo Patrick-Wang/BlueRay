@@ -35,6 +35,22 @@ public class PCJHXX {
 	
 	String ddzt = "";
 	String bz="";
+	Integer zcID;
+	
+	/**
+	 * @return the zcID
+	 */
+	public Integer getZcID() {
+		return zcID;
+	}
+
+	/**
+	 * @param zcID the zcID to set
+	 */
+	public void setZcID(Integer zcID) {
+		this.zcID = zcID;
+	}
+
 	/**
 	 * @return the pcjhID
 	 */

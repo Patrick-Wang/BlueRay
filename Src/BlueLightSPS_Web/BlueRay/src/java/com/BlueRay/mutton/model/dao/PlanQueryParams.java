@@ -68,10 +68,12 @@ public class PlanQueryParams {
 	private static int mColumnCount = 34;
 	{
 		for (int i = 0; i < 24; ++i) {
-			if (i != 14){
-				paramHtxxColMap.put(i, i + 1);
-			} else{
+			if (i == 3){
+				paramPcjhColMap.put(i, 13);//zc
+			} else if (i == 14){
 				paramPcjhColMap.put(i, 12);//bz
+			} else{
+				paramHtxxColMap.put(i, i + 1);
 			}
 		}
 		paramHtxxColMap.put(24, 27);//yxj

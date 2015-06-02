@@ -59,7 +59,9 @@ public class PlanServiceImpl implements PlanService {
 		Integer id = pcjhxx.getHtxxID();
 		SaleServiceImpl.setHtxx(ret, htxxMap.get(id), itemDao);
 		ret[0] = pcjhxx.getPcjhID() + "";
-		ret[4] = "1";// 鏁伴噺
+		ret[4] = "1";
+		ZCXX zcxx = itemDao.queryZcxxById(pcjhxx.getZcID());
+		ret[5] = null != zcxx ? zcxx.getZcxh() : "";
 		ret[15] = pcjhxx.getBz();
 		ret[18 + 8] = (null != pcjhxx.getJhscrq()) ? pcjhxx.getJhscrq()
 				.toString() : "";
@@ -132,6 +134,14 @@ public class PlanServiceImpl implements PlanService {
 				}
 				if (data.size() > 6 && !"".equals(data.getString(6))){
 					pcjhxx.setBz(data.getString(6));
+				} else if (data.size() > 7 && !"".equals(data.getString(7))) {
+					ZCXX item = itemDao.queryZcxxByValue("zcxh", data.getString(7));
+					if (null == item) {
+						item = new ZCXX();
+						item.setZcxh(data.getString(7));
+						itemDao.insert(item);
+					}
+					pcjhxx.setZcID(item.getZcxhID());
 				}
 				planDao.update(pcjhxx);
 			}

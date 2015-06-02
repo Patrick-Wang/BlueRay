@@ -1339,6 +1339,7 @@ CREATE TABLE `pcjhxxb` (
   `bzsftgjhsh` char(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ddzt` char(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   `bz`  varchar(1024) DEFAULT NULL,
+  `zcID` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`pcjhID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
