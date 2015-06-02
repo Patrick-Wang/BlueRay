@@ -176,7 +176,7 @@ void CComboBoxDemoDlg::OnCbnDropdownCombo1()
 
 void CComboBoxDemoDlg::OnCbnCloseupCombo1()
 {
-	updateValues();
+	//updateValues();
 }
 
 void CComboBoxDemoDlg::updateValues()

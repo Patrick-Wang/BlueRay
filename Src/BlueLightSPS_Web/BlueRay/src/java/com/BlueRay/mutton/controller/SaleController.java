@@ -180,9 +180,7 @@ public class SaleController {
 	public @ResponseBody String isHtIDExist(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		String htId = request.getParameter("HtID");
-		Result ret = new Result(service.isHtidExist(htId));
-		JSONObject jo = JSONObject.fromObject(ret);
-		return jo.toString();
+		return service.isHtidExist(htId) + "";
 	}
 	
 }

@@ -280,3 +280,14 @@ CPromise<CSale::ImportResult_t>& CSale::Import(LPCTSTR lpFileName)
 		std::shared_ptr<IHttp::IInputStream>(new CCSVInputStream(lpFileName)));
 	return *promise;
 }
+
+bool CSale::isHtIDUsed(LPCTSTR lpHtID)
+{
+	std::map<CString, CString> attr;
+	attr[_T("HtID")] = lpHtID;
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/sale/isHtIDExist"), IDS_HOST_NAME);
+	CString strRet;
+	m_lpHttp->SyncGet(traceSession(url), attr, strRet);
+	return strRet.CompareNoCase(L"true") == 0;
+}

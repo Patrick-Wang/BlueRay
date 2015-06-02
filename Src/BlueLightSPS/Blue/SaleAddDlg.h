@@ -277,6 +277,8 @@ public:
 	static const std::vector<std::vector<CString>>& GetDropList();
 	CDelegate<void(CSaleAddDlg&)> d_GetOption;
 	void SetIfUseDefaultValue(bool ifuse);
+	void SetIsAdd(bool bIsAdd);
+	void SetIsSearch(bool bIsSearch);
 protected:
 	void Assosication();
 	void InitHttpInstance();
@@ -293,12 +295,16 @@ private:
 	CEdit* m_aEdits[EditId::Edit_END];
 	CDateTimeCtrl* m_aDatePickers[DatePickerId::DatePicker_END];
 	bool m_bIfUseDefaultValue;
+	CString m_strInitHtH;
+	bool m_bIsAdd;
+	bool m_bIsSearch;
 private:
 	void OnCbnSelchangeKhOrGg();
 	virtual void PostNcDestroy();
 	void OnLoadComboDataSuccess(int id, CString strValList);
 public:
 	DECLARE_MESSAGE_MAP()
+	 
 //	afx_msg void OnTimer(UINT_PTR nIDEvent);
 //	virtual BOOL OnCommand(WPARAM wParam, LPARAM lParam);
 	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);

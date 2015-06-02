@@ -351,7 +351,8 @@ void CSalePanel::OnBnClickedAdd()
 	CSaleAddDlg::Option_t *option = new CSaleAddDlg::Option_t(m_cacheAddedSaleInfo);
 
 	dlg.SetOption(option);
-
+	dlg.SetIsAdd(true);
+	dlg.SetIsSearch(false);
 	if (IDOK == dlg.DoModal())
 	{
 		m_cacheRow = dlg.GetResult();
@@ -567,7 +568,8 @@ void CSalePanel::OnBnClickedModify()
 	dlg.d_GetOption += std::make_pair(this, &CSalePanel::OnSaleDlgGetModifyOption);
 
 	dlg.SetIfUseDefaultValue(false);
-
+	dlg.SetIsAdd(false);
+	dlg.SetIsSearch(false);
 	if (IDOK == dlg.DoModal())
 	{
 		m_cacheRow = dlg.GetResult();
@@ -788,6 +790,8 @@ void CSalePanel::OnBnClickedMore()
 	}
 
 	dlg.SetIfUseDefaultValue(false);
+	dlg.SetIsAdd(false);
+	dlg.SetIsSearch(true);
 	if (IDOK == dlg.DoModal()){
 		m_iCurSortCol = -1;
 		m_bCurSortAsc = false;

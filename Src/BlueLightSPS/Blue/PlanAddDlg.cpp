@@ -710,16 +710,16 @@ BOOL CPlanAddDlg::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO
 	}
 	else if (CBN_CLOSEUP == nCode)
 	{
-		int count = m_aCombs[nID - IDC_COMBO_BASE]->GetCount();
-		for (int i = 0; i < count; ++i)
-		{
-			m_aCombs[nID - IDC_COMBO_BASE]->DeleteString(0);
-		}
+		//int count = m_aCombs[nID - IDC_COMBO_BASE]->GetCount();
+		//for (int i = 0; i < count; ++i)
+		//{
+		//	m_aCombs[nID - IDC_COMBO_BASE]->DeleteString(0);
+		//}
 
-		for (int j = GetDropList()[nID - IDC_COMBO_BASE].size() - 1; j >= 0; --j)
-		{
-			m_aCombs[nID - IDC_COMBO_BASE]->InsertString(0, GetDropList()[nID - IDC_COMBO_BASE][j]);
-		}
+		//for (int j = GetDropList()[nID - IDC_COMBO_BASE].size() - 1; j >= 0; --j)
+		//{
+		//	m_aCombs[nID - IDC_COMBO_BASE]->InsertString(0, GetDropList()[nID - IDC_COMBO_BASE][j]);
+		//}
 	}
 	else if (CBN_EDITCHANGE == nCode)
 	{

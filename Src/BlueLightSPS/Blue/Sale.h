@@ -52,6 +52,8 @@ public:
 
 	CPromise<ImportResult_t>& Import(LPCTSTR lpFileName);
 
+	bool isHtIDUsed(LPCTSTR lpHtID);
+
 private:
 	bool doApproveSync(CString& url, IntArray& rows);
 	CPromise<StringArray>& doApprove(CString& url, IntArray& rows);

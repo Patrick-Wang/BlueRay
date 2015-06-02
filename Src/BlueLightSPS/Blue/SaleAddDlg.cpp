@@ -483,6 +483,13 @@ void CSaleAddDlg::OnOK()
 	CString strTmp;
 
 	m_aEdits[EditId::Edit_HTH]->GetWindowText(strTmp);
+
+	if (!m_bIsSearch && !strTmp.IsEmpty() && (m_bIsAdd || strTmp != m_strInitHtH) && CServer::GetInstance()->GetSale().isHtIDUsed(strTmp))
+	{
+		MessageBox(CString(L"合同号 ") + strTmp + L" 已经被占用，请重新输入", L"警告", MB_OK | MB_ICONWARNING);
+		return;
+	}
+
 	m_vecResult.push_back(strTmp); //m_vecResult.push_back(CompareWithOptFalse(strTmp, m_lpOption != NULL ? m_lpOption->htbh : _T("")));
 
 	GetText(m_aCombs[CombId::Comb_KHMC], CombId::Comb_KHMC, strTmp);
@@ -722,6 +729,7 @@ void CSaleAddDlg::InitCtrlData()
 			init(m_aDatePickers[DatePickerId::DatePicker_DDRQ], val);
 		}
 	}
+	m_aEdits[EditId::Edit_HTH]->GetWindowText(m_strInitHtH);
 }
 
 void CSaleAddDlg::GetText(CComboBox* pComboBox, CombId comId, CString& text)
@@ -887,16 +895,16 @@ BOOL CSaleAddDlg::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO
 	}
 	else if (CBN_CLOSEUP == nCode)
 	{
-		int count = m_aCombs[nID - IDC_COMBO_BASE]->GetCount();
-		for (int i = 0; i < count; ++i)
-		{
-			m_aCombs[nID - IDC_COMBO_BASE]->DeleteString(0);
-		}
+		//int count = m_aCombs[nID - IDC_COMBO_BASE]->GetCount();
+		//for (int i = 0; i < count; ++i)
+		//{
+		//	m_aCombs[nID - IDC_COMBO_BASE]->DeleteString(0);
+		//}
 
-		for (int j = GetDropList()[nID - IDC_COMBO_BASE].size() - 1; j >= 0; --j)
-		{
-			m_aCombs[nID - IDC_COMBO_BASE]->InsertString(0, GetDropList()[nID - IDC_COMBO_BASE][j]);
-		}
+		//for (int j = GetDropList()[nID - IDC_COMBO_BASE].size() - 1; j >= 0; --j)
+		//{
+		//	m_aCombs[nID - IDC_COMBO_BASE]->InsertString(0, GetDropList()[nID - IDC_COMBO_BASE][j]);
+		//}
 	}
 	else if (CBN_EDITCHANGE == nCode)
 	{
@@ -938,4 +946,14 @@ BOOL CSaleAddDlg::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO
 		m_aCombs[nID - IDC_COMBO_BASE]->ShowDropDown(TRUE);
 	}
 	return CPopupDlg::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
+}
+
+void CSaleAddDlg::SetIsAdd(bool bIsAdd)
+{
+	m_bIsAdd = bIsAdd;
+}
+
+void CSaleAddDlg::SetIsSearch(bool bIsSearch)
+{
+	m_bIsSearch = bIsSearch;
 }
