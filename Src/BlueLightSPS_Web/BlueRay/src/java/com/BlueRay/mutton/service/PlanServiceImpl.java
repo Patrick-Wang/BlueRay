@@ -126,23 +126,32 @@ public class PlanServiceImpl implements PlanService {
 				if (!"".equals(data.getString(4)))
 					setCcbh(pcjhxx, data.getString(4));
 				if (data.size() > 5 && !"".equals(data.getString(5))){
-					HTXX htxx = saleDao.getSaleDataById(pcjhxx.getHtxxID());
-					if (null != htxx){
-						setZcID(htxx, data.getString(5));
-						saleDao.update(htxx);
-					}
-				}
-				if (data.size() > 6 && !"".equals(data.getString(6))){
-					pcjhxx.setBz(data.getString(6));
-				} else if (data.size() > 7 && !"".equals(data.getString(7))) {
-					ZCXX item = itemDao.queryZcxxByValue("zcxh", data.getString(7));
+//					HTXX htxx = saleDao.getSaleDataById(pcjhxx.getHtxxID());
+//					if (null != htxx){
+//						setZcID(htxx, data.getString(5));
+//						saleDao.update(htxx);
+//					}
+					
+					ZCXX item = itemDao.queryZcxxByValue("zcxh", data.getString(5));
 					if (null == item) {
 						item = new ZCXX();
-						item.setZcxh(data.getString(7));
+						item.setZcxh(data.getString(5));
 						itemDao.insert(item);
 					}
 					pcjhxx.setZcID(item.getZcxhID());
 				}
+				if (data.size() > 6 && !"".equals(data.getString(6))){
+					pcjhxx.setBz(data.getString(6));
+				} 
+//				else if (data.size() > 7 && !"".equals(data.getString(7))) {
+//					ZCXX item = itemDao.queryZcxxByValue("zcxh", data.getString(7));
+//					if (null == item) {
+//						item = new ZCXX();
+//						item.setZcxh(data.getString(7));
+//						itemDao.insert(item);
+//					}
+//					pcjhxx.setZcID(item.getZcxhID());
+//				}
 				planDao.update(pcjhxx);
 			}
 		}
