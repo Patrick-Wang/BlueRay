@@ -96,6 +96,15 @@ public class SaleController {
 		return JSONObject.fromObject(pageData).toString().replace("null", "\"\"");
 	}
 	
+	@RequestMapping(value = "/upgradeggxh.do")
+	public @ResponseBody String upgradeGGXH(
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		service.upgradeGgxh();	
+		return "OK";
+	}
+	
+	
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String addSaleData(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {

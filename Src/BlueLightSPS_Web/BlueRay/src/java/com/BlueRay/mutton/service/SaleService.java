@@ -4,6 +4,7 @@ import java.io.OutputStream;
 
 import com.BlueRay.mutton.controller.ImportResult;
 import com.BlueRay.mutton.controller.PageData;
+import com.BlueRay.mutton.model.entity.jpa.CPGGXHXX;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -35,4 +36,6 @@ public interface SaleService{
 	ImportResult importData(JSONArray fromObject);
 	
 	boolean isHtidExist(String id);
+
+	void upgradeGgxh();
 }

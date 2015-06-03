@@ -396,7 +396,8 @@ public class SaleServiceImpl implements SaleService {
 		}
 	}
 
-	private void upgradeGgxh(CPGGXHXX ggxh, String value){
+
+	public void upgradeGgxh(CPGGXHXX ggxh, String value){
 		ggxh.setGg(value);
 		if (!value.isEmpty() && ggxh.getDw().isEmpty()){
 			int num = -1;
@@ -647,5 +648,14 @@ public class SaleServiceImpl implements SaleService {
 	
 	public boolean isHtidExist(String id){
 		return saleDao.containsHtid(id);
+	}
+
+	public void upgradeGgxh() {
+		List<CPGGXHXX> ggxhs = itemDao.getGGXHs();
+		for (CPGGXHXX ggxh : ggxhs){
+			upgradeGgxh(ggxh, ggxh.getGg());
+			itemDao.update(ggxh);
+		}
+		
 	}
 }

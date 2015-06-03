@@ -494,4 +494,13 @@ public class ItemDaoImpl implements ItemDao{
 		entityManager.persist(item);				
 	}
 
+	public void update(CPGGXHXX ggxh) {
+		entityManager.merge(ggxh);
+	}
+
+	public List<CPGGXHXX> getGGXHs() {
+		Query q = entityManager.createQuery("from CPGGXHXX ");
+		return q.getResultList();
+	}
+
 }

@@ -94,4 +94,6 @@ public interface ItemDao {
 	ZZS queryZZSById(int id);
 	ZZS queryZZSByValue(String colName, String val);	
 	void insert(ZZS item);
+	void update(CPGGXHXX ggxh);
+	List<CPGGXHXX> getGGXHs();
 }
