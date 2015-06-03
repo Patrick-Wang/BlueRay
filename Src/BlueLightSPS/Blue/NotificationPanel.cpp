@@ -844,12 +844,76 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 			strFmt = strFmtTmp + L"\r\n" + strFmt;
 
 			m_panel.MessageBox(strFmt, _T("ÉóºË½á¹û"), MB_OK | MB_ICONWARNING);
-			m_panel.OnBnClickedBtnReturn();
+			//m_panel.OnBnClickedBtnReturn();
+
+			switch (m_panel.m_enumCurrentApprovingItem)
+			{
+			case CNotificationPanel::Approving_NULL:
+				m_panel.OnBnClickedBtnReturn();
+				break;
+			case CNotificationPanel::Approving_SaleBusiness:
+				m_panel.OnBnClickedSaleBusinessApprove();
+				break;
+			case CNotificationPanel::Approving_SalePlan:
+				m_panel.OnBnClickedSalePlanApprove();
+				break;
+			case CNotificationPanel::Approving_PlanSCRQBusiness:
+				m_panel.OnBnClickedPlanSCRQBusinessApprove();
+				break;
+			case CNotificationPanel::Approving_PlanSCRQPlan:
+				m_panel.OnBnClickedPlanSCRQPlanApprove();
+				break;
+			case CNotificationPanel::Approving_PlanBZRQBusiness:
+				m_panel.OnBnClickedPlanBZRQBusinessApprove();
+				break;
+			case CNotificationPanel::Approving_PlanBZRQPlan:
+				m_panel.OnBnClickedPlanBZRQPlanApprove();
+				break;
+			case CNotificationPanel::Approving_END:
+				m_panel.OnBnClickedBtnReturn();
+				break;
+			default:
+				m_panel.OnBnClickedBtnReturn();
+				break;
+			}
+
 			m_panel.GetParent()->EnableWindow(TRUE);
 		}
 		virtual void OnFailed(){
 			m_panel.MessageBox(_T("ÉóºËÊ§°Ü"), _T("ÉóºË½á¹û"), MB_OK | MB_ICONWARNING);
-			m_panel.OnBnClickedBtnReturn();
+			//m_panel.OnBnClickedBtnReturn();
+
+			switch (m_panel.m_enumCurrentApprovingItem)
+			{
+			case CNotificationPanel::Approving_NULL:
+				m_panel.OnBnClickedBtnReturn();
+				break;
+			case CNotificationPanel::Approving_SaleBusiness:
+				m_panel.OnBnClickedSaleBusinessApprove();
+				break;
+			case CNotificationPanel::Approving_SalePlan:
+				m_panel.OnBnClickedSalePlanApprove();
+				break;
+			case CNotificationPanel::Approving_PlanSCRQBusiness:
+				m_panel.OnBnClickedPlanSCRQBusinessApprove();
+				break;
+			case CNotificationPanel::Approving_PlanSCRQPlan:
+				m_panel.OnBnClickedPlanSCRQPlanApprove();
+				break;
+			case CNotificationPanel::Approving_PlanBZRQBusiness:
+				m_panel.OnBnClickedPlanBZRQBusinessApprove();
+				break;
+			case CNotificationPanel::Approving_PlanBZRQPlan:
+				m_panel.OnBnClickedPlanBZRQPlanApprove();
+				break;
+			case CNotificationPanel::Approving_END:
+				m_panel.OnBnClickedBtnReturn();
+				break;
+			default:
+				m_panel.OnBnClickedBtnReturn();
+				break;
+			}
+
 			m_panel.GetParent()->EnableWindow(TRUE);
 		}
 	};
