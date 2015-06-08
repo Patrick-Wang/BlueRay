@@ -374,7 +374,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	private static Set<String> getNames(NodeList names) {
 		Set<String> nameSet = new HashSet<String>();
 		for (int i = 0; i < names.getLength(); i++) {
-			nameSet.add(((Element) (names.item(i).getFirstChild()))
+			nameSet.add(names.item(i).getFirstChild()
 					.getNodeValue());
 		}
 		return nameSet;
@@ -382,9 +382,10 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	
 	
 	private static void parseCellMap(Map<Integer, Location[]> locations, Element field){
-		String val = field.getFirstChild().getNodeValue();
-		Column col = Column.valueOf(val);
-		if (null != col){
+		String val = field.getAttribute("name");
+		Column col = null;
+		try{
+			col = Column.valueOf(val);
 			NodeList cells = field.getElementsByTagName("cell");
 			if (cells.getLength() > 0){
 				Location locs[] = new Location[cells.getLength()];
@@ -401,6 +402,8 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 					 }
 		         }
 			}
+		}
+		catch(Exception e){
 			
 		}
 	}
@@ -491,7 +494,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 				continue;
 			}
 			
-			int index = workbook.getNameIndex(type);
+			int index = workbook.getSheetIndex(type);
 			sheet = workbook.cloneSheet(index);
 			locations = DBTemplateMap.get(type);
 
