@@ -1321,6 +1321,19 @@ INSERT INTO `mpzlxx` VALUES ('4', '蓝光英文西门子监制');
 INSERT INTO `mpzlxx` VALUES ('5', '主机用西德英文铭牌');
 INSERT INTO `mpzlxx` VALUES ('6', '制动器和上行超速铭牌用蓝光英文');
 
+
+-- ----------------------------
+-- Table structure for cgxxb
+-- ----------------------------
+DROP TABLE IF EXISTS `cgxxb`;
+CREATE TABLE `cgxxb` (
+  `cgID` int(11) NOT NULL AUTO_INCREMENT,
+  `cg` char(50) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`cgID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+
 -- ----------------------------
 -- Table structure for pcjhxxb
 -- ----------------------------
@@ -1340,6 +1353,7 @@ CREATE TABLE `pcjhxxb` (
   `ddzt` char(16) COLLATE utf8_unicode_ci DEFAULT NULL,
   `bz`  varchar(1024) DEFAULT NULL,
   `zcID` int(11) NOT NULL DEFAULT 1,
+  `cgID` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`pcjhID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
@@ -1690,3 +1704,8 @@ INSERT INTO `zzs` VALUES ('1', '');
 INSERT INTO `zzs` VALUES ('2', '抚顺');
 INSERT INTO `zzs` VALUES ('3', '佛山');
 INSERT INTO `zzs` VALUES ('4', '苏州');
+
+-- ----------------------------
+-- Records of cgxxb
+-- ----------------------------
+INSERT INTO `cgxxb` VALUES ('1', '');

@@ -36,7 +36,16 @@ public class PCJHXX {
 	String ddzt = "";
 	String bz="";
 	Integer zcID;
+	Integer cgID;
 	
+	public Integer getCgID() {
+		return cgID;
+	}
+
+	public void setCgID(Integer cgID) {
+		this.cgID = cgID;
+	}
+
 	/**
 	 * @return the zcID
 	 */

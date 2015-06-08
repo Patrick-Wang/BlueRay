@@ -5,6 +5,7 @@ import java.util.List;
 import com.BlueRay.mutton.model.entity.jpa.BMQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.BPQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.BZXDTGG;
+import com.BlueRay.mutton.model.entity.jpa.CGXXB;
 import com.BlueRay.mutton.model.entity.jpa.CPGGXHXX;
 import com.BlueRay.mutton.model.entity.jpa.DDZTB;
 import com.BlueRay.mutton.model.entity.jpa.KHQY;
@@ -96,4 +97,9 @@ public interface ItemDao {
 	void insert(ZZS item);
 	void update(CPGGXHXX ggxh);
 	List<CPGGXHXX> getGGXHs();
+	
+	List<CGXXB> queryCGXX();
+	CGXXB queryCGXXById(int id);
+	CGXXB queryCGXXByValue(String colName, String val);	
+	void insert(CGXXB item);
 }

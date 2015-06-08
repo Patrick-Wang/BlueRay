@@ -10,6 +10,7 @@ import java.util.List;
 
 
 
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.BlueRay.mutton.model.entity.jpa.BMQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.BPQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.BZXDTGG;
+import com.BlueRay.mutton.model.entity.jpa.CGXXB;
 import com.BlueRay.mutton.model.entity.jpa.CPGGXHXX;
 import com.BlueRay.mutton.model.entity.jpa.DDZTB;
 import com.BlueRay.mutton.model.entity.jpa.KHQY;
@@ -501,6 +503,36 @@ public class ItemDaoImpl implements ItemDao{
 	public List<CPGGXHXX> getGGXHs() {
 		Query q = entityManager.createQuery("from CPGGXHXX ");
 		return q.getResultList();
+	}
+
+	public List<CGXXB> queryCGXX() {
+		Query q = entityManager.createQuery("from CGXXB ");
+		return q.getResultList();
+	}
+
+	public CGXXB queryCGXXById(int id) {
+		Query q = entityManager.createQuery("select t from ZZS t where t.id = :id");
+		q.setParameter("id", id);
+		List<CGXXB> list = q.getResultList();
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	public CGXXB queryCGXXByValue(String colName, String val) {
+		Query q = entityManager.createQuery("select t from CGXXB t where t." + colName + "  = :val");
+		
+		q.setParameter("val", val);
+		List<CGXXB> list = q.getResultList();
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
+	}
+
+	public void insert(CGXXB item) {
+		entityManager.persist(item);			
 	}
 
 }

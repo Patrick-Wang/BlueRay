@@ -107,6 +107,9 @@ bool CItem::toURL(ItemType type, CString& url)
 	case CItem::KHQY:
 		url.Format(_T("http://%s:8080/BlueRay/itemquery/khqy"), IDS_HOST_NAME);
 		break;
+	case CItem::CG:
+		url.Format(_T("http://%s:8080/BlueRay/itemquery/cgxx"), IDS_HOST_NAME);
+		break;
 	default:
 		return false;
 	}

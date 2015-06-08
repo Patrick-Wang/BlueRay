@@ -32,7 +32,9 @@ public:
 
 		ZZS,	// 制造商
 
-		KHQY	// 客户区域
+		KHQY,	// 客户区域
+
+		CG	// 磁钢
 
 	};
 	CItem();
