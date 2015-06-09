@@ -20,6 +20,7 @@ import com.BlueRay.mutton.model.entity.jpa.ZDQXH;
 import com.BlueRay.mutton.model.entity.jpa.ZJDY;
 import com.BlueRay.mutton.model.entity.jpa.ZJYS;
 import com.BlueRay.mutton.model.entity.jpa.ZZS;
+import com.BlueRay.mutton.service.HtxxColumn;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -90,12 +91,12 @@ public class SaleQueryParams {
 	private IAdvanceTranslator mTranslator;
 	private JSONObject mJo;
 	private Map<String, Class<?>> connectMap = new HashMap<String, Class<?>>();
-	private static Map<Integer, Integer> paramColMap = new HashMap<Integer, Integer>();
-	{
-		for (int i = 0; i < 27; ++i) {
-			paramColMap.put(i, i + 1);
-		}
-	}
+//	private static Map<Integer, Integer> paramColMap = new HashMap<Integer, Integer>();
+//	{
+//		for (int i = 0; i < HtxxColumn.end.ordinal() - 1; ++i) {
+//			paramColMap.put(i, i + 1);
+//		}
+//	}
 
 	public SaleQueryParams(JSONObject jo, IAdvanceTranslator translator) {
 		mJo = jo;
@@ -284,22 +285,23 @@ public class SaleQueryParams {
 	}
 
 	private String parseUnit(JSONObject junit) {
-		int index = paramColMap.get(junit.getInt("col"));
+		int index = junit.getInt("col");
 		String param = junit.getString("param");
 		Class<?> cls = HTXX.getFroeignClass(index);
 		String keyName = null;
-		Field[] fields = HTXX.class.getDeclaredFields();
+		//Field[] fields = HTXX.class.getDeclaredFields();
 		String sql = null;
+		Field field = HTXX.getField(index);
 		if (null != mTranslator) {
 			String newValue = mTranslator.in(
-					fields[index].getName(),
+					field.getName(),
 					param);
 			if (null != newValue) {
 				param = newValue;
 			}
 		}
 		if (null != cls){
-			connectMap.put(fields[index].getName(), cls);
+			connectMap.put(field.getName(), cls);
 			keyName = cls.getSimpleName() + "_."
 					+ getForginName(cls);			
 			sql = QueryColumnCommandParser
@@ -307,15 +309,15 @@ public class SaleQueryParams {
 			if (null == sql){
 				sql = keyName + " = '" + param + "'";
 			}
-			connectMap.put(fields[index].getName(), cls);
+			connectMap.put(field.getName(), cls);
 		}
 		else {
-			keyName = "HTXX_." + fields[index].getName();
-			sql = QueryColumnCommandParser.parse(fields[index].getType(), keyName, param);
+			keyName = "HTXX_." + field.getName();
+			sql = QueryColumnCommandParser.parse(field.getType(), keyName, param);
 			if (null == sql) {
-				if (fields[index].getType().getName()
+				if (field.getType().getName()
 						.equals(String.class.getName())
-						|| fields[index].getType().getName()
+						|| field.getType().getName()
 								.equals(Date.class.getName())) {
 					sql = keyName + " = '" + param + "'";
 				} else {
@@ -405,12 +407,12 @@ public class SaleQueryParams {
 			} catch (Exception e) {
 
 			}
-			Field[] fields = HTXX.class.getDeclaredFields();
+			//Field[] fields = HTXX.class.getDeclaredFields();
 			String link = null;
-			for (int i = 1; i < fields.length - 1; ++i) {
+			for (int i = HtxxColumn.hth.ordinal(); i < HtxxColumn.end.ordinal(); ++i) {
 
 				Class<?> cls = HTXX.getFroeignClass(i);
-
+				Field field = HTXX.getField(i);
 				if (null != cls) {
 					if (firstSql) {
 						firstSql = false;
@@ -427,15 +429,15 @@ public class SaleQueryParams {
 						link = " = ";
 						
 					}
-					connectMap.put(fields[i].getName(), cls);
+					connectMap.put(field.getName(), cls);
 					basicBuilder.append(cls.getSimpleName() + "_."
 							+ getForginName(cls) + link + searchText + " ");
 				} else {
 
-					if ((!bIsInteger && fields[i].getType().getName()
+					if ((!bIsInteger && field.getType().getName()
 							.equals(Integer.class.getName()))
 							|| !bIsDate
-							&& fields[i].getType().getName()
+							&& field.getType().getName()
 									.equals(Date.class.getName())) {
 						continue;
 					}
@@ -448,13 +450,13 @@ public class SaleQueryParams {
 					}
 
 					link = " = ";
-					if (fields[i].getType().getName()
+					if (field.getType().getName()
 							.equals(String.class.getName())
-							|| fields[i].getType().getName()
+							|| field.getType().getName()
 									.equals(Date.class.getName())) {
 						searchText = stringSearch;
 						if (!exact
-								&& fields[i].getType().getName()
+								&& field.getType().getName()
 										.equals(String.class.getName())) {
 							link = " like ";
 							searchText = "'%" + normaltext + "%'";
@@ -463,7 +465,7 @@ public class SaleQueryParams {
 						searchText = normaltext;
 					}
 
-					basicBuilder.append(" HTXX_." + fields[i].getName() + link
+					basicBuilder.append(" HTXX_." + field.getName() + link
 							+ searchText + " ");
 				}
 			}
@@ -485,28 +487,26 @@ public class SaleQueryParams {
 		advanceBuilder.append("");
 		boolean firstSql = true;
 		if (null != jadvanced) {
-			Field[] fields = HTXX.class.getDeclaredFields();
-			int column = 0;
-			for (int i = 0; i < jadvanced.size(); ++i) {
-				if (!jadvanced.getString(i).isEmpty()
-						&& paramColMap.containsKey(i)) {
-					column = paramColMap.get(i);
+			for (int i = 0; i < jadvanced.size() && i < HtxxColumn.end.ordinal(); ++i) {
+				if (!jadvanced.getString(i).isEmpty()) {
+					
+					Field field = HTXX.getField(i);
+					
 					if (firstSql) {
 						firstSql = false;
 					} else {
 						advanceBuilder.append(" and ");
 					}
-
 					if (null != mTranslator) {
 						String newValue = mTranslator.in(
-								fields[column].getName(),
+								field.getName(),
 								jadvanced.getString(i));
 						if (null != newValue) {
 							jadvanced.set(i, newValue);
 						}
 					}
 
-					Class<?> cls = HTXX.getFroeignClass(column);
+					Class<?> cls = HTXX.getFroeignClass(i);
 					String sql = null;
 					if (null != cls) {
 						sql = QueryColumnCommandParser
@@ -518,21 +518,21 @@ public class SaleQueryParams {
 									+ getForginName(cls) + " = '"
 									+ jadvanced.getString(i) + "' ";
 						}
-						connectMap.put(fields[column].getName(), cls);
+						connectMap.put(field.getName(), cls);
 					} else {
-						sql = QueryColumnCommandParser.parse(fields[column].getType(), "HTXX_."
-								+ fields[column].getName(),
+						sql = QueryColumnCommandParser.parse(field.getType(), "HTXX_."
+								+ field.getName(),
 								jadvanced.getString(i));
 						if (null == sql) {
-							if (fields[column].getType().getName()
+							if (field.getType().getName()
 									.equals(String.class.getName())
-									|| fields[column].getType().getName()
+									|| field.getType().getName()
 											.equals(Date.class.getName())) {
-								sql = "HTXX_." + fields[column].getName()
+								sql = "HTXX_." + field.getName()
 										+ " = '" + jadvanced.getString(i)
 										+ "' ";
 							} else {
-								sql = "HTXX_." + fields[column].getName()
+								sql = "HTXX_." + field.getName()
 										+ " = " + jadvanced.getString(i) + " ";
 							}
 						}
@@ -671,12 +671,11 @@ public class SaleQueryParams {
 
 		JSONArray jsort = mJo.getJSONArray("sort");
 
-		Field[] fields = HTXX.class.getDeclaredFields();
-		int col = 0;
+		//Field[] fields = HTXX.class.getDeclaredFields();
+		//int col = 0;
 		for (int i = 0; i < jsort.size(); ++i) {
-			col = jsort.getJSONObject(i).getInt("col");
-			if (paramColMap.containsKey(col)) {
-				col = paramColMap.get(col);
+			int col = jsort.getJSONObject(i).getInt("col");
+			if (col < HtxxColumn.end.ordinal()) {
 				if (firstSql) {
 					firstSql = false;
 				} else {
@@ -685,8 +684,9 @@ public class SaleQueryParams {
 				Class<?> cls = HTXX.getFroeignClass(col);
 				String order = jsort.getJSONObject(i).getBoolean(
 						"order") ? " asc " : " desc ";
+				Field field = HTXX.getField(col);
 				if (null != cls) {
-					connectMap.put(fields[col].getName(), cls);
+					connectMap.put(field.getName(), cls);
 					
 					if (CPGGXHXX.class.equals(cls)){
 						sqlBuilder
@@ -714,7 +714,7 @@ public class SaleQueryParams {
 				} else {
 					sqlBuilder
 							.append("HTXX_."
-									+ fields[col].getName()
+									+ field.getName()
 									+ order);
 				}
 			}

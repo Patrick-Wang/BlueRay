@@ -511,7 +511,7 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public CGXXB queryCGXXById(int id) {
-		Query q = entityManager.createQuery("select t from ZZS t where t.id = :id");
+		Query q = entityManager.createQuery("select t from CGXXB t where t.id = :id");
 		q.setParameter("id", id);
 		List<CGXXB> list = q.getResultList();
 		if (list != null && !list.isEmpty()){

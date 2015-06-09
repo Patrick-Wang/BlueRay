@@ -29,6 +29,7 @@ import com.BlueRay.mutton.model.dao.ItemDao;
 import com.BlueRay.mutton.model.dao.PlanDao;
 import com.BlueRay.mutton.model.dao.SNDao;
 import com.BlueRay.mutton.model.dao.SaleDao;
+import com.BlueRay.mutton.model.entity.jpa.CGXXB;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
 import com.BlueRay.mutton.model.entity.jpa.SerialNumber;
@@ -58,23 +59,39 @@ public class PlanServiceImpl implements PlanService {
 	public static void setPCJH(String[] ret, PCJHXX pcjhxx, Map<Integer, HTXX> htxxMap, ItemDao itemDao){
 		Integer id = pcjhxx.getHtxxID();
 		SaleServiceImpl.setHtxx(ret, htxxMap.get(id), itemDao);
-		ret[0] = pcjhxx.getPcjhID() + "";
-		ret[4] = "1";
+		
+		for (int i = HtxxColumn.end.ordinal() - 1; i >= HtxxColumn.id.ordinal(); --i){
+			try{
+				HtxxColumn htCol = HtxxColumn.valueOf(i);
+				PcjhColumn pcjhCol = PcjhColumn.valueOf(htCol.name());
+				ret[pcjhCol.ordinal()] = ret[htCol.ordinal()];
+			}
+			catch(Exception e){
+				
+			}
+		}
+		
+		ret[PcjhColumn.id.ordinal()] = pcjhxx.getPcjhID() + "";	
+		
+		CGXXB cgxx = itemDao.queryCGXXById(pcjhxx.getCgID());
+		ret[PcjhColumn.cg.ordinal()] = null != cgxx ? cgxx.getCg() : "";
+		ret[PcjhColumn.sl.ordinal()] = "1";
 		ZCXX zcxx = itemDao.queryZcxxById(pcjhxx.getZcID());
-		ret[5] = null != zcxx ? zcxx.getZcxh() : "";
-		ret[15] = pcjhxx.getBz();
-		ret[18 + 8] = (null != pcjhxx.getJhscrq()) ? pcjhxx.getJhscrq()
+		ret[PcjhColumn.zc.ordinal()] = null != zcxx ? zcxx.getZcxh() : "";
+		ret[PcjhColumn.bz.ordinal()] = pcjhxx.getBz();
+		ret[PcjhColumn.scrq.ordinal()] = (null != pcjhxx.getJhscrq()) ? pcjhxx.getJhscrq()
 				.toString() : "";
-		ret[19 + 8] = planTranslator.out("sftgywsh", pcjhxx.getSftgywsh());
-		ret[20 + 8] = planTranslator.out("sftgjhsh", pcjhxx.getSftgjhsh());
-		ret[21 + 8] = (null != pcjhxx.getJhbzrq()) ? pcjhxx.getJhbzrq()
+		ret[PcjhColumn.jhshyw.ordinal()] = planTranslator.out("sftgywsh", pcjhxx.getSftgywsh());
+		ret[PcjhColumn.jhshjh.ordinal()] = planTranslator.out("sftgjhsh", pcjhxx.getSftgjhsh());
+		ret[PcjhColumn.bzrq.ordinal()] = (null != pcjhxx.getJhbzrq()) ? pcjhxx.getJhbzrq()
 				.toString() : "";
-		ret[22 + 8] = planTranslator.out("bzsftgywsh", pcjhxx.getBzsftgywsh());
-		ret[23 + 8] = planTranslator.out("bzsftgjhsh", pcjhxx.getBzsftgjhsh());
-		ret[24 + 8] = (null != pcjhxx.getJhfhrq()) ? pcjhxx.getJhfhrq()
+		ret[PcjhColumn.bzshyw.ordinal()] = planTranslator.out("bzsftgywsh", pcjhxx.getBzsftgywsh());
+		ret[PcjhColumn.bzshjh.ordinal()] = planTranslator.out("bzsftgjhsh", pcjhxx.getBzsftgjhsh());
+		ret[PcjhColumn.fhrq.ordinal()] = (null != pcjhxx.getJhfhrq()) ? pcjhxx.getJhfhrq()
 				.toString() : "";
-		ret[25 + 8] = pcjhxx.getTcbh();
-		ret[26 + 8] = pcjhxx.getCcbh();		
+		ret[PcjhColumn.tcbh.ordinal()] = pcjhxx.getTcbh();
+		ret[PcjhColumn.ccbh.ordinal()] = pcjhxx.getCcbh();			
+		
 	}
 	
 	public static Map<Integer, HTXX> getHtxxMap(List<PCJHXX> pcxxs, SaleDao saleDao, PlanDao planDao, Map<Integer, HTXX> htxxMap){
@@ -106,7 +123,7 @@ public class PlanServiceImpl implements PlanService {
 		getHtxxMap(pcxxs, saleDao, planDao, htxxMap);
 
 		PCJHXX pcjhxx;
-		String[][] ret = new String[pcxxs.size()][35];
+		String[][] ret = new String[pcxxs.size()][PcjhColumn.end.ordinal()];
 		for (int i = pcxxs.size() - 1; i >= 0; --i) {
 			pcjhxx = pcxxs.get(i);
 			setPCJH(ret[i], pcjhxx, htxxMap, itemDao);
@@ -359,7 +376,7 @@ public class PlanServiceImpl implements PlanService {
 		getHtxxMap(pcxxs, saleDao, planDao, htxxMap);
 		
 		PageData.Row rd;
-		String[] row = new String[35];
+		String[] row = new String[PcjhColumn.end.ordinal()];
 		for (int i = 0; i < pcxxs.size(); ++i) {
 			rd = pd.new Row();
 			setPCJH(row, pcxxs.get(i), htxxMap, itemDao);

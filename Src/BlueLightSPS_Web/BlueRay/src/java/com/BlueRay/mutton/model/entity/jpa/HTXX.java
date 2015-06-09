@@ -1,6 +1,7 @@
 package com.BlueRay.mutton.model.entity.jpa;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.sql.Date;
 
 import javax.persistence.Column;
@@ -9,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.BlueRay.mutton.service.HtxxColumn;
 
 @Entity
 @Table(name = "htxx")
@@ -43,14 +46,6 @@ public class HTXX implements Serializable {
 	private String sftgywsh = "N";
 	private String sftgjhsh = "N";
 	private String ddzt = "";
-//	 `zjdyID` int(11) DEFAULT NULL,
-//	  `zjysID` int(11) DEFAULT NULL,
-//	  `zdqxhID` int(11) DEFAULT NULL,
-//	  `zyz` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT 'Y',
-//	  `bzxdtggID` int(11) DEFAULT NULL,
-//	  `gh` char(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
-//	  `zzsID` int(11) DEFAULT NULL,
-//	  `khqyID` int(11) DEFAULT NULL,
 	
 	public Integer getZjdyID() {
 		return zjdyID;
@@ -117,37 +112,111 @@ public class HTXX implements Serializable {
 	}
 
 	
+	public static Field getField(int col) {
+		HtxxColumn enCol = HtxxColumn.valueOf(col);
+		try {
+			switch (enCol) {
+			case bmqxh:
+				return HTXX.class.getDeclaredField("bmqxhID");
+			case bpqxh:
+				return HTXX.class.getDeclaredField("bpqxhID");
+			case bz:
+				return HTXX.class.getDeclaredField("bz");
+			case bzxdtgg:
+				return HTXX.class.getDeclaredField("bzxdtggID");
+			case ddrq:
+				return HTXX.class.getDeclaredField("ddrq");
+			case dfr:
+				return HTXX.class.getDeclaredField("dfr");
+			case dlcd:
+				return HTXX.class.getDeclaredField("dlcd");
+			case end:
+				break;
+			case ggxh:
+				return HTXX.class.getDeclaredField("ggxhID");
+			case gh:
+				return HTXX.class.getDeclaredField("gh");
+			case hth:
+				return HTXX.class.getDeclaredField("htID");
+			case id:
+				return HTXX.class.getDeclaredField("ID");
+			case jf:
+				return HTXX.class.getDeclaredField("sfjf");
+			case xsjhshjh:
+				return HTXX.class.getDeclaredField("sftgjhsh");
+			case xsjhshyw:
+				return HTXX.class.getDeclaredField("sftgywsh");
+			case khmc:
+				return HTXX.class.getDeclaredField("clientID");
+			case khqy:
+				return HTXX.class.getDeclaredField("khqyID");
+			case mpzl:
+				return HTXX.class.getDeclaredField("mpzl");
+			case sl:
+				return HTXX.class.getDeclaredField("sl");
+			case yxj:
+				return HTXX.class.getDeclaredField("yxj");
+			case yylgg:
+				return HTXX.class.getDeclaredField("yylggID");
+			case zc:
+				return HTXX.class.getDeclaredField("zcID");
+			case zdqdy:
+				return HTXX.class.getDeclaredField("zdqdyID");
+			case zdqxh:
+				return HTXX.class.getDeclaredField("zdqxhID");
+			case zjdy:
+				return HTXX.class.getDeclaredField("zjdyID");
+			case zjys:
+				return HTXX.class.getDeclaredField("zjysID");
+			case zxcd:
+				return HTXX.class.getDeclaredField("zxcd");
+			case zyz:
+				return HTXX.class.getDeclaredField("zyz");
+			case zzs:
+				return HTXX.class.getDeclaredField("zzsID");
+			default:
+				break;
+			}
+		} catch (NoSuchFieldException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	public static Class<?>  getFroeignClass(int col){
-		switch(col){
-		case 2:
+		if(HtxxColumn.khmc.ordinal() == col){
 			return KHXX.class;
-		case 3:
+		} else if(HtxxColumn.ggxh.ordinal() == col){
 			return CPGGXHXX.class;
-		case 5:
+		} else if(HtxxColumn.zc.ordinal() == col){
 			return ZCXX.class;
-		case 7:
+		} else if(HtxxColumn.zdqdy.ordinal() == col){
 			return ZDQDYFLXX.class;
-		case 8:
+		} else if(HtxxColumn.yylgg.ordinal() == col){
 			return YYLGGFLXX.class;
-		case 10:
+		} else if(HtxxColumn.bpqxh.ordinal() == col){
 			return BPQXHFLXX.class;
-		case 11:
+		} else if(HtxxColumn.bmqxh.ordinal() == col){
 			return BMQXHFLXX.class;
-		case 14:
+		} else if(HtxxColumn.mpzl.ordinal() == col){
 			return MPZLXX.class;
-		case 17:
+		} else if(HtxxColumn.zjdy.ordinal() == col){
 			return ZJDY.class;
-		case 18:
+		} else if(HtxxColumn.zjys.ordinal() == col){
 			return ZJYS.class;
-		case 19:
+		} else if(HtxxColumn.zdqxh.ordinal() == col){
 			return ZDQXH.class;
-		case 21:
+		} else if(HtxxColumn.bzxdtgg.ordinal() == col){
 			return BZXDTGG.class;
-		case 23:
+		} else if(HtxxColumn.zzs.ordinal() == col){
 			return ZZS.class;
-		case 24:
+		} else if(HtxxColumn.khqy.ordinal() == col){
 			return KHQY.class;
-		default:
+		} else{
 			return null;
 		}
 	}

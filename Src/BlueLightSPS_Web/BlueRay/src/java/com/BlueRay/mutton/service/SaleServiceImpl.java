@@ -61,67 +61,67 @@ public class SaleServiceImpl implements SaleService {
 	
 	public static void setHtxx(String[] row, HTXX htxx, ItemDao itDao) {
 		try {
-			row[0] = htxx.getID() + "";
+			row[HtxxColumn.id.ordinal()] = htxx.getID() + "";
 
-			row[1] = htxx.getHtID() + "";
+			row[HtxxColumn.hth.ordinal()] = htxx.getHtID() + "";
 			KHXX khxx = null != htxx.getClientID() ? itDao.queryKhxxById(htxx.getClientID()) : null;
-			row[2] = null == khxx ? "" : khxx.getKhmc();
+			row[HtxxColumn.khmc.ordinal()] = null == khxx ? "" : khxx.getKhmc();
 			
 			CPGGXHXX cpgg = null != htxx.getGgxhID() ? itDao.queryCpggxhxxById(htxx.getGgxhID()) : null;
-			row[3] = null == cpgg ? "" : cpgg.getGg();
+			row[HtxxColumn.ggxh.ordinal()] = null == cpgg ? "" : cpgg.getGg();
 
-			row[4] = htxx.getSl() + "";
+			row[HtxxColumn.sl.ordinal()] = htxx.getSl() + "";
 			ZCXX zcxx = null != htxx.getZcID() ? itDao.queryZcxxById(htxx.getZcID()) : null;
-			row[5] = null == zcxx ? "" : zcxx.getZcxh();
-			row[6] = translator.out("dfr", htxx.getDfr());
+			row[HtxxColumn.zc.ordinal()] = null == zcxx ? "" : zcxx.getZcxh();
+			row[HtxxColumn.dfr.ordinal()] = translator.out("dfr", htxx.getDfr());
 
 			ZDQDYFLXX zdq = null != htxx.getZdqdyID() ? itDao.queryZdqdyflxxById(htxx.getZdqdyID()) : null;
-			row[7] = null == zdq ? "" : zdq.getZdqdy();
+			row[HtxxColumn.zdqdy.ordinal()] = null == zdq ? "" : zdq.getZdqdy();
 			
 			YYLGGFLXX yyl = null != htxx.getYylggID() ? itDao.queryYylggflxxById(htxx.getYylggID()) : null;			
-			row[8] = null == yyl ? "" : yyl.getYylgg();
-			row[9] = translator.out("sfjf", htxx.getSfjf());
+			row[HtxxColumn.yylgg.ordinal()] = null == yyl ? "" : yyl.getYylgg();
+			row[HtxxColumn.jf.ordinal()] = translator.out("sfjf", htxx.getSfjf());
 
 			BPQXHFLXX bpq = null != htxx.getBpqxhID() ? itDao.queryBpqxhflxxById(htxx.getBpqxhID()) : null;	
-			row[10] = null == bpq ? "" : bpq.getBpqxh();
+			row[HtxxColumn.bpqxh.ordinal()] = null == bpq ? "" : bpq.getBpqxh();
 			
 			BMQXHFLXX bmq = null != htxx.getBmqxhID() ? itDao.queryBmqxhflxxById(htxx.getBmqxhID()) : null;						
-			row[11] = null == bmq ? "" : bmq.getBmqxh();
-			row[12] = htxx.getDlcd();
+			row[HtxxColumn.bmqxh.ordinal()] = null == bmq ? "" : bmq.getBmqxh();
+			row[HtxxColumn.dlcd.ordinal()] = htxx.getDlcd();
 
-			row[13] = htxx.getZxcd();
+			row[HtxxColumn.zxcd.ordinal()] = htxx.getZxcd();
 			
 			MPZLXX mpzl = null != htxx.getMpzl() ? itDao.queryMpzlxxById(htxx.getMpzl()): null;			
-			row[14] = null == mpzl ? "" : mpzl.getMpzl();
-			row[15] = htxx.getBz();
-			row[16] = htxx.getDdrq() + "";
+			row[HtxxColumn.mpzl.ordinal()] = null == mpzl ? "" : mpzl.getMpzl();
+			row[HtxxColumn.bz.ordinal()] = htxx.getBz();
+			row[HtxxColumn.ddrq.ordinal()] = htxx.getDdrq() + "";
 
 			
 			ZJDY zjdy = null != htxx.getZjdyID() ? itDao.queryZJDYById(htxx.getZjdyID()) : null;
-			row[17] = null == zjdy ? "" : zjdy.getZjdy();
+			row[HtxxColumn.zjdy.ordinal()] = null == zjdy ? "" : zjdy.getZjdy();
 			
 			ZJYS zjys = null != htxx.getZjysID() ? itDao.queryZJYSById(htxx.getZjysID()) : null;
-			row[18] = null == zjys ? "" : zjys.getZjys();
+			row[HtxxColumn.zjys.ordinal()] = null == zjys ? "" : zjys.getZjys();
 			
 			ZDQXH zdqxh = null != htxx.getZdqxhID() ? itDao.queryZdqxhById(htxx.getZdqxhID()) : null;
-			row[19] = null == zdqxh ? "" : zdqxh.getZdqxh();
+			row[HtxxColumn.zdqxh.ordinal()] = null == zdqxh ? "" : zdqxh.getZdqxh();
 			
-			row[20] = translator.out("zyz", htxx.getZyz());
+			row[HtxxColumn.zyz.ordinal()] = translator.out("zyz", htxx.getZyz());
 			
 			BZXDTGG bzxdtgg = null != htxx.getBzxdtggID() ? itDao.queryBzxdtggById(htxx.getBzxdtggID()) : null;
-			row[21] = null == bzxdtgg ? "" : bzxdtgg.getBzxdtgg();
+			row[HtxxColumn.bzxdtgg.ordinal()] = null == bzxdtgg ? "" : bzxdtgg.getBzxdtgg();
 	
-			row[22] = htxx.getGh();
+			row[HtxxColumn.gh.ordinal()] = htxx.getGh();
 
 			ZZS zzs = null != htxx.getZzsID() ? itDao.queryZZSById(htxx.getZzsID()) : null;
-			row[23] = null == zzs ? "" : zzs.getZzs();
+			row[HtxxColumn.zzs.ordinal()] = null == zzs ? "" : zzs.getZzs();
 
 			KHQY khqy = null != htxx.getKhqyID() ? itDao.queryKHQYById(htxx.getKhqyID()) : null;
-			row[24] = null == khqy ? "" : khqy.getKhqy();
-			row[25] = translator.out("yxj", htxx.getYxj() + "");
+			row[HtxxColumn.khqy.ordinal()] = null == khqy ? "" : khqy.getKhqy();
+			row[HtxxColumn.yxj.ordinal()] = translator.out("yxj", htxx.getYxj() + "");
 			
-			row[26] = translator.out("sftgywsh", htxx.getSftgywsh());
-			row[27] = translator.out("sftgjhsh", htxx.getSftgjhsh());
+			row[HtxxColumn.xsjhshyw.ordinal()] = translator.out("sftgywsh", htxx.getSftgywsh());
+			row[HtxxColumn.xsjhshjh.ordinal()] = translator.out("sftgjhsh", htxx.getSftgjhsh());
 			
 
 		} catch (Exception e) {
@@ -490,6 +490,7 @@ public class SaleServiceImpl implements SaleService {
 				pcjhxx.setHtxxID(htxx.getID());
 				pcjhxx.setBz(htxx.getBz());
 				pcjhxx.setZcID(htxx.getZcID());
+				pcjhxx.setCgID(1);
 				planDao.insert(pcjhxx);
 			}
 		}
@@ -599,7 +600,7 @@ public class SaleServiceImpl implements SaleService {
 		int pageCount = count / pagesize;
 		pageCount += count % pagesize > 0 ? 1 : 0;
 		pd.setTotal(pageCount);
-		String[] row = new String[28];
+		String[] row = new String[HtxxColumn.end.ordinal()];
 		PageData.Row rd;
 		
 		for (int i = 0; i < htxxs.size(); ++i){

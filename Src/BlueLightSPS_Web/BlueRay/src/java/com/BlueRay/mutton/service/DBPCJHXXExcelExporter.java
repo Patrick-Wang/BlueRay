@@ -55,7 +55,7 @@ class DBPCJHXXExcelExporter implements IExcelExporter<PCJHXX> {
 		     cell.setCellValue(text);
 		  }
 	      
-		String[] ret = new String[35];
+		String[] ret = new String[PcjhColumn.end.ordinal()];
 		for (int i = 0, len = excel.getRowCount(); i < len; ++i){
 			pcxxs.set(0, excel.getRow(i));
 			PlanServiceImpl.getHtxxMap(pcxxs, saleDao, planDao, htxxMap);

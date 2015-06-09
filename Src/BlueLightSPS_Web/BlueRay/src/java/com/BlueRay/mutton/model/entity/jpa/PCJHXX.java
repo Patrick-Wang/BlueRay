@@ -1,5 +1,6 @@
 package com.BlueRay.mutton.model.entity.jpa;
 
+import java.lang.reflect.Field;
 import java.sql.Date;
 
 import javax.persistence.Entity;
@@ -7,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.BlueRay.mutton.service.PcjhColumn;
 
 @Entity
 @Table(name = "pcjhxxb")
@@ -209,5 +212,54 @@ public class PCJHXX {
 	 */
 	public void setHtxxID(Integer htxxID) {
 		this.htxxID = htxxID;
+	}
+	
+	public static Field getField(int col){
+		try {
+		PcjhColumn enCol = PcjhColumn.valueOf(col);
+		PCJHXX p;
+		switch(enCol){
+		case bz:
+			return PCJHXX.class.getDeclaredField("bz");
+		case bzrq:
+			return PCJHXX.class.getDeclaredField("jhbzrq");
+		case bzshjh:
+			return PCJHXX.class.getDeclaredField("bzsftgjhsh");
+		case bzshyw:
+			return PCJHXX.class.getDeclaredField("bzsftgywsh");
+		case ccbh:
+			return PCJHXX.class.getDeclaredField("ccbh");
+		case cg:
+			return PCJHXX.class.getDeclaredField("cgID");
+		case end:
+			break;
+		case fhrq:
+			return PCJHXX.class.getDeclaredField("jhfhrq");
+		case hth:
+			return PCJHXX.class.getDeclaredField("htxxID");
+		case id:
+			return PCJHXX.class.getDeclaredField("pcjhID");
+		case jhshjh:
+			return PCJHXX.class.getDeclaredField("sftgjhsh");
+		case jhshyw:
+			return PCJHXX.class.getDeclaredField("sftgywsh");
+		case scrq:
+			return PCJHXX.class.getDeclaredField("jhbzrq");
+		case tcbh:
+			return PCJHXX.class.getDeclaredField("tcbh");
+		case zc:
+			return PCJHXX.class.getDeclaredField("zcID");
+		default:
+			break;
+		
+		}
+		} catch (NoSuchFieldException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

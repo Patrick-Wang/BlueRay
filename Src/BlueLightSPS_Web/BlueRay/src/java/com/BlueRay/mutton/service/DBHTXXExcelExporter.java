@@ -49,7 +49,7 @@ class DBHTXXExcelExporter implements IExcelExporter<HTXX> {
 		}
 
 		try {
-			String[] ret = new String[28];
+			String[] ret = new String[HtxxColumn.end.ordinal()];
 			for (int i = 0, len = excel.getRowCount(); i < len; ++i) {
 				SaleServiceImpl.setHtxx(ret, excel.getRow(i), itemDao);
 				row = sheet.createRow(i + 1);
