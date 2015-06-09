@@ -1,18 +1,25 @@
 package com.bar;
 
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
 
 import javax.imageio.ImageIO;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFPicture;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.util.IOUtils;
 import org.jbarcode.JBarcode;
 import org.jbarcode.encode.Code128Encoder;
@@ -25,6 +32,9 @@ import org.jbarcode.paint.WidthCodedPainter;
 import org.jbarcode.util.ImageUtil;
 
 public class Demo {
+	
+	
+	
 	public static void main(String[] paramArrayOfString) {
 		try {
 			JBarcode localJBarcode =  new JBarcode(
@@ -40,13 +50,7 @@ public class Demo {
 			int k = localBufferedImage.getType();
 			ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
 			saveToPNG(localBufferedImage, "Code39.png");
-			byte[] bytes = IOUtils.toByteArray(new FileInputStream(new File("E:\\Code39.png")));
-			BufferedImage image = ImageIO.read(new File("E:\\Code39.png"));  //读取1.gif并传输  
-	        ByteArrayOutputStream out = new ByteArrayOutputStream();  
-	        boolean flag = ImageIO.write(image, "dib", out);
-	        byte[] bytes2 = out.toByteArray();
-			//ImageIO.write(localBufferedImage, "PNG", byteArrayOut);
-			;
+		
 			HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(new File(
 					"E:\\template.xls")));
 			HSSFSheet sheet = workbook.getSheetAt(0);
@@ -54,17 +58,20 @@ public class Demo {
 			//画图的顶级管理器，一个sheet只能获取一个（一定要注意这点）  
             HSSFPatriarch patriarch = sheet.createDrawingPatriarch();     
             //anchor主要用于设置图片的属性  
-            HSSFClientAnchor anchor = new HSSFClientAnchor(200, 100,
-					1000, 200, (short) 13, 2, (short) 17, 5);     
+            
+            HSSFClientAnchor anchor = PoiUtil.measureAnchor(13, 2, 5, 7, localBufferedImage.getWidth(), localBufferedImage.getHeight(), sheet, workbook);
+//            anchor.setDx1(10000);
+//            anchor = new HSSFClientAnchor(200, 20000,
+//					200, 200, (short) 13, 2, (short) 17, 5);     
             anchor.setAnchorType(HSSFClientAnchor.DONT_MOVE_AND_RESIZE);     
             //插入图片    
             ImageUtil.encodeAndWrite(localBufferedImage, "png",
-            		byteArrayOut, 48, 48);
+            		byteArrayOut, 96, 96);
             HSSFPicture pic = patriarch.createPicture(anchor, workbook.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_PNG));   
-            pic.resize(1.0);
-            pic.getAnchor().setDx1(200);
-//          
-           pic.getAnchor().setDy1(100);
+//            pic.resize(1.0);
+//            pic.getAnchor().setDx1(200);
+////          
+//           pic.getAnchor().setDy1(100);
            
             // 写入excel文件     
             workbook.write(new FileOutputStream("E:/测试Excel.xls"));     

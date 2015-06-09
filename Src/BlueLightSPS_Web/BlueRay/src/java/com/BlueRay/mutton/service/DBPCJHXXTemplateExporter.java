@@ -54,6 +54,7 @@ import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
+import com.BlueRay.mutton.tool.PoiUtil;
 
 public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 
@@ -528,36 +529,33 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 
 					BufferedImage localBufferedImage;
 					try {
-//						localJBarcode.setBarHeight(20);
-//						localJBarcode.setXDimension(0.4);
 						localBufferedImage = localJBarcode
 								.createBarcode(ret[Column.tcbh.ordinal()]);
 						ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
 
-//						ImageIO.write(localBufferedImage, "PNG", byteArrayOut);
 						 ImageUtil.encodeAndWrite(localBufferedImage,
 						 ImageUtil.PNG, byteArrayOut, 96, 96);
 
-						int pictureIdx1 = workbook.addPicture(byteArrayOut.toByteArray(),
-								HSSFWorkbook.PICTURE_TYPE_PNG);
-						
 						// 画图的顶级管理器，一个sheet只能获取一个（一定要注意这点）
-						HSSFPatriarch patriarch = sheet
-								.createDrawingPatriarch();
+						HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
 						
 						// anchor主要用于设置图片的属性
-						HSSFClientAnchor anchor = new HSSFClientAnchor(200, 100,
-								1000, 200, (short) 14, 2, (short) 17, 5);
-						anchor.setAnchorType(3);
+						HSSFClientAnchor anchor = PoiUtil.measureAnchor(
+								13, 2, 5, 7, 
+								localBufferedImage.getWidth(), 
+								localBufferedImage.getHeight(), 
+								sheet, 
+								workbook);
+								
+//								new HSSFClientAnchor(200, 100,
+//								1000, 200, (short) 14, 2, (short) 17, 5);
+						anchor.setAnchorType(HSSFClientAnchor.DONT_MOVE_AND_RESIZE);
 						
 						// 插入图片
 						HSSFPicture pic = patriarch.createPicture(
 								anchor,
-								pictureIdx1);
-					
-						pic.resize(1.0);
-			            pic.getAnchor().setDx1(200);
-			            pic.getAnchor().setDy1(100);
+								workbook.addPicture(byteArrayOut.toByteArray(),
+										HSSFWorkbook.PICTURE_TYPE_PNG));
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();

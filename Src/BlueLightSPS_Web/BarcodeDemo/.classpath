@@ -3,5 +3,12 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="/BlueRay/src/main/webapp/WEB-INF/lib/jbarcode-0.2.8.jar"/>
+	<classpathentry kind="lib" path="/BlueRay/src/main/webapp/WEB-INF/lib/poi-3.10.1-20140818.jar"/>
+	<classpathentry kind="lib" path="/BlueRay/src/main/webapp/WEB-INF/lib/poi-examples-3.10.1-20140818.jar"/>
+	<classpathentry kind="lib" path="/BlueRay/src/main/webapp/WEB-INF/lib/poi-excelant-3.10.1-20140818.jar"/>
+	<classpathentry kind="lib" path="/BlueRay/src/main/webapp/WEB-INF/lib/poi-ooxml-3.10.1-20140818.jar"/>
+	<classpathentry kind="lib" path="/BlueRay/src/main/webapp/WEB-INF/lib/poi-ooxml-schemas-3.10.1-20140818.jar"/>
+	<classpathentry kind="lib" path="/BlueRay/src/main/webapp/WEB-INF/lib/poi-scratchpad-3.10.1-20140818.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
