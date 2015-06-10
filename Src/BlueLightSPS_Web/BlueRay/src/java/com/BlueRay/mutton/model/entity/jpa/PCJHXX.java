@@ -38,8 +38,8 @@ public class PCJHXX {
 	
 	String ddzt = "";
 	String bz="";
-	Integer zcID;
-	Integer cgID;
+	Integer zcID = 1;
+	Integer cgID = 1;
 	
 	public Integer getCgID() {
 		return cgID;

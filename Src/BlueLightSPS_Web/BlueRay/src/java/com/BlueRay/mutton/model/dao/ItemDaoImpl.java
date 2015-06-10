@@ -11,6 +11,7 @@ import java.util.List;
 
 
 
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -533,6 +534,17 @@ public class ItemDaoImpl implements ItemDao{
 
 	public void insert(CGXXB item) {
 		entityManager.persist(item);			
+	}
+
+	public CGXXB queryCgxxByValue(String colName, String val) {
+		Query q = entityManager.createQuery("select t from CGXXB t where t." + colName + "  = :val");
+		
+		q.setParameter("val", val);
+		List<CGXXB> list = q.getResultList();
+		if (list != null && !list.isEmpty()){
+			return list.get(0);
+		}
+		return null;
 	}
 
 }

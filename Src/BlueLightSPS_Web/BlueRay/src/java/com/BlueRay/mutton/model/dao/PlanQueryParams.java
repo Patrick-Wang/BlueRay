@@ -805,17 +805,19 @@ public class PlanQueryParams {
 
 		JSONArray jsort = mJo.getJSONArray("sort");
 
-		Field[] fields = HTXX.class.getDeclaredFields();
+		// Field[] fields = HTXX.class.getDeclaredFields();
 		int col = 0;
 		for (int i = 0; i < jsort.size(); ++i) {
 			col = jsort.getJSONObject(i).getInt("col");
+			String order = jsort.getJSONObject(i).getBoolean("order") ? " asc "
+					: " desc ";
 			if (paramHtxxColMap.containsKey(col)) {
 				// connectMap.put("htxxID", HTXX.class);
 				mNeedsHtxx = true;
 				col = paramHtxxColMap.get(col);
 
 				Class<?> cls = HTXX.getFroeignClass(col);
-
+				Field fd = HTXX.getField(col);
 				if (firstSql) {
 					firstSql = false;
 				} else {
@@ -823,26 +825,29 @@ public class PlanQueryParams {
 				}
 
 				if (null != cls) {
-					connectMap.put(fields[col].getName(), cls);
-					sqlBuilder
-							.append(cls.getSimpleName()
-									+ "_."
-									+ getForginName(cls)
-									+ (jsort.getJSONObject(i).getBoolean(
-											"order") ? " asc " : " desc "));
+					connectMap.put(fd.getName(), cls);
+
+					if (CPGGXHXX.class.equals(cls)) {
+						sqlBuilder.append(cls.getSimpleName() + "_.xh" + order
+								+ ",");
+						sqlBuilder.append(cls.getSimpleName() + "_.dw" + order
+								+ ",");
+						sqlBuilder.append(cls.getSimpleName() + "_.ts" + order);
+					} else {
+						sqlBuilder.append(cls.getSimpleName() + "_."
+								+ getForginName(cls) + order);
+					}
 				} else {
 					sqlBuilder
 							.append("HTXX_."
-									+ fields[col].getName()
+									+ fd.getName()
 									+ (jsort.getJSONObject(i).getBoolean(
 											"order") ? " asc " : " desc "));
 				}
 			} else if (paramPcjhColMap.containsKey(col)) {
 				col = paramPcjhColMap.get(col);
-				sqlBuilder.append("PCJHXX_."
-						+ PCJHXX.class.getDeclaredFields()[col].getName()
-						+ (jsort.getJSONObject(i).getBoolean("order") ? " asc "
-								: " desc "));
+				Field fd = PCJHXX.getField(col);
+				sqlBuilder.append("PCJHXX_." + fd.getName() + order);
 			}
 
 		}

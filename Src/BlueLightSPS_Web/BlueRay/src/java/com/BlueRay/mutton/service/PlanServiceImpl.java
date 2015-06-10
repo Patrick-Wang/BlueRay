@@ -153,23 +153,32 @@ public class PlanServiceImpl implements PlanService {
 				if (data.size() > 6 && !"".equals(data.getString(6))){
 					pcjhxx.setBz(data.getString(6));
 				} 
+				if (data.size() > 7 && !"".equals(data.getString(7))){
+					CGXXB item = itemDao.queryCgxxByValue("cgxx", data.getString(7));
+					if (null == item) {
+						item = new CGXXB();
+						item.setCg(data.getString(7));
+						itemDao.insert(item);
+					}
+					pcjhxx.setCgID(item.getCgID());
+				} 
 				planDao.update(pcjhxx);
 			}
 		}
 		return "success";
 	}
-	private void setZcID(HTXX htxx, String value) {
-		if (!"".equals(value)) {
-			ZCXX item = itemDao.queryZcxxByValue("zcxh", value);
-			if (null == item) {
-				item = new ZCXX();
-				item.setZcxh(value);
-				itemDao.insert(item);
-			}
-			htxx.setZcID(item.getZcxhID());
-		}
-
-	}
+//	private void setZcID(HTXX htxx, String value) {
+//		if (!"".equals(value)) {
+//			ZCXX item = itemDao.queryZcxxByValue("zcxh", value);
+//			if (null == item) {
+//				item = new ZCXX();
+//				item.setZcxh(value);
+//				itemDao.insert(item);
+//			}
+//			htxx.setZcID(item.getZcxhID());
+//		}
+//
+//	}
 
 	private void setTcbh(PCJHXX pcjhxx, String data) {
 		pcjhxx.setTcbh(data);

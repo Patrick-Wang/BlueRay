@@ -102,4 +102,5 @@ public interface ItemDao {
 	CGXXB queryCGXXById(int id);
 	CGXXB queryCGXXByValue(String colName, String val);	
 	void insert(CGXXB item);
+	CGXXB queryCgxxByValue(String string, String string2);
 }
