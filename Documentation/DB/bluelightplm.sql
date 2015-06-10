@@ -1709,3 +1709,4 @@ INSERT INTO `zzs` VALUES ('4', '苏州');
 -- Records of cgxxb
 -- ----------------------------
 INSERT INTO `cgxxb` VALUES ('1', '');
+INSERT INTO `cgxxb` VALUES ('2', 'Z');

@@ -187,6 +187,17 @@ module base {
             this.mIsShowHideTriggered = false;
         }
 
+        private setCheckedCount(count: number) {
+            var countDiv = $("#" + + this.mTableName + " #checked_count_blueray");
+            if (countDiv.length == 0) {
+                $("#" + this.mTableName + " #" + this.mTableName + "pager_left table tr")
+                    .prepend('<td><div id="checked_count_blueray"></div><td>');
+                countDiv = $("#" + this.mTableName + " #checked_count_blueray");
+            }
+           // alert(countDiv);
+            countDiv.text(count + "个选中 ");
+        }
+
         private updateTable(name: string, widths : number[]): void {
             var tableAssist: JQTable.JQGridAssistant = JQGridAssistantFactory.createTable(name, this.mCols, widths);
             var data = [];
@@ -256,10 +267,12 @@ module base {
                         return !this.isDisabled(rowId);
                     },
                     onSelectRow: (a, b, c) => {
-                       mediator.onRowChecked(this.mTableName);
+                        mediator.onRowChecked(this.mTableName);
+                        this.setCheckedCount(this.getSelectedRowData().length);
                     },
                     onSelectAll: (a, b, c) => {
-                       mediator.onRowChecked(this.mTableName);
+                        mediator.onRowChecked(this.mTableName);
+                        this.setCheckedCount(this.getSelectedRowData().length);
                     },
                     gridComplete: () => {
 
