@@ -11,10 +11,12 @@
 #define IDC_COMBO_BASE (IDC_DATETIME_BASE + 20)
 
 #define QUERY_COMBO_VALUE_ZC_URL_ID		(IDC_COMBO_BASE + 21)
+#define QUERY_COMBO_VALUE_CG_URL_ID		(IDC_COMBO_BASE + 22)
 
 
 static int g_CombPos[][4] = {
-		{ 100 * 3 + 100 * 2 + 8, 40 * 9, 120, 20 }  //Comb_ZC,
+		{ 100 * 3 + 100 * 2 + 8, 40 * 9, 120, 20 },  //Comb_ZC,
+		{ 100 * 3 + 100 * 4 + 8, 40 * 9, 120, 20 }  //Comb_CG,
 };
 
 static int g_StaticPos[][4] = {
@@ -82,6 +84,7 @@ static int g_StaticPos[][4] = {
 		{ 100 * 0 + 100 * 0, 40 * 9, 100, 20 },  //Static_TCBH,
 		{ 100 * 1 + 40 + 100 * 1, 40 * 9, 100 - 40, 20 },   //Static_CCBH
 		{ 100 * 2 + 40 + 100 * 2, 40 * 9, 100 - 40, 20 },   //zc
+		{ 100 * 3 + 40 + 100 * 3, 40 * 9, 100 - 40, 20 },   //cg
 		{ 100 * 0 + 100 * 0, 40 * 10, 100, 20 },   //bz
 };
 
@@ -278,6 +281,10 @@ void CPlanAddDlg::InitHttpInstance()
 		//Öá³Ð
 		item.QuerySync(CItem::ZCXX, m_DropList[CombId::Comb_ZC_ForPlan]);
 		++m_iRef;
+
+		//´Å¸Ö
+		item.QuerySync(CItem::CG, m_DropList[CombId::Comb_CG]);
+		++m_iRef;
 	}
 }
 
@@ -286,6 +293,16 @@ void CPlanAddDlg::OnHttpFailed(int id)
 	switch (id)
 	{
 	case QUERY_COMBO_VALUE_ZC_URL_ID:
+	{
+		--m_iRef;
+		if (0 == m_iRef)
+		{
+			EnableWindow(TRUE);
+			InitCtrlData();
+		}
+	}
+		break;
+	case QUERY_COMBO_VALUE_CG_URL_ID:
 	{
 		--m_iRef;
 		if (0 == m_iRef)
@@ -307,6 +324,9 @@ void CPlanAddDlg::OnHttpSuccess(int id, LPCTSTR resp)
 	{
 	case QUERY_COMBO_VALUE_ZC_URL_ID:
 		OnLoadComboDataSuccess(Comb_ZC_ForPlan, CString(resp));
+		break;
+	case QUERY_COMBO_VALUE_CG_URL_ID:
+		OnLoadComboDataSuccess(Comb_CG, CString(resp));
 		break;
 	default:
 		break;
@@ -413,6 +433,7 @@ static LPCTSTR g_StaticItems[][1] = { //0: default text
 		{ _T("Í¶²ú±àºÅ") },
 		{ _T("³ö³§±àºÅ") },
 		{ _T("Öá³Ð") },
+		{ _T("´Å¸Ö") },
 		{ _T("±¸×¢") }
 
 };
@@ -700,6 +721,9 @@ void CPlanAddDlg::OnOK()
 	m_vecResult.push_back(strTmp);
 
 	m_aEdits[EditId::Edit_BZ_ForPlan]->GetWindowText(strTmp);
+	m_vecResult.push_back(strTmp);
+
+	GetText(m_aCombs[CombId::Comb_CG], Comb_CG, strTmp);
 	m_vecResult.push_back(strTmp);
 
 	CPopupDlg::OnOK();

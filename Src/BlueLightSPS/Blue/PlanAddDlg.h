@@ -115,6 +115,8 @@ public:
 		int zc_forPlan; //轴承 供planner修改用
 		CString bz_forPlan; //备注 供planner修改用
 
+		int cg;		//磁钢
+
 		tagOption_t(){
 			htbh = OPT_FALSE;			//合同号
 			khmc = OPT_FALSE;		//客户名称
@@ -155,6 +157,8 @@ public:
 
 			zc_forPlan = OPT_FALSE_INT; //轴承 for plan
 			bz_forPlan = OPT_FALSE; //轴承 for plan
+
+			cg = OPT_FALSE_INT;
 		}
 
 		tagOption_t(std::vector<CString>& data){
@@ -204,6 +208,8 @@ public:
 
 				do_get_int(data, it, CombId::Comb_ZC_ForPlan, zc_forPlan);
 				do_get(data, it, bz_forPlan);
+
+				do_get_int(data, it, CombId::Comb_CG, cg);
 
 			} while (false);
 		}
@@ -255,6 +261,8 @@ public:
 				do_get_int_merge(data, it, CombId::Comb_ZC_ForPlan, zc_forPlan);
 				do_get_merge(data, it, bz_forPlan);
 
+				do_get_int_merge(data, it, CombId::Comb_CG, cg);
+
 			} while (false);
 		}
 	}Option_t;
@@ -301,6 +309,8 @@ private:
 
 		Static_ZC_ForPlan,
 		Static_BZ_ForPlan,
+
+		Static_CG,
 
 		Static_END
 	};
@@ -352,6 +362,7 @@ private:
 
 	enum CombId{
 		Comb_ZC_ForPlan,
+		Comb_CG,
 		Comb_END
 	};
 
