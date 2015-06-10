@@ -154,7 +154,7 @@ public class PlanServiceImpl implements PlanService {
 					pcjhxx.setBz(data.getString(6));
 				} 
 				if (data.size() > 7 && !"".equals(data.getString(7))){
-					CGXXB item = itemDao.queryCgxxByValue("cgxx", data.getString(7));
+					CGXXB item = itemDao.queryCgxxByValue("cg", data.getString(7));
 					if (null == item) {
 						item = new CGXXB();
 						item.setCg(data.getString(7));

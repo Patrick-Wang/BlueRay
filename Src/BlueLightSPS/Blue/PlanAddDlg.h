@@ -168,6 +168,9 @@ public:
 				do_get(data, it, htbh);
 				do_get(data, it, khmc);
 				do_get(data, it, ggbh);
+
+				do_get_int(data, it, CombId::Comb_CG, cg);
+
 				do_get(data, it, sl);
 				do_get(data, it, zc);
 				do_get(data, it, dfr);
@@ -209,7 +212,7 @@ public:
 				do_get_int(data, it, CombId::Comb_ZC_ForPlan, zc_forPlan);
 				do_get(data, it, bz_forPlan);
 
-				do_get_int(data, it, CombId::Comb_CG, cg);
+				
 
 			} while (false);
 		}

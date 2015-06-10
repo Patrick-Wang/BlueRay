@@ -188,14 +188,13 @@ module base {
         }
 
         private setCheckedCount(count: number) {
-            var countDiv = $("#" + + this.mTableName + " #checked_count_blueray");
+            var countDiv = $("#" + this.mTableName + "pager #checked_count_blueray");
             if (countDiv.length == 0) {
-                $("#" + this.mTableName + " #" + this.mTableName + "pager_left table tr")
-                    .prepend('<td><div id="checked_count_blueray"></div><td>');
-                countDiv = $("#" + this.mTableName + " #checked_count_blueray");
+                $("#" + this.mTableName + "pager #" + this.mTableName + "pager_left table tr")
+                    .prepend('<td><div id="checked_count_blueray"></div></td><td><div style="width:5px"</div></td>');
+                countDiv = $("#" + this.mTableName + "pager #checked_count_blueray");
             }
-           // alert(countDiv);
-            countDiv.text(count + "个选中 ");
+            countDiv.text(count + "个被选中 ");
         }
 
         private updateTable(name: string, widths : number[]): void {
@@ -275,7 +274,7 @@ module base {
                         this.setCheckedCount(this.getSelectedRowData().length);
                     },
                     gridComplete: () => {
-
+                        this.setCheckedCount(this.getSelectedRowData().length);
                     }
                 }));
             var exporteId = name + "_export";
