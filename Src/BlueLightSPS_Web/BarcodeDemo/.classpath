@@ -10,5 +10,6 @@
 	<classpathentry kind="lib" path="/BlueRay/src/main/webapp/WEB-INF/lib/poi-ooxml-schemas-3.10.1-20140818.jar"/>
 	<classpathentry kind="lib" path="/BlueRay/src/main/webapp/WEB-INF/lib/poi-scratchpad-3.10.1-20140818.jar"/>
 	<classpathentry kind="lib" path="lib/commons-codec-1.8.jar"/>
+	<classpathentry kind="lib" path="lib/barcode4j.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 
 import javax.imageio.ImageIO;
@@ -30,6 +31,9 @@ import org.jbarcode.paint.EAN13TextPainter;
 import org.jbarcode.paint.WideRatioCodedPainter;
 import org.jbarcode.paint.WidthCodedPainter;
 import org.jbarcode.util.ImageUtil;
+import org.krysalis.barcode4j.impl.code128.Code128Bean;
+import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
+import org.krysalis.barcode4j.tools.UnitConv;
 
 public class Demo {
 	
@@ -42,13 +46,49 @@ public class Demo {
 					WidthCodedPainter.getInstance(),
 					BaseLineTextPainter.getInstance());
 			// ��������ֵ
-			String str = "PO01503170008.2jjfew";
-			//localJBarcode.setWideRatio(1.5);
-			//localJBarcode.setXDimension(0.3);
+			String str = "803013-803014";
+			//localJBarcode.setWideRatio(3);
+			localJBarcode.setXDimension(0.32);
+			
+			//localJBarcode.setWideRatio(arg0);
 			BufferedImage localBufferedImage = localJBarcode.createBarcode(str);
 			
 			int k = localBufferedImage.getType();
 			ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+			
+			
+//			  Code128Bean bean = new Code128Bean();
+//	            
+//	            final int dpi = 150;
+//	            
+//	            //Configure the barcode generator
+//	            bean.setModuleWidth(UnitConv.in2mm(1.2f / dpi)); //makes the narrow bar 
+//	                                                             //width exactly one pixel
+//	            //bean.setWideFactor(3);
+//	            bean.doQuietZone(false);
+//	            bean.setBarHeight(7);
+//	            bean.setFontSize(2);
+//	            //Open output file
+////	            File outputFile = new File("out.jpg");
+////	            OutputStream out = new FileOutputStream(outputFile);
+//	            try {
+//	                //Set up the canvas provider for monochrome JPEG output 
+//	                BitmapCanvasProvider canvas = new BitmapCanvasProvider(
+//	                		byteArrayOut, "image/png", dpi, BufferedImage.TYPE_BYTE_BINARY, false, 0);
+//	            
+//	                //Generate the barcode
+//	                bean.generateBarcode(canvas, "803013-803014");
+//	            
+//	                localBufferedImage = canvas.getBufferedImage();
+//	                //Signal end of generation
+//	               // canvas.finish();
+//	            } finally {
+//	               // out.close();
+//	            }
+			
+			
+			
+			
 			saveToPNG(localBufferedImage, "Code39.png");
 		
 			HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(new File(
