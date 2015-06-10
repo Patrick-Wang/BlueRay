@@ -9,6 +9,7 @@
 #include "User.h"
 #include "Server.h"
 #include "SaleAddDlg.h"
+#include "NotificationAddDlg.h"
 
 #define GET_UNAPPROVED_URL_ID					IDP_NOTIFICATION + 1
 #define QUERY_URL_UNAPPROVED_SALEBUSINESS		GET_UNAPPROVED_URL_ID + 1
@@ -806,152 +807,344 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 	//update status to DB
 
 	GetParent()->EnableWindow(FALSE);
+// 
+// 	std::vector<int> checkedRows;
+// 	m_pJqGridAPI->GetCheckedRows(checkedRows);
+
+	//////////////////////////////////////////////////////////////////////////
+
+	std::auto_ptr<CNotificationAddDlg::Option_t> pstOpt;
+	CNotificationAddDlg dlg(_T("…Û∫À"));
 
 	std::vector<int> checkedRows;
+	std::vector<CString>* pRowData = NULL;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 
-	class CApproveListener : public CPromise<StringArray>::IHttpResponse{
-		CONSTRUCTOR_2(CApproveListener, CNotificationPanel&, panel, CJQGridAPI*, pJqGridAPI)
-	public:
-		virtual void OnSuccess(StringArray& arrRet){
-			std::vector<int> checkedRows;
-			m_pJqGridAPI->GetCheckedRows(checkedRows);
-			CString strFmt;
-			strFmt.Format(L"%d Ãı…Û∫À ß∞‹ \r\n", arrRet.size());
-			std::vector<int>::iterator it;
-			StringArray row;
-			for (int i = 0; i < arrRet.size(); ++i)
+	for (int i = checkedRows.size() - 1; i >= 0; --i)
+	{
+		pRowData = NULL;
+		for (int j = 0; j < m_table.size(); ++j)
+		{
+			if (m_table[j].first == checkedRows[i])
 			{
-				it = std::find(checkedRows.begin(), checkedRows.end(), _tstoi(arrRet[i]));
-				if (it != checkedRows.end())
-				{
-					m_pJqGridAPI->GetRow(*it, row);
-					strFmt += row[0] + L" ";
-					checkedRows.erase(it);
-					row.clear();
-				}
+				pRowData = &(m_table[j].second);
+				break;
 			}
+		}
 
-			CString strFmtTmp;
-			strFmtTmp.Format(L"%d Ãı…Û∫À≥…π¶ \r\n", checkedRows.size());
+		if (NULL != pRowData)
+		{
+			if (pstOpt.get() == NULL)
+			{
+				pstOpt.reset(new CNotificationAddDlg::Option_t(*pRowData));
+			}
+			else
+			{
+				pstOpt->Merge(*pRowData);
+			}
+		}
+	}
+
+	dlg.SetOption(pstOpt.get());
+
+	if (IDOK == dlg.DoModal())
+	{
+
+
+		class CApproveListener : public CPromise<StringArray>::IHttpResponse{
+			CONSTRUCTOR_2(CApproveListener, CNotificationPanel&, panel, CJQGridAPI*, pJqGridAPI)
+		public:
+			virtual void OnSuccess(StringArray& arrRet){
+				std::vector<int> checkedRows;
+				m_pJqGridAPI->GetCheckedRows(checkedRows);
+				CString strFmt;
+				strFmt.Format(L"%d Ãı…Û∫À ß∞‹ \r\n", arrRet.size());
+				std::vector<int>::iterator it;
+				StringArray row;
+				for (int i = 0; i < arrRet.size(); ++i)
+				{
+					it = std::find(checkedRows.begin(), checkedRows.end(), _tstoi(arrRet[i]));
+					if (it != checkedRows.end())
+					{
+						m_pJqGridAPI->GetRow(*it, row);
+						strFmt += row[0] + L" ";
+						checkedRows.erase(it);
+						row.clear();
+					}
+				}
+
+				CString strFmtTmp;
+				strFmtTmp.Format(L"%d Ãı…Û∫À≥…π¶ \r\n", checkedRows.size());
 				for (int i = 0; i < checkedRows.size(); ++i)
 				{
 					m_pJqGridAPI->GetRow(checkedRows[i], row);
 					strFmtTmp += row[0] + L" ";
 					row.clear();
 				}
-			
-			strFmt = strFmtTmp + L"\r\n" + strFmt;
 
-			m_panel.MessageBox(strFmt, _T("…Û∫ÀΩ·π˚"), MB_OK | MB_ICONWARNING);
-			//m_panel.OnBnClickedBtnReturn();
+				strFmt = strFmtTmp + L"\r\n" + strFmt;
 
-			switch (m_panel.m_enumCurrentApprovingItem)
-			{
-			case CNotificationPanel::Approving_NULL:
-				m_panel.OnBnClickedBtnReturn();
-				break;
-			case CNotificationPanel::Approving_SaleBusiness:
-				m_panel.OnBnClickedSaleBusinessApprove();
-				break;
-			case CNotificationPanel::Approving_SalePlan:
-				m_panel.OnBnClickedSalePlanApprove();
-				break;
-			case CNotificationPanel::Approving_PlanSCRQBusiness:
-				m_panel.OnBnClickedPlanSCRQBusinessApprove();
-				break;
-			case CNotificationPanel::Approving_PlanSCRQPlan:
-				m_panel.OnBnClickedPlanSCRQPlanApprove();
-				break;
-			case CNotificationPanel::Approving_PlanBZRQBusiness:
-				m_panel.OnBnClickedPlanBZRQBusinessApprove();
-				break;
-			case CNotificationPanel::Approving_PlanBZRQPlan:
-				m_panel.OnBnClickedPlanBZRQPlanApprove();
-				break;
-			case CNotificationPanel::Approving_END:
-				m_panel.OnBnClickedBtnReturn();
-				break;
-			default:
-				m_panel.OnBnClickedBtnReturn();
-				break;
+				m_panel.MessageBox(strFmt, _T("…Û∫ÀΩ·π˚"), MB_OK | MB_ICONWARNING);
+				//m_panel.OnBnClickedBtnReturn();
+
+				switch (m_panel.m_enumCurrentApprovingItem)
+				{
+				case CNotificationPanel::Approving_NULL:
+					m_panel.OnBnClickedBtnReturn();
+					break;
+				case CNotificationPanel::Approving_SaleBusiness:
+					m_panel.OnBnClickedSaleBusinessApprove();
+					break;
+				case CNotificationPanel::Approving_SalePlan:
+					m_panel.OnBnClickedSalePlanApprove();
+					break;
+				case CNotificationPanel::Approving_PlanSCRQBusiness:
+					m_panel.OnBnClickedPlanSCRQBusinessApprove();
+					break;
+				case CNotificationPanel::Approving_PlanSCRQPlan:
+					m_panel.OnBnClickedPlanSCRQPlanApprove();
+					break;
+				case CNotificationPanel::Approving_PlanBZRQBusiness:
+					m_panel.OnBnClickedPlanBZRQBusinessApprove();
+					break;
+				case CNotificationPanel::Approving_PlanBZRQPlan:
+					m_panel.OnBnClickedPlanBZRQPlanApprove();
+					break;
+				case CNotificationPanel::Approving_END:
+					m_panel.OnBnClickedBtnReturn();
+					break;
+				default:
+					m_panel.OnBnClickedBtnReturn();
+					break;
+				}
+
+				m_panel.GetParent()->EnableWindow(TRUE);
 			}
+			virtual void OnFailed(){
+				m_panel.MessageBox(_T("…Û∫À ß∞‹"), _T("…Û∫ÀΩ·π˚"), MB_OK | MB_ICONWARNING);
+				//m_panel.OnBnClickedBtnReturn();
 
-			m_panel.GetParent()->EnableWindow(TRUE);
-		}
-		virtual void OnFailed(){
-			m_panel.MessageBox(_T("…Û∫À ß∞‹"), _T("…Û∫ÀΩ·π˚"), MB_OK | MB_ICONWARNING);
-			//m_panel.OnBnClickedBtnReturn();
+				switch (m_panel.m_enumCurrentApprovingItem)
+				{
+				case CNotificationPanel::Approving_NULL:
+					m_panel.OnBnClickedBtnReturn();
+					break;
+				case CNotificationPanel::Approving_SaleBusiness:
+					m_panel.OnBnClickedSaleBusinessApprove();
+					break;
+				case CNotificationPanel::Approving_SalePlan:
+					m_panel.OnBnClickedSalePlanApprove();
+					break;
+				case CNotificationPanel::Approving_PlanSCRQBusiness:
+					m_panel.OnBnClickedPlanSCRQBusinessApprove();
+					break;
+				case CNotificationPanel::Approving_PlanSCRQPlan:
+					m_panel.OnBnClickedPlanSCRQPlanApprove();
+					break;
+				case CNotificationPanel::Approving_PlanBZRQBusiness:
+					m_panel.OnBnClickedPlanBZRQBusinessApprove();
+					break;
+				case CNotificationPanel::Approving_PlanBZRQPlan:
+					m_panel.OnBnClickedPlanBZRQPlanApprove();
+					break;
+				case CNotificationPanel::Approving_END:
+					m_panel.OnBnClickedBtnReturn();
+					break;
+				default:
+					m_panel.OnBnClickedBtnReturn();
+					break;
+				}
 
-			switch (m_panel.m_enumCurrentApprovingItem)
-			{
-			case CNotificationPanel::Approving_NULL:
-				m_panel.OnBnClickedBtnReturn();
-				break;
-			case CNotificationPanel::Approving_SaleBusiness:
-				m_panel.OnBnClickedSaleBusinessApprove();
-				break;
-			case CNotificationPanel::Approving_SalePlan:
-				m_panel.OnBnClickedSalePlanApprove();
-				break;
-			case CNotificationPanel::Approving_PlanSCRQBusiness:
-				m_panel.OnBnClickedPlanSCRQBusinessApprove();
-				break;
-			case CNotificationPanel::Approving_PlanSCRQPlan:
-				m_panel.OnBnClickedPlanSCRQPlanApprove();
-				break;
-			case CNotificationPanel::Approving_PlanBZRQBusiness:
-				m_panel.OnBnClickedPlanBZRQBusinessApprove();
-				break;
-			case CNotificationPanel::Approving_PlanBZRQPlan:
-				m_panel.OnBnClickedPlanBZRQPlanApprove();
-				break;
-			case CNotificationPanel::Approving_END:
-				m_panel.OnBnClickedBtnReturn();
-				break;
-			default:
-				m_panel.OnBnClickedBtnReturn();
-				break;
+				m_panel.GetParent()->EnableWindow(TRUE);
 			}
+		};
 
-			m_panel.GetParent()->EnableWindow(TRUE);
+		CString url;
+		switch (m_enumCurrentApprovingItem)
+		{
+		case CNotificationPanel::Approving_NULL:
+			break;
+		case CNotificationPanel::Approving_SaleBusiness:
+			//url.Format(_T("http://%s:8080/BlueRay/sale/approve/business"), IDS_HOST_NAME);
+			CServer::GetInstance()->GetSale().Approve(CSale::BUSINESS, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
+			break;
+		case CNotificationPanel::Approving_SalePlan:
+			//url.Format(_T("http://%s:8080/BlueRay/sale/approve/plan"), IDS_HOST_NAME);
+			CServer::GetInstance()->GetSale().Approve(CSale::PLAN, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
+			break;
+		case CNotificationPanel::Approving_PlanSCRQBusiness:
+			//url.Format(_T("http://%s:8080/BlueRay/plan/approve/business"), IDS_HOST_NAME);
+			CServer::GetInstance()->GetPlan().Approve(CPlan::PLAN_BUSINESS, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
+			break;
+		case CNotificationPanel::Approving_PlanSCRQPlan:
+			//url.Format(_T("http://%s:8080/BlueRay/plan/approve/plan"), IDS_HOST_NAME);
+			CServer::GetInstance()->GetPlan().Approve(CPlan::PLAN_PLAN, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
+			break;
+		case CNotificationPanel::Approving_PlanBZRQBusiness:
+			//url.Format(_T("http://%s:8080/BlueRay/plan/approve/pack/business"), IDS_HOST_NAME);
+			CServer::GetInstance()->GetPlan().Approve(CPlan::PACK_BUSINESS, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
+			break;
+		case CNotificationPanel::Approving_PlanBZRQPlan:
+			//url.Format(_T("http://%s:8080/BlueRay/plan/approve/pack/plan"), IDS_HOST_NAME);
+			CServer::GetInstance()->GetPlan().Approve(CPlan::PACK_PLAN, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
+			break;
+		case CNotificationPanel::Approving_END:
+			break;
+		default:
+			break;
 		}
-	};
-
-	CString url;
-	switch (m_enumCurrentApprovingItem)
-	{
-	case CNotificationPanel::Approving_NULL:
-		break;
-	case CNotificationPanel::Approving_SaleBusiness:
-		//url.Format(_T("http://%s:8080/BlueRay/sale/approve/business"), IDS_HOST_NAME);
-		CServer::GetInstance()->GetSale().Approve(CSale::BUSINESS, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
-		break;
-	case CNotificationPanel::Approving_SalePlan:
-		//url.Format(_T("http://%s:8080/BlueRay/sale/approve/plan"), IDS_HOST_NAME);
-		CServer::GetInstance()->GetSale().Approve(CSale::PLAN, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
-		break;
-	case CNotificationPanel::Approving_PlanSCRQBusiness:
-		//url.Format(_T("http://%s:8080/BlueRay/plan/approve/business"), IDS_HOST_NAME);
-		CServer::GetInstance()->GetPlan().Approve(CPlan::PLAN_BUSINESS, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
-		break;
-	case CNotificationPanel::Approving_PlanSCRQPlan:
-		//url.Format(_T("http://%s:8080/BlueRay/plan/approve/plan"), IDS_HOST_NAME);
-		CServer::GetInstance()->GetPlan().Approve(CPlan::PLAN_PLAN, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
-		break;
-	case CNotificationPanel::Approving_PlanBZRQBusiness:
-		//url.Format(_T("http://%s:8080/BlueRay/plan/approve/pack/business"), IDS_HOST_NAME);
-		CServer::GetInstance()->GetPlan().Approve(CPlan::PACK_BUSINESS, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
-		break;
-	case CNotificationPanel::Approving_PlanBZRQPlan:
-		//url.Format(_T("http://%s:8080/BlueRay/plan/approve/pack/plan"), IDS_HOST_NAME);
-		CServer::GetInstance()->GetPlan().Approve(CPlan::PACK_PLAN, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
-		break;
-	case CNotificationPanel::Approving_END:
-		break;
-	default:
-		break;
 	}
+
+
+
+
+
+
+	//////////////////////////////////////////////////////////////////////////
+
+// 
+// 	class CApproveListener : public CPromise<StringArray>::IHttpResponse{
+// 		CONSTRUCTOR_2(CApproveListener, CNotificationPanel&, panel, CJQGridAPI*, pJqGridAPI)
+// 	public:
+// 		virtual void OnSuccess(StringArray& arrRet){
+// 			std::vector<int> checkedRows;
+// 			m_pJqGridAPI->GetCheckedRows(checkedRows);
+// 			CString strFmt;
+// 			strFmt.Format(L"%d Ãı…Û∫À ß∞‹ \r\n", arrRet.size());
+// 			std::vector<int>::iterator it;
+// 			StringArray row;
+// 			for (int i = 0; i < arrRet.size(); ++i)
+// 			{
+// 				it = std::find(checkedRows.begin(), checkedRows.end(), _tstoi(arrRet[i]));
+// 				if (it != checkedRows.end())
+// 				{
+// 					m_pJqGridAPI->GetRow(*it, row);
+// 					strFmt += row[0] + L" ";
+// 					checkedRows.erase(it);
+// 					row.clear();
+// 				}
+// 			}
+// 
+// 			CString strFmtTmp;
+// 			strFmtTmp.Format(L"%d Ãı…Û∫À≥…π¶ \r\n", checkedRows.size());
+// 				for (int i = 0; i < checkedRows.size(); ++i)
+// 				{
+// 					m_pJqGridAPI->GetRow(checkedRows[i], row);
+// 					strFmtTmp += row[0] + L" ";
+// 					row.clear();
+// 				}
+// 			
+// 			strFmt = strFmtTmp + L"\r\n" + strFmt;
+// 
+// 			m_panel.MessageBox(strFmt, _T("…Û∫ÀΩ·π˚"), MB_OK | MB_ICONWARNING);
+// 			//m_panel.OnBnClickedBtnReturn();
+// 
+// 			switch (m_panel.m_enumCurrentApprovingItem)
+// 			{
+// 			case CNotificationPanel::Approving_NULL:
+// 				m_panel.OnBnClickedBtnReturn();
+// 				break;
+// 			case CNotificationPanel::Approving_SaleBusiness:
+// 				m_panel.OnBnClickedSaleBusinessApprove();
+// 				break;
+// 			case CNotificationPanel::Approving_SalePlan:
+// 				m_panel.OnBnClickedSalePlanApprove();
+// 				break;
+// 			case CNotificationPanel::Approving_PlanSCRQBusiness:
+// 				m_panel.OnBnClickedPlanSCRQBusinessApprove();
+// 				break;
+// 			case CNotificationPanel::Approving_PlanSCRQPlan:
+// 				m_panel.OnBnClickedPlanSCRQPlanApprove();
+// 				break;
+// 			case CNotificationPanel::Approving_PlanBZRQBusiness:
+// 				m_panel.OnBnClickedPlanBZRQBusinessApprove();
+// 				break;
+// 			case CNotificationPanel::Approving_PlanBZRQPlan:
+// 				m_panel.OnBnClickedPlanBZRQPlanApprove();
+// 				break;
+// 			case CNotificationPanel::Approving_END:
+// 				m_panel.OnBnClickedBtnReturn();
+// 				break;
+// 			default:
+// 				m_panel.OnBnClickedBtnReturn();
+// 				break;
+// 			}
+// 
+// 			m_panel.GetParent()->EnableWindow(TRUE);
+// 		}
+// 		virtual void OnFailed(){
+// 			m_panel.MessageBox(_T("…Û∫À ß∞‹"), _T("…Û∫ÀΩ·π˚"), MB_OK | MB_ICONWARNING);
+// 			//m_panel.OnBnClickedBtnReturn();
+// 
+// 			switch (m_panel.m_enumCurrentApprovingItem)
+// 			{
+// 			case CNotificationPanel::Approving_NULL:
+// 				m_panel.OnBnClickedBtnReturn();
+// 				break;
+// 			case CNotificationPanel::Approving_SaleBusiness:
+// 				m_panel.OnBnClickedSaleBusinessApprove();
+// 				break;
+// 			case CNotificationPanel::Approving_SalePlan:
+// 				m_panel.OnBnClickedSalePlanApprove();
+// 				break;
+// 			case CNotificationPanel::Approving_PlanSCRQBusiness:
+// 				m_panel.OnBnClickedPlanSCRQBusinessApprove();
+// 				break;
+// 			case CNotificationPanel::Approving_PlanSCRQPlan:
+// 				m_panel.OnBnClickedPlanSCRQPlanApprove();
+// 				break;
+// 			case CNotificationPanel::Approving_PlanBZRQBusiness:
+// 				m_panel.OnBnClickedPlanBZRQBusinessApprove();
+// 				break;
+// 			case CNotificationPanel::Approving_PlanBZRQPlan:
+// 				m_panel.OnBnClickedPlanBZRQPlanApprove();
+// 				break;
+// 			case CNotificationPanel::Approving_END:
+// 				m_panel.OnBnClickedBtnReturn();
+// 				break;
+// 			default:
+// 				m_panel.OnBnClickedBtnReturn();
+// 				break;
+// 			}
+// 
+// 			m_panel.GetParent()->EnableWindow(TRUE);
+// 		}
+// 	};
+// 
+// 	CString url;
+// 	switch (m_enumCurrentApprovingItem)
+// 	{
+// 	case CNotificationPanel::Approving_NULL:
+// 		break;
+// 	case CNotificationPanel::Approving_SaleBusiness:
+// 		//url.Format(_T("http://%s:8080/BlueRay/sale/approve/business"), IDS_HOST_NAME);
+// 		CServer::GetInstance()->GetSale().Approve(CSale::BUSINESS, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
+// 		break;
+// 	case CNotificationPanel::Approving_SalePlan:
+// 		//url.Format(_T("http://%s:8080/BlueRay/sale/approve/plan"), IDS_HOST_NAME);
+// 		CServer::GetInstance()->GetSale().Approve(CSale::PLAN, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
+// 		break;
+// 	case CNotificationPanel::Approving_PlanSCRQBusiness:
+// 		//url.Format(_T("http://%s:8080/BlueRay/plan/approve/business"), IDS_HOST_NAME);
+// 		CServer::GetInstance()->GetPlan().Approve(CPlan::PLAN_BUSINESS, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
+// 		break;
+// 	case CNotificationPanel::Approving_PlanSCRQPlan:
+// 		//url.Format(_T("http://%s:8080/BlueRay/plan/approve/plan"), IDS_HOST_NAME);
+// 		CServer::GetInstance()->GetPlan().Approve(CPlan::PLAN_PLAN, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
+// 		break;
+// 	case CNotificationPanel::Approving_PlanBZRQBusiness:
+// 		//url.Format(_T("http://%s:8080/BlueRay/plan/approve/pack/business"), IDS_HOST_NAME);
+// 		CServer::GetInstance()->GetPlan().Approve(CPlan::PACK_BUSINESS, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
+// 		break;
+// 	case CNotificationPanel::Approving_PlanBZRQPlan:
+// 		//url.Format(_T("http://%s:8080/BlueRay/plan/approve/pack/plan"), IDS_HOST_NAME);
+// 		CServer::GetInstance()->GetPlan().Approve(CPlan::PACK_PLAN, checkedRows).then(new CApproveListener(*this, m_pJqGridAPI.get()));
+// 		break;
+// 	case CNotificationPanel::Approving_END:
+// 		break;
+// 	default:
+// 		break;
+// 	}
 	
 	//m_pHttp->Post(url, POST_URL_APPROVE, attr);
 }

@@ -252,6 +252,9 @@
     <ClInclude Include="CSVStream.h">
       <Filter>server</Filter>
     </ClInclude>
+    <ClInclude Include="NotificationAddDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blue.cpp">
@@ -424,6 +427,9 @@
     </ClCompile>
     <ClCompile Include="CSVStream.cpp">
       <Filter>server</Filter>
+    </ClCompile>
+    <ClCompile Include="NotificationAddDlg.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
