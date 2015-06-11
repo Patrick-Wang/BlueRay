@@ -44,7 +44,8 @@ static int g_ButtoncPos[][4] = {
 
 static int g_TableToBeHiddenForPlan[]
 {
-	nsNotification::Column_en::jhshyw,
+
+		nsNotification::Column_en::jhshyw,
 		nsNotification::Column_en::jhshjh,
 		nsNotification::Column_en::bzshyw,
 		nsNotification::Column_en::bzshjh
@@ -52,7 +53,8 @@ static int g_TableToBeHiddenForPlan[]
 
 static int g_TableToBeHiddenForSale[]
 {
-	nsNotification::Column_en::scrq,
+	nsNotification::Column_en::cg,
+		nsNotification::Column_en::scrq,
 		nsNotification::Column_en::jhshyw,
 		nsNotification::Column_en::jhshjh,
 		nsNotification::Column_en::bzrq,
@@ -196,7 +198,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 				jqp.AddSortCondition(colIndex, bAsc);
 			}
 			jqp.AddApproveCondition(CSale::BUSINESS, false);
-			CServer::GetInstance()->GetSale().Query(page, m_pJqGridAPI->GetPageSize(), jqp).then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
+			CServer::GetInstance()->GetSale().Query(page, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
 			break;
 		}
 		case CNotificationPanel::Approving_SalePlan:

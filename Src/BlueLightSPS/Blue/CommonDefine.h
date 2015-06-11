@@ -158,6 +158,10 @@ namespace nsNotification{
 		hth,	//合同号"
 		khmc,	//客户名称"
 		ggxh,	//规格型号"
+
+		cg,	//磁钢
+
+
 		sl,	//数量"
 		zc,	//轴承"
 		dfr,	//单复绕"
@@ -189,6 +193,9 @@ namespace nsNotification{
 		fhrq,	//发货日期"
 		tcbh,	//投产编号"
 		ccbh,	//出厂编号"
+
+
+
 		end
 	};
 }
