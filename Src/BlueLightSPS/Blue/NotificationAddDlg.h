@@ -368,6 +368,8 @@ public:
 	CDelegate<void(CNotificationAddDlg&)> d_GetOption;
 	afx_msg void OnNcDestroy();
 
+	void SetDlgOption(BOOL bIsSalePage = FALSE);
+
 protected:
 	virtual void OnOK();
 	void InitCtrlData();
@@ -381,6 +383,9 @@ private:
 	static int m_iRef;
 	CBSStatic* m_aStatics[StaticId::Static_END];
 	CBSStatic* m_aStaticsToShow[StaticId2::Static2_END];
+
+	BOOL m_bIsSalePage;
+
 // 	CEdit* m_aEdits[EditId::Edit_END];
 // 	CDateTimeCtrl* m_aDatePickers[DatePickerId::DatePicker_END];
 // 	CComboBox* m_aCombs[CombId::Comb_END];

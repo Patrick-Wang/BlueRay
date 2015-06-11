@@ -173,6 +173,7 @@ END_MESSAGE_MAP()
 CNotificationAddDlg::CNotificationAddDlg(LPCTSTR title, CWnd* pParent /*= NULL*/)
 	: CPopupDlg(title, pParent)
 	, m_lpOption(NULL)
+	, m_bIsSalePage(TRUE)
 // 	, m_bEnablePlanBtnForSCRQ(false)
 // 	, m_bEnablePlanBtnForBZRQ(false)
 // 	, m_btnNewIDForSCRQ(NULL)
@@ -207,6 +208,12 @@ CNotificationAddDlg::~CNotificationAddDlg()
 // 		m_aEdits[Edit_CCBH]->SetWindowText(text);
 // 	}
 // }
+
+void CNotificationAddDlg::SetDlgOption(BOOL bIsSalePage)
+{
+	m_bIsSalePage = bIsSalePage;
+}
+
 
 void CNotificationAddDlg::OnNcDestroy()
 {
@@ -353,6 +360,8 @@ void CNotificationAddDlg::InitCtrlData()
 // 	m_bEnablePlanEditForCCBH = ccbh;
 // }
 
+static const int g_StaticIndexForSale = 25;
+
 static LPCTSTR g_StaticItems[][1] = { //0: default text
 		{ _T("合同号:") },
 		{ _T("客户名称:") },
@@ -381,14 +390,14 @@ static LPCTSTR g_StaticItems[][1] = { //0: default text
 		{ _T("优先级:") },
 		{ _T("工号:") },
 
-		{ _T("生产日期") },
-		{ _T("包装日期") },
-		{ _T("发货日期") },
-		{ _T("投产编号") },
-		{ _T("出厂编号") },
-		{ _T("轴承") },
-		{ _T("磁钢") },
-		{ _T("备注") }
+		{ _T("生产日期:") },
+		{ _T("包装日期:") },
+		{ _T("发货日期:") },
+		{ _T("投产编号:") },
+		{ _T("出厂编号:") },
+		{ _T("轴承:") },
+		{ _T("磁钢:") },
+		{ _T("备注:") }
 
 };
 
@@ -399,6 +408,9 @@ BOOL CNotificationAddDlg::OnInitDialog()
 	Util_Tools::Util::SetClientSize(m_hWnd, 837, 550);
 	m_btnOK.MoveWindow(556, 40 * 11 + 50, 114, 30);
 	m_btnCancel.MoveWindow(690, 40 * 11 + 50, 114, 30);
+
+	m_btnOK.SetWindowTextW(_T("确认审核"));
+	m_btnCancel.SetWindowTextW(_T("取消审核"));
 
 	CenterWindow();
 
@@ -415,6 +427,14 @@ BOOL CNotificationAddDlg::OnInitDialog()
 		m_aStatics[i] = Util_Tools::Util::CreateStatic(this, IDC_STATIC_BASE + i, g_StaticItems[i][0], _T("Microsoft YaHei"), 12);
 		m_aStatics[i]->MoveWindow(g_StaticPos[i][0], g_StaticPos[i][1], g_StaticPos[i][2], g_StaticPos[i][3]);
 		m_aStatics[i]->SetTextAlign(DT_RIGHT);
+
+		if (m_bIsSalePage)
+		{
+			if (i >= g_StaticIndexForSale)
+			{
+				m_aStatics[i]->ShowWindow(SW_HIDE);
+			}
+		}
 	}
 
 	//init static to show
@@ -423,6 +443,14 @@ BOOL CNotificationAddDlg::OnInitDialog()
 		m_aStaticsToShow[i] = Util_Tools::Util::CreateStatic(this, IDC_STATIC_TOSHOW_BASE + i, _T(""), _T("Microsoft YaHei"), 12);
 		m_aStaticsToShow[i]->MoveWindow(g_StaticToShowPos[i][0], g_StaticToShowPos[i][1], g_StaticToShowPos[i][2], g_StaticToShowPos[i][3]);
 		m_aStaticsToShow[i]->SetTextAlign(DT_LEFT);
+
+		if (m_bIsSalePage)
+		{
+			if (i >= g_StaticIndexForSale)
+			{
+				m_aStaticsToShow[i]->ShowWindow(SW_HIDE);
+			}
+		}
 	}
 
 	//init edit
