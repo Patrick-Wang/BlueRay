@@ -237,8 +237,6 @@ public class PCJHXX {
 			return PCJHXX.class.getDeclaredField("jhfhrq");
 		case hth:
 			return PCJHXX.class.getDeclaredField("htxxID");
-		case id:
-			return PCJHXX.class.getDeclaredField("pcjhID");
 		case jhshjh:
 			return PCJHXX.class.getDeclaredField("sftgjhsh");
 		case jhshyw:

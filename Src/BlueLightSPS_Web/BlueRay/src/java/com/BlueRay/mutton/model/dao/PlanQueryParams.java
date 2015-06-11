@@ -69,13 +69,13 @@ public class PlanQueryParams {
 
 	// private static int mColumnCount = PcjhColumn.end.ordinal() - 1;
 	{
-		for (int i = PcjhColumn.end.ordinal() - 1; i >= PcjhColumn.id.ordinal(); --i) {
+		for (int i = PcjhColumn.end.ordinal() - 1; i > PcjhColumn.id.ordinal(); --i) {
 			PcjhColumn pcjhCol = PcjhColumn.valueOf(i);
 			try {
 				HtxxColumn htCol = HtxxColumn.valueOf(pcjhCol.name());
-				paramHtxxColMap.put(i, htCol.ordinal());
+				paramHtxxColMap.put(i - 1, htCol.ordinal());
 			} catch (Exception e) {
-				paramPcjhColMap.put(i, pcjhCol.ordinal());
+				paramPcjhColMap.put(i - 1, pcjhCol.ordinal());
 			}
 		}
 

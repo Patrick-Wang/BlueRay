@@ -26,9 +26,11 @@ public class Demo {
 	public static void main(String[] paramArrayOfString) {
 		VBAExcel ve = new VBAExcel();
 		ve.start();
-    	Integer[][] cells = new Integer[1][3];
-    	cells[0] = new Integer[]{0, 2, 2};
-    	ve.runVBABarcode("E:\\code\\BlueRay\\Documentation\\20.xls", cells);
+    	int[] sheets = new int[]{0};
+    	int[] rs = new int[]{2};
+    	int[] cs = new int[]{2};
+
+    	ve.runVBABarcode("E:\\code\\BlueRay\\Documentation\\20.xls", sheets, rs, cs);
 		
 		try {
 			JBarcode localJBarcode =  new JBarcode(

@@ -188,6 +188,7 @@ public class HTXX implements Serializable {
 	}
 	
 	public static Class<?>  getFroeignClass(int col){
+		
 		if(HtxxColumn.khmc.ordinal() == col){
 			return KHXX.class;
 		} else if(HtxxColumn.ggxh.ordinal() == col){

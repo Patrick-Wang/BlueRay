@@ -10,11 +10,30 @@
 class CNotificationPanel :
 	public CBRPanel
 {
+private: 
+	//static void PrehandleRawData(PageData_t& tb){
+	//	bool
+	//	Json::JsonParser jp;
+	//	std::auto_ptr<Json::JsonObject> jo((Json::JsonObject*)(jp.Parse(tb.rawData.GetBuffer())));
+	//	Json::JsonArray& jarows = jo->asArray(L"rows");
+	//	for (int i = 0; i < jarows.size(); ++i)
+	//	{
+	//		Json::JsonArray& jarow = jarows.asArray(i);
+	//		if (jarow.size() == nsSale::end)
+	//		{
+	//			jarow.add()
+	//		}
+	//	}
+	//	tb.rawData.ReleaseBuffer();
+	//	return m_retData;
+	//}
 
 	class CNotificationSearchListener : public CPromise<PageData_t>::IHttpResponse{
 		CONSTRUCTOR_3(CNotificationSearchListener, CNotificationPanel&, notificationPanel, table&, tb, CJQGridAPI*, pJqGridAPI)
 	public:
+
 		virtual void OnSuccess(PageData_t& tb){
+			//PrehandleRawData(tb);
 			m_pJqGridAPI->Refresh(tb.rawData);
 
 			m_tb = tb.rows;

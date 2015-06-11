@@ -6,7 +6,7 @@ public class VBAExcel
 {
     public  native void start();
     public  native void stop();
-    public  native void runVBABarcode(String path, Integer[][] cells);
+    public  native void runVBABarcode(String path, int[] sheets, int[] rows, int[] colss);
     static
     {
     	try{

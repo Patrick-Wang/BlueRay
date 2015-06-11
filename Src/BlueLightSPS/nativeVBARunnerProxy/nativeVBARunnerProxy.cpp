@@ -39,28 +39,30 @@ JNIEXPORT void JNICALL Java_com_vbarunner_VBAExcel_stop(JNIEnv * jvm, jobject ob
 	VBARunner::VBAExcel::Stop();
 }
 
-JNIEXPORT void JNICALL Java_com_vbarunner_VBAExcel_runVBABarcode(JNIEnv * jvm, jobject obj, jstring path, jobjectArray cells)
+JNIEXPORT void JNICALL Java_com_vbarunner_VBAExcel_runVBABarcode(JNIEnv * jvm, jobject obj, jstring path, jintArray sheets, jintArray rows, jintArray cols)
 {
 	wchar_t* str = jstringTostring(jvm, path);
 	System::String^ csPath = gcnew System::String(str);
 	Log(L"str %s", str);
 
 	jboolean jb = false;
-	int count = jvm->GetArrayLength(cells);
+	int count = jvm->GetArrayLength(sheets);
 	array<VBARunner::Cell^, 1>^ csCells = gcnew  array<VBARunner::Cell^, 1>(count);
 	Log(L"count %d", count);
+	jint* jias = jvm->GetIntArrayElements(sheets, &jb);
+	jint* jiar = jvm->GetIntArrayElements(rows, &jb);
+	jint* jiac = jvm->GetIntArrayElements(cols, &jb);
+
 	for (size_t i = 0; i < count; i++)
 	{
-		jobject jo = jvm->GetObjectArrayElement(cells, i);
 
-		jint* jia = jvm->GetIntArrayElements((jintArray)jo, &jb);
-
+		
 		csCells[i] = gcnew VBARunner::Cell();
-		csCells[i]->sheet = jia[0];
+		csCells[i]->sheet = jias[i];
 		Log(L"sheet %d", csCells[i]->sheet);
-		csCells[i]->row = jia[1];
+		csCells[i]->row = jiar[i];
 		Log(L"r %d", csCells[i]->row);
-		csCells[i]->col = jia[2];
+		csCells[i]->col = jiac[i];
 		Log(L"c %d", csCells[i]->col);
 	}
 	

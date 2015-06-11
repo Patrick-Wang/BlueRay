@@ -287,11 +287,11 @@ public class SaleQueryParams {
 	private String parseUnit(JSONObject junit) {
 		int index = junit.getInt("col");
 		String param = junit.getString("param");
-		Class<?> cls = HTXX.getFroeignClass(index);
+		Class<?> cls = HTXX.getFroeignClass(index + 1);
 		String keyName = null;
 		//Field[] fields = HTXX.class.getDeclaredFields();
 		String sql = null;
-		Field field = HTXX.getField(index);
+		Field field = HTXX.getField(index + 1);
 		if (null != mTranslator) {
 			String newValue = mTranslator.in(
 					field.getName(),
@@ -681,10 +681,10 @@ public class SaleQueryParams {
 				} else {
 					sqlBuilder.append(",");
 				}
-				Class<?> cls = HTXX.getFroeignClass(col);
+				Class<?> cls = HTXX.getFroeignClass(col + 1);
 				String order = jsort.getJSONObject(i).getBoolean(
 						"order") ? " asc " : " desc ";
-				Field field = HTXX.getField(col);
+				Field field = HTXX.getField(col + 1);
 				if (null != cls) {
 					connectMap.put(field.getName(), cls);
 					

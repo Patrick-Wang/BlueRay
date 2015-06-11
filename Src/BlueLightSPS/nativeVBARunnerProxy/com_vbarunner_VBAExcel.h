@@ -26,10 +26,10 @@ JNIEXPORT void JNICALL Java_com_vbarunner_VBAExcel_stop
 /*
  * Class:     com_vbarunner_VBAExcel
  * Method:    runVBABarcode
- * Signature: (Ljava/lang/String;[[Ljava/lang/Integer;)V
+ * Signature: (Ljava/lang/String;[I[I[I)V
  */
 JNIEXPORT void JNICALL Java_com_vbarunner_VBAExcel_runVBABarcode
-  (JNIEnv *, jobject, jstring, jobjectArray);
+  (JNIEnv *, jobject, jstring, jintArray, jintArray, jintArray);
 
 #ifdef __cplusplus
 }
