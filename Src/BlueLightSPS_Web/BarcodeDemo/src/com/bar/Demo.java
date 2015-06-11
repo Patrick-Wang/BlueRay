@@ -1,45 +1,35 @@
 package com.bar;
 
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.math.BigDecimal;
 
-import javax.imageio.ImageIO;
-
-import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
-import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
 import org.apache.poi.hssf.usermodel.HSSFPicture;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.util.IOUtils;
 import org.jbarcode.JBarcode;
 import org.jbarcode.encode.Code128Encoder;
-import org.jbarcode.encode.Code39Encoder;
-import org.jbarcode.encode.EAN13Encoder;
 import org.jbarcode.paint.BaseLineTextPainter;
-import org.jbarcode.paint.EAN13TextPainter;
-import org.jbarcode.paint.WideRatioCodedPainter;
 import org.jbarcode.paint.WidthCodedPainter;
 import org.jbarcode.util.ImageUtil;
-import org.krysalis.barcode4j.impl.code128.Code128Bean;
-import org.krysalis.barcode4j.output.bitmap.BitmapCanvasProvider;
-import org.krysalis.barcode4j.tools.UnitConv;
+
+import com.vbarunner.VBAExcel;
 
 public class Demo {
 	
 	
 	
 	public static void main(String[] paramArrayOfString) {
+		VBAExcel ve = new VBAExcel();
+		ve.start();
+    	Integer[][] cells = new Integer[1][3];
+    	cells[0] = new Integer[]{0, 2, 2};
+    	ve.runVBABarcode("E:\\code\\BlueRay\\Documentation\\20.xls", cells);
+		
 		try {
 			JBarcode localJBarcode =  new JBarcode(
 					Code128Encoder.getInstance(),
