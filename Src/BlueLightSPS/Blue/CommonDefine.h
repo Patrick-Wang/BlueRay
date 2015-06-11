@@ -213,10 +213,13 @@ namespace nsNotification{
 	MAKE_PLAN_QUERY_PARAM(name)
 
 #define MAKE_PLAN_QUERY_PARAM(name) \
-	name.AddSortCondition(nsPlan::Column_en::scrq, false); \
-	name.AddSortCondition(nsPlan::Column_en::ggxh, true); 
+	name.AddSortCondition(nsPlan::Column_en::ggxh, false); \
+	name.AddSortCondition(nsPlan::Column_en::khmc, true); 
 
-#define DEFINE_NOTIFICATION_QUERY_PARAM(name) \
+#define DEFINE_NOTIFICATION_SALE_QUERY_PARAM(name) \
 	CJsonQueryParam name;\
-	name.AddSortCondition(nsSale::Column_en::ddrq, false); \
-	name.AddSortCondition(nsSale::Column_en::khmc, true);
+	MAKE_SALE_QUERY_PARAM(name)
+
+#define DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(name) \
+	CJsonQueryParam name;\
+	MAKE_PLAN_QUERY_PARAM(name)

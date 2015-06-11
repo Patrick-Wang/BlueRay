@@ -192,7 +192,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 			break;
 		case CNotificationPanel::Approving_SaleBusiness:
 		{
-			DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+			DEFINE_NOTIFICATION_SALE_QUERY_PARAM(jqp);
 			MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(colIndex, bAsc);
@@ -203,7 +203,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		}
 		case CNotificationPanel::Approving_SalePlan:
 		{
-			DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+			DEFINE_NOTIFICATION_SALE_QUERY_PARAM(jqp);
 			MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(colIndex, bAsc);
@@ -215,7 +215,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		}
 		case CNotificationPanel::Approving_PlanSCRQBusiness:
 		{
-			DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+			DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(colIndex, bAsc);
 			}
@@ -235,7 +235,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		}
 		case CNotificationPanel::Approving_PlanSCRQPlan:
 		{
-			DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+			DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 			CUnitedQuery* uq = MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(colIndex, bAsc);
@@ -253,7 +253,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		}
 		case CNotificationPanel::Approving_PlanBZRQBusiness:
 		{
-			DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+			DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(colIndex, bAsc);
 			}
@@ -273,7 +273,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		}
 		case CNotificationPanel::Approving_PlanBZRQPlan:
 		{
-			DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+			DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(colIndex, bAsc);
 			}
@@ -473,7 +473,9 @@ void CNotificationPanel::OnBnClickedSearch()
 	//m_pJqGridAPI->UncheckedAll();
 	//m_advanceSearchVals.clear();
 
-	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+	//DEFINE_NOTIFICATION_SALE_QUERY_PARAM(jqp);
+	CJsonQueryParam jqp;
+
 	CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
 
 
@@ -486,12 +488,14 @@ void CNotificationPanel::OnBnClickedSearch()
 		break;
 	case CNotificationPanel::Approving_SaleBusiness:
 	{
+		MAKE_SALE_QUERY_PARAM(jqp);
 		jqp.AddApproveCondition(CSale::BUSINESS, false);
 		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		break;
 	}
 	case CNotificationPanel::Approving_SalePlan:
 	{
+		MAKE_PLAN_QUERY_PARAM(jqp);
 		jqp.AddApproveCondition(CSale::PLAN, false);
 		jqp.AddApproveCondition(CSale::BUSINESS, true);
 		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
@@ -499,6 +503,7 @@ void CNotificationPanel::OnBnClickedSearch()
 	}
 	case CNotificationPanel::Approving_PlanSCRQBusiness:
 	{
+		MAKE_PLAN_QUERY_PARAM(jqp);
 		jqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
 		if (NULL != pUq)
 		{
@@ -513,6 +518,7 @@ void CNotificationPanel::OnBnClickedSearch()
 	}
 	case CNotificationPanel::Approving_PlanSCRQPlan:
 	{
+		MAKE_PLAN_QUERY_PARAM(jqp);
 		jqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
 		
 		if (NULL != pUq)
@@ -528,6 +534,7 @@ void CNotificationPanel::OnBnClickedSearch()
 	}
 	case CNotificationPanel::Approving_PlanBZRQBusiness:
 	{
+		MAKE_PLAN_QUERY_PARAM(jqp);
 		jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
 
 		if (NULL != pUq)
@@ -543,6 +550,7 @@ void CNotificationPanel::OnBnClickedSearch()
 	}
 	case CNotificationPanel::Approving_PlanBZRQPlan:
 	{
+		MAKE_PLAN_QUERY_PARAM(jqp);
 		jqp.AddApproveCondition(CPlan::PACK_PLAN, false);
 
 		if (NULL != pUq)
@@ -583,7 +591,7 @@ void CNotificationPanel::OnBnClickedMore()
 	if (IDOK == dlg.DoModal()){
 		m_advanceSearchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
 
-		DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+		CJsonQueryParam jqp;
 		CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
 
 // 		switch (m_enumCurrentApprovingItem)
@@ -616,12 +624,14 @@ void CNotificationPanel::OnBnClickedMore()
 			break;
 		case CNotificationPanel::Approving_SaleBusiness:
 		{
+			MAKE_SALE_QUERY_PARAM(jqp);
 			jqp.AddApproveCondition(CSale::BUSINESS, false);
 			CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
 			break;
 		}
 		case CNotificationPanel::Approving_SalePlan:
 		{
+			MAKE_SALE_QUERY_PARAM(jqp);
 			jqp.AddApproveCondition(CSale::PLAN, false);
 			jqp.AddApproveCondition(CSale::BUSINESS, true);
 			CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
@@ -629,6 +639,7 @@ void CNotificationPanel::OnBnClickedMore()
 		}
 		case CNotificationPanel::Approving_PlanSCRQBusiness:
 		{
+			MAKE_PLAN_QUERY_PARAM(jqp);
 			jqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
 			if (NULL != pUq)
 			{
@@ -643,6 +654,7 @@ void CNotificationPanel::OnBnClickedMore()
 		}
 		case CNotificationPanel::Approving_PlanSCRQPlan:
 		{
+			MAKE_PLAN_QUERY_PARAM(jqp);
 			jqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
 			
 			if (NULL != pUq)
@@ -658,6 +670,7 @@ void CNotificationPanel::OnBnClickedMore()
 		}
 		case CNotificationPanel::Approving_PlanBZRQBusiness:
 		{
+			MAKE_PLAN_QUERY_PARAM(jqp);
 			jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
 
 			if (NULL != pUq)
@@ -673,6 +686,7 @@ void CNotificationPanel::OnBnClickedMore()
 		}
 		case CNotificationPanel::Approving_PlanBZRQPlan:
 		{
+			MAKE_PLAN_QUERY_PARAM(jqp);
 			jqp.AddApproveCondition(CPlan::PACK_PLAN, false);
 
 			if (NULL != pUq)
@@ -1197,7 +1211,7 @@ void CNotificationPanel::OnBnClickedSaleBusinessApprove()
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
-	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+	DEFINE_NOTIFICATION_SALE_QUERY_PARAM(jqp);
 	MakeBasicSearchCondition(jqp);
 	jqp.AddApproveCondition(CSale::BUSINESS, false);
 
@@ -1223,7 +1237,7 @@ void CNotificationPanel::OnBnClickedSalePlanApprove()
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
-	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+	DEFINE_NOTIFICATION_SALE_QUERY_PARAM(jqp);
 	MakeBasicSearchCondition(jqp);
 	jqp.AddApproveCondition(CSale::PLAN, false);
 	jqp.AddApproveCondition(CSale::BUSINESS, true);
@@ -1248,7 +1262,7 @@ void CNotificationPanel::OnBnClickedPlanSCRQBusinessApprove()
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
-	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+	DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 	CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
 	jqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
 	if (NULL != pUq)
@@ -1284,7 +1298,7 @@ void CNotificationPanel::OnBnClickedPlanSCRQPlanApprove()
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 
-	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+	DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
 	CUnitedQuery* pUq = MakeBasicSearchCondition(jqp); 
 	if (NULL != pUq)
@@ -1317,7 +1331,7 @@ void CNotificationPanel::OnBnClickedPlanBZRQBusinessApprove()
 
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
-	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+	DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 
 	jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
 	CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
@@ -1353,7 +1367,7 @@ void CNotificationPanel::OnBnClickedPlanBZRQPlanApprove()
 	m_pJqGridAPI->ShowGrid();
 	HideFirstViewOfNotificationPanel(FALSE);
 
-	DEFINE_NOTIFICATION_QUERY_PARAM(jqp);
+	DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PACK_PLAN, false);
 	CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
 	if (NULL != pUq)
