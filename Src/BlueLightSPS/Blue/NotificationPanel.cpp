@@ -436,7 +436,7 @@ void CNotificationPanel::OnInitChilds()
 		m_btnReturnToFirst.ShowWindow(SW_HIDE);
 
 		m_btnApproveInSecond.Create(this, IDC_NOTIFICATION_BTN_APPROVE);
-		m_btnApproveInSecond.SetWindowText(_T("Õ®π˝…Û∫À"));
+		m_btnApproveInSecond.SetWindowText(_T("…Û∫À"));
 		m_btnApproveInSecond.MoveWindow(130, 70, 90, 25);
 		m_btnApproveInSecond.ShowWindow(SW_HIDE);
 		m_btnApproveInSecond.EnableWindow(FALSE);
@@ -829,6 +829,27 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 
 	std::auto_ptr<CNotificationAddDlg::Option_t> pstOpt;
 	CNotificationAddDlg dlg(_T("…Û∫À"));
+	
+	switch (m_enumCurrentApprovingItem)
+	{
+	case CNotificationPanel::Approving_NULL:
+		break;
+	case CNotificationPanel::Approving_SaleBusiness:
+	case CNotificationPanel::Approving_SalePlan:
+		dlg.SetDlgOption(TRUE);
+		break;
+	case CNotificationPanel::Approving_PlanSCRQBusiness:
+	case CNotificationPanel::Approving_PlanSCRQPlan:
+	case CNotificationPanel::Approving_PlanBZRQBusiness:
+	case CNotificationPanel::Approving_PlanBZRQPlan:
+		dlg.SetDlgOption(FALSE);
+		break;
+	case CNotificationPanel::Approving_END:
+		break;
+	default:
+		break;
+	}
+
 
 	std::vector<int> checkedRows;
 	std::vector<CString>* pRowData = NULL;
