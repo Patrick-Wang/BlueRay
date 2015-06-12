@@ -5,6 +5,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import net.sf.json.JSONObject;
 
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFPatriarch;
@@ -17,6 +22,7 @@ import org.jbarcode.paint.BaseLineTextPainter;
 import org.jbarcode.paint.WidthCodedPainter;
 import org.jbarcode.util.ImageUtil;
 
+import com.vbarunner.Cells;
 import com.vbarunner.VBAExcel;
 
 public class Demo {
@@ -26,12 +32,20 @@ public class Demo {
 	public static void main(String[] paramArrayOfString) {
 		VBAExcel ve = new VBAExcel();
 		ve.start();
-    	int[] sheets = new int[]{0};
-    	int[] rs = new int[]{2};
-    	int[] cs = new int[]{2};
-
-    	ve.runVBABarcode("E:\\code\\BlueRay\\Documentation\\20.xls", sheets, rs, cs);
-		
+    	Integer[] sheets = new Integer[]{0, 1, 2, 3, 4};
+    	Integer[] rs = new Integer[]{2, 2 ,2 ,2 ,2};
+    	Integer[] cs = new Integer[]{2, 2 ,2 ,2 ,2};
+    	List<Integer[]> cells = new ArrayList<Integer[]>();
+    	cells.add(sheets);
+    	cells.add(rs);
+    	cells.add(cs);
+    	Cells cls = new Cells();
+    	cls.setPath("E:\\12.xls");
+    	cls.setCells(cells);
+    	JSONObject jo = JSONObject.fromObject(cls);
+    	
+    	ve.runVBABarcode(jo.toString(), UUID.randomUUID().toString());
+    	ve.stop();
 		try {
 			JBarcode localJBarcode =  new JBarcode(
 					Code128Encoder.getInstance(),

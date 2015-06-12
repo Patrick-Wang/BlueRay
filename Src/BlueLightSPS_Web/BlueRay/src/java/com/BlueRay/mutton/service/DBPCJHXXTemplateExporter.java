@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
@@ -52,6 +53,7 @@ import com.BlueRay.mutton.model.dao.PlanDao;
 import com.BlueRay.mutton.model.dao.SaleDao;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
+import com.BlueRay.mutton.service.vba.VBAExcel;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
 import com.BlueRay.mutton.tool.PoiUtil;
@@ -72,8 +74,9 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 					.getClassLoader().getResource("").getPath()).getPath();
 			pathTemplate = basePath + "META-INF/template.xls";
 			pathMapfile = basePath + "META-INF/template.xml";
+			
 			System.out.println(pathTemplate);
-		} catch (URISyntaxException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -303,7 +306,16 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 		for (int i = count - 1; i >= 0; --i){
 			workbook.removeSheetAt(i);
 		}
-		workbook.write(os);
+		
+		String fileName = new java.util.Date().getTime() + "_bp";
+		File f = File.createTempFile(fileName, ".xls");
+		
+		FileOutputStream fs = new FileOutputStream(f);
+		workbook.write(fs);
+		
+		VBAExcel ve = new VBAExcel();
+		
+		f.delete();
 	}
 
 	private void updateTemplate(String[] ret, Map<Integer, Location[]> locations, HSSFSheet sheet) {
