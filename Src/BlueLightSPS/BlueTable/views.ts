@@ -98,7 +98,7 @@ module ui {
     export class NotificationView extends base.GridView {
         private static ins: NotificationView;
         public static widths: number[] = [
-            66, 136, 63, 35, 35, 35, 42, 62, 127, 34, 72, 60, 47, 46, 107, 62, 72, 48, 45, 70, 47, 120, 34, 39, 48, 41, 71, 71, 80, 75, 80, 80, 70, 50, 52
+            66, 136, 63, 35, 35, 35, 42, 62, 127, 34, 72, 60, 47, 46, 107, 62, 72, 48, 45, 70, 47, 120, 34, 39, 48, 41, 71, 71, 71, 71, 80, 75, 80, 80, 70, 50, 52
         ];
         public static getInstance(gridName: string): NotificationView {
             if (undefined == NotificationView.ins) {
