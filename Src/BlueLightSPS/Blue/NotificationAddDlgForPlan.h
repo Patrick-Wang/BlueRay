@@ -36,10 +36,10 @@ if (data.end() == it)\
 break;\
 }\
 {\
-std::vector<CString>::const_iterator itRet = std::find(CNotificationAddDlg::GetDropList()[drops].begin(), CNotificationAddDlg::GetDropList()[drops].end(), *it); \
-if (itRet != CNotificationAddDlg::GetDropList()[drops].end())\
+std::vector<CString>::const_iterator itRet = std::find(CNotificationAddDlgForPlan::GetDropList()[drops].begin(), CNotificationAddDlgForPlan::GetDropList()[drops].end(), *it); \
+if (itRet != CNotificationAddDlgForPlan::GetDropList()[drops].end())\
 {\
-dest = itRet - CNotificationAddDlg::GetDropList()[drops].begin(); \
+dest = itRet - CNotificationAddDlgForPlan::GetDropList()[drops].begin(); \
 }\
 else{\
 		dest = OPT_FALSE_INT; \
@@ -56,10 +56,10 @@ if (data.end() == it)\
 break;\
 }\
 if(OPT_FALSE_INT != dest){\
-	std::vector<CString>::const_iterator itRet = std::find(CNotificationAddDlg::GetDropList()[drops].begin(), CNotificationAddDlg::GetDropList()[drops].end(), *it);\
-	if (itRet != CNotificationAddDlg::GetDropList()[drops].end())\
+	std::vector<CString>::const_iterator itRet = std::find(CNotificationAddDlgForPlan::GetDropList()[drops].begin(), CNotificationAddDlgForPlan::GetDropList()[drops].end(), *it);\
+	if (itRet != CNotificationAddDlgForPlan::GetDropList()[drops].end())\
 									{\
-		if ((itRet - CNotificationAddDlg::GetDropList()[drops].begin()) != dest)\
+		if ((itRet - CNotificationAddDlgForPlan::GetDropList()[drops].begin()) != dest)\
 																		{\
 			dest = OPT_FALSE_INT;\
 																		}\
@@ -70,7 +70,7 @@ if (data.end() == ++it)\
 break;\
 }
 
-class CNotificationAddDlg : public CPopupDlg
+class CNotificationAddDlgForPlan : public CPopupDlg
 {
 public:
 
@@ -78,6 +78,9 @@ public:
 		CString htbh;	//合同号
 		CString khmc;	//客户名称
 		CString ggbh;	//规格型号
+
+		CString cg;		//磁钢
+
 		CString sl;		//数量
 		CString zc;		//轴承
 		CString dfr;	//单复绕
@@ -112,28 +115,27 @@ public:
 		CString tcbh;	//投产编号
 		CString ccbh;	//出厂编号
 
-		CString zc_forPlan; //轴承 
-		CString bz_forPlan; //备注
-
-		CString cg;		//磁钢
 
 		tagOption_t(){
-			htbh = OPT_FALSE;			//合同号
-			khmc = OPT_FALSE;		//客户名称
-			ggbh = OPT_FALSE;		//规格型号
-			sl = OPT_FALSE;				//数量
-			zc = OPT_FALSE;			//轴承
-			dfr = OPT_FALSE;		//单复绕
-			zdqdy = OPT_FALSE;		//制动器电压
-			yylgg = OPT_FALSE;		//曳引轮规格
-			jf = OPT_FALSE;			//机房
-			bpqxh = OPT_FALSE;		//变频器型号
-			bmqxh = OPT_FALSE;		//编码器型号
-			dlcd = OPT_FALSE;			//电缆长度
-			zxcd = OPT_FALSE;			//闸线长度
-			mpzl = OPT_FALSE;		//铭牌等资料
-			ddrq = OPT_FALSE;			//订单日期
-			bz = OPT_FALSE;				//备注
+			htbh = OPT_FALSE;	
+			khmc = OPT_FALSE;	
+			ggbh = OPT_FALSE;	
+
+			cg = OPT_FALSE;
+
+			sl = OPT_FALSE;		
+			zc = OPT_FALSE;		
+			dfr = OPT_FALSE;	
+			zdqdy = OPT_FALSE;	
+			yylgg = OPT_FALSE;	
+			jf = OPT_FALSE;		
+			bpqxh = OPT_FALSE;	
+			bmqxh = OPT_FALSE;	
+			dlcd = OPT_FALSE;	
+			zxcd = OPT_FALSE;	
+			mpzl = OPT_FALSE;	
+			ddrq = OPT_FALSE;	
+			bz = OPT_FALSE;		
 
 			zjdy = OPT_FALSE;
 			zjys = OPT_FALSE;
@@ -145,29 +147,29 @@ public:
 			yxj = OPT_FALSE;
 			gh = OPT_FALSE;
 
-			scrq = OPT_FALSE;	//生产日期
-			jhywsh = OPT_FALSE;	//计划审核-业务
-			jhjhsh = OPT_FALSE;	//计划审核-计划
-			bzrq = OPT_FALSE;	//包装日期
-			bzywsh = OPT_FALSE;	//包装审核-业务
-			bzjhsh = OPT_FALSE;	//包装审核-计划
-			fhrq = OPT_FALSE;	//发货日期
-			tcbh = OPT_FALSE;	//投产编号
-			ccbh = OPT_FALSE;	//出厂编号
+			scrq = OPT_FALSE;	
+			jhywsh = OPT_FALSE;	
+			jhjhsh = OPT_FALSE;	
+			bzrq = OPT_FALSE;	
+			bzywsh = OPT_FALSE;	
+			bzjhsh = OPT_FALSE;	
+			fhrq = OPT_FALSE;	
+			tcbh = OPT_FALSE;	
+			ccbh = OPT_FALSE;	
 
-			zc_forPlan = OPT_FALSE; //轴承 for plan
-			bz_forPlan = OPT_FALSE; //轴承 for plan
-
-			cg = OPT_FALSE;
 		}
 
 		tagOption_t(std::vector<CString>& data){
 			do
 			{
+				//必须按照显示顺序，同表格内容一一对应
 				std::vector<CString>::iterator it = data.begin();
 				do_get(data, it, htbh);
 				do_get(data, it, khmc);
 				do_get(data, it, ggbh);
+
+				do_get(data, it, cg);
+
 				do_get(data, it, sl);
 				do_get(data, it, zc);
 				do_get(data, it, dfr);
@@ -206,20 +208,20 @@ public:
 				do_get(data, it, tcbh);
 				do_get(data, it, ccbh);
 
-				do_get(data, it, zc_forPlan);
-				do_get(data, it, bz_forPlan);
-
-				do_get(data, it, cg);
 
 			} while (false);
 		}
 		void Merge(std::vector<CString>& data){
 			do
 			{
+				//必须按照显示顺序，同表格内容一一对应
 				std::vector<CString>::iterator it = data.begin();
 				do_get_merge(data, it, htbh);
 				do_get_merge(data, it, khmc);
 				do_get_merge(data, it, ggbh);
+
+				do_get_merge(data, it, cg);
+
 				do_get_merge(data, it, sl);
 				do_get_merge(data, it, zc);
 				do_get_merge(data, it, dfr);
@@ -258,28 +260,26 @@ public:
 				do_get_merge(data, it, tcbh);
 				do_get_merge(data, it, ccbh);
 
-				do_get_merge(data, it, zc_forPlan);
-				do_get_merge(data, it, bz_forPlan);
-
-				do_get_merge(data, it, cg);
 
 			} while (false);
 		}
 	}Option_t;
 
 
-	CNotificationAddDlg(LPCTSTR title, CWnd* pParent = NULL);
-	~CNotificationAddDlg();
+	CNotificationAddDlgForPlan(LPCTSTR title, CWnd* pParent = NULL);
+	~CNotificationAddDlgForPlan();
 	void SetOption(Option_t* lpOpt);
 
 private:
+
+	//代表要显示到界面的信息，不必须按顺序，可以为表格字段的子集
 	enum StaticId{
 		Static_HTH,
 		Static_KHMC,
 		Static_GGBH,
+		Static_CG,
 		Static_SL,
 		Static_ZC,
-		Static_DFR,
 		Static_ZDQDY,
 		Static_YYLGG,
 		Static_JF,
@@ -289,7 +289,6 @@ private:
 		Static_ZXCD,
 		Static_MPZL,
 		Static_DDRQ,
-		Static_BZ,
 
 		Static_ZJDY,
 		Static_ZJYS,
@@ -298,64 +297,22 @@ private:
 		Static_BZXDTGG,
 		Static_ZZS,
 		Static_KHQY,
-		Static_YXJ,
 		Static_GH,
 
 		Static_SCRQ,
+		Static_JHYWSH,
+		Static_JHJHSH,
 		Static_BZRQ,
+		Static_BZYWSH,
+		Static_BZJHSH,
 		Static_FHRQ,
 		Static_TCBH,
 		Static_CCBH,
 
-		Static_ZC_ForPlan,
-		Static_BZ_ForPlan,
+		Static_BZ,
 
-		Static_CG,
-
-		Static_END
-	};
-
-	enum StaticId2{
-		Static2_HTH,
-		Static2_KHMC,
-		Static2_GGBH,
-		Static2_SL,
-		Static2_ZC,
-		Static2_DFR,
-		Static2_ZDQDY,
-		Static2_YYLGG,
-		Static2_JF,
-		Static2_BPQXH,
-		Static2_BMQXH,
-		Static2_DLCD,
-		Static2_ZXCD,
-		Static2_MPZL,
-		Static2_DDRQ,
-		Static2_BZ,
-
-		Static2_ZJDY,
-		Static2_ZJYS,
-		Static2_ZDQXH,
-		Static2_ZYZ,
-		Static2_BZXDTGG,
-		Static2_ZZS,
-		Static2_KHQY,
-		Static2_YXJ,
-		Static2_GH,
-
-		Static2_SCRQ,
-		Static2_BZRQ,
-		Static2_FHRQ,
-		Static2_TCBH,
-		Static2_CCBH,
-
-		Static2_ZC_ForPlan,
-		Static2_BZ_ForPlan,
-
-		Static2_CG,
-
-
-		Static2_END
+		Static_END	
+	
 	};
 
 	DECLARE_MESSAGE_MAP()
@@ -365,7 +322,7 @@ public:
 	void OnHttpSuccess(int id, LPCTSTR resp);
 	void OnHttpFailed(int id);
 	static const std::vector<std::vector<CString>>& GetDropList();
-	CDelegate<void(CNotificationAddDlg&)> d_GetOption;
+	CDelegate<void(CNotificationAddDlgForPlan&)> d_GetOption;
 	afx_msg void OnNcDestroy();
 
 	void SetDlgOption(BOOL bIsSalePage = FALSE);
@@ -382,7 +339,8 @@ private:
 	static std::vector<std::vector<CString>> m_DropList;
 	static int m_iRef;
 	CBSStatic* m_aStatics[StaticId::Static_END];
-	CBSStatic* m_aStaticsToShow[StaticId2::Static2_END];
+	//CBSStatic* m_aStaticsToShow[StaticId2::Static2_END];
+	CBSStatic* m_aStaticsToShow[StaticId::Static_END];
 
 	BOOL m_bIsSalePage;
 
