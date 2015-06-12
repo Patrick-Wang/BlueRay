@@ -16,10 +16,11 @@ static int g_TableToBeReplacedByNullForSale[]
 };
 
 //同上，代表Plan中需要被占位的部分
-// static int g_TableToBeReplacedByNullForSale[]
-// {
-// 	nsNotification::Column_en::cg
-// };
+static int g_TableToBeReplacedByNullForPlan[]
+{
+	nsNotification::Column_en::ywsh,
+		nsNotification::Column_en::jhsh
+};
 
 
 class CNotificationPanel :
@@ -49,6 +50,34 @@ private:
 
 		virtual void OnSuccess(PageData_t& tb){
 			//PrehandleRawData(tb);
+
+			if (m_notificationPanel.IsSaleApproving())
+			{
+				for (size_t i = 0, len = (tb.rows).size(); i < len; i++)
+				{
+					for (int index = 0; index < _countof(g_TableToBeReplacedByNullForSale); index++)
+					{
+						(tb.rows)[i].second.insert((tb.rows)[i].second.begin() + g_TableToBeReplacedByNullForSale[index], _T(""));
+					}
+				}
+
+				//需要增加对Json的修改，根据g_TableToBeReplacedByNullForSale定义的位置，增加列，值为空字符串
+
+			}
+			else
+			{
+				for (size_t i = 0, len = (tb.rows).size(); i < len; i++)
+				{
+					for (int index = 0; index < _countof(g_TableToBeReplacedByNullForPlan); index++)
+					{
+						(tb.rows)[i].second.insert((tb.rows)[i].second.begin() + g_TableToBeReplacedByNullForPlan[index], _T(""));
+					}
+				}
+
+				//需要增加对Json的修改，根据g_TableToBeReplacedByNullForSale定义的位置，增加列，值为空字符串
+
+			}
+
 			m_pJqGridAPI->Refresh(tb.rawData);
 
 			m_tb = tb.rows;
@@ -74,13 +103,32 @@ private:
 		virtual void OnSuccess(PageData_t& page){
 
 
-// 			for (size_t i = 0, len = (page.rows).size(); i < len; i++)
-// 			{
-// 				for (int index = 0; index < _countof(g_TableToBeReplacedByNullForSale); index++)
-// 				{
-// 					(page.rows)[i].second.insert((page.rows)[i].second.begin() + g_TableToBeReplacedByNullForSale[index], _T(""));
-// 				}
-// 			}
+			if (m_panel.IsSaleApproving())
+			{
+				for (size_t i = 0, len = (page.rows).size(); i < len; i++)
+				{
+					for (int index = 0; index < _countof(g_TableToBeReplacedByNullForSale); index++)
+					{
+						(page.rows)[i].second.insert((page.rows)[i].second.begin() + g_TableToBeReplacedByNullForSale[index], _T(""));
+					}
+				}
+
+				//需要增加对Json的修改，根据g_TableToBeReplacedByNullForSale定义的位置，增加列，值为空字符串
+
+			}
+			else
+			{
+				for (size_t i = 0, len = (page.rows).size(); i < len; i++)
+				{
+					for (int index = 0; index < _countof(g_TableToBeReplacedByNullForPlan); index++)
+					{
+						(page.rows)[i].second.insert((page.rows)[i].second.begin() + g_TableToBeReplacedByNullForPlan[index], _T(""));
+					}
+				}
+
+				//需要增加对Json的修改，根据g_TableToBeReplacedByNullForSale定义的位置，增加列，值为空字符串
+
+			}
 
 			m_pJqGridAPI->Refresh(page.rawData);
 			m_page = page.rows;
@@ -186,5 +234,7 @@ public:
 	afx_msg void OnBnClickedBtnApprove();
 	afx_msg void OnBnClickedBtnReturn();
 	afx_msg void OnBnClickedBtnTableFilter();
+
+	bool IsSaleApproving();
 };
 
