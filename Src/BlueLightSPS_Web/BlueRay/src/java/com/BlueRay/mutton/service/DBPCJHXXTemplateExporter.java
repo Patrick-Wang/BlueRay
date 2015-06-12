@@ -1,11 +1,14 @@
 package com.BlueRay.mutton.service;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -53,6 +56,7 @@ import com.BlueRay.mutton.model.dao.PlanDao;
 import com.BlueRay.mutton.model.dao.SaleDao;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
+import com.BlueRay.mutton.service.vba.Cells;
 import com.BlueRay.mutton.service.vba.VBAExcel;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
@@ -213,6 +217,10 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 				pathTemplate)));
 		String[] ret = new String[PcjhColumn.end.ordinal()];
 		Location rq = new Location('A', 2);
+		Cells cells = new Cells();
+		cells.getCells().add(new ArrayList<Integer>());
+		cells.getCells().add(new ArrayList<Integer>());
+		cells.getCells().add(new ArrayList<Integer>());
 		int count = workbook.getNumberOfSheets();
 		for (int i = 0, len = excel.getRowCount(); i < len; ++i) {
 			pcxxs.set(0, excel.getRow(i));
@@ -233,8 +241,10 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 			
 			int index = workbook.getSheetIndex(type);
 			sheet = workbook.cloneSheet(index);
+			cells.getCells().get(0).add(workbook.getNumberOfSheets() - count);
 			locations = DBTemplateMap.get(type);
-
+			//
+			locations.get(PcjhColumn.bmqxh);
 			
 			if (sheet != null) {
 				updateTemplate(ret, locations, sheet);
@@ -309,12 +319,25 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 		
 		String fileName = new java.util.Date().getTime() + "_bp";
 		File f = File.createTempFile(fileName, ".xls");
-		
+		cells.setPath(f.getAbsolutePath() + "/" + f.getName());
 		FileOutputStream fs = new FileOutputStream(f);
-		workbook.write(fs);
+		workbook.write(os);
+		fs.close();
 		
-		VBAExcel ve = new VBAExcel();
 		
+		
+		
+		
+		f = new File(fileName + ".xls");
+		FileInputStream fi = new FileInputStream(f);
+
+		byte[] buffer = new byte[1024];
+
+		int len = -1;
+	    while ((len = fi.read(buffer)) != -1) {
+	        	os.write(buffer, 0, len);
+	    }
+		fi.close();
 		f.delete();
 	}
 

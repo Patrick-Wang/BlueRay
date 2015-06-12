@@ -1,10 +1,11 @@
 package com.BlueRay.mutton.service.vba;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Cells {
 	private String path;
-	private List<Integer[]> cells;
+	private List<List<Integer>> cells = new ArrayList<List<Integer>>();
 	/**
 	 * @return the path
 	 */
@@ -14,7 +15,7 @@ public class Cells {
 	/**
 	 * @return the cells
 	 */
-	public List<Integer[]> getCells() {
+	public List<List<Integer>> getCells() {
 		return cells;
 	}
 	/**
@@ -26,7 +27,7 @@ public class Cells {
 	/**
 	 * @param cells the cells to set
 	 */
-	public void setCells(List<Integer[]> cells) {
+	public void setCells(List<List<Integer>> cells) {
 		this.cells = cells;
 	}
 }
