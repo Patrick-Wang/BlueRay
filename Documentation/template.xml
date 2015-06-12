@@ -1,0 +1,115 @@
+﻿<template>
+<!-- 	
+	hth, // 合同号"
+	khmc, // 客户名称"
+	ggxh, // 规格型号"
+	sl, // 数量"
+	zc, // 轴承"
+	dfr, // 单复绕"
+	zdqdy, // 制动器电压"
+	yylgg, // 曳引轮规格"
+	jf, // 机房"
+	bpqxh, // 变频器型号"
+	bmqxh, // 编码器型号"
+	dlcd, // 电缆长度"
+	zxcd, // 闸线长度"
+	mpzl, // 铭牌等资料"
+	bz, // 备注"
+	ddrq, // 订单日期"
+	zjdy, // 主机电压
+	zjys, // 主机颜色
+	zdqxh, // 制动器型号
+	zyz, // 左/右置
+	bzxdtgg, // 包装箱/底托规格
+	gh, // 工号
+	zzs, // 制造商
+	khqy, // 客户区域
+	yxj, // 优先级"
+	scrq, // 生产日期"
+	jhshyw, // 计划审核-业务"
+	jhshjh, // 计划审核-计划"
+	bzrq, // 包装日期"
+	bzshyw, // 包装审核-业务"
+	bzshjh, // 包装审核-计划"
+	fhrq, // 发货日期"
+	tcbh, // 投产编号"
+	ccbh, // 出厂编号"
+-->
+
+<sheet>
+	<sheet_name>S</sheet_name>
+	<sheet_name>TA</sheet_name>
+	<sheet_name>T</sheet_name>
+	<sheet_name>Y</sheet_name>
+	<sheet_name>U</sheet_name>
+	<sheet_name>V</sheet_name>
+	<sheet_name>L</sheet_name>
+	<table_field name="tcbh">
+		<cell row="3" col="C"></cell>
+	</table_field>
+	<table_field name="khmc">
+		<cell row="3" col="H"></cell>
+	</table_field>
+	<table_field name="ggxh">
+		<cell row="4" col="C"></cell>
+	</table_field>
+	<table_field name="yylgg">
+		<cell row="4" col="H"></cell>
+	</table_field>
+	<table_field name="zc">
+		<cell row="5" col="C"></cell>
+	</table_field>
+	<table_field name="zjys">
+		<cell row="5" col="H"></cell>
+	</table_field>
+	<table_field name="bmqxh">
+		<cell row="6" col="C"></cell>
+	</table_field>
+	<table_field name="zdqxh">
+		<cell row="6" col="H"></cell>
+	</table_field>
+	<table_field name="zjdy">
+		<cell row="7" col="C"></cell>
+	</table_field>
+	<table_field name="zdqdy">
+		<cell row="7" col="H"></cell>
+	</table_field>
+	<table_field name="jf">
+		<cell row="7" col="N"></cell>
+	</table_field>
+	<table_field name="zyz">
+		<cell row="7" col="Q"></cell>
+	</table_field>
+	<table_field name="ccbh">
+		<cell row="8" col="C"></cell>
+	</table_field>
+	<table_field name="zzs">
+		<cell row="8" col="H"></cell>
+	</table_field>
+	<table_field name="hth">
+		<cell row="32" col="C"></cell>
+	</table_field>
+	<table_field name="zxcd">
+		<cell row="32" col="H"></cell>
+	</table_field>
+	<table_field name="bpqxh">
+		<cell row="33" col="C"></cell>
+	</table_field>
+	<table_field name="dlcd">
+		<cell row="33" col="H"></cell>
+	</table_field>
+	<table_field name="gh">
+		<cell row="34" col="C"></cell>
+	</table_field>
+	<table_field name="bzxdtgg">
+		<cell row="35" col="D"></cell>
+	</table_field>
+	<table_field name="bz">
+		<cell row="36" col="D"></cell>
+	</table_field>
+	<table_field name="mpzl">
+		<cell row="38" col="D"></cell>
+	</table_field>
+</sheet>
+
+</template>
