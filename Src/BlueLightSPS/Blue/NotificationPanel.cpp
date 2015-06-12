@@ -47,16 +47,21 @@ static int g_ButtoncPos[][4] = {
 
 static int g_TableToBeHiddenForPlan[]
 {
-
-		nsNotification::Column_en::jhshyw,
-		nsNotification::Column_en::jhshjh,
-		nsNotification::Column_en::bzshyw,
-		nsNotification::Column_en::bzshjh
+	nsNotification::Column_en::ywsh,
+		nsNotification::Column_en::jhsh,
+		nsNotification::Column_en::dfr,
+		nsNotification::Column_en::yxj
+// 		nsNotification::Column_en::jhshyw,
+// 		nsNotification::Column_en::jhshjh,
+// 		nsNotification::Column_en::bzshyw,
+// 		nsNotification::Column_en::bzshjh
 };
 
 static int g_TableToBeHiddenForSale[]
 {
-	//nsNotification::Column_en::cg,
+	nsNotification::Column_en::cg,
+	nsNotification::Column_en::dfr,
+		nsNotification::Column_en::yxj,
 		nsNotification::Column_en::scrq,
 		nsNotification::Column_en::jhshyw,
 		nsNotification::Column_en::jhshjh,
@@ -1647,4 +1652,35 @@ void CNotificationPanel::OnReturnApprovedNum(CNotification::Unapproved_t& stUnap
 	}
 
 	m_advanceSearchVals.clear();
+}
+
+
+bool CNotificationPanel::IsSaleApproving()
+{
+	bool bRet = false;
+	switch (m_enumCurrentApprovingItem)
+	{
+	case CNotificationPanel::Approving_NULL:
+		break;
+	case CNotificationPanel::Approving_SaleBusiness:
+	case CNotificationPanel::Approving_SalePlan:
+	{
+		bRet = true;
+		break;
+	}
+	case CNotificationPanel::Approving_PlanSCRQBusiness:
+	case CNotificationPanel::Approving_PlanSCRQPlan:
+	case CNotificationPanel::Approving_PlanBZRQBusiness:
+	case CNotificationPanel::Approving_PlanBZRQPlan:
+	{
+		bRet = false;
+		break;
+	}
+	case CNotificationPanel::Approving_END:
+		break;
+	default:
+		break;
+	}
+
+	return bRet;
 }
