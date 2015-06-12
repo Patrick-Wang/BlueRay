@@ -7,6 +7,21 @@
 #include "Notification.h"
 #include "JsonQueryParam.h"
 
+
+//由于Sale和plan的Notification表使用相同的表头，需要将在Plan里存在，
+//但Sale里不存在的列，使用空字符串占位，避免显示的时候数据列所在的位置不正确
+static int g_TableToBeReplacedByNullForSale[]
+{
+	nsNotification::Column_en::cg
+};
+
+//同上，代表Plan中需要被占位的部分
+// static int g_TableToBeReplacedByNullForSale[]
+// {
+// 	nsNotification::Column_en::cg
+// };
+
+
 class CNotificationPanel :
 	public CBRPanel
 {
@@ -57,6 +72,16 @@ private:
 		CONSTRUCTOR_3(CQueryListener, CNotificationPanel&, panel, table&, page, CJQGridAPI*, pJqGridAPI)
 	public:
 		virtual void OnSuccess(PageData_t& page){
+
+
+// 			for (size_t i = 0, len = (page.rows).size(); i < len; i++)
+// 			{
+// 				for (int index = 0; index < _countof(g_TableToBeReplacedByNullForSale); index++)
+// 				{
+// 					(page.rows)[i].second.insert((page.rows)[i].second.begin() + g_TableToBeReplacedByNullForSale[index], _T(""));
+// 				}
+// 			}
+
 			m_pJqGridAPI->Refresh(page.rawData);
 			m_page = page.rows;
 

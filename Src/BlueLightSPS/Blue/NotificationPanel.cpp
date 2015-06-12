@@ -43,6 +43,8 @@ static int g_ButtoncPos[][4] = {
 		{ 20 + (g_button_width + g_static_width * 2 + g_space_between), 123 - 10, g_button_width, 25 }
 };
 
+
+
 static int g_TableToBeHiddenForPlan[]
 {
 
@@ -54,7 +56,7 @@ static int g_TableToBeHiddenForPlan[]
 
 static int g_TableToBeHiddenForSale[]
 {
-	nsNotification::Column_en::cg,
+	//nsNotification::Column_en::cg,
 		nsNotification::Column_en::scrq,
 		nsNotification::Column_en::jhshyw,
 		nsNotification::Column_en::jhshjh,
