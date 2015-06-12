@@ -117,6 +117,7 @@ namespace nsPlan{
 		hth,	//合同号"
 		khmc,	//客户名称"
 		ggxh,	//规格型号"
+		cg,
 		sl,	//数量"
 		zc,	//轴承"
 		dfr,	//单复绕"

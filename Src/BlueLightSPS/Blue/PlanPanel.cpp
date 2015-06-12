@@ -687,7 +687,8 @@ void CPlanPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	}
 	else
 	{
-		m_dtcSearchFrom->GetWindowText(strFrom);
+		bHasFrom = false;
+		//m_dtcSearchFrom->GetWindowText(strFrom);
 	}
 
 	dwResult = m_dtcSearchTo->GetTime(time);
@@ -698,7 +699,8 @@ void CPlanPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	}
 	else
 	{
-		m_dtcSearchTo->GetWindowText(strTo);
+		bHasTo = false;
+		//m_dtcSearchTo->GetWindowText(strTo);
 	}
 
 	if (bHasFrom || bHasTo)
@@ -718,7 +720,8 @@ void CPlanPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	}
 	else
 	{
-		m_dtcSCRQSearchFrom->GetWindowText(strSCRQFrom);
+		bHasFrom = false;
+		//m_dtcSCRQSearchFrom->GetWindowText(strSCRQFrom);
 	}
 
 	dwResult = m_dtcSCRQSearchTo->GetTime(time);
