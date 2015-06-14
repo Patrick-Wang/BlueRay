@@ -106,27 +106,25 @@ static int g_CheckBoxPos[][4] = {
 		{ 80 * 3 + 80 * 2, 40 * 4, 100, 20 }, //CheckBox_MPZL,
 		{ 80 * 4 + 80 * 3, 40 * 4, 100, 20 }, //CheckBox_BZ,
 		{ 80 * 1 + 80 * 0, 40 * 5, 100, 20 }, //CheckBox_DDRQ,
-		{ 80 * 2 + 80 * 1, 40 * 5, 100, 20 }, //CheckBox_SHYW,
-		{ 80 * 3 + 80 * 2, 40 * 5, 100, 20 }, //CheckBox_SHJH,
-		{ 80 * 4 + 80 * 3, 40 * 5, 100, 20 }, //CheckBox_ZJDY,
-		{ 80 * 1 + 80 * 0, 40 * 6, 100, 20 }, //CheckBox_ZJYS,
-		{ 80 * 2 + 80 * 1, 40 * 6, 100, 20 }, //CheckBox_ZDQXH,
-		{ 80 * 3 + 80 * 2, 40 * 6, 100, 20 }, //CheckBox_ZYZ,
-		{ 80 * 4 + 80 * 3, 40 * 6, 100, 20 }, //CheckBox_BZXDTGG,
-		{ 80 * 1 + 80 * 0, 40 * 7, 100, 20 }, //CheckBox_ZZS,
-		{ 80 * 2 + 80 * 1, 40 * 7, 100, 20 }, //CheckBox_KHQY,
-		{ 80 * 3 + 80 * 2, 40 * 7, 100, 20 }, //CheckBox_YXJ,
-		{ 80 * 4 + 80 * 3, 40 * 7, 100, 20 },  //CheckBox_GH,
-		{ 80 * 1 + 80 * 0, 40 * 8, 100, 20 }, //CheckBox_SCRQ,
-		{ 80 * 2 + 80 * 1, 40 * 8, 100, 20 }, //CheckBox_JHSHYW,
-		{ 80 * 3 + 80 * 2, 40 * 8, 100, 20 }, //CheckBox_JHSHJH,
-		{ 80 * 4 + 80 * 3, 40 * 8, 100, 20 }, //CheckBox_BZRQ,
-		{ 80 * 1 + 80 * 0, 40 * 9, 100, 20 }, //CheckBox_BZSHYW,
-		{ 80 * 2 + 80 * 1, 40 * 9, 100, 20 }, //CheckBox_BZSHJH,
-		{ 80 * 3 + 80 * 2, 40 * 9, 100, 20 }, //CheckBox_FHRQ,
-		{ 80 * 4 + 80 * 3, 40 * 9, 100, 20 }, //CheckBox_TCBH,
-		{ 80 * 1 + 80 * 0, 40 * 10, 100, 20 } //CheckBox_CCBH,
-};											 
+		{ 80 * 2 + 80 * 1, 40 * 5, 100, 20 }, //CheckBox_ZJDY,
+		{ 80 * 3 + 80 * 2, 40 * 5, 100, 20 }, //CheckBox_ZJYS,
+		{ 80 * 4 + 80 * 3, 40 * 5, 100, 20 }, //CheckBox_ZDQXH,
+		{ 80 * 1 + 80 * 0, 40 * 6, 100, 20 }, //CheckBox_ZYZ,
+		{ 80 * 2 + 80 * 1, 40 * 6, 100, 20 }, //CheckBox_BZXDTGG
+		{ 80 * 3 + 80 * 2, 40 * 6, 100, 20 }, //CheckBox_ZZS,
+		{ 80 * 4 + 80 * 3, 40 * 6, 100, 20 }, //CheckBox_KHQY,,
+		{ 80 * 1 + 80 * 0, 40 * 7, 100, 20 }, //CheckBox_YXJ,
+		{ 80 * 2 + 80 * 1, 40 * 7, 100, 20 },  //CheckBox_GH,
+		{ 80 * 3 + 80 * 2, 40 * 7, 100, 20 }, //CheckBox_SCRQ,
+		{ 80 * 4 + 80 * 3, 40 * 7, 100, 20 }, //CheckBox_JHSHYW,
+		{ 80 * 1 + 80 * 0, 40 * 8, 100, 20 }, //CheckBox_JHSHJH,
+		{ 80 * 2 + 80 * 1, 40 * 8, 100, 20 }, //CheckBox_BZRQ,
+		{ 80 * 3 + 80 * 2, 40 * 8, 100, 20 }, //CheckBox_BZSHYW,
+		{ 80 * 4 + 80 * 3, 40 * 8, 100, 20 }, //CheckBox_BZSHJH,
+		{ 80 * 1 + 80 * 0, 40 * 9, 100, 20 }, //CheckBox_FHRQ,
+		{ 80 * 2 + 80 * 1, 40 * 9, 100, 20 }, //CheckBox_TCBH,
+		{ 80 * 3 + 80 * 2, 40 * 9, 100, 20 }, //CheckBox_CCBH,
+};
 
 // CTableFilterDlgForPlan dialog
 
@@ -174,7 +172,7 @@ bool CTableFilterDlgForPlan::Initialize(CJQGridAPI* pJqGridAPI, PageIDEnum pageI
 			}
 			else if (Page_Notification_Plan == m_enumPage)
 			{
-				pobjSettingManager->GetTableFilterSettingForNotification(g_TableFilterSettingName[i][0], strValue);
+				pobjSettingManager->GetTableFilterSettingForNotificationPlan(g_TableFilterSettingName[i][0], strValue);
 			}
 
 			if (0 != strValue.Compare(IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED))
@@ -232,7 +230,7 @@ BOOL CTableFilterDlgForPlan::OnInitDialog()
 		}
 		else if (Page_Notification_Plan == m_enumPage)
 		{
-			pobjSettingManager->GetTableFilterSettingForNotification(g_TableFilterSettingName[i][0], strValue);
+			pobjSettingManager->GetTableFilterSettingForNotificationPlan(g_TableFilterSettingName[i][0], strValue);
 		}
 
 		if (0 == strValue.Compare(IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED))
@@ -265,7 +263,7 @@ void CTableFilterDlgForPlan::SaveColsSetting(std::vector<CString>& vecColsStatus
 			}
 			else if (Page_Notification_Plan == m_enumPage)
 			{
-				pobjSettingManager->SetTableFilterSettingForNotification(g_TableFilterSettingName[i][0], vecColsStatus[i]);
+				pobjSettingManager->SetTableFilterSettingForNotificationPlan(g_TableFilterSettingName[i][0], vecColsStatus[i]);
 			}
 		}
 	}
@@ -286,7 +284,7 @@ void CTableFilterDlgForPlan::GetColsSetting(std::vector<CString>& vecColsStatus)
 			}
 			else if (Page_Notification_Plan == m_enumPage)
 			{
-				pobjSettingManager->GetTableFilterSettingForNotification(g_TableFilterSettingName[i][0], strValue);
+				pobjSettingManager->GetTableFilterSettingForNotificationPlan(g_TableFilterSettingName[i][0], strValue);
 			}
 
 			vecColsStatus.push_back(strValue);

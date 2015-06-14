@@ -17,10 +17,11 @@ extern CString g_strHostName;
 //setting item define
 
 #define IDS_SETTING_ITEM_ROOT			_T("Settings")
-#define IDS_SETTING_ITEM_TABLEFILTER	_T("TabFilter")
+#define IDS_SETTING_ITEM_TABLEFILTER	_T("TabFilterV2")
 #define IDS_SETTING_ITEM_TABLEFILTER_SALE	_T("Sale")
 #define IDS_SETTING_ITEM_TABLEFILTER_PLAN	_T("Plan")
-#define IDS_SETTING_ITEM_TABLEFILTER_NOTIFICATION	_T("Notification")
+#define IDS_SETTING_ITEM_TABLEFILTER_NOTIFICATIONSALE	_T("NotificationSale")
+#define IDS_SETTING_ITEM_TABLEFILTER_NOTIFICATIONPLAN	_T("NotificationPlan")
 #define IDS_SETTING_ITEM_COL_WIDTH	_T("ColWidths")
 #define IDS_SETTING_ITEM_USERS	_T("Users")
 #define IDS_SETTING_ITEM_LASTLOGINUSER	_T("LastLoginUser")

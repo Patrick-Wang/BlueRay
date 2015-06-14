@@ -16,8 +16,10 @@ public:
 	bool GetTableFilterSettingForSale(LPCTSTR lpSettingName, CString& lpIsSelected);
 	bool SetTableFilterSettingForPlan(LPCTSTR lpSettingName, LPCTSTR lpIsSelected);
 	bool GetTableFilterSettingForPlan(LPCTSTR lpSettingName, CString& lpIsSelected);
-	bool SetTableFilterSettingForNotification(LPCTSTR lpSettingName, LPCTSTR lpIsSelected);
-	bool GetTableFilterSettingForNotification(LPCTSTR lpSettingName, CString& lpIsSelected);
+	bool SetTableFilterSettingForNotificationSale(LPCTSTR lpSettingName, LPCTSTR lpIsSelected);
+	bool GetTableFilterSettingForNotificationSale(LPCTSTR lpSettingName, CString& lpIsSelected);
+	bool SetTableFilterSettingForNotificationPlan(LPCTSTR lpSettingName, LPCTSTR lpIsSelected);
+	bool GetTableFilterSettingForNotificationPlan(LPCTSTR lpSettingName, CString& lpIsSelected);
 	bool GetDafaultSaleAddValue(CString& value);
 	bool SetDafaultSaleAddValue(CString& value);
 	bool ReSetDafaultSaleAddValue();
@@ -28,7 +30,8 @@ private:
 	MSXML2::IXMLDOMNodePtr m_pTableFilterNode;
 	MSXML2::IXMLDOMNodePtr m_pTableFilterNodeForSale;
 	MSXML2::IXMLDOMNodePtr m_pTableFilterNodeForPlan;
-	MSXML2::IXMLDOMNodePtr m_pTableFilterNodeForNotification;
+	MSXML2::IXMLDOMNodePtr m_pTableFilterNodeForNotificationSale;
+	MSXML2::IXMLDOMNodePtr m_pTableFilterNodeForNotificationPlan;
 	MSXML2::IXMLDOMNodePtr m_pColWidthNode;
 	MSXML2::IXMLDOMNodePtr m_pDefaultValueNode;
 	bool m_bParserInitialized;
