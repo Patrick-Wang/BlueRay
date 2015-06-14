@@ -1466,8 +1466,8 @@ void CNotificationPanel::OnLoadDataSuccess(PageData_t& page)
 	m_bIfUpdateTableWhenTableFilter = false;
 
 	
-	CTableFilterDlgForSale *objTableFilterForSale();
-	CTableFilterDlgForPlan *objTableFilterForPlan();
+	CTableFilterDlgForNotificationSale *objTableFilterForSale();
+	CTableFilterDlgForNotificationPlan *objTableFilterForPlan();
 
 	if (NULL != m_pTableFilterForSale)
 	{
@@ -1475,7 +1475,7 @@ void CNotificationPanel::OnLoadDataSuccess(PageData_t& page)
 		m_pTableFilterForSale = NULL;
 	}
 
-	m_pTableFilterForSale = new CTableFilterDlgForSale(_T("表格设置"));
+	m_pTableFilterForSale = new CTableFilterDlgForNotificationSale(_T("表格设置"));
 
 	if (NULL != m_pTableFilterForPlan)
 	{
@@ -1483,7 +1483,7 @@ void CNotificationPanel::OnLoadDataSuccess(PageData_t& page)
 		m_pTableFilterForPlan = NULL;
 	}
 
-	m_pTableFilterForPlan = new CTableFilterDlgForPlan(_T("表格设置"));
+	m_pTableFilterForPlan = new CTableFilterDlgForNotificationPlan(_T("表格设置"));
 
 	if (NULL != m_pTableFilterForSale && NULL != m_pTableFilterForPlan)
 	{
@@ -1493,13 +1493,13 @@ void CNotificationPanel::OnLoadDataSuccess(PageData_t& page)
 			return;
 		case CNotificationPanel::Approving_SaleBusiness:
 		case CNotificationPanel::Approving_SalePlan:
-			m_pTableFilterForSale->Initialize(m_pJqGridAPI.get(), Page_Notification_Sale);
+			m_pTableFilterForSale->Initialize(m_pJqGridAPI.get());
 			break;
 		case CNotificationPanel::Approving_PlanSCRQBusiness:
 		case CNotificationPanel::Approving_PlanSCRQPlan:
 		case CNotificationPanel::Approving_PlanBZRQBusiness:
 		case CNotificationPanel::Approving_PlanBZRQPlan:
-			m_pTableFilterForPlan->Initialize(m_pJqGridAPI.get(), Page_Notification_Plan);
+			m_pTableFilterForPlan->Initialize(m_pJqGridAPI.get());
 			break;
 		case CNotificationPanel::Approving_END:
 			return;

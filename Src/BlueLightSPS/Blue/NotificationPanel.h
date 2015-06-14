@@ -3,8 +3,8 @@
 #include "JQGridAPI.h"
 #include "BSStatic.h"
 #include "BRButton.h"
-#include "TableFilterDlgForSale.h"
-#include "TableFilterDlgForPlan.h"
+#include "TableFilterDlgForNotificationSale.h"
+#include "TableFilterDlgForNotificationPlan.h"
 #include "Notification.h"
 #include "JsonQueryParam.h"
 #include "JsonFactory.h"
@@ -200,8 +200,8 @@ private:
 
 	CBRButton m_btnTableFilter;
 
-	CTableFilterDlgForSale *m_pTableFilterForSale;
-	CTableFilterDlgForPlan *m_pTableFilterForPlan;
+	CTableFilterDlgForNotificationSale *m_pTableFilterForSale;
+	CTableFilterDlgForNotificationPlan *m_pTableFilterForPlan;
 	CBSStatic* m_staticPromotion;
 	bool m_bIfUpdateTableWhenTableFilter;
 	std::vector<CString> m_advanceSearchVals;

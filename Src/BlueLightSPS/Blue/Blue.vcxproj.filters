@@ -261,6 +261,12 @@
     <ClInclude Include="TableFilterDlgForSale.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TableFilterDlgForNotificationPlan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TableFilterDlgForNotificationSale.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blue.cpp">
@@ -441,6 +447,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TableFilterDlgForSale.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TableFilterDlgForNotificationSale.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TableFilterDlgForNotificationPlan.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
