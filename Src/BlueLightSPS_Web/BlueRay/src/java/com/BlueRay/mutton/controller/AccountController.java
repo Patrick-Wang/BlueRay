@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.BlueRay.mutton.service.AccountService;
+import com.vbarunner.VBAExcel;
 
 @Controller
 @RequestMapping(value = "/account")
@@ -33,7 +34,7 @@ public class AccountController {
 			@PathVariable String psw,
 			HttpServletRequest request,
 			HttpServletResponse response) {
-
+		VBAExcel excel = new VBAExcel();
 		HttpSession session = request.getSession(false);
 		String ret = "error";
 		if (null != session){
