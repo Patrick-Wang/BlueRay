@@ -77,8 +77,14 @@ bool CSettingManager::Initialize()
 					break;
 				}
 
-				m_pTableFilterNodeForNotification = m_objXMLParser.CreateChildNode(m_pTableFilterNode, IDS_SETTING_ITEM_TABLEFILTER_NOTIFICATION, _T(""));
-				if (NULL == m_pTableFilterNodeForNotification)
+				m_pTableFilterNodeForNotificationSale = m_objXMLParser.CreateChildNode(m_pTableFilterNode, IDS_SETTING_ITEM_TABLEFILTER_NOTIFICATIONSALE, _T(""));
+				if (NULL == m_pTableFilterNodeForNotificationSale)
+				{
+					break;
+				}
+
+				m_pTableFilterNodeForNotificationPlan = m_objXMLParser.CreateChildNode(m_pTableFilterNode, IDS_SETTING_ITEM_TABLEFILTER_NOTIFICATIONPLAN, _T(""));
+				if (NULL == m_pTableFilterNodeForNotificationPlan)
 				{
 					break;
 				}
@@ -238,8 +244,6 @@ bool CSettingManager::Initialize()
 					break;
 				}
 
-				//////////////////////////////////////////////////////////////////////////
-
 				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForSale, IDS_SETTING_ITEM_TABLEFILTER_SHYW, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
@@ -267,6 +271,12 @@ bool CSettingManager::Initialize()
 				}
 
 				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForPlan, IDS_SETTING_ITEM_TABLEFILTER_GGBH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForPlan, IDS_SETTING_ITEM_TABLEFILTER_CG, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
@@ -405,20 +415,6 @@ bool CSettingManager::Initialize()
 					break;
 				}
 
-				//////////////////////////////////////////////////////////////////////////
-
-				//pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForPlan, IDS_SETTING_ITEM_TABLEFILTER_SHYW, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
-				//if (NULL == pNode)
-				//{
-				//	break;
-				//}
-
-				//pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForPlan, IDS_SETTING_ITEM_TABLEFILTER_SHJH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
-				//if (NULL == pNode)
-				//{
-				//	break;
-				//}
-
 				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForPlan, IDS_SETTING_ITEM_TABLEFILTER_SCRQ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
@@ -473,222 +469,376 @@ bool CSettingManager::Initialize()
 					break;
 				}
 
-				//Notification page
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_HTH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				//Notification page for sale
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_HTH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_KHMC, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_KHMC, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_GGBH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_GGBH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_SL, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_SL, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_ZC, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_ZC, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_DFR, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_DFR, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_ZDQDY, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_ZDQDY, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_YYLGG, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_YYLGG, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_JF, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_JF, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_BPQXH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_BPQXH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_BMQXH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_BMQXH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_DLCD, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_DLCD, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_ZXCD, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_ZXCD, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_MPZL, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_MPZL, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_BZ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_BZ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_DDRQ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
-				if (NULL == pNode)
-				{
-					break;
-				}
-
-				//////////////////////////////////////////////////////////////////////////
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_ZJDY, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
-				if (NULL == pNode)
-				{
-					break;
-				}
-
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_ZJYS, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
-				if (NULL == pNode)
-				{
-					break;
-				}
-
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_ZDQXH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
-				if (NULL == pNode)
-				{
-					break;
-				}
-
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_ZYZ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
-				if (NULL == pNode)
-				{
-					break;
-				}
-
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_BZXDTGG, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
-				if (NULL == pNode)
-				{
-					break;
-				}
-
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_ZZS, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
-				if (NULL == pNode)
-				{
-					break;
-				}
-
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_KHQY, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
-				if (NULL == pNode)
-				{
-					break;
-				}
-
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_YXJ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
-				if (NULL == pNode)
-				{
-					break;
-				}
-
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_GH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_DDRQ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
 				//////////////////////////////////////////////////////////////////////////
-
-
-				//pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_SHYW, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
-				//if (NULL == pNode)
-				//{
-				//	break;
-				//}
-
-				//pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_SHJH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
-				//if (NULL == pNode)
-				//{
-				//	break;
-				//}
-
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_SCRQ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_ZJDY, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				//pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_JHSHYW, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
-				//if (NULL == pNode)
-				//{
-				//	break;
-				//}
-
-				//pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_JHSHJH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
-				//if (NULL == pNode)
-				//{
-				//	break;
-				//}
-
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_BZRQ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_ZJYS, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				//pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_BZSHYW, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
-				//if (NULL == pNode)
-				//{
-				//	break;
-				//}
-
-				//pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_BZSHJH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
-				//if (NULL == pNode)
-				//{
-				//	break;
-				//}
-
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_FHRQ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_ZDQXH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_TCBH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_ZYZ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
 				}
 
-				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotification, IDS_SETTING_ITEM_TABLEFILTER_CCBH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_BZXDTGG, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_ZZS, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_KHQY, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_YXJ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_GH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				//////////////////////////////////////////////////////////////////////////
+
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_SHYW, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationSale, IDS_SETTING_ITEM_TABLEFILTER_SHJH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+
+
+				//Notification page for plan
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_HTH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_KHMC, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_GGBH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_SL, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_ZC, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_DFR, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_ZDQDY, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_YYLGG, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_JF, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_BPQXH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_BMQXH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_DLCD, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_ZXCD, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_MPZL, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_BZ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_DDRQ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				//////////////////////////////////////////////////////////////////////////
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_ZJDY, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_ZJYS, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_ZDQXH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_ZYZ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_BZXDTGG, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_ZZS, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_KHQY, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_YXJ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_GH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_SCRQ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_JHSHYW, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_JHSHJH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_BZRQ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_BZSHYW, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_BZSHJH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_FHRQ, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_TCBH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
+				if (NULL == pNode)
+				{
+					break;
+				}
+
+				pNode = m_objXMLParser.CreateChildNode(m_pTableFilterNodeForNotificationPlan, IDS_SETTING_ITEM_TABLEFILTER_CCBH, IDS_SETTING_ITEM_TABLEFILTER_DEFAULTVALUE);
 				if (NULL == pNode)
 				{
 					break;
@@ -744,8 +894,14 @@ bool CSettingManager::Initialize()
 					break;
 				}
 				
-				m_pTableFilterNodeForNotification = m_objXMLParser.QueryNode(m_pTableFilterNode, IDS_SETTING_ITEM_TABLEFILTER_NOTIFICATION);
-				if (NULL == m_pTableFilterNodeForNotification)
+				m_pTableFilterNodeForNotificationSale = m_objXMLParser.QueryNode(m_pTableFilterNode, IDS_SETTING_ITEM_TABLEFILTER_NOTIFICATIONSALE);
+				if (NULL == m_pTableFilterNodeForNotificationSale)
+				{
+					break;
+				}
+
+				m_pTableFilterNodeForNotificationPlan = m_objXMLParser.QueryNode(m_pTableFilterNode, IDS_SETTING_ITEM_TABLEFILTER_NOTIFICATIONPLAN);
+				if (NULL == m_pTableFilterNodeForNotificationPlan)
 				{
 					break;
 				}
@@ -904,7 +1060,7 @@ bool CSettingManager::GetTableFilterSettingForPlan(LPCTSTR lpSettingName, CStrin
 }
 
 
-bool CSettingManager::SetTableFilterSettingForNotification(LPCTSTR lpSettingName, LPCTSTR lpIsSelected)
+bool CSettingManager::SetTableFilterSettingForNotificationSale(LPCTSTR lpSettingName, LPCTSTR lpIsSelected)
 {
 	bool bRet = false;
 
@@ -915,12 +1071,12 @@ bool CSettingManager::SetTableFilterSettingForNotification(LPCTSTR lpSettingName
 			break;
 		}
 
-		if (NULL == m_pTableFilterNodeForNotification)
+		if (NULL == m_pTableFilterNodeForNotificationSale)
 		{
 			break;
 		}
 
-		int iRet = m_objXMLParser.SetChildNodeData(m_pTableFilterNodeForNotification, lpSettingName, lpIsSelected);
+		int iRet = m_objXMLParser.SetChildNodeData(m_pTableFilterNodeForNotificationSale, lpSettingName, lpIsSelected);
 		if (ERR_OK != iRet)
 		{
 			break;
@@ -940,7 +1096,7 @@ bool CSettingManager::SetTableFilterSettingForNotification(LPCTSTR lpSettingName
 }
 
 
-bool CSettingManager::GetTableFilterSettingForNotification(LPCTSTR lpSettingName, CString& lpIsSelected)
+bool CSettingManager::GetTableFilterSettingForNotificationSale(LPCTSTR lpSettingName, CString& lpIsSelected)
 {
 	bool bRet = false;
 
@@ -951,12 +1107,78 @@ bool CSettingManager::GetTableFilterSettingForNotification(LPCTSTR lpSettingName
 			break;
 		}
 
-		if (NULL == m_pTableFilterNodeForNotification)
+		if (NULL == m_pTableFilterNodeForNotificationSale)
 		{
 			break;
 		}
 
-		int iRet = m_objXMLParser.GetChildNodeData(m_pTableFilterNodeForNotification, lpSettingName, lpIsSelected);
+		int iRet = m_objXMLParser.GetChildNodeData(m_pTableFilterNodeForNotificationSale, lpSettingName, lpIsSelected);
+		if (ERR_OK != iRet)
+		{
+			break;
+		}
+
+		bRet = true;
+
+	} while (false);
+
+	return bRet;
+}
+
+
+bool CSettingManager::SetTableFilterSettingForNotificationPlan(LPCTSTR lpSettingName, LPCTSTR lpIsSelected)
+{
+	bool bRet = false;
+
+	do
+	{
+		if (!m_bParserInitialized)
+		{
+			break;
+		}
+
+		if (NULL == m_pTableFilterNodeForNotificationPlan)
+		{
+			break;
+		}
+
+		int iRet = m_objXMLParser.SetChildNodeData(m_pTableFilterNodeForNotificationPlan, lpSettingName, lpIsSelected);
+		if (ERR_OK != iRet)
+		{
+			break;
+		}
+
+		iRet = m_objXMLParser.SaveXML(strPath);
+		if (ERR_OK != iRet)
+		{
+			break;
+		}
+
+		bRet = true;
+
+	} while (false);
+
+	return bRet;
+}
+
+
+bool CSettingManager::GetTableFilterSettingForNotificationPlan(LPCTSTR lpSettingName, CString& lpIsSelected)
+{
+	bool bRet = false;
+
+	do
+	{
+		if (!m_bParserInitialized)
+		{
+			break;
+		}
+
+		if (NULL == m_pTableFilterNodeForNotificationPlan)
+		{
+			break;
+		}
+
+		int iRet = m_objXMLParser.GetChildNodeData(m_pTableFilterNodeForNotificationPlan, lpSettingName, lpIsSelected);
 		if (ERR_OK != iRet)
 		{
 			break;
