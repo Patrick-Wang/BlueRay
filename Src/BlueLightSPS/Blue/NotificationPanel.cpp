@@ -875,7 +875,7 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 
 		dlg.SetOption(pstOpt.get());
 
-		dlg.DoModal();
+		dlgResult = dlg.DoModal();
 
 		break;
 	}
@@ -916,7 +916,7 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 
 		dlg.SetOption(pstOpt.get());
 
-		dlg.DoModal();
+		dlgResult = dlg.DoModal();
 
 		break;
 	}
