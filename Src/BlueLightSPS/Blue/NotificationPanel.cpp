@@ -76,7 +76,8 @@ static int g_TableToBeHiddenForSale[]
 CNotificationPanel::CNotificationPanel(CJQGridAPI* pJqGridAPI)
 	: CBRPanel(pJqGridAPI)
 	, m_enumCurrentApprovingItem(Approving_NULL)
-	, m_pTableFilter(NULL)
+	, m_pTableFilterForPlan(NULL)
+	, m_pTableFilterForSale(NULL)
 	, m_staticPromotion(NULL)
 	, m_bIfUpdateTableWhenTableFilter(false)
 	, m_btnSearch(NULL)
@@ -92,10 +93,16 @@ CNotificationPanel::CNotificationPanel(CJQGridAPI* pJqGridAPI)
 
 CNotificationPanel::~CNotificationPanel()
 {
-	if (NULL != m_pTableFilter)
+	if (NULL != m_pTableFilterForSale)
 	{
-		delete m_pTableFilter;
-		m_pTableFilter = NULL;
+		delete m_pTableFilterForSale;
+		m_pTableFilterForSale = NULL;
+	}
+
+	if (NULL != m_pTableFilterForPlan)
+	{
+		delete m_pTableFilterForPlan;
+		m_pTableFilterForPlan = NULL;
 	}
 }
 
@@ -1079,9 +1086,34 @@ void CNotificationPanel::OnBnClickedBtnTableFilter()
 {
 	m_bIfUpdateTableWhenTableFilter = true;
 
-	if (IDOK == m_pTableFilter->DoModal())
+
+	if (NULL != m_pTableFilterForSale && NULL != m_pTableFilterForPlan)
 	{
+		switch (m_enumCurrentApprovingItem)
+		{
+		case CNotificationPanel::Approving_NULL:
+			return;
+		case CNotificationPanel::Approving_SaleBusiness:
+		case CNotificationPanel::Approving_SalePlan:
+			if (IDOK == m_pTableFilterForSale->DoModal())
+			{
+			}
+			break;
+		case CNotificationPanel::Approving_PlanSCRQBusiness:
+		case CNotificationPanel::Approving_PlanSCRQPlan:
+		case CNotificationPanel::Approving_PlanBZRQBusiness:
+		case CNotificationPanel::Approving_PlanBZRQPlan:
+			if (IDOK == m_pTableFilterForPlan->DoModal())
+			{
+			}
+			break;
+		case CNotificationPanel::Approving_END:
+			return;
+		default:
+			return;
+		}
 	}
+
 
 	m_bIfUpdateTableWhenTableFilter = false;
 }
@@ -1433,17 +1465,26 @@ void CNotificationPanel::OnLoadDataSuccess(PageData_t& page)
 	m_bIfUpdateTableWhenTableFilter = false;
 
 	
-	CTableFilterDlg *objTableFilter();
+	CTableFilterDlgForSale *objTableFilterForSale();
+	CTableFilterDlgForPlan *objTableFilterForPlan();
 
-	if (NULL != m_pTableFilter)
+	if (NULL != m_pTableFilterForSale)
 	{
-		delete m_pTableFilter;
-		m_pTableFilter = NULL;
+		delete m_pTableFilterForSale;
+		m_pTableFilterForSale = NULL;
 	}
 
-	m_pTableFilter = new CTableFilterDlg(_T("表格设置"));
+	m_pTableFilterForSale = new CTableFilterDlgForSale(_T("表格设置"));
 
-	if (NULL != m_pTableFilter)
+	if (NULL != m_pTableFilterForPlan)
+	{
+		delete m_pTableFilterForPlan;
+		m_pTableFilterForPlan = NULL;
+	}
+
+	m_pTableFilterForPlan = new CTableFilterDlgForPlan(_T("表格设置"));
+
+	if (NULL != m_pTableFilterForSale && NULL != m_pTableFilterForPlan)
 	{
 		switch (m_enumCurrentApprovingItem)
 		{
@@ -1451,13 +1492,13 @@ void CNotificationPanel::OnLoadDataSuccess(PageData_t& page)
 			return;
 		case CNotificationPanel::Approving_SaleBusiness:
 		case CNotificationPanel::Approving_SalePlan:
-			m_pTableFilter->Initialize(m_pJqGridAPI.get(), Page_Notification_Sale);
+			m_pTableFilterForSale->Initialize(m_pJqGridAPI.get(), Page_Notification_Sale);
 			break;
 		case CNotificationPanel::Approving_PlanSCRQBusiness:
 		case CNotificationPanel::Approving_PlanSCRQPlan:
 		case CNotificationPanel::Approving_PlanBZRQBusiness:
 		case CNotificationPanel::Approving_PlanBZRQPlan:
-			m_pTableFilter->Initialize(m_pJqGridAPI.get(), Page_Notification_Plan);
+			m_pTableFilterForPlan->Initialize(m_pJqGridAPI.get(), Page_Notification_Plan);
 			break;
 		case CNotificationPanel::Approving_END:
 			return;
