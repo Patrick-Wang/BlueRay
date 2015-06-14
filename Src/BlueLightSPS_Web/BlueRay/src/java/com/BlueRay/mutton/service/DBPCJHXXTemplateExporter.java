@@ -36,8 +36,8 @@ import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
-import com.BlueRay.mutton.tool.vba.Cells;
-import com.BlueRay.mutton.tool.vba.VBAExcel;
+import com.vbarunner.Cells;
+import com.vbarunner.VBAExcel;
 
 public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 
@@ -209,7 +209,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 			
 			int index = workbook.getSheetIndex(type);
 			sheet = workbook.cloneSheet(index);
-			cells.getCells().get(0).add(workbook.getNumberOfSheets() - count);
+			cells.getCells().get(0).add(workbook.getNumberOfSheets() - count - 1);
 			locations = DBTemplateMap.get(type);
 			//
 			
@@ -294,14 +294,14 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 		
 		String fileName = new java.util.Date().getTime() + "_bp";
 		File f = File.createTempFile(fileName, ".xls");
-		cells.setPath(f.getAbsolutePath() + "/" + f.getName());
+		cells.setPath(f.getAbsolutePath());
 		FileOutputStream fs = new FileOutputStream(f);
-		workbook.write(os);
+		workbook.write(fs);
 		fs.close();
 		f = null;
 		VBAExcel ve = new VBAExcel();
 		ve.runVBABarcode(JSONObject.fromObject(cells).toString(), UUID.randomUUID().toString());
-		f = new File(fileName + ".xls");
+		f = new File(cells.getPath());
 		FileInputStream fi = new FileInputStream(f);
 
 		byte[] buffer = new byte[1024];

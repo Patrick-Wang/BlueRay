@@ -144,8 +144,8 @@ public class DBPCJHXXTemplate2Exporter implements IExcelExporter<PCJHXX> {
 			HSSFSheet sheet = workbook.getSheetAt(i);
 			for (int j = 1; j < sheet.getLastRowNum(); ++j){
 				HSSFRow row = sheet.getRow(j);
-				for(int k = PcjhColumn.end.ordinal() - 1; k >= 1 ; --k){
-					if (excludeSet.contains(k)){
+				for(int k = PcjhColumn.end.ordinal() - 1; null != row && k >= 1 ; --k){
+					if (excludeSet.contains(k) && null != row.getCell(k - 1)){
 						row.removeCell(row.getCell(k - 1));
 					}
 				}

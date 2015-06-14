@@ -40,3 +40,9 @@ Src/BlueLightSPS/ComboBoxDemo/Debug/ComboBoxDemo.pch
 *.log
 Src/BlueLightSPS/ComboBoxDemo/Release/ComboBoxDemo.pch
 *.res
+*.class
+*.tlh
+*.tli
+*.idb
+*.pch
+*.prefs

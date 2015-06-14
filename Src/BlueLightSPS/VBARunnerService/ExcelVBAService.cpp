@@ -36,8 +36,6 @@ void ExcelVBAService::Stop()
 void ExcelVBAService::updateCell(CString& path, std::vector<int>& shts, std::vector<int>& rows, std::vector<int>& cols)
 {
 	LPDISPATCH lpDisp = ExcelApp.get_Workbooks();
-	ExcelApp.put_Width(100);
-	ExcelApp.put_Width(100);
 	books.AttachDispatch(lpDisp);
 	
 
@@ -48,19 +46,20 @@ void ExcelVBAService::updateCell(CString& path, std::vector<int>& shts, std::vec
 	book.AttachDispatch(lpDisp);
 
 	sheets.AttachDispatch(book.get_Worksheets());
-
+	CString pos;
 	for (size_t i = 0; i < shts.size(); i++)
 	{
 		int sc = shts[i];
 		lpDisp = sheets.get_Item(COleVariant((short)(sc + 1)));
 		sheet.AttachDispatch(lpDisp);
-		wchar_t pos[3] = {};
-		pos[0] = L'A' + cols[i];
-		pos[1] = L'1' + rows[i];
+
+		pos.Format(L"%c%d", (L'A' + cols[i]), (1 + rows[i]));
 		lpDisp = sheet.get_Range(_variant_t(pos), _variant_t(pos));
 		range.AttachDispatch(lpDisp);
 		VARIANT var = range.get_Value2();
+		range.put_NumberFormatLocal(_variant_t(L"@"));
 		range.put_Value2(var);
+		
 	}
 
 	book.Save();

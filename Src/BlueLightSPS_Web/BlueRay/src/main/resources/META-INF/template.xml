@@ -44,7 +44,7 @@
 	<sheet_name>V</sheet_name>
 	<sheet_name>L</sheet_name>
 	<table_field name="tcbh">
-		<cell row="10" col="A"></cell>
+		<cell row="3" col="C"></cell>
 	</table_field>
 	<table_field name="yylgg">
 		<cell row="4" col="C"></cell>
