@@ -952,6 +952,7 @@ void CPlanPanel::OnBnClickedMore()
 	}
 	else
 	{
+		m_advanceSearchVals.erase(m_advanceSearchVals.begin() + nsPlan::cg);
 		dlg.SetOption(new CSaleAddDlg::Option_t(m_advanceSearchVals));
 	}
 
