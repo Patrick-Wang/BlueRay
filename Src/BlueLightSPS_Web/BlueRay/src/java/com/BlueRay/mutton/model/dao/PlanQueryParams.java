@@ -79,10 +79,10 @@ public class PlanQueryParams {
 			}
 		}
 
-		paramHtxxColMap.remove(HtxxColumn.bz.ordinal());
-		paramHtxxColMap.remove(HtxxColumn.zc.ordinal());
-		paramPcjhColMap.put(PcjhColumn.bz.ordinal(), PcjhColumn.bz.ordinal());
-		paramPcjhColMap.put(PcjhColumn.zc.ordinal(), PcjhColumn.zc.ordinal());
+		paramHtxxColMap.remove(PcjhColumn.bz.ordinal() - 1);
+		paramHtxxColMap.remove(PcjhColumn.zc.ordinal() - 1);
+		paramPcjhColMap.put(PcjhColumn.bz.ordinal() - 1, PcjhColumn.bz.ordinal());
+		paramPcjhColMap.put(PcjhColumn.zc.ordinal() - 1, PcjhColumn.zc.ordinal());
 		// for (int i = 0; i < 24; ++i) {
 		// if (i == 3){
 		// paramPcjhColMap.put(i, 13);//zc
