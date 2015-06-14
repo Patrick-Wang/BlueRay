@@ -4,7 +4,7 @@
 #include "BSStatic.h"
 #include "JQGridAPI.h"
 #include "IHttp.h"
-#include "TableFilterDlg.h"
+#include "TableFilterDlgForPlan.h"
 class CPlanPanel :
 	public CBRPanel
 {
@@ -78,7 +78,7 @@ private:
 
 	CBSStatic* m_staticProductionStatus;
 	CComboBox* m_comboProductionStatus;
-	CTableFilterDlg m_tableFilterDlg;
+	CTableFilterDlgForPlan m_tableFilterDlg;
 
 	int m_iCountBtnOfReApprove;
 

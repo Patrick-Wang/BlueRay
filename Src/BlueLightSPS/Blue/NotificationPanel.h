@@ -3,7 +3,8 @@
 #include "JQGridAPI.h"
 #include "BSStatic.h"
 #include "BRButton.h"
-#include "TableFilterDlg.h"
+#include "TableFilterDlgForSale.h"
+#include "TableFilterDlgForPlan.h"
 #include "Notification.h"
 #include "JsonQueryParam.h"
 #include "JsonFactory.h"
@@ -119,6 +120,7 @@ private:
 				}
 
 				//需要增加对Json的修改，根据g_TableToBeReplacedByNullForSale定义的位置，增加列，值为空字符串
+				PrehandleRawData(page, g_TableToBeReplacedByNullForPlan);
 
 			}
 			else
@@ -132,6 +134,7 @@ private:
 				}
 
 				//需要增加对Json的修改，根据g_TableToBeReplacedByNullForSale定义的位置，增加列，值为空字符串
+				PrehandleRawData(page, g_TableToBeReplacedByNullForPlan);
 
 			}
 
@@ -197,7 +200,8 @@ private:
 
 	CBRButton m_btnTableFilter;
 
-	CTableFilterDlg *m_pTableFilter;
+	CTableFilterDlgForSale *m_pTableFilterForSale;
+	CTableFilterDlgForPlan *m_pTableFilterForPlan;
 	CBSStatic* m_staticPromotion;
 	bool m_bIfUpdateTableWhenTableFilter;
 	std::vector<CString> m_advanceSearchVals;

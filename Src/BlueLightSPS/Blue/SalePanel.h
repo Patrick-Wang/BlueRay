@@ -5,7 +5,7 @@
 #include "BSStatic.h"
 #include "JQGridAPI.h"
 #include "IHttp.h"
-#include "TableFilterDlg.h"
+#include "TableFilterDlgForSale.h"
 #include "SaleAddDlg.h"
 
 class CSalePanel :
@@ -71,7 +71,7 @@ private:
 	bool m_bCurSortAsc;
 	std::vector<std::pair<int, std::vector<CString>>> m_table;
 	std::vector<CString> m_cacheRow;
-	CTableFilterDlg m_tableFilterDlg;
+	CTableFilterDlgForSale m_tableFilterDlg;
 	CComboBox* m_comboProductionStatus;
 	
 	CSaleAddDlg::Option_t m_cacheAddedSaleInfo;

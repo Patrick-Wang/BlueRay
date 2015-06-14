@@ -5,24 +5,15 @@
 #include <map>
 #include "SettingManager.h"
 
-enum PageIDEnum
-{
-	Page_Sale,
-	Page_Plan,
-	Page_Scan,
-	Page_Notification_Sale,
-	Page_Notification_Plan
-};
+// CTableFilterDlgForSale dialog
 
-// CTableFilterDlg dialog
-
-class CTableFilterDlg : public CPopupDlg
+class CTableFilterDlgForSale : public CPopupDlg
 {
-	DECLARE_DYNAMIC(CTableFilterDlg)
+	DECLARE_DYNAMIC(CTableFilterDlgForSale)
 
 public:
-	CTableFilterDlg(LPCTSTR title, CWnd* pParent = NULL);   // standard constructor
-	virtual ~CTableFilterDlg();
+	CTableFilterDlgForSale(LPCTSTR title, CWnd* pParent = NULL);   // standard constructor
+	virtual ~CTableFilterDlgForSale();
 
 	virtual void OnOK();
 	virtual void OnCancel();
@@ -40,7 +31,6 @@ private:
 
 	void SaveColsSetting(std::vector<CString>& vecColsStatus);
 	void GetColsSetting(std::vector<CString>& vecColsStatus);
-	int AdjustColsAndCalculateIgnoreItemsNumber();
 
 protected:
 	//virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
@@ -49,13 +39,8 @@ protected:
 	
 
 private:
-
-	CButton* m_aCheckBoxs[nsTableFilter::end];
+	CButton* m_aCheckBoxs[nsSale::end];
 	PageIDEnum m_enumPage;
-
 	CJQGridAPI* m_pJqGridAPI;
-
 	CButton* m_checkboxSelectAll;
-
-	static const int m_breakPointOfPlanPage = nsTableFilter::scrq;
 };
