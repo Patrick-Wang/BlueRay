@@ -25,6 +25,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -181,6 +185,14 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 		List<PCJHXX> pcxxs = new ArrayList<PCJHXX>(1);
 		pcxxs.add(null);
 
+//		OPCPackage opc = null;
+//		try {
+//			opc = OPCPackage.open(new FileInputStream(new File(
+//					pathTemplate)));
+//		} catch (InvalidFormatException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(new File(
 				pathTemplate)));
 		String[] ret = new String[PcjhColumn.end.ordinal()];
@@ -190,6 +202,9 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 		cells.getCells().add(new ArrayList<Integer>());
 		cells.getCells().add(new ArrayList<Integer>());
 		int count = workbook.getNumberOfSheets();
+		String fileName = new java.util.Date().getTime() + "_bp";
+		File f = File.createTempFile(fileName, ".xls");
+		cells.setPath(f.getAbsolutePath());
 		for (int i = 0, len = excel.getRowCount(); i < len; ++i) {
 			pcxxs.set(0, excel.getRow(i));
 			PlanServiceImpl.getHtxxMap(pcxxs, saleDao, planDao, htxxMap);
@@ -206,15 +221,15 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 			if (null == type){
 				continue;
 			}
-			
+
 			int index = workbook.getSheetIndex(type);
 			if (index < 0){
 				continue;
 			}
 			
-			sheet = workbook.cloneSheet(index);
+			
 			locations = DBTemplateMap.get(type);
-			//
+			sheet = workbook.getSheetAt(index);
 			
 			
 			if (sheet != null) {
@@ -239,84 +254,74 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 					Location[] locs = locations.get(PcjhColumn.tcbh.ordinal());
 					
 					if (null == locs || 0 == locs.length){
-						cells.getCells().get(0).add(workbook.getNumberOfSheets() - count - 1);
+						cells.getCells().get(0).add(index);
 						cells.getCells().get(1).add(2);
 						cells.getCells().get(2).add(2);
 					}else{
 						for(Location loc : locs){
-							cells.getCells().get(0).add(workbook.getNumberOfSheets() - count - 1);
+							cells.getCells().get(0).add(index);
 							cells.getCells().get(1).add(loc.getX());
 							cells.getCells().get(2).add(loc.getY());
 						}
 					}
-//					JBarcode localJBarcode = new JBarcode(
-//							Code128Encoder.getInstance(),
-//							WidthCodedPainter.getInstance(),
-//							BaseLineTextPainter.getInstance());
-//
-//					localJBarcode.setShowCheckDigit(false);
-//
-//					BufferedImage localBufferedImage;
-//					try {
-//						localBufferedImage = localJBarcode
-//								.createBarcode(ret[PcjhColumn.tcbh.ordinal()]);
-//						ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
-//
-//						ImageUtil.encodeAndWrite(localBufferedImage,
-//						ImageUtil.PNG, byteArrayOut, 96, 96);
-//
-//						// 画图的顶级管理器，一个sheet只能获取一个（一定要注意这点）
-//						HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
-//						
-//						// anchor主要用于设置图片的属性
-//						HSSFClientAnchor anchor = PoiUtil.measureAnchor(
-//								13, 2, 5, 7, 
-//								localBufferedImage.getWidth(), 
-//								localBufferedImage.getHeight(), 
-//								sheet, 
-//								workbook);
-//
-//						anchor.setAnchorType(HSSFClientAnchor.DONT_MOVE_AND_RESIZE);
-//						
-//						// 插入图片
-//						HSSFPicture pic = patriarch.createPicture(
-//								anchor,
-//								workbook.addPicture(byteArrayOut.toByteArray(),
-//										HSSFWorkbook.PICTURE_TYPE_PNG));
-//					} catch (Exception e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
 				}
-				// ImageUtil.encodeAndWrite(localBufferedImage, ImageUtil.PNG,
-				// arg2);
-
+				
+				
+				
+				
+				FileOutputStream fs = new FileOutputStream(f);
+				workbook.write(fs);
+				fs.close();
+				f = null;
+				VBAExcel ve = new VBAExcel();
+				ve.runVBABarcode(JSONObject.fromObject(cells).toString(), UUID.randomUUID().toString());
+				
+				f = new File(cells.getPath());
+				FileInputStream fi = new FileInputStream(f);
+//				 try {
+//					opc = OPCPackage.open(fi);
+//				} catch (InvalidFormatException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+				workbook = new HSSFWorkbook(fi);
+				
+				workbook.cloneSheet(index);
+				cells.getCells().get(0).clear();
+				cells.getCells().get(1).clear();
+				cells.getCells().get(2).clear();
 			}
 		}
 		
+		f = new File(cells.getPath());
+		
+//		String fileName = new java.util.Date().getTime() + "_bp";
+//		File f = File.createTempFile(fileName, ".xls");
+//		cells.setPath(f.getAbsolutePath());
+//		FileOutputStream fs = new FileOutputStream(f);
+//		workbook.write(fs);
+//		fs.close();
+//		f = null;
+//		VBAExcel ve = new VBAExcel();
+//		ve.runVBABarcode(JSONObject.fromObject(cells).toString(), UUID.randomUUID().toString());
+//		
+//		f = new File(cells.getPath());
+//		FileInputStream fi = new FileInputStream(f);
+//		workbook = new HSSFWorkbook(fi);
 		for (int i = count - 1; i >= 0; --i){
 			workbook.removeSheetAt(i);
 		}
+		workbook.write(os);
 		
-		String fileName = new java.util.Date().getTime() + "_bp";
-		File f = File.createTempFile(fileName, ".xls");
-		cells.setPath(f.getAbsolutePath());
-		FileOutputStream fs = new FileOutputStream(f);
-		workbook.write(fs);
-		fs.close();
-		f = null;
-		VBAExcel ve = new VBAExcel();
-		ve.runVBABarcode(JSONObject.fromObject(cells).toString(), UUID.randomUUID().toString());
-		f = new File(cells.getPath());
-		FileInputStream fi = new FileInputStream(f);
-
-		byte[] buffer = new byte[1024];
-
-		int len = -1;
-	    while ((len = fi.read(buffer)) != -1) {
-        	os.write(buffer, 0, len);
-	    }
-		fi.close();
+//		FileInputStream fi = new FileInputStream(f);
+//
+//		byte[] buffer = new byte[1024];
+//
+//		int len = -1;
+//	    while ((len = fi.read(buffer)) != -1) {
+//        	os.write(buffer, 0, len);
+//	    }
+//		fi.close();
 		f.delete();
 	}
 

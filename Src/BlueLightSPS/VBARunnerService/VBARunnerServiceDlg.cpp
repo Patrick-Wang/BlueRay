@@ -146,7 +146,14 @@ LRESULT CVBARunnerServiceDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 			JsonArray2Vector(cells.asArray(0), sheets);
 			JsonArray2Vector(cells.asArray(1), rows);
 			JsonArray2Vector(cells.asArray(2), cols);
-			ExcelVBAService::updateCell(path, sheets, rows, cols);
+			try
+			{
+				ExcelVBAService::updateCell(path, sheets, rows, cols);
+			}
+			catch (...)
+			{
+			}
+			
 			SetEvent(it->first);
 			CloseHandle(it->first);
 		}

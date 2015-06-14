@@ -61,7 +61,7 @@ void ExcelVBAService::updateCell(CString& path, std::vector<int>& shts, std::vec
 		range.put_Value2(var);
 		
 	}
-
+	book.put_CheckCompatibility(FALSE);
 	book.Save();
 
 	sheet.ReleaseDispatch();

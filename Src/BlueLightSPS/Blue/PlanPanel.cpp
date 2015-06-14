@@ -957,6 +957,7 @@ void CPlanPanel::OnBnClickedMore()
 
 	if (IDOK == dlg.DoModal()){
 		m_advanceSearchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
+		m_advanceSearchVals.insert(m_advanceSearchVals.begin() + nsPlan::cg, L"");
 // 		searchVals.insert(searchVals.begin() + 16, L"");//插入生产日期
 // 		searchVals.insert(searchVals.begin() + 17, L"");//插入生产日期业务审核
 // 		searchVals.insert(searchVals.begin() + 18, L"");//插入生产日期计划审核

@@ -598,7 +598,7 @@ void CNotificationPanel::OnBnClickedMore()
 
 	if (IDOK == dlg.DoModal()){
 		m_advanceSearchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
-
+		m_advanceSearchVals.insert(m_advanceSearchVals.begin() + nsPlan::cg, L"");
 		CJsonQueryParam jqp;
 		CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
 
