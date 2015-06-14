@@ -6,7 +6,9 @@
 #include "TableFilterDlg.h"
 #include "Notification.h"
 #include "JsonQueryParam.h"
-
+#include "JsonFactory.h"
+#include "JsonType.h"
+#include "JsonParser.h"
 
 //由于Sale和plan的Notification表使用相同的表头，需要将在Plan里存在，
 //但Sale里不存在的列，使用空字符串占位，避免显示的时候数据列所在的位置不正确
@@ -27,22 +29,25 @@ class CNotificationPanel :
 	public CBRPanel
 {
 private: 
-	//static void PrehandleRawData(PageData_t& tb){
-	//	bool
-	//	Json::JsonParser jp;
-	//	std::auto_ptr<Json::JsonObject> jo((Json::JsonObject*)(jp.Parse(tb.rawData.GetBuffer())));
-	//	Json::JsonArray& jarows = jo->asArray(L"rows");
-	//	for (int i = 0; i < jarows.size(); ++i)
-	//	{
-	//		Json::JsonArray& jarow = jarows.asArray(i);
-	//		if (jarow.size() == nsSale::end)
-	//		{
-	//			jarow.add()
-	//		}
-	//	}
-	//	tb.rawData.ReleaseBuffer();
-	//	return m_retData;
-	//}
+	static void PrehandleRawData(PageData_t& tb, int tableToBeReplacedByNullForSale[]){
+		Json::JsonParser jp;
+		std::auto_ptr<Json::JsonObject> jo((Json::JsonObject*)(jp.Parse(tb.rawData.GetBuffer())));
+		Json::JsonArray& jarows = jo->asArray(L"rows");
+		for (int i = 0; i < jarows.size(); ++i)
+		{
+			Json::JsonArray& jarow = jarows.asArray(i);
+			for (size_t i = _countof(g_TableToBeReplacedByNullForSale) - 1; i >= 0; --i)
+			{
+				jarow.add(Json::JsonFactory::createString(L""), g_TableToBeReplacedByNullForSale[i] + 1);
+			}
+			
+		}
+		tb.rawData.ReleaseBuffer();
+		Json::json_stringstream jstream;
+	
+		jo->asJson(jstream);
+		tb.rawData = jstream.str().c_str();
+	}
 
 	class CNotificationSearchListener : public CPromise<PageData_t>::IHttpResponse{
 		CONSTRUCTOR_3(CNotificationSearchListener, CNotificationPanel&, notificationPanel, table&, tb, CJQGridAPI*, pJqGridAPI)
@@ -62,7 +67,7 @@ private:
 				}
 
 				//需要增加对Json的修改，根据g_TableToBeReplacedByNullForSale定义的位置，增加列，值为空字符串
-
+				PrehandleRawData(tb, g_TableToBeReplacedByNullForSale);
 			}
 			else
 			{
@@ -75,7 +80,7 @@ private:
 				}
 
 				//需要增加对Json的修改，根据g_TableToBeReplacedByNullForSale定义的位置，增加列，值为空字符串
-
+				PrehandleRawData(tb, g_TableToBeReplacedByNullForPlan);
 			}
 
 			m_pJqGridAPI->Refresh(tb.rawData);

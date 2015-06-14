@@ -135,6 +135,22 @@ namespace Json
 			return *this;
 		}
 
+		JsonArray& add(JsonType* jsonType, int index){
+			if (m_objects.size() > index)
+			{
+				m_objects.insert(m_objects.begin() + index, std::shared_ptr<JsonType>(jsonType));
+			}
+			return *this;
+		}
+
+		JsonArray& add(std::shared_ptr<JsonType> jsonType, int index){
+			if (m_objects.size() > index)
+			{
+				m_objects.insert(m_objects.begin() + index, jsonType);
+			}
+			return *this;
+		}
+
 		int asInt(int index){
 			preCheck(index, JsonTypeTag::jint);
 			return static_cast<JsonValue<int>*>(m_objects[index].get())->value();

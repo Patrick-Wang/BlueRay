@@ -1,17 +1,11 @@
 package com.BlueRay.mutton.service;
 
-import java.awt.image.BufferedImage;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,33 +14,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
+
+import net.sf.json.JSONObject;
 
 import org.w3c.dom.Node;
 
-import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
-import org.apache.poi.hssf.usermodel.HSSFPatriarch;
-import org.apache.poi.hssf.usermodel.HSSFPicture;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.jbarcode.JBarcode;
-import org.jbarcode.encode.Code11Encoder;
-import org.jbarcode.encode.Code128Encoder;
-import org.jbarcode.encode.Code39Encoder;
-import org.jbarcode.encode.EAN13Encoder;
-import org.jbarcode.encode.InvalidAtributeException;
-import org.jbarcode.encode.UPCAEncoder;
-import org.jbarcode.encode.UPCEEncoder;
-import org.jbarcode.paint.BaseLineTextPainter;
-import org.jbarcode.paint.EAN13TextPainter;
-import org.jbarcode.paint.UPCATextPainter;
-import org.jbarcode.paint.UPCETextPainter;
-import org.jbarcode.paint.WideRatioCodedPainter;
-import org.jbarcode.paint.WidthCodedPainter;
-import org.jbarcode.util.ImageUtil;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -56,11 +34,10 @@ import com.BlueRay.mutton.model.dao.PlanDao;
 import com.BlueRay.mutton.model.dao.SaleDao;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
-import com.BlueRay.mutton.service.vba.Cells;
-import com.BlueRay.mutton.service.vba.VBAExcel;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
-import com.BlueRay.mutton.tool.PoiUtil;
+import com.BlueRay.mutton.tool.vba.Cells;
+import com.BlueRay.mutton.tool.vba.VBAExcel;
 
 public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 
@@ -74,7 +51,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	static 
 	{
 		try {
-			String basePath = new URI(DBPCJHXXTemplateExporter.class
+			String basePath = new URI(DBPCJHXXTemplate2Exporter.class
 					.getClassLoader().getResource("").getPath()).getPath();
 			pathTemplate = basePath + "META-INF/template.xls";
 			pathMapfile = basePath + "META-INF/template.xml";
@@ -101,16 +78,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 			return y;
 		}
 		
-	}
-	
-
-	final static Location mSLocs[] = new Location[PcjhColumn.end.ordinal()];
-	final static Location mULocs[] = new Location[PcjhColumn.end.ordinal()];
-	final static Location mYLocs[] = new Location[PcjhColumn.end.ordinal()];
-	final static Location mTALocs[] = new Location[PcjhColumn.end.ordinal()];
-	final static Location mVLocs[] = new Location[PcjhColumn.end.ordinal()];
-	final static Location mLLocs[] = new Location[PcjhColumn.end.ordinal()];
-	
+	}	
 
 	private static Set<String> getNames(NodeList names) {
 		Set<String> nameSet = new HashSet<String>();
@@ -244,7 +212,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 			cells.getCells().get(0).add(workbook.getNumberOfSheets() - count);
 			locations = DBTemplateMap.get(type);
 			//
-			locations.get(PcjhColumn.bmqxh);
+			
 			
 			if (sheet != null) {
 				updateTemplate(ret, locations, sheet);
@@ -265,47 +233,54 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 				}
 				
 				if (!ret[PcjhColumn.tcbh.ordinal()].isEmpty()) {
-
-					JBarcode localJBarcode = new JBarcode(
-							Code128Encoder.getInstance(),
-							WidthCodedPainter.getInstance(),
-							BaseLineTextPainter.getInstance());
-
-					localJBarcode.setShowCheckDigit(false);
-
-					BufferedImage localBufferedImage;
-					try {
-						localBufferedImage = localJBarcode
-								.createBarcode(ret[PcjhColumn.tcbh.ordinal()]);
-						ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
-
-						 ImageUtil.encodeAndWrite(localBufferedImage,
-						 ImageUtil.PNG, byteArrayOut, 96, 96);
-
-						// 画图的顶级管理器，一个sheet只能获取一个（一定要注意这点）
-						HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
-						
-						// anchor主要用于设置图片的属性
-						HSSFClientAnchor anchor = PoiUtil.measureAnchor(
-								13, 2, 5, 7, 
-								localBufferedImage.getWidth(), 
-								localBufferedImage.getHeight(), 
-								sheet, 
-								workbook);
-								
-//								new HSSFClientAnchor(200, 100,
-//								1000, 200, (short) 14, 2, (short) 17, 5);
-						anchor.setAnchorType(HSSFClientAnchor.DONT_MOVE_AND_RESIZE);
-						
-						// 插入图片
-						HSSFPicture pic = patriarch.createPicture(
-								anchor,
-								workbook.addPicture(byteArrayOut.toByteArray(),
-										HSSFWorkbook.PICTURE_TYPE_PNG));
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					Location[] locs = locations.get(PcjhColumn.tcbh.ordinal());
+					if (null == locs || 0 == locs.length){
+						cells.getCells().get(1).add(2);
+						cells.getCells().get(2).add(2);
+					}else{
+						for(Location loc : locs){
+							cells.getCells().get(1).add(loc.getX());
+							cells.getCells().get(2).add(loc.getY());
+						}
 					}
+//					JBarcode localJBarcode = new JBarcode(
+//							Code128Encoder.getInstance(),
+//							WidthCodedPainter.getInstance(),
+//							BaseLineTextPainter.getInstance());
+//
+//					localJBarcode.setShowCheckDigit(false);
+//
+//					BufferedImage localBufferedImage;
+//					try {
+//						localBufferedImage = localJBarcode
+//								.createBarcode(ret[PcjhColumn.tcbh.ordinal()]);
+//						ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();
+//
+//						ImageUtil.encodeAndWrite(localBufferedImage,
+//						ImageUtil.PNG, byteArrayOut, 96, 96);
+//
+//						// 画图的顶级管理器，一个sheet只能获取一个（一定要注意这点）
+//						HSSFPatriarch patriarch = sheet.createDrawingPatriarch();
+//						
+//						// anchor主要用于设置图片的属性
+//						HSSFClientAnchor anchor = PoiUtil.measureAnchor(
+//								13, 2, 5, 7, 
+//								localBufferedImage.getWidth(), 
+//								localBufferedImage.getHeight(), 
+//								sheet, 
+//								workbook);
+//
+//						anchor.setAnchorType(HSSFClientAnchor.DONT_MOVE_AND_RESIZE);
+//						
+//						// 插入图片
+//						HSSFPicture pic = patriarch.createPicture(
+//								anchor,
+//								workbook.addPicture(byteArrayOut.toByteArray(),
+//										HSSFWorkbook.PICTURE_TYPE_PNG));
+//					} catch (Exception e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
 				}
 				// ImageUtil.encodeAndWrite(localBufferedImage, ImageUtil.PNG,
 				// arg2);
@@ -323,11 +298,9 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 		FileOutputStream fs = new FileOutputStream(f);
 		workbook.write(os);
 		fs.close();
-		
-		
-		
-		
-		
+		f = null;
+		VBAExcel ve = new VBAExcel();
+		ve.runVBABarcode(JSONObject.fromObject(cells).toString(), UUID.randomUUID().toString());
 		f = new File(fileName + ".xls");
 		FileInputStream fi = new FileInputStream(f);
 
@@ -335,7 +308,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 
 		int len = -1;
 	    while ((len = fi.read(buffer)) != -1) {
-	        	os.write(buffer, 0, len);
+        	os.write(buffer, 0, len);
 	    }
 		fi.close();
 		f.delete();
