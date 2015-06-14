@@ -242,7 +242,7 @@ public class PCJHXX {
 		case jhshyw:
 			return PCJHXX.class.getDeclaredField("sftgywsh");
 		case scrq:
-			return PCJHXX.class.getDeclaredField("jhbzrq");
+			return PCJHXX.class.getDeclaredField("jhscrq");
 		case tcbh:
 			return PCJHXX.class.getDeclaredField("tcbh");
 		case zc:

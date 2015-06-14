@@ -12,16 +12,16 @@
 
 //由于Sale和plan的Notification表使用相同的表头，需要将在Plan里存在，
 //但Sale里不存在的列，使用空字符串占位，避免显示的时候数据列所在的位置不正确
-static int g_TableToBeReplacedByNullForSale[]
+static int g_TableToBeReplacedByNullForSale[] =
 {
 	nsNotification::Column_en::cg
 };
 
 //同上，代表Plan中需要被占位的部分
-static int g_TableToBeReplacedByNullForPlan[]
+static int g_TableToBeReplacedByNullForPlan[] =
 {
 	nsNotification::Column_en::ywsh,
-		nsNotification::Column_en::jhsh
+	nsNotification::Column_en::jhsh
 };
 
 
@@ -35,10 +35,10 @@ private:
 		Json::JsonArray& jarows = jo->asArray(L"rows");
 		for (int i = 0; i < jarows.size(); ++i)
 		{
-			Json::JsonArray& jarow = jarows.asArray(i);
-			for (size_t i = _countof(g_TableToBeReplacedByNullForSale) - 1; i >= 0; --i)
+			Json::JsonArray& jarow = jarows.asObject(i).asArray(L"cell");
+			for (int i = _countof(g_TableToBeReplacedByNullForSale) - 1; i >= 0; --i)
 			{
-				jarow.add(Json::JsonFactory::createString(L""), g_TableToBeReplacedByNullForSale[i] + 1);
+				jarow.add(Json::JsonFactory::createString(L""), g_TableToBeReplacedByNullForSale[i]);
 			}
 			
 		}

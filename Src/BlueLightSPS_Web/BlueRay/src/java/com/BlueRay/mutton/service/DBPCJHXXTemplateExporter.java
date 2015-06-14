@@ -208,8 +208,11 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 			}
 			
 			int index = workbook.getSheetIndex(type);
+			if (index < 0){
+				continue;
+			}
+			
 			sheet = workbook.cloneSheet(index);
-			cells.getCells().get(0).add(workbook.getNumberOfSheets() - count - 1);
 			locations = DBTemplateMap.get(type);
 			//
 			
@@ -234,11 +237,14 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 				
 				if (!ret[PcjhColumn.tcbh.ordinal()].isEmpty()) {
 					Location[] locs = locations.get(PcjhColumn.tcbh.ordinal());
+					
 					if (null == locs || 0 == locs.length){
+						cells.getCells().get(0).add(workbook.getNumberOfSheets() - count - 1);
 						cells.getCells().get(1).add(2);
 						cells.getCells().get(2).add(2);
 					}else{
 						for(Location loc : locs){
+							cells.getCells().get(0).add(workbook.getNumberOfSheets() - count - 1);
 							cells.getCells().get(1).add(loc.getX());
 							cells.getCells().get(2).add(loc.getY());
 						}
