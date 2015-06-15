@@ -31,7 +31,7 @@ class CNotificationPanel :
 	public CBRPanel
 {
 private: 
-	static void PrehandleRawData(PageData_t& tb, int tableToBeReplacedByNullForSale[], int countNum){
+	static void PrehandleRawData(PageData_t& tb, int tableToBeReplacedByNull[], int countNum){
 		Json::JsonParser jp;
 		std::auto_ptr<Json::JsonObject> jo((Json::JsonObject*)(jp.Parse(tb.rawData.GetBuffer())));
 		Json::JsonArray& jarows = jo->asArray(L"rows");
@@ -40,7 +40,7 @@ private:
 			Json::JsonArray& jarow = jarows.asObject(i).asArray(L"cell");
 			for (int i = 0; i < countNum; ++i)
 			{
-				jarow.add(Json::JsonFactory::createString(L""), tableToBeReplacedByNullForSale[i]);
+				jarow.add(Json::JsonFactory::createString(L""), tableToBeReplacedByNull[i]);
 			}
 			
 		}
