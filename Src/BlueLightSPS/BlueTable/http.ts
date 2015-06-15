@@ -3,7 +3,7 @@ var mediator: any = window.external;
 $.support.cors = true;
 $.ajaxSetup({ cache: false }); 
 function ajaxGet(caller: number, id: number, addr: string): void {
-//alert(addr);
+   //alert(addr);
     $.ajax({
         url: encodeURI(addr),
         //dataType: "json",

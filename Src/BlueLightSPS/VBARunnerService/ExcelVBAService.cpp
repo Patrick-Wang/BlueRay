@@ -11,26 +11,33 @@ static CWorksheet sheet;
 static CRange range;
 
 ExcelVBAService::ExcelVBAService()
+	: m_bStarted(false)
 {
+	m_bStarted = Start();
 }
 
 
 ExcelVBAService::~ExcelVBAService()
 {
+	Stop();
 }
 
-void ExcelVBAService::Start()
+bool ExcelVBAService::Start()
 {
 	if (!ExcelApp.CreateDispatch(_T("Excel.Application"), NULL))
 	{
 		DWORD dw = GetLastError();
-		AfxMessageBox(_T("Æô¶¯Excel·þÎñÆ÷Ê§°Ü!"));
+		return false;
 	}
+	return true;
 }
 
 void ExcelVBAService::Stop()
 {
-	ExcelApp.Quit();
+	if (m_bStarted)
+	{
+		ExcelApp.Quit();
+	}
 }
 
 void ExcelVBAService::updateCell(CString& path, std::vector<int>& shts, std::vector<int>& rows, std::vector<int>& cols)

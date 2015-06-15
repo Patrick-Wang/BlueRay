@@ -5,6 +5,7 @@
 #pragma once
 #include <map>
 #include <windef.h>
+#include "ExcelVBAService.h"
 // CVBARunnerServiceDlg dialog
 class CVBARunnerServiceDlg : public CDialogEx
 {
@@ -32,4 +33,7 @@ protected:
 public:
 	afx_msg BOOL OnCopyData(CWnd* pWnd, COPYDATASTRUCT* pCopyDataStruct);
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
+
+private:
+	ExcelVBAService m_clExcelService;
 };

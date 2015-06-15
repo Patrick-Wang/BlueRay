@@ -72,7 +72,7 @@ BOOL CVBARunnerServiceApp::InitInstance()
 	::CoInitialize(NULL);
 	HWND hWnd = ::FindWindow(NULL, L"VBARunnerService");
 	::SendMessage(hWnd, WM_CLOSE, NULL, NULL);
-	ExcelVBAService::Start();
+	//ExcelVBAService::Start();
 	CVBARunnerServiceDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
@@ -107,7 +107,7 @@ BOOL CVBARunnerServiceApp::InitInstance()
 
 int CVBARunnerServiceApp::ExitInstance()
 {
-	ExcelVBAService::Stop();
+	//ExcelVBAService::Stop();
 	::CoUninitialize();
 	return CWinApp::ExitInstance();
 }

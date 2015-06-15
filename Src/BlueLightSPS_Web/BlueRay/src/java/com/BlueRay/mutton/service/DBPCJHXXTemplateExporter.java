@@ -50,6 +50,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	PlanDao planDao;
 	AbstractExcel<PCJHXX> excel;
 	OutputStream os;
+	static VBAExcel vbaExcel = new VBAExcel();
 	private static String pathTemplate = null;
 	private static String pathMapfile = null;
 	static 
@@ -65,6 +66,9 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		vbaExcel.start();
+		
 	}
 	
 	
@@ -241,12 +245,24 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 					String tcrq = sheet.getRow(rq.getX()).getCell(rq.getY())
 							.getStringCellValue();
 
-					tcrq = tcrq.replace(" ", "")
-							.replace("投", "                                                          投")
-							.replace("年", " " + calTmp.get(Calendar.YEAR) + "年")
-							.replace("月日", " " + (calTmp.get(Calendar.MONTH) + 1) + "月" + " " + calTmp.get(Calendar.DAY_OF_MONTH) + "日");
+					int rqPos = tcrq.indexOf("：");
+					tcrq = tcrq.substring(0, rqPos + 1);
+					tcrq = tcrq
+							.replace(" ", "")
+							.replace("投", "                                                          投");
+					tcrq += calTmp.get(Calendar.YEAR) + " 年 " + (calTmp.get(Calendar.MONTH) + 1) + "月 " + calTmp.get(Calendar.DAY_OF_MONTH) + "日";
+
 					sheet.getRow(rq.getX()).getCell(rq.getY()).setCellValue(tcrq);
 				} catch(Exception e){
+					String tcrq = sheet.getRow(rq.getX()).getCell(rq.getY())
+							.getStringCellValue();
+					int rqPos = tcrq.indexOf("：");
+					tcrq = tcrq.substring(0, rqPos + 1);
+					tcrq = tcrq
+							.replace(" ", "")
+							.replace("投", "                                                          投");
+					tcrq += " 年  月  日";
+					sheet.getRow(rq.getX()).getCell(rq.getY()).setCellValue(tcrq);
 					e.printStackTrace();
 				}
 				
@@ -273,8 +289,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 				workbook.write(fs);
 				fs.close();
 				f = null;
-				VBAExcel ve = new VBAExcel();
-				ve.runVBABarcode(JSONObject.fromObject(cells).toString(), UUID.randomUUID().toString());
+				vbaExcel.runVBABarcode(JSONObject.fromObject(cells).toString(), UUID.randomUUID().toString());
 				
 				f = new File(cells.getPath());
 				FileInputStream fi = new FileInputStream(f);

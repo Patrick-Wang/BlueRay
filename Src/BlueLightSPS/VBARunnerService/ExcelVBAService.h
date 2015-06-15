@@ -12,12 +12,19 @@ class ExcelVBAService
 public:
 	ExcelVBAService();
 	~ExcelVBAService();
-	static void Start();
-	static void Stop();
-	static void updateCell(CString& path,
+	bool Start();
+	void Stop();
+	void updateCell(CString& path,
 		std::vector<int>& shts,
 		std::vector<int>& rows,
 		std::vector<int>& cols);
-
+private:
+	bool m_bStarted;
+	CApplication ExcelApp;
+	CWorkbooks books;
+	CWorkbook book;
+	CWorksheets sheets;
+	CWorksheet sheet;
+	CRange range;
 };
 

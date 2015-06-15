@@ -34,7 +34,6 @@ public class AccountController {
 			@PathVariable String psw,
 			HttpServletRequest request,
 			HttpServletResponse response) {
-		VBAExcel excel = new VBAExcel();
 		HttpSession session = request.getSession(false);
 		String ret = "error";
 		if (null != session){

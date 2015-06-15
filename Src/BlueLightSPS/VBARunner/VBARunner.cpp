@@ -11,6 +11,7 @@
 #include "CWorkbooks.h"
 #include "CWorksheets.h"
 #include <comutil.h>
+#include <ShellAPI.h>
 #include "LogFile.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -106,9 +107,9 @@ wchar_t* jstringTostring(JNIEnv* env, jstring jstr)
 
 JNIEXPORT void JNICALL Java_com_vbarunner_VBAExcel_start(JNIEnv * jvm, jobject obj)
 {
-	HWND hWnd = ::FindWindow(NULL, L"VBARunnerService");
+	//HWND hWnd = ::FindWindow(NULL, L"VBARunnerService");
 
-	::SendMessage(hWnd, WM_VBA_SERVICE_START, NULL, NULL);
+	//::SendMessage(hWnd, WM_VBA_SERVICE_START, NULL, NULL);
 	//::CoInitialize(NULL);
 	//DWORD dw = GetLastError();
 	//Log(L"CoInitialize %d", dw);
@@ -118,12 +119,24 @@ JNIEXPORT void JNICALL Java_com_vbarunner_VBAExcel_start(JNIEnv * jvm, jobject o
 	//	Log(L"CoInitialize %d", dw);
 	//	
 	//}
+	TCHAR fileName[MAX_PATH] = {};
+	GetModuleFileName(theApp.m_hInstance, fileName, MAX_PATH);
+	CString fileNameStr = fileName;
+	fileNameStr.Replace(_T("VBARunner.dll"), _T("VBARunnerService.exe"));
+	ShellExecute(NULL, L"open", fileNameStr, NULL, NULL, SW_HIDE);
+	HWND hWnd = ::FindWindow(NULL, L"VBARunnerService");
+	while (hWnd == NULL)
+	{
+		Sleep(1000);
+		hWnd = ::FindWindow(NULL, L"VBARunnerService");
+	}
+	::SendMessage(hWnd, WM_VBA_SERVICE_START, NULL, NULL);
 }
 
 JNIEXPORT void JNICALL Java_com_vbarunner_VBAExcel_stop(JNIEnv * jvm, jobject obj)
 {
 	HWND hWnd = ::FindWindow(NULL, L"VBARunnerService");
-	::SendMessage(hWnd, WM_VBA_SERVICE_STOP, NULL, NULL);
+	::SendMessage(hWnd, WM_CLOSE, NULL, NULL);
 }
 
 JNIEXPORT void JNICALL Java_com_vbarunner_VBAExcel_runVBABarcode(JNIEnv * jvm, jobject obj, jstring jsonObj, jstring guid)
