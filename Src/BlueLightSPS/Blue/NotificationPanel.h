@@ -13,6 +13,7 @@
 
 //由于Sale和plan的Notification表使用相同的表头，需要将在Plan里存在，
 //但Sale里不存在的列，使用空字符串占位，避免显示的时候数据列所在的位置不正确
+
 static int g_TableToBeReplacedByNullForSale[] =
 {
 	nsNotification::Column_en::cg
@@ -172,9 +173,9 @@ private:
 	void OnReturnApprovedNum(CNotification::Unapproved_t& stUnapproved);
 	void HideFirstViewOfNotificationPanel(BOOL bShow = FALSE);
 	void OnLoadDataSuccess(PageData_t& page);
-	void AdjustTableStyleForPlan();
-	void AdjustTableStyleForSale();
-	void AdjustTableStyleForNotification();
+// 	void AdjustTableStyleForPlan();
+// 	void AdjustTableStyleForSale();
+// 	void AdjustTableStyleForNotification();
 	CUnitedQuery* MakeBasicSearchCondition(CJsonQueryParam &sqp);
 
 private:
