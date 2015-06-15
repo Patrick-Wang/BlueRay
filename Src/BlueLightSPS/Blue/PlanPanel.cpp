@@ -882,16 +882,6 @@ void CPlanPanel::OnBnClickedMore()
 	if (IDOK == dlg.DoModal()){
 		m_advanceSearchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
 		m_advanceSearchVals.insert(m_advanceSearchVals.begin() + nsPlan::cg, L"");
-// 		searchVals.insert(searchVals.begin() + 16, L"");//插入生产日期
-// 		searchVals.insert(searchVals.begin() + 17, L"");//插入生产日期业务审核
-// 		searchVals.insert(searchVals.begin() + 18, L"");//插入生产日期计划审核
-// 		searchVals.insert(searchVals.begin() + 19, L"");//插入包装日期
-// 		searchVals.insert(searchVals.begin() + 20, L"");//插入包装日期业务审核
-// 		searchVals.insert(searchVals.begin() + 21, L"");//插入包装日期计划审核
-// 		searchVals.insert(searchVals.begin() + 22, L"");//插入发货日期
-// 		searchVals.insert(searchVals.begin() + 23, L"");//插入生产编码
-// 		searchVals.insert(searchVals.begin() + 24, L"");//插入出厂编码
-// 		searchVals.insert(searchVals.begin() + 25, L"");//插入优先级
 
 		DEFINE_PLAN_QUERY_PARAM(jqp);
 
@@ -902,6 +892,14 @@ void CPlanPanel::OnBnClickedMore()
 		CServer::GetInstance()->GetPlan().Query(1, m_pJqGridAPI->GetPageSize(), jqp)
 			.then(new CPlanSearchListener(*this, m_table, m_pJqGridAPI.get()));
 		GetParent()->EnableWindow(FALSE);
+	}
+	else
+	{
+		//特殊处理，为了保证用户点击取消后，选项值的位置保持不变
+		if (m_advanceSearchVals.size() > 0)
+		{
+			m_advanceSearchVals.insert(m_advanceSearchVals.begin() + nsPlan::cg, L"");
+		}
 	}
 }
 
