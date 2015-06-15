@@ -1119,6 +1119,7 @@ void CNotificationPanel::OnBnClickedSaleBusinessApprove()
 {
 	m_enumCurrentApprovingItem = Approving_SaleBusiness;
 	m_advanceSearchVals.clear();
+	m_editSearch->SetWindowTextW(_T(""));
 
 	m_bsDateRange->SetWindowTextW(_T("订单日期"));
 
@@ -1145,6 +1146,7 @@ void CNotificationPanel::OnBnClickedSalePlanApprove()
 {
 	m_enumCurrentApprovingItem = Approving_SalePlan;
 	m_advanceSearchVals.clear();
+	m_editSearch->SetWindowTextW(_T(""));
 
 	m_bsDateRange->SetWindowTextW(_T("订单日期"));
 
@@ -1170,6 +1172,7 @@ void CNotificationPanel::OnBnClickedPlanSCRQBusinessApprove()
 {
 	m_enumCurrentApprovingItem = Approving_PlanSCRQBusiness;
 	m_advanceSearchVals.clear();
+	m_editSearch->SetWindowTextW(_T(""));
 
 	m_bsDateRange->SetWindowTextW(_T("生产日期"));
 
@@ -1205,6 +1208,7 @@ void CNotificationPanel::OnBnClickedPlanSCRQPlanApprove()
 {
 	m_enumCurrentApprovingItem = Approving_PlanSCRQPlan;
 	m_advanceSearchVals.clear();
+	m_editSearch->SetWindowTextW(_T(""));
 
 	m_bsDateRange->SetWindowTextW(_T("生产日期"));
 
@@ -1239,6 +1243,7 @@ void CNotificationPanel::OnBnClickedPlanBZRQBusinessApprove()
 {
 	m_enumCurrentApprovingItem = Approving_PlanBZRQBusiness;
 	m_advanceSearchVals.clear();
+	m_editSearch->SetWindowTextW(_T(""));
 
 	m_bsDateRange->SetWindowTextW(_T("包装日期"));
 
@@ -1274,6 +1279,7 @@ void CNotificationPanel::OnBnClickedPlanBZRQPlanApprove()
 {
 	m_enumCurrentApprovingItem = Approving_PlanBZRQPlan;
 	m_advanceSearchVals.clear();
+	m_editSearch->SetWindowTextW(_T(""));
 
 	m_bsDateRange->SetWindowTextW(_T("包装日期"));
 	

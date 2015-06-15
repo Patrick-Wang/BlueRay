@@ -59,26 +59,28 @@ private:
 
 			if (m_notificationPanel.IsSaleApproving())
 			{
-				for (size_t i = 0, len = (tb.rows).size(); i < len; i++)
-				{
-					for (int index = _countof(g_TableToBeReplacedByNullForSale) - 1; index >= 0; --index)
-					{
-						(tb.rows)[i].second.insert((tb.rows)[i].second.begin() + g_TableToBeReplacedByNullForSale[index], _T(""));
-					}
-				}
+//m_table的内容与nsSale和nsPlan保持一致，不需要对空列进行补充
+// 				for (size_t i = 0, len = (tb.rows).size(); i < len; i++)
+// 				{
+// 					for (int index = _countof(g_TableToBeReplacedByNullForSale) - 1; index >= 0; --index)
+// 					{
+// 						(tb.rows)[i].second.insert((tb.rows)[i].second.begin() + g_TableToBeReplacedByNullForSale[index], _T(""));
+// 					}
+// 				}
 
 				//需要增加对Json的修改，根据g_TableToBeReplacedByNullForSale定义的位置，增加列，值为空字符串
 				PrehandleRawData(tb, g_TableToBeReplacedByNullForSale, _countof(g_TableToBeReplacedByNullForSale));
 			}
 			else
 			{
-				for (size_t i = 0, len = (tb.rows).size(); i < len; i++)
-				{
-					for (int index = _countof(g_TableToBeReplacedByNullForPlan) - 1; index >= 0; --index)
-					{
-						(tb.rows)[i].second.insert((tb.rows)[i].second.begin() + g_TableToBeReplacedByNullForPlan[index], _T(""));
-					}
-				}
+//m_table的内容与nsSale和nsPlan保持一致，不需要对空列进行补充
+// 				for (size_t i = 0, len = (tb.rows).size(); i < len; i++)
+// 				{
+// 					for (int index = _countof(g_TableToBeReplacedByNullForPlan) - 1; index >= 0; --index)
+// 					{
+// 						(tb.rows)[i].second.insert((tb.rows)[i].second.begin() + g_TableToBeReplacedByNullForPlan[index], _T(""));
+// 					}
+// 				}
 
 				//需要增加对Json的修改，根据g_TableToBeReplacedByNullForSale定义的位置，增加列，值为空字符串
 				PrehandleRawData(tb, g_TableToBeReplacedByNullForPlan, _countof(g_TableToBeReplacedByNullForPlan));
@@ -111,13 +113,14 @@ private:
 
 			if (m_panel.IsSaleApproving())
 			{
-				for (size_t i = 0, len = (page.rows).size(); i < len; i++)
-				{
-					for (int index = _countof(g_TableToBeReplacedByNullForSale) - 1; index >= 0; --index)
-					{
-						(page.rows)[i].second.insert((page.rows)[i].second.begin() + g_TableToBeReplacedByNullForSale[index], _T(""));
-					}
-				}
+//m_table的内容与nsSale和nsPlan保持一致，不需要对空列进行补充
+// 				for (size_t i = 0, len = (page.rows).size(); i < len; i++)
+// 				{
+// 					for (int index = _countof(g_TableToBeReplacedByNullForSale) - 1; index >= 0; --index)
+// 					{
+// 						(page.rows)[i].second.insert((page.rows)[i].second.begin() + g_TableToBeReplacedByNullForSale[index], _T(""));
+// 					}
+// 				}
 
 				//需要增加对Json的修改，根据g_TableToBeReplacedByNullForSale定义的位置，增加列，值为空字符串
 				PrehandleRawData(page, g_TableToBeReplacedByNullForSale, _countof(g_TableToBeReplacedByNullForSale));
@@ -125,13 +128,14 @@ private:
 			}
 			else
 			{
-				for (size_t i = 0, len = (page.rows).size(); i < len; i++)
-				{
-					for (int index = _countof(g_TableToBeReplacedByNullForPlan) - 1; index >= 0; --index)
-					{
-						(page.rows)[i].second.insert((page.rows)[i].second.begin() + g_TableToBeReplacedByNullForPlan[index], _T(""));
-					}
-				}
+//m_table的内容与nsSale和nsPlan保持一致，不需要对空列进行补充
+// 				for (size_t i = 0, len = (page.rows).size(); i < len; i++)
+// 				{
+// 					for (int index = _countof(g_TableToBeReplacedByNullForPlan) - 1; index >= 0; --index)
+// 					{
+// 						(page.rows)[i].second.insert((page.rows)[i].second.begin() + g_TableToBeReplacedByNullForPlan[index], _T(""));
+// 					}
+// 				}
 
 				//需要增加对Json的修改，根据g_TableToBeReplacedByNullForSale定义的位置，增加列，值为空字符串
 				PrehandleRawData(page, g_TableToBeReplacedByNullForPlan, _countof(g_TableToBeReplacedByNullForPlan));
