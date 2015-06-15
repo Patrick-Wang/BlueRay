@@ -19,7 +19,7 @@ public:
 	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
 
-	bool Initialize(CJQGridAPI* pJqGridAPI, PageIDEnum pageID);
+	bool Initialize(CJQGridAPI* pJqGridAPI);
 
 	// Dialog Data
 	enum { IDD = IDD_DIALOG_TABLEFILTER };
@@ -31,6 +31,7 @@ private:
 
 	void SaveColsSetting(std::vector<CString>& vecColsStatus);
 	void GetColsSetting(std::vector<CString>& vecColsStatus);
+	bool IsMustBeHiddenCol(int iColIndex);
 
 protected:
 	//virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
@@ -40,7 +41,6 @@ protected:
 
 private:
 	CButton* m_aCheckBoxs[nsSale::end];
-	PageIDEnum m_enumPage;
 	CJQGridAPI* m_pJqGridAPI;
 	CButton* m_checkboxSelectAll;
 };

@@ -26,20 +26,11 @@ class OnSaleLoadDataListener : public CPromise<PageData_t>::IHttpResponse
 	CONSTRUCTOR_3(OnSaleLoadDataListener, CSalePanel&, salePanel, table&, tb, CJQGridAPI*, pJqGridAPI)
 public:
 	virtual void OnSuccess(PageData_t& tb){
-		//IntArray ia;
-		//m_pJqGridAPI->GetCheckedRows(ia);
-		//CString strFmt;
-		//strFmt.Format(L"%d", ia.size());
-		//m_salePanel.MessageBox(strFmt, strFmt);
 		m_pJqGridAPI->Refresh(tb.rawData);
 		m_tb = tb.rows;
 		m_salePanel.HighLight();
 		m_salePanel.GetParent()->EnableWindow(TRUE);
-//		m_pJqGridAPI->UncheckedAll();
 		m_salePanel.OnRowChecked();
-		//m_pJqGridAPI->GetCheckedRows(ia);
-		//strFmt.Format(L"%d", ia.size());
-		//m_salePanel.MessageBox(strFmt, strFmt);
 	}
 	virtual void OnFailed(){
 		m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
@@ -60,7 +51,6 @@ public:
 		}
 		m_salePanel.HighLight();
 		m_salePanel.GetParent()->EnableWindow(TRUE);
-//		m_pJqGridAPI->UncheckedAll();
 		m_salePanel.OnRowChecked();
 	}
 	virtual void OnFailed(){
@@ -68,8 +58,6 @@ public:
 		m_salePanel.GetParent()->EnableWindow(TRUE);
 	}
 };
-
-
 
 static int g_ReApproveBtnPos[][4] = {
 		{ 640, 70, 90, 25 },
@@ -94,7 +82,6 @@ BEGIN_MESSAGE_MAP(CSalePanel, CBRPanel)
 END_MESSAGE_MAP()
 
 CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI)
-//: CBRPanel(pJqGridAPI, pHttp)
 : CBRPanel(pJqGridAPI)
 , m_tableFilterDlg(_T("表格设置"))
 , m_btnAdd(NULL)
@@ -118,7 +105,7 @@ CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI)
 , m_iCurSortCol(-1)
 , m_bCurSortAsc(false)
 {
-	m_tableFilterDlg.Initialize(m_pJqGridAPI.get(), Page_Sale);
+	m_tableFilterDlg.Initialize(m_pJqGridAPI.get());
 }
 
 CSalePanel::~CSalePanel()
@@ -137,11 +124,6 @@ void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
 		m_btnReApproveForBusiness->EnableWindow(FALSE);
 		m_btnReApproveForPlan->EnableWindow(FALSE);
 	}
-	else{
-		m_pJqGridAPI->HideCol(nsSale::Column_en::yxj);
-			m_pJqGridAPI->HideCol(nsSale::Column_en::dfr);
-			m_pJqGridAPI->HideCol(nsSale::Column_en::zc);
-	}
 
 	CPermission& perm = CUser::GetInstance()->GetPermission();
 
@@ -150,7 +132,6 @@ void CSalePanel::OnShowWindow(BOOL bShow, UINT nStatus)
 		m_pJqGridAPI->HideGrid();
 	}
 
-//	m_pJqGridAPI->UncheckedAll();
 }
 
 void CSalePanel::OnInitChilds()
