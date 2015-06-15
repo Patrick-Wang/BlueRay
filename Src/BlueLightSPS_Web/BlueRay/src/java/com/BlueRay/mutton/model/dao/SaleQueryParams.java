@@ -490,7 +490,7 @@ public class SaleQueryParams {
 			for (int i = 0; i < jadvanced.size() && i < HtxxColumn.end.ordinal(); ++i) {
 				if (!jadvanced.getString(i).isEmpty()) {
 					
-					Field field = HTXX.getField(i);
+					Field field = HTXX.getField(i + 1);
 					
 					if (firstSql) {
 						firstSql = false;
@@ -506,7 +506,7 @@ public class SaleQueryParams {
 						}
 					}
 
-					Class<?> cls = HTXX.getFroeignClass(i);
+					Class<?> cls = HTXX.getFroeignClass(i + 1);
 					String sql = null;
 					if (null != cls) {
 						sql = QueryColumnCommandParser
