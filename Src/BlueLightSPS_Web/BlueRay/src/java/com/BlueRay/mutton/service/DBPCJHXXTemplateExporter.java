@@ -56,7 +56,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	static 
 	{
 		try {
-			String basePath = new URI(DBPCJHXXTemplate2Exporter.class
+			String basePath = new URI(DBPCJHXXTemplateBzjhExporter.class
 					.getClassLoader().getResource("").getPath()).getPath();
 			pathTemplate = basePath + "META-INF/template.xls";
 			pathMapfile = basePath + "META-INF/template.xml";

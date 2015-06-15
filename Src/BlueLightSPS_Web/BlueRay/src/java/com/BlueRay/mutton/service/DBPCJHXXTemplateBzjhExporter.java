@@ -32,7 +32,7 @@ import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
 
-public class DBPCJHXXTemplate2Exporter implements IExcelExporter<PCJHXX> {
+public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 
 	ItemDao itemDao;
 	SaleDao saleDao;
@@ -44,10 +44,10 @@ public class DBPCJHXXTemplate2Exporter implements IExcelExporter<PCJHXX> {
 	static 
 	{
 		try {
-			String basePath = new URI(DBPCJHXXTemplate2Exporter.class
+			String basePath = new URI(DBPCJHXXTemplateBzjhExporter.class
 					.getClassLoader().getResource("").getPath()).getPath();
-			pathTemplate = basePath + "META-INF/template2.xls";
-			pathMapfile = basePath + "META-INF/template2.xml";
+			pathTemplate = basePath + "META-INF/template_bzjh.xls";
+			pathMapfile = basePath + "META-INF/template_bzjh.xml";
 			
 			System.out.println(pathTemplate);
 		} catch (Exception e) {
@@ -98,7 +98,7 @@ public class DBPCJHXXTemplate2Exporter implements IExcelExporter<PCJHXX> {
         }
 	}
 	
-	public DBPCJHXXTemplate2Exporter(ItemDao itemDao, SaleDao saleDao,
+	public DBPCJHXXTemplateBzjhExporter(ItemDao itemDao, SaleDao saleDao,
 			PlanDao planDao, AbstractExcel<PCJHXX> excel, OutputStream os) {
 		super();
 		this.itemDao = itemDao;
