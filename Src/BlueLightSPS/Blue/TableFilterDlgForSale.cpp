@@ -155,7 +155,7 @@ bool CTableFilterDlgForSale::Initialize(CJQGridAPI* pJqGridAPI)
 			}
 		}
 
-		for (int i = 0; i < sizeof(g_ColsMustBeHidden); i++)
+		for (int i = 0; i < _countof(g_ColsMustBeHidden); i++)
 		{
 			m_pJqGridAPI->HideCol(g_ColsMustBeHidden[i]);
 		}
@@ -332,7 +332,7 @@ bool CTableFilterDlgForSale::IsMustBeHiddenCol(int iColIndex)
 {
 	bool bRet = false;
 
-	for (int i = 0; i < sizeof(g_ColsMustBeHidden); i++)
+	for (int i = 0; i < _countof(g_ColsMustBeHidden); i++)
 	{
 		if (iColIndex == g_ColsMustBeHidden[i])
 		{
