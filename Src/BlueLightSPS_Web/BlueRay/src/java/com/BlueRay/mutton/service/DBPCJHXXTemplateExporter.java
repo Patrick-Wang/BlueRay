@@ -266,7 +266,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 					e.printStackTrace();
 				}
 				
-				if (!ret[PcjhColumn.tcbh.ordinal()].isEmpty()) {
+				//if (!ret[PcjhColumn.tcbh.ordinal()].isEmpty()) {
 					Location[] locs = locations.get(PcjhColumn.tcbh.ordinal());
 					
 					if (null == locs || 0 == locs.length){
@@ -280,7 +280,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 							cells.getCells().get(2).add(loc.getY());
 						}
 					}
-				}
+				//}
 				
 				
 				
