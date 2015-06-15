@@ -830,9 +830,10 @@ public class PlanQueryParams {
 					if (CPGGXHXX.class.equals(cls)) {
 						sqlBuilder.append(cls.getSimpleName() + "_.xh" + order
 								+ ",");
-						sqlBuilder.append(cls.getSimpleName() + "_.dw" + order
+						sqlBuilder.append(cls.getSimpleName() + "_.ts" + order
 								+ ",");
-						sqlBuilder.append(cls.getSimpleName() + "_.ts" + order);
+						sqlBuilder.append(cls.getSimpleName() + "_.dw" + order);
+						
 					} else {
 						sqlBuilder.append(cls.getSimpleName() + "_."
 								+ getForginName(cls) + order);

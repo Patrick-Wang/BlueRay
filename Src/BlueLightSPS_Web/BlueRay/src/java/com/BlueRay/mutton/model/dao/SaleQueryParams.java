@@ -695,11 +695,11 @@ public class SaleQueryParams {
 								+ order + ",");
 						sqlBuilder
 						.append(cls.getSimpleName()
-								+ "_.dw"
+								+ "_.ts"
 								+ order + ",");
 						sqlBuilder
 						.append(cls.getSimpleName()
-								+ "_.ts"
+								+ "_.dw"
 								+ order);
 					}
 					else {
