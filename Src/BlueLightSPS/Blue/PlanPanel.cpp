@@ -339,6 +339,7 @@ void CPlanPanel::OnInitChilds()
 
 	m_pJqGridAPI->d_OnExportClicked += std::make_pair(this, &CPlanPanel::OnExportClicked);
 	m_pJqGridAPI->d_OnTemplateExportClicked += std::make_pair(this, &CPlanPanel::OnTemplateExportClicked);
+	m_pJqGridAPI->d_OnBzjhTemplateExportClicked += std::make_pair(this, &CPlanPanel::OnBzjhTemplateExportClicked);
 
 	CString strJsonWidths;
 	if (CSettingManager::GetInstance()->GetColWidths(L"planCol", strJsonWidths))
@@ -1678,6 +1679,7 @@ void CPlanPanel::OnDestroy()
 	CSettingManager::GetInstance()->SetColWidths(L"planCol", strWidths);
 	m_pJqGridAPI->d_OnExportClicked -= std::make_pair(this, &CPlanPanel::OnExportClicked);
 	m_pJqGridAPI->d_OnExportClicked -= std::make_pair(this, &CPlanPanel::OnTemplateExportClicked);
+	m_pJqGridAPI->d_OnBzjhTemplateExportClicked -= std::make_pair(this, &CPlanPanel::OnBzjhTemplateExportClicked);
 	m_pJqGridAPI->d_OnUpdateData -= std::make_pair(this, &CPlanPanel::OnUpdateData);
 
 	CBRPanel::OnDestroy();
@@ -1806,6 +1808,59 @@ void CPlanPanel::OnTemplateExportClicked()
 			CString fileNameNew = filePathName;
 			CServer::GetInstance()->GetPlan().TemplateExport(fileNameNew, pqp).then(
 				new CPlanTemplateExportListener(*this, fileNameNew));
+		}
+		catch (std::exception& e)
+		{
+			MessageBoxA(m_hWnd, (char*)e.what(), "导出失败", MB_OK | MB_ICONWARNING);
+		}
+	}
+}
+
+void CPlanPanel::OnBzjhTemplateExportClicked()
+{
+	class CPlanBzjhTemplateExportListener : public CPromise<bool>::IHttpResponse{
+		CONSTRUCTOR_2(CPlanBzjhTemplateExportListener, CPlanPanel&, panel, CString, fileName);
+	public:
+		virtual void OnSuccess(bool& ret){
+			if (ret)
+			{
+				m_panel.MessageBox(_T("包装计划数据已经成功导出到文件 : ") + m_fileName, _T("导出成功"), MB_OK | MB_ICONINFORMATION);
+			}
+			else
+			{
+				m_panel.MessageBox(_T("包装计划数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
+				DeleteFile(m_fileName);
+			}
+		}
+		virtual void OnFailed(){
+			m_panel.MessageBox(_T("包装计划数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
+			DeleteFile(m_fileName);
+		}
+	};
+
+	COleDateTime time(COleDateTime::GetCurrentTime());
+	CString strFileName(_T("包装计划数据数据"));
+	CString strTimestamp;
+	strTimestamp.Format(_T("(%4d%02d%02d_%02d_%02d_%02d).xls"), time.GetYear(), time.GetMonth(), time.GetDay(), time.GetHour(), time.GetMinute(), time.GetSecond());
+	strFileName += strTimestamp;
+
+	CFileDialog hFileDlg(FALSE, _T("(*.xls)|*.xls"), strFileName, OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT, _T("Excel(*.xls)|*.xls||"), NULL);
+	hFileDlg.m_ofn.nFilterIndex = 1;
+	hFileDlg.m_ofn.hwndOwner = GetParent()->GetSafeHwnd();
+	hFileDlg.m_ofn.lStructSize = sizeof(OPENFILENAME);
+	hFileDlg.m_ofn.lpstrTitle = TEXT("选择导出文件位置");
+	hFileDlg.m_ofn.nMaxFile = MAX_PATH;
+
+	if (hFileDlg.DoModal() == IDOK)
+	{
+		try
+		{
+			CString filePathName = hFileDlg.GetPathName();
+			DEFINE_PLAN_QUERY_PARAM(pqp);
+			MakeBasicSearchCondition(pqp);
+			CString fileNameNew = filePathName;
+			CServer::GetInstance()->GetPlan().BzjhTemplateExport(fileNameNew, pqp).then(
+				new CPlanBzjhTemplateExportListener(*this, fileNameNew));
 		}
 		catch (std::exception& e)
 		{

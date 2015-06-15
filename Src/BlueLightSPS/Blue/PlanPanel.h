@@ -35,6 +35,7 @@ protected:
 	afx_msg void OnCbnSelchangeProductionStatus();
 	void OnExportClicked();
 	void OnTemplateExportClicked();
+	void OnBzjhTemplateExportClicked();
 	void OnModifyDataSuccess(std::vector<CString>& newData);
 	void OnReApproveSuccess(CPlan::ApproveType type);
 

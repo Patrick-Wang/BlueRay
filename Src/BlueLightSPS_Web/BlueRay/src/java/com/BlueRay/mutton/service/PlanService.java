@@ -43,4 +43,6 @@ public interface PlanService {
 
 	String getBh(String item);
 
+	String bzjhtemplateExport(OutputStream out, JSONObject fromObject);
+
 }

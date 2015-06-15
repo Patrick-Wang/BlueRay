@@ -193,9 +193,9 @@ public class DBPCJHXXTemplate2Exporter implements IExcelExporter<PCJHXX> {
 		for (int i = 0; i < workbook.getNumberOfSheets(); ++i){
 			HSSFSheet sheet = workbook.getSheetAt(i);
 			int colCount = sheet.getRow(0).getLastCellNum();	
-			for (int j = 0; j < colCount; ++j) {
-				sheet.autoSizeColumn(j, true);
-			}
+//			for (int j = 0; j < colCount; ++j) {
+//				sheet.autoSizeColumn(j, true);
+//			}
 //			for (int j = 0; j <= sheet.getLastRowNum(); ++j){
 //				HSSFRow row = sheet.getRow(j);
 //			
