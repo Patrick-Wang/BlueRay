@@ -45,33 +45,29 @@ static int g_ButtoncPos[][4] = {
 
 
 
-static int g_TableToBeHiddenForPlan[]
-{
-	nsNotification::Column_en::ywsh,
-		nsNotification::Column_en::jhsh,
-		nsNotification::Column_en::dfr,
-		nsNotification::Column_en::yxj
+// static int g_TableToBeHiddenForPlan[]
+// {
+// 	nsNotification::Column_en::ywsh,
+// 		nsNotification::Column_en::jhsh,
+// 		nsNotification::Column_en::dfr,
+// 		nsNotification::Column_en::yxj
+// };
+// 
+// static int g_TableToBeHiddenForSale[]
+// {
+// 	nsNotification::Column_en::cg,
+// 	nsNotification::Column_en::dfr,
+// 		nsNotification::Column_en::yxj,
+// 		nsNotification::Column_en::scrq,
 // 		nsNotification::Column_en::jhshyw,
 // 		nsNotification::Column_en::jhshjh,
+// 		nsNotification::Column_en::bzrq,
 // 		nsNotification::Column_en::bzshyw,
-// 		nsNotification::Column_en::bzshjh
-};
-
-static int g_TableToBeHiddenForSale[]
-{
-	nsNotification::Column_en::cg,
-	nsNotification::Column_en::dfr,
-		nsNotification::Column_en::yxj,
-		nsNotification::Column_en::scrq,
-		nsNotification::Column_en::jhshyw,
-		nsNotification::Column_en::jhshjh,
-		nsNotification::Column_en::bzrq,
-		nsNotification::Column_en::bzshyw,
-		nsNotification::Column_en::bzshjh,
-		nsNotification::Column_en::fhrq,
-		nsNotification::Column_en::tcbh,
-		nsNotification::Column_en::ccbh,
-};
+// 		nsNotification::Column_en::bzshjh,
+// 		nsNotification::Column_en::fhrq,
+// 		nsNotification::Column_en::tcbh,
+// 		nsNotification::Column_en::ccbh,
+// };
 
 CNotificationPanel::CNotificationPanel(CJQGridAPI* pJqGridAPI)
 	: CBRPanel(pJqGridAPI)
@@ -159,31 +155,31 @@ void CNotificationPanel::OnDestroy()
 	CBRPanel::OnDestroy();
 }
 
-void CNotificationPanel::AdjustTableStyleForPlan()
-{
-	for (int i = 0; i < _countof(g_TableToBeHiddenForSale); i++)
-	{
-		m_pJqGridAPI->ShowCol(g_TableToBeHiddenForSale[i]);
-	}
+// void CNotificationPanel::AdjustTableStyleForPlan()
+// {
+// 	for (int i = 0; i < _countof(g_TableToBeHiddenForSale); i++)
+// 	{
+// 		m_pJqGridAPI->ShowCol(g_TableToBeHiddenForSale[i]);
+// 	}
+// 
+// 	for (int i = 0; i < _countof(g_TableToBeHiddenForPlan); i++)
+// 	{
+// 		m_pJqGridAPI->HideCol(g_TableToBeHiddenForPlan[i]);
+// 	}
+// }
 
-	for (int i = 0; i < _countof(g_TableToBeHiddenForPlan); i++)
-	{
-		m_pJqGridAPI->HideCol(g_TableToBeHiddenForPlan[i]);
-	}
-}
-
-void CNotificationPanel::AdjustTableStyleForSale()
-{
-	for (int i = 0; i < _countof(g_TableToBeHiddenForPlan); i++)
-	{
-		m_pJqGridAPI->ShowCol(g_TableToBeHiddenForPlan[i]);
-	}
-
-	for (int i = 0; i < _countof(g_TableToBeHiddenForSale); i++)
-	{
-		m_pJqGridAPI->HideCol(g_TableToBeHiddenForSale[i]);
-	}
-}
+// void CNotificationPanel::AdjustTableStyleForSale()
+// {
+// 	for (int i = 0; i < _countof(g_TableToBeHiddenForPlan); i++)
+// 	{
+// 		m_pJqGridAPI->ShowCol(g_TableToBeHiddenForPlan[i]);
+// 	}
+// 
+// 	for (int i = 0; i < _countof(g_TableToBeHiddenForSale); i++)
+// 	{
+// 		m_pJqGridAPI->HideCol(g_TableToBeHiddenForSale[i]);
+// 	}
+// }
 
 
 void CNotificationPanel::HighLight()
@@ -1123,6 +1119,7 @@ void CNotificationPanel::OnBnClickedSaleBusinessApprove()
 {
 	m_enumCurrentApprovingItem = Approving_SaleBusiness;
 	m_advanceSearchVals.clear();
+	m_editSearch->SetWindowTextW(_T(""));
 
 	m_bsDateRange->SetWindowTextW(_T("订单日期"));
 
@@ -1149,6 +1146,7 @@ void CNotificationPanel::OnBnClickedSalePlanApprove()
 {
 	m_enumCurrentApprovingItem = Approving_SalePlan;
 	m_advanceSearchVals.clear();
+	m_editSearch->SetWindowTextW(_T(""));
 
 	m_bsDateRange->SetWindowTextW(_T("订单日期"));
 
@@ -1174,6 +1172,7 @@ void CNotificationPanel::OnBnClickedPlanSCRQBusinessApprove()
 {
 	m_enumCurrentApprovingItem = Approving_PlanSCRQBusiness;
 	m_advanceSearchVals.clear();
+	m_editSearch->SetWindowTextW(_T(""));
 
 	m_bsDateRange->SetWindowTextW(_T("生产日期"));
 
@@ -1209,6 +1208,7 @@ void CNotificationPanel::OnBnClickedPlanSCRQPlanApprove()
 {
 	m_enumCurrentApprovingItem = Approving_PlanSCRQPlan;
 	m_advanceSearchVals.clear();
+	m_editSearch->SetWindowTextW(_T(""));
 
 	m_bsDateRange->SetWindowTextW(_T("生产日期"));
 
@@ -1243,6 +1243,7 @@ void CNotificationPanel::OnBnClickedPlanBZRQBusinessApprove()
 {
 	m_enumCurrentApprovingItem = Approving_PlanBZRQBusiness;
 	m_advanceSearchVals.clear();
+	m_editSearch->SetWindowTextW(_T(""));
 
 	m_bsDateRange->SetWindowTextW(_T("包装日期"));
 
@@ -1278,6 +1279,7 @@ void CNotificationPanel::OnBnClickedPlanBZRQPlanApprove()
 {
 	m_enumCurrentApprovingItem = Approving_PlanBZRQPlan;
 	m_advanceSearchVals.clear();
+	m_editSearch->SetWindowTextW(_T(""));
 
 	m_bsDateRange->SetWindowTextW(_T("包装日期"));
 	
@@ -1379,49 +1381,6 @@ void CNotificationPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 	m_pJqGridAPI->HideGrid();
 }
 
-//void CNotificationPanel::OnHttpSuccess(int id, LPCTSTR resp)
-//{
-//	GetParent()->EnableWindow(TRUE);
-//	switch (id)
-//	{
-//	case QUERY_URL_UNAPPROVED_SALEBUSINESS:
-//	case QUERY_URL_UNAPPROVED_SALEPLAN:
-//	case QUERY_URL_UNAPPROVED_PLANSCRQBUSINESS:
-//	case QUERY_URL_UNAPPROVED_PLANSCRQPLAN:
-//	case QUERY_URL_UNAPPROVED_PLANBZRQBUSINESS:
-//	case QUERY_URL_UNAPPROVED_PLANBZRQPLAN:
-//		//OnLoadDataSuccess(CString(resp));
-//		break;
-//	case POST_URL_APPROVE:
-//		MessageBox(_T("审核成功"), _T("审核结果"), MB_OK | MB_ICONWARNING);
-//		OnBnClickedBtnReturn();
-//		break;
-//	default:
-//		break;
-//	}
-//}
-//
-//void CNotificationPanel::OnHttpFailed(int id)
-//{
-//	GetParent()->EnableWindow(TRUE);
-//	switch (id)
-//	{
-//	case QUERY_URL_UNAPPROVED_SALEBUSINESS:
-//	case QUERY_URL_UNAPPROVED_SALEPLAN:
-//	case QUERY_URL_UNAPPROVED_PLANSCRQBUSINESS:
-//	case QUERY_URL_UNAPPROVED_PLANSCRQPLAN:
-//	case QUERY_URL_UNAPPROVED_PLANBZRQBUSINESS:
-//	case QUERY_URL_UNAPPROVED_PLANBZRQPLAN:
-//		break;
-//	case POST_URL_APPROVE:
-//		MessageBox(_T("审核失败"), _T("审核结果"), MB_OK | MB_ICONWARNING);
-//		OnBnClickedBtnReturn();
-//		break;
-//	default:
-//		break;
-//	}
-//}
-
 void CNotificationPanel::OnRowChecked()
 {
 	std::vector<int> checkedRows;
@@ -1439,31 +1398,18 @@ void CNotificationPanel::OnRowChecked()
 
 void CNotificationPanel::OnLoadDataSuccess(PageData_t& page)
 {
-	//for (int j = 0; j < m_table.size(); ++j)
-	//{
-	//	m_pJqGridAPI->DelRow(m_table[j].first);
-	//}
-// 	m_table = page.rows;
-// 	m_pJqGridAPI->Refresh(page.rawData);
-	
-	//StringToTable(jsondata, m_table);
-	//for (int j = 0; j < m_table.size(); ++j)
-	//{
-	//	m_pJqGridAPI->AddRow(m_table[j].first, m_table[j].second);
-	//}
+//	m_bIfUpdateTableWhenTableFilter = true;
 
-	m_bIfUpdateTableWhenTableFilter = true;
+// 	if ((m_enumCurrentApprovingItem == Approving_SaleBusiness) || (m_enumCurrentApprovingItem == Approving_SalePlan))
+// 	{
+// 		AdjustTableStyleForSale();
+// 	} 
+// 	else
+// 	{
+// 		AdjustTableStyleForPlan();
+// 	}
 
-	if ((m_enumCurrentApprovingItem == Approving_SaleBusiness) || (m_enumCurrentApprovingItem == Approving_SalePlan))
-	{
-		AdjustTableStyleForSale();
-	} 
-	else
-	{
-		AdjustTableStyleForPlan();
-	}
-
-	m_bIfUpdateTableWhenTableFilter = false;
+//	m_bIfUpdateTableWhenTableFilter = false;
 
 	
 	CTableFilterDlgForNotificationSale *objTableFilterForSale();
