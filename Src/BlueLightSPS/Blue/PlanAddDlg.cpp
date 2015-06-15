@@ -379,11 +379,13 @@ void CPlanAddDlg::InitCtrlData()
 	if (NULL != m_lpOption)
 	{
 		SetText(m_aCombs[CombId::Comb_ZC_ForPlan], CombId::Comb_ZC_ForPlan, m_lpOption->zc);
+		init(m_aCombs[CombId::Comb_CG], m_lpOption->cg);
 		m_aEdits[EditId::Edit_BZ_ForPlan]->SetWindowTextW(m_lpOption->bz);
 	}
 	else
 	{
 		init(m_aCombs[CombId::Comb_ZC_ForPlan], 0);
+		init(m_aCombs[CombId::Comb_CG], 0);
 	}
 }
 
