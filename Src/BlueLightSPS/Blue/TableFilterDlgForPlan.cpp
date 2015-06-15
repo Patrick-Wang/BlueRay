@@ -126,6 +126,12 @@ static int g_CheckBoxPos[][4] = {
 		{ 80 * 3 + 80 * 2, 40 * 9, 100, 20 }, //CheckBox_CCBH,
 };
 
+static int g_ColsMustBeHidden[] =
+{
+	nsPlan::Column_en::yxj,
+	nsPlan::Column_en::dfr
+};
+
 // CTableFilterDlgForPlan dialog
 
 IMPLEMENT_DYNAMIC(CTableFilterDlgForPlan, CPopupDlg)
@@ -140,7 +146,7 @@ CTableFilterDlgForPlan::~CTableFilterDlgForPlan()
 {
 }
 
-bool CTableFilterDlgForPlan::Initialize(CJQGridAPI* pJqGridAPI, PageIDEnum pageID)
+bool CTableFilterDlgForPlan::Initialize(CJQGridAPI* pJqGridAPI)
 {
 	bool bRet = false;
 
@@ -152,8 +158,6 @@ bool CTableFilterDlgForPlan::Initialize(CJQGridAPI* pJqGridAPI, PageIDEnum pageI
 			break;
 		}
 
-		m_enumPage = pageID;
-		
 		m_pJqGridAPI = pJqGridAPI;
 		
 		if (NULL == m_pJqGridAPI)
@@ -164,22 +168,19 @@ bool CTableFilterDlgForPlan::Initialize(CJQGridAPI* pJqGridAPI, PageIDEnum pageI
 
 		CString strValue;
 
-		for (int i = 0; i < nsTableFilter::end; ++i)
+		for (int i = 0; i < nsPlan::end; ++i)
 		{
-			if (Page_Plan == m_enumPage)
-			{
-				pobjSettingManager->GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
-			}
-			else if (Page_Notification_Plan == m_enumPage)
-			{
-				pobjSettingManager->GetTableFilterSettingForNotificationPlan(g_TableFilterSettingName[i][0], strValue);
-			}
+			pobjSettingManager->GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
 
 			if (0 != strValue.Compare(IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED))
 			{
 				m_pJqGridAPI->HideCol(i);
 			}
+		}
 
+		for (int i = 0; i < _countof(g_ColsMustBeHidden); i++)
+		{
+			m_pJqGridAPI->HideCol(g_ColsMustBeHidden[i]);
 		}
 
 		bRet = true;
@@ -224,14 +225,7 @@ BOOL CTableFilterDlgForPlan::OnInitDialog()
 		m_aCheckBoxs[i] = Util_Tools::Util::CreateCheckBox(this, IDC_CHECKBOX_BASE + i, g_CheckBoxCaptions[i][0], _T("Microsoft YaHei"), 12);
 		m_aCheckBoxs[i]->MoveWindow(g_CheckBoxPos[i][0], g_CheckBoxPos[i][1], g_CheckBoxPos[i][2], g_CheckBoxPos[i][3]);
 
-		if (Page_Plan == m_enumPage)
-		{
-			pobjSettingManager->GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
-		}
-		else if (Page_Notification_Plan == m_enumPage)
-		{
-			pobjSettingManager->GetTableFilterSettingForNotificationPlan(g_TableFilterSettingName[i][0], strValue);
-		}
+		pobjSettingManager->GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
 
 		if (0 == strValue.Compare(IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED))
 		{
@@ -241,7 +235,6 @@ BOOL CTableFilterDlgForPlan::OnInitDialog()
 		{
 			m_aCheckBoxs[i]->SetCheck(FALSE);
 		}
-
 	}
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -257,14 +250,7 @@ void CTableFilterDlgForPlan::SaveColsSetting(std::vector<CString>& vecColsStatus
 	{
 		for (int i = 0; i < _countof(g_TableFilterSettingName); ++i)
 		{
-			if (Page_Plan == m_enumPage)
-			{
-				pobjSettingManager->SetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], vecColsStatus[i]);
-			}
-			else if (Page_Notification_Plan == m_enumPage)
-			{
-				pobjSettingManager->SetTableFilterSettingForNotificationPlan(g_TableFilterSettingName[i][0], vecColsStatus[i]);
-			}
+			pobjSettingManager->SetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], vecColsStatus[i]);
 		}
 	}
 }
@@ -278,15 +264,8 @@ void CTableFilterDlgForPlan::GetColsSetting(std::vector<CString>& vecColsStatus)
 	{
 		for (int i = 0; i < _countof(g_CheckBoxPos); ++i)
 		{
-			if (Page_Plan == m_enumPage)
-			{
-				pobjSettingManager->GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
-			}
-			else if (Page_Notification_Plan == m_enumPage)
-			{
-				pobjSettingManager->GetTableFilterSettingForNotificationPlan(g_TableFilterSettingName[i][0], strValue);
-			}
-
+			pobjSettingManager->GetTableFilterSettingForPlan(g_TableFilterSettingName[i][0], strValue);
+		
 			vecColsStatus.push_back(strValue);
 
 		}
@@ -327,7 +306,15 @@ void CTableFilterDlgForPlan::OnOK(){
 		else
 		{
 			vecColsStatus.push_back(IDS_SETTING_ITEM_TABLEFILTER_VALUE_CHECKED);
-			m_pJqGridAPI->ShowCol(i);
+			
+			if (!IsMustBeHiddenCol(i))
+			{
+				m_pJqGridAPI->ShowCol(i);
+			}
+			else
+			{
+				m_pJqGridAPI->HideCol(i);
+			}
 		}
 	}
 
@@ -362,4 +349,20 @@ void CTableFilterDlgForPlan::OnBnClickedSelectAll()
 	{
 		m_aCheckBoxs[i]->SetCheck(bCheckedAll);
 	}
+}
+
+bool CTableFilterDlgForPlan::IsMustBeHiddenCol(int iColIndex)
+{
+	bool bRet = false;
+
+	for (int i = 0; i < _countof(g_ColsMustBeHidden); i++)
+	{
+		if (iColIndex == g_ColsMustBeHidden[i])
+		{
+			bRet = true;
+			break;
+		}
+	}
+
+	return bRet;
 }

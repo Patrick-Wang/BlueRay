@@ -176,7 +176,7 @@ bool CTableFilterDlgForNotificationPlan::Initialize(CJQGridAPI* pJqGridAPI)
 
 		CString strValue;
 
-		for (int i = 0; i < nsTableFilter::end; ++i)
+		for (int i = 0; i < nsNotification::end; ++i)
 		{
 
 			pobjSettingManager->GetTableFilterSettingForNotificationPlan(g_TableFilterSettingName[i][0], strValue);
@@ -185,7 +185,16 @@ bool CTableFilterDlgForNotificationPlan::Initialize(CJQGridAPI* pJqGridAPI)
 			{
 				m_pJqGridAPI->HideCol(i);
 			}
+			else
+			{
+				m_pJqGridAPI->ShowCol(i);
+			}
 
+		}
+
+		for (int i = 0; i < _countof(g_ColsMustBeHidden); i++)
+		{
+			m_pJqGridAPI->HideCol(g_ColsMustBeHidden[i]);
 		}
 
 		bRet = true;
@@ -340,7 +349,7 @@ bool CTableFilterDlgForNotificationPlan::IsMustBeHiddenCol(int iColIndex)
 
 	bool bRet = false;
 
-	for (int i = 0; i < sizeof(g_ColsMustBeHidden); i++)
+	for (int i = 0; i < _countof(g_ColsMustBeHidden); i++)
 	{
 		if (iColIndex == g_ColsMustBeHidden[i])
 		{

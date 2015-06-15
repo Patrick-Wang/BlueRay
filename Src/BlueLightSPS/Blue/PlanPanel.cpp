@@ -117,7 +117,7 @@ CPlanPanel::CPlanPanel(CJQGridAPI* pJqGridAPI)
 	, m_bEnablePlanBtnForBZRQ(false)
 	, m_bIfUpdateTableWhenTableFilter(false)
 {
-	m_tableFilterDlg.Initialize(m_pJqGridAPI.get(), Page_Plan);
+	m_tableFilterDlg.Initialize(m_pJqGridAPI.get());
 }
 
 
@@ -139,11 +139,6 @@ void CPlanPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 		m_btnReApproveSCRQPlan->EnableWindow(FALSE);
 		m_btnReApproveBZRQBusiness->EnableWindow(FALSE);
 		m_btnReApproveBZRQPlan->EnableWindow(FALSE);
-	}
-	else
-	{
-		m_pJqGridAPI->HideCol(nsPlan::Column_en::yxj);
-		m_pJqGridAPI->HideCol(nsPlan::Column_en::dfr);
 	}
 
 	CPermission& perm = CUser::GetInstance()->GetPermission();
@@ -334,79 +329,6 @@ void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatu
 		sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true);
 		sqp.AddApproveCondition(CPlan::PACK_PLAN, true);
 	}
-
-	//if (ProductionStatus_Planning == productionStatus)
-	//{
-	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true);
-	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
-	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
-	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, false);
-
-	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 1);
-	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 1);
-	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 1);
-	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 1);
-
-	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 2);
-	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 2);
-	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 2);
-	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 2);
-
-	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 3);
-	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 3);
-	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 3);
-	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 3);
-
-	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 4);
-	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 4);
-	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 4);
-	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 4);
-
-	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 5);
-	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 5);
-	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 5);
-	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 5);
-
-	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, true, 6);
-	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 6);
-	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 6);
-	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 6);
-
-	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 7);
-	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 7);
-	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 7);
-	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 7);
-
-	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 8);
-	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 8);
-	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 8);
-	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 8);
-
-	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 9);
-	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 9);
-	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 9);
-	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 9);
-
-	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 10);
-	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 10);
-	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 10);
-	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, false, 10);
-
-	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 11);
-	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, false, 11);
-	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 11);
-	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 11);
-
-	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 12);
-	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 12);
-	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, true, 12);
-	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 12);
-
-	//	sqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false, 13);
-	//	sqp.AddApproveCondition(CPlan::PLAN_PLAN, true, 13);
-	//	sqp.AddApproveCondition(CPlan::PACK_BUSINESS, false, 13);
-	//	sqp.AddApproveCondition(CPlan::PACK_PLAN, true, 13);
-	//}
 }
 
 void CPlanPanel::OnInitChilds()
