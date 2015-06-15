@@ -38,7 +38,7 @@ private:
 		for (int i = 0; i < jarows.size(); ++i)
 		{
 			Json::JsonArray& jarow = jarows.asObject(i).asArray(L"cell");
-			for (int i = countNum - 1; i >= 0; --i)
+			for (int i = 0; i < countNum; ++i)
 			{
 				jarow.add(Json::JsonFactory::createString(L""), tableToBeReplacedByNullForSale[i]);
 			}
