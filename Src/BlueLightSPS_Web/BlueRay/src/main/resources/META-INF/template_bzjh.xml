@@ -36,6 +36,19 @@
 	tcbh, // 投产编号"
 	ccbh, // 出厂编号"
 -->
-	<exclude>hth</exclude>
 
+<sheet templateID="2">	
+	<sheet_name>template</sheet_name>
+<sheet_style>0</sheet_style>	
+	<table_field name="tcbh">
+		<cell row="-1" col="C"></cell>
+		<cell row="-1" col="W"></cell>
+	</table_field>
+	<table_field name="khmc">
+		<cell row="-1" col="H"></cell>
+	</table_field>
+	<table_field name="ggxh">
+		<cell row="-1" col="C"></cell>
+	</table_field>
+</sheet>
 </template>

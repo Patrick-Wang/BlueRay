@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -53,6 +54,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	static VBAExcel vbaExcel = new VBAExcel();
 	private static String pathTemplate = null;
 	private static String pathMapfile = null;
+	private static long templateXmlTime = 0;
 	static 
 	{
 		try {
@@ -140,26 +142,33 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 		 }		 
 	}
 	
-	private static Map<String, Map<Integer, Location[]>> DBTemplateMap = new HashMap<String, Map<Integer, Location[]>>();
-	static{
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();  
-        try  
-        {  
-            DocumentBuilder db = dbf.newDocumentBuilder();  
-            Document doc = db.parse(pathMapfile);  
-  
-            NodeList sheets = doc.getElementsByTagName("sheet");  
-            for (int i = 0; i < sheets.getLength(); i++)  
-            {  
-                Node sheet = sheets.item(i);  
-                parseSheet((Element) sheet);
-            }  
-        }  
-        catch (Exception e)  
-        {  
-            e.printStackTrace();  
-        }
+	private static Map<String, Map<Integer, Location[]>> DBTemplateMap = new Hashtable<String, Map<Integer, Location[]>>();
+	
+	private synchronized void loadTemplateXml(){
+		long time = new File(pathMapfile).lastModified();
+		if (time != templateXmlTime){
+			templateXmlTime = time;
+			DBTemplateMap.clear();
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();  
+	        try  
+	        {  
+	            DocumentBuilder db = dbf.newDocumentBuilder();  
+	            Document doc = db.parse(pathMapfile);  
+	  
+	            NodeList sheets = doc.getElementsByTagName("sheet");  
+	            for (int i = 0; i < sheets.getLength(); i++)  
+	            {  
+	                Node sheet = sheets.item(i);  
+	                parseSheet((Element) sheet);
+	            }  
+	        }  
+	        catch (Exception e)  
+	        {  
+	            e.printStackTrace();  
+	        }
+		}
 	}
+
 	
 	public DBPCJHXXTemplateExporter(ItemDao itemDao, SaleDao saleDao,
 			PlanDao planDao, AbstractExcel<PCJHXX> excel, OutputStream os) {
@@ -184,6 +193,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	}
 	
 	public void exports() throws IOException {
+		loadTemplateXml();
 		Map<Integer, HTXX> htxxMap = new HashMap<Integer, HTXX>();
 
 		List<PCJHXX> pcxxs = new ArrayList<PCJHXX>(1);
