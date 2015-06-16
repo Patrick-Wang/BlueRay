@@ -52,13 +52,14 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	AbstractExcel<PCJHXX> excel;
 	OutputStream os;
 	static VBAExcel vbaExcel = new VBAExcel();
+	static String basePath;
 	private static String pathTemplate = null;
 	private static String pathMapfile = null;
 	private static long templateXmlTime = 0;
 	static 
 	{
 		try {
-			String basePath = new URI(DBPCJHXXTemplateBzjhExporter.class
+			basePath = new URI(DBPCJHXXTemplateBzjhExporter.class
 					.getClassLoader().getResource("").getPath()).getPath();
 			pathTemplate = basePath + "META-INF/template.xls";
 			pathMapfile = basePath + "META-INF/template.xml";
@@ -87,8 +88,14 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 		public int getY() {
 			return y;
 		}
+		public void setX(int x) {
+			this.x = x;
+		}
+		public void setY(int y) {
+			this.y = y;
+		}
 		
-	}	
+	}
 
 	private static Set<String> getNames(NodeList names) {
 		Set<String> nameSet = new HashSet<String>();
@@ -194,6 +201,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	
 	public void exports() throws IOException {
 		loadTemplateXml();
+		//String js = JSONObject.fromObject(DBTemplateMap).toString();
 		Map<Integer, HTXX> htxxMap = new HashMap<Integer, HTXX>();
 
 		List<PCJHXX> pcxxs = new ArrayList<PCJHXX>(1);
@@ -311,7 +319,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 //				}
 				workbook = new HSSFWorkbook(fi);
 				
-				workbook.cloneSheet(index);
+//				workbook.cloneSheet(index);
 				cells.getCells().get(0).clear();
 				cells.getCells().get(1).clear();
 				cells.getCells().get(2).clear();
