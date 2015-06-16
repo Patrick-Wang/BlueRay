@@ -27,6 +27,9 @@ bool ExcelVBAService::Start()
 	if (!ExcelApp.CreateDispatch(_T("Excel.Application"), NULL))
 	{
 		DWORD dw = GetLastError();
+		CString strError;
+		strError.Format(L"error create Excel.Application errorcode: %d", dw);
+		AfxMessageBox(strError);
 		return false;
 	}
 	return true;

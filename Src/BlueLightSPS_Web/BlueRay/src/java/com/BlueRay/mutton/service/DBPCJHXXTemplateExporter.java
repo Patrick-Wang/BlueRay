@@ -52,13 +52,14 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	AbstractExcel<PCJHXX> excel;
 	OutputStream os;
 	static VBAExcel vbaExcel = new VBAExcel();
+	static String basePath;
 	private static String pathTemplate = null;
 	private static String pathMapfile = null;
 	private static long templateXmlTime = 0;
 	static 
 	{
 		try {
-			String basePath = new URI(DBPCJHXXTemplateBzjhExporter.class
+			basePath = new URI(DBPCJHXXTemplateBzjhExporter.class
 					.getClassLoader().getResource("").getPath()).getPath();
 			pathTemplate = basePath + "META-INF/template.xls";
 			pathMapfile = basePath + "META-INF/template.xml";
