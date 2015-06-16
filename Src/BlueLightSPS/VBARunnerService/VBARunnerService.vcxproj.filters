@@ -78,6 +78,12 @@
     <ClInclude Include="lib_json\JsonType.h">
       <Filter>json</Filter>
     </ClInclude>
+    <ClInclude Include="COLEObjects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="COLEObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="VBARunnerService.cpp">

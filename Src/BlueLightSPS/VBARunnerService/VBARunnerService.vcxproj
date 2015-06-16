@@ -104,6 +104,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CApplication.h" />
+    <ClInclude Include="COLEObject.h" />
+    <ClInclude Include="COLEObjects.h" />
     <ClInclude Include="CRange.h" />
     <ClInclude Include="CRanges.h" />
     <ClInclude Include="CWorkbook.h" />
