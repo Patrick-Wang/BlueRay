@@ -78,8 +78,9 @@ public:
 		CString htbh;	//合同号
 		CString khmc;	//客户名称
 		CString ggbh;	//规格型号
+		int cg;		//磁钢
 		CString sl;		//数量
-		CString zc;		//轴承
+		int zc;		//轴承
 		CString dfr;	//单复绕
 		CString zdqdy;	//制动器电压
 		CString yylgg;	//曳引轮规格
@@ -112,17 +113,14 @@ public:
 		CString tcbh;	//投产编号
 		CString ccbh;	//出厂编号
 
-		int zc_forPlan; //轴承 供planner修改用
-		CString bz_forPlan; //备注 供planner修改用
-
-		int cg;		//磁钢
 
 		tagOption_t(){
 			htbh = OPT_FALSE;			//合同号
 			khmc = OPT_FALSE;		//客户名称
 			ggbh = OPT_FALSE;		//规格型号
+			cg = OPT_FALSE_INT;
 			sl = OPT_FALSE;				//数量
-			zc = OPT_FALSE;			//轴承
+			zc = OPT_FALSE_INT;			//轴承
 			dfr = OPT_FALSE;		//单复绕
 			zdqdy = OPT_FALSE;		//制动器电压
 			yylgg = OPT_FALSE;		//曳引轮规格
@@ -134,17 +132,15 @@ public:
 			mpzl = OPT_FALSE;		//铭牌等资料
 			ddrq = OPT_FALSE;			//订单日期
 			bz = OPT_FALSE;				//备注
-
 			zjdy = OPT_FALSE;
 			zjys = OPT_FALSE;
 			zdqxh = OPT_FALSE;
 			zyz = OPT_FALSE;
 			bzxdtgg = OPT_FALSE;
+			gh = OPT_FALSE;
 			zzs = OPT_FALSE;
 			khqy = OPT_FALSE;
 			yxj = OPT_FALSE;
-			gh = OPT_FALSE;
-
 			scrq = OPT_FALSE;	//生产日期
 			jhywsh = OPT_FALSE;	//计划审核-业务
 			jhjhsh = OPT_FALSE;	//计划审核-计划
@@ -155,15 +151,12 @@ public:
 			tcbh = OPT_FALSE;	//投产编号
 			ccbh = OPT_FALSE;	//出厂编号
 
-			zc_forPlan = OPT_FALSE_INT; //轴承 for plan
-			bz_forPlan = OPT_FALSE; //轴承 for plan
-
-			cg = OPT_FALSE_INT;
 		}
 
 		tagOption_t(std::vector<CString>& data){
 			do
 			{
+				//必须按照显示顺序，同表格内容一一对应
 				std::vector<CString>::iterator it = data.begin();
 				do_get(data, it, htbh);
 				do_get(data, it, khmc);
@@ -172,7 +165,7 @@ public:
 				do_get_int(data, it, CombId::Comb_CG, cg);
 
 				do_get(data, it, sl);
-				do_get(data, it, zc);
+				do_get_int(data, it, CombId::Comb_ZC, zc);
 				do_get(data, it, dfr);
 				do_get(data, it, zdqdy);
 				do_get(data, it, yylgg);
@@ -184,7 +177,6 @@ public:
 				do_get(data, it, mpzl);
 				do_get(data, it, bz);
 				do_get(data, it, ddrq);
-
 				do_get(data, it, zjdy);
 				do_get(data, it, zjys);
 				do_get(data, it, zdqxh);
@@ -194,37 +186,29 @@ public:
 				do_get(data, it, zzs);
 				do_get(data, it, khqy);
 				do_get(data, it, yxj);
-
 				do_get(data, it, scrq);
-				
 				do_get(data, it, jhywsh);
 				do_get(data, it, jhjhsh);
-
 				do_get(data, it, bzrq);
-
 				do_get(data, it, bzywsh);
 				do_get(data, it, bzjhsh);
-				
 				do_get(data, it, fhrq);
 				do_get(data, it, tcbh);
 				do_get(data, it, ccbh);
-
-				do_get_int(data, it, CombId::Comb_ZC_ForPlan, zc_forPlan);
-				do_get(data, it, bz_forPlan);
-
-				
 
 			} while (false);
 		}
 		void Merge(std::vector<CString>& data){
 			do
 			{
+				//必须按照显示顺序，同表格内容一一对应
 				std::vector<CString>::iterator it = data.begin();
 				do_get_merge(data, it, htbh);
 				do_get_merge(data, it, khmc);
 				do_get_merge(data, it, ggbh);
+				do_get_int_merge(data, it, CombId::Comb_CG, cg);
 				do_get_merge(data, it, sl);
-				do_get_merge(data, it, zc);
+				do_get_int_merge(data, it, CombId::Comb_ZC, zc);
 				do_get_merge(data, it, dfr);
 				do_get_merge(data, it, zdqdy);
 				do_get_merge(data, it, yylgg);
@@ -236,7 +220,6 @@ public:
 				do_get_merge(data, it, mpzl);
 				do_get_merge(data, it, bz);
 				do_get_merge(data, it, ddrq);
-
 				do_get_merge(data, it, zjdy);
 				do_get_merge(data, it, zjys);
 				do_get_merge(data, it, zdqxh);
@@ -246,25 +229,15 @@ public:
 				do_get_merge(data, it, zzs);
 				do_get_merge(data, it, khqy);
 				do_get_merge(data, it, yxj);
-
 				do_get_merge(data, it, scrq);
-
 				do_get_merge(data, it, jhywsh);
 				do_get_merge(data, it, jhjhsh);
-				
 				do_get_merge(data, it, bzrq);
-				
 				do_get_merge(data, it, bzywsh);
 				do_get_merge(data, it, bzjhsh);
-
 				do_get_merge(data, it, fhrq);
 				do_get_merge(data, it, tcbh);
 				do_get_merge(data, it, ccbh);
-
-				do_get_int_merge(data, it, CombId::Comb_ZC_ForPlan, zc_forPlan);
-				do_get_merge(data, it, bz_forPlan);
-
-				do_get_int_merge(data, it, CombId::Comb_CG, cg);
 
 			} while (false);
 		}
@@ -293,17 +266,15 @@ private:
 		Static_MPZL,
 		Static_DDRQ,
 		Static_BZ,
-
 		Static_ZJDY,
 		Static_ZJYS,
 		Static_ZDQXH,
 		Static_ZYZ,
 		Static_BZXDTGG,
+		Static_GH,
 		Static_ZZS,
 		Static_KHQY,
 		Static_YXJ,
-		Static_GH,
-
 		Static_SCRQ,
 		Static_BZRQ,
 		Static_FHRQ,
@@ -341,10 +312,10 @@ private:
 		Static2_ZDQXH,
 		Static2_ZYZ,
 		Static2_BZXDTGG,
+		Static2_GH,
 		Static2_ZZS,
 		Static2_KHQY,
 		Static2_YXJ,
-		Static2_GH,
 
 		Static2_END
 	};
@@ -352,7 +323,7 @@ private:
 	enum EditId{
 		Edit_TCBH,
 		Edit_CCBH,
-		Edit_BZ_ForPlan,
+		Edit_BZ,
 		Edit_END
 	};
 
@@ -364,7 +335,7 @@ private:
 	};
 
 	enum CombId{
-		Comb_ZC_ForPlan,
+		Comb_ZC,
 		Comb_CG,
 		Comb_END
 	};
@@ -388,7 +359,6 @@ protected:
 	void SetText(CComboBox* pComboBox, CombId comId, CString& text);
 
 private:
-	//std::auto_ptr<Option_t> m_lpOption;
 	Option_t* m_lpOption;
 	static std::vector<std::vector<CString>> m_DropList;
 	static int m_iRef;
