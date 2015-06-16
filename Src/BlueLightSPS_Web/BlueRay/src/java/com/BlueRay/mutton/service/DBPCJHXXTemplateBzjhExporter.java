@@ -164,26 +164,26 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 							.getSheetIndex(sheetName));
 					workbook.setSheetName(workbook.getSheetIndex(sheet), scrq);
 
-					HSSFRow row = sheet.createRow(sheet.getLastRowNum());
-					for (int j = 1; j < PcjhColumn.end.ordinal(); ++j) {
-						if (colsMap.containsKey(j)) {
-							List<Integer> cols = colsMap.get(j);
-							for (Integer col : cols) {
-								HSSFCell cell = row.createCell(col);
-								cell.setCellStyle(style);
-								cell.setCellValue(title[j - 1]);
-							}
-						}
-					}
-					HSSFCell cell = row.createCell((int) row.getLastCellNum());
-					cell.setCellStyle(style);
-					cell.setCellValue("磁极角");
-					cell = row.createCell((int) row.getLastCellNum());
-					cell.setCellStyle(style);
-					cell.setCellValue("径向跳动");
-					cell = row.createCell((int) row.getLastCellNum());
-					cell.setCellStyle(style);
-					cell.setCellValue("法向跳动");
+//					HSSFRow row = sheet.createRow(sheet.getLastRowNum());
+//					for (int j = 1; j < PcjhColumn.end.ordinal(); ++j) {
+//						if (colsMap.containsKey(j)) {
+//							List<Integer> cols = colsMap.get(j);
+//							for (Integer col : cols) {
+//								HSSFCell cell = row.createCell(col);
+//								cell.setCellStyle(style);
+//								cell.setCellValue(title[j - 1]);
+//							}
+//						}
+//					}
+//					HSSFCell cell = row.createCell((int) row.getLastCellNum());
+//					cell.setCellStyle(style);
+//					cell.setCellValue("磁极角");
+//					cell = row.createCell((int) row.getLastCellNum());
+//					cell.setCellStyle(style);
+//					cell.setCellValue("径向跳动");
+//					cell = row.createCell((int) row.getLastCellNum());
+//					cell.setCellStyle(style);
+//					cell.setCellValue("法向跳动");
 				}
 				if (null != sheet) {
 					HSSFRow row = sheet.createRow(sheet.getLastRowNum() + 1);
@@ -197,15 +197,15 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 							}
 						}
 					}
-					HSSFCell cell = row.createCell((int) row.getLastCellNum());
-					cell.setCellStyle(style);
-					cell.setCellValue("");
-					cell = row.createCell((int) row.getLastCellNum());
-					cell.setCellStyle(style);
-					cell.setCellValue("");
-					cell = row.createCell((int) row.getLastCellNum());
-					cell.setCellStyle(style);
-					cell.setCellValue("");
+//					HSSFCell cell = row.createCell((int) row.getLastCellNum());
+//					cell.setCellStyle(style);
+//					cell.setCellValue("");
+//					cell = row.createCell((int) row.getLastCellNum());
+//					cell.setCellStyle(style);
+//					cell.setCellValue("");
+//					cell = row.createCell((int) row.getLastCellNum());
+//					cell.setCellStyle(style);
+//					cell.setCellValue("");
 				}
 			}
 		}
@@ -262,27 +262,28 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 		String[] ret = new String[PcjhColumn.end.ordinal()];
 		HSSFSheet sheet = workbook.getSheet(sheetName);
 		if (null != sheet) {
-
-			HSSFRow row = sheet.createRow(sheet.getLastRowNum());
-			for (int j = 1; j < PcjhColumn.end.ordinal(); ++j) {
-				if (colsMap.containsKey(j)) {
-					List<Integer> cols = colsMap.get(j);
-					for (Integer col : cols) {
-						HSSFCell cell = row.createCell(col);
-						cell.setCellStyle(style);
-						cell.setCellValue(title[j - 1]);
-					}
-				}
-			}
-			HSSFCell cell = row.createCell((int) row.getLastCellNum());
-			cell.setCellStyle(style);
-			cell.setCellValue("磁极角");
-			cell = row.createCell((int) row.getLastCellNum());
-			cell.setCellStyle(style);
-			cell.setCellValue("径向跳动");
-			cell = row.createCell((int) row.getLastCellNum());
-			cell.setCellStyle(style);
-			cell.setCellValue("法向跳动");
+			HSSFRow row = null;
+			HSSFCell cell = null;
+//			HSSFRow row = sheet.createRow(sheet.getLastRowNum());
+//			for (int j = 1; j < PcjhColumn.end.ordinal(); ++j) {
+//				if (colsMap.containsKey(j)) {
+//					List<Integer> cols = colsMap.get(j);
+//					for (Integer col : cols) {
+//						HSSFCell cell = row.createCell(col);
+//						cell.setCellStyle(style);
+//						cell.setCellValue(title[j - 1]);
+//					}
+//				}
+//			}
+//			HSSFCell cell = row.createCell((int) row.getLastCellNum());
+//			cell.setCellStyle(style);
+//			cell.setCellValue("磁极角");
+//			cell = row.createCell((int) row.getLastCellNum());
+//			cell.setCellStyle(style);
+//			cell.setCellValue("径向跳动");
+//			cell = row.createCell((int) row.getLastCellNum());
+//			cell.setCellStyle(style);
+//			cell.setCellValue("法向跳动");
 
 			for (int i = 0, len = excel.getRowCount(); i < len; ++i) {
 				pcxxs.set(0, excel.getRow(i));
@@ -300,15 +301,15 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 						}
 					}
 				}
-				cell = row.createCell((int) row.getLastCellNum());
-				cell.setCellStyle(style);
-				cell.setCellValue("");
-				cell = row.createCell((int) row.getLastCellNum());
-				cell.setCellStyle(style);
-				cell.setCellValue("");
-				cell = row.createCell((int) row.getLastCellNum());
-				cell.setCellStyle(style);
-				cell.setCellValue("");
+//				cell = row.createCell((int) row.getLastCellNum());
+//				cell.setCellStyle(style);
+//				cell.setCellValue("");
+//				cell = row.createCell((int) row.getLastCellNum());
+//				cell.setCellStyle(style);
+//				cell.setCellValue("");
+//				cell = row.createCell((int) row.getLastCellNum());
+//				cell.setCellStyle(style);
+//				cell.setCellValue("");
 
 			}
 		}
