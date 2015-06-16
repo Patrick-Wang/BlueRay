@@ -20,42 +20,13 @@ static int g_CombPos[][4] = {
 };
 
 static int g_StaticPos[][4] = {
-
-	//删除优先级、轴承、单复绕前的位置
-// 		{ 100 * 0 + 100 * 0, 40 * 1 - 15, 100, 20 }, //Static_HTH,
-// 		{ 100 * 1 + 100 * 1, 40 * 1 - 15, 100, 20 }, //Static_KHMC,
-// 		{ 100 * 2 + 100 * 2, 40 * 1 - 15, 100, 20 }, //Static_GGBH,
-// 		{ 100 * 3 + 100 * 3, 40 * 1 - 15, 100, 20 }, //Static_SL,
-// 		{ 100 * 0 + 100 * 0, 40 * 2 - 15, 100, 20 }, //Static_ZC,
-// 		{ 100 * 1 + 100 * 1, 40 * 2 - 15, 100, 20 }, //Static_DFR,
-// 		{ 100 * 2 + 100 * 2, 40 * 2 - 15, 100, 20 }, //Static_ZDQDY,
-// 		{ 100 * 3 + 100 * 3, 40 * 2 - 15, 100, 20 }, //Static_YYLGG,
-// 		{ 100 * 0 + 100 * 0, 40 * 3 - 15, 100, 20 }, //Static_JF,
-// 		{ 100 * 1 + 100 * 1, 40 * 3 - 15, 100, 20 }, //Static_BPQXH,
-// 		{ 100 * 2 + 100 * 2, 40 * 3 - 15, 100, 20 }, //Static_BMQXH,
-// 		{ 100 * 3 + 100 * 3, 40 * 3 - 15, 100, 20 }, //Static_DLCD,
-// 		{ 100 * 0 + 100 * 0, 40 * 4 - 15, 100, 20 }, //Static_ZXCD,
-// 		{ 100 * 1 + 100 * 1, 40 * 4 - 15, 100, 20 }, //Static_MPZL,
-// 		{ 100 * 2 + 100 * 2, 40 * 4 - 15, 100, 20 }, //Static_DDRQ,
-// 		{ 100 * 3 + 100 * 3, 40 * 4 - 15, 100, 20 },  //Static_BZ,
-// 
-// 		{ 100 * 0 + 100 * 0, 40 * 5 - 15, 100, 20 },	//zjdy
-// 		{ 100 * 1 + 100 * 1, 40 * 5 - 15, 100, 20 },	//zjys
-// 		{ 100 * 2 + 100 * 2, 40 * 5 - 15, 100, 20 },	//zdqxh
-// 		{ 100 * 3 + 100 * 3, 40 * 5 - 15, 100, 20 },	//zyz
-// 		{ 100 * 0 + 100 * 0, 40 * 6 - 15, 100, 20 },	//bzxgg
-// 		{ 100 * 1 + 100 * 1, 40 * 6 - 15, 100, 20 },	//zzs
-// 		{ 100 * 2 + 100 * 2, 40 * 6 - 15, 100, 20 },	//khqy
-// 		{ 100 * 3 + 100 * 3, 40 * 6 - 15, 100, 20 },	//yxj
-// 		{ 100 * 0 + 100 * 0, 40 * 7 - 15, 100, 20 },	//gh
-
-	//删除后的位置
-	 	{ 100 * 0 + 100 * 0, 40 * 1 - 15, 100, 20 }, //Static_HTH,
+	 	
+		{ 100 * 0 + 100 * 0, 40 * 1 - 15, 100, 20 }, //Static_HTH,
 	 	{ 100 * 1 + 100 * 1, 40 * 1 - 15, 100, 20 }, //Static_KHMC,
 	 	{ 100 * 2 + 100 * 2, 40 * 1 - 15, 100, 20 }, //Static_GGBH,
 	 	{ 100 * 3 + 100 * 3, 40 * 1 - 15, 100, 20 }, //Static_SL,
-		{ 0, 0, 0, 0 }, //Static_ZC,
-		{ 0, 0, 0, 0 }, //Static_DFR,
+		{ 0, 0, 0, 0 },									//Static_ZC,
+		{ 0, 0, 0, 0 },									//Static_DFR,
 	 	{ 100 * 2 + 100 * 2, 40 * 2 - 15, 100, 20 }, //Static_ZDQDY,
 	 	{ 100 * 3 + 100 * 3, 40 * 2 - 15, 100, 20 }, //Static_YYLGG,
 	 	{ 100 * 0 + 100 * 0, 40 * 2 - 15, 100, 20 }, //Static_JF,
@@ -66,7 +37,6 @@ static int g_StaticPos[][4] = {
 	 	{ 100 * 1 + 100 * 1, 40 * 3 - 15, 100, 20 }, //Static_MPZL,
 	 	{ 100 * 2 + 100 * 2, 40 * 4 - 15, 100, 20 }, //Static_DDRQ,
 	 	{ 100 * 3 + 100 * 3, 40 * 4 - 15, 100, 20 },  //Static_BZ,
-	 
 	 	{ 100 * 0 + 100 * 0, 40 * 4 - 15, 100, 20 },	//zjdy
 	 	{ 100 * 1 + 100 * 1, 40 * 4 - 15, 100, 20 },	//zjys
 	 	{ 100 * 2 + 100 * 2, 40 * 5 - 15, 100, 20 },	//zdqxh
@@ -90,33 +60,6 @@ static int g_StaticPos[][4] = {
 
 
 static int g_StaticToShowPos[][4] = {
-// 		{ 100 * 1 + 100 * 0 + 8, 40 * 1 - 15, 100, 20 }, //Edit_HTH,
-// 		{ 100 * 2 + 100 * 1 + 8, 40 * 1 - 15, 100, 20 }, //Comb_KHMC,
-// 		{ 100 * 3 + 100 * 2 + 8, 40 * 1 - 15, 100, 20 }, //Comb_GGBH,
-// 		{ 100 * 4 + 100 * 3 + 8, 40 * 1 - 15, 100, 20 }, //Edit_SL,
-// 		{ 100 * 1 + 100 * 0 + 8, 40 * 2 - 15, 100, 20 }, //Comb_ZC,
-// 		{ 100 * 2 + 100 * 1 + 8, 40 * 2 - 15, 100, 20 }, //Comb_DFR,
-// 		{ 100 * 3 + 100 * 2 + 8, 40 * 2 - 15, 100, 20 }, //Comb_ZDQDY,
-// 		{ 100 * 4 + 100 * 3 + 8, 40 * 2 - 15, 100, 20 }, //Comb_YYLGG,
-// 		{ 100 * 1 + 100 * 0 + 8, 40 * 3 - 15, 100, 20 }, //Comb_JF,
-// 		{ 100 * 2 + 100 * 1 + 8, 40 * 3 - 15, 100, 20 }, //Comb_BPQXH,
-// 		{ 100 * 3 + 100 * 2 + 8, 40 * 3 - 15, 100, 20 }, //Comb_BMQXH,
-// 		{ 100 * 4 + 100 * 3 + 8, 40 * 3 - 15, 100, 20 }, //Edit_DLCD,
-// 		{ 100 * 1 + 100 * 0 + 8, 40 * 4 - 15, 100, 20 }, //Edit_ZXCD,
-// 		{ 100 * 3 + 100 * 2 + 8, 40 * 4 - 15, 100, 20 }, //Edit_DDRQ,
-// 		{ 100 * 2 + 100 * 1 + 8, 40 * 4 - 15, 100, 20 },	//Comb_MPZL,
-// 		{ 100 * 4 + 100 * 3 + 8, 40 * 4 - 15, 100, 20 },  //Edit_BZ,
-// 
-// 		{ 100 * 1 + 100 * 0 + 8, 40 * 5 - 15, 100, 20 },
-// 		{ 100 * 3 + 100 * 2 + 8, 40 * 5 - 15, 100, 20 },
-// 		{ 100 * 2 + 100 * 1 + 8, 40 * 5 - 15, 100, 20 },
-// 		{ 100 * 4 + 100 * 3 + 8, 40 * 5 - 15, 100, 20 },
-// 		{ 100 * 1 + 100 * 0 + 8, 40 * 6 - 15, 100, 20 },
-// 		{ 100 * 2 + 100 * 1 + 8, 40 * 6 - 15, 100, 20 },
-// 		{ 100 * 3 + 100 * 2 + 8, 40 * 6 - 15, 100, 20 },
-// 		{ 100 * 4 + 100 * 3 + 8, 40 * 6 - 15, 100, 20 },
-// 		{ 100 * 1 + 100 * 0 + 8, 40 * 7 - 15, 100, 20 }
-
 		{ 100 * 1 + 100 * 0 + 8, 40 * 1 - 15, 100, 20 }, //Edit_HTH,
 		{ 100 * 2 + 100 * 1 + 8, 40 * 1 - 15, 100, 20 }, //Comb_KHMC,
 		{ 100 * 3 + 100 * 2 + 8, 40 * 1 - 15, 100, 20 }, //Comb_GGBH,
@@ -133,7 +76,6 @@ static int g_StaticToShowPos[][4] = {
 		{ 100 * 2 + 100 * 1 + 8, 40 * 3 - 15, 100, 20 },	//Comb_MPZL,
 		{ 100 * 3 + 100 * 2 + 8, 40 * 4 - 15, 100, 20 }, //Edit_DDRQ,
 		{ 100 * 4 + 100 * 3 + 8, 40 * 4 - 15, 100, 20 },  //Edit_BZ,
-
 		{ 100 * 1 + 100 * 0 + 8, 40 * 4 - 15, 100, 20 },//zjdy
 		{ 100 * 2 + 100 * 1 + 8, 40 * 4 - 15, 100, 20 },//zjys
 		{ 100 * 3 + 100 * 2 + 8, 40 * 5 - 15, 100, 20 },//zdqxh
@@ -143,7 +85,6 @@ static int g_StaticToShowPos[][4] = {
 		{ 100 * 2 + 100 * 1 + 8, 40 * 6 - 15, 100, 20 },//khqy
 		{ 0, 0, 0, 0 },	//yxj
 		{ 100 * 1 + 100 * 0 + 8, 40 * 6 - 15, 100, 20 }//gh
-
 };
 
 static int g_EditsPos[][4] = {
@@ -279,7 +220,7 @@ void CPlanAddDlg::InitHttpInstance()
 		CItem& item = CServer::GetInstance()->GetItem();
 
 		//轴承
-		item.QuerySync(CItem::ZCXX, m_DropList[CombId::Comb_ZC_ForPlan]);
+		item.QuerySync(CItem::ZCXX, m_DropList[CombId::Comb_ZC]);
 		++m_iRef;
 
 		//磁钢
@@ -323,7 +264,7 @@ void CPlanAddDlg::OnHttpSuccess(int id, LPCTSTR resp)
 	switch (id)
 	{
 	case QUERY_COMBO_VALUE_ZC_URL_ID:
-		OnLoadComboDataSuccess(Comb_ZC_ForPlan, CString(resp));
+		OnLoadComboDataSuccess(Comb_ZC, CString(resp));
 		break;
 	case QUERY_COMBO_VALUE_CG_URL_ID:
 		OnLoadComboDataSuccess(Comb_CG, CString(resp));
@@ -378,14 +319,17 @@ void CPlanAddDlg::InitCtrlData()
 
 	if (NULL != m_lpOption)
 	{
-		SetText(m_aCombs[CombId::Comb_ZC_ForPlan], CombId::Comb_ZC_ForPlan, m_lpOption->zc);
+		init(m_aCombs[CombId::Comb_ZC], m_lpOption->zc);
 		init(m_aCombs[CombId::Comb_CG], m_lpOption->cg);
-		m_aEdits[EditId::Edit_BZ_ForPlan]->SetWindowTextW(m_lpOption->bz);
+		init(m_aEdits[EditId::Edit_BZ], m_lpOption->bz);
 	}
 	else
 	{
-		init(m_aCombs[CombId::Comb_ZC_ForPlan], 0);
+		CString val(_T(""));
+
+		init(m_aCombs[CombId::Comb_ZC], 0);
 		init(m_aCombs[CombId::Comb_CG], 0);
+		init(m_aEdits[EditId::Edit_BZ], val);
 	}
 }
 
@@ -476,7 +420,7 @@ BOOL CPlanAddDlg::OnInitDialog()
 	//init edit
 	for (int i = 0; i < _countof(g_EditItems); ++i)
 	{
-		if (i == Edit_BZ_ForPlan)
+		if (i == Edit_BZ)
 		{
 			m_aEdits[i] = Util_Tools::Util::CreateEdit(this, IDC_EDIT_BASE + i, g_EditItems[i][0], _T("Microsoft YaHei"), 12, true);
 		}
@@ -503,11 +447,12 @@ BOOL CPlanAddDlg::OnInitDialog()
 
 	if (NULL != m_lpOption)
 	{
+		CString val(_T("NULL"));
 		init(m_aStaticsToShow[StaticId2::Static2_HTH], m_lpOption->htbh);
 		init(m_aStaticsToShow[StaticId2::Static2_KHMC], m_lpOption->khmc);
 		init(m_aStaticsToShow[StaticId2::Static2_GGBH], m_lpOption->ggbh);
 		init(m_aStaticsToShow[StaticId2::Static2_SL], m_lpOption->sl);
-		init(m_aStaticsToShow[StaticId2::Static2_ZC], m_lpOption->zc);
+		init(m_aStaticsToShow[StaticId2::Static2_ZC], val);
 		init(m_aStaticsToShow[StaticId2::Static2_DFR], m_lpOption->dfr);
 		init(m_aStaticsToShow[StaticId2::Static2_ZDQDY], m_lpOption->zdqdy);
 		init(m_aStaticsToShow[StaticId2::Static2_YYLGG], m_lpOption->yylgg);
@@ -719,10 +664,10 @@ void CPlanAddDlg::OnOK()
 		}
 	}
 
-	GetText(m_aCombs[CombId::Comb_ZC_ForPlan], Comb_ZC_ForPlan, strTmp);
+	GetText(m_aCombs[CombId::Comb_ZC], Comb_ZC, strTmp);
 	m_vecResult.push_back(strTmp);
 
-	m_aEdits[EditId::Edit_BZ_ForPlan]->GetWindowText(strTmp);
+	m_aEdits[EditId::Edit_BZ]->GetWindowText(strTmp);
 	m_vecResult.push_back(strTmp);
 
 	GetText(m_aCombs[CombId::Comb_CG], Comb_CG, strTmp);
