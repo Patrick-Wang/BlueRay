@@ -35,10 +35,10 @@ static LPCTSTR g_TableFilterSettingName[][1] = { //0: default text
 		{ IDS_SETTING_ITEM_TABLEFILTER_ZDQXH },
 		{ IDS_SETTING_ITEM_TABLEFILTER_ZYZ },
 		{ IDS_SETTING_ITEM_TABLEFILTER_BZXDTGG },
+		{ IDS_SETTING_ITEM_TABLEFILTER_GH },
 		{ IDS_SETTING_ITEM_TABLEFILTER_ZZS },
 		{ IDS_SETTING_ITEM_TABLEFILTER_KHQY },
 		{ IDS_SETTING_ITEM_TABLEFILTER_YXJ },
-		{ IDS_SETTING_ITEM_TABLEFILTER_GH },
 		{ IDS_SETTING_ITEM_TABLEFILTER_SHYW },
 		{ IDS_SETTING_ITEM_TABLEFILTER_SHJH },
 		{ IDS_SETTING_ITEM_TABLEFILTER_SCRQ },
@@ -75,10 +75,10 @@ static LPCTSTR g_CheckBoxCaptions[][1] = { //0: default text
 		{ _T("制动器型号") },
 		{ _T("左/右置") },
 		{ _T("包装箱/底托规格") },
+		{ _T("工号") },
 		{ _T("制造商") },
 		{ _T("客户区域") },
 		{ _T("优先级") },
-		{ _T("工号") },
 		{ _T("业务审核") },
 		{ _T("计划审核") },
 		{ _T("生产日期") },
@@ -94,47 +94,48 @@ static LPCTSTR g_CheckBoxCaptions[][1] = { //0: default text
 };
 
 static int g_CheckBoxPos[][4] = {
-		{ 80 * 1 + 80 * 0, 40 * 1, 100, 20 }, //CheckBox_HTH,
-		{ 80 * 2 + 80 * 1, 40 * 1, 100, 20 }, //CheckBox_KHMC,
-		{ 80 * 3 + 80 * 2, 40 * 1, 100, 20 }, //CheckBox_GGBH,
-		{ 80 * 4 + 80 * 3, 40 * 1, 100, 20 }, //CheckBox_CG
-		{ 80 * 1 + 80 * 0, 40 * 2, 100, 20 }, //CheckBox_SL,
-		{ 80 * 2 + 80 * 1, 40 * 2, 100, 20 }, //CheckBox_ZC,
-		{ 80 * 3 + 80 * 2, 40 * 2, 100, 20 }, //CheckBox_DFR,
-		{ 80 * 4 + 80 * 3, 40 * 2, 100, 20 }, //CheckBox_ZDQDY,
-		{ 80 * 1 + 80 * 0, 40 * 3, 100, 20 }, //CheckBox_YYLGG,
-		{ 80 * 2 + 80 * 1, 40 * 3, 100, 20 }, //CheckBox_JF,
-		{ 80 * 3 + 80 * 2, 40 * 3, 100, 20 }, //CheckBox_BPQXH,
-		{ 80 * 4 + 80 * 3, 40 * 3, 100, 20 }, //CheckBox_BMQXH,
-		{ 80 * 1 + 80 * 0, 40 * 4, 100, 20 }, //CheckBox_DLCD,
-		{ 80 * 2 + 80 * 1, 40 * 4, 100, 20 }, //CheckBox_ZXCD,
-		{ 80 * 3 + 80 * 2, 40 * 4, 100, 20 }, //CheckBox_MPZL,
-		{ 80 * 4 + 80 * 3, 40 * 4, 100, 20 }, //CheckBox_BZ,
-		{ 80 * 1 + 80 * 0, 40 * 5, 100, 20 }, //CheckBox_DDRQ,
-		{ 80 * 2 + 80 * 1, 40 * 5, 100, 20 }, //CheckBox_ZJDY,
-		{ 80 * 3 + 80 * 2, 40 * 5, 100, 20 }, //CheckBox_ZJYS,
-		{ 80 * 4 + 80 * 3, 40 * 5, 100, 20 }, //CheckBox_ZDQXH,
-		{ 80 * 1 + 80 * 0, 40 * 6, 100, 20 }, //CheckBox_ZYZ,
-		{ 80 * 2 + 80 * 1, 40 * 6, 100, 20 }, //CheckBox_BZXDTGG
-		{ 80 * 3 + 80 * 2, 40 * 6, 100, 20 }, //CheckBox_ZZS,
-		{ 80 * 4 + 80 * 3, 40 * 6, 100, 20 }, //CheckBox_KHQY,,
-		{ 80 * 1 + 80 * 0, 40 * 7, 100, 20 }, //CheckBox_YXJ,
-		{ 80 * 2 + 80 * 1, 40 * 7, 100, 20 },  //CheckBox_GH,
-		{ 80 * 3 + 80 * 2, 40 * 7, 100, 20 },  //CheckBox_shyw,
-		{ 80 * 4 + 80 * 3, 40 * 7, 100, 20 },  //CheckBox_shjh,
-		{ 0, 0, 0, 0 }, //CheckBox_SCRQ,
-		{ 0, 0, 0, 0 }, //CheckBox_JHSHYW,
-		{ 0, 0, 0, 0 }, //CheckBox_JHSHJH,
-		{ 0, 0, 0, 0 }, //CheckBox_BZRQ,
-		{ 0, 0, 0, 0 }, //CheckBox_BZSHYW,
-		{ 0, 0, 0, 0 }, //CheckBox_BZSHJH,
-		{ 0, 0, 0, 0 }, //CheckBox_FHRQ,
-		{ 0, 0, 0, 0 }, //CheckBox_TCBH,
-		{ 0, 0, 0, 0 }, //CheckBox_CCBH,
+		{ 80 * 1 + 80 * 0, 40 * 1, 100, 20 }, // 		{ _T("合同号") },
+		{ 80 * 2 + 80 * 1, 40 * 1, 100, 20 }, // 		{ _T("客户名称") },
+		{ 80 * 3 + 80 * 2, 40 * 1, 100, 20 }, // 		{ _T("规格型号") },
+		{ 0, 0, 0, 0 },							// 		{ _T("磁钢") },
+		{ 80 * 4 + 80 * 3, 40 * 1, 100, 20 }, // 		{ _T("数量") },
+		{ 0, 0, 0, 0 },							// 		{ _T("轴承") },
+		{ 0, 0, 0, 0 },							// 		{ _T("单复绕") },
+		{ 80 * 1 + 80 * 0, 40 * 2, 100, 20 }, // 		{ _T("制动器电压") },
+		{ 80 * 2 + 80 * 1, 40 * 2, 100, 20 }, // 		{ _T("曳引轮规格") },
+		{ 80 * 3 + 80 * 2, 40 * 2, 100, 20 }, // 		{ _T("机房") },
+		{ 80 * 4 + 80 * 3, 40 * 2, 100, 20 }, // 		{ _T("变频器型号") },
+		{ 80 * 1 + 80 * 0, 40 * 3, 100, 20 }, // 		{ _T("编码器型号") },
+		{ 80 * 2 + 80 * 1, 40 * 3, 100, 20 }, // 		{ _T("电缆长度") },
+		{ 80 * 3 + 80 * 2, 40 * 3, 100, 20 }, // 		{ _T("闸线长度") },
+		{ 80 * 4 + 80 * 3, 40 * 3, 100, 20 }, // 		{ _T("铭牌等资料") },
+		{ 80 * 1 + 80 * 0, 40 * 4, 100, 20 }, // 		{ _T("备注") },
+		{ 80 * 2 + 80 * 1, 40 * 4, 100, 20 }, // 		{ _T("订单日期") },
+		{ 80 * 3 + 80 * 2, 40 * 4, 100, 20 }, // 		{ _T("主机电压") },
+		{ 80 * 4 + 80 * 3, 40 * 4, 100, 20 }, // 		{ _T("主机颜色") },
+		{ 80 * 1 + 80 * 0, 40 * 5, 100, 20 }, // 		{ _T("制动器型号") },
+		{ 80 * 2 + 80 * 1, 40 * 5, 100, 20 }, // 		{ _T("左/右置") },
+		{ 80 * 3 + 80 * 2, 40 * 5, 100, 20 }, // 		{ _T("包装箱/底托规格") },
+		{ 80 * 4 + 80 * 3, 40 * 5, 100, 20 }, // 		{ _T("工号") },
+		{ 80 * 1 + 80 * 0, 40 * 6, 100, 20 }, // 		{ _T("制造商") },
+		{ 80 * 2 + 80 * 1, 40 * 6, 100, 20 }, // 		{ _T("客户区域") },
+		{ 0, 0, 0, 0 },							// 		{ _T("优先级") },
+		{ 80 * 3 + 80 * 2, 40 * 6, 100, 20 }, // 		{ _T("业务审核") },
+		{ 80 * 4 + 80 * 3, 40 * 6, 100, 20 }, // 		{ _T("计划审核") },
+		{ 0, 0, 0, 0 },							// 		{ _T("生产日期") },
+		{ 0, 0, 0, 0 },							// 		{ _T("计划审核-业务") },
+		{ 0, 0, 0, 0 },							// 		{ _T("计划审核-计划") },
+		{ 0, 0, 0, 0 },							// 		{ _T("包装日期") },
+		{ 0, 0, 0, 0 },							// 		{ _T("包装审核-业务") },
+		{ 0, 0, 0, 0 },							// 		{ _T("包装审核-计划") },
+		{ 0, 0, 0, 0 },							// 		{ _T("发货日期") },
+		{ 0, 0, 0, 0 },							// 		{ _T("投产编号") },
+		{ 0, 0, 0, 0 },							// 		{ _T("出厂编号") }
 };
 
 static int g_ColsMustBeHidden[] =
 {
+	nsNotification::Column_en::zc,
 	nsNotification::Column_en::cg,
 	nsNotification::Column_en::yxj,
 	nsNotification::Column_en::dfr,
@@ -222,13 +223,13 @@ END_MESSAGE_MAP()
 BOOL CTableFilterDlgForNotificationSale::OnInitDialog()
 {
 	__super::OnInitDialog();
-	Util_Tools::Util::SetClientSize(m_hWnd, 837, 480);
-	m_btnOK.MoveWindow(556, 40 * 11 - 20, 114, 30);
-	m_btnCancel.MoveWindow(690, 40 * 11 - 20, 114, 30);
+	Util_Tools::Util::SetClientSize(m_hWnd, 837, 480 - 100);
+	m_btnOK.MoveWindow(556, 40 * 11 - 20 - 100, 114, 30);
+	m_btnCancel.MoveWindow(690, 40 * 11 - 20 - 100, 114, 30);
 	CenterWindow();
 
 	m_checkboxSelectAll = Util_Tools::Util::CreateCheckBox(this, IDC_CHECKBOX_SELECTALL, _T("全选"), _T("Microsoft YaHei"), 12);
-	m_checkboxSelectAll->MoveWindow(80 * 1 + 80 * 0, 40 * 11 - 20, 100, 20);
+	m_checkboxSelectAll->MoveWindow(80 * 1 + 80 * 0, 40 * 11 - 20 - 100, 100, 20);
 
 	//const std::set<int>& hiddenCols = m_pJqGridAPI->getHiddenCols();
 
