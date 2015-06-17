@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -156,38 +157,17 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 			pcxxs.set(0, excel.getRow(i));
 			PlanServiceImpl.getHtxxMap(pcxxs, saleDao, planDao, htxxMap);
 			PlanServiceImpl.setPCJH(ret, pcxxs.get(0), htxxMap, itemDao);
-			String scrq = ret[PcjhColumn.scrq.ordinal()];
-			if (!"".equals(scrq)) {
-				HSSFSheet sheet = workbook.getSheet(scrq);
+			String bzrq = ret[PcjhColumn.bzrq.ordinal()];
+			if (!"".equals(bzrq)) {
+				HSSFSheet sheet = workbook.getSheet(bzrq);
 				if (null == sheet) {
 					sheet = workbook.cloneSheet(workbook
 							.getSheetIndex(sheetName));
-					workbook.setSheetName(workbook.getSheetIndex(sheet), scrq);
-
-//					HSSFRow row = sheet.createRow(sheet.getLastRowNum());
-//					for (int j = 1; j < PcjhColumn.end.ordinal(); ++j) {
-//						if (colsMap.containsKey(j)) {
-//							List<Integer> cols = colsMap.get(j);
-//							for (Integer col : cols) {
-//								HSSFCell cell = row.createCell(col);
-//								cell.setCellStyle(style);
-//								cell.setCellValue(title[j - 1]);
-//							}
-//						}
-//					}
-//					HSSFCell cell = row.createCell((int) row.getLastCellNum());
-//					cell.setCellStyle(style);
-//					cell.setCellValue("磁极角");
-//					cell = row.createCell((int) row.getLastCellNum());
-//					cell.setCellStyle(style);
-//					cell.setCellValue("径向跳动");
-//					cell = row.createCell((int) row.getLastCellNum());
-//					cell.setCellStyle(style);
-//					cell.setCellValue("法向跳动");
+					workbook.setSheetName(workbook.getSheetIndex(sheet), bzrq);
 				}
 				if (null != sheet) {
 					HSSFRow row = sheet.createRow(sheet.getLastRowNum() + 1);
-					for (int j = 1, k = 0; j < PcjhColumn.end.ordinal(); ++j) {
+					for (int j = 1; j < PcjhColumn.end.ordinal(); ++j) {
 						if (colsMap.containsKey(j)) {
 							List<Integer> cols = colsMap.get(j);
 							for (Integer col : cols) {
@@ -197,15 +177,6 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 							}
 						}
 					}
-//					HSSFCell cell = row.createCell((int) row.getLastCellNum());
-//					cell.setCellStyle(style);
-//					cell.setCellValue("");
-//					cell = row.createCell((int) row.getLastCellNum());
-//					cell.setCellStyle(style);
-//					cell.setCellValue("");
-//					cell = row.createCell((int) row.getLastCellNum());
-//					cell.setCellStyle(style);
-//					cell.setCellValue("");
 				}
 			}
 		}
@@ -213,22 +184,17 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 		workbook.removeSheetAt(workbook.getSheetIndex(sheetName));
 
 		for (int i = 0; i < workbook.getNumberOfSheets(); ++i) {
-			HSSFSheet sheet = workbook.getSheetAt(i);
-			// int colCount = sheet.getRow(0).getLastCellNum();
-			// for (int j = 0; j < colCount; ++j) {
-			// sheet.autoSizeColumn(j, true);
-			// }
-			HSSFRow row = sheet.createRow(sheet.getLastRowNum() + 1);
-			row.createCell(0);
-			HSSFCell cel = row.createCell(1);
-			cel.setCellValue("审核: ");
-			row.createCell(2);
-			row.createCell(3);
-			cel = row.createCell(4);
-			cel.setCellValue("计划员：");
-			row.createCell(5);
-			cel = row.createCell(6);
-			cel.setCellValue("计划下达日期：" + sheet.getSheetName());
+			HSSFSheet sheet = workbook.getSheetAt(i);		
+			HSSFRow rowRq = sheet.getRow(2);
+			if (null != rowRq){
+				HSSFCell cellRq = rowRq.getCell(8);
+				if (null != cellRq){
+					Calendar cal = Calendar.getInstance();
+					cellRq.setCellValue("计划下达日期:" + cal.get(Calendar.YEAR) + "-"
+							 + (cal.get(Calendar.MONTH) + 1) + "-"
+							 + cal.get(Calendar.DAY_OF_MONTH));
+				}
+			}
 		}
 	}
 
@@ -301,6 +267,7 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 						}
 					}
 				}
+
 //				cell = row.createCell((int) row.getLastCellNum());
 //				cell.setCellStyle(style);
 //				cell.setCellValue("");
@@ -311,6 +278,17 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 //				cell.setCellStyle(style);
 //				cell.setCellValue("");
 
+			}			
+		}
+		
+		HSSFRow rowRq = sheet.getRow(2);
+		if (null != rowRq){
+			HSSFCell cellRq = rowRq.getCell(8);
+			if (null != cellRq){
+				Calendar cal = Calendar.getInstance();
+				cellRq.setCellValue("计划下达日期:" + cal.get(Calendar.YEAR) + "-"
+						 + (cal.get(Calendar.MONTH) + 1) + "-"
+						 + cal.get(Calendar.DAY_OF_MONTH));
 			}
 		}
 	}

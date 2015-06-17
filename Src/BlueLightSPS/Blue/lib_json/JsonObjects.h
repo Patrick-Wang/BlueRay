@@ -137,6 +137,16 @@ namespace Json
 			return m_objects.size();
 		}
 
+		JsonArray& add(JsonType* jsonType, int index){
+			m_objects.insert(m_objects.begin() + index, std::shared_ptr<JsonType>(jsonType));
+			return *this;
+		}
+
+		JsonArray& add(std::shared_ptr<JsonType> jsonType, int index){
+			m_objects.insert(m_objects.begin() + index, jsonType);
+			return *this;
+		}
+
 		JsonArray& add(JsonType* jsonType){
 			m_objects.push_back(std::shared_ptr<JsonType>(jsonType));
 			return *this;
