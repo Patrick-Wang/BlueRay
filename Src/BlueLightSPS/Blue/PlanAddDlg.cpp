@@ -164,6 +164,7 @@ CPlanAddDlg::CPlanAddDlg(LPCTSTR title, CWnd* pParent /*= NULL*/)
 	, m_bEnablePlanBtnForBZRQ(false)
 	, m_btnNewIDForSCRQ(NULL)
 	, m_btnNewIDForBZRQ(NULL)
+	, m_bIsSelectMutipleLines(false)
 {
 	InitHttpInstance();
 }
@@ -344,6 +345,12 @@ void CPlanAddDlg::DisableBHEdits(BOOL tcbh, BOOL ccbh)
 	m_bEnablePlanEditForTCBH = tcbh;
 	m_bEnablePlanEditForCCBH = ccbh;
 }
+
+void CPlanAddDlg::SetSelectMutipleLines(bool bYes)
+{
+	m_bIsSelectMutipleLines = bYes;
+}
+
 
 static LPCTSTR g_StaticItems[][1] = { //0: default text
 		{ _T("ºÏÍ¬ºÅ:") },
@@ -531,6 +538,14 @@ BOOL CPlanAddDlg::OnInitDialog()
 	m_btnNewIDForBZRQ->EnableWindow(m_bEnablePlanEditForCCBH);
 
 	InitCtrlData();
+
+	if (m_bIsSelectMutipleLines)
+	{
+		m_aCombs[Comb_ZC]->EnableWindow(FALSE);
+		m_aCombs[Comb_CG]->EnableWindow(FALSE);
+		m_aEdits[Edit_BZ]->EnableWindow(FALSE);
+	}
+
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
