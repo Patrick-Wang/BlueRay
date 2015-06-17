@@ -136,19 +136,20 @@ LRESULT CVBARunnerServiceDlg::WindowProc(UINT message, WPARAM wParam, LPARAM lPa
 	{
 		for (std::map<HANDLE, CString>::iterator it = m_handlMap.begin(); it != m_handlMap.end(); ++it)
 		{
-			Json::JsonParser parser;
-			std::shared_ptr<Json::JsonObject> jo((Json::JsonObject*)parser.Parse((LPTSTR)(LPCTSTR)it->second));
-			CString path = jo->asString(L"path").c_str();
-			Json::JsonArray& cells(jo->asArray(L"cells"));
-			std::vector<int> sheets;
-			std::vector<int> rows;
-			std::vector<int> cols;
-			JsonArray2Vector(cells.asArray(0), sheets);
-			JsonArray2Vector(cells.asArray(1), rows);
-			JsonArray2Vector(cells.asArray(2), cols);
+						//CString path = jo->asString(L"path").c_str();
+			//Json::JsonArray& cells(jo->asArray(L"cells"));
+			//std::vector<int> sheets;
+			//std::vector<int> rows;
+			//std::vector<int> cols;
+			//JsonArray2Vector(cells.asArray(0), sheets);
+			//JsonArray2Vector(cells.asArray(1), rows);
+			//JsonArray2Vector(cells.asArray(2), cols);
 			try
 			{
-				m_clExcelService.updateCell(path, sheets, rows, cols);
+				Json::JsonParser parser;
+				std::shared_ptr<Json::JsonObject> jo((Json::JsonObject*)parser.Parse((LPTSTR)(LPCTSTR)it->second));
+
+				m_clExcelService.UpdateTemplate(jo);
 			}
 			catch (...)
 			{

@@ -37,18 +37,56 @@
 	ccbh, // 出厂编号"
 -->
 
-<sheet templateID="2">	
+<sheet templateID="2">	//ID2：包装计划导出
 	<sheet_name>template</sheet_name>
-<sheet_style>0</sheet_style>	
-	<table_field name="tcbh">
-		<cell row="-1" col="C"></cell>
-		<cell row="-1" col="W"></cell>
+<sheet_style>1</sheet_style>	//1:按日期导出，每天存储到一个sheet页   0：全部导出到一个sheet页
+	<table_field name="hth">
+		<cell row="-1" col="B"></cell>
 	</table_field>
 	<table_field name="khmc">
-		<cell row="-1" col="H"></cell>
+		<cell row="-1" col="C"></cell>
 	</table_field>
 	<table_field name="ggxh">
-		<cell row="-1" col="C"></cell>
+		<cell row="-1" col="D"></cell>
+	</table_field>
+	<table_field name="sl">
+		<cell row="-1" col="E"></cell>
+	</table_field>
+	<table_field name="ccbh">
+		<cell row="-1" col="F"></cell>
+	</table_field>
+	<table_field name="jzh">
+		<cell row="-1" col="G"></cell>
+	</table_field>
+	<table_field name="tcbh">
+		<cell row="-1" col="H"></cell>
+	</table_field>
+	<table_field name="zdqdy">
+		<cell row="-1" col="I"></cell>
+	</table_field>
+	<table_field name="yylgg">
+		<cell row="-1" col="J"></cell>
+	</table_field>
+	<table_field name="jf">
+		<cell row="-1" col="K"></cell>
+	</table_field>
+	<table_field name="bpqxh">
+		<cell row="-1" col="L"></cell>
+	</table_field>
+	<table_field name="bmqxh">
+		<cell row="-1" col="M"></cell>
+	</table_field>
+	<table_field name="dlcd">
+		<cell row="-1" col="N"></cell>
+	</table_field>
+	<table_field name="zxcd">
+		<cell row="-1" col="O"></cell>
+	</table_field>
+	<table_field name="bz">
+		<cell row="-1" col="P"></cell>
+	</table_field>
+	<table_field name="mpzl">
+		<cell row="-1" col="Q"></cell>
 	</table_field>
 </sheet>
 </template>

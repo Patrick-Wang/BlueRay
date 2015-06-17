@@ -26,10 +26,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.openxml4j.opc.OPCPackage;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -43,6 +39,7 @@ import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
 import com.vbarunner.Cells;
 import com.vbarunner.VBAExcel;
+import com.vbarunner.VBAServiceParam;
 
 public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 
@@ -73,29 +70,6 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 		vbaExcel.start();
 		
 	}
-	
-	
-	static class Location{
-		int x;
-		int y;
-		public Location(char y, int x) {
-			this.x = x - 1;
-			this.y = y - 'A';
-		}
-		public int getX() {
-			return x;
-		}
-		public int getY() {
-			return y;
-		}
-		public void setX(int x) {
-			this.x = x;
-		}
-		public void setY(int y) {
-			this.y = y;
-		}
-		
-	}
 
 	private static Set<String> getNames(NodeList names) {
 		Set<String> nameSet = new HashSet<String>();
@@ -107,7 +81,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	}
 	
 	
-	private static void parseCellMap(Map<Integer, Location[]> locations, Element field){
+	private static void parseCellMap(Map<String, Location[]> locations, Element field){
 		String val = field.getAttribute("name");
 		PcjhColumn col = null;
 		try{
@@ -115,13 +89,13 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 			NodeList cells = field.getElementsByTagName("cell");
 			if (cells.getLength() > 0){
 				Location locs[] = new Location[cells.getLength()];
-				locations.put(col.ordinal(), locs);
+				locations.put("col_" + col.ordinal(), locs);
 				 for (int i = 0; i < cells.getLength(); i++)  
 		         {
 					 Element cell = (Element) cells.item(i);
 					 try{
 						 locs[i] = new Location(
-								 cell.getAttribute("col").charAt(0),
+								 cell.getAttribute("col"),
 								 Integer.valueOf(cell.getAttribute("row"))); 
 					 }catch(Exception e){
 						 
@@ -137,7 +111,7 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	private static void parseSheet(Element sheet){
 		 Set<String> names = getNames(sheet.getElementsByTagName("sheet_name"));
 		 NodeList fields = sheet.getElementsByTagName("table_field");
-		 Map<Integer, Location[]> locations = new HashMap<Integer, Location[]>();
+		 Map<String, Location[]> locations = new HashMap<String, Location[]>();
 		 
 		 for (int i = 0; i < fields.getLength(); i++)  
          {
@@ -149,7 +123,23 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 		 }		 
 	}
 	
-	private static Map<String, Map<Integer, Location[]>> DBTemplateMap = new Hashtable<String, Map<Integer, Location[]>>();
+	private static Map<String, Map<String, Location[]>> DBTemplateMap = new Hashtable<String, Map<String, Location[]>>();
+	private static String DBTemplateMapJson = null;
+	private static Integer toInt(String col){
+		Integer ret = 0;
+		for (int i = 0; i < col.length(); ++i){
+			ret +=  (col.charAt(i) - 'A' + 1) * zsys(('Z' - 'A' + 1), i);
+		}
+		return ret;
+	}
+	
+	private static Integer zsys(Integer ds, int zs){
+		Integer tmp = 1;
+		for(int i = 0; i < zs; ++i){
+			tmp *= ds;
+		}
+		return tmp;
+	}
 	
 	private synchronized void loadTemplateXml(){
 		long time = new File(pathMapfile).lastModified();
@@ -167,12 +157,26 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	            {  
 	                Node sheet = sheets.item(i);  
 	                parseSheet((Element) sheet);
-	            }  
+	            } 
+	            HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(new File(
+						pathTemplate)));
+	            Set<String> errorSet = new HashSet<String>();
+		        for (String sheetName : DBTemplateMap.keySet()){
+		        	if (null == workbook.getSheet(sheetName)){
+		        		errorSet.add(sheetName);
+		        	}
+		        }
+		        
+		        for(String err : errorSet){
+		        	DBTemplateMap.remove(err);
+		        }
 	        }  
 	        catch (Exception e)  
 	        {  
 	            e.printStackTrace();  
 	        }
+	        
+	        DBTemplateMapJson = JSONObject.fromObject(DBTemplateMap).toString();
 		}
 	}
 
@@ -201,33 +205,39 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 	
 	public void exports() throws IOException {
 		loadTemplateXml();
-		//String js = JSONObject.fromObject(DBTemplateMap).toString();
+		VBAServiceParam param = new VBAServiceParam();
+		param.setTemplate(DBTemplateMapJson);
+
 		Map<Integer, HTXX> htxxMap = new HashMap<Integer, HTXX>();
 
 		List<PCJHXX> pcxxs = new ArrayList<PCJHXX>(1);
 		pcxxs.add(null);
 
-//		OPCPackage opc = null;
-//		try {
-//			opc = OPCPackage.open(new FileInputStream(new File(
-//					pathTemplate)));
-//		} catch (InvalidFormatException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
+		
+		
+
+		String fileName = new java.util.Date().getTime() + "_bp";
+		File fTemp = File.createTempFile(fileName, ".xls");
+		FileOutputStream fo = new FileOutputStream(fTemp);
+		param.setTemplatePath(fTemp.getAbsolutePath());
+		
+		FileInputStream fi = new FileInputStream(new File(pathTemplate));
+		
+		//do copy
+		byte[] buffer = new byte[1024];
+		int size = -1;
+	    while ((size = fi.read(buffer)) != -1) {
+	    	fo.write(buffer, 0, size);
+	    }
+	    
+		fi.close();
+		fo.close();
+		
 		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(new File(
 				pathTemplate)));
-		String[] ret = new String[PcjhColumn.end.ordinal()];
-		Location rq = new Location('A', 2);
-		Cells cells = new Cells();
-		cells.getCells().add(new ArrayList<Integer>());
-		cells.getCells().add(new ArrayList<Integer>());
-		cells.getCells().add(new ArrayList<Integer>());
 		int count = workbook.getNumberOfSheets();
-		String fileName = new java.util.Date().getTime() + "_bp";
-		File f = File.createTempFile(fileName, ".xls");
-		cells.setPath(f.getAbsolutePath());
 		for (int i = 0, len = excel.getRowCount(); i < len; ++i) {
+			String[] ret = new String[PcjhColumn.end.ordinal()];
 			pcxxs.set(0, excel.getRow(i));
 			PlanServiceImpl.getHtxxMap(pcxxs, saleDao, planDao, htxxMap);
 			PlanServiceImpl.setPCJH(ret, pcxxs.get(0), htxxMap, itemDao);
@@ -236,97 +246,103 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 				System.out.println("row : " + i + "ggxh : " + ret[PcjhColumn.ggxh.ordinal()] + " could not find template.");
 				continue;
 			}
-
-			Map<Integer, Location[]> locations;
-			HSSFSheet sheet = null;
+			
 			String type = getLocMap(ret[PcjhColumn.ggxh.ordinal()]);
 			if (null == type){
 				continue;
 			}
 
+			Map<String, Location[]> locations = DBTemplateMap.get(type);
+			if (null == locations){
+				continue;
+			}
+			
 			int index = workbook.getSheetIndex(type);
 			if (index < 0){
 				continue;
 			}
 			
-			
-			locations = DBTemplateMap.get(type);
-			sheet = workbook.getSheetAt(index);
-			
-			
-			if (sheet != null) {
-				updateTemplate(ret, locations, sheet);
-
-				try{
-					Calendar calTmp = Calendar.getInstance();
-					calTmp.setTime(Date.valueOf(ret[PcjhColumn.scrq.ordinal()]));
-					String tcrq = sheet.getRow(rq.getX()).getCell(rq.getY())
-							.getStringCellValue();
-
-					int rqPos = tcrq.indexOf("：");
-					tcrq = tcrq.substring(0, rqPos + 1);
-					tcrq = tcrq
-							.replace(" ", "")
-							.replace("投", "                                                          投");
-					tcrq += calTmp.get(Calendar.YEAR) + " 年 " + (calTmp.get(Calendar.MONTH) + 1) + "月 " + calTmp.get(Calendar.DAY_OF_MONTH) + "日";
-
-					sheet.getRow(rq.getX()).getCell(rq.getY()).setCellValue(tcrq);
-				} catch(Exception e){
-					String tcrq = sheet.getRow(rq.getX()).getCell(rq.getY())
-							.getStringCellValue();
-					int rqPos = tcrq.indexOf("：");
-					tcrq = tcrq.substring(0, rqPos + 1);
-					tcrq = tcrq
-							.replace(" ", "")
-							.replace("投", "                                                          投");
-					tcrq += " 年  月  日";
-					sheet.getRow(rq.getX()).getCell(rq.getY()).setCellValue(tcrq);
-					e.printStackTrace();
-				}
-				
-				//if (!ret[PcjhColumn.tcbh.ordinal()].isEmpty()) {
-					Location[] locs = locations.get(PcjhColumn.tcbh.ordinal());
-					
-					if (null == locs || 0 == locs.length){
-						cells.getCells().get(0).add(index);
-						cells.getCells().get(1).add(2);
-						cells.getCells().get(2).add(2);
-					}else{
-						for(Location loc : locs){
-							cells.getCells().get(0).add(index);
-							cells.getCells().get(1).add(loc.getX());
-							cells.getCells().get(2).add(loc.getY());
-						}
-					}
-				//}
-				
-				
-				
-				
-				FileOutputStream fs = new FileOutputStream(f);
-				workbook.write(fs);
-				fs.close();
-				f = null;
-				vbaExcel.runVBABarcode(JSONObject.fromObject(cells).toString(), UUID.randomUUID().toString());
-				
-				f = new File(cells.getPath());
-				FileInputStream fi = new FileInputStream(f);
-//				 try {
-//					opc = OPCPackage.open(fi);
-//				} catch (InvalidFormatException e) {
-//					// TODO Auto-generated catch block
+			param.getData().add(ret);
+		}
+//			locations = DBTemplateMap.get(type);
+//			sheet = workbook.getSheetAt(index);
+//			
+//			
+//			if (sheet != null) {
+//				updateTemplate(ret, locations, sheet);
+//
+//				try{
+//					Calendar calTmp = Calendar.getInstance();
+//					calTmp.setTime(Date.valueOf(ret[PcjhColumn.scrq.ordinal()]));
+//					String tcrq = sheet.getRow(rq.getRow() - 1).getCell(toInt(rq.getCol()))
+//							.getStringCellValue();
+//
+//					int rqPos = tcrq.indexOf("：");
+//					tcrq = tcrq.substring(0, rqPos + 1);
+//					tcrq = tcrq
+//							.replace(" ", "")
+//							.replace("投", "                                                          投");
+//					tcrq += calTmp.get(Calendar.YEAR) + " 年 " + (calTmp.get(Calendar.MONTH) + 1) + "月 " + calTmp.get(Calendar.DAY_OF_MONTH) + "日";
+//
+//					sheet.getRow(rq.getRow()).getCell(toInt(rq.getCol())).setCellValue(tcrq);
+//				} catch(Exception e){
+//					String tcrq = sheet.getRow(rq.getRow()).getCell(toInt(rq.getCol()))
+//							.getStringCellValue();
+//					int rqPos = tcrq.indexOf("：");
+//					tcrq = tcrq.substring(0, rqPos + 1);
+//					tcrq = tcrq
+//							.replace(" ", "")
+//							.replace("投", "                                                          投");
+//					tcrq += " 年  月  日";
+//					sheet.getRow(rq.getRow()).getCell(toInt(rq.getCol())).setCellValue(tcrq);
 //					e.printStackTrace();
 //				}
-				workbook = new HSSFWorkbook(fi);
-				
-//				workbook.cloneSheet(index);
-				cells.getCells().get(0).clear();
-				cells.getCells().get(1).clear();
-				cells.getCells().get(2).clear();
-			}
-		}
+//				
+//				//if (!ret[PcjhColumn.tcbh.ordinal()].isEmpty()) {
+//					Location[] locs = locations.get(PcjhColumn.tcbh.ordinal());
+//					
+//					if (null == locs || 0 == locs.length){
+//						cells.getCells().get(0).add(index);
+//						cells.getCells().get(1).add(2);
+//						cells.getCells().get(2).add(2);
+//					}else{
+//						for(Location loc : locs){
+//							cells.getCells().get(0).add(index);
+//							cells.getCells().get(1).add(loc.getRow());
+//							cells.getCells().get(2).add(toInt(loc.getCol()));
+//						}
+//					}
+//				//}
+//				
+//				
+//				
+//				
+//				FileOutputStream fs = new FileOutputStream(f);
+//				workbook.write(fs);
+//				fs.close();
+//				f = null;
+//				vbaExcel.runVBABarcode(JSONObject.fromObject(cells).toString(), UUID.randomUUID().toString());
+//				
+//				f = new File(cells.getPath());
+//				FileInputStream fi = new FileInputStream(f);
+////				 try {
+////					opc = OPCPackage.open(fi);
+////				} catch (InvalidFormatException e) {
+////					// TODO Auto-generated catch block
+////					e.printStackTrace();
+////				}
+//				workbook = new HSSFWorkbook(fi);
+//				
+////				workbook.cloneSheet(index);
+//				cells.getCells().get(0).clear();
+//				cells.getCells().get(1).clear();
+//				cells.getCells().get(2).clear();
+//			}
+//		}
 		
-		f = new File(cells.getPath());
+		vbaExcel.runVBABarcode(param.toJson(), UUID.randomUUID().toString());
+	
+//		f = new File(cells.getPath());
 		
 //		String fileName = new java.util.Date().getTime() + "_bp";
 //		File f = File.createTempFile(fileName, ".xls");
@@ -339,13 +355,13 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 //		ve.runVBABarcode(JSONObject.fromObject(cells).toString(), UUID.randomUUID().toString());
 //		
 //		f = new File(cells.getPath());
-//		FileInputStream fi = new FileInputStream(f);
-//		workbook = new HSSFWorkbook(fi);
+		fi = new FileInputStream(fTemp);
+		workbook = new HSSFWorkbook(fi);
 		for (int i = count - 1; i >= 0; --i){
 			workbook.removeSheetAt(i);
 		}
 		workbook.write(os);
-		
+		fi.close();
 //		FileInputStream fi = new FileInputStream(f);
 //
 //		byte[] buffer = new byte[1024];
@@ -355,18 +371,26 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 //        	os.write(buffer, 0, len);
 //	    }
 //		fi.close();
-		f.delete();
+//		f.delete();
+
+//		fi = new FileInputStream(fTemp);
+//		size = -1;
+//	    while ((size = fi.read(buffer)) != -1) {
+//	    	os.write(buffer, 0, size);
+//	    }
 	}
 
-	private void updateTemplate(String[] ret, Map<Integer, Location[]> locations, HSSFSheet sheet) {
-		for(Integer field : locations.keySet()){
-			Location[] locs = locations.get(field);
-			for (int i = 0; i < locs.length; ++i){
-				if (null != locs[i]){
-					sheet.getRow(locs[i].getX()).getCell(locs[i].getY()).setCellValue(ret[field]);
-				}
-			}
-		}
-	}
+//	private void updateTemplate(String[] ret, Map<String, Location[]> locations, HSSFSheet sheet) {
+//		for(String field : locations.keySet()){
+//			int index = field.indexOf('#');
+//			index = Integer.valueOf(field.substring(index) + 1);
+//			Location[] locs = locations.get(field);
+//			for (int i = 0; i < locs.length; ++i){
+//				if (null != locs[i]){
+//					sheet.getRow(locs[i].getRow()).getCell(toInt(locs[i].getCol())).setCellValue(ret[index]);
+//				}
+//			}
+//		}
+//	}
 
 }

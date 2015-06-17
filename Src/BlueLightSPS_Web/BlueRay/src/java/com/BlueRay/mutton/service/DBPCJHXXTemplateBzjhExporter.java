@@ -119,7 +119,7 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 	                  	for (int j = 0; j < cells.getLength(); j++)  
 	                    {  
 	                    	Element cell = (Element)cells.item(j);
-	                    	colsMap.get(enPcjh.ordinal()).add(toInt(cell.getAttribute("col")));
+	                    	colsMap.get(enPcjh.ordinal()).add(toInt(cell.getAttribute("col")) - 1);
 	                    }  
 	                }catch(Exception ex){
 	                	

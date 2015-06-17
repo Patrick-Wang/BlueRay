@@ -166,6 +166,9 @@ namespace Json
 			return *static_cast<JsonObject*>(m_objects[index].get());
 		}
 
+		JsonTypeTag typeOf(int index){
+			return m_objects[index]->tag();
+		}
 
 		virtual JsonTypeTag tag(){
 			return jarray;
