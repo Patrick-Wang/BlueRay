@@ -4,10 +4,11 @@ extern CString g_strHostName;
 
 #define IDS_HOST_NAME             (LPCTSTR)g_strHostName
 
-#define IDS_VERSION_NUMBER	 _T("1.0.0.06160")
+#define IDS_VERSION_NUMBER	 _T("1.0.0.06170")
 //user setting location
 
-#define IDS_SETTING_FILENAME				_T("\\setting.xml")
+#define IDS_SETTING_FILENAME				_T("\\user_setting.xml")
+#define IDS_SETTING_FILENAME_ALL			_T("\\setting.xml")
 #define IDS_SETTING_ROOT_APPFOLDER			_T("\\BlueLightPLM")
 #define IDS_SETTING_ROOT_SETTINGFOLDER		_T("\\settings")
 #define IDS_SETTING_ROOT_FOLDER				_T("%appdata%")
@@ -17,7 +18,7 @@ extern CString g_strHostName;
 //setting item define
 
 #define IDS_SETTING_ITEM_ROOT			_T("Settings")
-#define IDS_SETTING_ITEM_TABLEFILTER	_T("TabFilterV2")
+#define IDS_SETTING_ITEM_TABLEFILTER	_T("TabFilter")
 #define IDS_SETTING_ITEM_TABLEFILTER_SALE	_T("Sale")
 #define IDS_SETTING_ITEM_TABLEFILTER_PLAN	_T("Plan")
 #define IDS_SETTING_ITEM_TABLEFILTER_NOTIFICATIONSALE	_T("NotificationSale")

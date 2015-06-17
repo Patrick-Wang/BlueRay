@@ -620,7 +620,7 @@ namespace Util_Tools
 				break;
 			}
 
-			strPath += IDS_SETTING_FILENAME;
+			strPath += IDS_SETTING_FILENAME_ALL;
 			if (!PathFileExists(strPath))
 			{
 				break;
@@ -688,7 +688,7 @@ namespace Util_Tools
 				break;
 			}
 
-			strPath += IDS_SETTING_FILENAME;
+			strPath += IDS_SETTING_FILENAME_ALL;
 			if (!PathFileExists(strPath))
 			{
 				if (!Util_Tools::Util::MakeDir(strPath))
