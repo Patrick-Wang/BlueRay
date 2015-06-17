@@ -135,12 +135,26 @@ public class PlanServiceImpl implements PlanService {
 		for (int i = rows.size() - 1; i >= 0; --i) {
 			PCJHXX pcjhxx = planDao.getDataById(rows.getInt(i));
 			if (pcjhxx != null) {
-				setJhscrq(pcjhxx, data.getString(0));
-				setJhbzrq(pcjhxx, data.getString(1));
-				setJhfhrq(pcjhxx, data.getString(2));
-				setTcbh(pcjhxx, data.getString(3));			
-				if (!"".equals(data.getString(4)))
+				if (rows.size() == 1){
+					setJhscrq(pcjhxx, data.getString(0));
+					setJhbzrq(pcjhxx, data.getString(1));
+					setJhfhrq(pcjhxx, data.getString(2));	
+					setTcbh(pcjhxx, data.getString(3));	
 					setCcbh(pcjhxx, data.getString(4));
+				}else{
+					if (!"".equals(data.getString(0)))
+						setJhscrq(pcjhxx, data.getString(0));
+					if (!"".equals(data.getString(1)))
+						setJhbzrq(pcjhxx, data.getString(1));
+					if (!"".equals(data.getString(2)))
+						setJhfhrq(pcjhxx, data.getString(2));	
+					if (!"".equals(data.getString(3)))
+						setTcbh(pcjhxx, data.getString(3));	
+					if (!"".equals(data.getString(4)))
+						setCcbh(pcjhxx, data.getString(4));
+				}
+
+				
 				if (data.size() > 5 && !"".equals(data.getString(5))){				
 					ZCXX item = itemDao.queryZcxxByValue("zcxh", data.getString(5));
 					if (null == item) {

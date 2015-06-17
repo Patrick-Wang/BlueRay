@@ -175,7 +175,7 @@ public class SaleServiceImpl implements SaleService {
 		}
 	}
 
-	private void updateHtxx(JSONArray ja, HTXX htxx) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private void updateHtxxSingleRow(JSONArray ja, HTXX htxx) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
 			for (int i = ja.size() > setMethods.size() ? setMethods.size() - 1
 					: ja.size() - 1; i >= 0; --i) {
@@ -186,10 +186,23 @@ public class SaleServiceImpl implements SaleService {
 		
 	}
 	
+	private void updateHtxxMultiRow(JSONArray ja, HTXX htxx) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+
+		for (int i = ja.size() > setMethods.size() ? setMethods.size() - 1
+				: ja.size() - 1; i >= 0; --i) {
+			if (!"".equals(ja.getString(i))){
+				setMethods.get(i).invoke(this, htxx, ja.getString(i));
+			}
+		}
+	
+}
+	
+	
+	
 	public String add(JSONArray ja) throws Exception {
 		HTXX htxx = new HTXX();
 
-		updateHtxx(ja, htxx);
+		updateHtxxSingleRow(ja, htxx);
 
 		saleDao.insert(htxx);
 		return htxx.getID() + "";
@@ -468,7 +481,11 @@ public class SaleServiceImpl implements SaleService {
 					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
 			if (htxx != null && !"Y".equals(htxx.getSftgjhsh()) && !"Y".equals(htxx.getSftgywsh())) {
 				try {
-					updateHtxx(data, htxx);
+					if (rows.size() == 1){
+						updateHtxxSingleRow(data, htxx);
+					}else{
+						updateHtxxMultiRow(data, htxx);
+					}
 					saleDao.update(htxx);
 				} catch (Exception e) {
 					e.printStackTrace();
