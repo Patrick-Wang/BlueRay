@@ -43,7 +43,7 @@ namespace Json{
 	}
 
 	enum JsonTypeTag{
-		jint, jfloat, jbool, jstring, jarray, jobject, jnull
+		jint, jfloat, jbool, jstring, jarray, jobject, jnull, end
 	};
 
 	class JsonType{

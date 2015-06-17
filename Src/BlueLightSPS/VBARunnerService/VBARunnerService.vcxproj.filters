@@ -60,29 +60,29 @@
     <ClInclude Include="ExcelVBAService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="lib_json\JsonFactory.h">
-      <Filter>json</Filter>
-    </ClInclude>
-    <ClInclude Include="lib_json\JsonObjects.h">
-      <Filter>json</Filter>
-    </ClInclude>
-    <ClInclude Include="lib_json\JsonParser.h">
-      <Filter>json</Filter>
-    </ClInclude>
-    <ClInclude Include="lib_json\JsonString.h">
-      <Filter>json</Filter>
-    </ClInclude>
-    <ClInclude Include="lib_json\JsonSymbol.h">
-      <Filter>json</Filter>
-    </ClInclude>
-    <ClInclude Include="lib_json\JsonType.h">
-      <Filter>json</Filter>
-    </ClInclude>
     <ClInclude Include="COLEObjects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="COLEObject.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Blue\lib_json\JsonFactory.h">
+      <Filter>json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Blue\lib_json\JsonObjects.h">
+      <Filter>json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Blue\lib_json\JsonParser.h">
+      <Filter>json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Blue\lib_json\JsonString.h">
+      <Filter>json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Blue\lib_json\JsonSymbol.h">
+      <Filter>json</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Blue\lib_json\JsonType.h">
+      <Filter>json</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -98,16 +98,16 @@
     <ClCompile Include="ExcelVBAService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="lib_json\JsonFactory.cpp">
+    <ClCompile Include="..\Blue\lib_json\JsonFactory.cpp">
       <Filter>json</Filter>
     </ClCompile>
-    <ClCompile Include="lib_json\JsonParser.cpp">
+    <ClCompile Include="..\Blue\lib_json\JsonParser.cpp">
       <Filter>json</Filter>
     </ClCompile>
-    <ClCompile Include="lib_json\JsonString.cpp">
+    <ClCompile Include="..\Blue\lib_json\JsonString.cpp">
       <Filter>json</Filter>
     </ClCompile>
-    <ClCompile Include="lib_json\JsonSymbol.cpp">
+    <ClCompile Include="..\Blue\lib_json\JsonSymbol.cpp">
       <Filter>json</Filter>
     </ClCompile>
   </ItemGroup>

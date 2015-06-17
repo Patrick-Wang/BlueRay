@@ -17,39 +17,46 @@ namespace Json
 		JsonFields& fields(){
 			return m_fields;
 		}
+
+		JsonTypeTag typeOf(json_char* name){
+			if (isValid(name)){
+				return m_fields[name]->tag();
+			}
+			return JsonTypeTag::end;
+		}
 	
 		bool isValid(json_char* name){
 			return m_fields.find(name) != m_fields.end();
 		}
 
 		int asInt(json_char* name){
-			preCheck(name, JsonTypeTag::jint);
+			check(name, JsonTypeTag::jint);
 			return static_cast<JsonValue<int>*>(m_fields[name].get())->value();
 		}
 
 		
 		float asFloat(json_char* name){
-			preCheck(name, JsonTypeTag::jfloat);
+			check(name, JsonTypeTag::jfloat);
 			return static_cast<JsonValue<float>*>(m_fields[name].get())->value();
 		}
 
 		json_string& asString(json_char* name){
-			preCheck(name, JsonTypeTag::jstring);
+			check(name, JsonTypeTag::jstring);
 			return static_cast<JsonValue<json_string>*>(m_fields[name].get())->value();
 		}
 
 		bool asBool(json_char* name){
-			preCheck(name, JsonTypeTag::jbool);
+			check(name, JsonTypeTag::jbool);
 			return static_cast<JsonValue<bool>*>(m_fields[name].get())->value();
 		}
 
 		JsonArray& asArray(json_char* name){
-			preCheck(name, JsonTypeTag::jarray);
+			check(name, JsonTypeTag::jarray);
 			return *((JsonArray*)(m_fields[name].get()));
 		}
 
 		JsonObject& asObject(json_char* name){
-			preCheck(name, JsonTypeTag::jobject);
+			check(name, JsonTypeTag::jobject);
 			return *static_cast<JsonObject*>(m_fields[name].get());
 		}
 
@@ -88,7 +95,7 @@ namespace Json
 			return jobject;
 		}
 	private:
-		void preCheck(json_char* key, JsonTypeTag tag){
+		void check(json_char* key, JsonTypeTag tag){
 			if (!isValid(key))
 			{
 				throw std::exception("No field");
@@ -111,13 +118,18 @@ namespace Json
 		JsonArray(){}
 	public:
 		typedef std::vector<std::shared_ptr<Json::JsonType>> JsonItems;
+
 		JsonItems& items(){
 			return m_objects;
 		}
 
 		std::shared_ptr<Json::JsonType> erase(int index){
-			std::shared_ptr<Json::JsonType> ret = *(m_objects.begin() + index);
-			m_objects.erase(m_objects.begin() + index);
+			std::shared_ptr<Json::JsonType> ret(NULL);
+			if (check(index))
+			{
+				ret = *(m_objects.begin() + index);
+				m_objects.erase(m_objects.begin() + index);
+			}
 			return ret;
 		}
 
@@ -135,53 +147,44 @@ namespace Json
 			return *this;
 		}
 
-		JsonArray& add(JsonType* jsonType, int index){
-			if (m_objects.size() > index)
-			{
-				m_objects.insert(m_objects.begin() + index, std::shared_ptr<JsonType>(jsonType));
-			}
-			return *this;
-		}
-
-		JsonArray& add(std::shared_ptr<JsonType> jsonType, int index){
-			if (m_objects.size() > index)
-			{
-				m_objects.insert(m_objects.begin() + index, jsonType);
-			}
-			return *this;
-		}
-
 		int asInt(int index){
-			preCheck(index, JsonTypeTag::jint);
+			check(index, JsonTypeTag::jint);
 			return static_cast<JsonValue<int>*>(m_objects[index].get())->value();
 		}
 
 
 		float asFloat(int index){
-			preCheck(index, JsonTypeTag::jfloat);
+			check(index, JsonTypeTag::jfloat);
 			return static_cast<JsonValue<float>*>(m_objects[index].get())->value();
 		}
 
 		json_string& asString(int index){
-			preCheck(index, JsonTypeTag::jstring);
+			check(index, JsonTypeTag::jstring);
 			return static_cast<JsonValue<json_string>*>(m_objects[index].get())->value();
 		}
 
 		bool asBool(int index){
-			preCheck(index, JsonTypeTag::jbool);
+			check(index, JsonTypeTag::jbool);
 			return static_cast<JsonValue<bool>*>(m_objects[index].get())->value();
 		}
 
 		JsonArray& asArray(int index){
-			preCheck(index, JsonTypeTag::jarray);
+			check(index, JsonTypeTag::jarray);
 			return *((JsonArray*)(m_objects[index].get()));
 		}
 
 		JsonObject& asObject(int index){
-			preCheck(index, JsonTypeTag::jobject);
+			check(index, JsonTypeTag::jobject);
 			return *static_cast<JsonObject*>(m_objects[index].get());
 		}
 
+		JsonTypeTag typeOf(int index){
+			if (check(index))
+			{
+				return m_objects[index]->tag();
+			}
+			return JsonTypeTag::end;
+		}
 
 		virtual JsonTypeTag tag(){
 			return jarray;
@@ -203,8 +206,17 @@ namespace Json
 		}
 
 	private:
-		void preCheck(int index, JsonTypeTag tag){
-			if (((int)m_objects.size()) <= index)
+
+		bool check(int index){
+			if (index < ((int)m_objects.size()) && index >= 0)
+			{
+				return true;
+			}
+			return false;
+		}
+
+		void check(int index, JsonTypeTag tag){
+			if (!check(index))
 			{
 				throw std::exception("array out off bound");
 			}
