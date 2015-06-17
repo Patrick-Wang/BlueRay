@@ -498,6 +498,8 @@ void CPlanPanel::OnBnClickedPlan()
 	std::vector<CString>* pRowData = NULL;
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 
+	bool bIsAnyOrderHasJHJHSH = false;
+
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
 		pRowData = NULL;
@@ -520,6 +522,11 @@ void CPlanPanel::OnBnClickedPlan()
 			{
 				pstOpt->Merge(*pRowData);
 			}
+
+			if ((*pRowData)[nsPlan::jhshjh].Compare(_T("Y")) == 0)
+			{
+				bIsAnyOrderHasJHJHSH = true;
+			}
 		}
 	}
 
@@ -528,7 +535,15 @@ void CPlanPanel::OnBnClickedPlan()
 	if (checkedRows.size() > 1)
 	{
 		dlg.DisableBHEdits(FALSE, FALSE);
-		dlg.DisableEdits(true);
+
+		if (bIsAnyOrderHasJHJHSH)
+		{
+			dlg.DisableEdits(false);
+		}
+		else
+		{
+			dlg.DisableEdits(true);
+		}
 	}
 	else
 	{
