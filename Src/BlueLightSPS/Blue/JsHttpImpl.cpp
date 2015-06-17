@@ -778,7 +778,7 @@ void CJsHttpImpl::DoDownload(CString strUrl, int id, std::map<CString, CString> 
 			break;
 
 	} while (dwSize > 0);
-
+	pStream->close();
 	pStream.reset();
 
 	if (!bResults){

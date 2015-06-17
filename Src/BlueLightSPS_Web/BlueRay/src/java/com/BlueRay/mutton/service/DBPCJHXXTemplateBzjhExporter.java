@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -148,6 +149,10 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 		    "合同号", "客户名称", "规格型号", "磁钢", "数量", "轴承", "单复绕", "制动器电压", "曳引轮规格", "机房", "变频器型号", "编码器型号", "电缆长度", "闸线长度", "铭牌等资料", "备注", "订单日期", "主机电压", "主机颜色", "制动器型号", "左/右置", "包装箱/底托规格", "工号", "制造商", "客户区域", "优先级", "生产日期", "计划审核-业务", "计划审核-计划", "包装日期", "包装审核-业务", "包装审核-计划", "发货日期", "投产编号", "出厂编号"
 	};
 	
+	static String[] dayOfWeek = new String[]{
+		"周日", "周一", "周二", "周三", "周四", "周五", "周六"
+	};
+	
 	private void exportEachDayOneSheet(HSSFWorkbook workbook,
 			HSSFCellStyle style, Map<Integer, HTXX> htxxMap) {
 		List<PCJHXX> pcxxs = new ArrayList<PCJHXX>(1);
@@ -164,6 +169,19 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 					sheet = workbook.cloneSheet(workbook
 							.getSheetIndex(sheetName));
 					workbook.setSheetName(workbook.getSheetIndex(sheet), bzrq);
+					HSSFRow row = sheet.getRow(0);
+					if (null != row){
+						HSSFCell cell = row.getCell(1);
+						if (null != cell){
+							Date d = Date.valueOf(bzrq);
+							Calendar cal = Calendar.getInstance();
+							cal.setTime(d);
+							int dayWeek = cal.get(Calendar.DAY_OF_WEEK);
+							String oldVal = cell.getStringCellValue();
+							String newVal = bzrq + "（" + dayOfWeek[dayWeek - 1] + "）" + oldVal;
+							cell.setCellValue(newVal);
+						}
+					}
 				}
 				if (null != sheet) {
 					HSSFRow row = sheet.createRow(sheet.getLastRowNum() + 1);

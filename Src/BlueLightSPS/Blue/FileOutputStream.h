@@ -8,6 +8,7 @@ public:
 	~CFileOutputStream();
 	virtual bool write(BYTE* pStart, int length);
 	virtual int size();
+	virtual void close();
 private:
 	FILE* m_fp;
 	int m_size;

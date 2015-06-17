@@ -24,6 +24,7 @@ public:
 	public:
 		virtual bool write(BYTE* pStart, int length) = 0;
 		virtual int size() = 0;
+		virtual void close() = 0;
 		virtual ~IOutputStream(){};
 	};
 

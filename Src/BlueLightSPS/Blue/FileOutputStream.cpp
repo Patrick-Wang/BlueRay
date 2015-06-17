@@ -22,10 +22,7 @@ CFileOutputStream::CFileOutputStream(LPCTSTR lpFileName)
 
 CFileOutputStream::~CFileOutputStream()
 {
-	if (NULL != m_fp)
-	{
-		fclose(m_fp);
-	}
+	close();
 }
 
 bool CFileOutputStream::write(BYTE* pStart, int length)
@@ -42,4 +39,13 @@ bool CFileOutputStream::write(BYTE* pStart, int length)
 int CFileOutputStream::size()
 {
 	return m_size;
+}
+
+void CFileOutputStream::close()
+{
+	if (NULL != m_fp)
+	{
+		fclose(m_fp);
+		m_fp = NULL;
+	}
 }
