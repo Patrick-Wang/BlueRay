@@ -321,7 +321,16 @@ void CPlanAddDlg::InitCtrlData()
 	if (NULL != m_lpOption)
 	{
 		init(m_aCombs[CombId::Comb_ZC], m_lpOption->zc);
-		init(m_aCombs[CombId::Comb_CG], m_lpOption->cg);
+
+		if (m_lpOption->cg <= 0)
+		{
+			init(m_aCombs[CombId::Comb_CG], 1);
+		}
+		else
+		{
+			init(m_aCombs[CombId::Comb_CG], m_lpOption->cg);
+		}
+
 		init(m_aEdits[EditId::Edit_BZ], m_lpOption->bz);
 	}
 	else
@@ -329,7 +338,7 @@ void CPlanAddDlg::InitCtrlData()
 		CString val(_T(""));
 
 		init(m_aCombs[CombId::Comb_ZC], 0);
-		init(m_aCombs[CombId::Comb_CG], 0);
+		init(m_aCombs[CombId::Comb_CG], 1);
 		init(m_aEdits[EditId::Edit_BZ], val);
 	}
 }
