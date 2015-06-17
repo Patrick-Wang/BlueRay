@@ -165,6 +165,7 @@ CPlanAddDlg::CPlanAddDlg(LPCTSTR title, CWnd* pParent /*= NULL*/)
 	, m_btnNewIDForSCRQ(NULL)
 	, m_btnNewIDForBZRQ(NULL)
 	, m_bEnableEdits(false) //for cg zc bz
+	, m_bMutipleLinesSelected(false)
 {
 	InitHttpInstance();
 }
@@ -360,6 +361,10 @@ void CPlanAddDlg::DisableEdits(bool bYes)
 	m_bEnableEdits = bYes;
 }
 
+void CPlanAddDlg::SetMutipleLinesSelected(bool bYes)
+{
+	m_bMutipleLinesSelected = bYes;
+}
 
 static LPCTSTR g_StaticItems[][1] = { //0: default text
 		{ _T("ºÏÍ¬ºÅ:") },
@@ -553,6 +558,15 @@ BOOL CPlanAddDlg::OnInitDialog()
 	m_aCombs[Comb_CG]->EnableWindow(m_bEnableEdits);
 	m_aEdits[Edit_BZ]->EnableWindow(m_bEnableEdits);
 
+	if (m_bMutipleLinesSelected)
+	{
+		COleDateTime oletimeTime;
+		oletimeTime.SetStatus(COleDateTime::null);
+
+		m_aDatePickers[DatePicker_SCRQ]->SetTime(oletimeTime);
+		m_aDatePickers[DatePicker_BZRQ]->SetTime(oletimeTime);
+		m_aDatePickers[DatePicker_FHRQ]->SetTime(oletimeTime);
+	}
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE

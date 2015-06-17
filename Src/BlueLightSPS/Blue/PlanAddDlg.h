@@ -352,7 +352,7 @@ public:
 	CDelegate<void(CPlanAddDlg&)> d_GetOption;
 	afx_msg void OnNcDestroy();
 	void DisableEdits(bool bYes); //for cg zc bz
-
+	void SetMutipleLinesSelected(bool bYes);
 
 protected:
 	virtual void OnOK();
@@ -386,6 +386,7 @@ private:
 	afx_msg void OnBnClickedNewIDForBZRQ();
 
 	bool m_bEnableEdits;
+	bool m_bMutipleLinesSelected;
 
 public:
 	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
