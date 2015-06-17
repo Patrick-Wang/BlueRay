@@ -351,6 +351,8 @@ public:
 	static const std::vector<std::vector<CString>>& GetDropList();
 	CDelegate<void(CPlanAddDlg&)> d_GetOption;
 	afx_msg void OnNcDestroy();
+	void SetSelectMutipleLines(bool bYes);
+
 
 protected:
 	virtual void OnOK();
@@ -382,6 +384,8 @@ private:
 	void OnLoadComboDataSuccess(int id, CString strValList);
 	afx_msg void OnBnClickedNewIDForSCRQ();
 	afx_msg void OnBnClickedNewIDForBZRQ();
+
+	bool m_bIsSelectMutipleLines;
 
 public:
 	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
