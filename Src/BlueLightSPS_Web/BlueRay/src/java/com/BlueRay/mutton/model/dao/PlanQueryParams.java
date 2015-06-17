@@ -343,15 +343,18 @@ public class PlanQueryParams {
 						searchText = stringSearch;
 						if (!exact) {
 							link = " like ";
-							searchText = "'%" + normaltext + "%'";
+							searchText = "upper('%" + normaltext + "%')";
+							basicBuilder.append("upper(" + cls.getSimpleName() + "_."
+									+ getForginName(cls) + ")" + link + searchText + " ");
 						} else {
 							link = " = ";
+							basicBuilder.append(cls.getSimpleName() + "_."
+									+ getForginName(cls) + link + searchText + " ");
 						}
 
 						connectMap.put(fdTmp.getName(), cls);
 
-						basicBuilder.append(cls.getSimpleName() + "_."
-								+ getForginName(cls) + link + searchText + " ");
+						
 					} else {
 						if ((!bIsInteger && fdTmp.getType().getName()
 								.equals(Integer.class.getName()))) {
@@ -380,15 +383,20 @@ public class PlanQueryParams {
 									&& fdTmp.getType().getName()
 											.equals(String.class.getName())) {
 								link = " like ";
-								searchText = "'%" + normaltext + "%'";
+								searchText = "upper('%" + normaltext + "%')";
+								basicBuilder.append(" upper(HTXX_." + fdTmp.getName() + ")" + link + searchText
+										+ " ");
+							} else{
+								basicBuilder.append(" HTXX_." + fdTmp.getName() + link + searchText
+									+ " ");
 							}
 						} else {
 							searchText = normaltext;
+							basicBuilder.append(" HTXX_." + fdTmp.getName() + link + searchText
+									+ " ");
 						}
 
-						basicBuilder.append(" HTXX_.");
-						basicBuilder.append(fdTmp.getName() + link + searchText
-								+ " ");
+						
 					}
 				} else if (paramPcjhColMap.containsKey(i)) {
 					// column = paramPcjhColMap.get(i);
@@ -419,15 +427,20 @@ public class PlanQueryParams {
 						searchText = stringSearch;
 						if (!exact) {
 							link = " like ";
-							searchText = "'%" + normaltext + "%'";
+							searchText = "upper('%" + normaltext + "%')";
+							basicBuilder.append(" upper(PCJHXX_." + fdTmp.getName() + ")" + link + searchText
+									+ " ");
+						}else{
+							basicBuilder.append(" PCJHXX_." + fdTmp.getName() + link + searchText
+									+ " ");
 						}
 					} else {
 						searchText = normaltext;
+						basicBuilder.append(" PCJHXX_." + fdTmp.getName() + link + searchText
+								+ " ");
 					}
 
-					basicBuilder.append(" PCJHXX_.");
-					basicBuilder.append(fdTmp.getName() + link + searchText
-							+ " ");
+
 				}
 
 			}

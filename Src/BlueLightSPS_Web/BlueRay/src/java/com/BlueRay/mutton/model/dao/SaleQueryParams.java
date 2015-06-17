@@ -424,14 +424,17 @@ public class SaleQueryParams {
 					searchText = stringSearch;
 					if (!exact) {
 						link = " like ";
-						searchText = "'%" + normaltext + "%'";
+						searchText = "upper('%" + normaltext + "%')";
+						basicBuilder.append("upper(" + cls.getSimpleName() + "_."
+								+ getForginName(cls) + ")" + link + searchText + " ");
 					} else {
 						link = " = ";
+						basicBuilder.append(cls.getSimpleName() + "_."
+								+ getForginName(cls) + link + searchText + " ");
 						
 					}
 					connectMap.put(field.getName(), cls);
-					basicBuilder.append(cls.getSimpleName() + "_."
-							+ getForginName(cls) + link + searchText + " ");
+					
 				} else {
 
 					if ((!bIsInteger && field.getType().getName()
@@ -459,14 +462,20 @@ public class SaleQueryParams {
 								&& field.getType().getName()
 										.equals(String.class.getName())) {
 							link = " like ";
-							searchText = "'%" + normaltext + "%'";
+							searchText = "upper('%" + normaltext + "%')";
+							basicBuilder.append(" upper(HTXX_." + field.getName() + ")" + link
+									+ searchText + " ");
+						}else{
+							basicBuilder.append(" HTXX_." + field.getName() + link
+									+ searchText + " ");
 						}
 					} else {
 						searchText = normaltext;
+						basicBuilder.append(" HTXX_." + field.getName() + link
+								+ searchText + " ");
 					}
 
-					basicBuilder.append(" HTXX_." + field.getName() + link
-							+ searchText + " ");
+					
 				}
 			}
 			if (!firstSql) {
