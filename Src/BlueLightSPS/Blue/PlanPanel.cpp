@@ -528,11 +528,11 @@ void CPlanPanel::OnBnClickedPlan()
 	if (checkedRows.size() > 1)
 	{
 		dlg.DisableBHEdits(FALSE, FALSE);
-		dlg.SetSelectMutipleLines(true);
+		dlg.DisableEdits(true);
 	}
 	else
 	{
-		dlg.SetSelectMutipleLines(false);
+		dlg.DisableEdits(_T("N") == pstOpt->jhjhsh);
 		dlg.DisableBHEdits((/*_T("N") == pstOpt->jhywsh && */_T("N") == pstOpt->jhjhsh),
 			(/*_T("N") == pstOpt->bzywsh &&*/ _T("N") == pstOpt->bzjhsh));
 	}

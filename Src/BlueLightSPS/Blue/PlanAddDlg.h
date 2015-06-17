@@ -351,7 +351,7 @@ public:
 	static const std::vector<std::vector<CString>>& GetDropList();
 	CDelegate<void(CPlanAddDlg&)> d_GetOption;
 	afx_msg void OnNcDestroy();
-	void SetSelectMutipleLines(bool bYes);
+	void DisableEdits(bool bYes); //for cg zc bz
 
 
 protected:
@@ -385,7 +385,7 @@ private:
 	afx_msg void OnBnClickedNewIDForSCRQ();
 	afx_msg void OnBnClickedNewIDForBZRQ();
 
-	bool m_bIsSelectMutipleLines;
+	bool m_bEnableEdits;
 
 public:
 	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);

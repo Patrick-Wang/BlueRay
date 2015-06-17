@@ -164,7 +164,7 @@ CPlanAddDlg::CPlanAddDlg(LPCTSTR title, CWnd* pParent /*= NULL*/)
 	, m_bEnablePlanBtnForBZRQ(false)
 	, m_btnNewIDForSCRQ(NULL)
 	, m_btnNewIDForBZRQ(NULL)
-	, m_bIsSelectMutipleLines(false)
+	, m_bEnableEdits(false) //for cg zc bz
 {
 	InitHttpInstance();
 }
@@ -355,9 +355,9 @@ void CPlanAddDlg::DisableBHEdits(BOOL tcbh, BOOL ccbh)
 	m_bEnablePlanEditForCCBH = ccbh;
 }
 
-void CPlanAddDlg::SetSelectMutipleLines(bool bYes)
+void CPlanAddDlg::DisableEdits(bool bYes)
 {
-	m_bIsSelectMutipleLines = bYes;
+	m_bEnableEdits = bYes;
 }
 
 
@@ -548,12 +548,10 @@ BOOL CPlanAddDlg::OnInitDialog()
 
 	InitCtrlData();
 
-	if (m_bIsSelectMutipleLines)
-	{
-		m_aCombs[Comb_ZC]->EnableWindow(FALSE);
-		m_aCombs[Comb_CG]->EnableWindow(FALSE);
-		m_aEdits[Edit_BZ]->EnableWindow(FALSE);
-	}
+
+	m_aCombs[Comb_ZC]->EnableWindow(m_bEnableEdits);
+	m_aCombs[Comb_CG]->EnableWindow(m_bEnableEdits);
+	m_aEdits[Edit_BZ]->EnableWindow(m_bEnableEdits);
 
 
 	return TRUE;  // return TRUE unless you set the focus to a control
