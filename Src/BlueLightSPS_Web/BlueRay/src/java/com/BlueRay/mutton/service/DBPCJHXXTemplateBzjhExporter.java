@@ -158,6 +158,8 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 		List<PCJHXX> pcxxs = new ArrayList<PCJHXX>(1);
 		pcxxs.add(null);
 		String[] ret = new String[PcjhColumn.end.ordinal()];
+		HSSFSheet sheetTemp = workbook.cloneSheet(0);
+		workbook.setActiveSheet(1);
 		for (int i = 0, len = excel.getRowCount(); i < len; ++i) {
 			pcxxs.set(0, excel.getRow(i));
 			PlanServiceImpl.getHtxxMap(pcxxs, saleDao, planDao, htxxMap);
@@ -166,8 +168,7 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 			if (!"".equals(bzrq)) {
 				HSSFSheet sheet = workbook.getSheet(bzrq);
 				if (null == sheet) {
-					sheet = workbook.cloneSheet(workbook
-							.getSheetIndex(sheetName));
+					sheet = workbook.cloneSheet(workbook.getSheetIndex(sheetName));
 					workbook.setSheetName(workbook.getSheetIndex(sheet), bzrq);
 					HSSFRow row = sheet.getRow(0);
 					if (null != row){
@@ -199,8 +200,9 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 			}
 		}
 
-		workbook.removeSheetAt(workbook.getSheetIndex(sheetName));
-
+		workbook.removeSheetAt(0);
+		workbook.removeSheetAt(workbook.getSheetIndex(sheetTemp));
+		
 		for (int i = 0; i < workbook.getNumberOfSheets(); ++i) {
 			HSSFSheet sheet = workbook.getSheetAt(i);		
 			HSSFRow rowRq = sheet.getRow(2);
@@ -214,6 +216,8 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 				}
 			}
 		}
+
+		
 	}
 
 	public void exports() throws IOException {
