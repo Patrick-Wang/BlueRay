@@ -596,16 +596,24 @@ void CNotificationPanel::OnBnClickedMore()
 	}
 	else
 	{
-		m_advanceSearchVals.erase(m_advanceSearchVals.begin() + nsPlan::cg);
+		if (Approving_SaleBusiness != m_enumCurrentApprovingItem &&
+			Approving_SalePlan != m_enumCurrentApprovingItem){
+			m_advanceSearchVals.erase(m_advanceSearchVals.begin() + nsPlan::cg);
+		}
 		dlg.SetOption(new CSaleAddDlg::Option_t(m_advanceSearchVals));
 	}
 
 	if (IDOK == dlg.DoModal()){
 		m_advanceSearchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
-		m_advanceSearchVals.insert(m_advanceSearchVals.begin() + nsPlan::cg, L"");
+		if (Approving_SaleBusiness != m_enumCurrentApprovingItem &&
+			Approving_SalePlan != m_enumCurrentApprovingItem){
+			m_advanceSearchVals.insert(m_advanceSearchVals.begin() + nsPlan::cg, L"");
+		}
+
 		CJsonQueryParam jqp;
 		CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
 
+	
 // 		switch (m_enumCurrentApprovingItem)
 // 		{
 // 		case CNotificationPanel::Approving_NULL:
