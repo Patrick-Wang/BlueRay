@@ -502,12 +502,12 @@ public class ItemDaoImpl implements ItemDao{
 	}
 
 	public List<CPGGXHXX> getGGXHs() {
-		Query q = entityManager.createQuery("from CPGGXHXX ");
+		Query q = entityManager.createQuery("from CPGGXHXX");
 		return q.getResultList();
 	}
 
 	public List<CGXXB> queryCGXX() {
-		Query q = entityManager.createQuery("from CGXXB ");
+		Query q = entityManager.createQuery("from CGXXB where id > 1");
 		return q.getResultList();
 	}
 

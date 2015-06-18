@@ -34,12 +34,16 @@
 	fhrq, // 发货日期"
 	tcbh, // 投产编号"
 	ccbh, // 出厂编号"
+	cg,//磁钢
 -->
 
 <sheet>
 	<sheet_name>S</sheet_name>
 	<sheet_name>U</sheet_name>
 	<sheet_name>V</sheet_name>
+	<table_field name="scrq">
+		<cell row="2" col="P"></cell>
+	</table_field>
 	<table_field name="tcbh">
 		<cell row="3" col="C"></cell>
 	</table_field>
@@ -81,6 +85,9 @@
 	</table_field>
 	<table_field name="zzs">
 		<cell row="8" col="H"></cell>
+	</table_field>
+	<table_field name="cg">
+		<cell row="9" col="R"></cell>
 	</table_field>
 	<table_field name="hth">
 		<cell row="32" col="C"></cell>
@@ -111,6 +118,9 @@
 	<sheet_name>TA</sheet_name>
 	<sheet_name>T</sheet_name>
 	<sheet_name>Y</sheet_name>
+	<table_field name="scrq">
+		<cell row="2" col="P"></cell>
+	</table_field>
 	<table_field name="tcbh">
 		<cell row="3" col="C"></cell>
 	</table_field>
@@ -152,6 +162,9 @@
 	</table_field>
 	<table_field name="zzs">
 		<cell row="8" col="H"></cell>
+	</table_field>
+	<table_field name="cg">
+		<cell row="9" col="R"></cell>
 	</table_field>
 	<table_field name="hth">
 		<cell row="33" col="C"></cell>
@@ -180,6 +193,9 @@
 </sheet>
 <sheet>
 	<sheet_name>L</sheet_name>
+	<table_field name="scrq">
+		<cell row="2" col="P"></cell>
+	</table_field>
 	<table_field name="tcbh">
 		<cell row="3" col="C"></cell>
 	</table_field>
@@ -221,6 +237,9 @@
 	</table_field>
 	<table_field name="zzs">
 		<cell row="8" col="H"></cell>
+	</table_field>
+	<table_field name="cg">
+		<cell row="9" col="R"></cell>
 	</table_field>
 	<table_field name="hth">
 		<cell row="28" col="C"></cell>

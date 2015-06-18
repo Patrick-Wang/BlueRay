@@ -183,6 +183,13 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 							cell.setCellValue(newVal);
 						}
 					}
+					row = sheet.getRow(2);
+					if (null != row){
+						HSSFCell cell = row.createCell(15);
+						if (null != cell){
+							cell.setCellValue("0");
+						}
+					}
 				}
 				if (null != sheet) {
 					HSSFRow row = sheet.createRow(sheet.getLastRowNum() + 1);
@@ -194,6 +201,13 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 								cell.setCellStyle(style);
 								cell.setCellValue(ret[j]);
 							}
+						}
+					}
+					row = sheet.getRow(2);
+					if (null != row){
+						HSSFCell cell = row.getCell(15);
+						if (null != cell){
+							cell.setCellValue((1 + Integer.valueOf(cell.getStringCellValue())) + "");
 						}
 					}
 				}
