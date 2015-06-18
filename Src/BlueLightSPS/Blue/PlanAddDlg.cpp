@@ -326,7 +326,7 @@ void CPlanAddDlg::InitCtrlData()
 
 		if (m_lpOption->cg <= 0)
 		{
-			init(m_aCombs[CombId::Comb_CG], 1);
+			init(m_aCombs[CombId::Comb_CG], 0);
 		}
 		else
 		{
@@ -340,7 +340,7 @@ void CPlanAddDlg::InitCtrlData()
 		CString val(_T(""));
 
 		init(m_aCombs[CombId::Comb_ZC], 0);
-		init(m_aCombs[CombId::Comb_CG], 1);
+		init(m_aCombs[CombId::Comb_CG], 0);
 		init(m_aEdits[EditId::Edit_BZ], val);
 	}
 }
