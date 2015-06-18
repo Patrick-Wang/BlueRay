@@ -499,6 +499,7 @@ void CPlanPanel::OnBnClickedPlan()
 	m_pJqGridAPI->GetCheckedRows(checkedRows);
 
 	bool bIsAnyOrderHasJHJHSH = false;
+	bool bIsAnyOrderHasBZJHSH = false;
 
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
@@ -527,6 +528,11 @@ void CPlanPanel::OnBnClickedPlan()
 			{
 				bIsAnyOrderHasJHJHSH = true;
 			}
+
+			if ((*pRowData)[nsPlan::bzshjh].Compare(_T("Y")) == 0)
+			{
+				bIsAnyOrderHasBZJHSH = true;
+			}
 		}
 	}
 
@@ -545,11 +551,21 @@ void CPlanPanel::OnBnClickedPlan()
 		{
 			dlg.DisableEdits(true);
 		}
+
+		if (bIsAnyOrderHasBZJHSH)
+		{
+			dlg.DisableBZEdits(false);
+		}
+		else
+		{
+			dlg.DisableBZEdits(true);
+		}
 	}
 	else
 	{
 		dlg.SetMutipleLinesSelected(false);
 		dlg.DisableEdits(_T("N") == pstOpt->jhjhsh);
+		dlg.DisableBZEdits(_T("N") == pstOpt->bzjhsh);
 		dlg.DisableBHEdits((/*_T("N") == pstOpt->jhywsh && */_T("N") == pstOpt->jhjhsh),
 			(/*_T("N") == pstOpt->bzywsh &&*/ _T("N") == pstOpt->bzjhsh));
 	}

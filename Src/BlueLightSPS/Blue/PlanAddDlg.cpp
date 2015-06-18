@@ -164,7 +164,8 @@ CPlanAddDlg::CPlanAddDlg(LPCTSTR title, CWnd* pParent /*= NULL*/)
 	, m_bEnablePlanBtnForBZRQ(false)
 	, m_btnNewIDForSCRQ(NULL)
 	, m_btnNewIDForBZRQ(NULL)
-	, m_bEnableEdits(false) //for cg zc bz
+	, m_bEnableEdits(false) //for cg zc
+	, m_bEnableBZEdits(false)
 	, m_bMutipleLinesSelected(false)
 {
 	InitHttpInstance();
@@ -361,6 +362,12 @@ void CPlanAddDlg::DisableEdits(bool bYes)
 	m_bEnableEdits = bYes;
 }
 
+void CPlanAddDlg::DisableBZEdits(bool bYes)
+{
+	m_bEnableBZEdits = bYes;
+}
+
+
 void CPlanAddDlg::SetMutipleLinesSelected(bool bYes)
 {
 	m_bMutipleLinesSelected = bYes;
@@ -556,7 +563,7 @@ BOOL CPlanAddDlg::OnInitDialog()
 
 	m_aCombs[Comb_ZC]->EnableWindow(m_bEnableEdits);
 	m_aCombs[Comb_CG]->EnableWindow(m_bEnableEdits);
-	m_aEdits[Edit_BZ]->EnableWindow(m_bEnableEdits);
+	m_aEdits[Edit_BZ]->EnableWindow(m_bEnableBZEdits);
 
 	if (m_bMutipleLinesSelected)
 	{
