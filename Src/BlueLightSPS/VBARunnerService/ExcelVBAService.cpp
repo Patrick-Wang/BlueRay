@@ -98,6 +98,9 @@ void ExcelVBAService::UpdateTemplate(std::shared_ptr<Json::JsonObject> jsonTempl
 		{
 			UpdateSheet(data.asArray(i), tempalteMap);
 		}
+		LPDISPATCH lpDisp = sheets.get_Item(_variant_t(short(1)));
+		sheet.AttachDispatch(lpDisp);
+		sheet.Activate();
 	}
 	catch (...)
 	{
@@ -176,7 +179,7 @@ void ExcelVBAService::UpdateSheet(Json::JsonArray& row, Json::JsonObject& tempal
 		}
 	}
 	sheet.Copy(vtMissing, _variant_t(sheets.get_Item(_variant_t(sheets.get_Count()))));
-	sheet.Activate();
+	//sheet.Activate();
 }
 
 PcjhColumn ExcelVBAService::getCol(Json::json_string& strCol)

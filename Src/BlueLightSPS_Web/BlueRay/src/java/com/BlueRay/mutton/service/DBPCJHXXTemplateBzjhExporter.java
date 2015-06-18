@@ -164,6 +164,7 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 			pcxxs.set(0, excel.getRow(i));
 			PlanServiceImpl.getHtxxMap(pcxxs, saleDao, planDao, htxxMap);
 			PlanServiceImpl.setPCJH(ret, pcxxs.get(0), htxxMap, itemDao);
+			ret[PcjhColumn.id.ordinal()] = "";
 			String bzrq = ret[PcjhColumn.bzrq.ordinal()];
 			if (!"".equals(bzrq)) {
 				HSSFSheet sheet = workbook.getSheet(bzrq);
@@ -193,7 +194,7 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 				}
 				if (null != sheet) {
 					HSSFRow row = sheet.createRow(sheet.getLastRowNum() + 1);
-					for (int j = 1; j < PcjhColumn.end.ordinal(); ++j) {
+					for (int j = 0; j < PcjhColumn.end.ordinal(); ++j) {
 						if (colsMap.containsKey(j)) {
 							List<Integer> cols = colsMap.get(j);
 							for (Integer col : cols) {
