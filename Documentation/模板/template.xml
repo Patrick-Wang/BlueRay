@@ -83,10 +83,10 @@
 	<table_field name="ccbh">
 		<cell row="8" col="C"></cell>
 	</table_field>
-	<table_field name="zzs">
+	<table_field name="cg">
 		<cell row="8" col="H"></cell>
 	</table_field>
-	<table_field name="cg">
+	<table_field name="zzs">
 		<cell row="9" col="R"></cell>
 	</table_field>
 	<table_field name="hth">
@@ -160,10 +160,10 @@
 	<table_field name="ccbh">
 		<cell row="8" col="C"></cell>
 	</table_field>
-	<table_field name="zzs">
+	<table_field name="cg">
 		<cell row="8" col="H"></cell>
 	</table_field>
-	<table_field name="cg">
+	<table_field name="zzs">
 		<cell row="9" col="R"></cell>
 	</table_field>
 	<table_field name="hth">
@@ -235,10 +235,10 @@
 	<table_field name="ccbh">
 		<cell row="8" col="C"></cell>
 	</table_field>
-	<table_field name="zzs">
+	<table_field name="cg">
 		<cell row="8" col="H"></cell>
 	</table_field>
-	<table_field name="cg">
+	<table_field name="zzs">
 		<cell row="9" col="R"></cell>
 	</table_field>
 	<table_field name="hth">
