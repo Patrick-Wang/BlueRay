@@ -1,4 +1,4 @@
-
+#include "stdafx.h"
 #include "JsonObjects.h"
 #include "JsonParser.h"
 #include "JsonFactory.h"

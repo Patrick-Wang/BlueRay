@@ -164,7 +164,7 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 			pcxxs.set(0, excel.getRow(i));
 			PlanServiceImpl.getHtxxMap(pcxxs, saleDao, planDao, htxxMap);
 			PlanServiceImpl.setPCJH(ret, pcxxs.get(0), htxxMap, itemDao);
-			ret[PcjhColumn.id.ordinal()] = "";
+			ret[PcjhColumn.yxj.ordinal()] = "";
 			String bzrq = ret[PcjhColumn.bzrq.ordinal()];
 			if (!"".equals(bzrq)) {
 				HSSFSheet sheet = workbook.getSheet(bzrq);
@@ -186,7 +186,7 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 					}
 					row = sheet.getRow(2);
 					if (null != row){
-						HSSFCell cell = row.createCell(15);
+						HSSFCell cell = row.createCell(14);
 						if (null != cell){
 							cell.setCellValue("0");
 						}
@@ -206,7 +206,7 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 					}
 					row = sheet.getRow(2);
 					if (null != row){
-						HSSFCell cell = row.getCell(15);
+						HSSFCell cell = row.getCell(14);
 						if (null != cell){
 							cell.setCellValue((1 + Integer.valueOf(cell.getStringCellValue())) + "");
 						}
@@ -215,14 +215,12 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 			}
 		}
 
-		workbook.removeSheetAt(0);
-		workbook.removeSheetAt(workbook.getSheetIndex(sheetTemp));
-		
-		for (int i = 0; i < workbook.getNumberOfSheets(); ++i) {
+	
+		for (int i = 2; i < workbook.getNumberOfSheets(); ++i) {
 			HSSFSheet sheet = workbook.getSheetAt(i);		
 			HSSFRow rowRq = sheet.getRow(2);
 			if (null != rowRq){
-				HSSFCell cellRq = rowRq.getCell(8);
+				HSSFCell cellRq = rowRq.getCell(7);
 				if (null != cellRq){
 					Calendar cal = Calendar.getInstance();
 					cellRq.setCellValue("计划下达日期:" + cal.get(Calendar.YEAR) + "-"
@@ -232,7 +230,8 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 			}
 		}
 
-		
+		workbook.removeSheetAt(0);
+		workbook.removeSheetAt(workbook.getSheetIndex(sheetTemp));
 	}
 
 	public void exports() throws IOException {

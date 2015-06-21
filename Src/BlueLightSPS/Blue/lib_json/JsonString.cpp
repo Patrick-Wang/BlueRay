@@ -1,4 +1,4 @@
-
+#include "stdafx.h"
 #include "JsonString.h"
 
 namespace Json{
