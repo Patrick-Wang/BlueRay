@@ -186,20 +186,24 @@ CPromise<bool>& CPlan::TemplateExport(LPCTSTR lpFileName, CJsonQueryParam& jqPar
 
 }
 
-bool CPlan::GetTcbhSync(CString& tcbh)
+bool CPlan::GetTcbhSync(LPCTSTR zzs, CString& tcbh)
 {
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/plan/getbh/tcbh"),
-		IDS_HOST_NAME);
-	return m_lpHttp->SyncGet(url, tcbh);
+		IDS_HOST_NAME); 
+	std::map<CString, CString> attr;
+	attr[L"zzs"] = zzs;
+	return m_lpHttp->SyncGet(url, attr, tcbh);
 }
 
-bool CPlan::GetCcbhSync(CString& ccbh)
+bool CPlan::GetCcbhSync(LPCTSTR zzs, CString& ccbh)
 {
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/plan/getbh/ccbh"),
 		IDS_HOST_NAME);
-	return m_lpHttp->SyncGet(url, ccbh);
+	std::map<CString, CString> attr;
+	attr[L"zzs"] = zzs;
+	return m_lpHttp->SyncGet(url, attr, ccbh);
 }
 
 CPromise<bool>& CPlan::BzjhTemplateExport(LPCTSTR lpFileName, CJsonQueryParam& jqParam)

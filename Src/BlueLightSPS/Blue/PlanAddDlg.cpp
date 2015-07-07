@@ -183,7 +183,7 @@ void CPlanAddDlg::OnBnClickedNewIDForSCRQ()
 	if (m_bEnablePlanEditForTCBH)
 	{
 		CString text;
-		CServer::GetInstance()->GetPlan().GetTcbhSync(text);
+		CServer::GetInstance()->GetPlan().GetTcbhSync(m_lpOption->zzs, text);
 		m_aEdits[Edit_TCBH]->SetWindowText(text);
 	}
 
@@ -194,7 +194,7 @@ void CPlanAddDlg::OnBnClickedNewIDForBZRQ()
 	if (m_bEnablePlanEditForCCBH)
 	{
  		CString text;
-		CServer::GetInstance()->GetPlan().GetCcbhSync(text);
+		CServer::GetInstance()->GetPlan().GetCcbhSync(m_lpOption->zzs, text);
 		m_aEdits[Edit_CCBH]->SetWindowText(text);
 	}
 }

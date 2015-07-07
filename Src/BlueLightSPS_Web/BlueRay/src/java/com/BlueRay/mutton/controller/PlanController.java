@@ -2,6 +2,7 @@ package com.BlueRay.mutton.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +12,7 @@ import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,46 +32,37 @@ public class PlanController {
 	PlanService planService;
 
 
-//	@Autowired
-//	MapQueryService mqService;
+	@RequestMapping(value = "/resetTcbh", method = RequestMethod.GET)
+	public @ResponseBody String resetTcbh(
+			HttpServletRequest request,
+			HttpServletResponse response) {
+		return "OK latest max Tcbh number is : " + planService.resetTcSerialNumber();
+	}
 	
-	// @RequestMapping(value = "syhkjhzxqk.do", method = RequestMethod.GET,
-	// produces=MediaType.APPLICATION_JSON_VALUE)
-	// public @ResponseBody Response getSyhkjhzxqkData(
-	// @RequestParam("page") Integer page, // get the requested page
-	// @RequestParam("rows") Integer rows, // get how many rows we want to have
-	// into the grid
-	// @RequestParam("sidx") String sidx, // get index row - i.e. user click to
-	// sort
-	// @RequestParam("sord") String sord // get the direction
-	// , HttpServletResponse response) {
-	// SaleService service = getSyhkjhzxqkService();
-	// return service.query();
-	// }
-
-//	@RequestMapping(value = "/map_id/{tableName}/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//	public @ResponseBody String getValueById(@PathVariable String tableName,
-//			@PathVariable String id, HttpServletRequest request,
-//			HttpServletResponse response) {
-//
-//		return id;
-//	}
-//
-//	@RequestMapping(value = "/map_value/{tableName}/{value}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-//	public @ResponseBody String getIdByValue(@PathVariable String tableName,
-//			@PathVariable String value, HttpServletRequest request,
-//			HttpServletResponse response) {
-//
-//		return "";
-//	}
-
+	@RequestMapping(value = "/resetCcbh", method = RequestMethod.GET)
+	public @ResponseBody String resetCcbh(
+			HttpServletRequest request,
+			HttpServletResponse response) {
+		return "OK latest max Ccbh number is : " + planService.resetCcSerialNumber();
+	}
+	
+	@Scheduled(cron="0 0 0 26 12 ?")
+	public void scheduleResetTcSerialNumber(){
+		planService.resetTcSerialNumber();
+	}
+	
+	@Scheduled(cron="0 0 0 26 * ?")
+	public void scheduleResetCcSerialNumber(){
+		planService.resetCcSerialNumber();
+	}
+	
 	@RequestMapping(value = "/getbh/{item}", method = RequestMethod.GET)
 	public @ResponseBody String getbh(
 			@PathVariable String item,
 			HttpServletRequest request,
 			HttpServletResponse response) {
-
-		return planService.getBh(item);
+		
+		return planService.getBh(item, (String)request.getParameter("zzs"));
 	}
 	
 	@RequestMapping(value = "/validate", method = RequestMethod.GET)

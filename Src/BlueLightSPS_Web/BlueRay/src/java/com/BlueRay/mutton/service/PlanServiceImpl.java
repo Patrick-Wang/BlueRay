@@ -34,6 +34,7 @@ import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
 import com.BlueRay.mutton.model.entity.jpa.SerialNumber;
 import com.BlueRay.mutton.model.entity.jpa.ZCXX;
+import com.BlueRay.mutton.model.entity.jpa.ZZS;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
 
@@ -272,6 +273,14 @@ public class PlanServiceImpl implements PlanService {
 			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
 			if (!"Y".equals(pcjhxx.getBzsftgywsh())) {
 				pcjhxx.setBzsftgywsh("Y");
+				if (null != pcjhxx.getJhbzrq()){
+					HTXX htxx = saleDao.getSaleDataById(pcjhxx.getHtxxID());
+					if (null != htxx){
+						ZZS zzs = itemDao.queryZZSById(htxx.getZzsID());
+						String ccbh = getCcbh(zzs);
+						pcjhxx.setCcbh(ccbh);
+					}
+				}
 				planDao.update(pcjhxx);
 			}
 		}
@@ -428,26 +437,39 @@ public class PlanServiceImpl implements PlanService {
 		return "error";
 	}
 
-	public String getBh(String item) {
-		SerialNumber snNumber = null;
-		String ret = "";
-		if("tcbh".equalsIgnoreCase(item)){
-			snNumber = snDao.getSNById(1);
-			snNumber.setMax((snNumber.getMax() + 1) % 100000);
-			snDao.saveSN(snNumber);
-			Calendar cal = Calendar.getInstance();
-			int year = cal.get(Calendar.YEAR);
-			ret = String.format("%c%05d", 'A' + (year - 2015), snNumber.getMax() % 100000);
-		} else if("ccbh".equalsIgnoreCase(item)){
-			snNumber = snDao.getSNById(2);
-			snNumber.setMax((snNumber.getMax() + 1) % 10000);
-			snDao.saveSN(snNumber);
-			Calendar cal = Calendar.getInstance();
-			int year = cal.get(Calendar.YEAR);
-			int month = cal.get(Calendar.MONTH) + 1;
-			ret = String.format("%d%X%04d", year % 100, month, snNumber.getMax() % 10000);
+	private String getTcbh(ZZS zzs){
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		String ret = String.format("%02d%05d", year % 100, increaseTcSerialNumber() % 100000);
+		if (null != zzs){
+			ret = zzs.getCode() + ret;
+		}else{
+			ret = 'X' + ret;
 		}
-
+		return ret;
+	}
+	
+	private String getCcbh(ZZS zzs){
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH) + 1;
+		String ret = String.format("%02d%X%04d", year % 100, month, increaseCcSerialNumber() % 10000);
+		if (null != zzs){
+			ret = zzs.getCode() + ret;
+		}else{
+			ret = 'X' + ret;
+		}
+		return ret;
+	}
+	
+	public String getBh(String item, String zzsName) {
+		String ret = "";
+		ZZS zzs = itemDao.queryZZSByValue("zzs", zzsName);
+		if("tcbh".equalsIgnoreCase(item)){
+			ret = getTcbh(zzs);			
+		} else if("ccbh".equalsIgnoreCase(item)){
+			ret = getCcbh(zzs);			
+		}
 		return ret;
 	}
 
@@ -467,4 +489,37 @@ public class PlanServiceImpl implements PlanService {
 		return "error";
 	}
 
+	public Integer resetCcSerialNumber() {
+		SerialNumber snNumber = snDao.getSNById(2);
+		int maxNum = snNumber.getMax();
+		snNumber.setMax(1);
+		snDao.saveSN(snNumber);
+		return maxNum;
+	}
+
+	private Integer increaseCcSerialNumber() {
+		SerialNumber snNumber = snDao.getSNById(2);
+		int maxNum = snNumber.getMax();
+		snNumber.setMax((maxNum + 1) % 10000);
+		snDao.saveSN(snNumber);
+		return maxNum;
+	}
+	
+	public Integer resetTcSerialNumber() {
+		SerialNumber snNumber = snDao.getSNById(1);
+		int maxNum = snNumber.getMax();
+		snNumber.setMax(1);
+		snDao.saveSN(snNumber);
+		return maxNum;
+	}
+	
+	private Integer increaseTcSerialNumber() {
+		SerialNumber snNumber = snDao.getSNById(1);
+		int maxNum = snNumber.getMax();
+		snNumber.setMax((maxNum + 1) % 100000);
+		snDao.saveSN(snNumber);		
+		return maxNum;
+	}
+	
+	
 }

@@ -333,10 +333,6 @@ void CPlanPanel::FilterTableByStatus(enumProductionStatusForPlan productionStatu
 
 void CPlanPanel::OnInitChilds()
 {
-	CString bh;
-	CServer::GetInstance()->GetPlan().GetCcbhSync(bh);
-	CServer::GetInstance()->GetPlan().GetTcbhSync(bh);
-
 	m_pJqGridAPI->d_OnExportClicked += std::make_pair(this, &CPlanPanel::OnExportClicked);
 	m_pJqGridAPI->d_OnTemplateExportClicked += std::make_pair(this, &CPlanPanel::OnTemplateExportClicked);
 	m_pJqGridAPI->d_OnBzjhTemplateExportClicked += std::make_pair(this, &CPlanPanel::OnBzjhTemplateExportClicked);
