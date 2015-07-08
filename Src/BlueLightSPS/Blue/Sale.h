@@ -41,8 +41,8 @@ public:
 	bool UpdateSync(IntArray& rows, StringArray& record);
 	CPromise<bool>& Update(IntArray& rows, StringArray& record);
 
-	bool DeleteSync(IntArray& rows);
-	CPromise<bool>& Delete(IntArray& rows);
+	bool DeleteSync(IntArray& rows, LPCTSTR psw);
+	CPromise<bool>& Delete(IntArray& rows, LPCTSTR psw);
 
 	//bool ApproveSync(ApproveType type, IntArray& rows);
 	CPromise<StringArray>& Approve(ApproveType type, IntArray& rows);

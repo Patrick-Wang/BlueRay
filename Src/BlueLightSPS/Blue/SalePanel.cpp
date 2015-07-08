@@ -9,7 +9,7 @@
 #include "JQGridAPI.h"
 #include "User.h"
 #include "Promise.h"
-
+#include "SecretDlg.h"
 
 #define UM_REQUEST_RESULT
 
@@ -649,8 +649,13 @@ void CSalePanel::OnBnClickedDelete()
 			}
 		};
 
-		CServer::GetInstance()->GetSale().Delete(checkedRows).then(new CDeleteListener(*this));
-		GetParent()->EnableWindow(FALSE);
+		CSecretDlg secretDlg;
+		INT_PTR secRet = secretDlg.DoModal();
+		if (IDOK == secRet)
+		{
+			CServer::GetInstance()->GetSale().Delete(checkedRows, secretDlg.getSecret()).then(new CDeleteListener(*this));
+			GetParent()->EnableWindow(FALSE);
+		}
 	}
 }
 

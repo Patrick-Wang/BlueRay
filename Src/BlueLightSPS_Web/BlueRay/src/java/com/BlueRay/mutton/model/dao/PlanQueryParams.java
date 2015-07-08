@@ -5,6 +5,8 @@ import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.BlueRay.mutton.common.HtxxColumn;
+import com.BlueRay.mutton.common.PcjhColumn;
 import com.BlueRay.mutton.model.entity.jpa.BMQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.BPQXHFLXX;
 import com.BlueRay.mutton.model.entity.jpa.BZXDTGG;
@@ -22,8 +24,6 @@ import com.BlueRay.mutton.model.entity.jpa.ZDQXH;
 import com.BlueRay.mutton.model.entity.jpa.ZJDY;
 import com.BlueRay.mutton.model.entity.jpa.ZJYS;
 import com.BlueRay.mutton.model.entity.jpa.ZZS;
-import com.BlueRay.mutton.service.HtxxColumn;
-import com.BlueRay.mutton.service.PcjhColumn;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;

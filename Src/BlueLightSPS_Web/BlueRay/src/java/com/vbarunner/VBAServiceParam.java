@@ -7,7 +7,7 @@ import java.util.Map;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import com.BlueRay.mutton.service.Location;
+import com.BlueRay.mutton.common.Location;
 
 public class VBAServiceParam {
 	String template;

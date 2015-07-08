@@ -157,6 +157,7 @@
     <ClInclude Include="Sale.h" />
     <ClInclude Include="SaleAddDlg.h" />
     <ClInclude Include="SalePanel.h" />
+    <ClInclude Include="SecretDlg.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="SettingManager.h" />
     <ClInclude Include="stdafx.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="Sale.cpp" />
     <ClCompile Include="SaleAddDlg.cpp" />
     <ClCompile Include="SalePanel.cpp" />
+    <ClCompile Include="SecretDlg.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="SettingManager.cpp" />
     <ClCompile Include="promise.cpp" />

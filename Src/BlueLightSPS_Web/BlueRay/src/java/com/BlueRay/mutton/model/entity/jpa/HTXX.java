@@ -11,7 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.BlueRay.mutton.service.HtxxColumn;
+import com.BlueRay.mutton.common.HtxxColumn;
 
 @Entity
 @Table(name = "htxx")

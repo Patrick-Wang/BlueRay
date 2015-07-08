@@ -267,6 +267,9 @@
     <ClInclude Include="TableFilterDlgForNotificationSale.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SecretDlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blue.cpp">
@@ -453,6 +456,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TableFilterDlgForNotificationPlan.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SecretDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

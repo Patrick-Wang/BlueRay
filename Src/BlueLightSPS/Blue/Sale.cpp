@@ -52,10 +52,15 @@ bool CSale::UpdateSync(IntArray& rows, StringArray& record)
 	return strRet.Compare(L"success") == 0;
 }
 
-bool CSale::DeleteSync(IntArray& rows)
+bool CSale::DeleteSync(IntArray& rows, LPCTSTR psw)
 {
-	std::map<CString, IntArrayPtr> attr;
-	attr[_T("del")] = &rows;
+	std::map<CString, StringArrayPtr> attr;
+	StringArray tmpRows;
+	toArray(rows, tmpRows);
+	StringArray pswRows;
+	pswRows.push_back(psw);
+	attr[_T("psw")] = &pswRows;
+	attr[_T("del")] = &tmpRows;
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/sale/delete"), IDS_HOST_NAME);
 	CString strRet;
@@ -152,10 +157,15 @@ CPromise<bool>& CSale::Update(IntArray& rows, StringArray& record)
 	return *promise;
 }
 
-CPromise<bool>& CSale::Delete(IntArray& rows)
+CPromise<bool>& CSale::Delete(IntArray& rows, LPCTSTR psw)
 {
-	std::map<CString, IntArrayPtr> attr;
-	attr[_T("del")] = &rows;
+	std::map<CString, StringArrayPtr> attr;
+	StringArray tmpRows;
+	toArray(rows, tmpRows);
+	StringArray pswRows;
+	pswRows.push_back(psw);
+	attr[_T("psw")] = &pswRows;
+	attr[_T("del")] = &tmpRows;
 	CString url;
 	url.Format(_T("http://%s:8080/BlueRay/sale/delete"), IDS_HOST_NAME);
 	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_lpHttp, new CBoolParser());
