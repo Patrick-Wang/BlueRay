@@ -105,6 +105,11 @@ module base {
             }
         }
 
+        public setCellColor(rowId: number, colId: number, r: number, g: number, b: number): void {
+            $("#" + this.mTableName + " #" + rowId + " #" + colId)
+                .css("background", "rgb(" + r + "," + g + "," + b + ")");
+        }
+
         public setRowBgColor(row: number, r: number, g: number, b: number): void {
             $("#" + this.mTableName + " #" + row).css("background", "rgb(" + r + "," + g + "," + b + ")");
         }

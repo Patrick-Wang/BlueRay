@@ -17,7 +17,7 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="com/BlueRay/mutton/model/entity/jpa/KHCYDDXXB.java|com/BlueRay/mutton/tool/StreamExcel.java|com/BlueRay/mutton/tool/RecordInputStream.java|com/BlueRay/mutton/tool/StreamExcelExporter.java|com/BlueRay/mutton/tool/StreamExcelImportor.java|com/BlueRay/mutton/model/excel/DBPCJHXXExcelExporter.java|com/BlueRay/mutton/service/DBPCJHXXCSVExporter.java" kind="src" path="src/java"/>
+	<classpathentry excluding="com/BlueRay/mutton/model/entity/jpa/KHCYDDXXB.java|com/BlueRay/mutton/tool/StreamExcel.java|com/BlueRay/mutton/tool/RecordInputStream.java|com/BlueRay/mutton/tool/StreamExcelExporter.java|com/BlueRay/mutton/tool/StreamExcelImportor.java|com/BlueRay/mutton/model/excel/DBPCJHXXExcelExporter.java|com/BlueRay/mutton/service/DBPCJHXXCSVExporter.java|com/BlueRay/mutton/service/plan/exporter/DBPCJHXXCSVExporter.java" kind="src" path="src/java"/>
 	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>

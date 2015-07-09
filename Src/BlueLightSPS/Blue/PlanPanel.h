@@ -36,6 +36,7 @@ protected:
 	void OnExportClicked();
 	void OnTemplateExportClicked();
 	void OnBzjhTemplateExportClicked();
+	void OnScjhTemplateExportClicked();
 	void OnModifyDataSuccess(std::vector<CString>& newData);
 	void OnReApproveSuccess(CPlan::ApproveType type);
 

@@ -10,6 +10,15 @@ import java.security.NoSuchAlgorithmException;
 import net.sf.json.JSONObject;
 
 public class Util {
+	
+	static String[] dayOfWeek = new String[]{
+		"周日", "周一", "周二", "周三", "周四", "周五", "周六"
+	};
+	
+	public static String toChinese(int iDayOfWeek){
+		return dayOfWeek[iDayOfWeek];
+	}
+	
 	public static String getUtf8(InputStream is) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(is,
 				"UTF-8"));

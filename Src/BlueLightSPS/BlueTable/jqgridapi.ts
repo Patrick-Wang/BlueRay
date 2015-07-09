@@ -16,6 +16,11 @@ function setRowFgColor(gridName: string, rowId: number, r: number, g: number, b:
     grids[gridName].setRowFgColor(rowId, r, g, b);
 }
 
+function setCellColor(gridName: string, rowId: number, colId: number, r: number, g: number, b: number) {
+    var colIdInternal: string = gridName + "_col_" + colId;
+    grids[gridName].setCellColor(rowId, colIdInternal, r, g, b);
+}
+
 function showCol(gridName: string, id: string) {
     var colId: string = gridName + "_col_" + id;
     grids[gridName].showHideCol(colId, true);

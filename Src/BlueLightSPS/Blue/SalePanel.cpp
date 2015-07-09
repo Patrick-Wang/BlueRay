@@ -1179,6 +1179,32 @@ void CSalePanel::HighLight()
 	//		m_pJqGridAPI->HighLightRow(m_table[i].first);
 	//	}
 	//}
+
+	for (size_t i = 0, len = m_table.size(); i < len; i++)
+	{
+		CString& ggxh = m_table[i].second[nsSale::ggxh];
+		if (GGisS(ggxh))
+		{
+			if (m_table[i].second[nsSale::zdqdy] == L"AC220V" &&
+				m_table[i].second[nsSale::zdqxh] == L"DZE - 14EA"){
+				m_pJqGridAPI->HighLightRow(m_table[i].first);
+			}
+
+			if (!GGisS_AB(ggxh) &&
+				m_table[i].second[nsSale::yylgg] == L"400*4*10*6")
+			{
+				m_pJqGridAPI->HighLightRow(m_table[i].first);
+			}
+		}
+		else if (GGisTA(ggxh))
+		{
+			if (!GGisTA_AB(ggxh) &&
+				m_table[i].second[nsSale::yylgg] == L"400*4*10*6")
+			{
+				m_pJqGridAPI->HighLightRow(m_table[i].first);
+			}
+		}
+	}
 }
 
 void CSalePanel::OnExportClicked()

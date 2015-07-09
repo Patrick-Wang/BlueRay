@@ -12,5 +12,8 @@ public:
 private:
 	FILE* m_fp;
 	int m_size;
+	bool m_bCreated;
+	bool m_bUsed;
+	CString m_strFile;
 };
 

@@ -10,6 +10,7 @@
 
 
 #include "Util.h"
+CComJsFun CJQGridAPI::m_JsfnOnScjhTemplateExportClicked(_T("onScjhTemplateExportClicked"));
 CComJsFun CJQGridAPI::m_JsfnOnBzjhTemplateExportClicked(_T("onBzjhTemplateExportClicked"));
 CComJsFun CJQGridAPI::m_JsfnOnTemplateExportClicked(_T("onTemplateExportClicked"));
 CComJsFun CJQGridAPI::m_JsfnOnExportClicked(_T("onExportClicked"));
@@ -47,6 +48,9 @@ CJQGridAPI::CJQGridAPI(IJSMediator* pMedia, LPCTSTR lpGrid)
 	m_pMedia->RegisterJsFunction(&m_JsfnOnBzjhTemplateExportClicked);
 	m_JsfnOnBzjhTemplateExportClicked.d_onJsCall += std::make_pair(this, &CJQGridAPI::JSCall);
 
+	m_pMedia->RegisterJsFunction(&m_JsfnOnScjhTemplateExportClicked);
+	m_JsfnOnScjhTemplateExportClicked.d_onJsCall += std::make_pair(this, &CJQGridAPI::JSCall);
+
 	m_pMedia->RegisterJsFunction(&m_JsfnOnImportClicked);
 	m_JsfnOnImportClicked.d_onJsCall += std::make_pair(this, &CJQGridAPI::JSCall);
 
@@ -66,6 +70,7 @@ CJQGridAPI::~CJQGridAPI()
 	m_JsfnOnExportClicked.d_onJsCall -= std::make_pair(this, &CJQGridAPI::JSCall);
 	m_JsfnOnTemplateExportClicked.d_onJsCall -= std::make_pair(this, &CJQGridAPI::JSCall);
 	m_JsfnOnBzjhTemplateExportClicked.d_onJsCall -= std::make_pair(this, &CJQGridAPI::JSCall);
+	m_JsfnOnScjhTemplateExportClicked.d_onJsCall -= std::make_pair(this, &CJQGridAPI::JSCall);
 	m_JsfnOnImportClicked.d_onJsCall -= std::make_pair(this, &CJQGridAPI::JSCall);
 }
 
@@ -280,6 +285,10 @@ VARIANT CJQGridAPI::JSCall(int id, const std::vector<VARIANT>& params)
 		else if ((int)&m_JsfnOnBzjhTemplateExportClicked == id)
 		{
 			d_OnBzjhTemplateExportClicked();
+		}
+		else if ((int)&m_JsfnOnScjhTemplateExportClicked == id)
+		{
+			d_OnScjhTemplateExportClicked();
 		}
 	}
 	return ret;
@@ -623,6 +632,36 @@ void CJQGridAPI::CancelSort()
 	params.push_back(vt);
 	m_pMedia->CallJsFunction(_T("cancelSort"), params);
 
+}
+
+void CJQGridAPI::HighLightCell(int rowId, int colId)
+{
+	SetCellColor(rowId, colId, 237, 28, 36);
+}
+
+void CJQGridAPI::SetCellColor(int rowId, int colId, int r, int g, int b)
+{
+	std::vector<VARIANT> params;
+	VARIANT vt = {};
+	vt.vt = VT_BSTR;
+	vt.bstrVal = m_gridName;
+	params.push_back(vt);
+	vt.vt = VT_I4;
+	vt.intVal = rowId;
+	params.push_back(vt);
+	vt.vt = VT_I4;
+	vt.intVal = colId;
+	params.push_back(vt);
+	vt.vt = VT_I4;
+	vt.intVal = r;
+	params.push_back(vt);
+	vt.vt = VT_I4;
+	vt.intVal = g;
+	params.push_back(vt);
+	vt.vt = VT_I4;
+	vt.intVal = b;
+	params.push_back(vt);
+	m_pMedia->CallJsFunction(_T("setCellColor"), params);
 }
 
 //void CJQGridAPI::UncheckedAll()

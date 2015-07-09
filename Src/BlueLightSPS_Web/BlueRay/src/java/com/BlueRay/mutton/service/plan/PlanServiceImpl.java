@@ -32,6 +32,7 @@ import com.BlueRay.mutton.model.entity.jpa.ZZS;
 import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXExcelExporter;
 import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXTemplateBzjhExporter;
 import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXTemplateExporter;
+import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXTemplateScjhExporter;
 import com.BlueRay.mutton.service.sale.SaleServiceImpl;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
@@ -522,6 +523,21 @@ public class PlanServiceImpl implements PlanService {
 		snNumber.setMax((maxNum + 1) % 100000);
 		snDao.saveSN(snNumber);		
 		return maxNum;
+	}
+
+	public String scjhtemplateExport(OutputStream out, JSONObject jquery) {
+		AbstractExcel<PCJHXX> excel = planDao.getPcjhExcel(jquery, planTranslator);
+		IExcelExporter<PCJHXX> exportor = new DBPCJHXXTemplateScjhExporter(itemDao, saleDao, planDao, excel, out);
+		
+		try {
+			exportor.exports();
+			out.close();
+			return "success";
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "error";
 	}
 	
 	

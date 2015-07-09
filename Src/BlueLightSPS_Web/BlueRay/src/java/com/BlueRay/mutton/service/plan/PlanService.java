@@ -43,10 +43,12 @@ public interface PlanService {
 
 	String getBh(String item, String zzs);
 
-	String bzjhtemplateExport(OutputStream out, JSONObject fromObject);
+	String bzjhtemplateExport(OutputStream out, JSONObject jquery);
 
 	Integer resetCcSerialNumber();
 
 	Integer resetTcSerialNumber();
+
+	String scjhtemplateExport(OutputStream out, JSONObject jquery);
 
 }

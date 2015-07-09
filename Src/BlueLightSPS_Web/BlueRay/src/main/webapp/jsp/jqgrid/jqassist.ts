@@ -559,13 +559,13 @@ module JQTable {
                     var col = this.id(iCol);
                     var grid = $("#" + this.mGridName + "");
                     //得到显示到界面的id集合
-                    var mya = grid.getDataIDs();
-                    for (var i = iRowStart + 1; i < mya.length && i < iRowStart + ilen; i++) {
-                        grid.setCell(mya[i], col, '', {
+                    var ids = grid.getDataIDs();
+                    for (var i = iRowStart + 1; i < ids.length && i < iRowStart + ilen; i++) {
+                        grid.setCell(ids[i], col, '', {
                             display: 'none'
                         });
                     }
-                    $("#" + col + "" + mya[iRowStart] + "").attr("rowspan", ilen);
+                    $("#" + col + "" + ids[iRowStart] + "").attr("rowspan", ilen);
                     if (this.mOnMergedRows != undefined) {
                         this.mOnMergedRows(iCol, iRowStart, ilen);
                     }
@@ -576,11 +576,11 @@ module JQTable {
                     var col = this.id(iCol);
                     var grid = $("#" + this.mGridName + "");
                     //得到显示到界面的id集合
-                    var mya = grid.getDataIDs();
+                    var ids = grid.getDataIDs();
                     var mergelen = 1;
-                    var data = grid.getCell(mya[0], col);
-                    for (var i = 1; i < mya.length && i < mya.length; i++) {
-                        if (data == grid.getCell(mya[i], col)) {
+                    var data = grid.getCell(ids[0], col);
+                    for (var i = 1; i < ids.length && i < ids.length; i++) {
+                        if (data == grid.getCell(ids[i], col)) {
                             ++mergelen;
                         }
                         else {
@@ -588,11 +588,11 @@ module JQTable {
                                 this.mergeRow(iCol, i - mergelen, mergelen);
                             }
                             mergelen = 1;
-                            data = grid.getCell(mya[i], col);
+                            data = grid.getCell(ids[i], col);
                         }
                     }
                     if (mergelen > 1) {
-                        this.mergeRow(iCol, mya.length - mergelen, mergelen);
+                        this.mergeRow(iCol, ids.length - mergelen, mergelen);
                     }
                 });
             }
@@ -641,15 +641,15 @@ module JQTable {
             else {
                 this.completeList.push(() => {
                     var grid = $("#" + this.mGridName + "");
-                    var mya = grid.getDataIDs();
-                    for (var i = 0; i < mya.length; i++) {
-                        var leftCell = $("#" + this.mGridName + " #" + mya[i] + " #" + this.id(col) + mya[i]);
+                    var ids = grid.getDataIDs();
+                    for (var i = 0; i < ids.length; i++) {
+                        var leftCell = $("#" + this.mGridName + " #" + ids[i] + " #" + this.id(col) + ids[i]);
                         var rightCell = leftCell.next();
                         if (leftCell.css("display") != "none" && rightCell.css("display") != "none" &&
-                            grid.getCell(mya[i], col) == grid.getCell(mya[i], col + 1)) {
-                            var content = grid.getCell(mya[i], col);
-                            grid.setCell(mya[i], col, content.substring(0, content.length / 2));
-                            grid.setCell(mya[i], col + 1, content.substring(content.length / 2, content.length));
+                            grid.getCell(ids[i], col) == grid.getCell(ids[i], col + 1)) {
+                            var content = grid.getCell(ids[i], col);
+                            grid.setCell(ids[i], col, content.substring(0, content.length / 2));
+                            grid.setCell(ids[i], col + 1, content.substring(content.length / 2, content.length));
                             this.mergeColum(col, i);
                         }
                     }

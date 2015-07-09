@@ -225,3 +225,19 @@ namespace nsNotification{
 #define DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(name) \
 	CJsonQueryParam name;\
 	MAKE_PLAN_QUERY_PARAM(name)
+
+inline bool GGisS(CString& ggxh){
+	return !ggxh.IsEmpty() && ggxh.Left(1) == L"S";
+}
+
+inline bool GGisS_AB(CString& ggxh){
+	return ggxh.GetLength() > 1 && (ggxh.Left(2) == L"SA" || ggxh.Left(2) == L"SB");
+}
+
+inline bool GGisTA(CString& ggxh){
+	return ggxh.GetLength() > 1 && (ggxh.Left(2) == L"TA");
+}
+
+inline bool GGisTA_AB(CString& ggxh){
+	return ggxh.GetLength() > 2 && (ggxh.Left(3) == L"TAA" || ggxh.Left(3) == L"TAB");
+}

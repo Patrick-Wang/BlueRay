@@ -5,10 +5,17 @@
 CFileOutputStream::CFileOutputStream(LPCTSTR lpFileName)
 	: m_fp(NULL)
 	, m_size(0)
+	, m_strFile(lpFileName)
+	, m_bCreated(false)
+	, m_bUsed(false)
 {
 	if (NULL != lpFileName)
 	{
 		Util_Tools::Util::MakeDir(lpFileName);
+		if (!::PathFileExists(lpFileName))
+		{
+			m_bCreated = true;
+		}
 		_tfopen_s(&m_fp, lpFileName, L"wb");
 	}
 	
@@ -23,12 +30,17 @@ CFileOutputStream::CFileOutputStream(LPCTSTR lpFileName)
 CFileOutputStream::~CFileOutputStream()
 {
 	close();
+	if (m_bCreated && !m_bUsed)
+	{
+		DeleteFile(m_strFile);
+	}
 }
 
 bool CFileOutputStream::write(BYTE* pStart, int length)
 {
 	if (NULL != m_fp)
 	{
+		m_bUsed = true;
 		fwrite(pStart, 1, length, m_fp);
 		m_size += length;
 		return true;
