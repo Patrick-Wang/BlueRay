@@ -205,17 +205,17 @@ BOOL CLoginDlg::OnInitDialog()
 
 	SetTimer(TM_INITUI, 500, NULL);
 	
-	CString path;
-	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
-	path.ReleaseBuffer();
-
-#ifndef _DEBUG
-	path.Replace(_T("BlueLightPLM.exe"), _T("test.txt"));
-	if (!PathFileExists(path))
-	{
-		g_strHostName = _T("192.168.104.253");
-	}
-#endif
+//	CString path;
+//	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
+//	path.ReleaseBuffer();
+//
+//#ifndef _DEBUG
+//	path.Replace(_T("BlueLightPLM.exe"), _T("test.txt"));
+//	if (!PathFileExists(path))
+//	{
+//		g_strHostName = _T("192.168.104.253");
+//	}
+//#endif
 	CAssociation* asso = CAssociation::GetInstance();
 
 	return TRUE;  // return TRUE unless you set the focus to a control

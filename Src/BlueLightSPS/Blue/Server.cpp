@@ -1,10 +1,21 @@
 #include "stdafx.h"
 #include "Server.h"
-
+#include <fstream>
 CServer::CServer()
 	: m_lpHttp(NULL)
 {
+	
+	CString path;
+	GetModuleFileName(AfxGetInstanceHandle(), path.GetBuffer(MAX_PATH), MAX_PATH);
+	path.ReleaseBuffer();
+	path.Replace(_T("BlueLightPLM.exe"), _T("ipconfig.txt"));
+	if (PathFileExists(path)){
 
+		std::wfstream infile(path);
+		std::wstring temp;
+		std::getline(infile, temp);
+		g_strHostName = temp.c_str();
+	}
 }
 
 
