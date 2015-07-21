@@ -850,6 +850,9 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 
 	INT_PTR dlgResult = IDCANCEL;
 	
+	bool bIfUpdateSaleInfo = false;
+	vector<CString> resultRow;
+
 	switch (m_enumCurrentApprovingItem)
 	{
 	case CNotificationPanel::Approving_NULL:
@@ -857,6 +860,8 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 	case CNotificationPanel::Approving_SaleBusiness:
 	case CNotificationPanel::Approving_SalePlan:
 	{
+		bIfUpdateSaleInfo = true;
+
 		std::auto_ptr<CNotificationAddDlgForSale::Option_t> pstOpt;
 		CNotificationAddDlgForSale dlg(_T("销售审核"));
 
@@ -888,6 +893,11 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 		dlg.SetOption(pstOpt.get());
 
 		dlgResult = dlg.DoModal();
+
+		if (IDOK == dlgResult)
+		{
+			resultRow = dlg.GetResult();
+		}
 
 		break;
 	}
@@ -940,6 +950,30 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 
 	if (IDOK == dlgResult)
 	{
+		//同步修改信息，当销售审核时????
+		if (bIfUpdateSaleInfo)
+		{
+			class CUpdateListener : public CPromise<bool>::IHttpResponse{
+				CONSTRUCTOR_2(CUpdateListener, CNotificationPanel&, notificationPanel, StringArray&, cacheRow)
+			public:
+				virtual void OnSuccess(bool& ret){
+					if (ret)
+					{
+					}
+					else
+					{
+						m_notificationPanel.MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+					}
+					m_notificationPanel.GetParent()->EnableWindow(TRUE);
+				}
+				virtual void OnFailed(){
+					m_notificationPanel.MessageBox(_T("修改数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
+					m_notificationPanel.GetParent()->EnableWindow(TRUE);
+				}
+			};
+
+			CServer::GetInstance()->GetSale().Update(checkedRows, resultRow).then(new CUpdateListener(*this, resultRow));
+		}
 
 
 		class CApproveListener : public CPromise<StringArray>::IHttpResponse{
