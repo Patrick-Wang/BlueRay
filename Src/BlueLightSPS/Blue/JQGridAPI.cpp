@@ -631,12 +631,11 @@ void CJQGridAPI::CancelSort()
 	vt.bstrVal = m_gridName;
 	params.push_back(vt);
 	m_pMedia->CallJsFunction(_T("cancelSort"), params);
-
 }
 
 void CJQGridAPI::HighLightCell(int rowId, int colId)
 {
-	SetCellColor(rowId, colId, 237, 28, 36);
+	SetCellColor(rowId, colId, 255, 242, 0);
 }
 
 void CJQGridAPI::SetCellColor(int rowId, int colId, int r, int g, int b)

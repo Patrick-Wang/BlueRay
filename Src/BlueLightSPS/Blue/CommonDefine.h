@@ -216,7 +216,8 @@ namespace nsNotification{
 
 #define MAKE_PLAN_QUERY_PARAM(name) \
 	name.AddSortCondition(nsPlan::Column_en::ggxh, true); \
-	name.AddSortCondition(nsPlan::Column_en::khmc, true); 
+	name.AddSortCondition(nsPlan::Column_en::khmc, true); \
+	name.AddSortCondition(nsPlan::Column_en::tcbh, true);
 
 #define DEFINE_NOTIFICATION_SALE_QUERY_PARAM(name) \
 	CJsonQueryParam name;\
@@ -230,14 +231,10 @@ inline bool GGisS(CString& ggxh){
 	return !ggxh.IsEmpty() && ggxh.Left(1) == L"S";
 }
 
-inline bool GGisS_AB(CString& ggxh){
-	return ggxh.GetLength() > 1 && (ggxh.Left(2) == L"SA" || ggxh.Left(2) == L"SB");
-}
-
 inline bool GGisTA(CString& ggxh){
 	return ggxh.GetLength() > 1 && (ggxh.Left(2) == L"TA");
 }
 
-inline bool GGisTA_AB(CString& ggxh){
-	return ggxh.GetLength() > 2 && (ggxh.Left(3) == L"TAA" || ggxh.Left(3) == L"TAB");
+inline bool GGisU(CString& ggxh){
+	return ggxh.GetLength() > 0 && (ggxh.Left(1) == L"U");
 }

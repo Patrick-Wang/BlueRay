@@ -18,6 +18,7 @@ function setRowFgColor(gridName: string, rowId: number, r: number, g: number, b:
 
 function setCellColor(gridName: string, rowId: number, colId: number, r: number, g: number, b: number) {
     var colIdInternal: string = gridName + "_col_" + colId;
+   // alert(colIdInternal);
     grids[gridName].setCellColor(rowId, colIdInternal, r, g, b);
 }
 

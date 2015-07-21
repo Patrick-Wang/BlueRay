@@ -434,7 +434,9 @@ public class SaleServiceImpl implements SaleService {
 				
 				if (letter > 0){
 					ggxh.setDw(value.substring(num, letter));
-					ggxh.setTs(value.substring(letter));
+					if (value.length() > letter){
+						ggxh.setTs(value.substring(letter, letter + 1));
+					}
 				}
 			}
 		}
@@ -672,6 +674,9 @@ public class SaleServiceImpl implements SaleService {
 	public void upgradeGgxh() {
 		List<CPGGXHXX> ggxhs = itemDao.getGGXHs();
 		for (CPGGXHXX ggxh : ggxhs){
+			ggxh.setDw("");
+			ggxh.setTs("");
+			ggxh.setXh("");
 			upgradeGgxh(ggxh, ggxh.getGg());
 			itemDao.update(ggxh);
 		}

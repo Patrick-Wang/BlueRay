@@ -885,26 +885,54 @@ void CPlanPanel::HighLight()
 {
 	for (size_t i = 0, len = m_table.size(); i < len; i++)
 	{
-		CString& ggxh = m_table[i].second[nsPlan::ggxh];
-		if (GGisS(ggxh))
-		{
-			if (m_table[i].second[nsPlan::zdqdy] == L"AC220V" && 
-				m_table[i].second[nsPlan::zdqxh] == L"DZE - 14EA"){
-				m_pJqGridAPI->HighLightRow(m_table[i].first);
+		//m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqdy);
+		StringArray& row = m_table[i].second;
+		CString& ggxh = row[nsPlan::ggxh];
+		if (GGisS(ggxh)){
+			if (row[nsPlan::zdqdy].CompareNoCase(L"220v") == 0 && row[nsPlan::zdqxh].CompareNoCase(L"DZE-14EB2") != 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqxh);
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqdy);
+			}
+			else if (row[nsPlan::zdqdy].CompareNoCase(L"DC110v") == 0 && row[nsPlan::zdqxh].CompareNoCase(L"DZE-14EA") != 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqxh);
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqdy);
 			}
 
-			if (!GGisS_AB(ggxh) &&
-				m_table[i].second[nsPlan::yylgg] == L"400*4*10*6")
-			{
-				m_pJqGridAPI->HighLightRow(m_table[i].first);
+			if (row[nsPlan::yylgg].CompareNoCase(L"400*5*10*16") == 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::yylgg);
 			}
 		}
-		else if (GGisTA(ggxh))
-		{
-			if (!GGisTA_AB(ggxh) &&
-				m_table[i].second[nsPlan::yylgg] == L"400*4*10*6")
-			{
-				m_pJqGridAPI->HighLightRow(m_table[i].first);
+		else if (GGisTA(ggxh)){
+			if (row[nsPlan::zdqdy].CompareNoCase(L"DC110v") != 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqdy);
+			}
+
+			if (row[nsPlan::zdqxh].CompareNoCase(L"WYT-TA.3£¨10»É£©") == 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqxh);
+			}
+			else if (row[nsPlan::zdqxh].CompareNoCase(L"WYT-TA.3£¨12»É£©") == 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqxh);
+			}
+
+			if (row[nsPlan::yylgg].CompareNoCase(L"400*5*10*16") != 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::yylgg);
+			}
+		}
+		else if (GGisU(ggxh)){
+			if (row[nsPlan::zdqdy].CompareNoCase(L"DC110v") != 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqdy);
+			}
+
+			if (row[nsPlan::zjdy].CompareNoCase(L"AC380V") != 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zjdy);
+			}
+
+			if (row[nsPlan::yylgg].CompareNoCase(L"480*7*12*18") != 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::yylgg);
+			}
+
+			if (row[nsPlan::jf].CompareNoCase(L"ÓÐ") != 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::jf);
 			}
 		}
 	}

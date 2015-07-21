@@ -1182,26 +1182,53 @@ void CSalePanel::HighLight()
 
 	for (size_t i = 0, len = m_table.size(); i < len; i++)
 	{
-		CString& ggxh = m_table[i].second[nsSale::ggxh];
-		if (GGisS(ggxh))
-		{
-			if (m_table[i].second[nsSale::zdqdy] == L"AC220V" &&
-				m_table[i].second[nsSale::zdqxh] == L"DZE - 14EA"){
-				m_pJqGridAPI->HighLightRow(m_table[i].first);
+		StringArray& row = m_table[i].second;
+		CString& ggxh = row[nsSale::ggxh];
+		if (GGisS(ggxh)){
+			if (row[nsSale::zdqdy].CompareNoCase(L"220v") == 0 && row[nsSale::zdqxh].CompareNoCase(L"DZE-14EB2") != 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::zdqxh);
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::zdqdy);
+			}
+			else if (row[nsSale::zdqdy].CompareNoCase(L"DC110v") == 0 && row[nsSale::zdqxh].CompareNoCase(L"DZE-14EA") != 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::zdqxh);
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::zdqdy);
 			}
 
-			if (!GGisS_AB(ggxh) &&
-				m_table[i].second[nsSale::yylgg] == L"400*4*10*6")
-			{
-				m_pJqGridAPI->HighLightRow(m_table[i].first);
+			if (row[nsSale::yylgg].CompareNoCase(L"400*5*10*16") == 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::yylgg);
 			}
 		}
-		else if (GGisTA(ggxh))
-		{
-			if (!GGisTA_AB(ggxh) &&
-				m_table[i].second[nsSale::yylgg] == L"400*4*10*6")
-			{
-				m_pJqGridAPI->HighLightRow(m_table[i].first);
+		else if (GGisTA(ggxh)){
+			if (row[nsSale::zdqdy].CompareNoCase(L"DC110v") != 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::zdqdy);
+			}
+
+			if (row[nsSale::zdqxh].CompareNoCase(L"WYT-TA.3£¨10»É£©") == 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::zdqxh);
+			}
+			else if (row[nsSale::zdqxh].CompareNoCase(L"WYT-TA.3£¨12»É£©") == 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::zdqxh);
+			}
+
+			if (row[nsSale::yylgg].CompareNoCase(L"400*5*10*16") != 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::yylgg);
+			}
+		}
+		else if (GGisU(ggxh)){
+			if (row[nsSale::zdqdy].CompareNoCase(L"DC110v") != 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::zdqdy);
+			}
+
+			if (row[nsSale::zjdy].CompareNoCase(L"AC380V") != 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::zjdy);
+			}
+
+			if (row[nsSale::yylgg].CompareNoCase(L"480*7*12*18") != 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::yylgg);
+			}
+
+			if (row[nsSale::jf].CompareNoCase(L"ÓÐ") != 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::jf);
 			}
 		}
 	}

@@ -106,7 +106,7 @@ module base {
         }
 
         public setCellColor(rowId: number, colId: number, r: number, g: number, b: number): void {
-            $("#" + this.mTableName + " #" + rowId + " #" + colId)
+            $("#" + this.mTableName + " #" + rowId + " #" + colId + rowId)
                 .css("background", "rgb(" + r + "," + g + "," + b + ")");
         }
 
