@@ -489,7 +489,6 @@ void CPlanPanel::OnBnClickedPlan()
 {
 	std::auto_ptr<CPlanAddDlg::Option_t> pstOpt;
 	CPlanAddDlg dlg(_T("ÅÅ²ú¼Æ»®"));
-	dlg.ConfigPlanBtns(m_bEnablePlanBtnForSCRQ, m_bEnablePlanBtnForBZRQ);
 
 	std::vector<int> checkedRows;
 	std::vector<CString>* pRowData = NULL;
@@ -497,6 +496,9 @@ void CPlanPanel::OnBnClickedPlan()
 
 	bool bIsAnyOrderHasJHJHSH = false;
 	bool bIsAnyOrderHasBZJHSH = false;
+
+	bool bIsAnyOrderHasJHYWSH = false;
+	bool bIsAnyOrderHasBZYWSH = false;
 
 	for (int i = checkedRows.size() - 1; i >= 0; --i)
 	{
@@ -530,8 +532,20 @@ void CPlanPanel::OnBnClickedPlan()
 			{
 				bIsAnyOrderHasBZJHSH = true;
 			}
+
+			if ((*pRowData)[nsPlan::jhshyw].Compare(_T("Y")) == 0)
+			{
+				bIsAnyOrderHasJHYWSH = true;
+			}
+
+			if ((*pRowData)[nsPlan::bzshyw].Compare(_T("Y")) == 0)
+			{
+				bIsAnyOrderHasBZYWSH = true;
+			}
 		}
 	}
+
+	dlg.ConfigPlanBtns(!bIsAnyOrderHasJHYWSH, !bIsAnyOrderHasBZYWSH);
 
 	dlg.SetOption(pstOpt.get());
 
