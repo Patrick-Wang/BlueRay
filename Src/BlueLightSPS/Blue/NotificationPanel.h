@@ -248,6 +248,8 @@ public:
 	afx_msg void OnBnClickedBtnReturn();
 	afx_msg void OnBnClickedBtnTableFilter();
 
+	void Approve(std::vector<int>& checkedRows);
+
 	bool IsSaleApproving();
 };
 

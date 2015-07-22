@@ -450,6 +450,9 @@ public class PlanServiceImpl implements PlanService {
 		}else{
 			ret = 'X' + ret;
 		}
+		if (!"true".equals(validate("tcbh", ret))){
+			return getTcbh(zzs);
+		}
 		return ret;
 	}
 	
@@ -462,6 +465,9 @@ public class PlanServiceImpl implements PlanService {
 			ret = zzs.getCode() + ret;
 		}else{
 			ret = 'X' + ret;
+		}
+		if (!"true".equals(validate("ccbh", ret))){
+			return getCcbh(zzs);
 		}
 		return ret;
 	}
