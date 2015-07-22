@@ -21,10 +21,12 @@ import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import com.BlueRay.mutton.common.ExporterUtil;
 import com.BlueRay.mutton.common.PcjhColumn;
 import com.BlueRay.mutton.model.dao.ItemDao;
 import com.BlueRay.mutton.model.dao.PlanDao;
@@ -130,7 +132,7 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 	}
 
 	private void exportEachDayOneSheet(HSSFWorkbook workbook,
-			HSSFCellStyle style, Map<Integer, HTXX> htxxMap) {
+			HSSFCellStyle style, HSSFCellStyle styleHighlight, Map<Integer, HTXX> htxxMap) {
 		List<PCJHXX> pcxxs = new ArrayList<PCJHXX>(1);
 		pcxxs.add(null);
 		String[] ret = new String[PcjhColumn.end.ordinal()];
@@ -175,8 +177,12 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 							List<Integer> cols = colsMap.get(j);
 							for (Integer col : cols) {
 								HSSFCell cell = row.createCell(col);
-								cell.setCellStyle(style);
 								cell.setCellValue(ret[j]);
+								 if (ExporterUtil.validatePlanHighlight(j, ret)){
+							    	 cell.setCellStyle(styleHighlight);
+							     }else{
+							    	 cell.setCellStyle(style);
+							     }
 							}
 						}
 					}
@@ -222,19 +228,28 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 		style.setBorderLeft(HSSFCellStyle.BORDER_THIN);// 左边框
 		style.setBorderTop(HSSFCellStyle.BORDER_THIN);// 上边框
 		style.setBorderRight(HSSFCellStyle.BORDER_THIN);// 右边框
+		
+		HSSFCellStyle styleHighlight = workbook.createCellStyle();
+		styleHighlight.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 下边框
+		styleHighlight.setBorderLeft(HSSFCellStyle.BORDER_THIN);// 左边框
+		styleHighlight.setBorderTop(HSSFCellStyle.BORDER_THIN);// 上边框
+		styleHighlight.setBorderRight(HSSFCellStyle.BORDER_THIN);// 右边框
+		styleHighlight.setFillForegroundColor(HSSFColor.YELLOW.index);
+		styleHighlight.setFillBackgroundColor(HSSFColor.YELLOW.index);
+		styleHighlight.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 		// HSSFFont font = workbook.createFont();
 		// font.setFontHeightInPoints((short) 16);
 		// style.setFont(font);
 		if (1 == templateStyle) {
-			this.exportEachDayOneSheet(workbook, style, htxxMap);
+			this.exportEachDayOneSheet(workbook, style, styleHighlight, htxxMap);
 		} else {
-			this.exportOnlyOneSheet(workbook, style, htxxMap);
+			this.exportOnlyOneSheet(workbook, style, styleHighlight, htxxMap);
 		}
 		workbook.write(os);
 	}
 
 	private void exportOnlyOneSheet(HSSFWorkbook workbook, HSSFCellStyle style,
-			Map<Integer, HTXX> htxxMap) {
+			HSSFCellStyle styleHighlight, Map<Integer, HTXX> htxxMap) {
 		List<PCJHXX> pcxxs = new ArrayList<PCJHXX>(1);
 		pcxxs.add(null);
 		String[] ret = new String[PcjhColumn.end.ordinal()];
@@ -242,27 +257,6 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 		if (null != sheet) {
 			HSSFRow row = null;
 			HSSFCell cell = null;
-//			HSSFRow row = sheet.createRow(sheet.getLastRowNum());
-//			for (int j = 1; j < PcjhColumn.end.ordinal(); ++j) {
-//				if (colsMap.containsKey(j)) {
-//					List<Integer> cols = colsMap.get(j);
-//					for (Integer col : cols) {
-//						HSSFCell cell = row.createCell(col);
-//						cell.setCellStyle(style);
-//						cell.setCellValue(title[j - 1]);
-//					}
-//				}
-//			}
-//			HSSFCell cell = row.createCell((int) row.getLastCellNum());
-//			cell.setCellStyle(style);
-//			cell.setCellValue("磁极角");
-//			cell = row.createCell((int) row.getLastCellNum());
-//			cell.setCellStyle(style);
-//			cell.setCellValue("径向跳动");
-//			cell = row.createCell((int) row.getLastCellNum());
-//			cell.setCellStyle(style);
-//			cell.setCellValue("法向跳动");
-
 			for (int i = 0, len = excel.getRowCount(); i < len; ++i) {
 				pcxxs.set(0, excel.getRow(i));
 				PlanServiceImpl.getHtxxMap(pcxxs, saleDao, planDao, htxxMap);
@@ -274,21 +268,16 @@ public class DBPCJHXXTemplateBzjhExporter implements IExcelExporter<PCJHXX> {
 						List<Integer> cols = colsMap.get(j);
 						for (Integer col : cols) {
 							cell = row.createCell(col);
-							cell.setCellStyle(style);
 							cell.setCellValue(ret[j]);
+							 if (ExporterUtil.validatePlanHighlight(j, ret)){
+						    	 cell.setCellStyle(styleHighlight);
+						     }else{
+						    	 cell.setCellStyle(style);
+						     }
 						}
 					}
 				}
 
-//				cell = row.createCell((int) row.getLastCellNum());
-//				cell.setCellStyle(style);
-//				cell.setCellValue("");
-//				cell = row.createCell((int) row.getLastCellNum());
-//				cell.setCellStyle(style);
-//				cell.setCellValue("");
-//				cell = row.createCell((int) row.getLastCellNum());
-//				cell.setCellStyle(style);
-//				cell.setCellValue("");
 
 			}			
 		}

@@ -238,3 +238,63 @@ inline bool GGisTA(CString& ggxh){
 inline bool GGisU(CString& ggxh){
 	return ggxh.GetLength() > 0 && (ggxh.Left(1) == L"U");
 }
+
+
+#define HighlightCell(id, row, ns, pGridAPI) \
+	{\
+CString& ggxh = row[ns::ggxh];\
+if (GGisS(ggxh)){\
+	if (row[ns::zdqdy].CompareNoCase(L"220v") == 0 && row[ns::zdqxh].CompareNoCase(L"DZE-14EB2") != 0){\
+		pGridAPI->HighLightCell(id, ns::zdqxh);\
+		pGridAPI->HighLightCell(id, ns::zdqdy);\
+	}\
+	else if (row[ns::zdqdy].CompareNoCase(L"DC110v") == 0 && row[ns::zdqxh].CompareNoCase(L"DZE-14EA") != 0){\
+		pGridAPI->HighLightCell(id, ns::zdqxh);\
+		pGridAPI->HighLightCell(id, ns::zdqdy);\
+	}\
+	\
+	if (row[ns::yylgg].CompareNoCase(L"400*5*10*16") != 0){\
+		pGridAPI->HighLightCell(id, ns::yylgg);\
+	}\
+}\
+else if (GGisTA(ggxh)){\
+	if (row[ns::zdqdy].CompareNoCase(L"DC110v") != 0){\
+		pGridAPI->HighLightCell(id, ns::zdqdy);\
+	}\
+	\
+	if (row[ns::zdqxh].CompareNoCase(L"WYT-TA.3£¨10»É£©") == 0){\
+		pGridAPI->HighLightCell(id, ns::zdqxh);\
+	}\
+	else if (row[ns::zdqxh].CompareNoCase(L"WYT-TA.3£¨12»É£©") == 0){\
+		pGridAPI->HighLightCell(id, ns::zdqxh);\
+	}\
+	\
+	if (row[ns::yylgg].CompareNoCase(L"400*5*10*16") != 0){\
+		pGridAPI->HighLightCell(id, ns::yylgg);\
+	}\
+}\
+else if (GGisU(ggxh)){\
+	if (row[ns::zdqdy].CompareNoCase(L"DC110v") != 0){\
+		pGridAPI->HighLightCell(id, ns::zdqdy);\
+	}\
+	\
+	if (row[ns::zjdy].CompareNoCase(L"AC380V") != 0){\
+		pGridAPI->HighLightCell(id, ns::zjdy);\
+	}\
+	\
+	if (row[ns::yylgg].CompareNoCase(L"480*7*12*18") != 0){\
+		pGridAPI->HighLightCell(id, ns::yylgg);\
+	}\
+	\
+	if (row[ns::jf].CompareNoCase(L"ÓÐ") != 0){\
+		pGridAPI->HighLightCell(id, ns::jf);\
+	}\
+	\
+	if (row[ns::bmqxh].CompareNoCase(L"º£1387") != 0){\
+		pGridAPI->HighLightCell(id, ns::bmqxh);\
+	}\
+}\
+	}
+
+#define SaleHighlightCell(id, row, pGridAPI) HighlightCell(id, row, nsSale, pGridAPI)
+#define PlanHighlightCell(id, row, pGridAPI) HighlightCell(id, row, nsPlan, pGridAPI)

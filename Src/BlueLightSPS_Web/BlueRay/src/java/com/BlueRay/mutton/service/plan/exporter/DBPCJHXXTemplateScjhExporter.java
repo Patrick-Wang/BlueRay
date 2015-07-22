@@ -17,7 +17,9 @@ import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
 
+import com.BlueRay.mutton.common.ExporterUtil;
 import com.BlueRay.mutton.common.PcjhColumn;
 import com.BlueRay.mutton.model.dao.ItemDao;
 import com.BlueRay.mutton.model.dao.PlanDao;
@@ -76,21 +78,21 @@ public class DBPCJHXXTemplateScjhExporter implements IExcelExporter<PCJHXX> {
 		PcjhColumn.bz
 	};
 
-	private boolean isSorT(String ggxh){
-		if (!ggxh.isEmpty()){
-			String tag = ggxh.substring(0, 1);
-			return tag.equals("S") || tag.equals("T");
-		}
-		return false;
-	}
-	
-	private boolean isU(String ggxh){
-		if (!ggxh.isEmpty()){
-			String tag = ggxh.substring(0, 1);
-			return tag.equals("U");
-		}
-		return false;
-	}
+//	private boolean isSorT(String ggxh){
+//		if (!ggxh.isEmpty()){
+//			String tag = ggxh.substring(0, 1);
+//			return tag.equals("S") || tag.equals("T");
+//		}
+//		return false;
+//	}
+//	
+//	private boolean isU(String ggxh){
+//		if (!ggxh.isEmpty()){
+//			String tag = ggxh.substring(0, 1);
+//			return tag.equals("U");
+//		}
+//		return false;
+//	}
 	
 	public void exports() throws IOException {
 		
@@ -105,6 +107,14 @@ public class DBPCJHXXTemplateScjhExporter implements IExcelExporter<PCJHXX> {
 		style.setBorderTop(HSSFCellStyle.BORDER_THIN);// 上边框
 		style.setBorderRight(HSSFCellStyle.BORDER_THIN);// 右边框
 		
+		HSSFCellStyle styleHighlight = workbook.createCellStyle();
+		styleHighlight.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 下边框
+		styleHighlight.setBorderLeft(HSSFCellStyle.BORDER_THIN);// 左边框
+		styleHighlight.setBorderTop(HSSFCellStyle.BORDER_THIN);// 上边框
+		styleHighlight.setBorderRight(HSSFCellStyle.BORDER_THIN);// 右边框
+		styleHighlight.setFillForegroundColor(HSSFColor.YELLOW.index);
+		styleHighlight.setFillBackgroundColor(HSSFColor.YELLOW.index);
+		styleHighlight.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
 //		HSSFSheet sheetST = workbook.getSheetAt(0);
 //		HSSFSheet sheetU = workbook.getSheetAt(1);
 //		HSSFSheet sheetOther = workbook.getSheetAt(2);
@@ -124,82 +134,82 @@ public class DBPCJHXXTemplateScjhExporter implements IExcelExporter<PCJHXX> {
 			String scrq = ret[PcjhColumn.scrq.ordinal()];
 			if (!scrq.isEmpty()){
 				String ggxh = ret[PcjhColumn.ggxh.ordinal()];			
-				if (isSorT(ggxh)){
+				if (Util.ggIsS(ggxh) || Util.ggIsT(ggxh)){
 					if (!mapScrq2Sheet.containsKey(scrq + "_ST")){
 						mapScrq2Sheet.put(scrq + "_ST", workbook.cloneSheet(0));
 						mapScrq2Count.put(scrq + "_ST", 1);
 					}
-					export2SorT(ret, mapScrq2Sheet.get(scrq + "_ST"), style, mapScrq2Count.get(scrq + "_ST"));
+					export2SorT(ret, mapScrq2Sheet.get(scrq + "_ST"), style, styleHighlight, mapScrq2Count.get(scrq + "_ST"));
 					mapScrq2Count.put(scrq + "_ST", 1 + mapScrq2Count.get(scrq + "_ST"));
-				} else if(isU(ggxh)){
+				} else if(Util.ggIsU(ggxh)){
 					if (!mapScrq2Sheet.containsKey(scrq + "_U")){
 						mapScrq2Sheet.put(scrq + "_U", workbook.cloneSheet(1));
 						mapScrq2Count.put(scrq + "_U", 1);
 					}
-					export2U(ret, mapScrq2Sheet.get(scrq + "_U"), style, mapScrq2Count.get(scrq + "_U"));
+					export2U(ret, mapScrq2Sheet.get(scrq + "_U"), style, styleHighlight, mapScrq2Count.get(scrq + "_U"));
 					mapScrq2Count.put(scrq + "_U", 1 + mapScrq2Count.get(scrq + "_U"));
 				} else{
 					if (!mapScrq2Sheet.containsKey(scrq + "_OTHER")){
 						mapScrq2Sheet.put(scrq + "_OTHER", workbook.cloneSheet(2));
 						mapScrq2Count.put(scrq + "_OTHER", 1);
 					}
-					export2Other(ret, mapScrq2Sheet.get(scrq + "_OTHER"), style, mapScrq2Count.get(scrq + "_OTHER"));
+					export2Other(ret, mapScrq2Sheet.get(scrq + "_OTHER"), style, styleHighlight, mapScrq2Count.get(scrq + "_OTHER"));
 					mapScrq2Count.put(scrq + "_OTHER", 1 + mapScrq2Count.get(scrq + "_OTHER"));
 				}
 			}
 		}	
 		
-		HSSFCellStyle styleBottom = workbook.createCellStyle();
-		styleBottom.setBorderBottom(HSSFCellStyle.BORDER_MEDIUM); // 下边框
-		styleBottom.setBorderLeft(HSSFCellStyle.BORDER_THIN);// 左边框
-		styleBottom.setBorderTop(HSSFCellStyle.BORDER_THIN);// 上边框
-		styleBottom.setBorderRight(HSSFCellStyle.BORDER_THIN);// 右边框
-		
-		HSSFCellStyle styleBottomRight = workbook.createCellStyle();
-		styleBottomRight.setBorderBottom(HSSFCellStyle.BORDER_MEDIUM); // 下边框
-		styleBottomRight.setBorderLeft(HSSFCellStyle.BORDER_THIN);// 左边框
-		styleBottomRight.setBorderTop(HSSFCellStyle.BORDER_THIN);// 上边框
-		styleBottomRight.setBorderRight(HSSFCellStyle.BORDER_MEDIUM);// 右边框
-		
-		HSSFCellStyle styleRight = workbook.createCellStyle();
-		styleRight.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 下边框
-		styleRight.setBorderLeft(HSSFCellStyle.BORDER_THIN);// 左边框
-		styleRight.setBorderTop(HSSFCellStyle.BORDER_THIN);// 上边框
-		styleRight.setBorderRight(HSSFCellStyle.BORDER_MEDIUM);// 右边框
-				
-		for (String key : mapScrq2Sheet.keySet()) {
-			if (key.contains("_OTHER")) {
-				HSSFSheet sheetOther = mapScrq2Sheet.get(key);
-				HSSFRow row = sheetOther.getRow(sheetOther.getLastRowNum());
-				for (int i = 0; i < row.getLastCellNum() - 1; ++i){
-					row.getCell(i).setCellStyle(styleBottom);
-				}
-				row.getCell(columns.length).setCellStyle(styleBottomRight);
-				for (int i = 2; i < sheetOther.getLastRowNum(); ++i){
-					sheetOther.getRow(i).getCell(columns.length).setCellStyle(styleRight);
-				}
-			} else if (key.contains("_U")) {
-				HSSFSheet sheetU = mapScrq2Sheet.get(key);
-				HSSFRow row = sheetU.getRow(sheetU.getLastRowNum());
-				for (int i = 0; i < row.getLastCellNum() - 1; ++i){
-					row.getCell(i).setCellStyle(styleBottom);
-				}
-				row.getCell(columns.length).setCellStyle(styleBottomRight);
-				for (int i = 2; i < sheetU.getLastRowNum(); ++i){
-					sheetU.getRow(i).getCell(columns.length).setCellStyle(styleRight);
-				}
-			} else if (key.contains("_ST")) {
-				HSSFSheet sheetST = mapScrq2Sheet.get(key);
-				HSSFRow row = sheetST.getRow(sheetST.getLastRowNum());
-				for (int i = 0; i < row.getLastCellNum() - 1; ++i){
-					row.getCell(i).setCellStyle(styleBottom);
-				}
-				row.getCell(columns.length).setCellStyle(styleBottomRight);
-				for (int i = 3; i < sheetST.getLastRowNum(); ++i){
-					sheetST.getRow(i).getCell(columns.length).setCellStyle(styleRight);
-				}
-			}
-		}
+//		HSSFCellStyle styleBottom = workbook.createCellStyle();
+//		styleBottom.setBorderBottom(HSSFCellStyle.BORDER_MEDIUM); // 下边框
+//		styleBottom.setBorderLeft(HSSFCellStyle.BORDER_THIN);// 左边框
+//		styleBottom.setBorderTop(HSSFCellStyle.BORDER_THIN);// 上边框
+//		styleBottom.setBorderRight(HSSFCellStyle.BORDER_THIN);// 右边框
+//		
+//		HSSFCellStyle styleBottomRight = workbook.createCellStyle();
+//		styleBottomRight.setBorderBottom(HSSFCellStyle.BORDER_MEDIUM); // 下边框
+//		styleBottomRight.setBorderLeft(HSSFCellStyle.BORDER_THIN);// 左边框
+//		styleBottomRight.setBorderTop(HSSFCellStyle.BORDER_THIN);// 上边框
+//		styleBottomRight.setBorderRight(HSSFCellStyle.BORDER_MEDIUM);// 右边框
+//		
+//		HSSFCellStyle styleRight = workbook.createCellStyle();
+//		styleRight.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 下边框
+//		styleRight.setBorderLeft(HSSFCellStyle.BORDER_THIN);// 左边框
+//		styleRight.setBorderTop(HSSFCellStyle.BORDER_THIN);// 上边框
+//		styleRight.setBorderRight(HSSFCellStyle.BORDER_MEDIUM);// 右边框
+//				
+//		for (String key : mapScrq2Sheet.keySet()) {
+//			if (key.contains("_OTHER")) {
+//				HSSFSheet sheetOther = mapScrq2Sheet.get(key);
+//				HSSFRow row = sheetOther.getRow(sheetOther.getLastRowNum());
+//				for (int i = 0; i < row.getLastCellNum() - 1; ++i){
+//					row.getCell(i).setCellStyle(styleBottom);
+//				}
+//				row.getCell(columns.length).setCellStyle(styleBottomRight);
+//				for (int i = 2; i < sheetOther.getLastRowNum(); ++i){
+//					sheetOther.getRow(i).getCell(columns.length).setCellStyle(styleRight);
+//				}
+//			} else if (key.contains("_U")) {
+//				HSSFSheet sheetU = mapScrq2Sheet.get(key);
+//				HSSFRow row = sheetU.getRow(sheetU.getLastRowNum());
+//				for (int i = 0; i < row.getLastCellNum() - 1; ++i){
+//					row.getCell(i).setCellStyle(styleBottom);
+//				}
+//				row.getCell(columns.length).setCellStyle(styleBottomRight);
+//				for (int i = 2; i < sheetU.getLastRowNum(); ++i){
+//					sheetU.getRow(i).getCell(columns.length).setCellStyle(styleRight);
+//				}
+//			} else if (key.contains("_ST")) {
+//				HSSFSheet sheetST = mapScrq2Sheet.get(key);
+//				HSSFRow row = sheetST.getRow(sheetST.getLastRowNum());
+//				for (int i = 0; i < row.getLastCellNum() - 1; ++i){
+//					row.getCell(i).setCellStyle(styleBottom);
+//				}
+//				row.getCell(columns.length).setCellStyle(styleBottomRight);
+//				for (int i = 3; i < sheetST.getLastRowNum(); ++i){
+//					sheetST.getRow(i).getCell(columns.length).setCellStyle(styleRight);
+//				}
+//			}
+//		}
 		
 		workbook.removeSheetAt(2);
 		workbook.removeSheetAt(1);
@@ -217,7 +227,7 @@ public class DBPCJHXXTemplateScjhExporter implements IExcelExporter<PCJHXX> {
 	}
 	
 	private void export2Other(String[] ret, HSSFSheet sheetOther,
-			HSSFCellStyle style, int count) {
+			HSSFCellStyle style, HSSFCellStyle styleHighlight, int count) {
 		HSSFCell cellTitle = sheetOther.getRow(0).getCell(0);
 		String val = cellTitle.getStringCellValue();
 		val = val.replace("XXX", getRq(ret[PcjhColumn.scrq.ordinal()]));
@@ -229,12 +239,16 @@ public class DBPCJHXXTemplateScjhExporter implements IExcelExporter<PCJHXX> {
 		for (int i = 0; i < columns.length; ++i){
 			cell = row.createCell(i + 1);
 			cell.setCellValue(ret[columns[i].ordinal()]);
-			cell.setCellStyle(style);
+			if (ExporterUtil.validatePlanHighlight(columns[i], ret)){
+				cell.setCellStyle(styleHighlight);
+			}else{
+				cell.setCellStyle(style);
+			}
 		}
 	}
 
 	private void export2U(String[] ret, HSSFSheet sheetU, HSSFCellStyle style,
-			int count) {
+			HSSFCellStyle styleHighlight, int count) {
 		HSSFCell cellTitle = sheetU.getRow(0).getCell(0);
 		String val = cellTitle.getStringCellValue();
 		val = val.replace("XXX", getRq(ret[PcjhColumn.scrq.ordinal()]));
@@ -246,12 +260,16 @@ public class DBPCJHXXTemplateScjhExporter implements IExcelExporter<PCJHXX> {
 		for (int i = 0; i < columns.length; ++i){
 			cell = row.createCell(i + 1);
 			cell.setCellValue(ret[columns[i].ordinal()]);
-			cell.setCellStyle(style);
+			if (ExporterUtil.validatePlanHighlight(columns[i], ret)){
+				cell.setCellStyle(styleHighlight);
+			}else{
+				cell.setCellStyle(style);
+			}
 		}
 	}
 
 	private void export2SorT(String[] ret, HSSFSheet sheetST,
-			HSSFCellStyle style, int count) {
+			HSSFCellStyle style, HSSFCellStyle styleHighlight, int count) {
 		
 		HSSFCell cellTitle = sheetST.getRow(0).getCell(0);
 		String val = cellTitle.getStringCellValue();
@@ -274,7 +292,11 @@ public class DBPCJHXXTemplateScjhExporter implements IExcelExporter<PCJHXX> {
 		for (int i = 0; i < columns.length; ++i){
 			cell = row.createCell(i + 1);
 			cell.setCellValue(ret[columns[i].ordinal()]);
-			cell.setCellStyle(style);
+			if (ExporterUtil.validatePlanHighlight(columns[i], ret)){
+				cell.setCellStyle(styleHighlight);
+			}else{
+				cell.setCellStyle(style);
+			}
 		}
 	}
 }

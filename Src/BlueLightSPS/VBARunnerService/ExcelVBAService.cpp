@@ -6,12 +6,107 @@
 #include "JsonParser.h"
 #include "JsonObjects.h"
 #include "JsonType.h"
+#include "Cnterior.h"
+#include "CommonDefine.h"
 static CApplication ExcelApp;
 static CWorkbooks books;
 static CWorkbook book;
 static CWorksheets sheets;
 static CWorksheet sheet;
 static CRange range;
+static Cnterior nterior;
+
+
+
+
+class ExporterUtil {
+public:
+	static int CompareNoCase(Json::json_string& s1, LPCTSTR s2){
+		return CString(s2).CompareNoCase(s1.c_str());
+	}
+
+	static bool validatePlanHighlight(nsPlan::Column_en col, Json::JsonArray& row){
+		CString ggxh = row.asString(nsPlan::ggxh).c_str();
+		if (GGisS(ggxh)){
+			if (0 == CompareNoCase(row.asString(nsPlan::zdqdy), L"220v") &&
+				0 != CompareNoCase(row.asString(nsPlan::zdqxh), L"DZE-14EB2")){
+				if (col == nsPlan::zdqxh || col == nsPlan::zdqdy){
+					return true;
+				}
+			}
+			else if (0 == CompareNoCase(row.asString(nsPlan::zdqdy), L"DC110v") &&
+				0 != CompareNoCase(row.asString(nsPlan::zdqxh), L"DZE-14EA")){
+				if (col == nsPlan::zdqxh || col == nsPlan::zdqdy){
+					return true;
+				}
+			}
+
+			if (0 != CompareNoCase(row.asString(nsPlan::yylgg), L"400*5*10*16")){
+				if (col == nsPlan::yylgg){
+					return true;
+				}
+			}
+		}
+		else if (GGisTA(ggxh)){
+			if (0 != CompareNoCase(row.asString(nsPlan::zdqdy), L"DC110v")){
+				if (col == nsPlan::zdqdy){
+					return true;
+				}
+			}
+
+			if (0 == CompareNoCase(row.asString(nsPlan::zdqxh), L"WYT-TA.3£¨10»É£©")){
+				if (col == nsPlan::zdqxh){
+					return true;
+				}
+			}
+			else if (0 == CompareNoCase(row.asString(nsPlan::zdqxh), L"WYT-TA.3£¨12»É£©")){
+				if (col == nsPlan::zdqxh){
+					return true;
+				}
+			}
+
+			if (0 != CompareNoCase(row.asString(nsPlan::yylgg), L"400*5*10*16")){
+				if (col == nsPlan::yylgg){
+					return true;
+				}
+			}
+		}
+		else if (GGisU(ggxh)){
+			if (0 != CompareNoCase(row.asString(nsPlan::zdqdy), L"DC110v")){
+				if (col == nsPlan::zdqdy){
+					return true;
+				}
+			}
+
+			if (0 != CompareNoCase(row.asString(nsPlan::zjdy), L"AC380V")){
+				if (col == nsPlan::zjdy){
+					return true;
+				}
+			}
+
+			if (0 != CompareNoCase(row.asString(nsPlan::yylgg), L"480*7*12*18")){
+				if (col == nsPlan::yylgg){
+					return true;
+				}
+			}
+
+			if (0 != CompareNoCase(row.asString(nsPlan::jf), L"ÓÐ")){
+				if (col == nsPlan::jf){
+					return true;
+				}
+			}
+
+			if (0 != CompareNoCase(row.asString(nsPlan::bmqxh), L"º£1387")){
+				if (col == nsPlan::bmqxh){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+
+};
 
 ExcelVBAService::ExcelVBAService()
 	: m_bStarted(false)
@@ -155,7 +250,9 @@ void getGgxhType(Json::json_string& ggxh, Json::JsonObject& tempalteMap, CString
 void ExcelVBAService::UpdateSheet(Json::JsonArray& row, Json::JsonObject& tempalteMap)
 {
 	CString strType;
-	getGgxhType(row.asString(PcjhColumn::ggxh), tempalteMap, strType);
+	int id = _tstoi(row.asString(0).c_str());
+	row.erase(0);
+	getGgxhType(row.asString(nsPlan::Column_en::ggxh), tempalteMap, strType);
 	LPDISPATCH lpDisp = sheets.get_Item(COleVariant(strType));
 	sheet.AttachDispatch(lpDisp);
 	CString col;
@@ -167,29 +264,27 @@ void ExcelVBAService::UpdateSheet(Json::JsonArray& row, Json::JsonObject& tempal
 		if (sheetMap.isValid((LPTSTR)(LPCTSTR)col))
 		{
 			Json::JsonArray& cells = sheetMap.asArray((LPTSTR)(LPCTSTR)col);
+
 			if (row.typeOf(i) == Json::JsonTypeTag::jnull)
 			{
-				UpdateCells(cells, empty );
+				row.items()[i].reset(Json::JsonFactory::createString(L""));
 			}
-			else
-			{
-				UpdateCells(cells, row.asString(i));
-			}
-			
+
+			UpdateCells(cells, row.asString(i), ExporterUtil::validatePlanHighlight((nsPlan::Column_en)id, row));
 		}
 	}
 	sheet.Copy(vtMissing, _variant_t(sheets.get_Item(_variant_t(sheets.get_Count()))));
 	//sheet.Activate();
 }
 
-PcjhColumn ExcelVBAService::getCol(Json::json_string& strCol)
+nsPlan::Column_en ExcelVBAService::getCol(Json::json_string& strCol)
 {
 	int index = strCol.find(L'#');
 	Json::json_string strNum = strCol.substr(index + 1);
-	return (PcjhColumn)_tstoi(strNum.c_str());
+	return (nsPlan::Column_en)_tstoi(strNum.c_str());
 }
 
-void ExcelVBAService::UpdateCells(Json::JsonArray& cells, Json::json_string& value)
+void ExcelVBAService::UpdateCells(Json::JsonArray& cells, Json::json_string& value, bool bHighlight)
 {
 	CString pos;
 	LPDISPATCH lpDisp = NULL;
@@ -201,5 +296,10 @@ void ExcelVBAService::UpdateCells(Json::JsonArray& cells, Json::json_string& val
 		range.AttachDispatch(lpDisp);
 		range.put_NumberFormatLocal(_variant_t(L"@"));
 		range.put_Value2(_variant_t(value.c_str()));
+		if (bHighlight)
+		{
+			nterior.AttachDispatch(range.get_Interior());
+			nterior.put_ColorIndex(COleVariant((long)RGB(255, 242, 0)));
+		}
 	}
 }

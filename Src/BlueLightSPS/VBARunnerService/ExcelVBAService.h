@@ -11,46 +11,7 @@
 #include "JsonParser.h"
 #include "JsonObjects.h"
 #include "JsonType.h"
-enum PcjhColumn {
-	id,
-	hth, // 合同号"
-	khmc, // 客户名称"
-	ggxh, // 规格型号"
-	cg,//磁钢
-	sl, // 数量"
-	zc, // 轴承"
-	dfr, // 单复绕"
-	zdqdy, // 制动器电压"
-	yylgg, // 曳引轮规格"
-	jf, // 机房"
-	bpqxh, // 变频器型号"
-	bmqxh, // 编码器型号"
-	dlcd, // 电缆长度"
-	zxcd, // 闸线长度"
-	mpzl, // 铭牌等资料"
-	bz, // 备注"
-	ddrq, // 订单日期"
-	zjdy, // 主机电压
-	zjys, // 主机颜色
-	zdqxh, // 制动器型号
-	zyz, // 左/右置
-	bzxdtgg, // 包装箱/底托规格
-	gh, // 工号
-	zzs, // 制造商
-	khqy, // 客户区域
-	yxj, // 优先级"
-	scrq, // 生产日期"
-	jhshyw, // 计划审核-业务"
-	jhshjh, // 计划审核-计划"
-	bzrq, // 包装日期"
-	bzshyw, // 包装审核-业务"
-	bzshjh, // 包装审核-计划"
-	fhrq, // 发货日期"
-	tcbh, // 投产编号"
-	ccbh, // 出厂编号"
-	end
-};
-
+#include "CommonDefine.h"
 class ExcelVBAService
 {
 public:
@@ -65,10 +26,10 @@ public:
 	void UpdateTemplate(std::shared_ptr<Json::JsonObject> jsonTemplate);
 private:
 	void UpdateSheet(Json::JsonArray& row, Json::JsonObject& tempalteMap);
-	void UpdateCells(Json::JsonArray& cells, Json::json_string& value);
+	void UpdateCells(Json::JsonArray& cells, Json::json_string& value, bool bHighlight);
 	void LoadExcel(LPCTSTR lpPath);
 	void ReleaseExcel(LPCTSTR lpPath);
-	PcjhColumn getCol(Json::json_string& strCol);
+	nsPlan::Column_en getCol(Json::json_string& strCol);
 private:
 	bool m_bStarted;
 	CApplication ExcelApp;

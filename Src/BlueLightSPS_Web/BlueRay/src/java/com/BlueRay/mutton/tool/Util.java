@@ -58,6 +58,35 @@ public class Util {
 		return sb.toString();
 	}
 	
+	public static boolean ggIsS(String ggxh){
+		if(ggxh != null && !ggxh.isEmpty() && 'S' == ggxh.charAt(0)){
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean ggIsU(String ggxh){
+		if(ggxh != null && !ggxh.isEmpty() && 'U' == ggxh.charAt(0)){
+			return true;
+		}
+		return false;
+	}
 	
+	public static boolean ggIsTA(String ggxh){
+		if(ggxh != null && ggxh.length() > 1 && 'T' == ggxh.charAt(0) && 'A' == ggxh.charAt(1)){
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean ggIsT(String ggxh){
+		if(ggxh != null && !ggxh.isEmpty() && 'T' == ggxh.charAt(0)){
+			if (ggxh.length() > 1 && 'A' != ggxh.charAt(1)){
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
 
 }

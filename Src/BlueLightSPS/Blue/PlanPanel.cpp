@@ -901,54 +901,60 @@ void CPlanPanel::HighLight()
 	{
 		//m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqdy);
 		StringArray& row = m_table[i].second;
-		CString& ggxh = row[nsPlan::ggxh];
-		if (GGisS(ggxh)){
-			if (row[nsPlan::zdqdy].CompareNoCase(L"220v") == 0 && row[nsPlan::zdqxh].CompareNoCase(L"DZE-14EB2") != 0){
-				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqxh);
-				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqdy);
-			}
-			else if (row[nsPlan::zdqdy].CompareNoCase(L"DC110v") == 0 && row[nsPlan::zdqxh].CompareNoCase(L"DZE-14EA") != 0){
-				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqxh);
-				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqdy);
-			}
+		PlanHighlightCell(m_table[i].first, row, m_pJqGridAPI);
+		
+		//CString& ggxh = row[nsPlan::ggxh];
+		//if (GGisS(ggxh)){
+		//	if (row[nsPlan::zdqdy].CompareNoCase(L"220v") == 0 && row[nsPlan::zdqxh].CompareNoCase(L"DZE-14EB2") != 0){
+		//		m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqxh);
+		//		m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqdy);
+		//	}
+		//	else if (row[nsPlan::zdqdy].CompareNoCase(L"DC110v") == 0 && row[nsPlan::zdqxh].CompareNoCase(L"DZE-14EA") != 0){
+		//		m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqxh);
+		//		m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqdy);
+		//	}
 
-			if (row[nsPlan::yylgg].CompareNoCase(L"400*5*10*16") == 0){
-				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::yylgg);
-			}
-		}
-		else if (GGisTA(ggxh)){
-			if (row[nsPlan::zdqdy].CompareNoCase(L"DC110v") != 0){
-				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqdy);
-			}
+		//	if (row[nsPlan::yylgg].CompareNoCase(L"400*5*10*16") != 0){
+		//		m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::yylgg);
+		//	}
+		//}
+		//else if (GGisTA(ggxh)){
+		//	if (row[nsPlan::zdqdy].CompareNoCase(L"DC110v") != 0){
+		//		m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqdy);
+		//	}
 
-			if (row[nsPlan::zdqxh].CompareNoCase(L"WYT-TA.3£¨10»É£©") == 0){
-				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqxh);
-			}
-			else if (row[nsPlan::zdqxh].CompareNoCase(L"WYT-TA.3£¨12»É£©") == 0){
-				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqxh);
-			}
+		//	if (row[nsPlan::zdqxh].CompareNoCase(L"WYT-TA.3£¨10»É£©") == 0){
+		//		m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqxh);
+		//	}
+		//	else if (row[nsPlan::zdqxh].CompareNoCase(L"WYT-TA.3£¨12»É£©") == 0){
+		//		m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqxh);
+		//	}
 
-			if (row[nsPlan::yylgg].CompareNoCase(L"400*5*10*16") != 0){
-				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::yylgg);
-			}
-		}
-		else if (GGisU(ggxh)){
-			if (row[nsPlan::zdqdy].CompareNoCase(L"DC110v") != 0){
-				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqdy);
-			}
+		//	if (row[nsPlan::yylgg].CompareNoCase(L"400*5*10*16") != 0){
+		//		m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::yylgg);
+		//	}
+		//}
+		//else if (GGisU(ggxh)){
+		//	if (row[nsPlan::zdqdy].CompareNoCase(L"DC110v") != 0){
+		//		m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zdqdy);
+		//	}
 
-			if (row[nsPlan::zjdy].CompareNoCase(L"AC380V") != 0){
-				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zjdy);
-			}
+		//	if (row[nsPlan::zjdy].CompareNoCase(L"AC380V") != 0){
+		//		m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::zjdy);
+		//	}
 
-			if (row[nsPlan::yylgg].CompareNoCase(L"480*7*12*18") != 0){
-				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::yylgg);
-			}
+		//	if (row[nsPlan::yylgg].CompareNoCase(L"480*7*12*18") != 0){
+		//		m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::yylgg);
+		//	}
 
-			if (row[nsPlan::jf].CompareNoCase(L"ÓÐ") != 0){
-				m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::jf);
-			}
-		}
+		//	if (row[nsPlan::jf].Compare(L"ÓÐ") != 0){
+		//		m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::jf);
+		//	}
+
+		//	if (row[nsPlan::bmqxh].Compare(L"º£1387") != 0){
+		//		m_pJqGridAPI->HighLightCell(m_table[i].first, nsPlan::bmqxh);
+		//	}
+		//}
 	}
 }
 

@@ -1183,8 +1183,9 @@ void CSalePanel::HighLight()
 	for (size_t i = 0, len = m_table.size(); i < len; i++)
 	{
 		StringArray& row = m_table[i].second;
-		CString& ggxh = row[nsSale::ggxh];
-		if (GGisS(ggxh)){
+		SaleHighlightCell(m_table[i].first, row, m_pJqGridAPI);
+		//CString& ggxh = row[nsSale::ggxh];
+		/*if (GGisS(ggxh)){
 			if (row[nsSale::zdqdy].CompareNoCase(L"220v") == 0 && row[nsSale::zdqxh].CompareNoCase(L"DZE-14EB2") != 0){
 				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::zdqxh);
 				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::zdqdy);
@@ -1194,7 +1195,7 @@ void CSalePanel::HighLight()
 				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::zdqdy);
 			}
 
-			if (row[nsSale::yylgg].CompareNoCase(L"400*5*10*16") == 0){
+			if (row[nsSale::yylgg].CompareNoCase(L"400*5*10*16") != 0){
 				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::yylgg);
 			}
 		}
@@ -1227,10 +1228,14 @@ void CSalePanel::HighLight()
 				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::yylgg);
 			}
 
-			if (row[nsSale::jf].CompareNoCase(L"га") != 0){
+			if (row[nsSale::jf].Compare(L"га") != 0){
 				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::jf);
 			}
-		}
+
+			if (row[nsSale::bmqxh].Compare(L"КЃ1387") != 0){
+				m_pJqGridAPI->HighLightCell(m_table[i].first, nsSale::bmqxh);
+			}
+		}*/
 	}
 }
 
