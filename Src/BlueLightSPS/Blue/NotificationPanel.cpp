@@ -954,7 +954,7 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 		if (bIfUpdateSaleInfo)
 		{
 			class CUpdateListener : public CPromise<bool>::IHttpResponse{
-				CONSTRUCTOR_3(CUpdateListener, CNotificationPanel&, notificationPanel, StringArray&, cacheRow, IntArray&, checkedRows)
+				CONSTRUCTOR_3(CUpdateListener, CNotificationPanel&, notificationPanel, StringArray, cacheRow, IntArray, checkedRows)
 			public:
 				virtual void OnSuccess(bool& ret){
 					if (ret)
@@ -968,7 +968,7 @@ void CNotificationPanel::OnBnClickedBtnApprove()
 					}
 				}
 				virtual void OnFailed(){
-					m_notificationPanel.MessageBox(_T("ÐÞ¸ÄÊý¾ÝÊ§°Ü"), _T("¾¯¸æ"), MB_OK | MB_ICONWARNING);
+					m_notificationPanel.MessageBox(_T("ÍøÂç´íÎó"), _T("¾¯¸æ"), MB_OK | MB_ICONWARNING);
 					m_notificationPanel.GetParent()->EnableWindow(TRUE);
 				}
 			};

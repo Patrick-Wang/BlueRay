@@ -253,7 +253,7 @@ void CLoginDlg::OnBnClickedLogin()
 		}
 		void OnFailed()
 		{
-			m_loginDlg->MessageBox(_T("用户名或密码错误，请重新输入！"), _T("警告"), MB_OK | MB_ICONWARNING);
+			m_loginDlg->MessageBox(_T("网络连接失败，请检查网络配置！"), _T("警告"), MB_OK | MB_ICONWARNING);
 			m_loginDlg->EnableWindow(TRUE);
 		}
 	};
