@@ -255,9 +255,14 @@ void ExcelVBAService::UpdateSheet(Json::JsonArray& row, Json::JsonObject& tempal
 	getGgxhType(row.asString(nsPlan::Column_en::ggxh), tempalteMap, strType);
 	LPDISPATCH lpDisp = sheets.get_Item(COleVariant(strType));
 	sheet.AttachDispatch(lpDisp);
+	sheet.Copy(vtMissing, _variant_t(sheets.get_Item(_variant_t(sheets.get_Count()))));
+	lpDisp = sheets.get_Item(_variant_t(sheets.get_Count()));
+	sheet.AttachDispatch(lpDisp);
 	CString col;
 	Json::JsonObject& sheetMap = tempalteMap.asObject((LPTSTR)(LPCTSTR)strType);
 	Json::json_string empty(L"");
+	bool highLight = false;
+	bool highLightTmp = false;
 	for (int i = 0, len = row.size(); i < len; ++i)
 	{
 		col.Format(L"col_%d", i + 1);
@@ -269,11 +274,22 @@ void ExcelVBAService::UpdateSheet(Json::JsonArray& row, Json::JsonObject& tempal
 			{
 				row.items()[i].reset(Json::JsonFactory::createString(L""));
 			}
-
-			UpdateCells(cells, row.asString(i), ExporterUtil::validatePlanHighlight((nsPlan::Column_en)i, row));
+			highLightTmp = ExporterUtil::validatePlanHighlight((nsPlan::Column_en)i, row);
+			if (highLightTmp)
+			{
+				highLight = true;
+			}
+			UpdateCells(cells, row.asString(i), highLightTmp);
 		}
 	}
-	sheet.Copy(vtMissing, _variant_t(sheets.get_Item(_variant_t(sheets.get_Count()))));
+	if (highLight)
+	{
+		CString pos("A1");
+		lpDisp = sheet.get_Range(_variant_t(pos), _variant_t(pos));
+		range.AttachDispatch(lpDisp);
+		nterior.AttachDispatch(range.get_Interior());
+		nterior.put_Color(COleVariant((long)RGB(255, 242, 0)));
+	}
 	//sheet.Activate();
 }
 
