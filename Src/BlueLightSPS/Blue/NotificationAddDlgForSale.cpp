@@ -1171,42 +1171,45 @@ BOOL CNotificationAddDlgForSale::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX
 	}
 	else if (CBN_EDITCHANGE == nCode)
 	{
-		CString text;
-		m_aCombs[nID - IDC_COMBO_BASE]->GetWindowText(text);
-		if (text.IsEmpty())
+		if (nID != IDC_NOTIFICATION_SALE_MODIFY_BTN)
 		{
-			int count = m_aCombs[nID - IDC_COMBO_BASE]->GetCount();
-			for (int i = 0; i < count; ++i)
+			CString text;
+			m_aCombs[nID - IDC_COMBO_BASE]->GetWindowText(text);
+			if (text.IsEmpty())
 			{
-				m_aCombs[nID - IDC_COMBO_BASE]->DeleteString(0);
-			}
-			for (int j = GetDropList()[nID - IDC_COMBO_BASE].size() - 1; j >= 0; --j)
-			{
-				m_aCombs[nID - IDC_COMBO_BASE]->InsertString(0, GetDropList()[nID - IDC_COMBO_BASE][j]);
-			}
-		}
-		else
-		{
-			std::vector<CString> tmpVals;
-			for (int i = 0; i < GetDropList()[nID - IDC_COMBO_BASE].size(); ++i)
-			{
-				if (GetDropList()[nID - IDC_COMBO_BASE][i].Find(text) >= 0)
+				int count = m_aCombs[nID - IDC_COMBO_BASE]->GetCount();
+				for (int i = 0; i < count; ++i)
 				{
-					tmpVals.push_back(GetDropList()[nID - IDC_COMBO_BASE][i]);
+					m_aCombs[nID - IDC_COMBO_BASE]->DeleteString(0);
+				}
+				for (int j = GetDropList()[nID - IDC_COMBO_BASE].size() - 1; j >= 0; --j)
+				{
+					m_aCombs[nID - IDC_COMBO_BASE]->InsertString(0, GetDropList()[nID - IDC_COMBO_BASE][j]);
 				}
 			}
+			else
+			{
+				std::vector<CString> tmpVals;
+				for (int i = 0; i < GetDropList()[nID - IDC_COMBO_BASE].size(); ++i)
+				{
+					if (GetDropList()[nID - IDC_COMBO_BASE][i].Find(text) >= 0)
+					{
+						tmpVals.push_back(GetDropList()[nID - IDC_COMBO_BASE][i]);
+					}
+				}
 
-			int count = m_aCombs[nID - IDC_COMBO_BASE]->GetCount();
-			for (int i = 0; i < count; ++i)
-			{
-				m_aCombs[nID - IDC_COMBO_BASE]->DeleteString(0);
+				int count = m_aCombs[nID - IDC_COMBO_BASE]->GetCount();
+				for (int i = 0; i < count; ++i)
+				{
+					m_aCombs[nID - IDC_COMBO_BASE]->DeleteString(0);
+				}
+				for (int i = 0; i < tmpVals.size(); ++i)
+				{
+					m_aCombs[nID - IDC_COMBO_BASE]->AddString(tmpVals[i]);
+				}
 			}
-			for (int i = 0; i < tmpVals.size(); ++i)
-			{
-				m_aCombs[nID - IDC_COMBO_BASE]->AddString(tmpVals[i]);
-			}
+			m_aCombs[nID - IDC_COMBO_BASE]->ShowDropDown(TRUE);
 		}
-		m_aCombs[nID - IDC_COMBO_BASE]->ShowDropDown(TRUE);
 	}
 	return CPopupDlg::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 }
