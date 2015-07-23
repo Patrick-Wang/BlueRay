@@ -81,7 +81,9 @@ public class Util {
 	
 	public static boolean ggIsT(String ggxh){
 		if(ggxh != null && !ggxh.isEmpty() && 'T' == ggxh.charAt(0)){
-			if (ggxh.length() > 1 && 'A' != ggxh.charAt(1)){
+			if (ggxh.length() > 1 
+					&&( ('a' <= ggxh.charAt(1) && 'z' >= ggxh.charAt(1))
+					 || ('A' <= ggxh.charAt(1) && 'Z' >= ggxh.charAt(1)))){
 				return false;
 			}
 			return true;

@@ -258,9 +258,9 @@ void ExcelVBAService::UpdateSheet(Json::JsonArray& row, Json::JsonObject& tempal
 	CString col;
 	Json::JsonObject& sheetMap = tempalteMap.asObject((LPTSTR)(LPCTSTR)strType);
 	Json::json_string empty(L"");
-	for (int i = 1, len = row.size(); i < len; ++i)
+	for (int i = 0, len = row.size(); i < len; ++i)
 	{
-		col.Format(L"col_%d", i);
+		col.Format(L"col_%d", i + 1);
 		if (sheetMap.isValid((LPTSTR)(LPCTSTR)col))
 		{
 			Json::JsonArray& cells = sheetMap.asArray((LPTSTR)(LPCTSTR)col);
@@ -270,7 +270,7 @@ void ExcelVBAService::UpdateSheet(Json::JsonArray& row, Json::JsonObject& tempal
 				row.items()[i].reset(Json::JsonFactory::createString(L""));
 			}
 
-			UpdateCells(cells, row.asString(i), ExporterUtil::validatePlanHighlight((nsPlan::Column_en)id, row));
+			UpdateCells(cells, row.asString(i), ExporterUtil::validatePlanHighlight((nsPlan::Column_en)i, row));
 		}
 	}
 	sheet.Copy(vtMissing, _variant_t(sheets.get_Item(_variant_t(sheets.get_Count()))));
@@ -299,7 +299,8 @@ void ExcelVBAService::UpdateCells(Json::JsonArray& cells, Json::json_string& val
 		if (bHighlight)
 		{
 			nterior.AttachDispatch(range.get_Interior());
-			nterior.put_ColorIndex(COleVariant((long)RGB(255, 242, 0)));
+			nterior.put_Color(COleVariant((long)RGB(255, 242, 0)));
+			//nterior.put_ColorIndex(COleVariant((long)RGB(255, 242, 0)));
 		}
 	}
 }
