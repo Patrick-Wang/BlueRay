@@ -184,12 +184,17 @@ void CNotificationPanel::OnDestroy()
 
 void CNotificationPanel::HighLight()
 {
+	//for (size_t i = 0, len = m_table.size(); i < len; i++)
+	//{
+	//	if (0 == m_table[i].second[nsSale::yxj].Compare(L"¸ß"))
+	//	{
+	//		m_pJqGridAPI->HighLightRow(m_table[i].first);
+	//	}
+	//}
 	for (size_t i = 0, len = m_table.size(); i < len; i++)
 	{
-		if (0 == m_table[i].second[nsSale::yxj].Compare(L"¸ß"))
-		{
-			m_pJqGridAPI->HighLightRow(m_table[i].first);
-		}
+		StringArray& row = m_table[i].second;
+		NotificationHighlightCell(m_table[i].first, row, m_pJqGridAPI);
 	}
 }
 

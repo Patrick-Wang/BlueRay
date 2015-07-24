@@ -298,3 +298,4 @@ else if (GGisU(ggxh)){\
 
 #define SaleHighlightCell(id, row, pGridAPI) HighlightCell(id, row, nsSale, pGridAPI)
 #define PlanHighlightCell(id, row, pGridAPI) HighlightCell(id, row, nsPlan, pGridAPI)
+#define NotificationHighlightCell(id, row, pGridAPI) HighlightCell(id, row, nsNotification, pGridAPI)

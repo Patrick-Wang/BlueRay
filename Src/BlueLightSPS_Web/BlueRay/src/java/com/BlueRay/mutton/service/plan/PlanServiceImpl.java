@@ -114,6 +114,7 @@ public class PlanServiceImpl implements PlanService {
 		}
 		return htxxMap;
 	}
+
 	public String[][] query(String approveType, String approved) {
 
 		List<PCJHXX> pcxxs = null;//
@@ -250,6 +251,14 @@ public class PlanServiceImpl implements PlanService {
 			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
 			if (!"Y".equals(pcjhxx.getSftgywsh())) {
 				pcjhxx.setSftgywsh("Y");
+				if (null != pcjhxx.getJhscrq()){
+					HTXX htxx = saleDao.getSaleDataById(pcjhxx.getHtxxID());
+					if (null != htxx){
+						ZZS zzs = itemDao.queryZZSById(htxx.getZzsID());
+						String tcbh = getTcbh(zzs);
+						pcjhxx.setTcbh(tcbh);
+					}
+				}
 				planDao.update(pcjhxx);
 			}
 		}
