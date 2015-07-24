@@ -59,21 +59,30 @@ public class Util {
 	}
 	
 	public static boolean ggIsS(String ggxh){
-		if(ggxh != null && !ggxh.isEmpty() && 'S' == ggxh.charAt(0)){
+		if(ggxh != null && !ggxh.isEmpty() && ('S' == ggxh.charAt(0) || 's' == ggxh.charAt(0))){
 			return true;
 		}
 		return false;
 	}
 
 	public static boolean ggIsU(String ggxh){
-		if(ggxh != null && !ggxh.isEmpty() && 'U' == ggxh.charAt(0)){
+		if(ggxh != null && !ggxh.isEmpty() && ('U' == ggxh.charAt(0) || 'u' == ggxh.charAt(0))){
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean ggIsTStart(String ggxh){
+		if(ggxh != null && !ggxh.isEmpty() && ('T' == ggxh.charAt(0) || 't' == ggxh.charAt(0))){
 			return true;
 		}
 		return false;
 	}
 	
 	public static boolean ggIsTA(String ggxh){
-		if(ggxh != null && ggxh.length() > 1 && 'T' == ggxh.charAt(0) && 'A' == ggxh.charAt(1)){
+		if(ggxh != null && ggxh.length() > 1 && 
+				('T' == ggxh.charAt(0) || 't' == ggxh.charAt(0)) &&
+				('A' == ggxh.charAt(1) || 'a' == ggxh.charAt(1))){
 			return true;
 		}
 		return false;

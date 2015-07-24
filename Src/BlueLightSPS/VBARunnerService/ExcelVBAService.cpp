@@ -47,19 +47,19 @@ public:
 				}
 			}
 		}
-		else if (GGisTA(ggxh)){
+		else if (GGisTStart(ggxh)){
 			if (0 != CompareNoCase(row.asString(nsPlan::zdqdy), L"DC110v")){
 				if (col == nsPlan::zdqdy){
 					return true;
 				}
 			}
 
-			if (0 == CompareNoCase(row.asString(nsPlan::zdqxh), L"WYT-TA.3£¨10»É£©")){
+			if (0 != CompareNoCase(row.asString(nsPlan::zdqxh), L"WYT-TA.3£¨10»É£©")){
 				if (col == nsPlan::zdqxh){
 					return true;
 				}
 			}
-			else if (0 == CompareNoCase(row.asString(nsPlan::zdqxh), L"WYT-TA.3£¨12»É£©")){
+			else if (0 != CompareNoCase(row.asString(nsPlan::zdqxh), L"WYT-TA.3£¨12»É£©")){
 				if (col == nsPlan::zdqxh){
 					return true;
 				}
@@ -78,14 +78,15 @@ public:
 				}
 			}
 
-			if (0 != CompareNoCase(row.asString(nsPlan::zjdy), L"AC380V")){
-				if (col == nsPlan::zjdy){
+			if (0 != CompareNoCase(row.asString(nsPlan::yylgg), L"480*7*12*18")){
+				if (col == nsPlan::yylgg){
 					return true;
 				}
 			}
-
-			if (0 != CompareNoCase(row.asString(nsPlan::yylgg), L"480*7*12*18")){
-				if (col == nsPlan::yylgg){
+		}
+		else{
+			if (0 != CompareNoCase(row.asString(nsPlan::zjdy), L"AC380V")){
+				if (col == nsPlan::zjdy){
 					return true;
 				}
 			}

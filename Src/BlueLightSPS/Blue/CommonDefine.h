@@ -228,15 +228,19 @@ namespace nsNotification{
 	MAKE_PLAN_QUERY_PARAM(name)
 
 inline bool GGisS(CString& ggxh){
-	return !ggxh.IsEmpty() && ggxh.Left(1) == L"S";
+	return !ggxh.IsEmpty() && (0 == ggxh.Left(1).CompareNoCase(L"S"));
 }
 
 inline bool GGisTA(CString& ggxh){
-	return ggxh.GetLength() > 1 && (ggxh.Left(2) == L"TA");
+	return ggxh.GetLength() > 1 && (0 == ggxh.Left(2).CompareNoCase(L"TA"));
+}
+
+inline bool GGisTStart(CString& ggxh){
+	return !ggxh.IsEmpty() && (0 == ggxh.Left(1).CompareNoCase(L"T"));
 }
 
 inline bool GGisU(CString& ggxh){
-	return ggxh.GetLength() > 0 && (ggxh.Left(1) == L"U");
+	return !ggxh.IsEmpty() && (0 == ggxh.Left(1).CompareNoCase(L"U"));
 }
 
 
@@ -257,15 +261,15 @@ if (GGisS(ggxh)){\
 		pGridAPI->HighLightCell(id, ns::yylgg);\
 	}\
 }\
-else if (GGisTA(ggxh)){\
+else if (GGisTStart(ggxh)){\
 	if (row[ns::zdqdy].CompareNoCase(L"DC110v") != 0){\
 		pGridAPI->HighLightCell(id, ns::zdqdy);\
 	}\
 	\
-	if (row[ns::zdqxh].CompareNoCase(L"WYT-TA.3£¨10»É£©") == 0){\
+	if (row[ns::zdqxh].CompareNoCase(L"WYT-TA.3£¨10»É£©") != 0){\
 		pGridAPI->HighLightCell(id, ns::zdqxh);\
 	}\
-	else if (row[ns::zdqxh].CompareNoCase(L"WYT-TA.3£¨12»É£©") == 0){\
+	else if (row[ns::zdqxh].CompareNoCase(L"WYT-TA.3£¨12»É£©") != 0){\
 		pGridAPI->HighLightCell(id, ns::zdqxh);\
 	}\
 	\
@@ -278,23 +282,23 @@ else if (GGisU(ggxh)){\
 		pGridAPI->HighLightCell(id, ns::zdqdy);\
 	}\
 	\
-	if (row[ns::zjdy].CompareNoCase(L"AC380V") != 0){\
-		pGridAPI->HighLightCell(id, ns::zjdy);\
-	}\
-	\
 	if (row[ns::yylgg].CompareNoCase(L"480*7*12*18") != 0){\
 		pGridAPI->HighLightCell(id, ns::yylgg);\
 	}\
-	\
+}\
+else{\
+	if (row[ns::zjdy].CompareNoCase(L"AC380V") != 0){\
+		pGridAPI->HighLightCell(id, ns::zjdy);\
+			}\
 	if (row[ns::jf].CompareNoCase(L"ÓÐ") != 0){\
 		pGridAPI->HighLightCell(id, ns::jf);\
-	}\
+			}\
 	\
 	if (row[ns::bmqxh].CompareNoCase(L"º£1387") != 0){\
 		pGridAPI->HighLightCell(id, ns::bmqxh);\
-	}\
+			}\
 }\
-	}
+}
 
 #define SaleHighlightCell(id, row, pGridAPI) HighlightCell(id, row, nsSale, pGridAPI)
 #define PlanHighlightCell(id, row, pGridAPI) HighlightCell(id, row, nsPlan, pGridAPI)

@@ -31,19 +31,19 @@ public class ExporterUtil {
 				}
 			}
 		}
-		else if (Util.ggIsTA(ggxh)){
+		else if (Util.ggIsTStart(ggxh)){
 			if (!row[PcjhColumn.zdqdy.ordinal()].equalsIgnoreCase("DC110v")){
 				if (col == PcjhColumn.zdqdy.ordinal()){
 					return true;
 				}
 			}
 
-			if (row[PcjhColumn.zdqxh.ordinal()].equalsIgnoreCase("WYT-TA.3（10簧）")){
+			if (!row[PcjhColumn.zdqxh.ordinal()].equalsIgnoreCase("WYT-TA.3（10簧）")){
 				if (col == PcjhColumn.zdqxh.ordinal()){
 					return true;
 				}
 			}
-			else if (row[PcjhColumn.zdqxh.ordinal()].equalsIgnoreCase("WYT-TA.3（12簧）")){
+			else if (!row[PcjhColumn.zdqxh.ordinal()].equalsIgnoreCase("WYT-TA.3（12簧）")){
 				if (col == PcjhColumn.zdqxh.ordinal()){
 					return true;
 				}
@@ -62,14 +62,17 @@ public class ExporterUtil {
 				}
 			}
 
-			if (!row[PcjhColumn.zjdy.ordinal()].equalsIgnoreCase("AC380V")){
-				if (col == PcjhColumn.zjdy.ordinal()){
+			if (!row[PcjhColumn.yylgg.ordinal()].equalsIgnoreCase("480*7*12*18")){
+				if (col == PcjhColumn.yylgg.ordinal()){
 					return true;
 				}
 			}
 
-			if (!row[PcjhColumn.yylgg.ordinal()].equalsIgnoreCase("480*7*12*18")){
-				if (col == PcjhColumn.yylgg.ordinal()){
+		}
+		else if (Util.ggIsU(ggxh)){
+
+			if (!row[PcjhColumn.zjdy.ordinal()].equalsIgnoreCase("AC380V")){
+				if (col == PcjhColumn.zjdy.ordinal()){
 					return true;
 				}
 			}
@@ -115,7 +118,7 @@ public class ExporterUtil {
 				}
 			}
 		}
-		else if (Util.ggIsTA(ggxh)){
+		else if (Util.ggIsTStart(ggxh)){
 			if (!row[HtxxColumn.zdqdy.ordinal()].equalsIgnoreCase("DC110v")){
 				if (col == HtxxColumn.zdqdy.ordinal()){
 					return true;
@@ -146,11 +149,7 @@ public class ExporterUtil {
 				}
 			}
 
-			if (!row[HtxxColumn.zjdy.ordinal()].equalsIgnoreCase("AC380V")){
-				if (col == HtxxColumn.zjdy.ordinal()){
-					return true;
-				}
-			}
+			
 
 			if (!row[HtxxColumn.yylgg.ordinal()].equalsIgnoreCase("480*7*12*18")){
 				if (col == HtxxColumn.yylgg.ordinal()){
@@ -158,6 +157,14 @@ public class ExporterUtil {
 				}
 			}
 
+		} else{
+			
+			if (!row[HtxxColumn.zjdy.ordinal()].equalsIgnoreCase("AC380V")){
+				if (col == HtxxColumn.zjdy.ordinal()){
+					return true;
+				}
+			}
+			
 			if (!row[HtxxColumn.jf.ordinal()].equalsIgnoreCase("有")){
 				if (col == HtxxColumn.jf.ordinal()){
 					return true;
