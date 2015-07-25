@@ -45,9 +45,9 @@ public interface PlanService {
 
 	String bzjhtemplateExport(OutputStream out, JSONObject jquery);
 
-	Integer resetCcSerialNumber();
+	void resetCcSerialNumber();
 
-	Integer resetTcSerialNumber();
+	void resetTcSerialNumber();
 
 	String scjhtemplateExport(OutputStream out, JSONObject jquery);
 

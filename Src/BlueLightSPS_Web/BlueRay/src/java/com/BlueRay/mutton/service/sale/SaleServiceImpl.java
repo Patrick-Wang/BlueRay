@@ -558,10 +558,10 @@ public class SaleServiceImpl implements SaleService {
 					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
 			if (null != htxx) {
 				if ("Y".equals(htxx.getSftgywsh())) {
-					htxx.setSftgywsh("N");
 					if (!validatePassUnapprove(htxx)) {
 						jaRet.add(rows.getInt(i) + "");
 					} else{
+						htxx.setSftgywsh("N");
 						saleDao.update(htxx);
 					}
 				}
@@ -573,7 +573,7 @@ public class SaleServiceImpl implements SaleService {
 	}
 
 	private boolean validatePassUnapprove(HTXX htxx) {
-		if (!"Y".equals(htxx.getSftgjhsh()) || !"Y".equals(htxx.getSftgywsh())) {
+		if ("Y".equals(htxx.getSftgjhsh()) || "Y".equals(htxx.getSftgywsh())) {
 			int approvedCount = planDao.getArpprovedDataCount(htxx.getID());
 			if (approvedCount == 0) {
 				List<PCJHXX> pcjhs = planDao.getDateByHtxxId(htxx.getID());
@@ -594,10 +594,10 @@ public class SaleServiceImpl implements SaleService {
 			HTXX htxx = saleDao.getSaleDataById(rows.getInt(i));
 			if (null != htxx) {
 				if ("Y".equals(htxx.getSftgjhsh())) {
-					htxx.setSftgjhsh("N");
 					if (!validatePassUnapprove(htxx)) {
 						jaRet.add(rows.getInt(i) + "");
 					}else{
+						htxx.setSftgjhsh("N");
 						saleDao.update(htxx);
 					}
 				}

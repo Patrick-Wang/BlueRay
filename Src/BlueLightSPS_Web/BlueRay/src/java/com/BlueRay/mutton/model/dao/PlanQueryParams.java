@@ -861,6 +861,11 @@ public class PlanQueryParams {
 			} else if (paramPcjhColMap.containsKey(col)) {
 				col = paramPcjhColMap.get(col);
 				Field fd = PCJHXX.getField(col);
+				if (firstSql) {
+					firstSql = false;
+				} else {
+					sqlBuilder.append(",");
+				}
 				sqlBuilder.append("PCJHXX_." + fd.getName() + order);
 			}
 

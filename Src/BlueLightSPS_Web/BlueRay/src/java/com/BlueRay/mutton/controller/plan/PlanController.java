@@ -37,14 +37,16 @@ public class PlanController {
 	public @ResponseBody String resetTcbh(
 			HttpServletRequest request,
 			HttpServletResponse response) {
-		return "OK latest max Tcbh number is : " + planService.resetTcSerialNumber();
+		planService.resetTcSerialNumber();
+		return "OK";
 	}
 	
 	@RequestMapping(value = "/resetCcbh", method = RequestMethod.GET)
 	public @ResponseBody String resetCcbh(
 			HttpServletRequest request,
 			HttpServletResponse response) {
-		return "OK latest max Ccbh number is : " + planService.resetCcSerialNumber();
+		planService.resetCcSerialNumber();
+		return "OK";
 	}
 	
 	@Scheduled(cron="0 0 0 26 12 ?")
@@ -86,7 +88,8 @@ public class PlanController {
 		BASE64Decoder decoder = new BASE64Decoder();
 		String query = new String(decoder.decodeBuffer(jparam.getString("query")), "utf-16le");
 		PageData pageData = planService.pageQuery(pagesize,pagenum,pagecount, JSONObject.fromObject(query));
-		return JSONObject.fromObject(pageData).toString().replace("null", "\"\"");
+		String ret = JSONObject.fromObject(pageData).toString().replace("null", "\"\"");
+		return ret;
 	}
 
 	

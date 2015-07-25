@@ -160,8 +160,8 @@ public class PlanDaoImpl implements PlanDao{
 	}
 
 	public int getArpprovedDataCount(Integer htId) {
-		Query q = entityManager.createQuery(
-				"select count(t) from PCJHXX t, HTXX h where t.htxxID = h.ID and h.htID = '" + htId + "' and (t.bzsftgywsh = 'Y' or t.bzsftgjhsh = 'Y' or t.sftgywsh = 'Y' or t.sftgjhsh = 'Y')");
+		String sql = "select count(t) from PCJHXX t where t.htxxID = '" + htId + "' and (t.bzsftgywsh = 'Y' or t.bzsftgjhsh = 'Y' or t.sftgywsh = 'Y' or t.sftgjhsh = 'Y')";
+		Query q = entityManager.createQuery(sql);
 		List<Object> objs = q.getResultList();
 		return ((Long) objs.get(0)).intValue(); 
 	}

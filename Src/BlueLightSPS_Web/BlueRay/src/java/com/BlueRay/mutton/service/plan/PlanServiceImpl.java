@@ -26,6 +26,7 @@ import com.BlueRay.mutton.model.dao.SaleDao;
 import com.BlueRay.mutton.model.entity.jpa.CGXXB;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
+import com.BlueRay.mutton.model.entity.jpa.SNIDType;
 import com.BlueRay.mutton.model.entity.jpa.SerialNumber;
 import com.BlueRay.mutton.model.entity.jpa.ZCXX;
 import com.BlueRay.mutton.model.entity.jpa.ZZS;
@@ -453,15 +454,17 @@ public class PlanServiceImpl implements PlanService {
 	private String getTcbh(ZZS zzs){
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
-		String ret = String.format("%02d%05d", year % 100, increaseTcSerialNumber() % 100000);
-		if (null != zzs){
-			ret = zzs.getCode() + ret;
-		}else{
-			ret = 'X' + ret;
-		}
-		if (!"true".equals(validate("tcbh", ret))){
-			return getTcbh(zzs);
-		}
+		String ret = null;
+		do{
+			if (null != zzs){
+				ret = String.format("%02d%05d", year % 100, increaseTcSerialNumber(zzs.getId(), SNIDType.TC) % 100000);
+				ret = zzs.getCode() + ret;
+			}else{
+				ret = String.format("%02d%05d", year % 100, increaseTcSerialNumber(0, SNIDType.TC) % 100000);
+				ret = 'X' + ret;
+			}
+		}while(!"true".equals(validate("tcbh", ret)));
+		
 		return ret;
 	}
 	
@@ -469,15 +472,16 @@ public class PlanServiceImpl implements PlanService {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH) + 1;
-		String ret = String.format("%02d%X%04d", year % 100, month, increaseCcSerialNumber() % 10000);
-		if (null != zzs){
-			ret = zzs.getCode() + ret;
-		}else{
-			ret = 'X' + ret;
-		}
-		if (!"true".equals(validate("ccbh", ret))){
-			return getCcbh(zzs);
-		}
+		String ret = null;
+		do{
+			if (null != zzs){
+				ret = String.format("%02d%X%04d", year % 100, month, increaseCcSerialNumber(zzs.getId(), SNIDType.CC) % 10000);
+				ret = zzs.getCode() + ret;
+			}else{
+				ret = String.format("%02d%X%04d", year % 100, month, increaseCcSerialNumber(0, SNIDType.CC) % 10000);
+				ret = 'X' + ret;
+			}
+		}while(!"true".equals(validate("ccbh", ret)));
 		return ret;
 	}
 	
@@ -508,32 +512,38 @@ public class PlanServiceImpl implements PlanService {
 		return "error";
 	}
 
-	public Integer resetCcSerialNumber() {
-		SerialNumber snNumber = snDao.getSNById(2);
-		int maxNum = snNumber.getMax();
-		snNumber.setMax(1);
-		snDao.saveSN(snNumber);
-		return maxNum;
+	public void resetCcSerialNumber() {
+		List<SerialNumber> snNumbers = snDao.getSNByType(SNIDType.CC);
+		for(SerialNumber sn : snNumbers){
+			sn.setMax(1);
+			snDao.saveSN(sn);
+		}
 	}
 
-	private Integer increaseCcSerialNumber() {
-		SerialNumber snNumber = snDao.getSNById(2);
+	private Integer increaseCcSerialNumber(Integer zzsId, SNIDType type) {
+		SerialNumber snNumber = snDao.getSNByZzs(zzsId, type);
+		if (null == snNumber){
+			snNumber = snDao.getSNByZzs(0, type);
+		}
 		int maxNum = snNumber.getMax();
 		snNumber.setMax((maxNum + 1) % 10000);
 		snDao.saveSN(snNumber);
 		return maxNum;
 	}
 	
-	public Integer resetTcSerialNumber() {
-		SerialNumber snNumber = snDao.getSNById(1);
-		int maxNum = snNumber.getMax();
-		snNumber.setMax(1);
-		snDao.saveSN(snNumber);
-		return maxNum;
+	public void resetTcSerialNumber() {
+		List<SerialNumber> snNumbers = snDao.getSNByType(SNIDType.TC);
+		for(SerialNumber sn : snNumbers){
+			sn.setMax(1);
+			snDao.saveSN(sn);
+		}
 	}
 	
-	private Integer increaseTcSerialNumber() {
-		SerialNumber snNumber = snDao.getSNById(1);
+	private Integer increaseTcSerialNumber(Integer zzsId, SNIDType type) {
+		SerialNumber snNumber = snDao.getSNByZzs(zzsId, type);
+		if (null == snNumber){
+			snNumber = snDao.getSNByZzs(0, type);
+		}
 		int maxNum = snNumber.getMax();
 		snNumber.setMax((maxNum + 1) % 100000);
 		snDao.saveSN(snNumber);		
