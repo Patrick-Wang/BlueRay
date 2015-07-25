@@ -89,8 +89,8 @@ static int g_StaticToShowPos[][4] = {
 
 
 static int g_EditsPos[][4] = {
-		{ 100 * 1 + 100 * 0 + 8, 40 * 9, 80, 20 }, //Edit_TCBH,
-		{ 100 * 2 + 100 * 1 + 8, 40 * 9, 80, 20 },  //Edit_CCBH,
+		{ 100 * 1 + 100 * 0 + 8, 40 * 9, 120, 20 }, //Edit_TCBH,
+		{ 100 * 2 + 100 * 1 + 8, 40 * 9, 120, 20 },  //Edit_CCBH,
 		{ 100 * 1 + 100 * 0 + 8, 40 * 10, 500, 60 }  //bz
 };
 
@@ -469,10 +469,14 @@ BOOL CPlanAddDlg::OnInitDialog()
 	}
 
 	m_btnNewIDForSCRQ = Util_Tools::Util::CreateButton(this, IDC_PLAN_ADD_BTN_NEWIDFORSCRQ, _T("<-"), _T("Microsoft YaHei"), 12);
-	m_btnNewIDForSCRQ->MoveWindow(100 * 1 + 100 * 0 + 8 + 85, 40 * 9, 35, 20);
+	m_btnNewIDForSCRQ->MoveWindow(0,0,0,0);
+	m_btnNewIDForSCRQ->ShowWindow(SW_HIDE);
+	m_btnNewIDForSCRQ->EnableWindow(FALSE);//需求变更 删除按钮
 
 	m_btnNewIDForBZRQ = Util_Tools::Util::CreateButton(this, IDC_PLAN_ADD_BTN_NEWIDFORBZRQ, _T("<-"), _T("Microsoft YaHei"), 12);
-	m_btnNewIDForBZRQ->MoveWindow(100 * 2 + 100 * 1 + 8 + 85, 40 * 9, 35, 20);
+	m_btnNewIDForBZRQ->MoveWindow(0,0,0,0);
+	m_btnNewIDForBZRQ->ShowWindow(SW_HIDE);
+	m_btnNewIDForBZRQ->EnableWindow(FALSE);//需求变更 删除按钮
 
 	if (NULL != m_lpOption)
 	{
