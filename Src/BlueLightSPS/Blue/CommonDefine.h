@@ -248,11 +248,11 @@ inline bool GGisU(CString& ggxh){
 	{\
 CString& ggxh = row[ns::ggxh];\
 if (GGisS(ggxh)){\
-	if (row[ns::zdqdy].CompareNoCase(L"220v") == 0 && row[ns::zdqxh].CompareNoCase(L"DZE-14EB2") != 0){\
+	if (row[ns::zdqdy].CompareNoCase(L"AC220V") == 0 && row[ns::zdqxh].CompareNoCase(L"DZE-14EB2") != 0){\
 		pGridAPI->HighLightCell(id, ns::zdqxh);\
 		pGridAPI->HighLightCell(id, ns::zdqdy);\
 	}\
-	else if (row[ns::zdqdy].CompareNoCase(L"DC110v") == 0 && row[ns::zdqxh].CompareNoCase(L"DZE-14EA") != 0){\
+	if (row[ns::zdqdy].CompareNoCase(L"DC110V") == 0 && row[ns::zdqxh].CompareNoCase(L"DZE-14EA") != 0){\
 		pGridAPI->HighLightCell(id, ns::zdqxh);\
 		pGridAPI->HighLightCell(id, ns::zdqdy);\
 	}\
@@ -261,15 +261,12 @@ if (GGisS(ggxh)){\
 		pGridAPI->HighLightCell(id, ns::yylgg);\
 	}\
 }\
-else if (GGisTStart(ggxh)){\
+if (GGisTStart(ggxh)){\
 	if (row[ns::zdqdy].CompareNoCase(L"DC110v") != 0){\
 		pGridAPI->HighLightCell(id, ns::zdqdy);\
 	}\
 	\
-	if (row[ns::zdqxh].CompareNoCase(L"WYT-TA.3（10簧）") != 0){\
-		pGridAPI->HighLightCell(id, ns::zdqxh);\
-	}\
-	else if (row[ns::zdqxh].CompareNoCase(L"WYT-TA.3（12簧）") != 0){\
+	if ((row[ns::zdqxh].CompareNoCase(L"WYT-TA.3（10簧）") != 0) && (row[ns::zdqxh].CompareNoCase(L"WYT-TA.3（12簧）") != 0)){\
 		pGridAPI->HighLightCell(id, ns::zdqxh);\
 	}\
 	\
@@ -277,8 +274,8 @@ else if (GGisTStart(ggxh)){\
 		pGridAPI->HighLightCell(id, ns::yylgg);\
 	}\
 }\
-else if (GGisU(ggxh)){\
-	if (row[ns::zdqdy].CompareNoCase(L"DC110v") != 0){\
+if (GGisU(ggxh)){\
+	if (row[ns::zdqdy].CompareNoCase(L"DC110V") != 0){\
 		pGridAPI->HighLightCell(id, ns::zdqdy);\
 	}\
 	\
@@ -286,18 +283,16 @@ else if (GGisU(ggxh)){\
 		pGridAPI->HighLightCell(id, ns::yylgg);\
 	}\
 }\
-else{\
-	if (row[ns::zjdy].CompareNoCase(L"AC380V") != 0){\
-		pGridAPI->HighLightCell(id, ns::zjdy);\
-			}\
-	if (row[ns::jf].CompareNoCase(L"有") != 0){\
-		pGridAPI->HighLightCell(id, ns::jf);\
-			}\
-	\
-	if (row[ns::bmqxh].CompareNoCase(L"海1387") != 0){\
-		pGridAPI->HighLightCell(id, ns::bmqxh);\
-			}\
-}\
+if (row[ns::zjdy].CompareNoCase(L"AC380V") != 0){\
+	pGridAPI->HighLightCell(id, ns::zjdy);\
+		}\
+if (row[ns::jf].CompareNoCase(L"有") != 0){\
+	pGridAPI->HighLightCell(id, ns::jf);\
+		}\
+\
+if (row[ns::bmqxh].CompareNoCase(L"海1387") != 0){\
+	pGridAPI->HighLightCell(id, ns::bmqxh);\
+		}\
 }
 
 #define SaleHighlightCell(id, row, pGridAPI) HighlightCell(id, row, nsSale, pGridAPI)
