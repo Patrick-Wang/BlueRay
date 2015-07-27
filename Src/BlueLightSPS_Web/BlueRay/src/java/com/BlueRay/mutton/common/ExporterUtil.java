@@ -18,7 +18,8 @@ public class ExporterUtil {
 					return true;
 				}
 			}
-			else if (row[PcjhColumn.zdqdy.ordinal()].equalsIgnoreCase("DC110v") && 
+			
+			if (row[PcjhColumn.zdqdy.ordinal()].equalsIgnoreCase("DC110V") && 
 					!row[PcjhColumn.zdqxh.ordinal()].equalsIgnoreCase("DZE-14EA")){
 				if (col == PcjhColumn.zdqxh.ordinal() || col == PcjhColumn.zdqdy.ordinal()){
 					return true;
@@ -31,19 +32,16 @@ public class ExporterUtil {
 				}
 			}
 		}
-		else if (Util.ggIsTStart(ggxh)){
+		
+		if (Util.ggIsTStart(ggxh)){
 			if (!row[PcjhColumn.zdqdy.ordinal()].equalsIgnoreCase("DC110v")){
 				if (col == PcjhColumn.zdqdy.ordinal()){
 					return true;
 				}
 			}
 
-			if (!row[PcjhColumn.zdqxh.ordinal()].equalsIgnoreCase("WYT-TA.3（10簧）")){
-				if (col == PcjhColumn.zdqxh.ordinal()){
-					return true;
-				}
-			}
-			else if (!row[PcjhColumn.zdqxh.ordinal()].equalsIgnoreCase("WYT-TA.3（12簧）")){
+			if (!row[PcjhColumn.zdqxh.ordinal()].equalsIgnoreCase("WYT-TA.3（10簧）") && 
+				!row[PcjhColumn.zdqxh.ordinal()].equalsIgnoreCase("WYT-TA.3（12簧）")){
 				if (col == PcjhColumn.zdqxh.ordinal()){
 					return true;
 				}
@@ -55,8 +53,9 @@ public class ExporterUtil {
 				}
 			}
 		}
-		else if (Util.ggIsU(ggxh)){
-			if (!row[PcjhColumn.zdqdy.ordinal()].equalsIgnoreCase("DC110v")){
+		
+		if (Util.ggIsU(ggxh)){
+			if (!row[PcjhColumn.zdqdy.ordinal()].equalsIgnoreCase("DC110V")){
 				if (col == PcjhColumn.zdqdy.ordinal()){
 					return true;
 				}
@@ -69,26 +68,25 @@ public class ExporterUtil {
 			}
 
 		}
-		else if (Util.ggIsU(ggxh)){
-
-			if (!row[PcjhColumn.zjdy.ordinal()].equalsIgnoreCase("AC380V")){
-				if (col == PcjhColumn.zjdy.ordinal()){
-					return true;
-				}
-			}
-
-			if (!row[PcjhColumn.jf.ordinal()].equalsIgnoreCase("有")){
-				if (col == PcjhColumn.jf.ordinal()){
-					return true;
-				}
-			}
-
-			if (!row[PcjhColumn.bmqxh.ordinal()].equalsIgnoreCase("海1387")){
-				if (col == PcjhColumn.bmqxh.ordinal()){
-					return true;
-				}
+		
+		if (!row[PcjhColumn.zjdy.ordinal()].equalsIgnoreCase("AC380V")){
+			if (col == PcjhColumn.zjdy.ordinal()){
+				return true;
 			}
 		}
+
+		if (!row[PcjhColumn.jf.ordinal()].equalsIgnoreCase("有")){
+			if (col == PcjhColumn.jf.ordinal()){
+				return true;
+			}
+		}
+
+		if (!row[PcjhColumn.bmqxh.ordinal()].equalsIgnoreCase("海1387")){
+			if (col == PcjhColumn.bmqxh.ordinal()){
+				return true;
+			}
+		}
+
 		return false;
 	}
 	
@@ -105,7 +103,8 @@ public class ExporterUtil {
 					return true;
 				}
 			}
-			else if (row[HtxxColumn.zdqdy.ordinal()].equalsIgnoreCase("DC110v") && 
+			
+			if (row[HtxxColumn.zdqdy.ordinal()].equalsIgnoreCase("DC110V") && 
 					!row[HtxxColumn.zdqxh.ordinal()].equalsIgnoreCase("DZE-14EA")){
 				if (col == HtxxColumn.zdqxh.ordinal() || col == HtxxColumn.zdqdy.ordinal()){
 					return true;
@@ -118,19 +117,16 @@ public class ExporterUtil {
 				}
 			}
 		}
-		else if (Util.ggIsTStart(ggxh)){
+		
+		if (Util.ggIsTStart(ggxh)){
 			if (!row[HtxxColumn.zdqdy.ordinal()].equalsIgnoreCase("DC110v")){
 				if (col == HtxxColumn.zdqdy.ordinal()){
 					return true;
 				}
 			}
 
-			if (row[HtxxColumn.zdqxh.ordinal()].equalsIgnoreCase("WYT-TA.3（10簧）")){
-				if (col == HtxxColumn.zdqxh.ordinal()){
-					return true;
-				}
-			}
-			else if (row[HtxxColumn.zdqxh.ordinal()].equalsIgnoreCase("WYT-TA.3（12簧）")){
+			if (!row[HtxxColumn.zdqxh.ordinal()].equalsIgnoreCase("WYT-TA.3（10簧）") && 
+				!row[HtxxColumn.zdqxh.ordinal()].equalsIgnoreCase("WYT-TA.3（12簧）")){
 				if (col == HtxxColumn.zdqxh.ordinal()){
 					return true;
 				}
@@ -142,14 +138,13 @@ public class ExporterUtil {
 				}
 			}
 		}
-		else if (Util.ggIsU(ggxh)){
-			if (!row[HtxxColumn.zdqdy.ordinal()].equalsIgnoreCase("DC110v")){
+		
+		if (Util.ggIsU(ggxh)){
+			if (!row[HtxxColumn.zdqdy.ordinal()].equalsIgnoreCase("DC110V")){
 				if (col == HtxxColumn.zdqdy.ordinal()){
 					return true;
 				}
 			}
-
-			
 
 			if (!row[HtxxColumn.yylgg.ordinal()].equalsIgnoreCase("480*7*12*18")){
 				if (col == HtxxColumn.yylgg.ordinal()){
@@ -157,26 +152,26 @@ public class ExporterUtil {
 				}
 			}
 
-		} else{
-			
-			if (!row[HtxxColumn.zjdy.ordinal()].equalsIgnoreCase("AC380V")){
-				if (col == HtxxColumn.zjdy.ordinal()){
-					return true;
-				}
-			}
-			
-			if (!row[HtxxColumn.jf.ordinal()].equalsIgnoreCase("有")){
-				if (col == HtxxColumn.jf.ordinal()){
-					return true;
-				}
-			}
-
-			if (!row[HtxxColumn.bmqxh.ordinal()].equalsIgnoreCase("海1387")){
-				if (col == HtxxColumn.bmqxh.ordinal()){
-					return true;
-				}
+		}
+		
+		if (!row[HtxxColumn.zjdy.ordinal()].equalsIgnoreCase("AC380V")){
+			if (col == HtxxColumn.zjdy.ordinal()){
+				return true;
 			}
 		}
+
+		if (!row[HtxxColumn.jf.ordinal()].equalsIgnoreCase("有")){
+			if (col == HtxxColumn.jf.ordinal()){
+				return true;
+			}
+		}
+
+		if (!row[HtxxColumn.bmqxh.ordinal()].equalsIgnoreCase("海1387")){
+			if (col == HtxxColumn.bmqxh.ordinal()){
+				return true;
+			}
+		}
+
 		return false;
 	}
 	

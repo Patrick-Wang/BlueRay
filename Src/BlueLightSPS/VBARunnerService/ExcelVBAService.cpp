@@ -47,19 +47,16 @@ public:
 				}
 			}
 		}
-		else if (GGisTStart(ggxh)){
+		
+		if (GGisTStart(ggxh)){
 			if (0 != CompareNoCase(row.asString(nsPlan::zdqdy), L"DC110v")){
 				if (col == nsPlan::zdqdy){
 					return true;
 				}
 			}
 
-			if (0 != CompareNoCase(row.asString(nsPlan::zdqxh), L"WYT-TA.3（10簧）")){
-				if (col == nsPlan::zdqxh){
-					return true;
-				}
-			}
-			else if (0 != CompareNoCase(row.asString(nsPlan::zdqxh), L"WYT-TA.3（12簧）")){
+			if (0 != CompareNoCase(row.asString(nsPlan::zdqxh), L"WYT-TA.3（10簧）") &&
+				0 != CompareNoCase(row.asString(nsPlan::zdqxh), L"WYT-TA.3（12簧）")){
 				if (col == nsPlan::zdqxh){
 					return true;
 				}
@@ -71,7 +68,8 @@ public:
 				}
 			}
 		}
-		else if (GGisU(ggxh)){
+		
+		if (GGisU(ggxh)){
 			if (0 != CompareNoCase(row.asString(nsPlan::zdqdy), L"DC110v")){
 				if (col == nsPlan::zdqdy){
 					return true;
@@ -84,25 +82,25 @@ public:
 				}
 			}
 		}
-		else{
-			if (0 != CompareNoCase(row.asString(nsPlan::zjdy), L"AC380V")){
-				if (col == nsPlan::zjdy){
-					return true;
-				}
-			}
 
-			if (0 != CompareNoCase(row.asString(nsPlan::jf), L"有")){
-				if (col == nsPlan::jf){
-					return true;
-				}
-			}
-
-			if (0 != CompareNoCase(row.asString(nsPlan::bmqxh), L"海1387")){
-				if (col == nsPlan::bmqxh){
-					return true;
-				}
+		if (0 != CompareNoCase(row.asString(nsPlan::zjdy), L"AC380V")){
+			if (col == nsPlan::zjdy){
+				return true;
 			}
 		}
+
+		if (0 != CompareNoCase(row.asString(nsPlan::jf), L"有")){
+			if (col == nsPlan::jf){
+				return true;
+			}
+		}
+
+		if (0 != CompareNoCase(row.asString(nsPlan::bmqxh), L"海1387")){
+			if (col == nsPlan::bmqxh){
+				return true;
+			}
+		}
+
 		return false;
 	}
 
