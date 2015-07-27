@@ -28,7 +28,7 @@ public:
 	static bool validatePlanHighlight(nsPlan::Column_en col, Json::JsonArray& row){
 		CString ggxh = row.asString(nsPlan::ggxh).c_str();
 		if (GGisS(ggxh)){
-			if (0 == CompareNoCase(row.asString(nsPlan::zdqdy), L"220v") &&
+			if (0 == CompareNoCase(row.asString(nsPlan::zdqdy), L"AC220V") &&
 				0 != CompareNoCase(row.asString(nsPlan::zdqxh), L"DZE-14EB2")){
 				if (col == nsPlan::zdqxh || col == nsPlan::zdqdy){
 					return true;

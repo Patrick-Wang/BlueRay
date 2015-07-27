@@ -12,7 +12,7 @@ public class ExporterUtil {
 	public static boolean validatePlanHighlight(int col, String[] row){
 		String ggxh = row[PcjhColumn.ggxh.ordinal()];
 		if (Util.ggIsS(ggxh)){
-			if (row[PcjhColumn.zdqdy.ordinal()].equalsIgnoreCase("220v") && 
+			if (row[PcjhColumn.zdqdy.ordinal()].equalsIgnoreCase("AC220V") && 
 				!row[PcjhColumn.zdqxh.ordinal()].equalsIgnoreCase("DZE-14EB2")){
 				if (col == PcjhColumn.zdqxh.ordinal() || col == PcjhColumn.zdqdy.ordinal()){
 					return true;
@@ -97,7 +97,7 @@ public class ExporterUtil {
 	public static boolean validateSaleHighlight(int col, String[] row){
 		String ggxh = row[HtxxColumn.ggxh.ordinal()];
 		if (Util.ggIsS(ggxh)){
-			if (row[HtxxColumn.zdqdy.ordinal()].equalsIgnoreCase("220v") && 
+			if (row[HtxxColumn.zdqdy.ordinal()].equalsIgnoreCase("AC220V") && 
 				!row[HtxxColumn.zdqxh.ordinal()].equalsIgnoreCase("DZE-14EB2")){
 				if (col == HtxxColumn.zdqxh.ordinal() || col == HtxxColumn.zdqdy.ordinal()){
 					return true;
