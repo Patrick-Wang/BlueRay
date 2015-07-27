@@ -193,7 +193,7 @@ void CNotificationPanel::HighLight()
 	//}
 	for (size_t i = 0, len = m_table.size(); i < len; i++)
 	{
-		StringArray& row = m_table[i].second;
+		StringArray row = m_table[i].second;
 
 		switch (m_enumCurrentApprovingItem)
 		{
