@@ -194,6 +194,19 @@ void CNotificationPanel::HighLight()
 	for (size_t i = 0, len = m_table.size(); i < len; i++)
 	{
 		StringArray& row = m_table[i].second;
+
+		switch (m_enumCurrentApprovingItem)
+		{
+			case CNotificationPanel::Approving_SaleBusiness:
+			case CNotificationPanel::Approving_SalePlan:
+			{
+				for (int index = _countof(g_TableToBeReplacedByNullForSale) - 1; index >= 0; --index)
+				{
+					row.insert(row.begin() + g_TableToBeReplacedByNullForSale[index], _T(""));
+				}
+			}
+		}
+
 		NotificationHighlightCell(m_table[i].first, row, m_pJqGridAPI);
 	}
 }
