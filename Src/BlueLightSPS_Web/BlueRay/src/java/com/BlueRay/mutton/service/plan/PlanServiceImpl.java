@@ -454,6 +454,11 @@ public class PlanServiceImpl implements PlanService {
 	private String getTcbh(ZZS zzs){
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH) + 1;
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		if (month >= 12 && day >= 26){
+			year += 1;
+		}
 		String ret = null;
 		do{
 			if (null != zzs){
@@ -470,6 +475,10 @@ public class PlanServiceImpl implements PlanService {
 	
 	private String getCcbh(ZZS zzs){
 		Calendar cal = Calendar.getInstance();
+		int day = cal.get(Calendar.DAY_OF_MONTH);
+		if (day >= 26){
+			cal.add(Calendar.MONTH, 1);
+		}
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH) + 1;
 		String ret = null;
