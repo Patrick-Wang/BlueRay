@@ -4,7 +4,7 @@ extern CString g_strHostName;
 
 #define IDS_HOST_NAME             (LPCTSTR)g_strHostName
 
-#define IDS_VERSION_NUMBER	 _T("1.0.0.07270")
+#define IDS_VERSION_NUMBER	 _T("1.0.0.07290")
 //user setting location
 
 #define IDS_SETTING_FILENAME				_T("\\user_setting.xml")
@@ -248,49 +248,51 @@ inline bool GGisU(CString& ggxh){
 	{\
 CString& ggxh = row[ns::ggxh];\
 if (GGisS(ggxh)){\
-	if (row[ns::zdqdy].CompareNoCase(L"AC220V") == 0 && row[ns::zdqxh].CompareNoCase(L"DZE-14EB2") != 0){\
+	if (row[ns::zdqdy].CompareNoCase(L"AC220V") == 0 && row[ns::zdqxh].CompareNoCase(L"DZE-14EB2") != 0\
+					&& !row[ns::zdqxh].IsEmpty()){\
 		pGridAPI->HighLightCell(id, ns::zdqxh);\
 		pGridAPI->HighLightCell(id, ns::zdqdy);\
 	}\
-	if (row[ns::zdqdy].CompareNoCase(L"DC110V") == 0 && row[ns::zdqxh].CompareNoCase(L"DZE-14EA") != 0){\
+	if (row[ns::zdqdy].CompareNoCase(L"DC110V") == 0 && row[ns::zdqxh].CompareNoCase(L"DZE-14EA") != 0)\
+						&& !row[ns::zdqxh].IsEmpty()){\
 		pGridAPI->HighLightCell(id, ns::zdqxh);\
 		pGridAPI->HighLightCell(id, ns::zdqdy);\
 	}\
 	\
-	if (row[ns::yylgg].CompareNoCase(L"400*5*10*16") != 0){\
+	if (row[ns::yylgg].CompareNoCase(L"400*5*10*16") != 0 && !row[ns::yylgg].IsEmpty()){\
 		pGridAPI->HighLightCell(id, ns::yylgg);\
 	}\
 }\
 if (GGisTStart(ggxh)){\
-	if (row[ns::zdqdy].CompareNoCase(L"DC110v") != 0){\
+	if (row[ns::zdqdy].CompareNoCase(L"DC110v") != 0 && !row[ns::zdqdy].IsEmpty()){\
 		pGridAPI->HighLightCell(id, ns::zdqdy);\
 	}\
 	\
-	if ((row[ns::zdqxh].CompareNoCase(L"WYT-TA.3（10簧）") != 0) && (row[ns::zdqxh].CompareNoCase(L"WYT-TA.3（12簧）") != 0)){\
+	if ((row[ns::zdqxh].CompareNoCase(L"WYT-TA.3（10簧）") != 0) && (row[ns::zdqxh].CompareNoCase(L"WYT-TA.3（12簧）") != 0) && !row[ns::zdqxh].IsEmpty()){\
 		pGridAPI->HighLightCell(id, ns::zdqxh);\
 	}\
 	\
-	if (row[ns::yylgg].CompareNoCase(L"400*5*10*16") != 0){\
+	if (row[ns::yylgg].CompareNoCase(L"400*5*10*16") != 0 && !row[ns::yylgg].IsEmpty()){\
 		pGridAPI->HighLightCell(id, ns::yylgg);\
 	}\
 }\
 if (GGisU(ggxh)){\
-	if (row[ns::zdqdy].CompareNoCase(L"DC110V") != 0){\
+	if (row[ns::zdqdy].CompareNoCase(L"DC110V") != 0 && !row[ns::zdqdy].IsEmpty()){\
 		pGridAPI->HighLightCell(id, ns::zdqdy);\
 	}\
 	\
-	if (row[ns::yylgg].CompareNoCase(L"480*7*12*18") != 0){\
+	if (row[ns::yylgg].CompareNoCase(L"480*7*12*18") != 0 && !row[ns::yylgg].IsEmpty()){\
 		pGridAPI->HighLightCell(id, ns::yylgg);\
 	}\
 }\
-if (row[ns::zjdy].CompareNoCase(L"AC380V") != 0){\
+if (row[ns::zjdy].CompareNoCase(L"AC380V") != 0 && !row[ns::zjdy].IsEmpty()){\
 	pGridAPI->HighLightCell(id, ns::zjdy);\
 		}\
-if (row[ns::jf].CompareNoCase(L"有") != 0){\
+if (row[ns::jf].CompareNoCase(L"有") != 0 && !row[ns::jf].IsEmpty()){\
 	pGridAPI->HighLightCell(id, ns::jf);\
 		}\
 \
-if (row[ns::bmqxh].CompareNoCase(L"海1387") != 0){\
+if (row[ns::bmqxh].CompareNoCase(L"海1387") != 0 && !row[ns::bmqxh].IsEmpty()){\
 	pGridAPI->HighLightCell(id, ns::bmqxh);\
 		}\
 }
