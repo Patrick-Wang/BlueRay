@@ -248,13 +248,11 @@ inline bool GGisU(CString& ggxh){
 	{\
 CString& ggxh = row[ns::ggxh];\
 if (GGisS(ggxh)){\
-	if (row[ns::zdqdy].CompareNoCase(L"AC220V") == 0 && row[ns::zdqxh].CompareNoCase(L"DZE-14EB2") != 0\
-					&& !row[ns::zdqxh].IsEmpty()){\
+	if (row[ns::zdqdy].CompareNoCase(L"AC220V") == 0 && row[ns::zdqxh].CompareNoCase(L"DZE-14EB2") != 0	&& !row[ns::zdqxh].IsEmpty()){\
 		pGridAPI->HighLightCell(id, ns::zdqxh);\
 		pGridAPI->HighLightCell(id, ns::zdqdy);\
 	}\
-	if (row[ns::zdqdy].CompareNoCase(L"DC110V") == 0 && row[ns::zdqxh].CompareNoCase(L"DZE-14EA") != 0)\
-						&& !row[ns::zdqxh].IsEmpty()){\
+	if (row[ns::zdqdy].CompareNoCase(L"DC110V") == 0 && row[ns::zdqxh].CompareNoCase(L"DZE-14EA") != 0) && !row[ns::zdqxh].IsEmpty()){\
 		pGridAPI->HighLightCell(id, ns::zdqxh);\
 		pGridAPI->HighLightCell(id, ns::zdqdy);\
 	}\
