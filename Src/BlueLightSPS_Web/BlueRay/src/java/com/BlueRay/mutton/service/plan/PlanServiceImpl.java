@@ -37,6 +37,7 @@ import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXTemplateScjhExporter;
 import com.BlueRay.mutton.service.sale.SaleServiceImpl;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
+import com.opensymphony.oscache.util.StringUtil;
 
 
 @Service
@@ -248,11 +249,22 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	public String businessApprove(JSONArray rows) {
-		for (int i = rows.size() - 1; i >= 0; --i) {
+		for (int i = 0; i < rows.size(); ++i) {
 			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
 			if (!"Y".equals(pcjhxx.getSftgywsh())) {
 				pcjhxx.setSftgywsh("Y");
-				if (null != pcjhxx.getJhscrq()){
+				planDao.update(pcjhxx);
+			}
+		}
+		return "[]";
+	}
+
+	public String planApprove(JSONArray rows) {
+		for (int i = 0; i < rows.size(); ++i) {
+			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
+			if (!"Y".equals(pcjhxx.getSftgjhsh())) {
+				pcjhxx.setSftgjhsh("Y");
+				if (StringUtil.isEmpty(pcjhxx.getTcbh())){
 					HTXX htxx = saleDao.getSaleDataById(pcjhxx.getHtxxID());
 					if (null != htxx){
 						ZZS zzs = itemDao.queryZZSById(htxx.getZzsID());
@@ -266,30 +278,11 @@ public class PlanServiceImpl implements PlanService {
 		return "[]";
 	}
 
-	public String planApprove(JSONArray rows) {
-		for (int i = rows.size() - 1; i >= 0; --i) {
-			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
-			if (!"Y".equals(pcjhxx.getSftgjhsh())) {
-				pcjhxx.setSftgjhsh("Y");
-				planDao.update(pcjhxx);
-			}
-		}
-		return "[]";
-	}
-
 	public String packBusinessApprove(JSONArray rows) {
-		for (int i = rows.size() - 1; i >= 0; --i) {
+		for (int i = 0; i < rows.size(); ++i) {
 			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
 			if (!"Y".equals(pcjhxx.getBzsftgywsh())) {
 				pcjhxx.setBzsftgywsh("Y");
-				if (null != pcjhxx.getJhbzrq()){
-					HTXX htxx = saleDao.getSaleDataById(pcjhxx.getHtxxID());
-					if (null != htxx){
-						ZZS zzs = itemDao.queryZZSById(htxx.getZzsID());
-						String ccbh = getCcbh(zzs);
-						pcjhxx.setCcbh(ccbh);
-					}
-				}
 				planDao.update(pcjhxx);
 			}
 		}
@@ -297,10 +290,18 @@ public class PlanServiceImpl implements PlanService {
 	}
 
 	public String packPlanApprove(JSONArray rows) {
-		for (int i = rows.size() - 1; i >= 0; --i) {
+		for (int i = 0; i < rows.size(); ++i) {
 			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
 			if (!"Y".equals(pcjhxx.getBzsftgjhsh())) {
 				pcjhxx.setBzsftgjhsh("Y");
+				if (StringUtil.isEmpty(pcjhxx.getCcbh())){
+					HTXX htxx = saleDao.getSaleDataById(pcjhxx.getHtxxID());
+					if (null != htxx){
+						ZZS zzs = itemDao.queryZZSById(htxx.getZzsID());
+						String ccbh = getCcbh(zzs);
+						pcjhxx.setCcbh(ccbh);
+					}
+				}
 				planDao.update(pcjhxx);
 			}
 		}
