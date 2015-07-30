@@ -11,7 +11,7 @@
 #include "SaleAddDlg.h"
 #include "NotificationAddDlgForPlan.h"
 #include "NotificationAddDlgForSale.h"
-
+#include <map>
 #define GET_UNAPPROVED_URL_ID					IDP_NOTIFICATION + 1
 #define QUERY_URL_UNAPPROVED_SALEBUSINESS		GET_UNAPPROVED_URL_ID + 1
 #define QUERY_URL_UNAPPROVED_SALEPLAN			QUERY_URL_UNAPPROVED_SALEBUSINESS + 1
@@ -43,6 +43,89 @@ static int g_ButtoncPos[][4] = {
 		{ 20 + (g_button_width + g_static_width * 2 + g_space_between), 123 - 10, g_button_width, 25 }
 };
 
+#define NOTIFICATION_SALE_MAP(map, item)\
+	map[nsNotification::item] = nsSale::item;
+	
+#define NOTIFICATION_PLAN_MAP(map, item)\
+	map[nsNotification::item] = nsPlan::item;
+
+#define TO_SALE_INDEX(index) \
+	notificationSaleMap[index]
+
+#define TO_PLAN_INDEX(index) \
+	notificationPlanMap[index]
+
+std::map<int, int> notificationSaleMap;
+std::map<int, int> notificationPlanMap;
+
+void initMap(){
+
+		NOTIFICATION_SALE_MAP(notificationSaleMap, hth);
+		NOTIFICATION_SALE_MAP(notificationSaleMap, khmc);	//客户名称"
+		NOTIFICATION_SALE_MAP(notificationSaleMap, ggxh);	//规格型号"
+		NOTIFICATION_SALE_MAP(notificationSaleMap, sl);	//数量"
+		NOTIFICATION_SALE_MAP(notificationSaleMap, zc);	//轴承"
+		NOTIFICATION_SALE_MAP(notificationSaleMap, dfr);	//单复�?
+		NOTIFICATION_SALE_MAP(notificationSaleMap, zdqdy);	//制动器电�?
+		NOTIFICATION_SALE_MAP(notificationSaleMap, yylgg);	//曳引轮规�?
+		NOTIFICATION_SALE_MAP(notificationSaleMap, jf);	//机房"
+		NOTIFICATION_SALE_MAP(notificationSaleMap, bpqxh);	//变频器型�?
+		NOTIFICATION_SALE_MAP(notificationSaleMap, bmqxh);	//编码器型�?
+		NOTIFICATION_SALE_MAP(notificationSaleMap, dlcd);	//电缆长度"
+		NOTIFICATION_SALE_MAP(notificationSaleMap, zxcd);	//闸线长度"
+		NOTIFICATION_SALE_MAP(notificationSaleMap, mpzl);	//铭牌等资�?
+		NOTIFICATION_SALE_MAP(notificationSaleMap, bz);	//备注"
+		NOTIFICATION_SALE_MAP(notificationSaleMap, ddrq);	//订单日期"
+		NOTIFICATION_SALE_MAP(notificationSaleMap, zjdy);	//主机电压
+		NOTIFICATION_SALE_MAP(notificationSaleMap, zjys);	//主机颜色
+		NOTIFICATION_SALE_MAP(notificationSaleMap, zdqxh);	//制动器型�?
+		NOTIFICATION_SALE_MAP(notificationSaleMap, zyz);	// �?右置
+		NOTIFICATION_SALE_MAP(notificationSaleMap, bzxdtgg);// 包装�?底托规格
+		NOTIFICATION_SALE_MAP(notificationSaleMap, gh);	// 工号
+		NOTIFICATION_SALE_MAP(notificationSaleMap, zzs);	// 制造商
+		NOTIFICATION_SALE_MAP(notificationSaleMap, khqy);	// 客户区域
+		NOTIFICATION_SALE_MAP(notificationSaleMap, yxj);	//优先�?
+		NOTIFICATION_SALE_MAP(notificationSaleMap, ywsh);	//审核-业务
+		NOTIFICATION_SALE_MAP(notificationSaleMap, jhsh);	//审核-计划"
+
+
+
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, hth);	//合同�?
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, khmc);	//客户名称"
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, ggxh);	//规格型号"
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, cg);
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, sl);	//数量"
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, zc);	//轴承"
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, dfr);	//单复�?
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, zdqdy);	//制动器电�?
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, yylgg);	//曳引轮规�?
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, jf);	//机房"
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, bpqxh);	//变频器型�?
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, bmqxh);	//编码器型�?
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, dlcd);	//电缆长度"
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, zxcd);	//闸线长度"
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, mpzl);	//铭牌等资�?
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, bz);	//备注"
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, ddrq);	//订单日期"
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, zjdy);	//主机电压
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, zjys);	//主机颜色
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, zdqxh);	//制动器型�?
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, zyz);	// �?右置
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, bzxdtgg);// 包装�?底托规格
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, gh);	// 工号
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, zzs);	// 制造商
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, khqy);	// 客户区域
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, yxj);	//优先�?
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, scrq);	//生产日期"
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, jhshyw);	//计划审核-业务"
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, jhshjh);	//计划审核-计划"
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, bzrq);	//包装日期"
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, bzshyw);	//包装审核-业务"
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, bzshjh);	//包装审核-计划"
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, fhrq);	//发货日期"
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, tcbh);	//投产编号"
+		NOTIFICATION_PLAN_MAP(notificationPlanMap, ccbh);	//出厂编号"
+}
 
 
 // static int g_TableToBeHiddenForPlan[]
@@ -84,7 +167,7 @@ CNotificationPanel::CNotificationPanel(CJQGridAPI* pJqGridAPI)
 	, m_btnMore(NULL)
 	, m_editSearch(NULL)
 {
-
+	initMap();
 }
 
 CNotificationPanel::~CNotificationPanel()
@@ -235,7 +318,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 			DEFINE_NOTIFICATION_SALE_QUERY_PARAM(jqp);
 			MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
-				jqp.AddSortCondition(colIndex, bAsc);
+				jqp.AddSortCondition(TO_SALE_INDEX(colIndex), bAsc);
 			}
 			jqp.AddApproveCondition(CSale::PLAN, false);
 			jqp.AddApproveCondition(CSale::BUSINESS, true);
@@ -246,7 +329,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		{
 			DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 			if (colIndex >= 0){
-				jqp.AddSortCondition(colIndex, bAsc);
+				jqp.AddSortCondition(TO_PLAN_INDEX(colIndex), bAsc);
 			}
 			jqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
 			CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
@@ -267,7 +350,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 			DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 			CUnitedQuery* uq = MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
-				jqp.AddSortCondition(colIndex, bAsc);
+				jqp.AddSortCondition(TO_PLAN_INDEX(colIndex), bAsc);
 			}
 			jqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
 			if (NULL != uq){
@@ -284,7 +367,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		{
 			DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 			if (colIndex >= 0){
-				jqp.AddSortCondition(colIndex, bAsc);
+				jqp.AddSortCondition(TO_PLAN_INDEX(colIndex), bAsc);
 			}
 			jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
 			CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
@@ -304,7 +387,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		{
 			DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 			if (colIndex >= 0){
-				jqp.AddSortCondition(colIndex, bAsc);
+				jqp.AddSortCondition(TO_PLAN_INDEX(colIndex), bAsc);
 			}
 			jqp.AddApproveCondition(CPlan::PACK_PLAN, false);
 			CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);

@@ -1,8 +1,8 @@
 package com.BlueRay.mutton.common;
 
-import org.hsqldb.lib.StringUtil;
 
 import com.BlueRay.mutton.tool.Util;
+import com.opensymphony.oscache.util.StringUtil;
 
 
 
