@@ -215,9 +215,9 @@ namespace nsNotification{
 	MAKE_PLAN_QUERY_PARAM(name)
 
 #define MAKE_PLAN_QUERY_PARAM(name) \
+	name.AddSortCondition(nsPlan::Column_en::scrq, false);\
 	name.AddSortCondition(nsPlan::Column_en::ggxh, true); \
 	name.AddSortCondition(nsPlan::Column_en::khmc, true); \
-	name.AddSortCondition(nsPlan::Column_en::scrq, false);\
 	name.AddSortCondition(nsPlan::Column_en::tcbh, true);
 
 #define DEFINE_NOTIFICATION_SALE_QUERY_PARAM(name) \
