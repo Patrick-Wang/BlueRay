@@ -304,10 +304,10 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 			break;
 		case CNotificationPanel::Approving_SaleBusiness:
 		{
-			DEFINE_NOTIFICATION_SALE_QUERY_PARAM(jqp);
+			CJsonQueryParam jqp;
 			MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
-				jqp.AddSortCondition(colIndex, bAsc);
+				jqp.AddSortCondition(TO_SALE_INDEX(colIndex), bAsc);
 			}
 			jqp.AddApproveCondition(CSale::BUSINESS, false);
 			CServer::GetInstance()->GetSale().Query(page, m_pJqGridAPI->GetPageSize(), jqp).then(new CQueryListener(*this, m_table, m_pJqGridAPI.get()));
@@ -315,7 +315,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		}
 		case CNotificationPanel::Approving_SalePlan:
 		{
-			DEFINE_NOTIFICATION_SALE_QUERY_PARAM(jqp);
+			CJsonQueryParam jqp;
 			MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(TO_SALE_INDEX(colIndex), bAsc);
@@ -327,7 +327,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		}
 		case CNotificationPanel::Approving_PlanSCRQBusiness:
 		{
-			DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
+			CJsonQueryParam jqp;
 			if (colIndex >= 0){
 				jqp.AddSortCondition(TO_PLAN_INDEX(colIndex), bAsc);
 			}
@@ -347,7 +347,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		}
 		case CNotificationPanel::Approving_PlanSCRQPlan:
 		{
-			DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
+			CJsonQueryParam jqp;
 			CUnitedQuery* uq = MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(TO_PLAN_INDEX(colIndex), bAsc);
@@ -365,7 +365,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		}
 		case CNotificationPanel::Approving_PlanBZRQBusiness:
 		{
-			DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
+			CJsonQueryParam jqp;
 			if (colIndex >= 0){
 				jqp.AddSortCondition(TO_PLAN_INDEX(colIndex), bAsc);
 			}
@@ -385,7 +385,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		}
 		case CNotificationPanel::Approving_PlanBZRQPlan:
 		{
-			DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
+			CJsonQueryParam jqp;
 			if (colIndex >= 0){
 				jqp.AddSortCondition(TO_PLAN_INDEX(colIndex), bAsc);
 			}
@@ -584,7 +584,7 @@ void CNotificationPanel::OnBnClickedSearch()
 {
 	//m_pJqGridAPI->UncheckedAll();
 	//m_advanceSearchVals.clear();
-
+	m_pJqGridAPI->CancelSort();
 	//DEFINE_NOTIFICATION_SALE_QUERY_PARAM(jqp);
 	CJsonQueryParam jqp;
 
@@ -607,7 +607,7 @@ void CNotificationPanel::OnBnClickedSearch()
 	}
 	case CNotificationPanel::Approving_SalePlan:
 	{
-		MAKE_PLAN_QUERY_PARAM(jqp);
+		MAKE_SALE_QUERY_PARAM(jqp);
 		jqp.AddApproveCondition(CSale::PLAN, false);
 		jqp.AddApproveCondition(CSale::BUSINESS, true);
 		CServer::GetInstance()->GetSale().Query(1, m_pJqGridAPI->GetPageSize(), jqp).then(new CNotificationSearchListener(*this, m_table, m_pJqGridAPI.get()));
@@ -710,7 +710,7 @@ void CNotificationPanel::OnBnClickedMore()
 			Approving_SalePlan != m_enumCurrentApprovingItem){
 			m_advanceSearchVals.insert(m_advanceSearchVals.begin() + nsPlan::cg, L"");
 		}
-
+		m_pJqGridAPI->CancelSort();
 		CJsonQueryParam jqp;
 		CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
 

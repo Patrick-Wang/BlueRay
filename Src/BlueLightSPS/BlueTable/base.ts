@@ -236,10 +236,12 @@ module base {
                             } else if (!this.mIsShowHideTriggered){
                                 var index = -1;
                                 if ("" != postdata.sidx) {
+                                    $("#" + postdata.sidx + ".s-ico").show();
                                     index = parseInt(postdata.sidx.replace(name + "_col_", ""));
                                 }
                                 //alert("onupdate");
                                 this.cleanSelectedRow();
+                              
                                 mediator.onUpdate(this.mTableName, postdata.page, postdata.rows, index, ("asc" == postdata.sord));
                             }
                         }
