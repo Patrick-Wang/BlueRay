@@ -304,7 +304,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 			break;
 		case CNotificationPanel::Approving_SaleBusiness:
 		{
-			CJsonQueryParam jqp;
+			DEFINE_NOTIFICATION_SALE_QUERY_PARAM(jqp);
 			MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(TO_SALE_INDEX(colIndex), bAsc);
@@ -315,7 +315,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		}
 		case CNotificationPanel::Approving_SalePlan:
 		{
-			CJsonQueryParam jqp;
+			DEFINE_NOTIFICATION_SALE_QUERY_PARAM(jqp);
 			MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(TO_SALE_INDEX(colIndex), bAsc);
@@ -327,7 +327,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		}
 		case CNotificationPanel::Approving_PlanSCRQBusiness:
 		{
-			CJsonQueryParam jqp;
+			DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(TO_PLAN_INDEX(colIndex), bAsc);
 			}
@@ -347,7 +347,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		}
 		case CNotificationPanel::Approving_PlanSCRQPlan:
 		{
-			CJsonQueryParam jqp;
+			DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 			CUnitedQuery* uq = MakeBasicSearchCondition(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(TO_PLAN_INDEX(colIndex), bAsc);
@@ -365,7 +365,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		}
 		case CNotificationPanel::Approving_PlanBZRQBusiness:
 		{
-			CJsonQueryParam jqp;
+			DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(TO_PLAN_INDEX(colIndex), bAsc);
 			}
@@ -385,7 +385,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		}
 		case CNotificationPanel::Approving_PlanBZRQPlan:
 		{
-			CJsonQueryParam jqp;
+			DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(TO_PLAN_INDEX(colIndex), bAsc);
 			}
