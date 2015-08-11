@@ -232,7 +232,18 @@ public class DBPCJHXXTemplateScjhExporter implements IExcelExporter<PCJHXX> {
 		String val = cellTitle.getStringCellValue();
 		val = val.replace("XXX", getRq(ret[PcjhColumn.scrq.ordinal()]));
 		cellTitle.setCellValue(val);
-		HSSFRow row = sheetOther.createRow(2 + count - 1);
+		
+		Calendar cal = Calendar.getInstance();
+		String rq = "" + cal.get(Calendar.YEAR) + "-"
+				 + (cal.get(Calendar.MONTH) + 1) + "-"
+				 + cal.get(Calendar.DAY_OF_MONTH);
+		HSSFCell cellRq = sheetOther.getRow(1).getCell(9);
+		cellRq.setCellValue("计划下达日期:" + rq);
+		
+		HSSFCell cellHj = sheetOther.getRow(1).getCell(13);
+		cellHj.setCellValue("" + count);
+		
+		HSSFRow row = sheetOther.createRow(3 + count - 1);
 		HSSFCell cell = row.createCell(0);
 		cell.setCellValue(count);
 		cell.setCellStyle(style);
@@ -253,7 +264,20 @@ public class DBPCJHXXTemplateScjhExporter implements IExcelExporter<PCJHXX> {
 		String val = cellTitle.getStringCellValue();
 		val = val.replace("XXX", getRq(ret[PcjhColumn.scrq.ordinal()]));
 		cellTitle.setCellValue(val);
-		HSSFRow row = sheetU.createRow(2 + count - 1);
+		
+		
+		Calendar cal = Calendar.getInstance();
+		String rq = "" + cal.get(Calendar.YEAR) + "-"
+				 + (cal.get(Calendar.MONTH) + 1) + "-"
+				 + cal.get(Calendar.DAY_OF_MONTH);
+		HSSFCell cellRq = sheetU.getRow(1).getCell(9);
+		cellRq.setCellValue("计划下达日期:" + rq);
+		
+		HSSFCell cellHj = sheetU.getRow(1).getCell(13);
+		cellHj.setCellValue("" + count);
+		
+		
+		HSSFRow row = sheetU.createRow(3 + count - 1);
 		HSSFCell cell = row.createCell(0);
 		cell.setCellValue(count);
 		cell.setCellStyle(style);
@@ -285,10 +309,13 @@ public class DBPCJHXXTemplateScjhExporter implements IExcelExporter<PCJHXX> {
 		
 		HSSFCell cellHj = sheetST.getRow(1).getCell(13);
 		cellHj.setCellValue("" + count);
+		
+		
 		HSSFRow row = sheetST.createRow(3 + count - 1);
 		HSSFCell cell = row.createCell(0);
 		cell.setCellValue(count);
 		cell.setCellStyle(style);
+
 		for (int i = 0; i < columns.length; ++i){
 			cell = row.createCell(i + 1);
 			cell.setCellValue(ret[columns[i].ordinal()]);
