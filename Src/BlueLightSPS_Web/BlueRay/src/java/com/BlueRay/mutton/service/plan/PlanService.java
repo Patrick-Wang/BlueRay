@@ -1,6 +1,7 @@
 package com.BlueRay.mutton.service.plan;
 
 import java.io.OutputStream;
+import java.util.Date;
 
 import javax.servlet.ServletOutputStream;
 
@@ -41,7 +42,7 @@ public interface PlanService {
 
 	String templateExport(OutputStream out, JSONObject jquery);
 
-	String getBh(String item, String zzs);
+	String getBh(String item, String zzs, java.sql.Date date);
 
 	String bzjhtemplateExport(OutputStream out, JSONObject jquery);
 

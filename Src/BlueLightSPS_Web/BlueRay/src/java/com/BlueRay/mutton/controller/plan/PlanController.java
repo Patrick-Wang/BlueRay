@@ -2,6 +2,7 @@ package com.BlueRay.mutton.controller.plan;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.Date;
 import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,7 +66,7 @@ public class PlanController {
 			HttpServletRequest request,
 			HttpServletResponse response) {
 		
-		return planService.getBh(item, (String)request.getParameter("zzs"));
+		return planService.getBh(item, (String)request.getParameter("zzs"), java.sql.Date.valueOf((String)request.getParameter("date")));
 	}
 	
 	@RequestMapping(value = "/validate", method = RequestMethod.GET)

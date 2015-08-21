@@ -268,7 +268,7 @@ public class PlanServiceImpl implements PlanService {
 					HTXX htxx = saleDao.getSaleDataById(pcjhxx.getHtxxID());
 					if (null != htxx){
 						ZZS zzs = itemDao.queryZZSById(htxx.getZzsID());
-						String tcbh = getTcbh(zzs);
+						String tcbh = getTcbh(zzs, pcjhxx.getJhscrq());
 						pcjhxx.setTcbh(tcbh);
 					}
 				}
@@ -298,7 +298,7 @@ public class PlanServiceImpl implements PlanService {
 					HTXX htxx = saleDao.getSaleDataById(pcjhxx.getHtxxID());
 					if (null != htxx){
 						ZZS zzs = itemDao.queryZZSById(htxx.getZzsID());
-						String ccbh = getCcbh(zzs);
+						String ccbh = getCcbh(zzs, pcjhxx.getJhfhrq());
 						pcjhxx.setCcbh(ccbh);
 					}
 				}
@@ -452,8 +452,9 @@ public class PlanServiceImpl implements PlanService {
 		return "error";
 	}
 
-	private String getTcbh(ZZS zzs){
+	private String getTcbh(ZZS zzs, Date scrq){
 		Calendar cal = Calendar.getInstance();
+		cal.setTime(scrq);
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH) + 1;
 		int day = cal.get(Calendar.DAY_OF_MONTH);
@@ -474,8 +475,9 @@ public class PlanServiceImpl implements PlanService {
 		return ret;
 	}
 	
-	private String getCcbh(ZZS zzs){
+	private String getCcbh(ZZS zzs, Date fhrq){
 		Calendar cal = Calendar.getInstance();
+		cal.setTime(fhrq);
 		int day = cal.get(Calendar.DAY_OF_MONTH);
 		if (day >= 26){
 			cal.add(Calendar.MONTH, 1);
@@ -495,13 +497,13 @@ public class PlanServiceImpl implements PlanService {
 		return ret;
 	}
 	
-	public String getBh(String item, String zzsName) {
+	public String getBh(String item, String zzsName, Date date) {
 		String ret = "";
 		ZZS zzs = itemDao.queryZZSByValue("zzs", zzsName);
 		if("tcbh".equalsIgnoreCase(item)){
-			ret = getTcbh(zzs);			
+			ret = getTcbh(zzs, date);			
 		} else if("ccbh".equalsIgnoreCase(item)){
-			ret = getCcbh(zzs);			
+			ret = getCcbh(zzs, date);			
 		}
 		return ret;
 	}
