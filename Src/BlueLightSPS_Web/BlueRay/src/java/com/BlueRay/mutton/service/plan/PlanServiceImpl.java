@@ -298,7 +298,7 @@ public class PlanServiceImpl implements PlanService {
 					HTXX htxx = saleDao.getSaleDataById(pcjhxx.getHtxxID());
 					if (null != htxx){
 						ZZS zzs = itemDao.queryZZSById(htxx.getZzsID());
-						String ccbh = getCcbh(zzs, pcjhxx.getJhfhrq());
+						String ccbh = getCcbh(zzs, pcjhxx.getJhbzrq());
 						pcjhxx.setCcbh(ccbh);
 					}
 				}
@@ -475,9 +475,9 @@ public class PlanServiceImpl implements PlanService {
 		return ret;
 	}
 	
-	private String getCcbh(ZZS zzs, Date fhrq){
+	private String getCcbh(ZZS zzs, Date bzrq){
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(fhrq);
+		cal.setTime(bzrq);
 		int day = cal.get(Calendar.DAY_OF_MONTH);
 		if (day >= 26){
 			cal.add(Calendar.MONTH, 1);
