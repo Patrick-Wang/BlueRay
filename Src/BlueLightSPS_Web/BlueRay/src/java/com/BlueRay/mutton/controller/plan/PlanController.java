@@ -34,31 +34,31 @@ public class PlanController {
 	PlanService planService;
 
 
-	@RequestMapping(value = "/resetTcbh", method = RequestMethod.GET)
-	public @ResponseBody String resetTcbh(
-			HttpServletRequest request,
-			HttpServletResponse response) {
-		planService.resetTcSerialNumber();
-		return "OK";
-	}
+//	@RequestMapping(value = "/resetTcbh", method = RequestMethod.GET)
+//	public @ResponseBody String resetTcbh(
+//			HttpServletRequest request,
+//			HttpServletResponse response) {
+//		planService.resetTcSerialNumber();
+//		return "OK";
+//	}
+//	
+//	@RequestMapping(value = "/resetCcbh", method = RequestMethod.GET)
+//	public @ResponseBody String resetCcbh(
+//			HttpServletRequest request,
+//			HttpServletResponse response) {
+//		planService.resetCcSerialNumber();
+//		return "OK";
+//	}
 	
-	@RequestMapping(value = "/resetCcbh", method = RequestMethod.GET)
-	public @ResponseBody String resetCcbh(
-			HttpServletRequest request,
-			HttpServletResponse response) {
-		planService.resetCcSerialNumber();
-		return "OK";
-	}
-	
-	@Scheduled(cron="0 0 0 26 12 ?")
-	public void scheduleResetTcSerialNumber(){
-		planService.resetTcSerialNumber();
-	}
-	
-	@Scheduled(cron="0 0 0 26 * ?")
-	public void scheduleResetCcSerialNumber(){
-		planService.resetCcSerialNumber();
-	}
+//	@Scheduled(cron="0 0 0 26 12 ?")
+//	public void scheduleResetTcSerialNumber(){
+//		planService.resetTcSerialNumber();
+//	}
+//	
+//	@Scheduled(cron="0 0 0 26 * ?")
+//	public void scheduleResetCcSerialNumber(){
+//		planService.resetCcSerialNumber();
+//	}
 	
 	@RequestMapping(value = "/getbh/{item}", method = RequestMethod.GET)
 	public @ResponseBody String getbh(

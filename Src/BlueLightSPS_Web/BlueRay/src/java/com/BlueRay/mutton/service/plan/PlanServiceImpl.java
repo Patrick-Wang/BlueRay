@@ -460,6 +460,11 @@ public class PlanServiceImpl implements PlanService {
 		int day = cal.get(Calendar.DAY_OF_MONTH);
 		if (month >= 12 && day >= 26){
 			year += 1;
+			if (null != zzs){
+				resetTcSerialNumber(zzs.getId());
+			}else{
+				resetTcSerialNumber(0);
+			}
 		}
 		String ret = null;
 		do{
@@ -481,6 +486,12 @@ public class PlanServiceImpl implements PlanService {
 		int day = cal.get(Calendar.DAY_OF_MONTH);
 		if (day >= 26){
 			cal.add(Calendar.MONTH, 1);
+			if (null != zzs){
+				resetCcSerialNumber(zzs.getId());
+			}else{
+				resetCcSerialNumber(0);
+			}
+			
 		}
 		int year = cal.get(Calendar.YEAR);
 		int month = cal.get(Calendar.MONTH) + 1;
@@ -524,12 +535,10 @@ public class PlanServiceImpl implements PlanService {
 		return "error";
 	}
 
-	public void resetCcSerialNumber() {
-		List<SerialNumber> snNumbers = snDao.getSNByType(SNIDType.CC);
-		for(SerialNumber sn : snNumbers){
-			sn.setMax(1);
-			snDao.saveSN(sn);
-		}
+	public void resetCcSerialNumber(Integer zzsId) {
+		SerialNumber sn = snDao.getSN(zzsId, SNIDType.CC);
+		sn.setMax(1);
+		snDao.saveSN(sn);
 	}
 
 	private Integer increaseCcSerialNumber(Integer zzsId, SNIDType type) {
@@ -543,12 +552,10 @@ public class PlanServiceImpl implements PlanService {
 		return maxNum;
 	}
 	
-	public void resetTcSerialNumber() {
-		List<SerialNumber> snNumbers = snDao.getSNByType(SNIDType.TC);
-		for(SerialNumber sn : snNumbers){
-			sn.setMax(1);
-			snDao.saveSN(sn);
-		}
+	public void resetTcSerialNumber(Integer zzsId) {
+		SerialNumber sn = snDao.getSN(zzsId, SNIDType.TC);
+		sn.setMax(1);
+		snDao.saveSN(sn);
 	}
 	
 	private Integer increaseTcSerialNumber(Integer zzsId, SNIDType type) {

@@ -60,4 +60,15 @@ public class SNDaoImpl implements SNDao{
 		List<SerialNumber> SNs = q.getResultList();
 		return SNs;
 	}
+
+	public SerialNumber getSN(Integer zzsId, SNIDType type) {
+		Query q = entityManager.createQuery("from SerialNumber where type = :type and zzsId = :id");
+		q.setParameter("type", type.ordinal());
+		q.setParameter("id", zzsId);
+		List<SerialNumber> SNs = q.getResultList();
+		if (SNs.isEmpty()){
+			return null;
+		}
+		return SNs.get(0);
+	}
 }

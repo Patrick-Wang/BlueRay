@@ -10,4 +10,5 @@ public interface SNDao {
 	SerialNumber getSNByZzs(Integer zzsId, SNIDType type);
 	List<SerialNumber> getSNByType(SNIDType type);
 	void saveSN(SerialNumber sn);
+	SerialNumber getSN(Integer zzsId, SNIDType tc);
 }
