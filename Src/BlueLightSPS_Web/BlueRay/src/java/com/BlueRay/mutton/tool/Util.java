@@ -37,6 +37,15 @@ public class Util {
 	public final static char[] hexChar = { '0', '1', '2', '3', '4', '5', '6',
 			'7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
+	private static String toHexString(byte[] b) {
+		StringBuilder sb = new StringBuilder(b.length * 2);
+		for (int i = 0; i < b.length; i++) {
+			sb.append(hexChar[(b[i] & 0xf0) >>> 4]);
+			sb.append(hexChar[b[i] & 0x0f]);
+		}
+		return sb.toString();
+	}
+	
 	public static String Md5(String value){
 		MessageDigest md5 = null;
 		try {
@@ -47,59 +56,6 @@ public class Util {
 			e.printStackTrace();
 		}
 		return toHexString(md5.digest());
-	}
-
-	private static String toHexString(byte[] b) {
-		StringBuilder sb = new StringBuilder(b.length * 2);
-		for (int i = 0; i < b.length; i++) {
-			sb.append(hexChar[(b[i] & 0xf0) >>> 4]);
-			sb.append(hexChar[b[i] & 0x0f]);
-		}
-		return sb.toString();
-	}
-	
-	private static boolean ggIsX(String ggxh, char lower, char upper){
-		if(ggxh != null && !ggxh.isEmpty() && (lower == ggxh.charAt(0) || upper == ggxh.charAt(0))){
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean ggIsS(String ggxh){
-		return ggIsX(ggxh, 's', 'S');
-	}
-
-	public static boolean ggIsU(String ggxh){
-		return ggIsX(ggxh, 'u', 'U');
-	}
-	
-	public static boolean ggIsTStart(String ggxh){
-		return ggIsX(ggxh, 't', 'T');
-	}
-	
-	public static boolean ggIsY(String ggxh){
-		return ggIsX(ggxh, 'y', 'Y');
-	}
-	
-	public static boolean ggIsTA(String ggxh){
-		if(ggxh != null && ggxh.length() > 1 && 
-				('T' == ggxh.charAt(0) || 't' == ggxh.charAt(0)) &&
-				('A' == ggxh.charAt(1) || 'a' == ggxh.charAt(1))){
-			return true;
-		}
-		return false;
-	}
-	
-	public static boolean ggIsT(String ggxh){
-		if(ggxh != null && !ggxh.isEmpty() && 'T' == ggxh.charAt(0)){
-			if (ggxh.length() > 1 
-					&&( ('a' <= ggxh.charAt(1) && 'z' >= ggxh.charAt(1))
-					 || ('A' <= ggxh.charAt(1) && 'Z' >= ggxh.charAt(1)))){
-				return false;
-			}
-			return true;
-		}
-		return false;
 	}
 	
 	public static boolean isEmpty(String s){

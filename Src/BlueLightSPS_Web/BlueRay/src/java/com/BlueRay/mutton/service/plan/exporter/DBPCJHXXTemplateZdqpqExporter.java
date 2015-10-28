@@ -39,6 +39,7 @@ import com.BlueRay.mutton.service.plan.PlanServiceImpl;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
 import com.BlueRay.mutton.tool.Util;
+import com.BlueRay.mutton.tool.UtilGGXH;
 
 
 public class DBPCJHXXTemplateZdqpqExporter implements IExcelExporter<PCJHXX> {
@@ -319,7 +320,7 @@ public class DBPCJHXXTemplateZdqpqExporter implements IExcelExporter<PCJHXX> {
 			String scrq = ret[PcjhColumn.scrq.ordinal()];
 			String ggxh = ret[PcjhColumn.ggxh.ordinal()];
 			if (!scrq.isEmpty()) {
-				if (Util.ggIsT(ggxh) || Util.ggIsY(ggxh)){
+				if (UtilGGXH.ggIsT(ggxh) || UtilGGXH.ggIsY(ggxh)){
 					SheetContext context = this.getContext(scrq, colsMapZdq, workbook, templateZdqName);
 					export(context, baseRowZdq, ret, style, styleHighlight);
 				}else{

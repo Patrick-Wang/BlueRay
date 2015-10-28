@@ -1,0 +1,257 @@
+﻿<!-- 	
+	hth, // 合同号"
+	khmc, // 客户名称"
+	ggxh, // 规格型号"
+	cg,//磁钢
+	sl, // 数量"
+	zc, // 轴承"
+	dfr, // 单复绕"
+	zdqdy, // 制动器电压"
+	yylgg, // 曳引轮规格"
+	jf, // 机房"
+	bpqxh, // 变频器型号"
+	bmqxh, // 编码器型号"
+	dlcd, // 电缆长度"
+	zxcd, // 闸线长度"
+	mpzl, // 铭牌等资料"
+	bz, // 备注"
+	ddrq, // 订单日期"
+	zjdy, // 主机电压
+	zjys, // 主机颜色
+	zdqxh, // 制动器型号
+	zyz, // 左/右置
+	bzxdtgg, // 包装箱/底托规格
+	gh, // 工号
+	zzs, // 制造商
+	khqy, // 客户区域
+	yxj, // 优先级"
+	scrq, // 生产日期"
+	jhshyw, // 计划审核-业务"
+	jhshjh, // 计划审核-计划"
+	bzrq, // 包装日期"
+	bzshyw, // 包装审核-业务"
+	bzshjh, // 包装审核-计划"
+	fhrq, // 发货日期"
+	tcbh, // 投产编号"
+	ccbh, // 出厂编号"
+-->
+<template>
+	<sheet_yw>
+		<sheet_name>英文箱单</sheet_name>
+		<table_field name="ggxh">
+			<cell row="6" col="B"></cell>
+		</table_field>
+		<table_field name="hth">
+			<cell row="7" col="B"></cell>
+		</table_field>
+		<table_field name="ccbh">
+			<cell row="8" col="B"></cell>
+		</table_field>
+		<table_field name="dlcd">
+			<cell row="17" col="C"></cell>
+		</table_field>
+		<table_field name="bzrq">
+			<cell row="28" col="B"></cell>
+			<cell row="28" col="D"></cell>
+		</table_field>
+	</sheet_yw>
+	<sheet_gr_S_TA_U>
+		<sheet_name>广日箱单S,TA,U</sheet_name>
+		<table_field name="ggxh">
+			<cell row="6" col="B"></cell>
+		</table_field>
+		<table_field name="hth">
+			<cell row="7" col="B"></cell>
+		</table_field>
+		<table_field name="ccbh">
+			<cell row="8" col="B"></cell>
+		</table_field>
+		<zzl>
+			<cell row="9" col="B"></cell>
+		</zzl>
+		<ts>
+			<cell row="10" col="B"></cell>
+		</ts>
+		<table_field name="dlcd">
+			<cell row="19" col="C"></cell>
+		</table_field>
+		<table_field name="bzrq">
+			<cell row="27" col="B"></cell>
+			<cell row="27" col="E"></cell>
+		</table_field>
+	</sheet_gr_S_TA_U>
+	<sheet_gr_Y>
+		<sheet_name>广日箱单Y</sheet_name>
+		<table_field name="ggxh">
+			<cell row="6" col="B"></cell>
+		</table_field>
+		<table_field name="hth">
+			<cell row="7" col="B"></cell>
+		</table_field>
+		<table_field name="ccbh">
+			<cell row="8" col="B"></cell>
+		</table_field>
+		<zzl>
+			<cell row="9" col="B"></cell>
+		</zzl>
+		<ts>
+			<cell row="10" col="B"></cell>
+		</ts>
+		<table_field name="dlcd">
+			<cell row="19" col="C"></cell>
+		</table_field>
+		<table_field name="bzrq">
+			<cell row="27" col="B"></cell>
+			<cell row="27" col="E"></cell>
+		</table_field>
+	</sheet_gr_Y>
+	<sheet_wks>
+		<sheet_name>沃克斯</sheet_name>
+		<table_field name="ccbh">
+			<cell row="3" col="D"></cell>
+		</table_field>
+		<table_field name="ggxh">
+			<cell row="5" col="D"></cell>
+		</table_field>
+		<table_field name="dlcd">
+			<cell row="6" col="D"></cell>
+		</table_field>
+		<zdqxh>
+			<cell row="13" col="D"></cell>
+		</zdqxh>
+		<zdqbh>
+			<cell row="14" col="D"></cell>
+		</zdqbh>
+		<wks_qt>
+			<cell row="15" col="D"></cell>
+		</wks_qt>
+	</sheet_wks>
+	<sheet_xd>
+		<sheet_name>西德</sheet_name>
+		<jhxdrq row="2" col="E">
+		</jhxdrq>
+		<zs row="2" col="H">
+		</zs>
+		<baseRow>3</baseRow>
+		<xh>
+			<cell row="-1" col="A"></cell>
+		</xh>
+		<table_field name="khmc">
+			<cell row="-1" col="B"></cell>
+		</table_field>
+		<table_field name="ggxh">
+			<cell row="-1" col="C"></cell>
+		</table_field>
+		<table_field name="zjys">
+			<cell row="-1" col="D"></cell>
+		</table_field>
+		<table_field name="sl">
+			<cell row="-1" col="E"></cell>
+		</table_field>
+		<table_field name="zdqdy">
+			<cell row="-1" col="F"></cell>
+		</table_field>
+		<table_field name="zdqxh">
+			<cell row="-1" col="G"></cell>
+		</table_field>
+		<table_field name="bz">
+			<cell row="-1" col="H"></cell>
+		</table_field>
+	</sheet_xd>
+	<sheet_pt>
+		<sheet_name>普通箱单</sheet_name>
+		<jhxdrq row="2" col="E">
+		</jhxdrq>
+		<zs row="2" col="H">
+		</zs>
+		<baseRow>3</baseRow>
+		<xh>
+			<cell row="-1" col="A"></cell>
+		</xh>
+		<table_field name="khmc">
+			<cell row="-1" col="B"></cell>
+		</table_field>
+		<table_field name="ggxh">
+			<cell row="-1" col="C"></cell>
+		</table_field>
+		<table_field name="zjys">
+			<cell row="-1" col="D"></cell>
+		</table_field>
+		<table_field name="sl">
+			<cell row="-1" col="E"></cell>
+		</table_field>
+		<table_field name="zdqdy">
+			<cell row="-1" col="F"></cell>
+		</table_field>
+		<table_field name="zdqxh">
+			<cell row="-1" col="G"></cell>
+		</table_field>
+		<table_field name="bz">
+			<cell row="-1" col="H"></cell>
+		</table_field>
+	</sheet_pt>
+	<sheet_zjyd>
+		<sheet_name>浙江怡达</sheet_name>
+		<jhxdrq row="2" col="E">
+		</jhxdrq>
+		<zs row="2" col="H">
+		</zs>
+		<baseRow>3</baseRow>
+		<xh>
+			<cell row="-1" col="A"></cell>
+		</xh>
+		<table_field name="khmc">
+			<cell row="-1" col="B"></cell>
+		</table_field>
+		<table_field name="ggxh">
+			<cell row="-1" col="C"></cell>
+		</table_field>
+		<table_field name="zjys">
+			<cell row="-1" col="D"></cell>
+		</table_field>
+		<table_field name="sl">
+			<cell row="-1" col="E"></cell>
+		</table_field>
+		<table_field name="zdqdy">
+			<cell row="-1" col="F"></cell>
+		</table_field>
+		<table_field name="zdqxh">
+			<cell row="-1" col="G"></cell>
+		</table_field>
+		<table_field name="bz">
+			<cell row="-1" col="H"></cell>
+		</table_field>
+	</sheet_zjyd>
+	<sheet_hz>
+		<sheet_name>汇总</sheet_name>
+		<jhxdrq row="2" col="E">
+		</jhxdrq>
+		<zs row="2" col="H">
+		</zs>
+		<baseRow>3</baseRow>
+		<xh>
+			<cell row="-1" col="A"></cell>
+		</xh>
+		<table_field name="khmc">
+			<cell row="-1" col="B"></cell>
+		</table_field>
+		<table_field name="ggxh">
+			<cell row="-1" col="C"></cell>
+		</table_field>
+		<table_field name="zjys">
+			<cell row="-1" col="D"></cell>
+		</table_field>
+		<table_field name="sl">
+			<cell row="-1" col="E"></cell>
+		</table_field>
+		<table_field name="zdqdy">
+			<cell row="-1" col="F"></cell>
+		</table_field>
+		<table_field name="zdqxh">
+			<cell row="-1" col="G"></cell>
+		</table_field>
+		<table_field name="bz">
+			<cell row="-1" col="H"></cell>
+		</table_field>
+	</sheet_hz>
+</template>

@@ -30,6 +30,7 @@ import com.BlueRay.mutton.service.plan.PlanServiceImpl;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
 import com.BlueRay.mutton.tool.Util;
+import com.BlueRay.mutton.tool.UtilGGXH;
 
 public class DBPCJHXXTemplateScjhExporter implements IExcelExporter<PCJHXX> {
 
@@ -134,14 +135,14 @@ public class DBPCJHXXTemplateScjhExporter implements IExcelExporter<PCJHXX> {
 			String scrq = ret[PcjhColumn.scrq.ordinal()];
 			if (!scrq.isEmpty()){
 				String ggxh = ret[PcjhColumn.ggxh.ordinal()];			
-				if (Util.ggIsS(ggxh) || Util.ggIsTStart(ggxh)){
+				if (UtilGGXH.ggIsS(ggxh) || UtilGGXH.ggIsTStart(ggxh)){
 					if (!mapScrq2Sheet.containsKey(scrq + "_ST")){
 						mapScrq2Sheet.put(scrq + "_ST", workbook.cloneSheet(0));
 						mapScrq2Count.put(scrq + "_ST", 1);
 					}
 					export2SorT(ret, mapScrq2Sheet.get(scrq + "_ST"), style, styleHighlight, mapScrq2Count.get(scrq + "_ST"));
 					mapScrq2Count.put(scrq + "_ST", 1 + mapScrq2Count.get(scrq + "_ST"));
-				} else if(Util.ggIsU(ggxh)){
+				} else if(UtilGGXH.ggIsU(ggxh)){
 					if (!mapScrq2Sheet.containsKey(scrq + "_U")){
 						mapScrq2Sheet.put(scrq + "_U", workbook.cloneSheet(1));
 						mapScrq2Count.put(scrq + "_U", 1);
