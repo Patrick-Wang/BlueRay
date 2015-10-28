@@ -47,6 +47,10 @@ module ui {
             var templateExporteId = gridName + "_template_export";
             var bzjhTemplateExporteId = gridName + "_bzjhtemplate_export";
             var scjhTemplateExporteId = gridName + "_scjhtemplate_export";
+            var zzjhTemplateExporteId = gridName + "_zzjhtemplate_export";
+            var zzgzkTemplateExporteId = gridName + "_zzgzktemplate_export";
+            var zdqPqTemplateExporteId = gridName + "_zdqPqtemplate_export";
+            var zxdTemplateExporteId = gridName + "_zxdtemplate_export";
             this.mTable.jqGrid('navButtonAdd', "#" + gridName + 'pager', {
                 caption: "", buttonicon: "none", onClickButton: () => {
                     //alert(gridName);
@@ -60,6 +64,22 @@ module ui {
                     caption: "", buttonicon: "none", onClickButton: () => {
                         mediator.onScjhTemplateExportClicked(this.mTableName);
                     }, position: "last", title: "导出生产计划", id: scjhTemplateExporteId
+            }).jqGrid('navButtonAdd', "#" + gridName + 'pager', {
+                    caption: "", buttonicon: "none", onClickButton: () => {
+                        mediator.onZzjhTemplateExportClicked(this.mTableName);
+                    }, position: "last", title: "导出转子计划", id: zzjhTemplateExporteId
+            }).jqGrid('navButtonAdd', "#" + gridName + 'pager', {
+                    caption: "", buttonicon: "none", onClickButton: () => {
+                        mediator.onZzgzkTemplateExportClicked(this.mTableName);
+                    }, position: "last", title: "导出转子跟踪卡", id: zzgzkTemplateExporteId
+            }).jqGrid('navButtonAdd', "#" + gridName + 'pager', {
+                    caption: "", buttonicon: "none", onClickButton: () => {
+                        mediator.onZdqPqTemplateExportClicked(this.mTableName);
+                    }, position: "last", title: "导出制动器和喷漆", id: zdqPqTemplateExporteId
+            }).jqGrid('navButtonAdd', "#" + gridName + 'pager', {
+                    caption: "", buttonicon: "none", onClickButton: () => {
+                        mediator.onZxdTemplateExportClicked(this.mTableName);
+                    }, position: "last", title: "导出装箱单", id: zxdTemplateExporteId
             });
             this.reload();
             $("#" + templateExporteId + " div").addClass("ui-icon");
@@ -68,6 +88,14 @@ module ui {
             $("#" + bzjhTemplateExporteId + " div").addClass("ui-icon-image");
             $("#" + scjhTemplateExporteId + " div").addClass("ui-icon");
             $("#" + scjhTemplateExporteId + " div").addClass("ui-icon-image");
+            $("#" + zzjhTemplateExporteId + " div").addClass("ui-icon");
+            $("#" + zzjhTemplateExporteId + " div").addClass("ui-icon-image");
+            $("#" + zzgzkTemplateExporteId + " div").addClass("ui-icon");
+            $("#" + zzgzkTemplateExporteId + " div").addClass("ui-icon-image");
+            $("#" + zdqPqTemplateExporteId + " div").addClass("ui-icon");
+            $("#" + zdqPqTemplateExporteId + " div").addClass("ui-icon-image");
+            $("#" + zxdTemplateExporteId + " div").addClass("ui-icon");
+            $("#" + zxdTemplateExporteId + " div").addClass("ui-icon-image");
             $("#" + this.mTableName + "pager_left").css("padding-top", "3px");
         }
     }

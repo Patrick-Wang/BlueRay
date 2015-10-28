@@ -10,6 +10,11 @@
 
 
 #include "Util.h"
+
+CComJsFun CJQGridAPI::m_JsfnOnZxdTemplateExportClicked(_T("onZxdTemplateExportClicked"));
+CComJsFun CJQGridAPI::m_JsfnOnZdqPqTemplateExportClicked(_T("onZdqPqTemplateExportClicked"));
+CComJsFun CJQGridAPI::m_JsfnOnZzgzkTemplateExportClicked(_T("onZzgzkTemplateExportClicked"));
+CComJsFun CJQGridAPI::m_JsfnOnZzjhTemplateExportClicked(_T("onZzjhTemplateExportClicked"));
 CComJsFun CJQGridAPI::m_JsfnOnScjhTemplateExportClicked(_T("onScjhTemplateExportClicked"));
 CComJsFun CJQGridAPI::m_JsfnOnBzjhTemplateExportClicked(_T("onBzjhTemplateExportClicked"));
 CComJsFun CJQGridAPI::m_JsfnOnTemplateExportClicked(_T("onTemplateExportClicked"));
@@ -51,6 +56,18 @@ CJQGridAPI::CJQGridAPI(IJSMediator* pMedia, LPCTSTR lpGrid)
 	m_pMedia->RegisterJsFunction(&m_JsfnOnScjhTemplateExportClicked);
 	m_JsfnOnScjhTemplateExportClicked.d_onJsCall += std::make_pair(this, &CJQGridAPI::JSCall);
 
+	m_pMedia->RegisterJsFunction(&m_JsfnOnZzjhTemplateExportClicked);
+	m_JsfnOnZzjhTemplateExportClicked.d_onJsCall += std::make_pair(this, &CJQGridAPI::JSCall);
+
+	m_pMedia->RegisterJsFunction(&m_JsfnOnZzgzkTemplateExportClicked);
+	m_JsfnOnZzgzkTemplateExportClicked.d_onJsCall += std::make_pair(this, &CJQGridAPI::JSCall);
+
+	m_pMedia->RegisterJsFunction(&m_JsfnOnZdqPqTemplateExportClicked);
+	m_JsfnOnZdqPqTemplateExportClicked.d_onJsCall += std::make_pair(this, &CJQGridAPI::JSCall);
+
+	m_pMedia->RegisterJsFunction(&m_JsfnOnZxdTemplateExportClicked);
+	m_JsfnOnZxdTemplateExportClicked.d_onJsCall += std::make_pair(this, &CJQGridAPI::JSCall);
+
 	m_pMedia->RegisterJsFunction(&m_JsfnOnImportClicked);
 	m_JsfnOnImportClicked.d_onJsCall += std::make_pair(this, &CJQGridAPI::JSCall);
 
@@ -71,6 +88,10 @@ CJQGridAPI::~CJQGridAPI()
 	m_JsfnOnTemplateExportClicked.d_onJsCall -= std::make_pair(this, &CJQGridAPI::JSCall);
 	m_JsfnOnBzjhTemplateExportClicked.d_onJsCall -= std::make_pair(this, &CJQGridAPI::JSCall);
 	m_JsfnOnScjhTemplateExportClicked.d_onJsCall -= std::make_pair(this, &CJQGridAPI::JSCall);
+	m_JsfnOnZzjhTemplateExportClicked.d_onJsCall -= std::make_pair(this, &CJQGridAPI::JSCall);
+	m_JsfnOnZzgzkTemplateExportClicked.d_onJsCall -= std::make_pair(this, &CJQGridAPI::JSCall);
+	m_JsfnOnZdqPqTemplateExportClicked.d_onJsCall -= std::make_pair(this, &CJQGridAPI::JSCall);
+	m_JsfnOnZxdTemplateExportClicked.d_onJsCall -= std::make_pair(this, &CJQGridAPI::JSCall);
 	m_JsfnOnImportClicked.d_onJsCall -= std::make_pair(this, &CJQGridAPI::JSCall);
 }
 
@@ -289,6 +310,22 @@ VARIANT CJQGridAPI::JSCall(int id, const std::vector<VARIANT>& params)
 		else if ((int)&m_JsfnOnScjhTemplateExportClicked == id)
 		{
 			d_OnScjhTemplateExportClicked();
+		}
+		else if ((int)&m_JsfnOnZzjhTemplateExportClicked == id)
+		{
+			d_OnZzjhTemplateExportClicked();
+		}
+		else if ((int)&m_JsfnOnZzgzkTemplateExportClicked == id)
+		{
+			d_OnZzgzkTemplateExportClicked();
+		}
+		else if ((int)&m_JsfnOnZdqPqTemplateExportClicked == id)
+		{
+			d_OnZdqPqTemplateExportClicked();
+		}
+		else if ((int)&m_JsfnOnZxdTemplateExportClicked == id)
+		{
+			d_OnZxdTemplateExportClicked();
 		}
 	}
 	return ret;

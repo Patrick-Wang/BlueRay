@@ -34,6 +34,9 @@ import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXExcelExporter;
 import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXTemplateBzjhExporter;
 import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXTemplateExporter;
 import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXTemplateScjhExporter;
+import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXTemplateZdqpqExporter;
+import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXTemplateZzgzkExporter;
+import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXTemplateZzjhExporter;
 import com.BlueRay.mutton.service.sale.SaleServiceImpl;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
@@ -572,6 +575,66 @@ public class PlanServiceImpl implements PlanService {
 	public String scjhtemplateExport(OutputStream out, JSONObject jquery) {
 		AbstractExcel<PCJHXX> excel = planDao.getPcjhExcel(jquery, planTranslator);
 		IExcelExporter<PCJHXX> exportor = new DBPCJHXXTemplateScjhExporter(itemDao, saleDao, planDao, excel, out);
+		
+		try {
+			exportor.exports();
+			out.close();
+			return "success";
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "error";
+	}
+
+	public String zzjhtemplateExport(OutputStream out, JSONObject jquery) {
+		AbstractExcel<PCJHXX> excel = planDao.getPcjhExcel(jquery, planTranslator);
+		IExcelExporter<PCJHXX> exportor = new DBPCJHXXTemplateZzjhExporter(itemDao, saleDao, planDao, excel, out);
+		
+		try {
+			exportor.exports();
+			out.close();
+			return "success";
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "error";
+	}
+
+	public String zzgzktemplateExport(OutputStream out, JSONObject jquery) {
+		AbstractExcel<PCJHXX> excel = planDao.getPcjhExcel(jquery, planTranslator);
+		IExcelExporter<PCJHXX> exportor = new DBPCJHXXTemplateZzgzkExporter(itemDao, saleDao, planDao, excel, out);
+		
+		try {
+			exportor.exports();
+			out.close();
+			return "success";
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "error";
+	}
+
+	public String zdqPqtemplateExport(OutputStream out, JSONObject jquery) {
+		AbstractExcel<PCJHXX> excel = planDao.getPcjhExcel(jquery, planTranslator);
+		IExcelExporter<PCJHXX> exportor = new DBPCJHXXTemplateZdqpqExporter(itemDao, saleDao, planDao, excel, out);
+		
+		try {
+			exportor.exports();
+			out.close();
+			return "success";
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "error";
+	}
+
+	public String zxdtemplateExport(OutputStream out, JSONObject jquery) {
+		AbstractExcel<PCJHXX> excel = planDao.getPcjhExcel(jquery, planTranslator);
+		IExcelExporter<PCJHXX> exportor = new DBPCJHXXTemplateZdqpqExporter(itemDao, saleDao, planDao, excel, out);
 		
 		try {
 			exportor.exports();

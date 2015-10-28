@@ -37,6 +37,10 @@ protected:
 	void OnTemplateExportClicked();
 	void OnBzjhTemplateExportClicked();
 	void OnScjhTemplateExportClicked();
+	void OnZzjhTemplateExportClicked();
+	void OnZzgzkTemplateExportClicked();
+	void OnZdqPqTemplateExportClicked();
+	void OnZxdTemplateExportClicked();
 	void OnModifyDataSuccess(std::vector<CString>& newData);
 	void OnReApproveSuccess(CPlan::ApproveType type);
 

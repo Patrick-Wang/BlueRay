@@ -52,4 +52,12 @@ public interface PlanService {
 
 	String scjhtemplateExport(OutputStream out, JSONObject jquery);
 
+	String zzjhtemplateExport(OutputStream out, JSONObject jquery);
+
+	String zzgzktemplateExport(OutputStream out, JSONObject jquery);
+
+	String zdqPqtemplateExport(OutputStream out, JSONObject jquery);
+
+	String zxdtemplateExport(OutputStream out, JSONObject jquery);
+
 }

@@ -337,6 +337,10 @@ void CPlanPanel::OnInitChilds()
 	m_pJqGridAPI->d_OnTemplateExportClicked += std::make_pair(this, &CPlanPanel::OnTemplateExportClicked);
 	m_pJqGridAPI->d_OnBzjhTemplateExportClicked += std::make_pair(this, &CPlanPanel::OnBzjhTemplateExportClicked);
 	m_pJqGridAPI->d_OnScjhTemplateExportClicked += std::make_pair(this, &CPlanPanel::OnScjhTemplateExportClicked);
+	m_pJqGridAPI->d_OnZzjhTemplateExportClicked += std::make_pair(this, &CPlanPanel::OnZzjhTemplateExportClicked);
+	m_pJqGridAPI->d_OnZzgzkTemplateExportClicked += std::make_pair(this, &CPlanPanel::OnZzgzkTemplateExportClicked);
+	m_pJqGridAPI->d_OnZdqPqTemplateExportClicked += std::make_pair(this, &CPlanPanel::OnZdqPqTemplateExportClicked);
+	m_pJqGridAPI->d_OnZxdTemplateExportClicked += std::make_pair(this, &CPlanPanel::OnZxdTemplateExportClicked);
 
 	CString strJsonWidths;
 	if (CSettingManager::GetInstance()->GetColWidths(L"planCol", strJsonWidths))
@@ -1777,6 +1781,10 @@ void CPlanPanel::OnDestroy()
 	m_pJqGridAPI->d_OnExportClicked -= std::make_pair(this, &CPlanPanel::OnTemplateExportClicked);
 	m_pJqGridAPI->d_OnBzjhTemplateExportClicked -= std::make_pair(this, &CPlanPanel::OnBzjhTemplateExportClicked);
 	m_pJqGridAPI->d_OnScjhTemplateExportClicked -= std::make_pair(this, &CPlanPanel::OnScjhTemplateExportClicked);
+	m_pJqGridAPI->d_OnZzjhTemplateExportClicked -= std::make_pair(this, &CPlanPanel::OnZzjhTemplateExportClicked);
+	m_pJqGridAPI->d_OnZzgzkTemplateExportClicked -= std::make_pair(this, &CPlanPanel::OnZzgzkTemplateExportClicked);
+	m_pJqGridAPI->d_OnZdqPqTemplateExportClicked -= std::make_pair(this, &CPlanPanel::OnZdqPqTemplateExportClicked);
+	m_pJqGridAPI->d_OnZxdTemplateExportClicked -= std::make_pair(this, &CPlanPanel::OnZxdTemplateExportClicked);
 	m_pJqGridAPI->d_OnUpdateData -= std::make_pair(this, &CPlanPanel::OnUpdateData);
 
 	CBRPanel::OnDestroy();
@@ -2011,6 +2019,218 @@ void CPlanPanel::OnScjhTemplateExportClicked()
 			CString fileNameNew = filePathName;
 			CServer::GetInstance()->GetPlan().ScjhTemplateExport(fileNameNew, pqp).then(
 				new CPlanScjhTemplateExportListener(*this, fileNameNew));
+		}
+		catch (std::exception& e)
+		{
+			MessageBoxA(m_hWnd, (char*)e.what(), "导出失败", MB_OK | MB_ICONWARNING);
+		}
+	}
+}
+
+void CPlanPanel::OnZzjhTemplateExportClicked()
+{
+	class CPlanZzjhTemplateExportListener : public CPromise<bool>::IHttpResponse{
+		CONSTRUCTOR_2(CPlanZzjhTemplateExportListener, CPlanPanel&, panel, CString, fileName);
+	public:
+		virtual void OnSuccess(bool& ret){
+			if (ret)
+			{
+				m_panel.MessageBox(_T("转子计划数据已经成功导出到文件 : ") + m_fileName, _T("导出成功"), MB_OK | MB_ICONINFORMATION);
+			}
+			else
+			{
+				m_panel.MessageBox(_T("转子计划数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
+				DeleteFile(m_fileName);
+			}
+		}
+		virtual void OnFailed(){
+			m_panel.MessageBox(_T("转子计划数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
+			DeleteFile(m_fileName);
+		}
+	};
+
+	COleDateTime time(COleDateTime::GetCurrentTime());
+	CString strFileName(_T("转子计划数据数据"));
+	CString strTimestamp;
+	strTimestamp.Format(_T("(%4d%02d%02d_%02d_%02d_%02d).xls"), time.GetYear(), time.GetMonth(), time.GetDay(), time.GetHour(), time.GetMinute(), time.GetSecond());
+	strFileName += strTimestamp;
+
+	CFileDialog hFileDlg(FALSE, _T("(*.xls)|*.xls"), strFileName, OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT, _T("Excel(*.xls)|*.xls||"), NULL);
+	hFileDlg.m_ofn.nFilterIndex = 1;
+	hFileDlg.m_ofn.hwndOwner = GetParent()->GetSafeHwnd();
+	hFileDlg.m_ofn.lStructSize = sizeof(OPENFILENAME);
+	hFileDlg.m_ofn.lpstrTitle = TEXT("选择导出文件位置");
+	hFileDlg.m_ofn.nMaxFile = MAX_PATH;
+
+	if (hFileDlg.DoModal() == IDOK)
+	{
+		try
+		{
+			CString filePathName = hFileDlg.GetPathName();
+			DEFINE_PLAN_QUERY_PARAM(pqp);
+			MakeBasicSearchCondition(pqp);
+			CString fileNameNew = filePathName;
+			CServer::GetInstance()->GetPlan().ZzjhTemplateExport(fileNameNew, pqp).then(
+				new CPlanZzjhTemplateExportListener(*this, fileNameNew));
+		}
+		catch (std::exception& e)
+		{
+			MessageBoxA(m_hWnd, (char*)e.what(), "导出失败", MB_OK | MB_ICONWARNING);
+		}
+	}
+}
+
+void CPlanPanel::OnZzgzkTemplateExportClicked()
+{
+	class CPlanZzjhTemplateExportListener : public CPromise<bool>::IHttpResponse{
+		CONSTRUCTOR_2(CPlanZzjhTemplateExportListener, CPlanPanel&, panel, CString, fileName);
+	public:
+		virtual void OnSuccess(bool& ret){
+			if (ret)
+			{
+				m_panel.MessageBox(_T("转子跟踪卡数据已经成功导出到文件 : ") + m_fileName, _T("导出成功"), MB_OK | MB_ICONINFORMATION);
+			}
+			else
+			{
+				m_panel.MessageBox(_T("转子跟踪卡数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
+				DeleteFile(m_fileName);
+			}
+		}
+		virtual void OnFailed(){
+			m_panel.MessageBox(_T("转子跟踪卡数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
+			DeleteFile(m_fileName);
+		}
+	};
+
+	COleDateTime time(COleDateTime::GetCurrentTime());
+	CString strFileName(_T("转子跟踪卡数据数据"));
+	CString strTimestamp;
+	strTimestamp.Format(_T("(%4d%02d%02d_%02d_%02d_%02d).xls"), time.GetYear(), time.GetMonth(), time.GetDay(), time.GetHour(), time.GetMinute(), time.GetSecond());
+	strFileName += strTimestamp;
+
+	CFileDialog hFileDlg(FALSE, _T("(*.xls)|*.xls"), strFileName, OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT, _T("Excel(*.xls)|*.xls||"), NULL);
+	hFileDlg.m_ofn.nFilterIndex = 1;
+	hFileDlg.m_ofn.hwndOwner = GetParent()->GetSafeHwnd();
+	hFileDlg.m_ofn.lStructSize = sizeof(OPENFILENAME);
+	hFileDlg.m_ofn.lpstrTitle = TEXT("选择导出文件位置");
+	hFileDlg.m_ofn.nMaxFile = MAX_PATH;
+
+	if (hFileDlg.DoModal() == IDOK)
+	{
+		try
+		{
+			CString filePathName = hFileDlg.GetPathName();
+			DEFINE_PLAN_QUERY_PARAM(pqp);
+			MakeBasicSearchCondition(pqp);
+			CString fileNameNew = filePathName;
+			CServer::GetInstance()->GetPlan().ZzgzkTemplateExport(fileNameNew, pqp).then(
+				new CPlanZzjhTemplateExportListener(*this, fileNameNew));
+		}
+		catch (std::exception& e)
+		{
+			MessageBoxA(m_hWnd, (char*)e.what(), "导出失败", MB_OK | MB_ICONWARNING);
+		}
+	}
+}
+
+void CPlanPanel::OnZdqPqTemplateExportClicked()
+{
+	class CPlanZzjhTemplateExportListener : public CPromise<bool>::IHttpResponse{
+		CONSTRUCTOR_2(CPlanZzjhTemplateExportListener, CPlanPanel&, panel, CString, fileName);
+	public:
+		virtual void OnSuccess(bool& ret){
+			if (ret)
+			{
+				m_panel.MessageBox(_T("制动器和喷漆数据已经成功导出到文件 : ") + m_fileName, _T("导出成功"), MB_OK | MB_ICONINFORMATION);
+			}
+			else
+			{
+				m_panel.MessageBox(_T("制动器和喷漆数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
+				DeleteFile(m_fileName);
+			}
+		}
+		virtual void OnFailed(){
+			m_panel.MessageBox(_T("制动器和喷漆数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
+			DeleteFile(m_fileName);
+		}
+	};
+
+	COleDateTime time(COleDateTime::GetCurrentTime());
+	CString strFileName(_T("制动器和喷漆数据数据"));
+	CString strTimestamp;
+	strTimestamp.Format(_T("(%4d%02d%02d_%02d_%02d_%02d).xls"), time.GetYear(), time.GetMonth(), time.GetDay(), time.GetHour(), time.GetMinute(), time.GetSecond());
+	strFileName += strTimestamp;
+
+	CFileDialog hFileDlg(FALSE, _T("(*.xls)|*.xls"), strFileName, OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT, _T("Excel(*.xls)|*.xls||"), NULL);
+	hFileDlg.m_ofn.nFilterIndex = 1;
+	hFileDlg.m_ofn.hwndOwner = GetParent()->GetSafeHwnd();
+	hFileDlg.m_ofn.lStructSize = sizeof(OPENFILENAME);
+	hFileDlg.m_ofn.lpstrTitle = TEXT("选择导出文件位置");
+	hFileDlg.m_ofn.nMaxFile = MAX_PATH;
+
+	if (hFileDlg.DoModal() == IDOK)
+	{
+		try
+		{
+			CString filePathName = hFileDlg.GetPathName();
+			DEFINE_PLAN_QUERY_PARAM(pqp);
+			MakeBasicSearchCondition(pqp);
+			CString fileNameNew = filePathName;
+			CServer::GetInstance()->GetPlan().ZdqPqTemplateExport(fileNameNew, pqp).then(
+				new CPlanZzjhTemplateExportListener(*this, fileNameNew));
+		}
+		catch (std::exception& e)
+		{
+			MessageBoxA(m_hWnd, (char*)e.what(), "导出失败", MB_OK | MB_ICONWARNING);
+		}
+	}
+}
+
+void CPlanPanel::OnZxdTemplateExportClicked()
+{
+	class CPlanZzjhTemplateExportListener : public CPromise<bool>::IHttpResponse{
+		CONSTRUCTOR_2(CPlanZzjhTemplateExportListener, CPlanPanel&, panel, CString, fileName);
+	public:
+		virtual void OnSuccess(bool& ret){
+			if (ret)
+			{
+				m_panel.MessageBox(_T("装箱单数据已经成功导出到文件 : ") + m_fileName, _T("导出成功"), MB_OK | MB_ICONINFORMATION);
+			}
+			else
+			{
+				m_panel.MessageBox(_T("装箱单数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
+				DeleteFile(m_fileName);
+			}
+		}
+		virtual void OnFailed(){
+			m_panel.MessageBox(_T("装箱单数据导出失败"), _T("导出失败"), MB_OK | MB_ICONWARNING);
+			DeleteFile(m_fileName);
+		}
+	};
+
+	COleDateTime time(COleDateTime::GetCurrentTime());
+	CString strFileName(_T("装箱单数据数据"));
+	CString strTimestamp;
+	strTimestamp.Format(_T("(%4d%02d%02d_%02d_%02d_%02d).xls"), time.GetYear(), time.GetMonth(), time.GetDay(), time.GetHour(), time.GetMinute(), time.GetSecond());
+	strFileName += strTimestamp;
+
+	CFileDialog hFileDlg(FALSE, _T("(*.xls)|*.xls"), strFileName, OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT, _T("Excel(*.xls)|*.xls||"), NULL);
+	hFileDlg.m_ofn.nFilterIndex = 1;
+	hFileDlg.m_ofn.hwndOwner = GetParent()->GetSafeHwnd();
+	hFileDlg.m_ofn.lStructSize = sizeof(OPENFILENAME);
+	hFileDlg.m_ofn.lpstrTitle = TEXT("选择导出文件位置");
+	hFileDlg.m_ofn.nMaxFile = MAX_PATH;
+
+	if (hFileDlg.DoModal() == IDOK)
+	{
+		try
+		{
+			CString filePathName = hFileDlg.GetPathName();
+			DEFINE_PLAN_QUERY_PARAM(pqp);
+			MakeBasicSearchCondition(pqp);
+			CString fileNameNew = filePathName;
+			CServer::GetInstance()->GetPlan().ZxdTemplateExport(fileNameNew, pqp).then(
+				new CPlanZzjhTemplateExportListener(*this, fileNameNew));
 		}
 		catch (std::exception& e)
 		{

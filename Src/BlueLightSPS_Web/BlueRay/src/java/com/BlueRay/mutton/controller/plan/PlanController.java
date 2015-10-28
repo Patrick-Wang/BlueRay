@@ -150,6 +150,50 @@ public class PlanController {
 		return planService.scjhtemplateExport(out, JSONObject.fromObject(query));
 	}
 	
+	@RequestMapping(value = "/zzjhtemplate/export", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String zzjhtemplateExport(
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		OutputStream out = response.getOutputStream();
+		JSONObject jparam = Util.parse(request.getInputStream());
+		BASE64Decoder decoder = new BASE64Decoder();
+		String query = new String(decoder.decodeBuffer(jparam.getString("query")), "utf-16le");
+		return planService.zzjhtemplateExport(out, JSONObject.fromObject(query));
+	}
+	
+	@RequestMapping(value = "/zzgzktemplate/export", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String zzgzktemplateExport(
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		OutputStream out = response.getOutputStream();
+		JSONObject jparam = Util.parse(request.getInputStream());
+		BASE64Decoder decoder = new BASE64Decoder();
+		String query = new String(decoder.decodeBuffer(jparam.getString("query")), "utf-16le");
+		return planService.zzgzktemplateExport(out, JSONObject.fromObject(query));
+	}
+	
+	@RequestMapping(value = "/zdqPqtemplate/export", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String zdqPqtemplateExport(
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		OutputStream out = response.getOutputStream();
+		JSONObject jparam = Util.parse(request.getInputStream());
+		BASE64Decoder decoder = new BASE64Decoder();
+		String query = new String(decoder.decodeBuffer(jparam.getString("query")), "utf-16le");
+		return planService.zdqPqtemplateExport(out, JSONObject.fromObject(query));
+	}
+
+	@RequestMapping(value = "/zxdtemplate/export", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody String zxdtemplateExport(
+			HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
+		OutputStream out = response.getOutputStream();
+		JSONObject jparam = Util.parse(request.getInputStream());
+		BASE64Decoder decoder = new BASE64Decoder();
+		String query = new String(decoder.decodeBuffer(jparam.getString("query")), "utf-16le");
+		return planService.zxdtemplateExport(out, JSONObject.fromObject(query));
+	}
+	
 	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody String modifySaleData(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {

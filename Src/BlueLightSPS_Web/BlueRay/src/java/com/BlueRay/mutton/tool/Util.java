@@ -58,25 +58,27 @@ public class Util {
 		return sb.toString();
 	}
 	
-	public static boolean ggIsS(String ggxh){
-		if(ggxh != null && !ggxh.isEmpty() && ('S' == ggxh.charAt(0) || 's' == ggxh.charAt(0))){
-			return true;
-		}
-		return false;
-	}
-
-	public static boolean ggIsU(String ggxh){
-		if(ggxh != null && !ggxh.isEmpty() && ('U' == ggxh.charAt(0) || 'u' == ggxh.charAt(0))){
+	private static boolean ggIsX(String ggxh, char lower, char upper){
+		if(ggxh != null && !ggxh.isEmpty() && (lower == ggxh.charAt(0) || upper == ggxh.charAt(0))){
 			return true;
 		}
 		return false;
 	}
 	
+	public static boolean ggIsS(String ggxh){
+		return ggIsX(ggxh, 's', 'S');
+	}
+
+	public static boolean ggIsU(String ggxh){
+		return ggIsX(ggxh, 'u', 'U');
+	}
+	
 	public static boolean ggIsTStart(String ggxh){
-		if(ggxh != null && !ggxh.isEmpty() && ('T' == ggxh.charAt(0) || 't' == ggxh.charAt(0))){
-			return true;
-		}
-		return false;
+		return ggIsX(ggxh, 't', 'T');
+	}
+	
+	public static boolean ggIsY(String ggxh){
+		return ggIsX(ggxh, 'y', 'Y');
 	}
 	
 	public static boolean ggIsTA(String ggxh){

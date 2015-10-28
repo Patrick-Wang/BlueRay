@@ -238,3 +238,67 @@ CPromise<bool>& CPlan::ScjhTemplateExport(LPCTSTR lpFileName, CJsonQueryParam& j
 	m_lpHttp->Download(url, promise->GetId(), attr, std::shared_ptr<IHttp::IOutputStream>(new CFileOutputStream(lpFileName)));
 	return *promise;
 }
+
+CPromise<bool>& CPlan::ZzjhTemplateExport(LPCTSTR lpFileName, CJsonQueryParam& jqParam)
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/plan/zzjhtemplate/export"),
+		IDS_HOST_NAME);
+	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_lpHttp, new CBoolParser());
+	std::map<CString, CString> attr;
+	CString base64;
+	CString rawData;
+	jqParam.toJson(rawData, this);
+	Util_Tools::Util::base64_encode((unsigned char*)(LPCTSTR)rawData, rawData.GetLength() * 2, base64);
+	attr[L"query"] = base64;
+	m_lpHttp->Download(url, promise->GetId(), attr, std::shared_ptr<IHttp::IOutputStream>(new CFileOutputStream(lpFileName)));
+	return *promise;
+}
+
+CPromise<bool>& CPlan::ZzgzkTemplateExport(LPCTSTR lpFileName, CJsonQueryParam& jqParam)
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/plan/zzgzktemplate/export"),
+		IDS_HOST_NAME);
+	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_lpHttp, new CBoolParser());
+	std::map<CString, CString> attr;
+	CString base64;
+	CString rawData;
+	jqParam.toJson(rawData, this);
+	Util_Tools::Util::base64_encode((unsigned char*)(LPCTSTR)rawData, rawData.GetLength() * 2, base64);
+	attr[L"query"] = base64;
+	m_lpHttp->Download(url, promise->GetId(), attr, std::shared_ptr<IHttp::IOutputStream>(new CFileOutputStream(lpFileName)));
+	return *promise;
+}
+
+CPromise<bool>& CPlan::ZdqPqTemplateExport(LPCTSTR lpFileName, CJsonQueryParam& jqParam)
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/plan/zdqPqtemplate/export"),
+		IDS_HOST_NAME);
+	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_lpHttp, new CBoolParser());
+	std::map<CString, CString> attr;
+	CString base64;
+	CString rawData;
+	jqParam.toJson(rawData, this);
+	Util_Tools::Util::base64_encode((unsigned char*)(LPCTSTR)rawData, rawData.GetLength() * 2, base64);
+	attr[L"query"] = base64;
+	m_lpHttp->Download(url, promise->GetId(), attr, std::shared_ptr<IHttp::IOutputStream>(new CFileOutputStream(lpFileName)));
+	return *promise;
+}
+
+CPromise<bool>& CPlan::ZxdTemplateExport(LPCTSTR lpFileName, CJsonQueryParam& jqParam)
+{
+	CString url;
+	url.Format(_T("http://%s:8080/BlueRay/plan/zxdtemplate/export"),
+		IDS_HOST_NAME);
+	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_lpHttp, new CBoolParser());
+	std::map<CString, CString> attr;
+	CString base64;
+	CString rawData;
+	jqParam.toJson(rawData, this);
+	Util_Tools::Util::base64_encode((unsigned char*)(LPCTSTR)rawData, rawData.GetLength() * 2, base64);
+	attr[L"query"] = base64;
+	m_lpHttp->Download(url, promise->GetId(), attr, std::shared_ptr<IHttp::IOutputStream>(new CFileOutputStream(lpFileName)));
+	return *promise;
+}

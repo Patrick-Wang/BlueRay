@@ -54,6 +54,10 @@ public:
 	CDelegate<void(void)> d_OnTemplateExportClicked;
 	CDelegate<void(void)> d_OnBzjhTemplateExportClicked;
 	CDelegate<void(void)> d_OnScjhTemplateExportClicked;
+	CDelegate<void(void)> d_OnZzjhTemplateExportClicked;
+	CDelegate<void(void)> d_OnZzgzkTemplateExportClicked;
+	CDelegate<void(void)> d_OnZdqPqTemplateExportClicked;
+	CDelegate<void(void)> d_OnZxdTemplateExportClicked;
 	VARIANT JSCall(int id, const std::vector<VARIANT>& params);
 private:
 	std::set<int> m_hideCols;
@@ -67,6 +71,10 @@ private:
 	static CComJsFun m_JsfnOnTemplateExportClicked;
 	static CComJsFun  m_JsfnOnBzjhTemplateExportClicked;
 	static CComJsFun  m_JsfnOnScjhTemplateExportClicked;
+	static CComJsFun  m_JsfnOnZzjhTemplateExportClicked;
+	static CComJsFun  m_JsfnOnZzgzkTemplateExportClicked;
+	static CComJsFun  m_JsfnOnZdqPqTemplateExportClicked;
+	static CComJsFun  m_JsfnOnZxdTemplateExportClicked;
 	BSTR m_gridName;
 };
 

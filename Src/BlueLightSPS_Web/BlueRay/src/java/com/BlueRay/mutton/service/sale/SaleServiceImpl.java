@@ -410,7 +410,7 @@ public class SaleServiceImpl implements SaleService {
 		}
 	}
 
-
+	//S1.0C为例，S型号，1.0梯速，C为吨位
 	public void upgradeGgxh(CPGGXHXX ggxh, String value){
 		ggxh.setGg(value);
 		if (!value.isEmpty() && ggxh.getDw().isEmpty()){
@@ -430,12 +430,15 @@ public class SaleServiceImpl implements SaleService {
 						break;
 					}
 				}
+				//取S
 				ggxh.setXh(value.substring(0, num));
 				
 				if (letter > 0){
-					ggxh.setDw(value.substring(num, letter));
+					//1.0梯速
+					ggxh.setTs(value.substring(num, letter));
 					if (value.length() > letter){
-						ggxh.setTs(value.substring(letter, letter + 1));
+						//C为吨位
+						ggxh.setDw(value.substring(letter));
 					}
 				}
 			}

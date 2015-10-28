@@ -5,90 +5,214 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import com.BlueRay.mutton.common.ExporterUtil;
+import com.BlueRay.mutton.common.Location;
 import com.BlueRay.mutton.common.PcjhColumn;
 import com.BlueRay.mutton.model.dao.ItemDao;
 import com.BlueRay.mutton.model.dao.PlanDao;
 import com.BlueRay.mutton.model.dao.SaleDao;
+import com.BlueRay.mutton.model.entity.jpa.CPGGXHXX;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
 import com.BlueRay.mutton.service.plan.PlanServiceImpl;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
-import com.BlueRay.mutton.tool.Util;
+
+
 
 public class DBPCJHXXTemplateZzjhExporter implements IExcelExporter<PCJHXX> {
 
+	static class SheetContext {
+		public HSSFSheet sheet;
+		public int count = 0;
+		public Map<String, Integer> repeatRow = new HashMap<String, Integer>();
+		public String scrq;
+		
+		private HSSFCell getCell(int row, int col){
+			HSSFRow hRow = sheet.getRow(row);
+			if (null == hRow){
+				hRow = sheet.createRow(row);
+			}
+			if (null == hRow.getCell(col)){
+				return hRow.createCell(row);
+			}
+			return hRow.getCell(col);
+		}
+			
+		public void fixed(Location zs, Location jhxdrq) {
+			String val = getCell(0, 0).getStringCellValue();
+			getCell(0, 0).setCellValue(val.replace("XXX", scrq));
+			getCell(zs.getZeroBasedRow(), zs.getZeroBasedCol())
+					.setCellValue("" + count);
+			
+			// 计划下达日期
+			Calendar cal = Calendar.getInstance();
+			String rq = "" + cal.get(Calendar.YEAR) + "-"
+					+ (cal.get(Calendar.MONTH) + 1) + "-"
+					+ cal.get(Calendar.DAY_OF_MONTH);
+			getCell(jhxdrq.getZeroBasedRow(), jhxdrq.getZeroBasedCol())
+			.setCellValue(rq);
+		}
+	}
+	
 	ItemDao itemDao;
 	SaleDao saleDao;
 	PlanDao planDao;
 	AbstractExcel<PCJHXX> excel;
 	OutputStream os;
+
 	private static String pathTemplate = null;
-	static 
-	{
+	private static String pathMapfile = null;
+
+	static {
 		try {
 			String basePath = new URI(DBPCJHXXTemplateZzjhExporter.class
 					.getClassLoader().getResource("").getPath()).getPath();
-			pathTemplate = basePath + "META-INF/template_zzjh.xls";			
+			pathTemplate = basePath + "META-INF/template_zzjh.xls";
+			pathMapfile = basePath + "META-INF/template_zzjh.xml";
 			System.out.println(pathTemplate);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
+	private final static int jhxdrq = -1;
+	private final static int zs = -2;
+	private final static int xh = -3;
+	private final static int wldm = -4;
+	private final static int mc = -5;
+	private final static int gg = -6;
+	private final static int zjdm = -7;
+
+	private static int baseRow = 0;
+	private static long templateXmlTime = 0;
+	private static Map<Integer, List<Location>> colsMap = new Hashtable<Integer, List<Location>>();
+	private Map<String, SheetContext> contextMap = new Hashtable<String, SheetContext>();
+
+	private static void loadLocation(Document doc, int val, String tagName) {
+		Element cell = (Element) doc.getElementsByTagName(tagName).item(0);
+		if (!colsMap.containsKey(val)) {
+			colsMap.put(val, new ArrayList<Location>());
+		}
+		colsMap.get(val).add(
+				new Location(cell.getAttribute("col"), Integer.valueOf(cell
+						.getAttribute("row"))));
+	}
+
+	private static void loadLocationMultiCell(Document doc, int val, Element e) {
+		if (!colsMap.containsKey(val)) {
+			colsMap.put(val, new ArrayList<Location>());
+		}
+		if (null != e){
+			NodeList cells = e.getElementsByTagName("cell");
+			for (int j = 0; j < cells.getLength(); j++) {
+				Element cell = (Element) cells.item(j);
+				colsMap.get(val).add(
+						new Location(cell.getAttribute("col"), Integer.valueOf(cell
+								.getAttribute("row"))));
+			}
+		}
+	}
+
+	private static void loadLocationMultiCell(Document doc, int val,
+			String tagName) {
+		Element cell = (Element) doc.getElementsByTagName(tagName).item(0);
+		loadLocationMultiCell(doc, val, cell);
+	}
+
+	private static synchronized void loadTemplateXml() {
+		long time = new File(pathMapfile).lastModified();
+		if (time != templateXmlTime) {
+			templateXmlTime = time;
+			colsMap.clear();
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			try {
+				DocumentBuilder db = dbf.newDocumentBuilder();
+				Document doc = db.parse(pathMapfile);
+				loadLocation(doc, jhxdrq, "jhxdrq");
+				loadLocation(doc, zs, "zs");
+				loadLocationMultiCell(doc, xh, "xh");
+				loadLocationMultiCell(doc, wldm, "wldm");
+				loadLocationMultiCell(doc, mc, "mc");
+				loadLocationMultiCell(doc, gg, "gg");
+				loadLocationMultiCell(doc, zjdm, "zjdm");
+
+				baseRow = Integer.valueOf(doc.getElementsByTagName("baseRow")
+						.item(0).getFirstChild().getNodeValue());
+				NodeList fields = doc.getElementsByTagName("table_field");
+
+				for (int i = 0; i < fields.getLength(); i++) {
+					Element e = (Element) fields.item(i);
+					try {
+						PcjhColumn enPcjh = PcjhColumn.valueOf(e
+								.getAttribute("name"));
+						loadLocationMultiCell(doc, enPcjh.ordinal(), e);
+
+					} catch (Exception ex) {
+
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	public DBPCJHXXTemplateZzjhExporter(ItemDao itemDao, SaleDao saleDao,
 			PlanDao planDao, AbstractExcel<PCJHXX> excel, OutputStream os) {
-		super();
 		this.itemDao = itemDao;
 		this.saleDao = saleDao;
 		this.planDao = planDao;
 		this.excel = excel;
 		this.os = os;
 	}
-	
-	private static PcjhColumn[] columns = new PcjhColumn[]{
-		PcjhColumn.ggxh,
-		PcjhColumn.end,
-		PcjhColumn.end,
-		PcjhColumn.yylgg,
-		PcjhColumn.zc,
-		PcjhColumn.end,
-		PcjhColumn.sl,
-		PcjhColumn.z
-	};
 
-//	private boolean isSorT(String ggxh){
-//		if (!ggxh.isEmpty()){
-//			String tag = ggxh.substring(0, 1);
-//			return tag.equals("S") || tag.equals("T");
-//		}
-//		return false;
-//	}
-//	
-//	private boolean isU(String ggxh){
-//		if (!ggxh.isEmpty()){
-//			String tag = ggxh.substring(0, 1);
-//			return tag.equals("U");
-//		}
-//		return false;
-//	}
-	
+	private Map<String, String[]> getRelationMap(HSSFSheet sheetRelation) {
+		Map<String, String[]> relationMap = new HashMap<String, String[]>();
+		for (int i = 2; i < sheetRelation.getLastRowNum(); ++i) {
+			HSSFRow row = sheetRelation.getRow(i);
+			relationMap.put(row.getCell(0).getStringCellValue(), new String[] {
+					row.getCell(1).getStringCellValue(),
+					row.getCell(2).getStringCellValue(),
+					row.getCell(3).getStringCellValue(),
+					row.getCell(4).getStringCellValue() });
+		}
+		return relationMap;
+	}
+
+	private SheetContext getContext(String scrq, HSSFWorkbook workbook) {
+		if (!contextMap.containsKey(scrq)) {
+			contextMap.put(scrq, new SheetContext());
+			contextMap.get(scrq).sheet = workbook.cloneSheet(0);
+			workbook.setSheetName(workbook.getSheetIndex(contextMap.get(scrq).sheet), scrq);
+			contextMap.get(scrq).scrq = scrq;
+		}
+		return contextMap.get(scrq);
+	}
+
 	public void exports() throws IOException {
+		loadTemplateXml();
 		
 		Map<Integer, HTXX> htxxMap = new HashMap<Integer, HTXX>();
 
@@ -100,6 +224,9 @@ public class DBPCJHXXTemplateZzjhExporter implements IExcelExporter<PCJHXX> {
 		style.setBorderLeft(HSSFCellStyle.BORDER_THIN);// 左边框
 		style.setBorderTop(HSSFCellStyle.BORDER_THIN);// 上边框
 		style.setBorderRight(HSSFCellStyle.BORDER_THIN);// 右边框
+		HSSFFont font = workbook.createFont();
+		font.setFontHeightInPoints((short) 10);
+		style.setFont(font);
 		
 		HSSFCellStyle styleHighlight = workbook.createCellStyle();
 		styleHighlight.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 下边框
@@ -109,163 +236,160 @@ public class DBPCJHXXTemplateZzjhExporter implements IExcelExporter<PCJHXX> {
 		styleHighlight.setFillForegroundColor(HSSFColor.YELLOW.index);
 		styleHighlight.setFillBackgroundColor(HSSFColor.YELLOW.index);
 		styleHighlight.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
-//		HSSFSheet sheetST = workbook.getSheetAt(0);
-//		HSSFSheet sheetU = workbook.getSheetAt(1);
-//		HSSFSheet sheetOther = workbook.getSheetAt(2);
+		styleHighlight.setFont(font);
 		
+		Map<String, String[]> relationMap = this.getRelationMap(workbook
+				.getSheetAt(1));
 		List<PCJHXX> pcxxs = new ArrayList<PCJHXX>(1);
 		pcxxs.add(null);
 		String[] ret = new String[PcjhColumn.end.ordinal()];
-//		int countSorT = 0;
-//		int countU = 0;
-//		int countOther = 0;
-		Map<String, Integer> mapScrq2Count = new HashMap<String, Integer>();
-		Map<String, HSSFSheet> mapScrq2Sheet = new HashMap<String, HSSFSheet>();
+	
+
 		for (int i = 0, len = excel.getRowCount(); i < len; ++i) {
+			PCJHXX pcjh = excel.getRow(i);
 			pcxxs.set(0, excel.getRow(i));
 			PlanServiceImpl.getHtxxMap(pcxxs, saleDao, planDao, htxxMap);
 			PlanServiceImpl.setPCJH(ret, pcxxs.get(0), htxxMap, itemDao);
 			String scrq = ret[PcjhColumn.scrq.ordinal()];
-			if (!scrq.isEmpty()){
-				String ggxh = ret[PcjhColumn.ggxh.ordinal()];			
-				if (Util.ggIsS(ggxh) || Util.ggIsTStart(ggxh)){
-					if (!mapScrq2Sheet.containsKey(scrq + "_ST")){
-						mapScrq2Sheet.put(scrq + "_ST", workbook.cloneSheet(0));
-						mapScrq2Count.put(scrq + "_ST", 1);
+
+			if (!scrq.isEmpty()) {
+				SheetContext context = getContext(scrq, workbook);
+				String repeatTag = "";
+				HSSFRow row = context.sheet.createRow(baseRow + context.count);
+				context.count++;
+				for (int j = 1; j < PcjhColumn.end.ordinal(); ++j) {
+
+					if (colsMap.containsKey(j)) {
+						if (j == PcjhColumn.sl.ordinal()) {
+							List<Location> locs = colsMap.get(j);
+							for (Location loc : locs) {
+								HSSFCell cel = row.getCell(loc.getZeroBasedCol());
+								if (cel == null) {
+									cel = row.createCell(loc.getZeroBasedCol());
+									cel.setCellValue(0);
+									cel.setCellStyle(style);
+								}
+								double val = cel.getNumericCellValue();
+								cel.setCellValue(val + Integer.valueOf(ret[j]));
+							}
+						} else if (j == PcjhColumn.ggxh.ordinal()) {
+							CPGGXHXX ggxh = itemDao.queryCpggxhxxById(saleDao
+									.getSaleDataById(pcjh.getHtxxID())
+									.getGgxhID());
+							repeatTag += ggxh.getXh() + ggxh.getDw();
+							List<Location> locs = colsMap.get(j);
+							for (Location loc : locs) {
+								HSSFCell cel = row.getCell(loc.getZeroBasedCol());
+								if (cel == null) {
+									cel = row.createCell(loc.getZeroBasedCol());
+								}
+								cel.setCellValue(ret[j]);
+								cel.setCellStyle(style);
+							}
+							String key = ggxh.getXh() + ggxh.getDw();
+							String[] map = relationMap.get(key);
+							locs = colsMap.get(wldm);
+							for (Location loc : locs) {
+								HSSFCell cel = row.getCell(loc
+										.getZeroBasedCol());
+								if (cel == null) {
+									cel = row.createCell(loc.getZeroBasedCol());
+								}
+								cel.setCellValue(map != null ? map[0] : "");
+								cel.setCellStyle(style);
+							}
+
+							locs = colsMap.get(mc);
+							for (Location loc : locs) {
+								HSSFCell cel = row.getCell(loc
+										.getZeroBasedCol());
+								if (cel == null) {
+									cel = row.createCell(loc.getZeroBasedCol());
+								}
+								cel.setCellValue(map != null ? map[1] : "");
+								cel.setCellStyle(style);
+							}
+
+							locs = colsMap.get(gg);
+							for (Location loc : locs) {
+								HSSFCell cel = row.getCell(loc
+										.getZeroBasedCol());
+								if (cel == null) {
+									cel = row.createCell(loc.getZeroBasedCol());
+								}
+								cel.setCellValue(map != null ? map[2] : "");
+								cel.setCellStyle(style);
+							}
+
+							locs = colsMap.get(zjdm);
+							for (Location loc : locs) {
+								HSSFCell cel = row.getCell(loc
+										.getZeroBasedCol());
+								if (cel == null) {
+									cel = row.createCell(loc.getZeroBasedCol());
+								}
+								cel.setCellValue(map != null ? map[3] : "");
+								cel.setCellStyle(style);
+							}
+						} else {
+							repeatTag += ret[j];
+							List<Location> locs = colsMap.get(j);
+							HSSFCellStyle st = style;
+							if (ExporterUtil.validatePlanHighlight(j, ret)){
+								st = styleHighlight;
+							}
+							
+							for (Location loc : locs) {
+								HSSFCell cel = row.getCell(loc.getZeroBasedCol());
+								if (cel == null) {
+									cel = row.createCell(loc.getZeroBasedCol());
+								}
+								cel.setCellStyle(st);
+								cel.setCellValue(ret[j]);
+							}
+						}
 					}
-					export2SorT(ret, mapScrq2Sheet.get(scrq + "_ST"), style, styleHighlight, mapScrq2Count.get(scrq + "_ST"));
-					mapScrq2Count.put(scrq + "_ST", 1 + mapScrq2Count.get(scrq + "_ST"));
-				} else if(Util.ggIsU(ggxh)){
-					if (!mapScrq2Sheet.containsKey(scrq + "_U")){
-						mapScrq2Sheet.put(scrq + "_U", workbook.cloneSheet(1));
-						mapScrq2Count.put(scrq + "_U", 1);
+				}
+				
+				if (context.repeatRow.containsKey(repeatTag)) {
+					context.sheet.removeRow(row);
+					context.count--;
+					row = context.sheet
+							.getRow(baseRow + context.repeatRow.get(repeatTag) - 1);
+					List<Location> locs = colsMap.get(PcjhColumn.sl.ordinal());
+					for (Location loc : locs) {
+						HSSFCell cel = row.getCell(loc.getZeroBasedCol());
+						if (cel == null) {
+							cel = row.createCell(loc.getZeroBasedCol());
+							cel.setCellValue(0);
+						}
+						double val = cel.getNumericCellValue();
+						cel.setCellValue(val
+								+ Integer.valueOf(ret[PcjhColumn.sl.ordinal()]));
 					}
-					export2U(ret, mapScrq2Sheet.get(scrq + "_U"), style, styleHighlight, mapScrq2Count.get(scrq + "_U"));
-					mapScrq2Count.put(scrq + "_U", 1 + mapScrq2Count.get(scrq + "_U"));
 				} else{
-					if (!mapScrq2Sheet.containsKey(scrq + "_OTHER")){
-						mapScrq2Sheet.put(scrq + "_OTHER", workbook.cloneSheet(2));
-						mapScrq2Count.put(scrq + "_OTHER", 1);
+					context.repeatRow.put(repeatTag, context.count);
+					List<Location> locs = colsMap.get(xh);
+					for (Location loc : locs) {
+						HSSFCell cel = row.getCell(loc.getZeroBasedCol());
+						if (cel == null) {
+							cel = row.createCell(loc.getZeroBasedCol());
+						}
+						cel.setCellValue(context.count);
+						cel.setCellStyle(style);
 					}
-					export2Other(ret, mapScrq2Sheet.get(scrq + "_OTHER"), style, styleHighlight, mapScrq2Count.get(scrq + "_OTHER"));
-					mapScrq2Count.put(scrq + "_OTHER", 1 + mapScrq2Count.get(scrq + "_OTHER"));
 				}
 			}
-		}	
+		}
+		
+		for (String tag : contextMap.keySet()){
+			contextMap.get(tag).fixed(colsMap.get(zs).get(0), colsMap.get(jhxdrq).get(0));
+		}
 
-		workbook.removeSheetAt(2);
 		workbook.removeSheetAt(1);
 		workbook.removeSheetAt(0);
-		
+
 		workbook.write(os);
 	}
 
-	private String getRq(String date){
-		Date d = Date.valueOf(date);
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(d);
-		int dayWeek = cal.get(Calendar.DAY_OF_WEEK);
-		return date + " " + Util.toChinese(dayWeek - 1);
-	}
-	
-	private void export2Other(String[] ret, HSSFSheet sheetOther,
-			HSSFCellStyle style, HSSFCellStyle styleHighlight, int count) {
-		HSSFCell cellTitle = sheetOther.getRow(0).getCell(0);
-		String val = cellTitle.getStringCellValue();
-		val = val.replace("XXX", getRq(ret[PcjhColumn.scrq.ordinal()]));
-		cellTitle.setCellValue(val);
-		
-		Calendar cal = Calendar.getInstance();
-		String rq = "" + cal.get(Calendar.YEAR) + "-"
-				 + (cal.get(Calendar.MONTH) + 1) + "-"
-				 + cal.get(Calendar.DAY_OF_MONTH);
-		HSSFCell cellRq = sheetOther.getRow(1).getCell(9);
-		cellRq.setCellValue("计划下达日期:" + rq);
-		
-		HSSFCell cellHj = sheetOther.getRow(1).getCell(13);
-		cellHj.setCellValue("" + count);
-		
-		HSSFRow row = sheetOther.createRow(3 + count - 1);
-		HSSFCell cell = row.createCell(0);
-		cell.setCellValue(count);
-		cell.setCellStyle(style);
-		for (int i = 0; i < columns.length; ++i){
-			cell = row.createCell(i + 1);
-			cell.setCellValue(ret[columns[i].ordinal()]);
-			if (ExporterUtil.validatePlanHighlight(columns[i], ret)){
-				cell.setCellStyle(styleHighlight);
-			}else{
-				cell.setCellStyle(style);
-			}
-		}
-	}
-
-	private void export2U(String[] ret, HSSFSheet sheetU, HSSFCellStyle style,
-			HSSFCellStyle styleHighlight, int count) {
-		HSSFCell cellTitle = sheetU.getRow(0).getCell(0);
-		String val = cellTitle.getStringCellValue();
-		val = val.replace("XXX", getRq(ret[PcjhColumn.scrq.ordinal()]));
-		cellTitle.setCellValue(val);
-		
-		
-		Calendar cal = Calendar.getInstance();
-		String rq = "" + cal.get(Calendar.YEAR) + "-"
-				 + (cal.get(Calendar.MONTH) + 1) + "-"
-				 + cal.get(Calendar.DAY_OF_MONTH);
-		HSSFCell cellRq = sheetU.getRow(1).getCell(9);
-		cellRq.setCellValue("计划下达日期:" + rq);
-		
-		HSSFCell cellHj = sheetU.getRow(1).getCell(13);
-		cellHj.setCellValue("" + count);
-		
-		
-		HSSFRow row = sheetU.createRow(3 + count - 1);
-		HSSFCell cell = row.createCell(0);
-		cell.setCellValue(count);
-		cell.setCellStyle(style);
-		for (int i = 0; i < columns.length; ++i){
-			cell = row.createCell(i + 1);
-			cell.setCellValue(ret[columns[i].ordinal()]);
-			if (ExporterUtil.validatePlanHighlight(columns[i], ret)){
-				cell.setCellStyle(styleHighlight);
-			}else{
-				cell.setCellStyle(style);
-			}
-		}
-	}
-
-	private void export2SorT(String[] ret, HSSFSheet sheetST,
-			HSSFCellStyle style, HSSFCellStyle styleHighlight, int count) {
-		
-		HSSFCell cellTitle = sheetST.getRow(0).getCell(0);
-		String val = cellTitle.getStringCellValue();
-		val = val.replace("XXX", getRq(ret[PcjhColumn.scrq.ordinal()]));
-		cellTitle.setCellValue(val);
-		
-		Calendar cal = Calendar.getInstance();
-		String rq = "" + cal.get(Calendar.YEAR) + "-"
-				 + (cal.get(Calendar.MONTH) + 1) + "-"
-				 + cal.get(Calendar.DAY_OF_MONTH);
-		HSSFCell cellRq = sheetST.getRow(1).getCell(9);
-		cellRq.setCellValue("计划下达日期:" + rq);
-		
-		HSSFCell cellHj = sheetST.getRow(1).getCell(13);
-		cellHj.setCellValue("" + count);
-		
-		
-		HSSFRow row = sheetST.createRow(3 + count - 1);
-		HSSFCell cell = row.createCell(0);
-		cell.setCellValue(count);
-		cell.setCellStyle(style);
-
-		for (int i = 0; i < columns.length; ++i){
-			cell = row.createCell(i + 1);
-			cell.setCellValue(ret[columns[i].ordinal()]);
-			if (ExporterUtil.validatePlanHighlight(columns[i], ret)){
-				cell.setCellStyle(styleHighlight);
-			}else{
-				cell.setCellStyle(style);
-			}
-		}
-	}
 }

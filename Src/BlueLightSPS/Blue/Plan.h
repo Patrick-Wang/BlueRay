@@ -24,6 +24,10 @@ public:
 	CPromise<bool>& TemplateExport(LPCTSTR lpFileName, CJsonQueryParam& jqParam);
 	CPromise<bool>& BzjhTemplateExport(LPCTSTR lpFileName, CJsonQueryParam& jqParam);
 	CPromise<bool>& ScjhTemplateExport(LPCTSTR lpFileName, CJsonQueryParam& jqParam);
+	CPromise<bool>& ZzjhTemplateExport(LPCTSTR lpFileName, CJsonQueryParam& jqParam);
+	CPromise<bool>& ZzgzkTemplateExport(LPCTSTR lpFileName, CJsonQueryParam& jqParam);
+	CPromise<bool>& ZdqPqTemplateExport(LPCTSTR lpFileName, CJsonQueryParam& jqParam);
+	CPromise<bool>& ZxdTemplateExport(LPCTSTR lpFileName, CJsonQueryParam& jqParam);
 	CPromise<bool>& Update(IntArray& rows, StringArray& record);
 	CPromise<StringArray>& Approve(ApproveType type, IntArray& rows);
 	CPromise<StringArray>& Unapprove(ApproveType type, IntArray& rows);
