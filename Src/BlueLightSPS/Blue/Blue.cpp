@@ -99,19 +99,19 @@ BOOL CBlueApp::InitInstance()
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
 
-	//CUpdaterProxy clUpdater;
-	//if (clUpdater.HasNewVersion()){
-	//	int iRet = AfxMessageBox(L"发现新版本，是否更新？", MB_YESNO);
-	//	if (IDYES == iRet)
-	//	{
-	//		clUpdater.DoUpdate();
-	//		return TRUE;
-	//	}
-	//	else
-	//	{
-	//		clUpdater.CancelUpdate();
-	//	}
-	//}
+	CUpdaterProxy clUpdater;
+	if (clUpdater.HasNewVersion()){
+		int iRet = AfxMessageBox(L"发现新版本，是否更新？", MB_YESNO);
+		if (IDYES == iRet)
+		{
+			clUpdater.DoUpdate();
+		}
+		else
+		{
+			clUpdater.CancelUpdate();
+		}
+		return TRUE;
+	}
 
 	CLoginDlg loginDlg;
 

@@ -35,16 +35,19 @@ void ClientUpdater::Update()
 				HANDLE hEvent = OpenEvent(EVENT_ALL_ACCESS, FALSE, HAS_NEW_VERSION);
 				if (NULL != hEvent)
 				{
+					//MessageBox(NULL, L"", L"HAS_NEW_VERSION", MB_OK);
 					SetEvent(hEvent);
 				}
 
+
 				bool update = true;
 				HANDLE hUpdateSigns[] = { OpenEvent(EVENT_ALL_ACCESS, FALSE, NEED_UPDATE),
-					OpenEvent(EVENT_ALL_ACCESS, FALSE, NEED_UPDATE) };
+					OpenEvent(EVENT_ALL_ACCESS, FALSE, NOT_UPDATE) };
 				if (NULL != hUpdateSigns[0] && NULL != hUpdateSigns[1])
 				{
+					//MessageBox(NULL, L"", L"NEED_UPDATE  NOT_UPDATE", MB_OK);
 					DWORD dwRet = WaitForMultipleObjects(2, hUpdateSigns, FALSE, INFINITE);
-					if (0 == dwRet - WAIT_OBJECT_0){
+					if (1 == dwRet - WAIT_OBJECT_0){
 						update = false;
 					}
 		
@@ -187,7 +190,8 @@ void ClientUpdater::UpdateLocalFile()
 		ShExecInfo.hInstApp = NULL;
 		ShellExecuteEx(&ShExecInfo);
 		WaitForSingleObject(ShExecInfo.hProcess, INFINITE);
-		MessageBox(m_hWnd, L"系统更新成功！", L"更新", MB_OK);
+		DeleteFile(m_strModulePath + L"\\BlueLightPLM(" + m_clServerVersion + L").zip");
+		MessageBox(NULL, L"系统更新成功！", L"更新", MB_OK | MB_SYSTEMMODAL | MB_SETFOREGROUND | MB_ICONINFORMATION);
 		Exit();
 	}
 }
