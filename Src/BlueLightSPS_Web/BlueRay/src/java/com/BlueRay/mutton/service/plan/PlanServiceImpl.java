@@ -23,6 +23,7 @@ import com.BlueRay.mutton.model.dao.ItemDao;
 import com.BlueRay.mutton.model.dao.PlanDao;
 import com.BlueRay.mutton.model.dao.SNDao;
 import com.BlueRay.mutton.model.dao.SaleDao;
+import com.BlueRay.mutton.model.dao.ZxdDao;
 import com.BlueRay.mutton.model.entity.jpa.CGXXB;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
@@ -34,9 +35,10 @@ import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXExcelExporter;
 import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXTemplateBzjhExporter;
 import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXTemplateExporter;
 import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXTemplateScjhExporter;
-import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXTemplateZdqpqExporter;
-import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXTemplateZzgzkExporter;
-import com.BlueRay.mutton.service.plan.exporter.DBPCJHXXTemplateZzjhExporter;
+import com.BlueRay.mutton.service.plan.exporter.zdqpq.DBPCJHXXTemplateZdqpqExporter;
+import com.BlueRay.mutton.service.plan.exporter.zxd.DBPCJHXXTemplateZxdExporter;
+import com.BlueRay.mutton.service.plan.exporter.zzgzk.DBPCJHXXTemplateZzgzkExporter;
+import com.BlueRay.mutton.service.plan.exporter.zzjh.DBPCJHXXTemplateZzjhExporter;
 import com.BlueRay.mutton.service.sale.SaleServiceImpl;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
@@ -55,6 +57,9 @@ public class PlanServiceImpl implements PlanService {
 
 	@Autowired
 	private SaleDao saleDao;
+	
+	@Autowired
+	private ZxdDao zxdDao;
 
 	@Autowired
 	private ItemDao itemDao;
@@ -634,7 +639,7 @@ public class PlanServiceImpl implements PlanService {
 
 	public String zxdtemplateExport(OutputStream out, JSONObject jquery) {
 		AbstractExcel<PCJHXX> excel = planDao.getPcjhExcel(jquery, planTranslator);
-		IExcelExporter<PCJHXX> exportor = new DBPCJHXXTemplateZdqpqExporter(itemDao, saleDao, planDao, excel, out);
+		IExcelExporter<PCJHXX> exportor = new DBPCJHXXTemplateZxdExporter(itemDao, saleDao, planDao, zxdDao, excel, out);
 		
 		try {
 			exportor.exports();

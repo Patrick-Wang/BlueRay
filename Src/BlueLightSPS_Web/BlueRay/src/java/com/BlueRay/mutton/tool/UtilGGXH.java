@@ -46,4 +46,8 @@ public class UtilGGXH {
 		return false;
 	}
 
+	public static boolean ggIsL(String ggxh) {
+		return ggIsX(ggxh, 'l', 'L');
+	}
+
 }

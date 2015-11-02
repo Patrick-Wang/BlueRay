@@ -36,7 +36,7 @@
 	ccbh, // 出厂编号"
 -->
 <template>
-	<sheet_yw>
+	<sheet_english>
 		<sheet_name>英文箱单</sheet_name>
 		<table_field name="ggxh">
 			<cell row="6" col="B"></cell>
@@ -54,7 +54,7 @@
 			<cell row="28" col="B"></cell>
 			<cell row="28" col="D"></cell>
 		</table_field>
-	</sheet_yw>
+	</sheet_english>
 	<sheet_gr_S_TA_U>
 		<sheet_name>广日箱单S,TA,U</sheet_name>
 		<table_field name="ggxh">
@@ -122,118 +122,54 @@
 		<zdqbh>
 			<cell row="14" col="D"></cell>
 		</zdqbh>
-		<wks_qt>
+		<qt>
 			<cell row="15" col="D"></cell>
-		</wks_qt>
+		</qt>
 	</sheet_wks>
 	<sheet_xd>
 		<sheet_name>西德</sheet_name>
-		<jhxdrq row="2" col="E">
-		</jhxdrq>
-		<zs row="2" col="H">
-		</zs>
-		<baseRow>3</baseRow>
-		<xh>
-			<cell row="-1" col="A"></cell>
-		</xh>
-		<table_field name="khmc">
-			<cell row="-1" col="B"></cell>
+		<table_field name="ccbh">
+			<cell row="3" col="D"></cell>
 		</table_field>
 		<table_field name="ggxh">
-			<cell row="-1" col="C"></cell>
+			<cell row="5" col="E"></cell>
 		</table_field>
-		<table_field name="zjys">
-			<cell row="-1" col="D"></cell>
+		<table_field name="dlcd">
+			<cell row="6" col="D"></cell>
 		</table_field>
-		<table_field name="sl">
-			<cell row="-1" col="E"></cell>
-		</table_field>
-		<table_field name="zdqdy">
-			<cell row="-1" col="F"></cell>
-		</table_field>
-		<table_field name="zdqxh">
-			<cell row="-1" col="G"></cell>
-		</table_field>
-		<table_field name="bz">
-			<cell row="-1" col="H"></cell>
+		<table_field name="zxcd">
+			<cell row="7" col="D"></cell>
 		</table_field>
 	</sheet_xd>
-	<sheet_pt>
+	<sheet_usual>
 		<sheet_name>普通箱单</sheet_name>
-		<jhxdrq row="2" col="E">
-		</jhxdrq>
-		<zs row="2" col="H">
-		</zs>
-		<baseRow>3</baseRow>
-		<xh>
-			<cell row="-1" col="A"></cell>
-		</xh>
-		<table_field name="khmc">
-			<cell row="-1" col="B"></cell>
+		<table_field name="ccbh">
+			<cell row="3" col="D"></cell>
 		</table_field>
 		<table_field name="ggxh">
-			<cell row="-1" col="C"></cell>
+			<cell row="5" col="E"></cell>
 		</table_field>
-		<table_field name="zjys">
-			<cell row="-1" col="D"></cell>
+		<table_field name="dlcd">
+			<cell row="6" col="D"></cell>
 		</table_field>
-		<table_field name="sl">
-			<cell row="-1" col="E"></cell>
-		</table_field>
-		<table_field name="zdqdy">
-			<cell row="-1" col="F"></cell>
-		</table_field>
-		<table_field name="zdqxh">
-			<cell row="-1" col="G"></cell>
-		</table_field>
-		<table_field name="bz">
-			<cell row="-1" col="H"></cell>
-		</table_field>
-	</sheet_pt>
+	</sheet_usual>
 	<sheet_zjyd>
 		<sheet_name>浙江怡达</sheet_name>
-		<jhxdrq row="2" col="E">
-		</jhxdrq>
-		<zs row="2" col="H">
-		</zs>
-		<baseRow>3</baseRow>
+		<baseRow>4</baseRow>
 		<xh>
 			<cell row="-1" col="A"></cell>
 		</xh>
-		<table_field name="khmc">
-			<cell row="-1" col="B"></cell>
-		</table_field>
 		<table_field name="ggxh">
 			<cell row="-1" col="C"></cell>
 		</table_field>
-		<table_field name="zjys">
-			<cell row="-1" col="D"></cell>
-		</table_field>
-		<table_field name="sl">
-			<cell row="-1" col="E"></cell>
-		</table_field>
-		<table_field name="zdqdy">
+		<bz>
 			<cell row="-1" col="F"></cell>
-		</table_field>
-		<table_field name="zdqxh">
-			<cell row="-1" col="G"></cell>
-		</table_field>
-		<table_field name="bz">
-			<cell row="-1" col="H"></cell>
-		</table_field>
+		</bz>
 	</sheet_zjyd>
-	<sheet_hz>
+	<!-- <sheet_hz>
 		<sheet_name>汇总</sheet_name>
-		<jhxdrq row="2" col="E">
-		</jhxdrq>
-		<zs row="2" col="H">
-		</zs>
-		<baseRow>3</baseRow>
-		<xh>
-			<cell row="-1" col="A"></cell>
-		</xh>
-		<table_field name="khmc">
-			<cell row="-1" col="B"></cell>
+		<table_field name="ccbh">
+			<cell row="3" col="D"></cell>
 		</table_field>
 		<table_field name="ggxh">
 			<cell row="-1" col="C"></cell>
@@ -253,5 +189,5 @@
 		<table_field name="bz">
 			<cell row="-1" col="H"></cell>
 		</table_field>
-	</sheet_hz>
+	</sheet_hz> -->
 </template>

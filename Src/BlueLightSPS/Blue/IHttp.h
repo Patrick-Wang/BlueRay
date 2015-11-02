@@ -2,7 +2,7 @@
 #include <map>
 #include <vector>
 #include <memory>
-#include "Delegate.h"
+#include "UILib/Delegate.h"
 
 typedef std::vector<int> IntArray;
 typedef std::vector<CString> StringArray;

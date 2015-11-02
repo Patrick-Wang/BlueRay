@@ -216,9 +216,6 @@ public class DBPCJHXXTemplateExporter implements IExcelExporter<PCJHXX> {
 		List<PCJHXX> pcxxs = new ArrayList<PCJHXX>(1);
 		pcxxs.add(null);
 
-		
-		
-
 		String fileName = new java.util.Date().getTime() + "_bp";
 		File fTemp = File.createTempFile(fileName, ".xls");
 		FileOutputStream fo = new FileOutputStream(fTemp);

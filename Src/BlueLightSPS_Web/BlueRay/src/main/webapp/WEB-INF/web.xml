@@ -1,5 +1,7 @@
-<web-app>
-	<display-name>Archetype Created Web Application</display-name>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-app_2_3.xsd"
+	version="2.3">
+	<display-name>BlueRay</display-name>
 	<listener>
 		<listener-class>org.springframework.web.util.WebAppRootListener
 		</listener-class>
@@ -16,6 +18,11 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/applicationContext-services.xml</param-value>
 	</context-param>
+	 
+	<servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/resource/*</url-pattern>
+    </servlet-mapping>
 	
 	<servlet>
 		<servlet-name>spring-mvc</servlet-name>

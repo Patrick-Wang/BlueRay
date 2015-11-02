@@ -1944,7 +1944,7 @@ void CPlanPanel::OnBzjhTemplateExportClicked()
 	};
 
 	COleDateTime time(COleDateTime::GetCurrentTime());
-	CString strFileName(_T("包装计划数据数据"));
+	CString strFileName(_T("包装计划数据"));
 	CString strTimestamp;
 	strTimestamp.Format(_T("(%4d%02d%02d_%02d_%02d_%02d).xls"), time.GetYear(), time.GetMonth(), time.GetDay(), time.GetHour(), time.GetMinute(), time.GetSecond());
 	strFileName += strTimestamp;
@@ -1997,7 +1997,7 @@ void CPlanPanel::OnScjhTemplateExportClicked()
 	};
 
 	COleDateTime time(COleDateTime::GetCurrentTime());
-	CString strFileName(_T("生产计划数据数据"));
+	CString strFileName(_T("生产计划数据"));
 	CString strTimestamp;
 	strTimestamp.Format(_T("(%4d%02d%02d_%02d_%02d_%02d).xls"), time.GetYear(), time.GetMonth(), time.GetDay(), time.GetHour(), time.GetMinute(), time.GetSecond());
 	strFileName += strTimestamp;
@@ -2050,7 +2050,7 @@ void CPlanPanel::OnZzjhTemplateExportClicked()
 	};
 
 	COleDateTime time(COleDateTime::GetCurrentTime());
-	CString strFileName(_T("转子计划数据数据"));
+	CString strFileName(_T("转子计划数据"));
 	CString strTimestamp;
 	strTimestamp.Format(_T("(%4d%02d%02d_%02d_%02d_%02d).xls"), time.GetYear(), time.GetMonth(), time.GetDay(), time.GetHour(), time.GetMinute(), time.GetSecond());
 	strFileName += strTimestamp;
@@ -2103,7 +2103,7 @@ void CPlanPanel::OnZzgzkTemplateExportClicked()
 	};
 
 	COleDateTime time(COleDateTime::GetCurrentTime());
-	CString strFileName(_T("转子跟踪卡数据数据"));
+	CString strFileName(_T("转子跟踪卡数据"));
 	CString strTimestamp;
 	strTimestamp.Format(_T("(%4d%02d%02d_%02d_%02d_%02d).xls"), time.GetYear(), time.GetMonth(), time.GetDay(), time.GetHour(), time.GetMinute(), time.GetSecond());
 	strFileName += strTimestamp;
@@ -2156,7 +2156,7 @@ void CPlanPanel::OnZdqPqTemplateExportClicked()
 	};
 
 	COleDateTime time(COleDateTime::GetCurrentTime());
-	CString strFileName(_T("制动器和喷漆数据数据"));
+	CString strFileName(_T("制动器和喷漆数据"));
 	CString strTimestamp;
 	strTimestamp.Format(_T("(%4d%02d%02d_%02d_%02d_%02d).xls"), time.GetYear(), time.GetMonth(), time.GetDay(), time.GetHour(), time.GetMinute(), time.GetSecond());
 	strFileName += strTimestamp;
@@ -2209,7 +2209,7 @@ void CPlanPanel::OnZxdTemplateExportClicked()
 	};
 
 	COleDateTime time(COleDateTime::GetCurrentTime());
-	CString strFileName(_T("装箱单数据数据"));
+	CString strFileName(_T("装箱单数据"));
 	CString strTimestamp;
 	strTimestamp.Format(_T("(%4d%02d%02d_%02d_%02d_%02d).xls"), time.GetYear(), time.GetMonth(), time.GetDay(), time.GetHour(), time.GetMinute(), time.GetSecond());
 	strFileName += strTimestamp;

@@ -1,6 +1,6 @@
 #pragma once
 #include "IJSMediator.h"
-#include "Delegate.h"
+#include "UILib/Delegate.h"
 class CComJsFun :
 	public IJSMediator::IJSFunction{
 public:

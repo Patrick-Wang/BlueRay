@@ -1,19 +1,14 @@
-package com.BlueRay.mutton.service.plan.exporter;
+package com.BlueRay.mutton.service.plan.exporter.zzjh;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
@@ -22,10 +17,6 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 import com.BlueRay.mutton.common.ExporterUtil;
 import com.BlueRay.mutton.common.Location;
 import com.BlueRay.mutton.common.PcjhColumn;
@@ -81,103 +72,12 @@ public class DBPCJHXXTemplateZzjhExporter implements IExcelExporter<PCJHXX> {
 	PlanDao planDao;
 	AbstractExcel<PCJHXX> excel;
 	OutputStream os;
-
-	private static String pathTemplate = null;
-	private static String pathMapfile = null;
-
-	static {
-		try {
-			String basePath = new URI(DBPCJHXXTemplateZzjhExporter.class
-					.getClassLoader().getResource("").getPath()).getPath();
-			pathTemplate = basePath + "META-INF/template_zzjh.xls";
-			pathMapfile = basePath + "META-INF/template_zzjh.xml";
-			System.out.println(pathTemplate);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	private final static int jhxdrq = -1;
-	private final static int zs = -2;
-	private final static int xh = -3;
-	private final static int wldm = -4;
-	private final static int mc = -5;
-	private final static int gg = -6;
-	private final static int zjdm = -7;
-
-	private static int baseRow = 0;
-	private static long templateXmlTime = 0;
-	private static Map<Integer, List<Location>> colsMap = new Hashtable<Integer, List<Location>>();
+	Configuration config = new Configuration();
+	
+	
 	private Map<String, SheetContext> contextMap = new Hashtable<String, SheetContext>();
 
-	private static void loadLocation(Document doc, int val, String tagName) {
-		Element cell = (Element) doc.getElementsByTagName(tagName).item(0);
-		if (!colsMap.containsKey(val)) {
-			colsMap.put(val, new ArrayList<Location>());
-		}
-		colsMap.get(val).add(
-				new Location(cell.getAttribute("col"), Integer.valueOf(cell
-						.getAttribute("row"))));
-	}
 
-	private static void loadLocationMultiCell(Document doc, int val, Element e) {
-		if (!colsMap.containsKey(val)) {
-			colsMap.put(val, new ArrayList<Location>());
-		}
-		if (null != e){
-			NodeList cells = e.getElementsByTagName("cell");
-			for (int j = 0; j < cells.getLength(); j++) {
-				Element cell = (Element) cells.item(j);
-				colsMap.get(val).add(
-						new Location(cell.getAttribute("col"), Integer.valueOf(cell
-								.getAttribute("row"))));
-			}
-		}
-	}
-
-	private static void loadLocationMultiCell(Document doc, int val,
-			String tagName) {
-		Element cell = (Element) doc.getElementsByTagName(tagName).item(0);
-		loadLocationMultiCell(doc, val, cell);
-	}
-
-	private static synchronized void loadTemplateXml() {
-		long time = new File(pathMapfile).lastModified();
-		if (time != templateXmlTime) {
-			templateXmlTime = time;
-			colsMap.clear();
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			try {
-				DocumentBuilder db = dbf.newDocumentBuilder();
-				Document doc = db.parse(pathMapfile);
-				loadLocation(doc, jhxdrq, "jhxdrq");
-				loadLocation(doc, zs, "zs");
-				loadLocationMultiCell(doc, xh, "xh");
-				loadLocationMultiCell(doc, wldm, "wldm");
-				loadLocationMultiCell(doc, mc, "mc");
-				loadLocationMultiCell(doc, gg, "gg");
-				loadLocationMultiCell(doc, zjdm, "zjdm");
-
-				baseRow = Integer.valueOf(doc.getElementsByTagName("baseRow")
-						.item(0).getFirstChild().getNodeValue());
-				NodeList fields = doc.getElementsByTagName("table_field");
-
-				for (int i = 0; i < fields.getLength(); i++) {
-					Element e = (Element) fields.item(i);
-					try {
-						PcjhColumn enPcjh = PcjhColumn.valueOf(e
-								.getAttribute("name"));
-						loadLocationMultiCell(doc, enPcjh.ordinal(), e);
-
-					} catch (Exception ex) {
-
-					}
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
 	
 	public DBPCJHXXTemplateZzjhExporter(ItemDao itemDao, SaleDao saleDao,
 			PlanDao planDao, AbstractExcel<PCJHXX> excel, OutputStream os) {
@@ -212,12 +112,10 @@ public class DBPCJHXXTemplateZzjhExporter implements IExcelExporter<PCJHXX> {
 	}
 
 	public void exports() throws IOException {
-		loadTemplateXml();
 		
 		Map<Integer, HTXX> htxxMap = new HashMap<Integer, HTXX>();
 
-		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(new File(
-				pathTemplate)));
+		HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(config.getTemplatePath()));
 
 		HSSFCellStyle style = workbook.createCellStyle();
 		style.setBorderBottom(HSSFCellStyle.BORDER_THIN); // 下边框
@@ -255,13 +153,13 @@ public class DBPCJHXXTemplateZzjhExporter implements IExcelExporter<PCJHXX> {
 			if (!scrq.isEmpty()) {
 				SheetContext context = getContext(scrq, workbook);
 				String repeatTag = "";
-				HSSFRow row = context.sheet.createRow(baseRow + context.count);
+				HSSFRow row = context.sheet.createRow(config.getBaseRow() + context.count);
 				context.count++;
 				for (int j = 1; j < PcjhColumn.end.ordinal(); ++j) {
 
-					if (colsMap.containsKey(j)) {
+					if (config.containsField(j)) {
 						if (j == PcjhColumn.sl.ordinal()) {
-							List<Location> locs = colsMap.get(j);
+							List<Location> locs = config.getField(j);
 							for (Location loc : locs) {
 								HSSFCell cel = row.getCell(loc.getZeroBasedCol());
 								if (cel == null) {
@@ -277,7 +175,7 @@ public class DBPCJHXXTemplateZzjhExporter implements IExcelExporter<PCJHXX> {
 									.getSaleDataById(pcjh.getHtxxID())
 									.getGgxhID());
 							repeatTag += ggxh.getXh() + ggxh.getDw();
-							List<Location> locs = colsMap.get(j);
+							List<Location> locs = config.getField(j);
 							for (Location loc : locs) {
 								HSSFCell cel = row.getCell(loc.getZeroBasedCol());
 								if (cel == null) {
@@ -288,7 +186,7 @@ public class DBPCJHXXTemplateZzjhExporter implements IExcelExporter<PCJHXX> {
 							}
 							String key = ggxh.getXh() + ggxh.getDw();
 							String[] map = relationMap.get(key);
-							locs = colsMap.get(wldm);
+							locs = config.getWldm();
 							for (Location loc : locs) {
 								HSSFCell cel = row.getCell(loc
 										.getZeroBasedCol());
@@ -299,7 +197,7 @@ public class DBPCJHXXTemplateZzjhExporter implements IExcelExporter<PCJHXX> {
 								cel.setCellStyle(style);
 							}
 
-							locs = colsMap.get(mc);
+							locs = config.getMc();
 							for (Location loc : locs) {
 								HSSFCell cel = row.getCell(loc
 										.getZeroBasedCol());
@@ -310,7 +208,7 @@ public class DBPCJHXXTemplateZzjhExporter implements IExcelExporter<PCJHXX> {
 								cel.setCellStyle(style);
 							}
 
-							locs = colsMap.get(gg);
+							locs = config.getGg();
 							for (Location loc : locs) {
 								HSSFCell cel = row.getCell(loc
 										.getZeroBasedCol());
@@ -321,7 +219,7 @@ public class DBPCJHXXTemplateZzjhExporter implements IExcelExporter<PCJHXX> {
 								cel.setCellStyle(style);
 							}
 
-							locs = colsMap.get(zjdm);
+							locs = config.getZjdm();
 							for (Location loc : locs) {
 								HSSFCell cel = row.getCell(loc
 										.getZeroBasedCol());
@@ -333,7 +231,7 @@ public class DBPCJHXXTemplateZzjhExporter implements IExcelExporter<PCJHXX> {
 							}
 						} else {
 							repeatTag += ret[j];
-							List<Location> locs = colsMap.get(j);
+							List<Location> locs =  config.getField(j);
 							HSSFCellStyle st = style;
 							if (ExporterUtil.validatePlanHighlight(j, ret)){
 								st = styleHighlight;
@@ -355,8 +253,8 @@ public class DBPCJHXXTemplateZzjhExporter implements IExcelExporter<PCJHXX> {
 					context.sheet.removeRow(row);
 					context.count--;
 					row = context.sheet
-							.getRow(baseRow + context.repeatRow.get(repeatTag) - 1);
-					List<Location> locs = colsMap.get(PcjhColumn.sl.ordinal());
+							.getRow(config.getBaseRow() + context.repeatRow.get(repeatTag) - 1);
+					List<Location> locs = config.getField(PcjhColumn.sl.ordinal());
 					for (Location loc : locs) {
 						HSSFCell cel = row.getCell(loc.getZeroBasedCol());
 						if (cel == null) {
@@ -369,7 +267,7 @@ public class DBPCJHXXTemplateZzjhExporter implements IExcelExporter<PCJHXX> {
 					}
 				} else{
 					context.repeatRow.put(repeatTag, context.count);
-					List<Location> locs = colsMap.get(xh);
+					List<Location> locs = config.getXh();
 					for (Location loc : locs) {
 						HSSFCell cel = row.getCell(loc.getZeroBasedCol());
 						if (cel == null) {
@@ -383,7 +281,7 @@ public class DBPCJHXXTemplateZzjhExporter implements IExcelExporter<PCJHXX> {
 		}
 		
 		for (String tag : contextMap.keySet()){
-			contextMap.get(tag).fixed(colsMap.get(zs).get(0), colsMap.get(jhxdrq).get(0));
+			contextMap.get(tag).fixed(config.getZs(), config.getJhxdrq());
 		}
 
 		workbook.removeSheetAt(1);
