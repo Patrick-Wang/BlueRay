@@ -11,7 +11,7 @@ public:
 	void Update();
 private:
 	void Exit();
-	void BeginUpdate(CString& strVersion);
+	void BeginUpdate();
 	void UpdateLocalFile();
 private:
 	auto_ptr<IHttp> m_pHttp;
@@ -20,5 +20,7 @@ private:
 	bool m_bIsPackageUpdated;
 	bool m_bisZipExeUpdated;
 	bool m_bIsZipDllUpdated;
+	std::string m_strServerVersion;
+	CString m_clServerVersion;
 };
 

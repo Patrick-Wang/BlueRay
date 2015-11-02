@@ -38,7 +38,6 @@
 #include <afxcontrolbars.h>     // MFC support for ribbons and control bars
 
 
-
 #define WM_SALE_UPDATED	WM_APP + 100
 #define WM_SALE_APPROVED	WM_APP + 200
 

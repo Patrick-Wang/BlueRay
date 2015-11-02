@@ -25,7 +25,6 @@ import com.BlueRay.mutton.model.dao.SaleDao;
 import com.BlueRay.mutton.model.entity.jpa.HTXX;
 import com.BlueRay.mutton.model.entity.jpa.PCJHXX;
 import com.BlueRay.mutton.service.plan.PlanServiceImpl;
-import com.BlueRay.mutton.service.plan.exporter.zzjh.Configuration;
 import com.BlueRay.mutton.tool.AbstractExcel;
 import com.BlueRay.mutton.tool.IExcelExporter;
 

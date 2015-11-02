@@ -179,6 +179,7 @@
     <ClInclude Include="UILib\DelegateTemplate.h" />
     <ClInclude Include="UILib\MenuManager.h" />
     <ClInclude Include="UILib\SwitchButton.h" />
+    <ClInclude Include="UpdaterProxy.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="Util.h" />
     <ClInclude Include="WebBrowser.h" />
@@ -262,6 +263,7 @@
     <ClCompile Include="UILib\BSStatic.cpp" />
     <ClCompile Include="UILib\MenuManager.cpp" />
     <ClCompile Include="UILib\SwitchButton.cpp" />
+    <ClCompile Include="UpdaterProxy.cpp" />
     <ClCompile Include="User.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="WebBrowser.cpp" />

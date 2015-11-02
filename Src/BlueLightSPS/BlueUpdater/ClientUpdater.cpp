@@ -23,25 +23,24 @@ ClientUpdater::~ClientUpdater()
 void ClientUpdater::Update()
 {
 	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_pHttp.get(), new CBoolParser());
-	std::string strServerVersion;
+
 	class CVersionCheckListener : public CPromise<bool>::IHttpResponse{
 		CONSTRUCTOR_2(CVersionCheckListener, ClientUpdater&, updater, std::string&, strServerVersion);
 	public:
 		virtual void OnSuccess(bool& ret){
 			CVersion version(m_updater.m_strModulePath);
-			CString strVersion;
-			Util_Tools::Util::ANSIToUtf16LE(m_strServerVersion, strVersion);
-			if (ret && version.IsNewVersion(strVersion))
+			Util_Tools::Util::ANSIToUtf16LE(m_strServerVersion, m_updater.m_clServerVersion);
+			if (ret && version.IsNewVersion(m_updater.m_clServerVersion))
 			{
-				HANDLE hEvent = OpenEvent(NULL, NULL, HAS_NEW_VERSION);
+				HANDLE hEvent = OpenEvent(EVENT_ALL_ACCESS, FALSE, HAS_NEW_VERSION);
 				if (NULL != hEvent)
 				{
 					SetEvent(hEvent);
 				}
 
 				bool update = true;
-				HANDLE hUpdateSigns[] = { OpenEvent(NULL, NULL, NEED_UPDATE),
-					OpenEvent(NULL, NULL, NEED_UPDATE) };
+				HANDLE hUpdateSigns[] = { OpenEvent(EVENT_ALL_ACCESS, FALSE, NEED_UPDATE),
+					OpenEvent(EVENT_ALL_ACCESS, FALSE, NEED_UPDATE) };
 				if (NULL != hUpdateSigns[0] && NULL != hUpdateSigns[1])
 				{
 					DWORD dwRet = WaitForMultipleObjects(2, hUpdateSigns, FALSE, INFINITE);
@@ -52,7 +51,7 @@ void ClientUpdater::Update()
 				}
 				if (update)
 				{
-					m_updater.BeginUpdate(strVersion);
+					m_updater.BeginUpdate();
 				}
 				else{
 					m_updater.Exit();
@@ -69,18 +68,18 @@ void ClientUpdater::Update()
 
 	CHostConfiguration hostConfig(m_strModulePath);
 	std::map<CString, CString> attr;
-	promise->then(new CVersionCheckListener(*this, strServerVersion));
+	promise->then(new CVersionCheckListener(*this, m_strServerVersion));
 	CString url = L"http://" + hostConfig.getHost() + L":8080/BlueRay/resource/package/version.txt";
 	m_pHttp->Download(
 		(LPCTSTR)url, 
 		promise->GetId(),
 		attr, 
-		std::shared_ptr<IHttp::IOutputStream>(new CStringOutputStream(strServerVersion)));
+		std::shared_ptr<IHttp::IOutputStream>(new CStringOutputStream(m_strServerVersion)));
 }
 
 void ClientUpdater::Exit()
 {
-	HANDLE hEvent = OpenEvent(NULL, NULL, HAS_NO_VERSION);
+	HANDLE hEvent = OpenEvent(EVENT_ALL_ACCESS, FALSE, HAS_NO_VERSION);
 	if (NULL != hEvent)
 	{
 		SetEvent(hEvent);
@@ -88,10 +87,9 @@ void ClientUpdater::Exit()
 	::PostMessage(m_hWnd, WM_CLOSE, 0, 0);
 }
 
-void ClientUpdater::BeginUpdate(CString& strVersion)
+void ClientUpdater::BeginUpdate()
 {
 	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_pHttp.get(), new CBoolParser());
-	std::string strServerVersion;
 	class CDownLoadListener : public CPromise<bool>::IHttpResponse{
 		CONSTRUCTOR_2(CDownLoadListener, ClientUpdater&, updater, bool&, isUpdated);
 	public:
@@ -104,10 +102,12 @@ void ClientUpdater::BeginUpdate(CString& strVersion)
 			}
 			else
 			{
+				MessageBox(m_updater.m_hWnd, L"文件下载失败！", L"更新", MB_OK | MB_ICONWARNING);
 				m_updater.Exit();
 			}
 		}
 		virtual void OnFailed(){
+			MessageBox(m_updater.m_hWnd, L"网络异常，系统更新失败！", L"更新", MB_OK | MB_ICONWARNING);
 			m_updater.Exit();
 		}
 	};
@@ -122,6 +122,7 @@ void ClientUpdater::BeginUpdate(CString& strVersion)
 	if (PathFileExists(m_strModulePath + L"\\miniunz.exe"))
 	{
 		m_bisZipExeUpdated = true;
+		UpdateLocalFile();
 	}
 	else
 	{
@@ -137,10 +138,11 @@ void ClientUpdater::BeginUpdate(CString& strVersion)
 	if (PathFileExists(m_strModulePath + L"\\zlibwapi.dll"))
 	{
 		m_bIsZipDllUpdated = true;
+		UpdateLocalFile();
 	}
 	else
 	{
-		promise->then(new CDownLoadListener(*this, m_bisZipExeUpdated));
+		promise->then(new CDownLoadListener(*this, m_bIsZipDllUpdated));
 		CString url = L"http://" + hostConfig.getHost() + L":8080/BlueRay/resource/package/zlibwapi.dll";
 		m_pHttp->Download(
 			(LPCTSTR)url,
@@ -150,19 +152,20 @@ void ClientUpdater::BeginUpdate(CString& strVersion)
 
 	}
 
-	if (PathFileExists(m_strModulePath + L"\\BlueLightPLM(" + strVersion + L").zip"))
+	if (PathFileExists(m_strModulePath + L"\\BlueLightPLM(" + m_clServerVersion + L").zip"))
 	{
 		m_bIsPackageUpdated = true;
+		UpdateLocalFile();
 	}
 	else
 	{
-		promise->then(new CDownLoadListener(*this, m_bisZipExeUpdated));
-		CString url = L"http://" + hostConfig.getHost() + L":8080/BlueRay/resource/package/BlueLightPLM(" + strVersion + L").zip";
+		promise->then(new CDownLoadListener(*this, m_bIsPackageUpdated));
+		CString url = L"http://" + hostConfig.getHost() + L":8080/BlueRay/resource/package/BlueLightPLM(" + m_clServerVersion + L").zip";
 		m_pHttp->Download(
 			(LPCTSTR)url,
 			promise->GetId(),
 			attr,
-			std::shared_ptr<IHttp::IOutputStream>(new CFileOutputStream(m_strModulePath + L"/BlueLightPLM.zip")));
+			std::shared_ptr<IHttp::IOutputStream>(new CFileOutputStream(m_strModulePath + L"/BlueLightPLM(" + m_clServerVersion + L").zip")));
 	}
 	
 }
@@ -170,6 +173,21 @@ void ClientUpdater::BeginUpdate(CString& strVersion)
 void ClientUpdater::UpdateLocalFile()
 {
 	if (m_bisZipExeUpdated && m_bIsZipDllUpdated && m_bIsPackageUpdated){
-		ShellExecute(NULL, L"open", m_strModulePath + L"/miniunz.exe", L"BlueLightPLM.zip -o", m_strModulePath, SW_HIDE);
+		CString strFile = m_strModulePath + L"\\miniunz.exe";
+		CString strParam = m_strModulePath + L"\\BlueLightPLM(" + m_clServerVersion + L").zip -o";
+		SHELLEXECUTEINFO ShExecInfo = { 0 };
+		ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
+		ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
+		ShExecInfo.hwnd = NULL;
+		ShExecInfo.lpVerb = NULL;
+		ShExecInfo.lpFile = (LPCTSTR)strFile;
+		ShExecInfo.lpParameters = (LPCTSTR)strParam;
+		ShExecInfo.lpDirectory = (LPCTSTR)m_strModulePath;
+		ShExecInfo.nShow = SW_HIDE;
+		ShExecInfo.hInstApp = NULL;
+		ShellExecuteEx(&ShExecInfo);
+		WaitForSingleObject(ShExecInfo.hProcess, INFINITE);
+		MessageBox(m_hWnd, L"系统更新成功！", L"更新", MB_OK);
+		Exit();
 	}
 }

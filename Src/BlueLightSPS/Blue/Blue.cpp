@@ -7,6 +7,7 @@
 #include "BlueDlg.h"
 #include "LoginDlg.h"
 #include "AdoDBConnector.h"
+#include "UpdaterProxy.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -97,6 +98,20 @@ BOOL CBlueApp::InitInstance()
 	// such as the name of your company or organization
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 
+
+	//CUpdaterProxy clUpdater;
+	//if (clUpdater.HasNewVersion()){
+	//	int iRet = AfxMessageBox(L"发现新版本，是否更新？", MB_YESNO);
+	//	if (IDYES == iRet)
+	//	{
+	//		clUpdater.DoUpdate();
+	//		return TRUE;
+	//	}
+	//	else
+	//	{
+	//		clUpdater.CancelUpdate();
+	//	}
+	//}
 
 	CLoginDlg loginDlg;
 

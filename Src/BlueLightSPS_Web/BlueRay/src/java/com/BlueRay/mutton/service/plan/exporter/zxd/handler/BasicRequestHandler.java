@@ -32,7 +32,11 @@ public abstract class BasicRequestHandler extends RequestHandler<Request> {
 			cel = row.createCell(loc.getZeroBasedCol());
 		}
 		String value = cel.getStringCellValue();
-		cel.setCellValue(value.replace("XXX", val));
+		if (val.isEmpty()){
+			cel.setCellValue(val);
+		}else{
+			cel.setCellValue(value.replace("XXX", val));
+		}
 		return cel;
 	}
 	

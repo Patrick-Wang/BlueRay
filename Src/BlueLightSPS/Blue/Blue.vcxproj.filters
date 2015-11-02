@@ -270,6 +270,9 @@
     <ClInclude Include="SecretDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UpdaterProxy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blue.cpp">
@@ -459,6 +462,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SecretDlg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UpdaterProxy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

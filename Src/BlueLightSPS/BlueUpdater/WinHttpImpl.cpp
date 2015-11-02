@@ -258,7 +258,7 @@ void CWinHttpImpl::DoDownload(CString strUrl, int id, std::map<CString, CString>
 
 	// Create an HTTP Request handle.
 	if (hConnect)
-		hRequest = WinHttpOpenRequest(hConnect, L"POST",
+		hRequest = WinHttpOpenRequest(hConnect, L"GET",
 		strUrl,
 		NULL, WINHTTP_NO_REFERER,
 		WINHTTP_DEFAULT_ACCEPT_TYPES,

@@ -17,6 +17,8 @@ BOOL				InitInstance(HINSTANCE, int);
 LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
 
+auto_ptr<ClientUpdater> updaterPtr;
+
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPTSTR    lpCmdLine,
@@ -156,6 +158,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		EndPaint(hWnd, &ps);
 		break;
 	case WM_DESTROY:
+		updaterPtr.release();
 		PostQuitMessage(0);
 		break;
 	case WM_ONINIT:
@@ -163,8 +166,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		CString path;
 		GetModuleFileName(hInst, path.GetBuffer(MAX_PATH), MAX_PATH);
 		path.ReleaseBuffer();
-		ClientUpdater updater(hWnd, path.Left(path.ReverseFind(L'\\')));
-		updater.Update();
+		updaterPtr.reset(new ClientUpdater(hWnd, path.Left(path.ReverseFind(L'\\'))));
+		updaterPtr->Update();
 	}
 		break;
 	default:
