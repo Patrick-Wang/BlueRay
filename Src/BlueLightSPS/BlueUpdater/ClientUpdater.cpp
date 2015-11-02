@@ -87,7 +87,7 @@ void ClientUpdater::Exit()
 	{
 		SetEvent(hEvent);
 	}
-	::PostMessage(m_hWnd, WM_CLOSE, 0, 0);
+	PostQuitMessage(0);
 }
 
 void ClientUpdater::BeginUpdate()

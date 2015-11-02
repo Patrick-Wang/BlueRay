@@ -10,7 +10,6 @@ CStringOutputStream::CStringOutputStream(std::string& str)
 
 CStringOutputStream::~CStringOutputStream()
 {
-	close();
 }
 
 bool CStringOutputStream::write(BYTE* pStart, int length)

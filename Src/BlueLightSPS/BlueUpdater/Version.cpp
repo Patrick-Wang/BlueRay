@@ -34,7 +34,7 @@ CVersion::CVersion(CString& basePath)
 	if (m_curVersion.empty())
 	{
 		std::string strPath;
-		Util_Tools::Util::Utf16leToUtf8(basePath, strPath);
+		Util_Tools::Util::Utf16leToANSI(basePath, strPath);
 		strPath += "\\version.txt";
 		if (PathFileExistsA(strPath.c_str())){
 			std::ifstream infile(strPath);

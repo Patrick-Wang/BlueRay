@@ -11,6 +11,9 @@ CSTDThreadPool::~CSTDThreadPool()
 {
 	for (std::map<CString, std::shared_ptr<std::thread>>::iterator it = m_mapPool.begin();
 		it != m_mapPool.end(); ++it){
+		//if (it->second->joinable()){
+		//	it->second->join();
+		//}
 		it->second->detach();
 	}
 	m_mapPool.clear();

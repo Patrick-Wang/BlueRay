@@ -53,7 +53,8 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 			DispatchMessage(&msg);
 		}
 	}
-
+	exit(0);
+	updaterPtr.reset();
 	return (int)msg.wParam;
 }
 
@@ -157,8 +158,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// TODO: Add any drawing code here...
 		EndPaint(hWnd, &ps);
 		break;
+	case WM_CLOSE:
+		
+		break;
 	case WM_DESTROY:
-		updaterPtr.release();
+		
 		PostQuitMessage(0);
 		break;
 	case WM_ONINIT:
