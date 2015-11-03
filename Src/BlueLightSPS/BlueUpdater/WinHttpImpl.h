@@ -26,6 +26,7 @@ protected:
 private:
 	CSTDThreadPool m_threadPool;
 	static WNDPROC m_lpfnOldProc;
+	static std::vector<CWinHttpImpl*> m_instances;
 	HWND m_pWnd;
 };
 

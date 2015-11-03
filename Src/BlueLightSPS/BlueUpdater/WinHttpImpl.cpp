@@ -8,18 +8,22 @@
 
 typedef struct tagSuccess_t{
 	int id;
-	LPCTSTR ret;
+	CString ret;
 }Success_t;
 
 CWinHttpImpl::CWinHttpImpl(HWND pWnd)
 	: m_pWnd(pWnd)
 {
-
+	m_instances.push_back(this);
 }
 
 CWinHttpImpl::~CWinHttpImpl()
 {
-	
+	std::vector<CWinHttpImpl*>::iterator result = find(m_instances.begin(), m_instances.end(), this);
+	if (result != m_instances.end()) 
+	{
+		m_instances.erase(result);
+	}
 }
 
 
@@ -51,8 +55,6 @@ void CWinHttpImpl::MakeUrl(LPCTSTR lpAddr, StringArrayPtr rest, CString& url)
 
 void CWinHttpImpl::DoUpload(CString strUrl, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IInputStream> pStream, GUID guid)
 {
-	Success_t success;
-	success.id = id;
 	DWORD dwBytesWritten = 0;
 	BOOL  bResults = FALSE;
 	HINTERNET hSession = NULL,
@@ -158,23 +160,26 @@ void CWinHttpImpl::DoUpload(CString strUrl, int id, std::map<CString, CString> m
 			break;
 
 	} while (dwSize > 0);
-	// Report any errors.
-	if (!bResults)
-		SendMessage(m_pWnd, WM_FAILED, (WPARAM)this, (LPARAM)&success);
-	else
-	{
-		CString utf16Ret;
-		CEncoding::Utf8()->GetString((unsigned char*)(LPCSTR)ret, utf16Ret);
-		success.ret = (LPCTSTR)utf16Ret;
-		SendMessage(m_pWnd, WM_SUCCESS, (WPARAM)this, (LPARAM)&success);
-	}
 
 	// Close any open handles.
 	if (hRequest) WinHttpCloseHandle(hRequest);
 	if (hConnect) WinHttpCloseHandle(hConnect);
 	if (hSession) WinHttpCloseHandle(hSession);
+	GUID* pGuid = new GUID;
+	*pGuid = guid;
+	SendMessage(m_pWnd, WM_THREAD_COMPLETE, (WPARAM)this, (LPARAM)pGuid);
 
-	SendMessage(m_pWnd, WM_THREAD_COMPLETE, (WPARAM)this, (LPARAM)&guid);
+	Success_t* pSuccess = new Success_t();
+	pSuccess->id = id;
+	if (!bResults)
+		SendMessage(m_pWnd, WM_FAILED, (WPARAM)this, (LPARAM)pSuccess);
+	else
+	{
+		CString utf16Ret;
+		CEncoding::Utf8()->GetString((unsigned char*)(LPCSTR)ret, utf16Ret);
+		pSuccess->ret = (LPCTSTR)utf16Ret;
+		SendMessage(m_pWnd, WM_SUCCESS, (WPARAM)this, (LPARAM)pSuccess);
+	}
 }
 
 LRESULT CALLBACK CWinHttpImpl::WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam)
@@ -182,13 +187,34 @@ LRESULT CALLBACK CWinHttpImpl::WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ W
 	switch (uMsg)
 	{
 	case WM_SUCCESS:
-		((CWinHttpImpl*)wParam)->d_OnSuccess(((Success_t*)lParam)->id, ((Success_t*)lParam)->ret);
+	{
+		std::vector<CWinHttpImpl*>::iterator result = find(m_instances.begin(), m_instances.end(), ((CWinHttpImpl*)wParam));
+		if (result != m_instances.end())
+		{
+			(*result)->d_OnSuccess(((Success_t*)lParam)->id, ((Success_t*)lParam)->ret);
+		}
+		delete (Success_t*)lParam;
+		}
 		break;
 	case WM_FAILED:
-		((CWinHttpImpl*)wParam)->d_OnFailed(((Success_t*)lParam)->id);
+	{
+		std::vector<CWinHttpImpl*>::iterator result = find(m_instances.begin(), m_instances.end(), ((CWinHttpImpl*)wParam));
+		if (result != m_instances.end())
+		{
+			(*result)->d_OnFailed(((Success_t*)lParam)->id);
+		}
+		delete (Success_t*)lParam;
+	}
 		break;
 	case WM_THREAD_COMPLETE:
-		((CWinHttpImpl*)wParam)->OnThreadComplete((GUID*)lParam);
+	{
+		std::vector<CWinHttpImpl*>::iterator result = find(m_instances.begin(), m_instances.end(), ((CWinHttpImpl*)wParam));
+		if (result != m_instances.end())
+		{
+			(*result)->OnThreadComplete((GUID*)lParam);
+		}
+		delete (GUID*)lParam;
+	}
 		break;
 	default:
 		break;
@@ -221,8 +247,6 @@ void CWinHttpImpl::Download(LPCTSTR lpAddr, int id, std::map<CString, CString>& 
 
 void CWinHttpImpl::DoDownload(CString strUrl, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IOutputStream> pStream, GUID guid)
 {
-	Success_t success;
-	success.id = id;
 	DWORD dwBytesWritten = 0;
 	BOOL  bResults = FALSE;
 	HINTERNET hSession = NULL,
@@ -343,21 +367,23 @@ void CWinHttpImpl::DoDownload(CString strUrl, int id, std::map<CString, CString>
 	pStream->close();
 	pStream.reset();
 
-	if (!bResults){
-		SendMessage(m_pWnd, WM_FAILED, (WPARAM)this, (LPARAM)&success);
-	}
-	else
-	{
-		success.ret = L"success";
-		SendMessage(m_pWnd, WM_SUCCESS, (WPARAM)this, (LPARAM)&success);
-	}
-
 	// Close any open handles.
 	if (hRequest) WinHttpCloseHandle(hRequest);
 	if (hConnect) WinHttpCloseHandle(hConnect);
 	if (hSession) WinHttpCloseHandle(hSession);
-
-	::SendMessage(m_pWnd, WM_THREAD_COMPLETE, (WPARAM)this, (LPARAM)&guid);
+	GUID* pGuid = new GUID;
+	*pGuid = guid;
+	::SendMessage(m_pWnd, WM_THREAD_COMPLETE, (WPARAM)this, (LPARAM)pGuid);
+	Success_t* pSuccess = new Success_t();
+	pSuccess->id = id;
+	if (!bResults){
+		SendMessage(m_pWnd, WM_FAILED, (WPARAM)this, (LPARAM)pSuccess);
+	}
+	else
+	{
+		pSuccess->ret = L"success";
+		SendMessage(m_pWnd, WM_SUCCESS, (WPARAM)this, (LPARAM)pSuccess);
+	}
 }
 
 void CWinHttpImpl::OnThreadComplete(GUID* pThreadId)
@@ -377,6 +403,8 @@ void CWinHttpImpl::Upload(LPCTSTR lpAddr, int id, std::map<CString, CString>& ma
 	CString url = lpAddr;
 	m_threadPool.RunThread(threadId, &CWinHttpImpl::DoUpload, this, url, id, mapAttr, pStream);
 }
+
+std::vector<CWinHttpImpl*> CWinHttpImpl::m_instances;
 
 WNDPROC CWinHttpImpl::m_lpfnOldProc = NULL;
 

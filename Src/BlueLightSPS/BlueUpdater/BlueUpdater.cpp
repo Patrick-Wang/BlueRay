@@ -53,7 +53,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 			DispatchMessage(&msg);
 		}
 	}
-	exit(0);
+	//exit(0);
 	updaterPtr.reset();
 	return (int)msg.wParam;
 }

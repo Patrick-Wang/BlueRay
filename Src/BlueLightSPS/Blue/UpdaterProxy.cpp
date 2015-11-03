@@ -15,14 +15,14 @@ CUpdaterProxy::CUpdaterProxy()
 
 	if (PathFileExists(basePath + L"\\BlueUpdater.exe"))
 	{
-		if (PathFileExists(basePath + L"\\OnlineSetup.exe"))
+		if (PathFileExists(basePath + L"\\BlueOnline.exe"))
 		{
-			DeleteFile(basePath + L"\\OnlineSetup.exe");
+			DeleteFile(basePath + L"\\BlueOnline.exe");
 		}
-		_trename(basePath + L"\\BlueUpdater.exe", basePath + L"\\OnlineSetup.exe");
+		_trename(basePath + L"\\BlueUpdater.exe", basePath + L"\\BlueOnline.exe");
 	}
 
-	CString validatorPath = basePath + L"\\OnlineSetup.exe";
+	CString validatorPath = basePath + L"\\BlueOnline.exe";
 	if (PathFileExists(validatorPath))
 	{
 		SHELLEXECUTEINFO ShExecInfo = { 0 };
