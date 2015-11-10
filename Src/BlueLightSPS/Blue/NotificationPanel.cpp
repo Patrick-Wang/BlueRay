@@ -11,6 +11,7 @@
 #include "SaleAddDlg.h"
 #include "NotificationAddDlgForPlan.h"
 #include "NotificationAddDlgForSale.h"
+#include "TempCleaner.h"
 #include <map>
 #define GET_UNAPPROVED_URL_ID					IDP_NOTIFICATION + 1
 #define QUERY_URL_UNAPPROVED_SALEBUSINESS		GET_UNAPPROVED_URL_ID + 1
@@ -333,6 +334,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 			}
 			jqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
 			CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
+			CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 			if (NULL != pUq)
 			{
 				pUq->and(UQ(nsPlan::scrq, L"@!=null"));
@@ -349,6 +351,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 		{
 			DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 			CUnitedQuery* uq = MakeBasicSearchCondition(jqp);
+			CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 			if (colIndex >= 0){
 				jqp.AddSortCondition(TO_PLAN_INDEX(colIndex), bAsc);
 			}
@@ -371,6 +374,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 			}
 			jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
 			CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
+			CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 			if (NULL != pUq)
 			{
 				pUq->and(UQ(nsPlan::bzrq, L"@!=null"));
@@ -391,6 +395,7 @@ void CNotificationPanel::OnUpdateData(int page, int rows, int colIndex, bool bAs
 			}
 			jqp.AddApproveCondition(CPlan::PACK_PLAN, false);
 			CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
+			CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 			if (NULL != pUq)
 			{
 				pUq->and(UQ(nsPlan::bzrq, L"@!=null"));
@@ -615,6 +620,7 @@ void CNotificationPanel::OnBnClickedSearch()
 	}
 	case CNotificationPanel::Approving_PlanSCRQBusiness:
 	{
+		CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 		MAKE_PLAN_QUERY_PARAM(jqp);
 		jqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
 		if (NULL != pUq)
@@ -630,6 +636,7 @@ void CNotificationPanel::OnBnClickedSearch()
 	}
 	case CNotificationPanel::Approving_PlanSCRQPlan:
 	{
+		CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 		MAKE_PLAN_QUERY_PARAM(jqp);
 		jqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
 		
@@ -646,6 +653,7 @@ void CNotificationPanel::OnBnClickedSearch()
 	}
 	case CNotificationPanel::Approving_PlanBZRQBusiness:
 	{
+		CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 		MAKE_PLAN_QUERY_PARAM(jqp);
 		jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
 
@@ -662,6 +670,7 @@ void CNotificationPanel::OnBnClickedSearch()
 	}
 	case CNotificationPanel::Approving_PlanBZRQPlan:
 	{
+		CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 		MAKE_PLAN_QUERY_PARAM(jqp);
 		jqp.AddApproveCondition(CPlan::PACK_PLAN, false);
 
@@ -704,16 +713,17 @@ void CNotificationPanel::OnBnClickedMore()
 		dlg.SetOption(new CSaleAddDlg::Option_t(m_advanceSearchVals));
 	}
 
+	auto_ptr<CTempCleaner> ptc;
 	if (IDOK == dlg.DoModal()){
 		m_advanceSearchVals = const_cast<std::vector<CString>&>(dlg.GetResult());
-		if (Approving_SaleBusiness != m_enumCurrentApprovingItem &&
-			Approving_SalePlan != m_enumCurrentApprovingItem){
-			m_advanceSearchVals.insert(m_advanceSearchVals.begin() + nsPlan::cg, L"");
-		}
 		m_pJqGridAPI->CancelSort();
 		CJsonQueryParam jqp;
 		CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
-
+		if (Approving_SaleBusiness != m_enumCurrentApprovingItem &&
+			Approving_SalePlan != m_enumCurrentApprovingItem){
+			m_advanceSearchVals.insert(m_advanceSearchVals.begin() + nsPlan::cg, L"");
+			ptc.reset(new CTempCleaner(m_advanceSearchVals, nsPlan::ggxh));
+		}
 	
 // 		switch (m_enumCurrentApprovingItem)
 // 		{
@@ -892,12 +902,15 @@ CUnitedQuery* CNotificationPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 			if (!strAdvanceCondition.IsEmpty())
 			{
 				pUq = &UQ(nsPlan::scrq, strAdvanceCondition);
-
 				if (NULL != pUq)
 				{
 					sqp.SetUnitedQuery(*pUq);
 				}
 			}
+
+			
+
+	
 			break;
 		}
 		case CNotificationPanel::Approving_PlanBZRQBusiness:
@@ -909,12 +922,15 @@ CUnitedQuery* CNotificationPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 			if (!strAdvanceCondition.IsEmpty())
 			{
 				pUq = &UQ(nsPlan::bzrq, strAdvanceCondition);
-
 				if (NULL != pUq)
 				{
 					sqp.SetUnitedQuery(*pUq);
 				}
 			}
+
+
+
+	
 			break;
 		}
 		case CNotificationPanel::Approving_END:
@@ -922,6 +938,31 @@ CUnitedQuery* CNotificationPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 		default:
 			break;
 		}
+	}
+
+	if (!m_advanceSearchVals.empty())
+	{
+		CString strGgxh = m_advanceSearchVals[nsPlan::ggxh];
+		if (!strGgxh.IsEmpty())
+		{
+			strGgxh = strGgxh.Mid(1);
+			if (!strGgxh.IsEmpty())
+			{
+				if (NULL == pUq)
+				{
+					pUq = &UQ(nsPlan::ggxh, L"@like " + strGgxh);
+				}
+				else
+				{
+					pUq->and(UQ(nsPlan::ggxh, L"@like " + strGgxh));
+				}
+			}
+		}
+	}
+
+	if (NULL != pUq)
+	{
+		sqp.SetUnitedQuery(*pUq);
 	}
 
 	sqp.SetAdvancedCondition(&m_advanceSearchVals);
@@ -1189,6 +1230,7 @@ void CNotificationPanel::OnBnClickedPlanSCRQBusinessApprove()
 	HideFirstViewOfNotificationPanel(FALSE);
 	DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 	CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
+	CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 	jqp.AddApproveCondition(CPlan::PLAN_BUSINESS, false);
 	if (NULL != pUq)
 	{
@@ -1227,6 +1269,7 @@ void CNotificationPanel::OnBnClickedPlanSCRQPlanApprove()
 	DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PLAN_PLAN, false);
 	CUnitedQuery* pUq = MakeBasicSearchCondition(jqp); 
+	CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 	if (NULL != pUq)
 	{
 		pUq->and(UQ(nsPlan::scrq, L"@!=null"));
@@ -1262,6 +1305,7 @@ void CNotificationPanel::OnBnClickedPlanBZRQBusinessApprove()
 
 	jqp.AddApproveCondition(CPlan::PACK_BUSINESS, false);
 	CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
+	CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 	if (NULL != pUq)
 	{
 		pUq->and(UQ(nsPlan::bzrq, L"@!=null"));
@@ -1298,6 +1342,7 @@ void CNotificationPanel::OnBnClickedPlanBZRQPlanApprove()
 	DEFINE_NOTIFICATION_PLAN_QUERY_PARAM(jqp);
 	jqp.AddApproveCondition(CPlan::PACK_PLAN, false);
 	CUnitedQuery* pUq = MakeBasicSearchCondition(jqp);
+	CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 	if (NULL != pUq)
 	{
 		pUq->and(UQ(nsPlan::bzrq, L"@!=null"));

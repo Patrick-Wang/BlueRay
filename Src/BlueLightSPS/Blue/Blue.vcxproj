@@ -167,6 +167,7 @@
     <ClInclude Include="TableFilterDlgForPlan.h" />
     <ClInclude Include="TableFilterDlgForSale.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TempCleaner.h" />
     <ClInclude Include="UILib\BSButton.h" />
     <ClInclude Include="UILib\BSCheckBox.h" />
     <ClInclude Include="UILib\BSObject.h" />

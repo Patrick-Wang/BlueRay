@@ -886,7 +886,7 @@ BOOL CSaleAddDlg::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO
 {
 	if (CBN_SELCHANGE == nCode)
 	{
-		//MessageBox(L"ok");
+	//	MessageBox(L"ok");
 	}
 	else if (CBN_DROPDOWN == nCode)
 	{

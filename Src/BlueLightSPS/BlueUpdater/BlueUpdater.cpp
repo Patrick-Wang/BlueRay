@@ -158,12 +158,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		// TODO: Add any drawing code here...
 		EndPaint(hWnd, &ps);
 		break;
-	case WM_CLOSE:
-		
-		break;
 	case WM_DESTROY:
-		
+		//delete updaterPtr;
 		PostQuitMessage(0);
+		break;
+	case WM_EXIT:
 		break;
 	case WM_ONINIT:
 	{

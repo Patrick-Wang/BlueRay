@@ -1,5 +1,7 @@
 package com.BlueRay.mutton.common;
 
+import com.BlueRay.mutton.model.entity.jpa.HTXX;
+
 public enum HtxxColumn {
 	id, 
 	hth, // 合同号"
@@ -31,6 +33,8 @@ public enum HtxxColumn {
 //	scrq, // 生产日期"
 	xsjhshyw, // 计划审核-业务"
 	xsjhshjh, // 计划审核-计划"
+	ywshrq,
+	jhshrq,
 	end;
 	
 	public static HtxxColumn valueOf(int i){

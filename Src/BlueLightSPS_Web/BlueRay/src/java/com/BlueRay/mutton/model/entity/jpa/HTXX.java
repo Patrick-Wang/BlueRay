@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.sql.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -46,7 +45,8 @@ public class HTXX implements Serializable {
 	private String sftgywsh = "N";
 	private String sftgjhsh = "N";
 	private String ddzt = "";
-	
+	private Date ywshrq;
+	private Date jhshrq;
 	public Integer getZjdyID() {
 		return zjdyID;
 	}
@@ -174,6 +174,10 @@ public class HTXX implements Serializable {
 				return HTXX.class.getDeclaredField("zyz");
 			case zzs:
 				return HTXX.class.getDeclaredField("zzsID");
+			case ywshrq:
+				return HTXX.class.getDeclaredField("ywshrq");
+			case jhshrq:
+				return HTXX.class.getDeclaredField("jhshrq");
 			default:
 				break;
 			}
@@ -469,6 +473,22 @@ public class HTXX implements Serializable {
 	 */
 	public void setSftgjhsh(String sftgjhsh) {
 		this.sftgjhsh = sftgjhsh;
+	}
+
+	public Date getYwshrq() {
+		return ywshrq;
+	}
+
+	public void setYwshrq(Date ywshrq) {
+		this.ywshrq = ywshrq;
+	}
+
+	public Date getJhshrq() {
+		return jhshrq;
+	}
+
+	public void setJhshrq(Date jhshrq) {
+		this.jhshrq = jhshrq;
 	}
 	
 

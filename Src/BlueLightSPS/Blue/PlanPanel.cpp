@@ -9,6 +9,7 @@
 #include "colors.h"
 #include "User.h"
 #include "Plan.h"
+#include "TempCleaner.h"
 
 #define QUERY_URL_ID IDP_PLAN + 1
 #define ADD_URL_ID IDP_PLAN + 2
@@ -152,7 +153,9 @@ void CPlanPanel::OnShowWindow(BOOL bShow, UINT nStatus)
 void CPlanPanel::OnCbnSelchangeProductionStatus()
 {
 	DEFINE_PLAN_QUERY_PARAM(sqp);
+	
 	MakeBasicSearchCondition(sqp);
+	CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 	//sqp.AddSortCondition(15, false);
 
 	CServer::GetInstance()->GetPlan().Query(
@@ -825,6 +828,29 @@ void CPlanPanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 		}
 	}
 
+	if (!m_advanceSearchVals.empty())
+	{
+		CString strGgxh = m_advanceSearchVals[nsPlan::ggxh];
+		if (!strGgxh.IsEmpty())
+		{
+			strGgxh = strGgxh.Mid(1);
+			if (!strGgxh.IsEmpty())
+			{
+				if (NULL == pUq)
+				{
+					pUq = &UQ(nsPlan::ggxh, L"@like " + strGgxh);
+				}
+				else
+				{
+					pUq->and(UQ(nsPlan::ggxh, L"@like " + strGgxh));
+				}
+			}
+		}
+		
+	}
+
+	
+
 	//CUnitedQuery& uq = UQ(nsPlan::scrq, strSCRQondition).and(UQ(nsPlan::bzrq, strBZRQondition).and(UQ(nsPlan::fhrq, strFHRQondition)));
 	if (NULL != pUq)
 	{
@@ -891,6 +917,7 @@ void CPlanPanel::OnBnClickedSearch()
 	//m_advanceSearchVals.clear(); //必须在MakeBasicSearchCondition之前调用
 	DEFINE_PLAN_QUERY_PARAM(sqp);
 	MakeBasicSearchCondition(sqp);
+	CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 	m_iCurSortCol = -1;
 	m_bCurSortAsc = false;
 	m_pJqGridAPI->CancelSort();
@@ -988,6 +1015,7 @@ void CPlanPanel::OnBnClickedMore()
 		DEFINE_PLAN_QUERY_PARAM(jqp);
 
 		MakeBasicSearchCondition(jqp);
+		CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 		m_iCurSortCol = -1;
 		m_bCurSortAsc = false;
 		m_pJqGridAPI->CancelSort();
@@ -1618,8 +1646,9 @@ void CPlanPanel::OnInitData()
 		m_advanceSearchVals.clear();
 
 		DEFINE_PLAN_QUERY_PARAM(pqp);
-			
+		
 		MakeBasicSearchCondition(pqp);
+		CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 		// (nsPlan::bzrq != null and nsPlan::scrq !=null) or (nsPlan::bzrq == null and nsPlan::scrq==null)
 		//CUnitedQuery& pUq =
 		//	UQ(nsPlan::bzrq, L"@!=null").and(UQ(nsPlan::scrq, L"@!=null")).group().or(
@@ -1628,7 +1657,6 @@ void CPlanPanel::OnInitData()
 
 		CPlan& plan = CServer::GetInstance()->GetPlan();
 		plan.Query(1, m_pJqGridAPI->GetPageSize(), pqp).then(new OnPlanLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
-
 		//class CDownLoadListener : public CPromise<bool>::IHttpResponse{
 		//	CONSTRUCTOR_1(CDownLoadListener, CPlanPanel&, panel)
 		//public:
@@ -1800,6 +1828,7 @@ void CPlanPanel::OnUpdateData(int page, int rows, int colIndex, bool bAsc)
 	{
 		CJsonQueryParam jqp;
 		MakeBasicSearchCondition(jqp);
+		CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 		if (colIndex >= 0){
 			jqp.AddSortCondition(colIndex, bAsc);
 		}
@@ -1853,8 +1882,9 @@ void CPlanPanel::OnExportClicked()
 	if (hFileDlg.DoModal() == IDOK)
 	{
 		DEFINE_PLAN_QUERY_PARAM(pqp);
+	
 		MakeBasicSearchCondition(pqp);
-
+		CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 		try
 		{
 			CString filePathName = hFileDlg.GetPathName();
@@ -1905,19 +1935,24 @@ void CPlanPanel::OnTemplateExportClicked()
 
 	if (hFileDlg.DoModal() == IDOK)
 	{
+
 		try
 		{
 			CString filePathName = hFileDlg.GetPathName();
 			DEFINE_PLAN_QUERY_PARAM(pqp);
+			
 			MakeBasicSearchCondition(pqp);
+			CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 			CString fileNameNew = filePathName;
 			CServer::GetInstance()->GetPlan().TemplateExport(fileNameNew, pqp).then(
 				new CPlanTemplateExportListener(*this, fileNameNew));
+			
 		}
 		catch (std::exception& e)
 		{
 			MessageBoxA(m_hWnd, (char*)e.what(), "导出失败", MB_OK | MB_ICONWARNING);
 		}
+
 	}
 }
 
@@ -1963,6 +1998,7 @@ void CPlanPanel::OnBzjhTemplateExportClicked()
 			CString filePathName = hFileDlg.GetPathName();
 			DEFINE_PLAN_QUERY_PARAM(pqp);
 			MakeBasicSearchCondition(pqp);
+			CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 			CString fileNameNew = filePathName;
 			CServer::GetInstance()->GetPlan().BzjhTemplateExport(fileNameNew, pqp).then(
 				new CPlanBzjhTemplateExportListener(*this, fileNameNew));
@@ -2016,6 +2052,7 @@ void CPlanPanel::OnScjhTemplateExportClicked()
 			CString filePathName = hFileDlg.GetPathName();
 			DEFINE_PLAN_QUERY_PARAM(pqp);
 			MakeBasicSearchCondition(pqp);
+			CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 			CString fileNameNew = filePathName;
 			CServer::GetInstance()->GetPlan().ScjhTemplateExport(fileNameNew, pqp).then(
 				new CPlanScjhTemplateExportListener(*this, fileNameNew));
@@ -2069,6 +2106,7 @@ void CPlanPanel::OnZzjhTemplateExportClicked()
 			CString filePathName = hFileDlg.GetPathName();
 			DEFINE_PLAN_QUERY_PARAM(pqp);
 			MakeBasicSearchCondition(pqp);
+			CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 			CString fileNameNew = filePathName;
 			CServer::GetInstance()->GetPlan().ZzjhTemplateExport(fileNameNew, pqp).then(
 				new CPlanZzjhTemplateExportListener(*this, fileNameNew));
@@ -2122,6 +2160,7 @@ void CPlanPanel::OnZzgzkTemplateExportClicked()
 			CString filePathName = hFileDlg.GetPathName();
 			DEFINE_PLAN_QUERY_PARAM(pqp);
 			MakeBasicSearchCondition(pqp);
+			CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 			CString fileNameNew = filePathName;
 			CServer::GetInstance()->GetPlan().ZzgzkTemplateExport(fileNameNew, pqp).then(
 				new CPlanZzjhTemplateExportListener(*this, fileNameNew));
@@ -2175,6 +2214,7 @@ void CPlanPanel::OnZdqPqTemplateExportClicked()
 			CString filePathName = hFileDlg.GetPathName();
 			DEFINE_PLAN_QUERY_PARAM(pqp);
 			MakeBasicSearchCondition(pqp);
+			CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 			CString fileNameNew = filePathName;
 			CServer::GetInstance()->GetPlan().ZdqPqTemplateExport(fileNameNew, pqp).then(
 				new CPlanZzjhTemplateExportListener(*this, fileNameNew));
@@ -2228,6 +2268,7 @@ void CPlanPanel::OnZxdTemplateExportClicked()
 			CString filePathName = hFileDlg.GetPathName();
 			DEFINE_PLAN_QUERY_PARAM(pqp);
 			MakeBasicSearchCondition(pqp);
+			CTempCleaner tc(m_advanceSearchVals, nsPlan::ggxh);
 			CString fileNameNew = filePathName;
 			CServer::GetInstance()->GetPlan().ZxdTemplateExport(fileNameNew, pqp).then(
 				new CPlanZzjhTemplateExportListener(*this, fileNameNew));

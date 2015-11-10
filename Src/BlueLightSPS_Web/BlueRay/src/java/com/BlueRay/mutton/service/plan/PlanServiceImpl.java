@@ -261,6 +261,7 @@ public class PlanServiceImpl implements PlanService {
 			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
 			if (!"Y".equals(pcjhxx.getSftgywsh())) {
 				pcjhxx.setSftgywsh("Y");
+				pcjhxx.setYwshrq(new Date(Calendar.getInstance().getTimeInMillis()));
 				planDao.update(pcjhxx);
 			}
 		}
@@ -272,6 +273,7 @@ public class PlanServiceImpl implements PlanService {
 			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
 			if (!"Y".equals(pcjhxx.getSftgjhsh())) {
 				pcjhxx.setSftgjhsh("Y");
+				pcjhxx.setJhshrq(new Date(Calendar.getInstance().getTimeInMillis()));
 				if (StringUtil.isEmpty(pcjhxx.getTcbh())){
 					HTXX htxx = saleDao.getSaleDataById(pcjhxx.getHtxxID());
 					if (null != htxx){
@@ -291,6 +293,7 @@ public class PlanServiceImpl implements PlanService {
 			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
 			if (!"Y".equals(pcjhxx.getBzsftgywsh())) {
 				pcjhxx.setBzsftgywsh("Y");
+				pcjhxx.setBzywshrq(new Date(Calendar.getInstance().getTimeInMillis()));
 				planDao.update(pcjhxx);
 			}
 		}
@@ -302,6 +305,7 @@ public class PlanServiceImpl implements PlanService {
 			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
 			if (!"Y".equals(pcjhxx.getBzsftgjhsh())) {
 				pcjhxx.setBzsftgjhsh("Y");
+				pcjhxx.setBzjhshrq(new Date(Calendar.getInstance().getTimeInMillis()));
 				if (StringUtil.isEmpty(pcjhxx.getCcbh())){
 					HTXX htxx = saleDao.getSaleDataById(pcjhxx.getHtxxID());
 					if (null != htxx){
@@ -340,6 +344,8 @@ public class PlanServiceImpl implements PlanService {
 			PCJHXX pcjhxx = planDao.getDataById(Integer.valueOf(rows.getInt(i)));
 			if ("Y".equals(pcjhxx.getSftgjhsh())) {
 				pcjhxx.setSftgjhsh("N");
+				Calendar cal = Calendar.getInstance();
+				pcjhxx.setJhshrq(new Date(cal.getTimeInMillis()));
 //				validatePlanUnapprove(pcjhxx);
 				planDao.update(pcjhxx);
 			}

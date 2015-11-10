@@ -3,6 +3,9 @@
 #include "IHttp.h"
 #include "WinHttpImpl.h"
 #include "Promise.h"
+
+#define WM_EXIT	WM_APP + 10026
+
 class ClientUpdater
 {
 public:

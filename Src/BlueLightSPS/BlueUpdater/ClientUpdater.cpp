@@ -7,11 +7,11 @@
 #include "FileOutputStream.h"
 #include "Util.h"
 ClientUpdater::ClientUpdater(HWND hWnd, CString strModulePath)
-	:m_pHttp(new CWinHttpImpl(hWnd))
+	: m_pHttp(new CWinHttpImpl())
 	, m_hWnd(hWnd)
 	, m_strModulePath(strModulePath)
 {
-
+	CWinHttpImpl::SetThreadWindow(hWnd);
 }
 
 
@@ -87,7 +87,7 @@ void ClientUpdater::Exit()
 	{
 		SetEvent(hEvent);
 	}
-	PostQuitMessage(0);
+	PostMessage(m_hWnd, WM_CLOSE, 0, 0);
 }
 
 void ClientUpdater::BeginUpdate()

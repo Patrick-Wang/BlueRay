@@ -11,16 +11,19 @@ typedef struct tagSuccess_t{
 	CString ret;
 }Success_t;
 
-CWinHttpImpl::CWinHttpImpl(HWND pWnd)
-	: m_pWnd(pWnd)
+HWND CWinHttpImpl::m_pWnd;
+std::vector<CWinHttpImpl*> CWinHttpImpl::m_instances;
+WNDPROC CWinHttpImpl::m_lpfnOldProc = NULL;
+
+CWinHttpImpl::CWinHttpImpl()
 {
-	m_instances.push_back(this);
+	m_instances.push_back(this); 
 }
 
 CWinHttpImpl::~CWinHttpImpl()
 {
 	std::vector<CWinHttpImpl*>::iterator result = find(m_instances.begin(), m_instances.end(), this);
-	if (result != m_instances.end()) 
+	if (result != m_instances.end())
 	{
 		m_instances.erase(result);
 	}
@@ -184,6 +187,12 @@ void CWinHttpImpl::DoUpload(CString strUrl, int id, std::map<CString, CString> m
 
 LRESULT CALLBACK CWinHttpImpl::WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam)
 {
+	std::vector<CWinHttpImpl*>::iterator result = find(m_instances.begin(), m_instances.end(), ((CWinHttpImpl*)wParam));
+	if (result != m_instances.end())
+	{
+		(*result)->d_OnSuccess(((Success_t*)lParam)->id, ((Success_t*)lParam)->ret);
+	}
+
 	switch (uMsg)
 	{
 	case WM_SUCCESS:
@@ -194,7 +203,7 @@ LRESULT CALLBACK CWinHttpImpl::WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ W
 			(*result)->d_OnSuccess(((Success_t*)lParam)->id, ((Success_t*)lParam)->ret);
 		}
 		delete (Success_t*)lParam;
-		}
+	}
 		break;
 	case WM_FAILED:
 	{
@@ -242,7 +251,7 @@ void CWinHttpImpl::Download(LPCTSTR lpAddr, int id, std::map<CString, CString>& 
 	{
 		int k = 0;
 	}
-	
+
 }
 
 void CWinHttpImpl::DoDownload(CString strUrl, int id, std::map<CString, CString> mapAttr, std::shared_ptr<IOutputStream> pStream, GUID guid)
@@ -302,7 +311,7 @@ void CWinHttpImpl::DoDownload(CString strUrl, int id, std::map<CString, CString>
 		0, WINHTTP_NO_REQUEST_DATA, 0,
 		dwBytesWritten, 0);
 
-	
+
 	//while (bResults){
 	//if (bResults)
 	//{ 
@@ -404,8 +413,9 @@ void CWinHttpImpl::Upload(LPCTSTR lpAddr, int id, std::map<CString, CString>& ma
 	m_threadPool.RunThread(threadId, &CWinHttpImpl::DoUpload, this, url, id, mapAttr, pStream);
 }
 
-std::vector<CWinHttpImpl*> CWinHttpImpl::m_instances;
-
-WNDPROC CWinHttpImpl::m_lpfnOldProc = NULL;
+void CWinHttpImpl::SetThreadWindow(HWND hWnd)
+{
+	m_pWnd = hWnd;
+}
 
 

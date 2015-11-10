@@ -273,6 +273,9 @@
     <ClInclude Include="UpdaterProxy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TempCleaner.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Blue.cpp">

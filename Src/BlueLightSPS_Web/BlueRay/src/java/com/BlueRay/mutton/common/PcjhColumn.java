@@ -37,6 +37,10 @@ public enum PcjhColumn {
 	fhrq, // 发货日期"
 	tcbh, // 投产编号"
 	ccbh, // 出厂编号"
+	ywshrq, 
+	jhshrq,
+	bzywshrq, 
+	bzjhshrq,
 	end;
 	public static PcjhColumn valueOf(int i){
 		PcjhColumn[] cols = PcjhColumn.values();

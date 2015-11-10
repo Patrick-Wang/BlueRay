@@ -1,13 +1,14 @@
 #pragma once
 #include "IHttp.h"
 #include <thread>
-#include "STDThreadPool.h"
+#include "ThreadPool.h"
 class CWinHttpImpl :
 	public IHttp
 {
 public:
-	CWinHttpImpl(HWND pWnd = NULL);
+	CWinHttpImpl();
 	~CWinHttpImpl();
+	static void SetThreadWindow(HWND hWnd);
 	virtual void Upload(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IInputStream> pStream);
 	virtual void Download(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IOutputStream> pStream) ;
 protected:
@@ -24,9 +25,9 @@ protected:
 		_In_  LPARAM lParam
 	);
 private:
-	CSTDThreadPool m_threadPool;
+	CThreadPool m_threadPool;
 	static WNDPROC m_lpfnOldProc;
 	static std::vector<CWinHttpImpl*> m_instances;
-	HWND m_pWnd;
+	static HWND m_pWnd;
 };
 
