@@ -62,9 +62,14 @@ private:
 	CBRButton* m_btnReSetAsDefaultValue;
 
 	CBSStatic* m_bsDateRange;
+	CBSStatic* m_bsBussApproveDateRange;
+	CBSStatic* m_bsBussApproveMiddleLine;
 	CBSStatic* m_bsMiddleLine;
 	CDateTimeCtrl* m_dtcSearchFrom;
 	CDateTimeCtrl* m_dtcSearchTo;
+
+	CDateTimeCtrl* m_dtcBussApproveSearchFrom;
+	CDateTimeCtrl* m_dtcBussApproveSearchTo;
 
 	int m_iCountBtnOfReApprove;
 	int m_iCurSortCol;

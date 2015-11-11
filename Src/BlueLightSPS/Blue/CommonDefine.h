@@ -109,7 +109,9 @@ enum Column_en{
 	yxj,	//优先级"
 	ywsh,	//审核-业务
 	jhsh,	//审核-计划"
-	end
+	end,
+	ywshrq = end,
+	jhshrq,
 };
 
 }

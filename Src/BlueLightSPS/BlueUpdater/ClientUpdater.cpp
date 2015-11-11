@@ -11,7 +11,7 @@ ClientUpdater::ClientUpdater(HWND hWnd, CString strModulePath)
 	, m_hWnd(hWnd)
 	, m_strModulePath(strModulePath)
 {
-	CWinHttpImpl::SetThreadWindow(hWnd);
+	//CWinHttpImpl::SetThreadWindow(hWnd);
 }
 
 

@@ -33,8 +33,21 @@ using namespace std;
 #define MAKE_PARAMS2_7(t1, t2)	t1##1 t2##1, t1##2 t2##2, t1##3 t2##3, t1##4 t2##4, t1##5 t2##5, t1##6 t2##6, t1##7 t2##7
 #define MAKE_PARAMS2_8(t1, t2)	t1##1 t2##1, t1##2 t2##2, t1##3 t2##3, t1##4 t2##4, t1##5 t2##5, t1##6 t2##6, t1##7 t2##7, t1##8 t2##8
 
+#define MAKE_PARAMS3_0(t1, t2)
+#define MAKE_PARAMS3_1(t1, t2)	t1##1 t2##1;
+#define MAKE_PARAMS3_2(t1, t2)	t1##1 t2##1; t1##2 t2##2;
+#define MAKE_PARAMS3_3(t1, t2)	t1##1 t2##1; t1##2 t2##2; t1##3 t2##3;
+#define MAKE_PARAMS3_4(t1, t2)	t1##1 t2##1; t1##2 t2##2; t1##3 t2##3; t1##4 t2##4;
+#define MAKE_PARAMS3_5(t1, t2)	t1##1 t2##1; t1##2 t2##2; t1##3 t2##3; t1##4 t2##4; t1##5 t2##5;
+#define MAKE_PARAMS3_6(t1, t2)	t1##1 t2##1; t1##2 t2##2; t1##3 t2##3; t1##4 t2##4; t1##5 t2##5; t1##6 t2##6;
+#define MAKE_PARAMS3_7(t1, t2)	t1##1 t2##1; t1##2 t2##2; t1##3 t2##3; t1##4 t2##4; t1##5 t2##5; t1##6 t2##6; t1##7 t2##7;
+#define MAKE_PARAMS3_8(t1, t2)	t1##1 t2##1; t1##2 t2##2; t1##3 t2##3; t1##4 t2##4; t1##5 t2##5; t1##6 t2##6; t1##7 t2##7; t1##8 t2##8;
+
+
 #define MAKE_PARAMS1(n, t)		JOIN(MAKE_PARAMS1_, n)(t)
 #define MAKE_PARAMS2(n, t1, t2)	JOIN(MAKE_PARAMS2_, n)(t1, t2)
+#define MAKE_PARAMS3(n, t1, t2)	JOIN(MAKE_PARAMS3_, n)(t1, t2)
+#define MAKE_PARAMS4(n, ptr, t)		JOIN(MAKE_PARAMS1_, n)(ptr->t)
 
 
 // Dummy declaration.

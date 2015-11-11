@@ -101,6 +101,10 @@ CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI)
 , m_bsMiddleLine(NULL)
 , m_dtcSearchFrom(NULL)
 , m_dtcSearchTo(NULL)
+, m_bsBussApproveDateRange(NULL)
+, m_bsBussApproveMiddleLine(NULL)
+, m_dtcBussApproveSearchFrom(NULL)
+, m_dtcBussApproveSearchTo(NULL)
 , m_bIfUpdateTableWhenTableFilter(false)
 , m_iCurSortCol(-1)
 , m_bCurSortAsc(false)
@@ -166,21 +170,41 @@ void CSalePanel::OnInitChilds()
 		m_comboProductionStatus->SetCurSel(1);
 
 		m_bsDateRange = Util_Tools::Util::CreateStatic(this, IDC_SALE_STATIC_DATERANGE, _T("查询日期"), _T("Microsoft YaHei"), 12);
-		m_bsDateRange->MoveWindow(140, 25, 60, 20);
+		m_bsDateRange->MoveWindow(143, 15, 60, 20);
+
+
+		m_bsBussApproveDateRange = Util_Tools::Util::CreateStatic(this, IDC_SALE_STATIC_APPROVEDATERANGE, _T("业务审核日期"), _T("Microsoft YaHei"), 12);
+		m_bsBussApproveDateRange->MoveWindow(120, 40, 85, 20);
 
 		m_dtcSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_SALE_DATETIME_SEARCHFROM, _T("Microsoft YaHei"), 12);
-		m_dtcSearchFrom->MoveWindow(210, 25, 108, 20);
+		m_dtcSearchFrom->MoveWindow(210, 15, 108, 20);
 
 		COleDateTime oletimeTime;
 		oletimeTime.SetStatus(COleDateTime::null);
 		m_dtcSearchFrom->SetTime(oletimeTime);
 
+
+		m_dtcBussApproveSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_SALE_APPROVEDATETIME_SEARCHFROM, _T("Microsoft YaHei"), 12);
+		m_dtcBussApproveSearchFrom->MoveWindow(210, 40, 108, 20);
+
+		oletimeTime.SetStatus(COleDateTime::null);
+		m_dtcBussApproveSearchFrom->SetTime(oletimeTime);
+
 		m_bsMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_SALE_STATIC_MIDDLELINE, _T("--"), _T("Microsoft YaHei"), 12);
-		m_bsMiddleLine->MoveWindow(325, 25, 20, 20);
+		m_bsMiddleLine->MoveWindow(325, 15, 20, 20);
+
+		m_bsBussApproveMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_SALE_STATIC_APPROVEMIDDLELINE, _T("--"), _T("Microsoft YaHei"), 12);
+		m_bsBussApproveMiddleLine->MoveWindow(325, 40, 20, 20);
+
 
 		m_dtcSearchTo = Util_Tools::Util::CreateDateTimePicker(this, IDC_SALE_DATETIME_SEARCHTO, _T("Microsoft YaHei"), 12);
-		m_dtcSearchTo->MoveWindow(350, 25, 108, 20);
+		m_dtcSearchTo->MoveWindow(350, 15, 108, 20);
 		m_dtcSearchTo->SetTime(oletimeTime);
+
+		m_dtcBussApproveSearchTo = Util_Tools::Util::CreateDateTimePicker(this, IDC_SALE_APPROVEDATETIME_SEARCHTO, _T("Microsoft YaHei"), 12);
+		m_dtcBussApproveSearchTo->MoveWindow(350, 40, 108, 20);
+		m_dtcBussApproveSearchTo->SetTime(oletimeTime);
+
 
 		m_editSearch = Util_Tools::Util::CreateEdit(this, IDC_SALE_EDIT_SEARCH, _T("请输入关键字"), _T("Microsoft YaHei"), 12);
 		m_editSearch->MoveWindow(470, 25, 150, 20);
@@ -254,7 +278,7 @@ void CSalePanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	dwResult = m_dtcSearchTo->GetTime(time);
 	if (dwResult == GDT_VALID)
 	{
-		bHasFrom = true;
+		bHasTo = true;
 		m_dtcSearchTo->GetWindowText(strTo);
 	}
 	else
@@ -265,6 +289,38 @@ void CSalePanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	if (bHasFrom || bHasTo)
 	{
 		sqp.SetDateSearchCondition(strFrom, strTo);
+	}
+
+	CString strCondition;
+	dwResult = m_dtcBussApproveSearchFrom->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		bHasFrom = true;
+		m_dtcBussApproveSearchFrom->GetWindowText(strFrom);
+	}
+	else
+	{
+		bHasFrom = false;
+		strFrom = L"";
+	}
+
+	dwResult = m_dtcBussApproveSearchTo->GetTime(time);
+	if (dwResult == GDT_VALID)
+	{
+		bHasTo = true;
+		m_dtcBussApproveSearchTo->GetWindowText(strTo);
+	}
+	else
+	{
+		bHasTo = false;
+		strTo = L"";
+	}
+
+	Util_Tools::Util::MakeDateQueryCommand(bHasFrom, bHasTo, strFrom, strTo, strCondition);
+
+	if (!strCondition.IsEmpty())
+	{
+		sqp.SetUnitedQuery(UQ(nsSale::ywshrq, strCondition));
 	}
 
 	int iIndex = m_comboProductionStatus->GetCurSel();
@@ -287,6 +343,8 @@ void CSalePanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	}
 
 	sqp.SetAdvancedCondition(&m_advanceSearchVals);
+
+	
 }
 
 void CSalePanel::OnCbnSelchangeProductionStatus()
@@ -893,6 +951,30 @@ void CSalePanel::OnNcDestroy()
 	{
 		delete m_dtcSearchTo;
 		m_dtcSearchTo = NULL;
+	}
+
+	if (NULL != m_bsBussApproveDateRange)
+	{
+		delete m_bsBussApproveDateRange;
+		m_bsBussApproveDateRange = NULL;
+	}
+
+	if (NULL != m_bsBussApproveMiddleLine)
+	{
+		delete m_bsBussApproveMiddleLine;
+		m_bsBussApproveMiddleLine = NULL;
+	}
+
+	if (NULL != m_dtcBussApproveSearchFrom)
+	{
+		delete m_dtcBussApproveSearchFrom;
+		m_dtcBussApproveSearchFrom = NULL;
+	}
+
+	if (NULL != m_dtcBussApproveSearchTo)
+	{
+		delete m_dtcBussApproveSearchTo;
+		m_dtcBussApproveSearchTo = NULL;
 	}
 
 	__super::OnNcDestroy();

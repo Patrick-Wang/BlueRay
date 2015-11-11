@@ -1,3 +1,8 @@
+#include "IMessageStation.h"
+#include "ThreadCorrespondent.h"
+
+#define WM_TRD_DELEGATE WM_APP + 5564
+
 // Used as template parameters:
 //		/*typename T0*/; typename T1, typename T2, ..., typename Tn
 #define DELEGATE_TEMPLATE_PARAMS	MAKE_PARAMS1(DELEGATE_NUM_ARGS, typename T)
@@ -15,6 +20,13 @@
 #define DELEGATE_FUNCTION_ARGS	MAKE_PARAMS1(DELEGATE_NUM_ARGS, a)
 
 
+//		/*a0*/; ptr->a1, ptr->a2, ..., ptr->an
+#define DELEGATE_LPARAM_ARGS(ptr)	MAKE_PARAMS4(DELEGATE_NUM_ARGS, ptr, a)
+
+//	/*T0 a0*/; T1 a1; T2 a2; ...; Tn an;
+#define DELEGATE_STRUCT_MEMBER	MAKE_PARAMS3(DELEGATE_NUM_ARGS, T, a)
+
+
 // Comma if nonzero number of arguments.
 #if DELEGATE_NUM_ARGS == 0
 #define DELEGATE_COMMA
@@ -22,13 +34,18 @@
 #define DELEGATE_COMMA	,
 #endif
 
-
 // template < typename R, typename T1, typename T2, ..., typename Tn >
 // class CDelegate< R ( T1, T2, ..., Tn ) >
 template < typename R DELEGATE_COMMA DELEGATE_TEMPLATE_PARAMS >
-class CDelegate < R ( DELEGATE_TEMPLATE_ARGS ) >
+class CDelegate < R(DELEGATE_TEMPLATE_ARGS) > : public IMessageStation<R>
 {
 private:
+	
+	auto_ptr<CThreadCorrespondent<R>> m_thrCorrespondent;
+	struct Package{
+		DELEGATE_STRUCT_MEMBER
+	};
+
 	// Functor invoker.
 	template < typename TFunctor >
 	struct Invoker
@@ -103,32 +120,49 @@ private:
 
 public:
 	/// Default constructor.
-	CDelegate() : m_pLast(0) { }
+	CDelegate() 
+		: m_pLast(0){
+		m_thrCorrespondent.reset(new CThreadCorrespondent<R>(this));
+	}
 
 	/// Functor constructor.
 	template < typename TFunctor >
-	explicit CDelegate(const TFunctor& f) : m_pLast(0)
+	explicit CDelegate(const TFunctor& f) 
+		: m_pLast(0)
 	{
 		*this = f;
+		m_thrCorrespondent.reset(new CThreadCorrespondent<R>(this));
 	}
 
 	/// Member function constructor.
 	template < typename TPtr, typename TFunctionPtr >
-	explicit CDelegate(const TPtr& objPtr, const TFunctionPtr& mfPtr) : m_pLast(0)
+	explicit CDelegate(const TPtr& objPtr, const TFunctionPtr& mfPtr) 
+		: m_pLast(0)
 	{
 		*this = make_pair(objPtr, mfPtr);
+		m_thrCorrespondent.reset(new CThreadCorrespondent<R>(this));
 	}
 
 	/// Copy constructor.
-	CDelegate(const CDelegate& d) : m_pLast(0)
+	CDelegate(const CDelegate& d) 
+		: m_pLast(0)
 	{
 		*this = d;
+		m_thrCorrespondent.reset(new CThreadCorrespondent<R>(this));
 	}
 
 	/// Destructor.
 	virtual ~CDelegate()
 	{
 		Clear();
+	}
+
+	virtual void OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam){
+		if (m_pLast->m_pPrevious)
+		{
+			InvokeDelegateList(m_pLast->m_pPrevious DELEGATE_COMMA DELEGATE_LPARAM_ARGS(((Package*)(lParam))));
+		}
+		return m_pLast->Invoke(DELEGATE_LPARAM_ARGS(((Package*)(lParam))));
 	}
 
 public:
@@ -383,15 +417,24 @@ public:
 	}
 
 	/// Override operator ().
-	R operator()( DELEGATE_FUNCTION_PARAMS ) const
+	R operator()(DELEGATE_FUNCTION_PARAMS DELEGATE_COMMA bool bStrideThread = false) const
 	{
 		if ( m_pLast )
 		{
-			if ( m_pLast->m_pPrevious )
+			
+			if (bStrideThread)
 			{
-				InvokeDelegateList(m_pLast->m_pPrevious DELEGATE_COMMA DELEGATE_FUNCTION_ARGS);
+				Package pk = { DELEGATE_FUNCTION_ARGS };
+				return m_thrCorrespondent->Send(WM_TRD_DELEGATE, 0, (LPARAM)&pk);
 			}
-			return m_pLast->Invoke(DELEGATE_FUNCTION_ARGS);
+			else
+			{
+				if (m_pLast->m_pPrevious)
+				{
+					InvokeDelegateList(m_pLast->m_pPrevious DELEGATE_COMMA DELEGATE_FUNCTION_ARGS);
+				}
+				return m_pLast->Invoke(DELEGATE_FUNCTION_ARGS);
+			}
 		}
 	}
 };

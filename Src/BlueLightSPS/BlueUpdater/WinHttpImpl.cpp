@@ -11,22 +11,24 @@ typedef struct tagSuccess_t{
 	CString ret;
 }Success_t;
 
-HWND CWinHttpImpl::m_pWnd;
-std::vector<CWinHttpImpl*> CWinHttpImpl::m_instances;
-WNDPROC CWinHttpImpl::m_lpfnOldProc = NULL;
+//HWND CWinHttpImpl::m_pWnd;
+//std::vector<CWinHttpImpl*> CWinHttpImpl::m_instances;
+//WNDPROC CWinHttpImpl::m_lpfnOldProc = NULL;
 
 CWinHttpImpl::CWinHttpImpl()
 {
-	m_instances.push_back(this); 
+	//m_instances.push_back(this);
+	d_OnThreadComplete += std::make_pair(this, &CWinHttpImpl::OnThreadComplete);
 }
 
 CWinHttpImpl::~CWinHttpImpl()
 {
-	std::vector<CWinHttpImpl*>::iterator result = find(m_instances.begin(), m_instances.end(), this);
-	if (result != m_instances.end())
-	{
-		m_instances.erase(result);
-	}
+	d_OnThreadComplete -= std::make_pair(this, &CWinHttpImpl::OnThreadComplete);
+	//std::vector<CWinHttpImpl*>::iterator result = find(m_instances.begin(), m_instances.end(), this);
+	//if (result != m_instances.end())
+	//{
+	//	m_instances.erase(result);
+	//}
 }
 
 
@@ -168,77 +170,59 @@ void CWinHttpImpl::DoUpload(CString strUrl, int id, std::map<CString, CString> m
 	if (hRequest) WinHttpCloseHandle(hRequest);
 	if (hConnect) WinHttpCloseHandle(hConnect);
 	if (hSession) WinHttpCloseHandle(hSession);
-	GUID* pGuid = new GUID;
-	*pGuid = guid;
-	SendMessage(m_pWnd, WM_THREAD_COMPLETE, (WPARAM)this, (LPARAM)pGuid);
 
-	Success_t* pSuccess = new Success_t();
-	pSuccess->id = id;
-	if (!bResults)
-		SendMessage(m_pWnd, WM_FAILED, (WPARAM)this, (LPARAM)pSuccess);
+	d_OnThreadComplete(&guid, true);
+	//m_correspondent.Send(WM_THREAD_COMPLETE, (WPARAM)this, (LPARAM)pGuid);
+	//Success_t* pSuccess = new Success_t();
+	//pSuccess->id = id;
+	if (!bResults){
+		d_OnFailed(id, true);
+		//m_correspondent.Send(WM_FAILED, (WPARAM)this, (LPARAM)pSuccess);
+	}
 	else
 	{
 		CString utf16Ret;
 		CEncoding::Utf8()->GetString((unsigned char*)(LPCSTR)ret, utf16Ret);
-		pSuccess->ret = (LPCTSTR)utf16Ret;
-		SendMessage(m_pWnd, WM_SUCCESS, (WPARAM)this, (LPARAM)pSuccess);
-	}
-}
-
-LRESULT CALLBACK CWinHttpImpl::WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam)
-{
-	std::vector<CWinHttpImpl*>::iterator result = find(m_instances.begin(), m_instances.end(), ((CWinHttpImpl*)wParam));
-	if (result != m_instances.end())
-	{
-		(*result)->d_OnSuccess(((Success_t*)lParam)->id, ((Success_t*)lParam)->ret);
+		d_OnSuccess(id, utf16Ret, true);
+		//pSuccess->ret = L"success";
+		//m_correspondent.Send(WM_SUCCESS, (WPARAM)this, (LPARAM)pSuccess);
 	}
 
-	switch (uMsg)
-	{
-	case WM_SUCCESS:
-	{
-		std::vector<CWinHttpImpl*>::iterator result = find(m_instances.begin(), m_instances.end(), ((CWinHttpImpl*)wParam));
-		if (result != m_instances.end())
-		{
-			(*result)->d_OnSuccess(((Success_t*)lParam)->id, ((Success_t*)lParam)->ret);
-		}
-		delete (Success_t*)lParam;
-	}
-		break;
-	case WM_FAILED:
-	{
-		std::vector<CWinHttpImpl*>::iterator result = find(m_instances.begin(), m_instances.end(), ((CWinHttpImpl*)wParam));
-		if (result != m_instances.end())
-		{
-			(*result)->d_OnFailed(((Success_t*)lParam)->id);
-		}
-		delete (Success_t*)lParam;
-	}
-		break;
-	case WM_THREAD_COMPLETE:
-	{
-		std::vector<CWinHttpImpl*>::iterator result = find(m_instances.begin(), m_instances.end(), ((CWinHttpImpl*)wParam));
-		if (result != m_instances.end())
-		{
-			(*result)->OnThreadComplete((GUID*)lParam);
-		}
-		delete (GUID*)lParam;
-	}
-		break;
-	default:
-		break;
-	}
-	return m_lpfnOldProc(hwnd, uMsg, wParam, lParam);
+	//m_correspondent.Send(WM_THREAD_COMPLETE, (WPARAM)this, (LPARAM)pGuid);
+
+	//Success_t* pSuccess = new Success_t();
+	//pSuccess->id = id;
+	//if (!bResults)
+	//	m_correspondent.Send(WM_FAILED, (WPARAM)this, (LPARAM)pSuccess);
+	//else
+	//{
+	//	CString utf16Ret;
+	//	CEncoding::Utf8()->GetString((unsigned char*)(LPCSTR)ret, utf16Ret);
+	//	pSuccess->ret = (LPCTSTR)utf16Ret;
+	//	m_correspondent.Send(WM_SUCCESS, (WPARAM)this, (LPARAM)pSuccess);
+	//}
 }
+
+//LRESULT CALLBACK CWinHttpImpl::WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam)
+//{
+//	std::vector<CWinHttpImpl*>::iterator result = find(m_instances.begin(), m_instances.end(), ((CWinHttpImpl*)wParam));
+//	if (result != m_instances.end())
+//	{
+//		(*result)->d_OnSuccess(((Success_t*)lParam)->id, ((Success_t*)lParam)->ret);
+//	}
+//
+//
+//	return m_lpfnOldProc(hwnd, uMsg, wParam, lParam);
+//}
 
 void CWinHttpImpl::Download(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IOutputStream> pStream)
 {
-	if (NULL == m_lpfnOldProc){
-		m_lpfnOldProc = (WNDPROC)SetWindowLong(m_pWnd, GWL_WNDPROC, (LONG)&CWinHttpImpl::WindowProc);
-	}
+	//if (NULL == m_lpfnOldProc){
+	//	m_lpfnOldProc = (WNDPROC)SetWindowLong(m_pWnd, GWL_WNDPROC, (LONG)&CWinHttpImpl::WindowProc);
+	//}
 	try
 	{
-		GUID guid;
+		GUID guid = {};
 		CString url = lpAddr;
 		m_threadPool.RunThread(guid, &CWinHttpImpl::DoDownload, this, url, id, mapAttr, pStream);
 		//if (m_lpDownloadThread.get() != NULL){
@@ -380,18 +364,22 @@ void CWinHttpImpl::DoDownload(CString strUrl, int id, std::map<CString, CString>
 	if (hRequest) WinHttpCloseHandle(hRequest);
 	if (hConnect) WinHttpCloseHandle(hConnect);
 	if (hSession) WinHttpCloseHandle(hSession);
-	GUID* pGuid = new GUID;
-	*pGuid = guid;
-	::SendMessage(m_pWnd, WM_THREAD_COMPLETE, (WPARAM)this, (LPARAM)pGuid);
-	Success_t* pSuccess = new Success_t();
-	pSuccess->id = id;
+	//GUID* pGuid = new GUID;
+	//*pGuid = guid;
+	//d_OnSuccess(id, L"success", true);
+	d_OnThreadComplete(&guid, true);
+	//m_correspondent.Send(WM_THREAD_COMPLETE, (WPARAM)this, (LPARAM)pGuid);
+	//Success_t* pSuccess = new Success_t();
+	//pSuccess->id = id;
 	if (!bResults){
-		SendMessage(m_pWnd, WM_FAILED, (WPARAM)this, (LPARAM)pSuccess);
+		d_OnFailed(id, true);
+		//m_correspondent.Send(WM_FAILED, (WPARAM)this, (LPARAM)pSuccess);
 	}
 	else
 	{
-		pSuccess->ret = L"success";
-		SendMessage(m_pWnd, WM_SUCCESS, (WPARAM)this, (LPARAM)pSuccess);
+		d_OnSuccess(id, L"success", true);
+		//pSuccess->ret = L"success";
+		//m_correspondent.Send(WM_SUCCESS, (WPARAM)this, (LPARAM)pSuccess);
 	}
 }
 
@@ -405,17 +393,40 @@ void CWinHttpImpl::OnThreadComplete(GUID* pThreadId)
 
 void CWinHttpImpl::Upload(LPCTSTR lpAddr, int id, std::map<CString, CString>& mapAttr, std::shared_ptr<IInputStream> pStream)
 {
-	if (NULL == m_lpfnOldProc){
-		m_lpfnOldProc = (WNDPROC)SetWindowLong(m_pWnd, GWL_WNDPROC, (LONG)&CWinHttpImpl::WindowProc);
-	}
-	GUID threadId;
+	//if (NULL == m_lpfnOldProc){
+	//	m_lpfnOldProc = (WNDPROC)SetWindowLong(m_pWnd, GWL_WNDPROC, (LONG)&CWinHttpImpl::WindowProc);
+	//}
+	GUID threadId = {};
 	CString url = lpAddr;
 	m_threadPool.RunThread(threadId, &CWinHttpImpl::DoUpload, this, url, id, mapAttr, pStream);
 }
 
-void CWinHttpImpl::SetThreadWindow(HWND hWnd)
-{
-	m_pWnd = hWnd;
-}
-
-
+//
+//void CWinHttpImpl::OnMessage(UINT uMsg, WPARAM wParam, LPARAM lParam)
+//{
+//	switch (uMsg)
+//	{
+//		case WM_SUCCESS:
+//		{
+//			d_OnSuccess(((Success_t*)lParam)->id, ((Success_t*)lParam)->ret);
+//			delete (Success_t*)lParam;
+//		}
+//		break;
+//		case WM_FAILED:
+//		{
+//			d_OnFailed(((Success_t*)lParam)->id);
+//			delete (Success_t*)lParam;
+//		}
+//		break;
+//		case WM_THREAD_COMPLETE:
+//		{
+//			OnThreadComplete((GUID*)lParam);
+//			delete (GUID*)lParam;
+//		}
+//		break;
+//		default:
+//		break;
+//	}
+//}
+//
+//

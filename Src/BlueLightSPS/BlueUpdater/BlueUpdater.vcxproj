@@ -85,6 +85,8 @@
   <ItemGroup>
     <ClInclude Include="BlueUpdater.h" />
     <ClInclude Include="ClientUpdater.h" />
+    <ClInclude Include="IMessageStation.h" />
+    <ClInclude Include="ThreadCorrespondent.h" />
     <ClInclude Include="Delegate.h" />
     <ClInclude Include="DelegateTemplate.h" />
     <ClInclude Include="Encoding.h" />
@@ -110,6 +112,7 @@
     <ClCompile Include="FileOutputStream.cpp" />
     <ClCompile Include="HostConfiguration.cpp" />
     <ClCompile Include="promise.cpp" />
+    <ClCompile Include="ThreadCorrespondent.cpp" />
     <ClCompile Include="Version.cpp" />
     <ClCompile Include="WinHttpImpl.cpp" />
     <ClCompile Include="StringOutputStream.cpp" />
