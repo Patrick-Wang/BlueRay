@@ -31,6 +31,16 @@ public:
 		m_salePanel.HighLight();
 		m_salePanel.GetParent()->EnableWindow(TRUE);
 		m_salePanel.OnRowChecked();
+
+		if (&m_salePanel.m_btnNormal == m_salePanel.m_btnGroupDefault.GetSelected())
+		{
+			m_pJqGridAPI->ShowCol(nsSale::hth);
+		}
+		else
+		{
+			m_pJqGridAPI->HideCol(nsSale::hth);
+		}
+
 	}
 	virtual void OnFailed(){
 		m_salePanel.MessageBox(_T("获取数据失败"), _T("警告"), MB_OK | MB_ICONWARNING);
@@ -60,8 +70,10 @@ public:
 };
 
 static int g_ReApproveBtnPos[][4] = {
-		{ 640, 70, 90, 25 },
-		{ 530, 70, 90, 25 }
+		//{ 640, 70, 90, 25 },
+		//{ 530, 70, 90, 25 }
+		{ 640, 117, 90, 25 },
+		{ 530, 117, 90, 25 }
 };
 
 BEGIN_MESSAGE_MAP(CSalePanel, CBRPanel)
@@ -73,6 +85,8 @@ BEGIN_MESSAGE_MAP(CSalePanel, CBRPanel)
 	ON_BN_CLICKED(IDC_SALE_BTN_TABLEFILTER, &CSalePanel::OnBnClickedTableFilter)
 	ON_BN_CLICKED(IDC_SALE_BTN_REAPPROVEFORBUSINESS, &CSalePanel::OnBnClickedReApproveBusiness)
 	ON_BN_CLICKED(IDC_SALE_BTN_REAPPROVEFORPLAN, &CSalePanel::OnBnClickedReApprovePlan)
+	ON_BN_CLICKED(IDC_SALE_NORMAL_BTN, &CSalePanel::OnBnClickedNormal)
+	ON_BN_CLICKED(IDC_SALE_TEMPLATE_BTN, &CSalePanel::OnBnClickedTemplate)
 	ON_WM_NCDESTROY()
 	ON_WM_DESTROY()
 	ON_WM_SHOWWINDOW()
@@ -170,14 +184,14 @@ void CSalePanel::OnInitChilds()
 		m_comboProductionStatus->SetCurSel(1);
 
 		m_bsDateRange = Util_Tools::Util::CreateStatic(this, IDC_SALE_STATIC_DATERANGE, _T("查询日期"), _T("Microsoft YaHei"), 12);
-		m_bsDateRange->MoveWindow(143, 15, 60, 20);
+		m_bsDateRange->MoveWindow(143, 25, 60, 20);
 
 
 		m_bsBussApproveDateRange = Util_Tools::Util::CreateStatic(this, IDC_SALE_STATIC_APPROVEDATERANGE, _T("业务审核日期"), _T("Microsoft YaHei"), 12);
-		m_bsBussApproveDateRange->MoveWindow(120, 40, 85, 20);
+		m_bsBussApproveDateRange->MoveWindow(15, 72, 85, 20);
 
 		m_dtcSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_SALE_DATETIME_SEARCHFROM, _T("Microsoft YaHei"), 12);
-		m_dtcSearchFrom->MoveWindow(210, 15, 108, 20);
+		m_dtcSearchFrom->MoveWindow(210, 25, 108, 20);
 
 		COleDateTime oletimeTime;
 		oletimeTime.SetStatus(COleDateTime::null);
@@ -185,24 +199,24 @@ void CSalePanel::OnInitChilds()
 
 
 		m_dtcBussApproveSearchFrom = Util_Tools::Util::CreateDateTimePicker(this, IDC_SALE_APPROVEDATETIME_SEARCHFROM, _T("Microsoft YaHei"), 12);
-		m_dtcBussApproveSearchFrom->MoveWindow(210, 40, 108, 20);
+		m_dtcBussApproveSearchFrom->MoveWindow(110, 72, 108, 20);
 
 		oletimeTime.SetStatus(COleDateTime::null);
 		m_dtcBussApproveSearchFrom->SetTime(oletimeTime);
 
 		m_bsMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_SALE_STATIC_MIDDLELINE, _T("--"), _T("Microsoft YaHei"), 12);
-		m_bsMiddleLine->MoveWindow(325, 15, 20, 20);
+		m_bsMiddleLine->MoveWindow(325, 25, 20, 20);
 
 		m_bsBussApproveMiddleLine = Util_Tools::Util::CreateStatic(this, IDC_SALE_STATIC_APPROVEMIDDLELINE, _T("--"), _T("Microsoft YaHei"), 12);
-		m_bsBussApproveMiddleLine->MoveWindow(325, 40, 20, 20);
+		m_bsBussApproveMiddleLine->MoveWindow(225, 72, 20, 20);
 
 
 		m_dtcSearchTo = Util_Tools::Util::CreateDateTimePicker(this, IDC_SALE_DATETIME_SEARCHTO, _T("Microsoft YaHei"), 12);
-		m_dtcSearchTo->MoveWindow(350, 15, 108, 20);
+		m_dtcSearchTo->MoveWindow(350, 25, 108, 20);
 		m_dtcSearchTo->SetTime(oletimeTime);
 
 		m_dtcBussApproveSearchTo = Util_Tools::Util::CreateDateTimePicker(this, IDC_SALE_APPROVEDATETIME_SEARCHTO, _T("Microsoft YaHei"), 12);
-		m_dtcBussApproveSearchTo->MoveWindow(350, 40, 108, 20);
+		m_dtcBussApproveSearchTo->MoveWindow(250, 72, 108, 20);
 		m_dtcBussApproveSearchTo->SetTime(oletimeTime);
 
 
@@ -217,13 +231,13 @@ void CSalePanel::OnInitChilds()
 
 		//second line
 		m_btnAdd = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_ADD, _T("添加"), _T("Microsoft YaHei"), 12);
-		m_btnAdd->MoveWindow(20, 70, 90, 25);
+		m_btnAdd->MoveWindow(20, 117, 90, 25);
 
 		m_btnModify = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_MODIFY, _T("修改"), _T("Microsoft YaHei"), 12);
-		m_btnModify->MoveWindow(130, 70, 90, 25);
+		m_btnModify->MoveWindow(130, 117, 90, 25);
 
 		m_btnDelete = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_DELETE, _T("删除"), _T("Microsoft YaHei"), 12);
-		m_btnDelete->MoveWindow(240, 70, 90, 25);
+		m_btnDelete->MoveWindow(240, 117, 90, 25);
 
 		m_btnReApproveForBusiness = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_REAPPROVEFORBUSINESS, _T("反审核-业务"), _T("Microsoft YaHei"), 12);
 		m_btnReApproveForPlan = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_REAPPROVEFORPLAN, _T("反审核-计划"), _T("Microsoft YaHei"), 12);
@@ -236,19 +250,55 @@ void CSalePanel::OnInitChilds()
 		m_btnReApproveForPlan->EnableWindow(FALSE);
 
 		m_btnTableFilter = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_TABLEFILTER, _T("表格设置"), _T("Microsoft YaHei"), 12);
-		m_btnTableFilter->MoveWindow(750, 70, 90, 25);
+		m_btnTableFilter->MoveWindow(750, 117, 90, 25);
 
 		//third line
 		m_btnSetAsDefaultValue = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_SETASDEFAULT, _T("设为默认"), _T("Microsoft YaHei"), 12);
-		m_btnSetAsDefaultValue->MoveWindow(20, 117, 90, 25);
+		m_btnSetAsDefaultValue->MoveWindow(640, 70, 90, 25);
 
 		m_btnReSetAsDefaultValue = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_RESETASDEFAULT, _T("取消默认"), _T("Microsoft YaHei"), 12);
-		m_btnReSetAsDefaultValue->MoveWindow(130, 117, 90, 25);
+		m_btnReSetAsDefaultValue->MoveWindow(750, 70, 90, 25);
+
+
+		m_btnTemplate.Create(this, IDC_SALE_TEMPLATE_BTN);
+		m_btnTemplate.SetTextAlign(DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+		m_btnTemplate.SetWindowText(L"模板");
+		m_btnTemplate.SetTextColor(enumBSBtnState::BS_NORMAL, COL_BLACK);
+		m_btnTemplate.SetTextColor(enumBSBtnState::BS_HOVER, COL_BLACK);
+		m_btnTemplate.SetTextColor(enumBSBtnState::BS_CLICK, COL_WHITE);
+		m_btnTemplate.SetColorInside(enumBSBtnState::BS_NORMAL, COL_LIGHT_GRAY);
+		m_btnTemplate.SetColorInside(enumBSBtnState::BS_HOVER, COL_LIGHT_GRAY);
+		m_btnTemplate.SetColorInside(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+		m_btnTemplate.SetColorBorder(enumBSBtnState::BS_NORMAL, COL_LIGHT_GRAY);
+		m_btnTemplate.SetColorBorder(enumBSBtnState::BS_HOVER, COL_LIGHT_GRAY);
+		m_btnTemplate.SetColorBorder(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+		m_btnTemplate.MoveWindow(515, 70, 45, 25);
+
+		m_btnNormal.Create(this, IDC_SALE_NORMAL_BTN);
+		m_btnNormal.SetTextAlign(DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+		m_btnNormal.SetWindowText(L"数据");
+		m_btnNormal.SetTextColor(enumBSBtnState::BS_NORMAL, COL_BLACK);
+		m_btnNormal.SetTextColor(enumBSBtnState::BS_HOVER, COL_BLACK);
+		m_btnNormal.SetTextColor(enumBSBtnState::BS_CLICK, COL_WHITE);
+		m_btnNormal.SetColorInside(enumBSBtnState::BS_NORMAL, COL_LIGHT_GRAY);
+		m_btnNormal.SetColorInside(enumBSBtnState::BS_HOVER, COL_LIGHT_GRAY);
+		m_btnNormal.SetColorInside(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+		m_btnNormal.SetColorBorder(enumBSBtnState::BS_NORMAL, COL_LIGHT_GRAY);
+		m_btnNormal.SetColorBorder(enumBSBtnState::BS_HOVER, COL_LIGHT_GRAY);
+		m_btnNormal.SetColorBorder(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+		m_btnNormal.MoveWindow(470, 70, 45, 25);
+
+		m_btnGroupDefault.AddButton(&m_btnTemplate);
+		m_btnGroupDefault.AddButton(&m_btnNormal);
+
+		m_btnGroupDefault.d_onSelected += std::make_pair(this, &CSalePanel::OnGroupBtnSelected);
+		m_btnGroupDefault.d_onUnSelected += std::make_pair(this, &CSalePanel::OnGroupBtnUnSelected);
+		m_btnGroupDefault.OnClicked(&m_btnNormal);
 	}
 }
 
 
-void CSalePanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
+CUnitedQuery* CSalePanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 {
 	int iCountShot = 0;
 	CString searchText;
@@ -318,9 +368,38 @@ void CSalePanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 
 	Util_Tools::Util::MakeDateQueryCommand(bHasFrom, bHasTo, strFrom, strTo, strCondition);
 
+
+	CUnitedQuery* pUq = NULL;
 	if (!strCondition.IsEmpty())
 	{
-		sqp.SetUnitedQuery(UQ(nsSale::ywshrq, strCondition));
+		pUq = &UQ(nsSale::ywshrq, strCondition);
+		sqp.SetUnitedQuery(*pUq);
+	}
+
+
+	if (&m_btnNormal == m_btnGroupDefault.GetSelected())
+	{
+		if (NULL == pUq)
+		{
+			pUq = &UQ(nsSale::hth, L"@!= template");
+			sqp.SetUnitedQuery(*pUq);
+		}
+		else
+		{
+			pUq->and(UQ(nsSale::hth, L"@!= template"));
+		}
+	}
+	else
+	{
+		if (NULL == pUq)
+		{
+			pUq = &UQ(nsSale::hth, L"@== template");
+			sqp.SetUnitedQuery(*pUq);
+		}
+		else
+		{
+			pUq->and(UQ(nsSale::hth, L"@== template"));
+		}
 	}
 
 	int iIndex = m_comboProductionStatus->GetCurSel();
@@ -343,7 +422,7 @@ void CSalePanel::MakeBasicSearchCondition(CJsonQueryParam &sqp)
 	}
 
 	sqp.SetAdvancedCondition(&m_advanceSearchVals);
-
+	return pUq;
 	
 }
 
@@ -1438,6 +1517,10 @@ void CSalePanel::OnBnClickedSetAsDefault()
 					for (int i = 0; i < (m_table[j].second).size(); i++)
 					{
 						strItem = m_table[j].second[i];
+						if (i == nsSale::hth && 0 == strItem.CompareNoCase(L"template"))
+						{
+							strItem = L"";
+						}
 						Util_Tools::Util::base64_encode((unsigned char*)(LPCTSTR)strItem, strItem.GetLength() * 2, strBASE64);
 
 						strValue += strBASE64;
@@ -1471,4 +1554,84 @@ void CSalePanel::OnBnClickedReSetAsDefault()
 	{
 		MessageBox(_T("销售添加默认数据清除失败！"), _T("清除默认"), MB_OK | MB_ICONWARNING);
 	}
+}
+
+void CSalePanel::OnGroupBtnSelected(CBRButton* pBrbtn)
+{
+	if (NULL != pBrbtn)
+	{
+		pBrbtn->SetColorInside(enumBSBtnState::BS_NORMAL, COL_DARK_GRAY);
+		pBrbtn->SetColorInside(enumBSBtnState::BS_HOVER, COL_DARK_GRAY);
+		pBrbtn->SetColorInside(enumBSBtnState::BS_CLICK, COL_DARK_GRAY);
+		pBrbtn->SetColorBorder(enumBSBtnState::BS_NORMAL, COL_DARK_GRAY);
+		pBrbtn->SetColorBorder(enumBSBtnState::BS_HOVER, COL_DARK_GRAY);
+		pBrbtn->SetColorBorder(enumBSBtnState::BS_CLICK, COL_DARK_GRAY);
+		ShowChild(pBrbtn);
+	}
+}
+
+void CSalePanel::OnGroupBtnUnSelected(CBRButton* pBrbtn)
+{
+	if (NULL != pBrbtn)
+	{
+		pBrbtn->SetColorInside(enumBSBtnState::BS_NORMAL, COL_LIGHT_GRAY);
+		pBrbtn->SetColorInside(enumBSBtnState::BS_HOVER, COL_LIGHT_GRAY);
+		pBrbtn->SetColorInside(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+		pBrbtn->SetColorBorder(enumBSBtnState::BS_NORMAL, COL_LIGHT_GRAY);
+		pBrbtn->SetColorBorder(enumBSBtnState::BS_HOVER, COL_LIGHT_GRAY);
+		pBrbtn->SetColorBorder(enumBSBtnState::BS_CLICK, COL_LIGHT_GRAY);
+		ShowChild(pBrbtn);
+	}
+}
+
+void CSalePanel::OnBnClickedNormal()
+{
+	m_btnGroupDefault.OnClicked(&m_btnNormal);
+	OnInitData();
+	//DEFINE_SALE_QUERY_PARAM(sqp);
+	//CUnitedQuery* pUq = MakeBasicSearchCondition(sqp);
+	//if (NULL == pUq)
+	//{
+	//	pUq = &UQ(nsSale::hth, L"@!= template");
+	//	sqp.SetUnitedQuery(*pUq);
+	//}
+	//else
+	//{
+	//	pUq->and(UQ(nsSale::hth, L"@!= template"));
+	//}
+
+	//CServer::GetInstance()->GetSale().Query(
+	//	1,
+	//	//m_pJqGridAPI->GetCurrentPage(),
+	//	m_pJqGridAPI->GetPageSize(),
+	//	sqp)
+	//	.then(new OnSaleLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+
+	//GetParent()->EnableWindow(FALSE);
+}
+
+void CSalePanel::OnBnClickedTemplate()
+{
+	m_btnGroupDefault.OnClicked(&m_btnTemplate);
+	OnInitData();
+	//DEFINE_SALE_QUERY_PARAM(sqp);
+	//CUnitedQuery* pUq = MakeBasicSearchCondition(sqp);
+	//if (NULL == pUq)
+	//{
+	//	pUq = &UQ(nsSale::hth, L"@== template");
+	//	sqp.SetUnitedQuery(*pUq);
+	//}
+	//else
+	//{
+	//	pUq->and(UQ(nsSale::hth, L"@== template"));
+	//}
+
+	//CServer::GetInstance()->GetSale().Query(
+	//	1,
+	//	//m_pJqGridAPI->GetCurrentPage(),
+	//	m_pJqGridAPI->GetPageSize(),
+	//	sqp)
+	//	.then(new OnSaleLoadDataListener(*this, m_table, m_pJqGridAPI.get()));
+
+	//GetParent()->EnableWindow(FALSE);
 }

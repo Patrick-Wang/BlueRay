@@ -7,7 +7,7 @@
 #include "IHttp.h"
 #include "TableFilterDlgForSale.h"
 #include "SaleAddDlg.h"
-
+#include "BRButtonGroup.h"
 class CSalePanel :
 	public CBRPanel
 {
@@ -40,6 +40,9 @@ protected:
 	afx_msg void OnBnClickedReApprovePlan();
 	afx_msg void OnCbnSelchangeProductionStatus();
 
+	void OnGroupBtnSelected(CBRButton* pBrbtn);
+	void OnGroupBtnUnSelected(CBRButton* pBrbtn);
+
 	void OnLoadDataSuccess();
 	void OnDelDataSuccess();
 	void OnModifyDataSuccess(std::vector<CString>& newData);
@@ -58,6 +61,7 @@ private:
 	CBSStatic* m_bsMoreWord;
 	CEdit* m_editSearch;
 
+	CBRButton* m_btnGetTemplateValue;
 	CBRButton* m_btnSetAsDefaultValue;
 	CBRButton* m_btnReSetAsDefaultValue;
 
@@ -71,6 +75,11 @@ private:
 	CDateTimeCtrl* m_dtcBussApproveSearchFrom;
 	CDateTimeCtrl* m_dtcBussApproveSearchTo;
 
+public:
+	CBRButton m_btnTemplate;
+	CBRButton m_btnNormal;
+	CBRButtonGroup m_btnGroupDefault;
+private:
 	int m_iCountBtnOfReApprove;
 	int m_iCurSortCol;
 	bool m_bCurSortAsc;
@@ -92,13 +101,14 @@ private:
 	};
 
 	DECLARE_MESSAGE_MAP()
-	
+	void OnBnClickedNormal();
+	void OnBnClickedTemplate();
 	void ShowReApproveBusinessBtn(BOOL bShow);
 	void ShowReApprovePlanBtn(BOOL bShow);
 	void ShowReApproveBtns();
 	void OnReApproveSuccess(CSale::ApproveType type);
 	void FilterTableByStatus(enumProductionStatusForSale productionStatus, CJsonQueryParam &sqp);
-	void MakeBasicSearchCondition(CJsonQueryParam &sqp);
+	CUnitedQuery* MakeBasicSearchCondition(CJsonQueryParam &sqp);
 
 public:
 	afx_msg void OnNcDestroy();

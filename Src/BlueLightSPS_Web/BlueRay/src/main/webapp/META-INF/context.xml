@@ -1,7 +1,7 @@
 <Context>
  	  <Resource name="jdbc/my_db" auth="Container"
 		type="javax.sql.DataSource" username="root" password="root"
-		driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/bluelightplm"
+		driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/test"
 		initialSize="35" maxActive="70" maxIdle="10" validationQuery="select 1"
 		removeAbandoned="true" removeAbandonedTimeout="60000" logAbandoned="true" />  
 </Context>

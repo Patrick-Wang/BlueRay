@@ -19,15 +19,7 @@ public:
 		: m_lpMsgStation(lpMsgStation)
 		, m_dwThreadId(GetCurrentThreadId())
 		, m_hWnd(NULL)
-	{
-		m_mutex.lock();
-		std::map<DWORD, ThreadWindowReference>::iterator it = m_threadWndMap.find(m_dwThreadId);
-		if (it != m_threadWndMap.end())
-		{
-			++(it->second.ref);
-		}
-		m_mutex.unlock();
-	}
+	{}
 
 	virtual ~CThreadCorrespondentBase()
 	{
@@ -49,11 +41,11 @@ protected:
 
 	void UpdateWnd()
 	{
-		HWND hWnd = NULL;
 		m_mutex.lock();
 		std::map<DWORD, ThreadWindowReference>::iterator it = m_threadWndMap.find(m_dwThreadId);
 		if (it != m_threadWndMap.end())
 		{
+			++(it->second.ref);
 			m_hWnd = it->second.hWnd;
 		}
 		else
@@ -119,8 +111,6 @@ ATOM CThreadCorrespondentBase<RType>::m_atom = NULL;
 template<typename RType>
 TCHAR CThreadCorrespondentBase<RType>::m_szWindowClass[100] = {};
 
-
-
 template<typename RType>
 class MessageStationLPARAM
 {
@@ -141,18 +131,14 @@ public:
 };
 
 template<typename RType>
-LRESULT CALLBACK WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam);
-template<>
-LRESULT CALLBACK WindowProc<void>(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam);
-
-
-template<typename RType>
 class CThreadCorrespondent : public CThreadCorrespondentBase<RType>
 {
 public:
 	CThreadCorrespondent(IMessageStation<RType>* lpMsgStation)
 		: CThreadCorrespondentBase<RType>(lpMsgStation)
-	{}
+	{
+		UpdateWnd();
+	}
 
 	RType Send(UINT uMsg, WPARAM wparam, LPARAM lParam)
 	{
@@ -162,10 +148,6 @@ public:
 
 		if (NULL != m_lpMsgStation)
 		{
-			if (m_hWnd == NULL)
-			{
-				UpdateWnd();
-			}
 			::SendMessage(m_hWnd, WM_THREADCORESPONDENT, wparam, (LPARAM)&(msl));
 		}
 		return msl.result;
@@ -173,7 +155,24 @@ public:
 
 protected:
 	virtual WNDPROC GetWndProc(){
-		return WindowProc < RType > ;
+		return CThreadCorrespondent::WindowProc;
+	}
+
+	static LRESULT CALLBACK WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam)
+	{
+		if (WM_THREADCORESPONDENT == uMsg)
+		{
+			MessageStationLPARAM<RType>* pMsl = (MessageStationLPARAM<RType>*)lParam;
+			if (NULL != pMsl)
+			{
+				IMessageStation<RType>* lpMS = pMsl->pMsgStation;
+				if (NULL != lpMS)
+				{
+					pMsl->result = lpMS->OnMessage(pMsl->uMsg, wParam, pMsl->lParam);
+				}
+			}
+		}
+		return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
 };
 
@@ -183,25 +182,39 @@ class CThreadCorrespondent<void> : public CThreadCorrespondentBase <void>
 public:
 	CThreadCorrespondent(IMessageStation<void>* lpMsgStation)
 		: CThreadCorrespondentBase(lpMsgStation)
-	{}
+	{
+		UpdateWnd();
+	}
 
 	void Send(UINT uMsg, WPARAM wparam, LPARAM lParam)
 	{
-		MessageStationLPARAM<void> msl = {
-			uMsg, m_lpMsgStation, lParam
-		};
-
 		if (NULL != m_lpMsgStation)
 		{
-			if (m_hWnd == NULL)
-			{
-				UpdateWnd();
-			}
+			MessageStationLPARAM<void> msl = {
+				uMsg, m_lpMsgStation, lParam
+			};
 			::SendMessage(m_hWnd, WM_THREADCORESPONDENT, wparam, (LPARAM)&(msl));
 		}
 	}
 protected:
 	virtual WNDPROC GetWndProc(){
-		return WindowProc < void > ;
+		return CThreadCorrespondent::WindowProc;
+	}
+
+	static LRESULT CALLBACK WindowProc(_In_ HWND hwnd, _In_ UINT uMsg, _In_ WPARAM wParam, _In_ LPARAM lParam)
+	{
+		if (WM_THREADCORESPONDENT == uMsg)
+		{
+			MessageStationLPARAM<void>* pMsl = (MessageStationLPARAM<void>*)lParam;
+			if (NULL != pMsl)
+			{
+				IMessageStation<void>* lpMS = pMsl->pMsgStation;
+				if (NULL != lpMS)
+				{
+					lpMS->OnMessage(pMsl->uMsg, wParam, pMsl->lParam);
+				}
+			}
+		}
+		return DefWindowProc(hwnd, uMsg, wParam, lParam);
 	}
 };

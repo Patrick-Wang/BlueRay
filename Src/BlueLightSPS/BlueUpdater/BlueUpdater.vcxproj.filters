@@ -107,9 +107,6 @@
     <ClCompile Include="ClientUpdater.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="promise.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Version.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -117,9 +114,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ThreadPool.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ThreadCorrespondent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
