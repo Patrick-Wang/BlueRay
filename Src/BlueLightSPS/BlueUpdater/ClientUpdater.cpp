@@ -92,9 +92,9 @@ void ClientUpdater::Exit()
 
 void ClientUpdater::BeginUpdate()
 {
-	CPromise<bool>* promise = CPromise<bool>::MakePromise(m_pHttp.get(), new CBoolParser());
+	
 	class CDownLoadListener : public CPromise<bool>::IHttpResponse{
-		CONSTRUCTOR_2(CDownLoadListener, ClientUpdater&, updater, bool&, isUpdated);
+		CONSTRUCTOR_2(CDownLoadListener, ClientUpdater&, updater, BOOL&, isUpdated);
 	public:
 		virtual void OnSuccess(bool& ret){
 			CVersion version(m_updater.m_strModulePath);
@@ -119,16 +119,17 @@ void ClientUpdater::BeginUpdate()
 	std::map<CString, CString> attr;
 
 
-	m_bIsPackageUpdated = false;
-	m_bIsZipDllUpdated = false;
-	m_bisZipExeUpdated = false;
+	m_bIsPackageUpdated = FALSE;
+	m_bIsZipDllUpdated = FALSE;
+	m_bisZipExeUpdated = FALSE;
 	if (PathFileExists(m_strModulePath + L"\\miniunz.exe"))
 	{
-		m_bisZipExeUpdated = true;
+		m_bisZipExeUpdated = TRUE;
 		UpdateLocalFile();
 	}
 	else
 	{
+		CPromise<bool>* promise = CPromise<bool>::MakePromise(m_pHttp.get(), new CBoolParser());
 		promise->then(new CDownLoadListener(*this, m_bisZipExeUpdated));
 		CString url = L"http://" + hostConfig.getHost() + L":8080/BlueRay/resource/package/miniunz.exe";
 		m_pHttp->Download(
@@ -140,11 +141,12 @@ void ClientUpdater::BeginUpdate()
 
 	if (PathFileExists(m_strModulePath + L"\\zlibwapi.dll"))
 	{
-		m_bIsZipDllUpdated = true;
+		m_bIsZipDllUpdated = TRUE;
 		UpdateLocalFile();
 	}
 	else
 	{
+		CPromise<bool>* promise = CPromise<bool>::MakePromise(m_pHttp.get(), new CBoolParser());
 		promise->then(new CDownLoadListener(*this, m_bIsZipDllUpdated));
 		CString url = L"http://" + hostConfig.getHost() + L":8080/BlueRay/resource/package/zlibwapi.dll";
 		m_pHttp->Download(
@@ -157,11 +159,12 @@ void ClientUpdater::BeginUpdate()
 
 	if (PathFileExists(m_strModulePath + L"\\BlueLightPLM(" + m_clServerVersion + L").zip"))
 	{
-		m_bIsPackageUpdated = true;
+		m_bIsPackageUpdated = TRUE;
 		UpdateLocalFile();
 	}
 	else
 	{
+		CPromise<bool>* promise = CPromise<bool>::MakePromise(m_pHttp.get(), new CBoolParser());
 		promise->then(new CDownLoadListener(*this, m_bIsPackageUpdated));
 		CString url = L"http://" + hostConfig.getHost() + L":8080/BlueRay/resource/package/BlueLightPLM(" + m_clServerVersion + L").zip";
 		m_pHttp->Download(
@@ -177,7 +180,7 @@ void ClientUpdater::UpdateLocalFile()
 {
 	if (m_bisZipExeUpdated && m_bIsZipDllUpdated && m_bIsPackageUpdated){
 		CString strFile = m_strModulePath + L"\\miniunz.exe";
-		CString strParam = m_strModulePath + L"\\BlueLightPLM(" + m_clServerVersion + L").zip -o";
+		CString strParam = L"\"" + m_strModulePath + L"\\BlueLightPLM(" + m_clServerVersion + L").zip\" -o";
 		SHELLEXECUTEINFO ShExecInfo = { 0 };
 		ShExecInfo.cbSize = sizeof(SHELLEXECUTEINFO);
 		ShExecInfo.fMask = SEE_MASK_NOCLOSEPROCESS;
@@ -191,6 +194,8 @@ void ClientUpdater::UpdateLocalFile()
 		ShellExecuteEx(&ShExecInfo);
 		WaitForSingleObject(ShExecInfo.hProcess, INFINITE);
 		DeleteFile(m_strModulePath + L"\\BlueLightPLM(" + m_clServerVersion + L").zip");
+	/*	MessageBox(NULL, strFile, L"更新", MB_OK | MB_SYSTEMMODAL | MB_SETFOREGROUND | MB_ICONINFORMATION);
+		MessageBox(NULL, strParam, L"更新", MB_OK | MB_SYSTEMMODAL | MB_SETFOREGROUND | MB_ICONINFORMATION);*/
 		MessageBox(NULL, L"系统更新成功！", L"更新", MB_OK | MB_SYSTEMMODAL | MB_SETFOREGROUND | MB_ICONINFORMATION);
 		Exit();
 	}

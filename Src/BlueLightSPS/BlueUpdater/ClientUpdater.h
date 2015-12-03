@@ -20,9 +20,9 @@ private:
 	auto_ptr<IHttp> m_pHttp;
 	HWND m_hWnd;
 	CString m_strModulePath;
-	bool m_bIsPackageUpdated;
-	bool m_bisZipExeUpdated;
-	bool m_bIsZipDllUpdated;
+	BOOL m_bIsPackageUpdated;
+	BOOL m_bisZipExeUpdated;
+	BOOL m_bIsZipDllUpdated;
 	std::string m_strServerVersion;
 	CString m_clServerVersion;
 };

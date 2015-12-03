@@ -117,8 +117,8 @@ public class DBPCJHXXTemplateZxdExporter implements IExcelExporter<PCJHXX> {
 			handler.handle(req);
 		}
 
-		for (int i = 0; i < 7; ++i) {
-			workbook.removeSheetAt(0);
+		for (int i = 6; i >= 0; --i) {
+			workbook.removeSheetAt(i);
 		}
 
 		workbook.write(os);

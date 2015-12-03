@@ -17,6 +17,11 @@ public class UtilGGXH {
 		return ggIsX(ggxh, 'u', 'U');
 	}
 	
+	public static boolean ggIsV(String ggxh){
+		return ggIsX(ggxh, 'v', 'V');
+	}
+	
+	
 	public static boolean ggIsTStart(String ggxh){
 		return ggIsX(ggxh, 't', 'T');
 	}

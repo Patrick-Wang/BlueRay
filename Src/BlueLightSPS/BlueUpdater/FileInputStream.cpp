@@ -32,7 +32,7 @@ CFileInputStream::~CFileInputStream()
 {
 	if (NULL != m_fp)
 	{
-		fclose(m_fp);
+		_fclose_nolock(m_fp);
 	}
 	if (NULL != pBuffer)
 	{

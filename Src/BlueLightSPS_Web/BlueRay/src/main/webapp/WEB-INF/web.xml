@@ -5,6 +5,8 @@
 	<listener>
 		<listener-class>org.springframework.web.util.WebAppRootListener
 		</listener-class>
+		<listener-class>com.BlueRay.mutton.common.OnlineService
+		</listener-class>
 	</listener>
 	<context-param>
 		<param-name>webAppRootKey</param-name>
