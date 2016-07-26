@@ -43,12 +43,6 @@
 	<table_field name="hth">
 		<cell row="-1" col="A"></cell>
 	</table_field>
-	<table_field name="yxj">
-		<cell row="-1" col="F"></cell>
-		<cell row="-1" col="Q"></cell>
-		<cell row="-1" col="R"></cell>
-		<cell row="-1" col="S"></cell>
-	</table_field>
 	<table_field name="khmc">
 		<cell row="-1" col="B"></cell>
 	</table_field>
@@ -88,11 +82,17 @@
 	<table_field name="zxcd">
 		<cell row="-1" col="N"></cell>
 	</table_field>
-	<table_field name="bz">
+	<table_field name="zdqxh">
 		<cell row="-1" col="O"></cell>
 	</table_field>
-	<table_field name="mpzl">
+	<table_field name="zjys">
 		<cell row="-1" col="P"></cell>
+	</table_field>
+	<table_field name="bz">
+		<cell row="-1" col="Q"></cell>
+	</table_field>
+	<table_field name="mpzl">
+		<cell row="-1" col="R"></cell>
 	</table_field>
 </sheet>
 </template>
