@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import net.sf.json.JSONArray;
@@ -527,6 +528,7 @@ public class SaleServiceImpl implements SaleService {
 					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
 			if (!"Y".equals(htxx.getSftgywsh())) {
 				htxx.setSftgywsh("Y");
+				htxx.setYwshrq(new Date(Calendar.getInstance().getTimeInMillis()));
 				if (validatePassApprove(htxx)){
 					saleDao.update(htxx);
 				}else{
@@ -544,6 +546,7 @@ public class SaleServiceImpl implements SaleService {
 					.getSaleDataById(Integer.valueOf(rows.getInt(i)));
 			if (!"Y".equals(htxx.getSftgjhsh())) {
 				htxx.setSftgjhsh("Y");
+				htxx.setJhshrq(new Date(Calendar.getInstance().getTimeInMillis()));
 				if (validatePassApprove(htxx)){
 					saleDao.update(htxx);
 				}else{
@@ -565,6 +568,7 @@ public class SaleServiceImpl implements SaleService {
 						jaRet.add(rows.getInt(i) + "");
 					} else{
 						htxx.setSftgywsh("N");
+						htxx.setYwshrq(null);
 						saleDao.update(htxx);
 					}
 				}
@@ -601,6 +605,7 @@ public class SaleServiceImpl implements SaleService {
 						jaRet.add(rows.getInt(i) + "");
 					}else{
 						htxx.setSftgjhsh("N");
+						htxx.setJhshrq(null);
 						saleDao.update(htxx);
 					}
 				}

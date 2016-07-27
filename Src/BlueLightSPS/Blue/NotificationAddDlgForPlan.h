@@ -30,45 +30,9 @@ if (data.end() == ++it)\
 break;\
 }
 
-#define do_get_int(data, it, drops, dest) \
-if (data.end() == it)\
-{\
-break;\
-}\
-{\
-std::vector<CString>::const_iterator itRet = std::find(CNotificationAddDlgForPlan::GetDropList()[drops].begin(), CNotificationAddDlgForPlan::GetDropList()[drops].end(), *it); \
-if (itRet != CNotificationAddDlgForPlan::GetDropList()[drops].end())\
-{\
-dest = itRet - CNotificationAddDlgForPlan::GetDropList()[drops].begin(); \
-}\
-else{\
-		dest = OPT_FALSE_INT; \
-}\
-}\
-if (data.end() == ++it)\
-{\
-break; \
-}
 
-#define do_get_int_merge(data, it, drops, dest) \
-if (data.end() == it)\
-{\
-break;\
-}\
-if(OPT_FALSE_INT != dest){\
-	std::vector<CString>::const_iterator itRet = std::find(CNotificationAddDlgForPlan::GetDropList()[drops].begin(), CNotificationAddDlgForPlan::GetDropList()[drops].end(), *it);\
-	if (itRet != CNotificationAddDlgForPlan::GetDropList()[drops].end())\
-									{\
-		if ((itRet - CNotificationAddDlgForPlan::GetDropList()[drops].begin()) != dest)\
-																		{\
-			dest = OPT_FALSE_INT;\
-																		}\
-									}\
-}\
-if (data.end() == ++it)\
-{\
-break;\
-}
+
+
 
 class CNotificationAddDlgForPlan : public CPopupDlg
 {
@@ -358,9 +322,10 @@ private:
 	bool m_bEnablePlanEditForCCBH;
 
 	virtual void PostNcDestroy();
-	void InitHttpInstance();
-	void OnLoadComboDataSuccess(int id, CString strValList);
 
+	void OnLoadComboDataSuccess(int id, CString strValList);
+public:
+	static void InitHttpInstance();
 public:
 	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
 };

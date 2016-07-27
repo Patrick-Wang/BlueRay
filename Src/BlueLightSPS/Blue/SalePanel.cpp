@@ -255,10 +255,10 @@ void CSalePanel::OnInitChilds()
 		//third line
 		m_btnSetAsDefaultValue = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_SETASDEFAULT, _T("设为默认"), _T("Microsoft YaHei"), 12);
 		m_btnSetAsDefaultValue->MoveWindow(640, 70, 90, 25);
-
+		m_btnSetAsDefaultValue->ShowWindow(SW_HIDE);
 		m_btnReSetAsDefaultValue = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_RESETASDEFAULT, _T("取消默认"), _T("Microsoft YaHei"), 12);
 		m_btnReSetAsDefaultValue->MoveWindow(750, 70, 90, 25);
-
+		m_btnReSetAsDefaultValue->ShowWindow(SW_HIDE);
 
 		m_btnTemplate.Create(this, IDC_SALE_TEMPLATE_BTN);
 		m_btnTemplate.SetTextAlign(DT_CENTER | DT_VCENTER | DT_SINGLELINE);

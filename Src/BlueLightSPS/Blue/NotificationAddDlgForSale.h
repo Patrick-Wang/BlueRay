@@ -36,40 +36,25 @@ if (data.end() == it)\
 {\
 break;\
 }\
-{\
-std::vector<CString>::const_iterator itRet = std::find(CNotificationAddDlgForSale::GetDropList()[drops].begin(), CNotificationAddDlgForSale::GetDropList()[drops].end(), *it); \
-if (itRet != CNotificationAddDlgForSale::GetDropList()[drops].end())\
-{\
-dest = itRet - CNotificationAddDlgForSale::GetDropList()[drops].begin(); \
-}\
-else{\
-		dest = OPT_FALSE_INT; \
-}\
-}\
+CNotificationAddDlgForSale::DoGetInt(data, it, drops, dest);\
 if (data.end() == ++it)\
 {\
 break; \
 }
+
+
 
 #define do_get_int_merge(data, it, drops, dest) \
 if (data.end() == it)\
 {\
 break;\
 }\
-if(OPT_FALSE_INT != dest){\
-	std::vector<CString>::const_iterator itRet = std::find(CNotificationAddDlgForSale::GetDropList()[drops].begin(), CNotificationAddDlgForSale::GetDropList()[drops].end(), *it);\
-	if (itRet != CNotificationAddDlgForSale::GetDropList()[drops].end())\
-									{\
-		if ((itRet - CNotificationAddDlgForSale::GetDropList()[drops].begin()) != dest)\
-																		{\
-			dest = OPT_FALSE_INT;\
-																		}\
-									}\
-}\
+CNotificationAddDlgForSale::DoGetIntMerge(data, it, drops, dest); \
 if (data.end() == ++it)\
 {\
 break;\
 }
+
 
 class CNotificationAddDlgForSale : public CPopupDlg
 {
@@ -390,13 +375,50 @@ private:
 
 	void Assosication();
 	virtual void PostNcDestroy();
-	void InitHttpInstance();
+	
 	void OnLoadComboDataSuccess(int id, CString strValList);
 	bool ConfirmModifyInfo();
 
 	bool m_bIsModifing;
 
 public:
+	static void InitHttpInstance();
+	static void DoGetInt(std::vector<CString>& data, std::vector<CString>::iterator& it, int drops, int& dest){
+		std::vector<CString>::const_iterator itRet = std::find(CNotificationAddDlgForSale::GetDropList()[drops].begin(), CNotificationAddDlgForSale::GetDropList()[drops].end(), *it);
+		if (itRet == CNotificationAddDlgForSale::GetDropList()[drops].end())
+		{
+			CNotificationAddDlgForSale::InitHttpInstance();
+			itRet = std::find(CNotificationAddDlgForSale::GetDropList()[drops].begin(), CNotificationAddDlgForSale::GetDropList()[drops].end(), *it);
+		}
+
+		if (itRet != CNotificationAddDlgForSale::GetDropList()[drops].end())
+		{
+			dest = itRet - CNotificationAddDlgForSale::GetDropList()[drops].begin();
+		}
+		else{
+
+			dest = OPT_FALSE_INT;
+		}
+	}
+
+	static void DoGetIntMerge(std::vector<CString>& data, std::vector<CString>::iterator& it, int drops, int& dest){
+		if (OPT_FALSE_INT != dest){
+			std::vector<CString>::const_iterator itRet = std::find(CNotificationAddDlgForSale::GetDropList()[drops].begin(), CNotificationAddDlgForSale::GetDropList()[drops].end(), *it);
+			if (itRet == CNotificationAddDlgForSale::GetDropList()[drops].end())
+			{
+				CNotificationAddDlgForSale::InitHttpInstance();
+				itRet = std::find(CNotificationAddDlgForSale::GetDropList()[drops].begin(), CNotificationAddDlgForSale::GetDropList()[drops].end(), *it);
+			}
+
+			if (itRet != CNotificationAddDlgForSale::GetDropList()[drops].end())
+			{
+				if ((itRet - CNotificationAddDlgForSale::GetDropList()[drops].begin()) != dest)
+				{
+					dest = OPT_FALSE_INT;
+				}
+			}
+		}
+	}
 	virtual BOOL OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo);
 	afx_msg void OnBnClickedBtnModify();
 };
