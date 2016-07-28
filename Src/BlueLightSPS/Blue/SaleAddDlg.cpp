@@ -183,6 +183,7 @@ CSaleAddDlg::CSaleAddDlg(LPCTSTR title, CWnd* pParent /*= NULL*/)
 	: CPopupDlg(title, pParent)
 	, m_lpOption(NULL)
 	, m_bIfUseDefaultValue(true)
+	, m_bIsTemplate(true)
 {
 	InitHttpInstance();
 }
@@ -432,6 +433,12 @@ BOOL CSaleAddDlg::OnInitDialog()
 
 
 	InitCtrlData();
+
+	if (m_bIsTemplate)
+	{
+		m_aEdits[Edit_HTH]->EnableWindow(!m_bIsTemplate);
+		m_aEdits[Edit_HTH]->SetWindowTextW(_T("template"));
+	}
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// EXCEPTION: OCX Property Pages should return FALSE
@@ -955,4 +962,9 @@ void CSaleAddDlg::SetIsAdd(bool bIsAdd)
 void CSaleAddDlg::SetIsSearch(bool bIsSearch)
 {
 	m_bIsSearch = bIsSearch;
+}
+
+void CSaleAddDlg::SetIsViewTemplate(bool bIsTemplate)
+{
+	m_bIsTemplate = bIsTemplate;
 }

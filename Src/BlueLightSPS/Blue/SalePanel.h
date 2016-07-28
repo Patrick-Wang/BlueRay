@@ -75,6 +75,8 @@ private:
 	CDateTimeCtrl* m_dtcBussApproveSearchFrom;
 	CDateTimeCtrl* m_dtcBussApproveSearchTo;
 
+	bool m_bIsViewTemplate;
+
 public:
 	CBRButton m_btnTemplate;
 	CBRButton m_btnNormal;

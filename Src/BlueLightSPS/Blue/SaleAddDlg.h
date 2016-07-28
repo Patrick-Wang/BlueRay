@@ -279,6 +279,7 @@ public:
 	void SetIfUseDefaultValue(bool ifuse);
 	void SetIsAdd(bool bIsAdd);
 	void SetIsSearch(bool bIsSearch);
+	void SetIsViewTemplate(bool bIsTemplate);
 protected:
 	void Assosication();
 	void InitHttpInstance();
@@ -298,6 +299,7 @@ private:
 	CString m_strInitHtH;
 	bool m_bIsAdd;
 	bool m_bIsSearch;
+	bool m_bIsTemplate;
 private:
 	void OnCbnSelchangeKhOrGg();
 	virtual void PostNcDestroy();

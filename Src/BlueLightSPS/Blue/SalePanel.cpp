@@ -122,6 +122,7 @@ CSalePanel::CSalePanel(CJQGridAPI* pJqGridAPI)
 , m_bIfUpdateTableWhenTableFilter(false)
 , m_iCurSortCol(-1)
 , m_bCurSortAsc(false)
+, m_bIsViewTemplate(false)
 {
 	m_tableFilterDlg.Initialize(m_pJqGridAPI.get());
 }
@@ -258,7 +259,7 @@ void CSalePanel::OnInitChilds()
 		m_btnSetAsDefaultValue->ShowWindow(SW_HIDE);
 		m_btnReSetAsDefaultValue = Util_Tools::Util::CreateButton(this, IDC_SALE_BTN_RESETASDEFAULT, _T("È¡ÏûÄ¬ÈÏ"), _T("Microsoft YaHei"), 12);
 		m_btnReSetAsDefaultValue->MoveWindow(750, 70, 90, 25);
-		m_btnReSetAsDefaultValue->ShowWindow(SW_HIDE);
+		m_btnReSetAsDefaultValue->ShowWindow(SW_SHOW);
 
 		m_btnTemplate.Create(this, IDC_SALE_TEMPLATE_BTN);
 		m_btnTemplate.SetTextAlign(DT_CENTER | DT_VCENTER | DT_SINGLELINE);
@@ -471,6 +472,7 @@ void CSalePanel::OnBnClickedAdd()
 	dlg.SetOption(option);
 	dlg.SetIsAdd(true);
 	dlg.SetIsSearch(false);
+	dlg.SetIsViewTemplate(m_bIsViewTemplate);
 	if (IDOK == dlg.DoModal())
 	{
 		m_cacheRow = dlg.GetResult();
@@ -1588,6 +1590,11 @@ void CSalePanel::OnBnClickedNormal()
 {
 	m_btnGroupDefault.OnClicked(&m_btnNormal);
 	OnInitData();
+
+	HideChild(m_btnSetAsDefaultValue);
+	ShowChild(m_btnReSetAsDefaultValue);
+	m_bIsViewTemplate = false;
+
 	//DEFINE_SALE_QUERY_PARAM(sqp);
 	//CUnitedQuery* pUq = MakeBasicSearchCondition(sqp);
 	//if (NULL == pUq)
@@ -1614,6 +1621,12 @@ void CSalePanel::OnBnClickedTemplate()
 {
 	m_btnGroupDefault.OnClicked(&m_btnTemplate);
 	OnInitData();
+
+	ShowChild(m_btnSetAsDefaultValue);
+	ShowChild(m_btnReSetAsDefaultValue);
+
+	m_bIsViewTemplate = true;
+
 	//DEFINE_SALE_QUERY_PARAM(sqp);
 	//CUnitedQuery* pUq = MakeBasicSearchCondition(sqp);
 	//if (NULL == pUq)
