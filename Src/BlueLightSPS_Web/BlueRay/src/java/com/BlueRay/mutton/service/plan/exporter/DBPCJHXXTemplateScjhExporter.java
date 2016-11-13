@@ -218,7 +218,7 @@ public class DBPCJHXXTemplateScjhExporter implements IExcelExporter<PCJHXX> {
 //				}
 //			}
 //		}
-		
+		workbook.removeSheetAt(3);
 		workbook.removeSheetAt(2);
 		workbook.removeSheetAt(1);
 		workbook.removeSheetAt(0);
