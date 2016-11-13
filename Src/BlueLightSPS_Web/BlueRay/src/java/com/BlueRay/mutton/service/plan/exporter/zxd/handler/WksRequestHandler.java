@@ -34,7 +34,7 @@ public class WksRequestHandler extends BasicRequestHandler {
 		String ggxh = request.record[PcjhColumn.ggxh.ordinal()];
 		if (UtilGGXH.ggIsS(ggxh) || UtilGGXH.ggIsY(ggxh)){
 			zdqxh = "DZE";
-		}else if(UtilGGXH.ggIsL(ggxh)){
+		}else if(UtilGGXH.ggIsLStart(ggxh)){
 			zdqxh = "BLS";
 		}
 		setValues(sheet, locs, zdqxh);

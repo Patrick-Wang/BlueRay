@@ -39,6 +39,27 @@ public class UtilGGXH {
 		return false;
 	}
 	
+	public static boolean ggIsLA(String ggxh){
+		if(ggxh != null && ggxh.length() > 1 && 
+				('L' == ggxh.charAt(0) || 'l' == ggxh.charAt(0)) &&
+				('A' == ggxh.charAt(1) || 'a' == ggxh.charAt(1))){
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean ggIsL(String ggxh){
+		if(ggxh != null && !ggxh.isEmpty() && 'L' == ggxh.charAt(0)){
+			if (ggxh.length() > 1 
+					&&( ('a' <= ggxh.charAt(1) && 'z' >= ggxh.charAt(1))
+					 || ('A' <= ggxh.charAt(1) && 'Z' >= ggxh.charAt(1)))){
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+	
 	public static boolean ggIsT(String ggxh){
 		if(ggxh != null && !ggxh.isEmpty() && 'T' == ggxh.charAt(0)){
 			if (ggxh.length() > 1 
@@ -51,7 +72,7 @@ public class UtilGGXH {
 		return false;
 	}
 
-	public static boolean ggIsL(String ggxh) {
+	public static boolean ggIsLStart(String ggxh) {
 		return ggIsX(ggxh, 'l', 'L');
 	}
 

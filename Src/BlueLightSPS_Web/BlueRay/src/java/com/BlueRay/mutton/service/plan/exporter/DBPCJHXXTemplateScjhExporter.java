@@ -149,6 +149,13 @@ public class DBPCJHXXTemplateScjhExporter implements IExcelExporter<PCJHXX> {
 					}
 					export2U(ret, mapScrq2Sheet.get(scrq + "_U"), style, styleHighlight, mapScrq2Count.get(scrq + "_U"));
 					mapScrq2Count.put(scrq + "_U", 1 + mapScrq2Count.get(scrq + "_U"));
+				} else if(UtilGGXH.ggIsL(ggxh) || UtilGGXH.ggIsLA(ggxh)) {
+					if (!mapScrq2Sheet.containsKey(scrq + "_OTHERL")){
+						mapScrq2Sheet.put(scrq + "_OTHERL", workbook.cloneSheet(3));
+						mapScrq2Count.put(scrq + "_OTHERL", 1);
+					}
+					export2Other(ret, mapScrq2Sheet.get(scrq + "_OTHERL"), style, styleHighlight, mapScrq2Count.get(scrq + "_OTHERL"));
+					mapScrq2Count.put(scrq + "_OTHERL", 1 + mapScrq2Count.get(scrq + "_OTHERL"));
 				} else{
 					if (!mapScrq2Sheet.containsKey(scrq + "_OTHER")){
 						mapScrq2Sheet.put(scrq + "_OTHER", workbook.cloneSheet(2));
