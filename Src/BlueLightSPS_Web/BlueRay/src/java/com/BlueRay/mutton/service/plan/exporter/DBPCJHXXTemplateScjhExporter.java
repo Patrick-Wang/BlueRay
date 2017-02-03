@@ -135,7 +135,7 @@ public class DBPCJHXXTemplateScjhExporter implements IExcelExporter<PCJHXX> {
 			String scrq = ret[PcjhColumn.scrq.ordinal()];
 			if (!scrq.isEmpty()){
 				String ggxh = ret[PcjhColumn.ggxh.ordinal()];			
-				if (UtilGGXH.ggIsS(ggxh) || UtilGGXH.ggIsTStart(ggxh)){
+				if (UtilGGXH.ggIsS(ggxh) || UtilGGXH.ggIsTStart(ggxh) || UtilGGXH.ggIsL(ggxh) || UtilGGXH.ggIsLA(ggxh)){
 					if (!mapScrq2Sheet.containsKey(scrq + "_ST")){
 						mapScrq2Sheet.put(scrq + "_ST", workbook.cloneSheet(0));
 						mapScrq2Count.put(scrq + "_ST", 1);
